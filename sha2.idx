@@ -1,0 +1,8 @@
+interfaces  spec is in shadow/interfaces.shs
+types       spec is in shadow/types.shs
+ada         spec is in shadow/ada.shs
+ada.text_io spec is in shadow/ada-text_io.shs
+
+types       spec is in src/types.ads
+sha2        spec is in src/sha2.ads
+sha2        body is in src/sha2.adb
