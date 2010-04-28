@@ -45,22 +45,22 @@ package body SHA2 is
         return Types.ROTR (x, 19) + Types.ROTR (x, 61) + Types.SHR (x, 6);
     end Sigma_1_512;
 
-    function Context_Init return Hash_Context
+    function Context_Init return Context_Type
     is
     begin
-        return Hash_Context'
-            (H => Hash_Type'(16#6a09e667f3bcc908#,
-                             16#bb67ae8584caa73b#,
-                             16#3c6ef372fe94f82b#,
-                             16#a54ff53a5f1d36f1#,
-                             16#510e527fade682d1#,
-                             16#9b05688c2b3e6c1f#,
-                             16#1f83d9abfb41bd6b#,
-                             16#5be0cd19137e2179#));
+        return Context_Type'
+            (H => Hash_Type'(0 => 16#6a09e667f3bcc908#,
+                             1 => 16#bb67ae8584caa73b#,
+                             2 => 16#3c6ef372fe94f82b#,
+                             3 => 16#a54ff53a5f1d36f1#,
+                             4 => 16#510e527fade682d1#,
+                             5 => 16#9b05688c2b3e6c1f#,
+                             6 => 16#1f83d9abfb41bd6b#,
+                             7 => 16#5be0cd19137e2179#));
     end Context_Init;
 
     procedure Context_Update
-        (Context : in out Hash_Context;
+        (Context : in out Context_Type;
          Block   : in     Block_Type)
     is
         W      : Schedule_Type;

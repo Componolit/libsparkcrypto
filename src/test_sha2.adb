@@ -5,7 +5,7 @@ with SHA2;
 procedure Test_SHA2
 --# derives ;
 is
-    Ctx : SHA2.Hash_Context;
+    Ctx : SHA2.Context_Type;
 begin
 
     --# accept Flow, 10, "Still testing";

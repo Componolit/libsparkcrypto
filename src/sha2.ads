@@ -3,17 +3,17 @@ with Types;
 
 package SHA2 is
 
-    type Hash_Context is private;
+    type Context_Type is private;
 
     type Block_Index is range 0 .. 15;
     type Block_Type is array (Block_Index) of Types.Word64;
 
     -- Initialize SHA2 context.
-    function Context_Init return Hash_Context;
+    function Context_Init return Context_Type;
 
     -- Update SHA2 context with message block.
     procedure Context_Update
-        (Context : in out Hash_Context;
+        (Context : in out Context_Type;
          Block   : in     Block_Type);
     --# derives Context from *, Block;
 
@@ -28,7 +28,7 @@ private
     type Schedule_Index is range 0 .. 79;
     type Schedule_Type is array (Schedule_Index) of Types.Word64;
 
-    type Hash_Context is
+    type Context_Type is
     record
         H : Hash_Type;
     end record;
