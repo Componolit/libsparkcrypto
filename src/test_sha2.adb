@@ -14,6 +14,6 @@ begin
     --# accept Flow, 10, Ctx, "Still testing";
     SHA2.Context_Update
         (Ctx,
-         SHA2.Block_Type'(16#6162638000000000#, others => 0));
+         SHA2.Block_Type'(0 => 16#6162638000000000#, 15 => 16#18#, others => 0));
 
 end Test_SHA2;
