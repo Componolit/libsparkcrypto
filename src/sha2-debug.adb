@@ -10,7 +10,7 @@ package body SHA2.Debug is
         Put_Line ("          a/e                  b/f                  c/g                  d/h");
         for Index in SHA2.State_Index
         loop
-            WIO.Put (Item => S (Index), Base => 16);
+            WIO.Put (Item => S (Index), Base => 16, Width => 21);
             if Index = d then
                 New_Line;
             end if;
@@ -28,7 +28,7 @@ package body SHA2.Debug is
             Put ("  H");
             Put (Index'Img);
             Put (": ");
-            WIO.Put (Item => H (0), Base => 16);
+            WIO.Put (Item => H (Index), Base => 16, Width => 21);
             New_Line;
         end loop;
         New_Line;
@@ -47,11 +47,11 @@ package body SHA2.Debug is
             Put ("  W");
             SIO.Put (Item => Index);
             Put (" =");
-            WIO.Put (Item => S (Index), Base => 16, Width => 22);
+            WIO.Put (Item => S (Index), Base => 16, Width => 21);
             Put ("     W");
             SIO.Put (Second_Index);
             Put (" =");
-            WIO.Put (Item => S (Second_Index), Base => 16, Width => 22);
+            WIO.Put (Item => S (Second_Index), Base => 16, Width => 21);
             New_Line;
         end loop;
         New_Line;
