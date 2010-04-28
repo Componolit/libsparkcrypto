@@ -1,4 +1,4 @@
-with Types;
+with Types, SHA2.Debug;
 use type Types.Word64;
 
 package body SHA2 is
@@ -49,32 +49,37 @@ package body SHA2 is
     is
     begin
         return Hash_Context'
-            (H0 => 16#6a09e667f3bcc908#,
-             H1 => 16#bb67ae8584caa73b#,
-             H2 => 16#3c6ef372fe94f82b#,
-             H3 => 16#a54ff53a5f1d36f1#,
-             H4 => 16#510e527fade682d1#,
-             H5 => 16#9b05688c2b3e6c1f#,
-             H6 => 16#1f83d9abfb41bd6b#,
-             H7 => 16#5be0cd19137e2179#);
+            (H => Hash_Type'(16#6a09e667f3bcc908#,
+                             16#bb67ae8584caa73b#,
+                             16#3c6ef372fe94f82b#,
+                             16#a54ff53a5f1d36f1#,
+                             16#510e527fade682d1#,
+                             16#9b05688c2b3e6c1f#,
+                             16#1f83d9abfb41bd6b#,
+                             16#5be0cd19137e2179#));
     end Context_Init;
 
     procedure Context_Update
         (Context : in out Hash_Context;
          Block   : in     Block_Type)
     is
-        W                               : Message_Schedule_Type;
-        a, b, c, d, e, f, g, h, T1, T2  : Types.Word64;
+        W      : Schedule_Type;
+        S      : State_Type;
+        T1, T2 : Types.Word64;
     begin
 
-        W := Message_Schedule_Type'(others => 0);
+        W := Schedule_Type'(others => 0);
+        S := State_Type'(others => 0);
+
+        -- Print out initial state of H
+        Debug.Put_Hash (Context.H);
 
         -------------------------------------------
         --  Section 6.3.2 SHA-512 Hash Computations
         -------------------------------------------
 
         --  1. Prepare the message schedule, W(t):
-        for t in Message_Schedule_Index range 0 .. 79
+        for t in Schedule_Index range 0 .. 79
             --# assert t in 0 .. 79;
         loop
             if 0 <= t and t <= 15
@@ -91,49 +96,48 @@ package body SHA2 is
             end if;
         end loop;
 
+        Debug.Put_Schedule (W);
+
         -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
         --    h with the (i-1)st hash value:
-        a := Context.H0;
-        b := Context.H1;
-        c := Context.H2;
-        d := Context.H3;
-        e := Context.H4;
-        f := Context.H5;
-        g := Context.H6;
-        h := Context.H7;
+        S (a) := Context.H (0);
+        S (b) := Context.H (1);
+        S (c) := Context.H (2);
+        S (d) := Context.H (3);
+        S (e) := Context.H (4);
+        S (f) := Context.H (5);
+        S (g) := Context.H (6);
+        S (h) := Context.H (7);
 
         -- 3. For t = 0 to 79:
-        for t in Message_Schedule_Index range 0 .. 79
+        for t in Schedule_Index range 0 .. 79
             --# assert t in 0 .. 79;
         loop
-            T1 := h + Cap_Sigma_1_512 (e) + Ch (e, f, g) + K (t) + W (t);
-            T2 := Cap_Sigma_0_512 (a) + Maj (a, b, c);
-             h := g;
-             g := f;
-             f := e;
-             e := d + T1;
-             d := c;
-             c := b;
-             b := a;
-             a := T1 + T2;
+            T1 := S (h) + Cap_Sigma_1_512 (S (e)) + Ch (S (e), S (f), S (g)) + K (t) + W (t);
+            T2 := Cap_Sigma_0_512 (S (a)) + Maj (S (a), S (b), S (c));
+             S (h) := S (g);
+             S (g) := S (f);
+             S (f) := S (e);
+             S (e) := S (d) + T1;
+             S (d) := S (c);
+             S (c) := S (b);
+             S (b) := S (a);
+             S (a) := T1 + T2;
+
+            Debug.Put_State (S);
+
         end loop;
 
         -- 4. Compute the i-th intermediate hash value H-i:
-        Context.H0 := a + Context.H0;
-        Context.H1 := b + Context.H1;
-        Context.H2 := c + Context.H2;
-        Context.H3 := d + Context.H3;
-        Context.H4 := e + Context.H4;
-        Context.H5 := f + Context.H5;
-        Context.H6 := g + Context.H6;
-        Context.H7 := h + Context.H7;
+        Context.H (0) := S (a) + Context.H (0);
+        Context.H (1) := S (b) + Context.H (1);
+        Context.H (2) := S (c) + Context.H (2);
+        Context.H (3) := S (d) + Context.H (3);
+        Context.H (4) := S (e) + Context.H (4);
+        Context.H (5) := S (f) + Context.H (5);
+        Context.H (6) := S (g) + Context.H (6);
+        Context.H (7) := S (h) + Context.H (7);
 
     end Context_Update;
-
-    procedure Context_Print (Context : Hash_Context)
-    is
-    begin
-        null;
-    end Context_Print;
 
 end SHA2;

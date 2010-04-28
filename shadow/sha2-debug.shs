@@ -1,0 +1,14 @@
+--# inherit SHA2;
+
+private package SHA2.Debug is
+
+    procedure Put_State (S : SHA2.State_Type);
+    --# derives null from S;
+
+    procedure Put_Hash (H : SHA2.Hash_Type);
+    --# derives null from H;
+
+    procedure Put_Schedule (S : SHA2.Schedule_Type);
+    --# derives null from S;
+
+end SHA2.Debug;

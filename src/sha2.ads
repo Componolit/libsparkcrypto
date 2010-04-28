@@ -17,26 +17,20 @@ package SHA2 is
          Block   : in     Block_Type);
     --# derives Context from *, Block;
 
-    -- DEBUG
-
-    procedure Context_Print (Context : Hash_Context);
-    --# derives null from Context;
-
 private
 
-    type Message_Schedule_Index is range 0 .. 79;
-    type Message_Schedule_Type is array (Message_Schedule_Index) of Types.Word64;
+    type State_Index is (a, b, c, d, e, f, g, h);
+    type State_Type is array (State_Index) of Types.Word64;
+
+    type Hash_Index is range 0 .. 7;
+    type Hash_Type is array (Hash_Index) of Types.Word64;
+
+    type Schedule_Index is range 0 .. 79;
+    type Schedule_Type is array (Schedule_Index) of Types.Word64;
 
     type Hash_Context is
     record
-        H0 : Types.Word64;
-        H1 : Types.Word64;
-        H2 : Types.Word64;
-        H3 : Types.Word64;
-        H4 : Types.Word64;
-        H5 : Types.Word64;
-        H6 : Types.Word64;
-        H7 : Types.Word64;
+        H : Hash_Type;
     end record;
 
     function Ch
@@ -54,7 +48,7 @@ private
     function Sigma_0_512     (x : Types.Word64) return Types.Word64;
     function Sigma_1_512     (x : Types.Word64) return Types.Word64;
 
-    K : constant Message_Schedule_Type := Message_Schedule_Type'
+    K : constant Schedule_Type := Schedule_Type'
        (16#428a2f98d728ae22#, 16#7137449123ef65cd#, 16#b5c0fbcfec4d3b2f#, 16#e9b5dba58189dbbc#,
         16#3956c25bf348b538#, 16#59f111f1b605d019#, 16#923f82a4af194f9b#, 16#ab1c5ed5da6d8118#,
         16#d807aa98a3030242#, 16#12835b0145706fbe#, 16#243185be4ee4b28c#, 16#550c7dc3d5ffb4e2#,
