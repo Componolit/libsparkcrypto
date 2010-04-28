@@ -69,7 +69,6 @@ package body SHA2 is
     begin
 
         W := Schedule_Type'(others => 0);
-        S := State_Type'(others => 0);
 
         -- Print out initial state of H
         Debug.Put_Hash (Context.H);
@@ -100,14 +99,14 @@ package body SHA2 is
 
         -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
         --    h with the (i-1)st hash value:
-        S (a) := Context.H (0);
-        S (b) := Context.H (1);
-        S (c) := Context.H (2);
-        S (d) := Context.H (3);
-        S (e) := Context.H (4);
-        S (f) := Context.H (5);
-        S (g) := Context.H (6);
-        S (h) := Context.H (7);
+        S := State_Type'(a => Context.H (0),
+                         b => Context.H (1),
+                         c => Context.H (2),
+                         d => Context.H (3),
+                         e => Context.H (4),
+                         f => Context.H (5),
+                         g => Context.H (6),
+                         h => Context.H (7));
 
         -- 3. For t = 0 to 79:
         for t in Schedule_Index range 0 .. 79
@@ -115,28 +114,29 @@ package body SHA2 is
         loop
             T1 := S (h) + Cap_Sigma_1_512 (S (e)) + Ch (S (e), S (f), S (g)) + K (t) + W (t);
             T2 := Cap_Sigma_0_512 (S (a)) + Maj (S (a), S (b), S (c));
-             S (h) := S (g);
-             S (g) := S (f);
-             S (f) := S (e);
-             S (e) := S (d) + T1;
-             S (d) := S (c);
-             S (c) := S (b);
-             S (b) := S (a);
-             S (a) := T1 + T2;
+
+             S := State_Type'(h => S (g),
+                              g => S (f),
+                              f => S (e),
+                              e => S (d) + T1,
+                              d => S (c),
+                              c => S (b),
+                              b => S (a),
+                              a => T1 + T2);
 
             Debug.Put_State (S);
 
         end loop;
 
         -- 4. Compute the i-th intermediate hash value H-i:
-        Context.H (0) := S (a) + Context.H (0);
-        Context.H (1) := S (b) + Context.H (1);
-        Context.H (2) := S (c) + Context.H (2);
-        Context.H (3) := S (d) + Context.H (3);
-        Context.H (4) := S (e) + Context.H (4);
-        Context.H (5) := S (f) + Context.H (5);
-        Context.H (6) := S (g) + Context.H (6);
-        Context.H (7) := S (h) + Context.H (7);
+        Context.H := Hash_Type'(0 => S (a) + Context.H (0),
+                                1 => S (b) + Context.H (1),
+                                2 => S (c) + Context.H (2),
+                                3 => S (d) + Context.H (3),
+                                4 => S (e) + Context.H (4),
+                                5 => S (f) + Context.H (5),
+                                6 => S (g) + Context.H (6),
+                                7 => S (h) + Context.H (7));
 
     end Context_Update;
 
