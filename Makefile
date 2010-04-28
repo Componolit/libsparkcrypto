@@ -1,7 +1,10 @@
 OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
 
-all:
+all: $(OUTDIR)/all.sum
+	gnatmake -D $(OUTDIR) src/test_sha2.adb
+
+$(OUTDIR)/all.sum:
 	spark \
         -brief \
         -vcg \
@@ -11,9 +14,6 @@ all:
         @sha2.smf
 	sparksimp
 	pogs -d=$(OUTDIR)
-
-test_sha2: src/*.ad?
-	gnatmake -D $(OUTDIR) src/test_sha2.adb
 
 clean:
 	rm -f *.rep *.fdl *.rls *.vcg *.lst *.ali *.o *.siv *.slg test_sha2
