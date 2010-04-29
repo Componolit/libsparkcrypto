@@ -88,13 +88,13 @@ package body SHA2 is
 
         --  1. Prepare the message schedule, W(t):
         for t in Schedule_Index range 0 .. 15
-            --# assert t in Schedule_Index;
+            --# assert t in 0 .. 15;
         loop
             W (t) := M (Block_Index (t));
         end loop;
 
         for t in Schedule_Index range 16 .. 79
-            --# assert t in Schedule_Index;
+            --# assert t in 16 .. 79;
         loop
             W (t) := Sigma_1_512 (W (t - 2)) +
                      W (t - 7) +
