@@ -37,11 +37,13 @@ private
         (x : Types.Word64;
          y : Types.Word64;
          z : Types.Word64) return Types.Word64;
+    --# return (x and y) xor ((not x) and z);
 
     function Maj
         (x : Types.Word64;
          y : Types.Word64;
          z : Types.Word64) return Types.Word64;
+    --# return (x and y) xor (x and z) xor (y and z);
 
     function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64;
     function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64;
