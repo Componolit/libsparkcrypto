@@ -24,25 +24,33 @@ package body SHA2 is
     function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64
     is
     begin
-        return Types.ROTR (x, 28) + Types.ROTR (x, 34) + Types.ROTR (x, 39);
+        return Types.ROTR (x, 28) xor
+               Types.ROTR (x, 34) xor
+               Types.ROTR (x, 39);
     end Cap_Sigma_0_512;
 
     function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64
     is
     begin
-        return Types.ROTR (x, 14) + Types.ROTR (x, 18) + Types.ROTR (x, 41);
+        return Types.ROTR (x, 14) xor
+               Types.ROTR (x, 18) xor
+               Types.ROTR (x, 41);
     end Cap_Sigma_1_512;
 
-    function Sigma_0_512     (x : Types.Word64) return Types.Word64
+    function Sigma_0_512 (x : Types.Word64) return Types.Word64
     is
     begin
-        return Types.ROTR (x, 1) + Types.ROTR (x, 8) + Types.SHR (x, 7);
+        return Types.ROTR (x, 1) xor
+               Types.ROTR (x, 8) xor
+               Types.SHR  (x, 7);
     end Sigma_0_512;
 
-    function Sigma_1_512     (x : Types.Word64) return Types.Word64
+    function Sigma_1_512 (x : Types.Word64) return Types.Word64
     is
     begin
-        return Types.ROTR (x, 19) + Types.ROTR (x, 61) + Types.SHR (x, 6);
+        return Types.ROTR (x, 19) xor
+               Types.ROTR (x, 61) xor
+               Types.SHR  (x, 6);
     end Sigma_1_512;
 
     function Context_Init return Context_Type
@@ -61,7 +69,7 @@ package body SHA2 is
 
     procedure Context_Update
         (Context : in out Context_Type;
-         Block   : in     Block_Type)
+         M       : in     Block_Type)
     is
         W      : Schedule_Type;
         S      : State_Type;
@@ -71,6 +79,7 @@ package body SHA2 is
         W := Schedule_Type'(others => 0);
 
         -- Print out initial state of H
+        Debug.Put_Line ("SHA-512 initial hash values:");
         Debug.Put_Hash (Context.H);
 
         -------------------------------------------
@@ -78,23 +87,22 @@ package body SHA2 is
         -------------------------------------------
 
         --  1. Prepare the message schedule, W(t):
-        for t in Schedule_Index range 0 .. 79
-            --# assert t in 0 .. 79;
+        for t in Schedule_Index range 0 .. 15
+            --# assert t in Schedule_Index;
         loop
-            if 0 <= t and t <= 15
-            then
-                W (t) := Block (Block_Index (t));
-            end if;
-
-            if 16 <= t and t <= 79
-            then
-                W (t) := Sigma_1_512 (W (t - 2)) +
-                         W (t - 7) +
-                         Sigma_0_512 (W (t - 15)) +
-                         W (t - 16);
-            end if;
+            W (t) := M (Block_Index (t));
         end loop;
 
+        for t in Schedule_Index range 16 .. 79
+            --# assert t in Schedule_Index;
+        loop
+            W (t) := Sigma_1_512 (W (t - 2)) +
+                     W (t - 7) +
+                     Sigma_0_512 (W (t - 15)) +
+                     W (t - 16);
+        end loop;
+
+        Debug.Put_Line ("Message block:");
         Debug.Put_Schedule (W);
 
         -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
@@ -107,6 +115,9 @@ package body SHA2 is
                          f => Context.H (5),
                          g => Context.H (6),
                          h => Context.H (7));
+
+        Debug.Put_Line ("Initial state:");
+        Debug.Put_State (S);
 
         -- 3. For t = 0 to 79:
         for t in Schedule_Index range 0 .. 79
@@ -124,8 +135,8 @@ package body SHA2 is
                               b => S (a),
                               a => T1 + T2);
 
+            Debug.Put_T (t);
             Debug.Put_State (S);
-
         end loop;
 
         -- 4. Compute the i-th intermediate hash value H-i:
@@ -137,6 +148,9 @@ package body SHA2 is
                                 5 => S (f) + Context.H (5),
                                 6 => S (g) + Context.H (6),
                                 7 => S (h) + Context.H (7));
+
+        Debug.Put_Line ("SHA-512 final hash values:");
+        Debug.Put_Hash (Context.H);
 
     end Context_Update;
 

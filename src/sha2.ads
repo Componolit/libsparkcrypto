@@ -14,8 +14,8 @@ package SHA2 is
     -- Update SHA2 context with message block.
     procedure Context_Update
         (Context : in out Context_Type;
-         Block   : in     Block_Type);
-    --# derives Context from *, Block;
+         M       : in     Block_Type);
+    --# derives Context from *, M;
 
 private
 
