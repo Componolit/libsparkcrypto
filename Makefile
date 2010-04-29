@@ -9,10 +9,10 @@ $(OUTDIR)/all.sum: $(OUTDIR)/target.cfg
         -brief \
         -vcg \
         -output_dir=$(OUTDIR) \
-        -index=sha2.idx \
+        -index=sparkcrypto.idx \
         -warn=warnings.conf \
 	    -config=$< \
-        @sha2.smf
+        @sparkcrypto.smf
 	sparksimp
 	pogs -d=$(OUTDIR)
 
