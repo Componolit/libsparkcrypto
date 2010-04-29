@@ -3,6 +3,21 @@ with Ada.Text_IO; use Ada.Text_IO;
 package body SHA2.Debug is
 
     package WIO is new Ada.Text_IO.Modular_IO (Types.Word64);
+    package SIO is new Ada.Text_IO.Integer_IO (SHA2.Schedule_Index);
+
+    procedure Put_T (T : SHA2.Schedule_Index)
+    is
+    begin
+        Put ("t =");
+        SIO.Put (T);
+        New_Line;
+    end Put_T;
+
+    procedure Put_Line (T : String)
+    is
+    begin
+        Ada.Text_IO.Put_Line (T);
+    end Put_Line;
 
     procedure Put_State (S : SHA2.State_Type)
     is
@@ -38,7 +53,6 @@ package body SHA2.Debug is
     procedure Put_Schedule (S : SHA2.Schedule_Type)
     is
         Second_Index : Schedule_Index;
-        package SIO is new Ada.Text_IO.Integer_IO (SHA2.Schedule_Index);
     begin
         New_Line;
         for Index in Schedule_Index range 0 .. 7
