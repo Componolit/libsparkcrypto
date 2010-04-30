@@ -1,0 +1,6 @@
+package Debug is
+
+    procedure Put_Line (T : String);
+    --# derives null from T;
+
+end Debug;
