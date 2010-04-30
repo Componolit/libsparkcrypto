@@ -4,3 +4,4 @@ sha2        body is in src/sha2.adb
 sha2.debug  spec is in shadow/sha2-debug.shs
 interfaces  spec is in shadow/interfaces.shs
 types       spec is in shadow/types.shs
+debug       spec is in shadow/debug.shs
