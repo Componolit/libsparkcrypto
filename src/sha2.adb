@@ -188,11 +188,13 @@ package body SHA2 is
         Debug.Put_Line ("SHA-512 final hash values:");
         Debug.Put_Hash (Context.H);
 
+        Add (Context.Length, 1024);
+
     end Context_Update;
 
     procedure Block_Terminate
         (M      : in out Block_Type;
-         Length : in Block_Length_Type)
+         Length : in     Block_Length_Type)
     is
        Index  : Block_Index;
        Offset : Natural;
