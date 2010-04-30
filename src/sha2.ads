@@ -39,13 +39,10 @@ package SHA2 is
     --#    Context from *, M;
 
     -- Finalize SHA2 context with final message block.
-    procedure Context_Finalize
-        (Context : in     Context_Type;
-         M       : in     Block_Type;
-         Length  : in     Block_Length_Type;
-         Hash    :    out Hash_Type);
-    --# derives
-    --#    Hash from Context, M, Length;
+    function Context_Finalize
+        (Context : Context_Type;
+         M       : Block_Type;
+         Length  : Block_Length_Type) return Hash_Type;
 
 private
 

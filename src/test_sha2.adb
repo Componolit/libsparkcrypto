@@ -28,11 +28,10 @@ begin
 
     Ctx := SHA2.Context_Init;
 
-    SHA2.Context_Finalize
+    Hash := SHA2.Context_Finalize
         (Context => Ctx,
          M       => SHA2.Block_Type'(0 => 16#6162630000000000#, others => 0),
-         Length  => 24,
-         Hash    => Hash);
+         Length  => 24);
 
     --# accept Flow, 22, "This is to test the implementation and SHOULD be invariant!";
     if Hash /= SHA2.Hash_Type'(16#DDAF35A193617ABA#,

@@ -208,11 +208,10 @@ package body SHA2 is
 
     end Block_Terminate;
 
-    procedure Context_Finalize
-        (Context : in     Context_Type;
-         M       : in     Block_Type;
-         Length  : in     Block_Length_Type;
-         Hash    :    out Hash_Type)
+    function Context_Finalize
+        (Context : Context_Type;
+         M       : Block_Type;
+         Length  : Block_Length_Type) return Hash_Type
     is
         Final_Context : Context_Type;
         Final_Block   : Block_Type;
@@ -238,7 +237,7 @@ package body SHA2 is
            (Context => Final_Context,
             M       => Final_Block);
 
-        Hash := Final_Context.H;
+        return Final_Context.H;
 
     end Context_Finalize;
 
