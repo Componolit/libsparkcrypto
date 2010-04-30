@@ -23,6 +23,9 @@ package SHA2 is
     type Block_Index is range 0 .. 15;
     type Block_Type is array (Block_Index) of Types.Word64;
 
+    type Hash_Index is range 0 .. 7;
+    type Hash_Type is array (Hash_Index) of Types.Word64;
+
     subtype Block_Length_Type is Types.Word64 range 0 .. 895;
 
     -- Initialize SHA2 context.
@@ -37,11 +40,12 @@ package SHA2 is
 
     -- Finalize SHA2 context with final message block.
     procedure Context_Finalize
-        (Context : in out Context_Type;
+        (Context : in     Context_Type;
          M       : in     Block_Type;
-         Length  : in     Block_Length_Type);
+         Length  : in     Block_Length_Type;
+         Hash    :    out Hash_Type);
     --# derives
-    --#    Context from *, M, Length;
+    --#    Hash from Context, M, Length;
 
 private
 
@@ -53,9 +57,6 @@ private
 
     type State_Index is (a, b, c, d, e, f, g, h);
     type State_Type is array (State_Index) of Types.Word64;
-
-    type Hash_Index is range 0 .. 7;
-    type Hash_Type is array (Hash_Index) of Types.Word64;
 
     type Schedule_Index is range 0 .. 79;
     type Schedule_Type is array (Schedule_Index) of Types.Word64;

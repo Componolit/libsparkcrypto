@@ -209,18 +209,21 @@ package body SHA2 is
     end Block_Terminate;
 
     procedure Context_Finalize
-        (Context : in out Context_Type;
+        (Context : in     Context_Type;
          M       : in     Block_Type;
-         Length  : in     Block_Length_Type)
+         Length  : in     Block_Length_Type;
+         Hash    :    out Hash_Type)
     is
-        Final_Block : Block_Type;
+        Final_Context : Context_Type;
+        Final_Block   : Block_Type;
 
     begin
 
+        Final_Context := Context;
         Final_Block := M;
 
         --  Add length of last block to data length.
-        Add (Context.Length, Length);
+        Add (Final_Context.Length, Length);
 
         --  Set trailing '1' marker.
         Block_Terminate
@@ -228,12 +231,14 @@ package body SHA2 is
             Length => Length);
 
         --  Set length in final block.
-        Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
-        Final_Block (Block_Type'Last)     := Context.Length.LSW;
+        Final_Block (Block_Type'Last - 1) := Final_Context.Length.MSW;
+        Final_Block (Block_Type'Last)     := Final_Context.Length.LSW;
 
         Context_Update
-           (Context => Context,
+           (Context => Final_Context,
             M       => Final_Block);
+
+        Hash := Final_Context.H;
 
     end Context_Finalize;
 
