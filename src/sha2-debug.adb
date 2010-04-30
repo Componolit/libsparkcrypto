@@ -19,6 +19,13 @@ package body SHA2.Debug is
 
     package WIO is new Ada.Text_IO.Modular_IO (Types.Word64);
     package SIO is new Ada.Text_IO.Integer_IO (SHA2.Schedule_Index);
+    package IIO is new Ada.Text_IO.Integer_IO (Natural);
+
+    procedure Put_Natural (I : Natural)
+    is
+    begin
+       IIO.Put (I);
+    end Put_Natural;
 
     procedure Put_T (T : SHA2.Schedule_Index)
     is

@@ -16,6 +16,7 @@
 private package SHA2.Debug is
 
     procedure Put_Line (T : String);
+    procedure Put_Natural (I : Natural);
 
     procedure Put_T (T : SHA2.Schedule_Index);
     procedure Put_State (S : SHA2.State_Type);
