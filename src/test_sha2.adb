@@ -1,3 +1,4 @@
+--  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 --
 --  This program is free software: you can redistribute it and/or modify
