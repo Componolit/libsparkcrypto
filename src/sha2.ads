@@ -27,7 +27,7 @@ package SHA2 is
     type Hash_Index is range 0 .. 7;
     type Hash_Type is array (Hash_Index) of Types.Word64;
 
-    subtype Block_Length_Type is Types.Word64 range 0 .. 895;
+    subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 
     -- Initialize SHA2 context.
     function Context_Init return Context_Type;
