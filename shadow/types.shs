@@ -28,4 +28,8 @@ package Types is
         (Value  : Word64;
          Amount : Natural) return Word64;
 
+    function SHL
+        (Value  : Word64;
+         Amount : Natural) return Word64;
+
 end Types;

@@ -27,4 +27,8 @@ package Types is
         (Value  : Word64;
          Amount : Natural) return Word64 renames Interfaces.Shift_Right;
 
+    function SHL
+        (Value  : Word64;
+         Amount : Natural) return Word64 renames Interfaces.Shift_Left;
+
 end Types;

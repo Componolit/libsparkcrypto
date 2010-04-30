@@ -18,6 +18,25 @@ use type Types.Word64;
 
 package body SHA2 is
 
+    function Init_Data_Length return Data_Length
+    is
+    begin
+       return Data_Length'(0, 0);
+    end Init_Data_Length;
+
+    procedure Add (Item  : in out Data_Length;
+                   Value : in     Types.Word64)
+    is
+    begin
+       if (Item.LSW + Value) <= Types.Word64'Last
+       then
+          Item.LSW := Item.LSW + Value;
+       else
+          Item.MSW := Item.MSW + 1;
+          Item.LSW := Types.Word64'Last - Value;
+       end if;
+    end Add;
+
     function Ch
         (x : Types.Word64;
          y : Types.Word64;
@@ -72,14 +91,15 @@ package body SHA2 is
     is
     begin
         return Context_Type'
-            (H => Hash_Type'(0 => 16#6a09e667f3bcc908#,
-                             1 => 16#bb67ae8584caa73b#,
-                             2 => 16#3c6ef372fe94f82b#,
-                             3 => 16#a54ff53a5f1d36f1#,
-                             4 => 16#510e527fade682d1#,
-                             5 => 16#9b05688c2b3e6c1f#,
-                             6 => 16#1f83d9abfb41bd6b#,
-                             7 => 16#5be0cd19137e2179#));
+            (Length => Init_Data_Length,
+             H      => Hash_Type'(0 => 16#6a09e667f3bcc908#,
+                                  1 => 16#bb67ae8584caa73b#,
+                                  2 => 16#3c6ef372fe94f82b#,
+                                  3 => 16#a54ff53a5f1d36f1#,
+                                  4 => 16#510e527fade682d1#,
+                                  5 => 16#9b05688c2b3e6c1f#,
+                                  6 => 16#1f83d9abfb41bd6b#,
+                                  7 => 16#5be0cd19137e2179#));
     end Context_Init;
 
     procedure Context_Update
@@ -168,5 +188,53 @@ package body SHA2 is
         Debug.Put_Hash (Context.H);
 
     end Context_Update;
+
+    procedure Block_Terminate
+        (M      : in out Block_Type;
+         Length : in Block_Length_Type)
+    is
+       Index  : Block_Index;
+       Offset : Natural;
+    begin
+
+       Index     := Block_Index (Length / 64);
+       Offset    := Natural (63 - Length mod 64);
+
+       Debug.Put_Line ("Terminator offset:");
+       Debug.Put_Natural (Offset);
+       Debug.Put_Line (".");
+
+       M (Index) := M (Index) xor Types.SHL (1, Offset);
+
+    end Block_Terminate;
+
+    procedure Context_Finalize
+        (Context : in out Context_Type;
+         M       : in     Block_Type;
+         Length  : in     Block_Length_Type)
+    is
+        Final_Block : Block_Type;
+
+    begin
+
+        Final_Block := M;
+
+        --  Add length of last block to data length.
+        Add (Context.Length, Length);
+
+        --  Set trailing '1' marker.
+        Block_Terminate
+           (M      => Final_Block,
+            Length => Length);
+
+        --  Set length in final block.
+        Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
+        Final_Block (Block_Type'Last)     := Context.Length.LSW;
+
+        Context_Update
+           (Context => Context,
+            M       => Final_Block);
+
+    end Context_Finalize;
 
 end SHA2;

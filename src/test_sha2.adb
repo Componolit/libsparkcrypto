@@ -27,8 +27,9 @@ begin
     Ctx := SHA2.Context_Init;
 
     --# accept Flow, 10, Ctx, "Still testing";
-    SHA2.Context_Update
-        (Ctx,
-         SHA2.Block_Type'(0 => 16#6162638000000000#, 15 => 16#18#, others => 0));
+    SHA2.Context_Finalize
+        (Context => Ctx,
+         M       => SHA2.Block_Type'(0 => 16#6162630000000000#, others => 0),
+         Length  => 24);
 
 end Test_SHA2;
