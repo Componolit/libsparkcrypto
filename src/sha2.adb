@@ -103,7 +103,7 @@ package body SHA2 is
                                   7 => 16#5be0cd19137e2179#));
     end Context_Init;
 
-    procedure Context_Update
+    procedure Context_Update_Internal
         (Context : in out Context_Type;
          M       : in     Block_Type)
     is
@@ -188,8 +188,15 @@ package body SHA2 is
         Debug.Put_Line ("SHA-512 final hash values:");
         Debug.Put_Hash (Context.H);
 
-        Add (Context.Length, 1024);
+    end Context_Update_Internal;
 
+    procedure Context_Update
+        (Context : in out Context_Type;
+         M       : in     Block_Type)
+    is
+    begin
+        Context_Update_Internal (Context, M);
+        Add (Context.Length, 1024);
     end Context_Update;
 
     procedure Block_Terminate
@@ -232,11 +239,22 @@ package body SHA2 is
            (M      => Final_Block,
             Length => Length);
 
+        --  Terminator and length values won't fit into current block.
+        if Length >= 896 then
+
+            Context_Update_Internal
+               (Context => Final_Context,
+                M       => Final_Block);
+
+            Final_Block := Block_Type'(others => 0);
+
+        end if;
+
         --  Set length in final block.
         Final_Block (Block_Type'Last - 1) := Final_Context.Length.MSW;
         Final_Block (Block_Type'Last)     := Final_Context.Length.LSW;
 
-        Context_Update
+        Context_Update_Internal
            (Context => Final_Context,
             M       => Final_Block);
 

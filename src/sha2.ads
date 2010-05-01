@@ -70,7 +70,7 @@ private
     procedure Add (Item  : in out Data_Length;
                    Value : in     Types.Word64);
     --# derives Item from *, Value;
-    --
+
     procedure Block_Terminate
         (M      : in out Block_Type;
          Length : in Block_Length_Type);
@@ -114,5 +114,10 @@ private
         16#06f067aa72176fba#, 16#0a637dc5a2c898a6#, 16#113f9804bef90dae#, 16#1b710b35131c471b#,
         16#28db77f523047d84#, 16#32caab7b40c72493#, 16#3c9ebe0a15c9bebc#, 16#431d67c49c100d4c#,
         16#4cc5d4becb3e42b6#, 16#597f299cfc657e2a#, 16#5fcb6fab3ad6faec#, 16#6c44198c4a475817#);
+
+    procedure Context_Update_Internal
+        (Context : in out Context_Type;
+         M       : in     Block_Type);
+    --# derives Context from *, M;
 
 end SHA2;
