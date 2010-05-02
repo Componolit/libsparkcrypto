@@ -1,3 +1,3 @@
 src/sha2.ads
 src/sha2.adb
-src/test_sha2.adb
+test/test_sha2.adb

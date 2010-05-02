@@ -14,10 +14,10 @@
 --  You should have received a copy of the GNU General Public License
 --  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, Debug;
+with SHA2, IO;
 use type SHA2.Hash_Type;
 
---# inherit SHA2, Debug;
+--# inherit SHA2, IO;
 
 --# main_program;
 procedure Test_SHA2
@@ -42,9 +42,9 @@ begin
                                 16#454D4423643CE80E#,
                                 16#2A9AC94FA54CA49F#)
     then
-        Debug.Put_Line ("SHA-512 Test #1: FAILED");
+        IO.Put_Line ("SHA-512 Test #1: FAILED");
     else
-        Debug.Put_Line ("SHA-512 Test #1: OK");
+        IO.Put_Line ("SHA-512 Test #1: OK");
     end if;
     --# end accept;
 
@@ -77,9 +77,9 @@ begin
                                 16#c7d329eeb6dd2654#,
                                 16#5e96e55b874be909#)
     then
-        Debug.Put_Line ("SHA-512 Test #2: FAILED");
+        IO.Put_Line ("SHA-512 Test #2: FAILED");
     else
-        Debug.Put_Line ("SHA-512 Test #2: OK");
+        IO.Put_Line ("SHA-512 Test #2: OK");
     end if;
     --# end accept;
 

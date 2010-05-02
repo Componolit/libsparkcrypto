@@ -14,9 +14,10 @@
 --  You should have received a copy of the GNU General Public License
 --  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-package Debug is
+with Ada.Text_IO;
 
-    procedure Put_Line (T : String);
-    --# derives null from T;
+package IO is
 
-end Debug;
+    procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
+
+end IO;

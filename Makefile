@@ -1,8 +1,12 @@
 OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
+GNATMAKE_FLAGS =
 
 all: $(OUTDIR)/all.sum
-	gnatmake -D $(OUTDIR) src/test_sha2.adb
+	gnatmake $(GNATMAKE_FLAGS) -aIsrc -D $(OUTDIR) test/test_sha2.adb
+
+debug: GNATMAKE_FLAGS += -aIdebug
+debug: all
 
 $(OUTDIR)/all.sum: $(OUTDIR)/target.cfg
 	spark \
