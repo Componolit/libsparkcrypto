@@ -21,6 +21,7 @@ begin
     Context := HMAC.SHA512.Init (Key);
     HMAC.SHA512.Update (Context, Block);
     HMAC.SHA512.Finalize (Context, Block, 0);
+    PRF_HMAC_SHA_512 := HMAC.SHA512.Get_PRF (Context);
 
     Test.Run ("AUTH512-1",
               PRF_HMAC_SHA_512 = SHA2.Hash_Type'(16#637edc6e01dce7e6#, 16#742a99451aae82df#,

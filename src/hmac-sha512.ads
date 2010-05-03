@@ -28,12 +28,15 @@ package HMAC.SHA512 is
     procedure Update
         (Context : in out Context_Type;
          Block   : in     SHA2.Block_Type);
-    --# derives Context from *, block;
+    --# derives Context from *, Block;
 
     procedure Finalize
         (Context : in out Context_Type;
          Block   : in     SHA2.Block_Type;
          Length  : in     SHA2.Block_Length_Type);
+    --# derives Context from *, Block, Length;
+
+    function Get_Prf (Context : in Context_Type) return SHA2.Hash_Type;
 
 private
 

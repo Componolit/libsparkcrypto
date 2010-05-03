@@ -49,4 +49,10 @@ package body HMAC.SHA512 is
         SHA2.Context_Update (Context.SHA512_Context, Block_XOR (Context.Key, OPad));
     end Finalize;
 
+    function Get_Prf (Context : in Context_Type) return SHA2.Hash_Type
+    is
+    begin
+        return SHA2.Get_Hash (Context.SHA512_Context);
+    end Get_Prf;
+
 end HMAC.SHA512;
