@@ -16,16 +16,22 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package IO is
+with Types;
+--# inherit Types;
+
+package IO
+is
 
     procedure Put (T : String);
     --# derives null from T;
-    --
+
     procedure Put_Line (T : String);
     --# derives null from T;
 
-    function Read_Character return Character;
+    function Read_Byte return Types.Word8;
+    --# global Inputs;
 
     function End_Of_Stream return Boolean;
+    --# global Inputs;
 
 end IO;

@@ -16,21 +16,23 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with Types;
 with Ada.Text_IO.Text_Streams;
+with Unchecked_Conversion;
 
 package body IO is
 
     procedure Put (T : String) renames Ada.Text_IO.Put;
     procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
 
-    function Read_Character return Character
+    function Read_Byte return Types.Word8
     is
-       Result : Character;
+        Result : Types.Word8;
     begin
-      Character'Read
-               (Ada.Text_IO.Text_Streams.Stream (Ada.Text_IO.Standard_Input), Result);
-      return Result;
-    end Read_Character;
+        Types.Word8'Read
+            (Ada.Text_IO.Text_Streams.Stream (Ada.Text_IO.Standard_Input), Result);
+        return Result;
+    end Read_Byte;
 
     function End_Of_Stream return Boolean
     is
