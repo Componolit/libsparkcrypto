@@ -16,14 +16,26 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+--# inherit SHA2;
+
 private package SHA2.Debug is
 
-    procedure Put_Line (T : String);
-    procedure Put_Natural (I : Natural);
-
     procedure Put_T (T : SHA2.Schedule_Index);
+    --# derives null from T;
+
+    procedure Put_Natural (I : Natural);
+    --# derives null from I;
+
+    procedure Put_Line (T : String);
+    --# derives null from T;
+
     procedure Put_State (S : SHA2.State_Type);
+    --# derives null from S;
+
     procedure Put_Hash (H : SHA2.Hash_Type);
+    --# derives null from H;
+
     procedure Put_Schedule (S : SHA2.Schedule_Type);
+    --# derives null from S;
 
 end SHA2.Debug;

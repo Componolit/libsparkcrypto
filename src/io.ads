@@ -16,10 +16,16 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Ada.Text_IO;
-
 package IO is
 
-    procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
+    procedure Put (T : String);
+    --# derives null from T;
+    --
+    procedure Put_Line (T : String);
+    --# derives null from T;
+
+    function Read_Character return Character;
+
+    function End_Of_Stream return Boolean;
 
 end IO;

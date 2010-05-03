@@ -2,23 +2,30 @@ OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
 GNATMAKE_FLAGS =
 
-all: $(OUTDIR)/all.sum
-	gnatmake $(GNATMAKE_FLAGS) -aIsrc -D $(OUTDIR) test/test_sha2.adb
+all: $(OUTDIR)/test_sha2 $(OUTDIR)/test_sha2.sum
 
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
-$(OUTDIR)/all.sum: $(OUTDIR)/target.cfg
+$(OUTDIR)/%: tests/%/main.adb
+	mkdir -p $@.bin
+	gnatmake $(GNATMAKE_FLAGS) -aIada -aIsrc -D $@.bin -o $@ $<
+
+$(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.idx $(OUTDIR)/%.smf
+	mkdir -p $(OUTDIR)/$(*F).proof
 	spark \
-        -brief \
-        -vcg \
-        -output_dir=$(OUTDIR) \
-        -index=sparkcrypto.idx \
-        -warn=warnings.conf \
-	    -config=$< \
-        @sparkcrypto.smf
-	sparksimp
-	pogs -d=$(OUTDIR)
+		-brief \
+		-vcg \
+		-config=$< \
+		-warn=warnings.conf \
+		-output_dir=$(OUTDIR)/$(*F).proof \
+		-index=$(OUTDIR)/$(*F).idx \
+		@$(OUTDIR)/$(*F).smf
+	sparksimp -p=8
+	pogs -d=$(OUTDIR)/$(*F).proof
+
+$(OUTDIR)/%.idx $(OUTDIR)/%.smf:
+	(cd tests/$(*F); sparkmake -duplicates_are_errors -dir=$(realpath src) -index=$(realpath $(OUTDIR))/$(*F).idx -meta=$(realpath $(OUTDIR))/$(*F).smf)
 
 $(OUTDIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 	gnatmake -D $(OUTDIR) -o $@ $^
@@ -27,5 +34,4 @@ $(OUTDIR)/target.cfg: $(OUTDIR)/confgen
 	$< > $@
 
 clean:
-	rm -f *.rep *.fdl *.rls *.vcg *.lst *.ali *.o *.siv *.slg test_sha2
 	rm -rf $(OUTDIR)

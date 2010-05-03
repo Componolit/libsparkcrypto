@@ -16,23 +16,26 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Interfaces;
---# inherit Interfaces;
+with Ada.Text_IO.Text_Streams;
 
-package Types is
+package body IO is
 
-    subtype Word64 is Interfaces.Unsigned_64;
+    procedure Put (T : String) renames Ada.Text_IO.Put;
+    procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
 
-    function ROTR
-        (Value  : Word64;
-         Amount : Natural) return Word64;
+    function Read_Character return Character
+    is
+       Result : Character;
+    begin
+      Character'Read
+               (Ada.Text_IO.Text_Streams.Stream (Ada.Text_IO.Standard_Input), Result);
+      return Result;
+    end Read_Character;
 
-    function SHR
-        (Value  : Word64;
-         Amount : Natural) return Word64;
+    function End_Of_Stream return Boolean
+    is
+    begin
+       return Ada.Text_IO.End_Of_File (Ada.Text_IO.Standard_Input);
+    end End_Of_Stream;
 
-    function SHL
-        (Value  : Word64;
-         Amount : Natural) return Word64;
-
-end Types;
+end IO;

@@ -22,7 +22,7 @@ use type SHA2.Hash_Type;
 --# inherit SHA2, IO;
 
 --# main_program;
-procedure Test_SHA2
+procedure Main
 --# derives ;
 is
     Ctx1, Ctx2          : SHA2.Context_Type;
@@ -85,4 +85,4 @@ begin
     end if;
     --# end accept;
 
-end Test_SHA2;
+end Main;
