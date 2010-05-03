@@ -2,7 +2,7 @@ OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
 GNATMAKE_FLAGS =
 
-all: $(OUTDIR)/sha512sum $(OUTDIR)/sha512sum.sum $(OUTDIR)/test_sha2 $(OUTDIR)/test_sha2.sum
+all: $(OUTDIR)/sha512openssl $(OUTDIR)/sha512perf $(OUTDIR)/sha512sum $(OUTDIR)/sha512sum.sum $(OUTDIR)/test_sha2 $(OUTDIR)/test_sha2.sum
 
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
@@ -10,6 +10,11 @@ debug: all
 $(OUTDIR)/%: tests/%/main.adb
 	mkdir -p $@.bin
 	gnatmake $(GNATMAKE_FLAGS) -aIada -aIsrc -D $@.bin -o $@ $<
+
+$(OUTDIR)/sha512openssl: CFLAGS += -lssl
+
+$(OUTDIR)/%: tests/%/main.c
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.idx $(OUTDIR)/%.smf
 	mkdir -p $(OUTDIR)/$(*F).proof
