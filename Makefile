@@ -2,7 +2,7 @@ OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
 GNATMAKE_FLAGS =
 
-all: $(OUTDIR)/test_sha2 $(OUTDIR)/test_sha2.sum
+all: $(OUTDIR)/sha512sum $(OUTDIR)/sha512sum.sum $(OUTDIR)/test_sha2 $(OUTDIR)/test_sha2.sum
 
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
