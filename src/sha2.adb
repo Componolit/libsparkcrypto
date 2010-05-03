@@ -116,6 +116,8 @@ package body SHA2 is
 
         W := Schedule_Type'(others => 0);
 
+        Debug.Put_Line ("BLOCK UPDATE:");
+
         -- Print out initial state of H
         Debug.Put_Line ("SHA-512 initial hash values:");
         Debug.Put_Hash (Context.H);
@@ -217,6 +219,13 @@ package body SHA2 is
        Debug.Put_Line (".");
 
        M (Index) := M (Index) xor Types.SHL (1, Offset);
+       M (Index) := M (Index) and Types.SHL (not 0, Offset);
+
+       for I in Block_Index range (Index + 1) .. Block_Index'Last
+       --# assert I in Block_Index;
+       loop
+           M (I) := 0;
+       end loop;
 
     end Block_Terminate;
 
@@ -230,13 +239,15 @@ package body SHA2 is
 
     begin
 
+        Debug.Put_Line ("FINAL BLOCK:");
+
         Final_Context := Context;
         Final_Block := M;
 
         --  Add length of last block to data length.
         Add (Final_Context.Length, Length);
 
-        --  Set trailing '1' marker.
+        --  Set trailing '1' marker and zero out rest of the block.
         Block_Terminate
            (M      => Final_Block,
             Length => Length);

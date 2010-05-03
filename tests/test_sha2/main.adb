@@ -25,9 +25,9 @@ use type SHA2.Hash_Type;
 procedure Main
 --# derives ;
 is
-    Ctx1, Ctx2          : SHA2.Context_Type;
-    Hash1, Hash2        : SHA2.Hash_Type;
-    Message1, Message2  : SHA2.Block_Type;
+    Ctx1, Ctx2, Ctx3                : SHA2.Context_Type;
+    Hash1, Hash2, Hash3             : SHA2.Hash_Type;
+    Message1, Message2, Message3    : SHA2.Block_Type;
 begin
 
     --  FIPS 180-2, Appendix C: SHA-512 Examples
@@ -76,4 +76,25 @@ begin
                                       16#331b99dec4b5433a#,
                                       16#c7d329eeb6dd2654#,
                                       16#5e96e55b874be909#));
+
+    --  C.3 SHA-512 Example (Long Message)
+    Message3    := SHA2.Block_Type'(others => 16#61_61_61_61_61_61_61_61#);
+
+    Ctx3        := SHA2.Context_Init;
+    for I in Natural range 1 .. 7812
+    --#  assert I in Natural;
+    loop
+        SHA2.Context_Update (Ctx3, Message3);
+    end loop;
+    Hash3 := SHA2.Context_Finalize (Ctx3, Message3, 512);
+
+    Test.Run ("SHA-512 Example (Long Message)",
+              Hash3 = SHA2.Hash_Type'(16#e718483d0ce76964#,
+                                      16#4e2e42c7bc15b463#,
+                                      16#8e1f98b13b204428#,
+                                      16#5632a803afa973eb#,
+                                      16#de0ff244877ea60a#,
+                                      16#4cb0432ce577c31b#,
+                                      16#eb009c5c2c49aa2e#,
+                                      16#4eadb217ad8cc09b#));
 end Main;
