@@ -87,7 +87,8 @@ begin
 
     end loop;
 
-    Hash := SHA2.Context_Finalize (Ctx, Block, Block_Len);
+    SHA2.Context_Finalize (Ctx, Block, Block_Len);
+    Hash := SHA2.Get_Hash (Ctx);
     Debug.Print_Hash (Hash);
 
 end Main;

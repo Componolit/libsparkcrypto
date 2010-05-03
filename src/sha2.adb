@@ -107,7 +107,7 @@ package body SHA2 is
 
     procedure Context_Update_Internal
         (Context : in out Context_Type;
-         M       : in     Block_Type)
+         Block   : in     Block_Type)
     is
         W      : Schedule_Type;
         S      : State_Type;
@@ -130,7 +130,7 @@ package body SHA2 is
         for t in Schedule_Index range 0 .. 15
             --# assert t in 0 .. 15;
         loop
-            W (t) := M (Block_Index (t));
+            W (t) := Block (Block_Index (t));
         end loop;
 
         for t in Schedule_Index range 16 .. 79
@@ -196,15 +196,15 @@ package body SHA2 is
 
     procedure Context_Update
         (Context : in out Context_Type;
-         M       : in     Block_Type)
+         Block   : in     Block_Type)
     is
     begin
-        Context_Update_Internal (Context, M);
+        Context_Update_Internal (Context, Block);
         Add (Context.Length, 1024);
     end Context_Update;
 
     procedure Block_Terminate
-        (M      : in out Block_Type;
+        (Block  : in out Block_Type;
          Length : in     Block_Length_Type)
     is
        Index  : Block_Index;
@@ -218,61 +218,62 @@ package body SHA2 is
        Debug.Put_Natural (Offset);
        Debug.Put_Line (".");
 
-       M (Index) := M (Index) xor Types.SHL (1, Offset);
-       M (Index) := M (Index) and Types.SHL (not 0, Offset);
+       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
+       Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
 
        for I in Block_Index range (Index + 1) .. Block_Index'Last
        --# assert I in Block_Index;
        loop
-           M (I) := 0;
+           Block (I) := 0;
        end loop;
 
     end Block_Terminate;
 
-    function Context_Finalize
-        (Context : Context_Type;
-         M       : Block_Type;
-         Length  : Block_Length_Type) return Hash_Type
+    procedure Context_Finalize
+        (Context : in out Context_Type;
+         Block   : in     Block_Type;
+         Length  : in     Block_Length_Type)
     is
-        Final_Context : Context_Type;
         Final_Block   : Block_Type;
-
     begin
 
         Debug.Put_Line ("FINAL BLOCK:");
 
-        Final_Context := Context;
-        Final_Block := M;
+        Final_Block := Block;
 
         --  Add length of last block to data length.
-        Add (Final_Context.Length, Length);
+        Add (Context.Length, Length);
 
         --  Set trailing '1' marker and zero out rest of the block.
         Block_Terminate
-           (M      => Final_Block,
+           (Block  => Final_Block,
             Length => Length);
 
         --  Terminator and length values won't fit into current block.
         if Length >= 896 then
 
             Context_Update_Internal
-               (Context => Final_Context,
-                M       => Final_Block);
+               (Context => Context,
+                Block   => Final_Block);
 
             Final_Block := Block_Type'(others => 0);
 
         end if;
 
         --  Set length in final block.
-        Final_Block (Block_Type'Last - 1) := Final_Context.Length.MSW;
-        Final_Block (Block_Type'Last)     := Final_Context.Length.LSW;
+        Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
+        Final_Block (Block_Type'Last)     := Context.Length.LSW;
 
         Context_Update_Internal
-           (Context => Final_Context,
-            M       => Final_Block);
-
-        return Final_Context.H;
+           (Context => Context,
+            Block   => Final_Block);
 
     end Context_Finalize;
+
+    function Get_Hash (Context : Context_Type) return Hash_Type
+    is
+    begin
+        return Context.H;
+    end Get_Hash;
 
 end SHA2;

@@ -37,15 +37,19 @@ package SHA2 is
     -- Update SHA2 context with message block.
     procedure Context_Update
         (Context : in out Context_Type;
-         M       : in     Block_Type);
+         Block   : in     Block_Type);
     --# derives
-    --#    Context from *, M;
+    --#    Context from *, Block;
 
     -- Finalize SHA2 context with final message block.
-    function Context_Finalize
-        (Context : Context_Type;
-         M       : Block_Type;
-         Length  : Block_Length_Type) return Hash_Type;
+    procedure Context_Finalize
+        (Context : in out Context_Type;
+         Block   : in     Block_Type;
+         Length  : in     Block_Length_Type);
+    --# derives Context from *, Block, Length;
+
+    -- Return SHA512 hash.
+    function Get_Hash (Context : Context_Type) return Hash_Type;
 
 private
 
@@ -74,9 +78,9 @@ private
     --# derives Item from *, Value;
 
     procedure Block_Terminate
-        (M      : in out Block_Type;
+        (Block  : in out Block_Type;
          Length : in Block_Length_Type);
-    --# derives M from *, Length;
+    --# derives Block from *, Length;
 
     function Ch
         (x : Types.Word64;
@@ -119,7 +123,7 @@ private
 
     procedure Context_Update_Internal
         (Context : in out Context_Type;
-         M       : in     Block_Type);
-    --# derives Context from *, M;
+         Block   : in     Block_Type);
+    --# derives Context from *, Block;
 
 end SHA2;

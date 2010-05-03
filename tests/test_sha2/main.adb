@@ -35,7 +35,8 @@ begin
     --  C.1 SHA-512 Example (One-Block Message)
     Ctx1        := SHA2.Context_Init;
     Message1    := SHA2.Block_Type'(0 => 16#6162630000000000#, others => 0);
-    Hash1       := SHA2.Context_Finalize (Ctx1, Message1, 24);
+    SHA2.Context_Finalize (Ctx1, Message1, 24);
+    Hash1       := SHA2.Get_Hash (Ctx1);
 
     Test.Run ("SHA-512 Example (One-Block Message)",
               Hash1 = SHA2.Hash_Type'(16#DDAF35A193617ABA#,
@@ -65,7 +66,8 @@ begin
                                  16#6e6f707172737475#,
                                  16#0000000000000000#,
                                  16#0000000000000000#);
-    Hash2 := SHA2.Context_Finalize (Ctx2, Message2, 896);
+    SHA2.Context_Finalize (Ctx2, Message2, 896);
+    Hash2 := SHA2.Get_Hash (Ctx2);
 
     Test.Run ("SHA-512 Example (Multi-Block Message)",
               Hash2 = SHA2.Hash_Type'(16#8e959b75dae313da#,
@@ -86,7 +88,8 @@ begin
     loop
         SHA2.Context_Update (Ctx3, Message3);
     end loop;
-    Hash3 := SHA2.Context_Finalize (Ctx3, Message3, 512);
+    SHA2.Context_Finalize (Ctx3, Message3, 512);
+    Hash3 := SHA2.Get_Hash (Ctx3);
 
     Test.Run ("SHA-512 Example (Long Message)",
               Hash3 = SHA2.Hash_Type'(16#e718483d0ce76964#,
