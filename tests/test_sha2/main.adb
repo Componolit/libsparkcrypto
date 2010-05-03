@@ -16,10 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, IO;
+with SHA2, IO, Test;
 use type SHA2.Hash_Type;
 
---# inherit SHA2, IO;
+--# inherit SHA2, IO, Test;
 
 --# main_program;
 procedure Main
@@ -30,26 +30,24 @@ is
     Message1, Message2  : SHA2.Block_Type;
 begin
 
+    --  FIPS 180-2, Appendix C: SHA-512 Examples
+
+    --  C.1 SHA-512 Example (One-Block Message)
     Ctx1        := SHA2.Context_Init;
     Message1    := SHA2.Block_Type'(0 => 16#6162630000000000#, others => 0);
     Hash1       := SHA2.Context_Finalize (Ctx1, Message1, 24);
 
-    --# accept Flow, 22, "This is to test the implementation and SHOULD be invariant!";
-    if Hash1 /= SHA2.Hash_Type'(16#DDAF35A193617ABA#,
-                                16#CC417349AE204131#,
-                                16#12E6FA4E89A97EA2#,
-                                16#0A9EEEE64B55D39A#,
-                                16#2192992A274FC1A8#,
-                                16#36BA3C23A3FEEBBD#,
-                                16#454D4423643CE80E#,
-                                16#2A9AC94FA54CA49F#)
-    then
-        IO.Put_Line ("SHA-512 Test #1: FAILED");
-    else
-        IO.Put_Line ("SHA-512 Test #1: OK");
-    end if;
-    --# end accept;
+    Test.Run ("SHA-512 Example (One-Block Message)",
+              Hash1 = SHA2.Hash_Type'(16#DDAF35A193617ABA#,
+                                      16#CC417349AE204131#,
+                                      16#12E6FA4E89A97EA2#,
+                                      16#0A9EEEE64B55D39A#,
+                                      16#2192992A274FC1A8#,
+                                      16#36BA3C23A3FEEBBD#,
+                                      16#454D4423643CE80E#,
+                                      16#2A9AC94FA54CA49F#));
 
+    --  C.2 SHA-512 Example (Multi-Block Message)
     Ctx2     := SHA2.Context_Init;
     Message2 := SHA2.Block_Type'(16#6162636465666768#,
                                  16#6263646566676869#,
@@ -69,20 +67,13 @@ begin
                                  16#0000000000000000#);
     Hash2 := SHA2.Context_Finalize (Ctx2, Message2, 896);
 
-    --# accept Flow, 22, "This is to test the implementation and SHOULD be invariant!";
-    if Hash2 /= SHA2.Hash_Type'(16#8e959b75dae313da#,
-                                16#8cf4f72814fc143f#,
-                                16#8f7779c6eb9f7fa1#,
-                                16#7299aeadb6889018#,
-                                16#501d289e4900f7e4#,
-                                16#331b99dec4b5433a#,
-                                16#c7d329eeb6dd2654#,
-                                16#5e96e55b874be909#)
-    then
-        IO.Put_Line ("SHA-512 Test #2: FAILED");
-    else
-        IO.Put_Line ("SHA-512 Test #2: OK");
-    end if;
-    --# end accept;
-
+    Test.Run ("SHA-512 Example (Multi-Block Message)",
+              Hash2 = SHA2.Hash_Type'(16#8e959b75dae313da#,
+                                      16#8cf4f72814fc143f#,
+                                      16#8f7779c6eb9f7fa1#,
+                                      16#7299aeadb6889018#,
+                                      16#501d289e4900f7e4#,
+                                      16#331b99dec4b5433a#,
+                                      16#c7d329eeb6dd2654#,
+                                      16#5e96e55b874be909#));
 end Main;
