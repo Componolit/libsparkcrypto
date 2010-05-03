@@ -26,8 +26,7 @@ use type Types.Word64;
 
 --# main_program;
 procedure Main
---# global IO.Inputs;
---# derives null from IO.Inputs;
+--# derives ;
 is
 --# hide Main;
 
@@ -129,7 +128,6 @@ begin
                 then
                     Next_Bytes (Byte_Pos) := IO.Read_Byte;
                     Block_Len             := Block_Len + 8;
-                    IO.Put_Word8 (Next_Bytes (Byte_Pos));
                 else
                     Next_Bytes (Byte_Pos) := 0;
                 end if;

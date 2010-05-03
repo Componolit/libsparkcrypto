@@ -29,9 +29,7 @@ is
     --# derives null from T;
 
     function Read_Byte return Types.Word8;
-    --# global Inputs;
 
     function End_Of_Stream return Boolean;
-    --# global Inputs;
 
 end IO;
