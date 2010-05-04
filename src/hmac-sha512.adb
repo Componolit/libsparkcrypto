@@ -16,15 +16,44 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types;
-use type Types.Word64;
-
 package body HMAC.SHA512 is
 
-    IPad : constant SHA2.Block_Type := (others => 16#36363636_36363636#);
-    OPad : constant SHA2.Block_Type := (others => 16#5C5C5C5C_5C5C5C5C#);
+    IPad : constant SHA2.Block_Type := SHA2.Block_Type'(others => 16#36363636_36363636#);
+    OPad : constant SHA2.Block_Type := SHA2.Block_Type'(others => 16#5C5C5C5C_5C5C5C5C#);
 
-    function Init (Key : SHA2.Block_Type) return Context_Type
+    function To_Block (Item : SHA2.Hash_Type) return SHA2.Block_Type
+    is
+        Result : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
+    begin
+        for I in SHA2.Hash_Index
+        loop
+            Result (I) := Item (I);
+            --# assert
+            --#    (I in SHA2.Hash_Index) and
+            --#    (I in SHA2.Block_Index) and
+            --#    (for all Pos in SHA2.Hash_Index range SHA2.Hash_Index'First .. I =>
+            --#         (Result (Pos) = Item (Pos)));
+        end loop;
+        return Result;
+    end To_Block;
+
+    function Block_XOR
+       (Left  : SHA2.Block_Type;
+        Right : SHA2.Block_Type) return SHA2.Block_Type
+    is
+        Result : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
+    begin
+        for I in SHA2.Block_Index
+        loop
+            Result (I) := Left (I) xor Right (I);
+            --# assert
+            --#    (for all Pos in SHA2.Block_Index range SHA2.Block_Index'First .. I =>
+            --#         (Result (Pos) = (Left (Pos) xor Right (Pos))));
+        end loop;
+        return Result;
+    end Block_XOR;
+
+    function Context_Init (Key : SHA2.Block_Type) return Context_Type
     is
         Result : Context_Type;
     begin
@@ -32,44 +61,35 @@ package body HMAC.SHA512 is
         Result.SHA512_Context := SHA2.Context_Init;
         SHA2.Context_Update (Result.SHA512_Context, Block_XOR (Result.Key, IPad));
         return Result;
-    end Init;
+    end Context_Init;
 
-    procedure Update
+    procedure Context_Update
         (Context : in out Context_Type;
          Block   : in     SHA2.Block_Type)
     is
     begin
         SHA2.Context_Update (Context.SHA512_Context, Block);
-    end Update;
+    end Context_Update;
 
-    procedure Finalize
+    procedure Context_Finalize
         (Context : in out Context_Type;
          Block   : in     SHA2.Block_Type;
          Length  : in     SHA2.Block_Length_Type)
     is
+        Hash      : SHA2.Hash_Type;
     begin
         SHA2.Context_Finalize (Context.SHA512_Context, Block, Length);
+        Hash := SHA2.Get_Hash (Context.SHA512_Context);
+
+        Context.SHA512_Context := SHA2.Context_Init;
         SHA2.Context_Update (Context.SHA512_Context, Block_XOR (Context.Key, OPad));
-    end Finalize;
+        SHA2.Context_Finalize (Context.SHA512_Context, To_Block (Hash), 256);
+    end Context_Finalize;
 
     function Get_Prf (Context : in Context_Type) return SHA2.Hash_Type
     is
     begin
         return SHA2.Get_Hash (Context.SHA512_Context);
     end Get_Prf;
-
-    function Block_XOR
-       (Left  : SHA2.Block_Type;
-        Right : SHA2.Block_Type) return SHA2.Block_Type
-    is
-        Result : SHA2.Block_Type;
-    begin
-        for I in SHA2.Block_Index
-        --# assert Result (I) = Left (I) xor Right (I);
-        loop
-            Result (I) := Left (I) xor Right (I);
-        end loop;
-        return Result;
-    end Block_XOR;
 
 end HMAC.SHA512;

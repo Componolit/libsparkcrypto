@@ -23,11 +23,13 @@ package SHA2 is
 
     type Context_Type is private;
 
-    type Block_Index is range 0 .. 15;
-    type Block_Type is array (Block_Index) of Types.Word64;
+    type Word64_Array_Type is array (Natural range <>) of Types.Word64;
 
-    type Hash_Index is range 0 .. 7;
-    type Hash_Type is array (Hash_Index) of Types.Word64;
+    subtype Block_Index is Natural range 0 .. 15;
+    subtype Block_Type is Word64_Array_Type (Block_Index);
+
+    subtype Hash_Index is Natural range 0 .. 7;
+    subtype Hash_Type is Word64_Array_Type (Hash_Index);
 
     subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 

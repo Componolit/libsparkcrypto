@@ -16,21 +16,23 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2;
---# inherit SHA2;
+with SHA2, Types;
+use type Types.Word64;
+
+--# inherit SHA2, Types;
 
 package HMAC.SHA512 is
 
     type Context_Type is private;
 
-    function Init (Key : SHA2.Block_Type) return Context_Type;
+    function Context_Init (Key : SHA2.Block_Type) return Context_Type;
 
-    procedure Update
+    procedure Context_Update
         (Context : in out Context_Type;
          Block   : in     SHA2.Block_Type);
     --# derives Context from *, Block;
 
-    procedure Finalize
+    procedure Context_Finalize
         (Context : in out Context_Type;
          Block   : in     SHA2.Block_Type;
          Length  : in     SHA2.Block_Length_Type);
@@ -50,7 +52,11 @@ private
        (Left  : SHA2.Block_Type;
         Right : SHA2.Block_Type) return SHA2.Block_Type;
     --# return Result =>
-    --#    (for all I in SHA2.Block_Index ->
-    --#         Result (I) = Left (I) xor Right (I));
+    --#    (for all I in SHA2.Block_Index =>
+    --#         (Result (I) = (Left (I) xor Right (I))));
+
+    function To_Block (Item : SHA2.Hash_Type) return SHA2.Block_Type;
+    --# return Result =>
+    --#     (for all I in SHA2.Hash_Index => (Result (I) = Item (I)));
 
 end HMAC.SHA512;

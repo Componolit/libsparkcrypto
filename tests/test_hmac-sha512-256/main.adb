@@ -1,9 +1,29 @@
-with SHA2, HMAC.SHA512, Test;
---# inherit SHA2,HMAC.SHA512, Test;
+--  This file is part of the sparkcrypto library.
+--
+--  Copyright (C) 2010  secunet Security Networks AG
+--  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
+--  This library  is free software:  you can  redistribute it and/or  modify it
+--  under the  terms of the GNU  Lesser General Public License  as published by
+--  the Free Software Foundation, either version  3 of the License, or (at your
+--  option) any later version.
+
+--  This library is distributed in the hope that it will be useful, but WITHOUT
+--  ANY  WARRANTY; without  even  the implied  warranty  of MERCHANTABILITY  or
+--  FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License
+--  for more details.
+
+--  You should  have received a copy  of the GNU Lesser  General Public License
+--  along with this library. If not, see <http://www.gnu.org/licenses/>.
+
+with SHA2, HMAC.SHA512, Test;
 use type SHA2.Hash_Type;
 
+--# inherit SHA2, HMAC.SHA512, Test;
+
+--# main_program;
 procedure Main
+--# derives ;
 is
     Context             : HMAC.SHA512.Context_Type;
     Key                 : SHA2.Block_Type;
@@ -18,9 +38,9 @@ begin
     Key := SHA2.Block_Type'(others => 16#0b_0b_0b_0b_0b_0b_0b_0b#);
     Block := SHA2.Block_Type'(16#48_69_20_54_68_65_72_65#, others => 0);
 
-    Context := HMAC.SHA512.Init (Key);
-    HMAC.SHA512.Update (Context, Block);
-    HMAC.SHA512.Finalize (Context, Block, 0);
+    Context := HMAC.SHA512.Context_Init (Key);
+    HMAC.SHA512.Context_Update (Context, Block);
+    HMAC.SHA512.Context_Finalize (Context, Block, 0);
     PRF_HMAC_SHA_512 := HMAC.SHA512.Get_PRF (Context);
 
     Test.Run ("AUTH512-1",
