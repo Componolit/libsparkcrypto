@@ -26,5 +26,6 @@ package body Debug is
     procedure New_Line renames IO.New_Line;
     procedure Print_Word64 (Item : in Types.Word64) renames IO.Print_Word64;
     procedure Print_Hash (Hash : SHA2.Hash_Type) renames IO.Print_Hash;
+    procedure Print_Block (Block : SHA2.Block_Type) renames IO.Print_Block;
 
 end Debug;

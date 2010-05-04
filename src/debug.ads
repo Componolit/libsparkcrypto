@@ -36,4 +36,7 @@ package Debug is
     procedure Print_Hash (Hash : SHA2.Hash_Type);
     --# derives null from Hash;
 
+    procedure Print_Block (Block : SHA2.Block_Type);
+    --# derives null from Block;
+
 end Debug;

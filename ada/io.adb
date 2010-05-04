@@ -102,4 +102,18 @@ package body IO is
        end loop;
     end Print_Hash;
 
+    procedure Print_Block (Block : SHA2.Block_Type)
+    is
+    begin
+       for Index in SHA2.Block_Index
+       --# assert Index in SHA2.Block_Index;
+       loop
+          Print_Word64 (Block (Index));
+          IO.Put ("  ");
+          if Index mod 4 = 3 then
+             IO.New_Line;
+          end if;
+       end loop;
+       IO.New_Line;
+    end Print_Block;
 end IO;

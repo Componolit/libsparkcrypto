@@ -16,11 +16,11 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with IO;
 with Ada.Text_IO; use Ada.Text_IO;
 
 package body SHA2.Debug is
 
-    package WIO is new Ada.Text_IO.Modular_IO (Types.Word64);
     package SIO is new Ada.Text_IO.Integer_IO (SHA2.Schedule_Index);
     package IIO is new Ada.Text_IO.Integer_IO (Natural);
 
@@ -47,12 +47,14 @@ package body SHA2.Debug is
     procedure Put_State (S : SHA2.State_Type)
     is
     begin
-        Put_Line ("          a/e                  b/f                  c/g                  d/h");
+        Put_Line ("      a/e               b/f               c/g               d/h");
         for Index in SHA2.State_Index
         loop
-            WIO.Put (Item => S (Index), Base => 16, Width => 21);
+            IO.Print_Word64 (S (Index));
             if Index = d then
                 New_Line;
+            else
+                IO.Put ("  ");
             end if;
         end loop;
         New_Line;
@@ -67,8 +69,8 @@ package body SHA2.Debug is
         loop
             Put ("  H");
             Put (Index'Img);
-            Put (": ");
-            WIO.Put (Item => H (Index), Base => 16, Width => 21);
+            Put (" = ");
+            IO.Print_Word64 (H (Index));
             New_Line;
         end loop;
         New_Line;
@@ -85,12 +87,12 @@ package body SHA2.Debug is
             Second_Index := Index + 8;
             Put ("  W");
             SIO.Put (Item => Index);
-            Put (" =");
-            WIO.Put (Item => S (Index), Base => 16, Width => 21);
+            Put (" = ");
+            IO.Print_Word64 (S (Index));
             Put ("     W");
             SIO.Put (Second_Index);
-            Put (" =");
-            WIO.Put (Item => S (Second_Index), Base => 16, Width => 21);
+            Put (" = ");
+            IO.Print_Word64 (S (Second_Index));
             New_Line;
         end loop;
         New_Line;

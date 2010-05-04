@@ -43,4 +43,9 @@ package body Debug is
         null;
     end Print_Hash;
 
+    procedure Print_Block (Block : SHA2.Block_Type) is
+    begin
+        null;
+    end Print_Block;
+
 end Debug;
