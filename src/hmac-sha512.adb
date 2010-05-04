@@ -16,6 +16,9 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with Types;
+use type Types.Word64;
+
 package body HMAC.SHA512 is
 
     IPad : constant SHA2.Block_Type := (others => 16#36363636_36363636#);
@@ -54,5 +57,19 @@ package body HMAC.SHA512 is
     begin
         return SHA2.Get_Hash (Context.SHA512_Context);
     end Get_Prf;
+
+    function Block_XOR
+       (Left  : SHA2.Block_Type;
+        Right : SHA2.Block_Type) return SHA2.Block_Type
+    is
+        Result : SHA2.Block_Type;
+    begin
+        for I in SHA2.Block_Index
+        --# assert Result (I) = Left (I) xor Right (I);
+        loop
+            Result (I) := Left (I) xor Right (I);
+        end loop;
+        return Result;
+    end Block_XOR;
 
 end HMAC.SHA512;

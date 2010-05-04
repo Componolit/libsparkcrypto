@@ -46,4 +46,11 @@ private
         Key            : SHA2.Block_Type;
     end record;
 
+    function Block_XOR
+       (Left  : SHA2.Block_Type;
+        Right : SHA2.Block_Type) return SHA2.Block_Type;
+    --# return Result =>
+    --#    (for all I in SHA2.Block_Index ->
+    --#         Result (I) = Left (I) xor Right (I));
+
 end HMAC.SHA512;
