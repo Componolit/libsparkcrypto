@@ -81,9 +81,11 @@ package body HMAC.SHA512 is
         SHA2.Context_Finalize (Context.SHA512_Context, Block, Length);
         Hash := SHA2.Get_Hash (Context.SHA512_Context);
 
+        Debug.Print_Hash (Hash);
+
         Context.SHA512_Context := SHA2.Context_Init;
         SHA2.Context_Update (Context.SHA512_Context, Block_XOR (Context.Key, OPad));
-        SHA2.Context_Finalize (Context.SHA512_Context, To_Block (Hash), 256);
+        SHA2.Context_Finalize (Context.SHA512_Context, To_Block (Hash), 512);
     end Context_Finalize;
 
     function Get_Prf (Context : in Context_Type) return SHA2.Hash_Type

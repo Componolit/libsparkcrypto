@@ -16,10 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, Types;
+with SHA2, Types, Debug;
 use type Types.Word64;
 
---# inherit SHA2, Types;
+--# inherit SHA2, Types, Debug;
 
 package HMAC.SHA512 is
 

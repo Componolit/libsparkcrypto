@@ -16,13 +16,13 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, Types, IO, Debug;
+with SHA2, Types, IO;
 use type SHA2.Hash_Type;
 use type SHA2.Block_Index;
 use type Types.Word8;
 use type Types.Word64;
 
---# inherit SHA2, Types, IO, Debug;
+--# inherit SHA2, Types, IO;
 
 --# main_program;
 procedure Main
@@ -44,6 +44,6 @@ begin
     SHA2.Context_Finalize (Ctx, Block, 0);
     Hash := SHA2.Get_Hash (Ctx);
 
-    Debug.Print_Hash (Hash);
+    IO.Print_Hash (Hash);
 
 end Main;
