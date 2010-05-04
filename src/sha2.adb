@@ -221,11 +221,14 @@ package body SHA2 is
        Block (Index) := Block (Index) xor Types.SHL (1, Offset);
        Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
 
-       for I in Block_Index range (Index + 1) .. Block_Index'Last
-       --# assert I in Block_Index;
-       loop
-           Block (I) := 0;
-       end loop;
+       if Index < Block_Index'Last
+       then
+         for I in Block_Index range (Index + 1) .. Block_Index'Last
+         --# assert I in Block_Index;
+         loop
+            Block (I) := 0;
+         end loop;
+       end if;
 
     end Block_Terminate;
 
