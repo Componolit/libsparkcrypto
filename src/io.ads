@@ -16,8 +16,8 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types;
---# inherit Types;
+with Types, SHA2;
+--# inherit Types, SHA2;
 
 package IO
 is
@@ -28,8 +28,17 @@ is
     procedure Put_Line (T : String);
     --# derives null from T;
 
+    procedure New_Line;
+    --# derives ;
+
     function Read_Byte return Types.Word8;
 
     function End_Of_Stream return Boolean;
+
+    procedure Print_Word64 (Item : in Types.Word64);
+    --# derives null from Item;
+
+    procedure Print_Hash (Hash : SHA2.Hash_Type);
+    --# derives null from Hash;
 
 end IO;

@@ -16,24 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, SHA2;
---# inherit Types, SHA2;
+with Types, IO;
+use type Types.Word64;
 
-package Debug is
+package body Debug is
 
-    procedure Put (T : String);
-    --# derives null from T;
-
-    procedure Put_Line (T : String);
-    --# derives null from T;
-
-    procedure New_Line;
-    --# derives ;
-
-    procedure Print_Word64 (Item : in Types.Word64);
-    --# derives null from Item;
-
-    procedure Print_Hash (Hash : SHA2.Hash_Type);
-    --# derives null from Hash;
+    procedure Put (T : String) renames IO.Put;
+    procedure Put_Line (T : String) renames IO.Put_Line;
+    procedure New_Line renames IO.New_Line;
+    procedure Print_Word64 (Item : in Types.Word64) renames IO.Print_Word64;
+    procedure Print_Hash (Hash : SHA2.Hash_Type) renames IO.Print_Hash;
 
 end Debug;
