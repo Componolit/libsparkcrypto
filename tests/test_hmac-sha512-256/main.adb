@@ -16,10 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, HMAC.SHA512, Test;
+with SHA2, HMAC.SHA512, Test, Debug;
 use type SHA2.Hash_Type;
 
---# inherit SHA2, HMAC.SHA512, Test;
+--# inherit SHA2, HMAC.SHA512, Test, Debug;
 
 --# main_program;
 procedure Main
@@ -35,12 +35,16 @@ begin
 
     --  Test Case AUTH512-1:
 
-    Key := SHA2.Block_Type'(others => 16#0b_0b_0b_0b_0b_0b_0b_0b#);
+    Key   := SHA2.Block_Type'(others => 16#0b_0b_0b_0b_0b_0b_0b_0b#);
     Block := SHA2.Block_Type'(16#48_69_20_54_68_65_72_65#, others => 0);
 
+    Debug.Put_Line ("HMAC Key:");
+    Debug.Print_Block (Key);
+    Debug.Put_Line ("HMAC Text:");
+    Debug.Print_Block (Block);
+
     Context := HMAC.SHA512.Context_Init (Key);
-    HMAC.SHA512.Context_Update (Context, Block);
-    HMAC.SHA512.Context_Finalize (Context, Block, 0);
+    HMAC.SHA512.Context_Finalize (Context, Block, 64);
     PRF_HMAC_SHA_512 := HMAC.SHA512.Get_PRF (Context);
 
     Test.Run ("AUTH512-1",
