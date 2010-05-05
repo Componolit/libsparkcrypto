@@ -20,7 +20,7 @@ debug: all
 
 simplify:
 	@sparksimp -p=8
-	@pogs -d=$(OUTDIR)/$(*F).proof
+	@pogs -d=$(OUTDIR)
 
 $(OUTDIR)/%: tests/%/main.adb
 	@mkdir -p $@.bin
