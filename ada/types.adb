@@ -16,20 +16,24 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Interfaces;
+package body Types is
 
-package Types is
+   function ROTR (Value : Word64; Amount : Natural) return Word64 is
+   begin
+      return Interfaces.Rotate_Right (Value, Amount);
+   end ROTR;
+   pragma Inline (ROTR);
 
-   subtype Word8 is Interfaces.Unsigned_8;
-   subtype Word64 is Interfaces.Unsigned_64;
+   function SHR (Value : Word64; Amount : Natural) return Word64 is
+   begin
+      return Interfaces.Shift_Right (Value, Amount);
+   end SHR;
+   pragma Inline (SHR);
 
-   function ROTR (Value : Word64; Amount : Natural) return Word64 renames
-     Interfaces.Rotate_Right;
-
-   function SHR (Value : Word64; Amount : Natural) return Word64 renames
-     Interfaces.Shift_Right;
-
-   function SHL (Value : Word64; Amount : Natural) return Word64 renames
-     Interfaces.Shift_Left;
+   function SHL (Value : Word64; Amount : Natural) return Word64 is
+   begin
+      return Interfaces.Shift_Left (Value, Amount);
+   end SHL;
+   pragma Inline (SHL);
 
 end Types;
