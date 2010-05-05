@@ -104,4 +104,18 @@ package body HMAC.SHA512 is
       return SHA2.Get_Hash (Context.SHA512_Context);
    end Get_Prf;
 
+   function Get_Auth (Context : in Context_Type) return Auth_Type is
+      Result : Auth_Type := Auth_Type'(others => 0);
+      Prf    : SHA2.Hash_Type;
+   begin
+      Prf := SHA2.Get_Hash (Context.SHA512_Context);
+      for Index in Auth_Index
+      --# assert
+      --#    Index in Auth_Index;
+      loop
+         Result (Index) := Prf (Index);
+      end loop;
+      return Result;
+   end Get_Auth;
+
 end HMAC.SHA512;
