@@ -20,19 +20,16 @@ with Interfaces;
 
 package Types is
 
-    subtype  Word8 is Interfaces.Unsigned_8;
-    subtype Word64 is Interfaces.Unsigned_64;
+   subtype Word8 is Interfaces.Unsigned_8;
+   subtype Word64 is Interfaces.Unsigned_64;
 
-    function ROTR
-        (Value  : Word64;
-         Amount : Natural) return Word64 renames Interfaces.Rotate_Right;
+   function ROTR (Value : Word64; Amount : Natural) return Word64 renames
+     Interfaces.Rotate_Right;
 
-    function SHR
-        (Value  : Word64;
-         Amount : Natural) return Word64 renames Interfaces.Shift_Right;
+   function SHR (Value : Word64; Amount : Natural) return Word64 renames
+     Interfaces.Shift_Right;
 
-    function SHL
-        (Value  : Word64;
-         Amount : Natural) return Word64 renames Interfaces.Shift_Left;
+   function SHL (Value : Word64; Amount : Natural) return Word64 renames
+     Interfaces.Shift_Left;
 
 end Types;

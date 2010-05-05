@@ -22,28 +22,31 @@ use type SHA2.Block_Index;
 use type Types.Word8;
 use type Types.Word64;
 
---# inherit SHA2, Types, IO;
+--# inherit IO,
+--#         SHA2,
+--#         Types;
 
 --# main_program;
 procedure Main
---# derives ;
+   --# derives ;
 is
---# hide Main;
+   --# hide Main;
 
-    Ctx     : SHA2.Context_Type;
-    Hash    : SHA2.Hash_Type;
-    Block   : SHA2.Block_Type := SHA2.Block_Type'(others => 16#eaea_eaea_eaea_eaea#);
+   Ctx   : SHA2.Context_Type;
+   Hash  : SHA2.Hash_Type;
+   Block : SHA2.Block_Type :=
+      SHA2.Block_Type'(others => 16#eaea_eaea_eaea_eaea#);
 
 begin
 
-    Ctx := SHA2.Context_Init;
-    for I in Natural range 1 .. 1_000_000
-    loop
-        SHA2.Context_Update (Ctx, Block);
-    end loop;
-    SHA2.Context_Finalize (Ctx, Block, 0);
-    Hash := SHA2.Get_Hash (Ctx);
+   Ctx := SHA2.Context_Init;
+   for I in Natural range 1 .. 1_000_000
+   loop
+      SHA2.Context_Update (Ctx, Block);
+   end loop;
+   SHA2.Context_Finalize (Ctx, Block, 0);
+   Hash := SHA2.Get_Hash (Ctx);
 
-    IO.Print_Hash (Hash);
+   IO.Print_Hash (Hash);
 
 end Main;

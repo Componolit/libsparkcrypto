@@ -18,7 +18,7 @@
 
 package Interfaces is
 
-    type Unsigned_8  is mod 2**8;
-    type Unsigned_64 is mod 2**64;
+   type Unsigned_8 is mod 2 ** 8;
+   type Unsigned_64 is mod 2 ** 64;
 
 end Interfaces;

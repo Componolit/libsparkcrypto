@@ -18,34 +18,34 @@
 
 package body Debug is
 
-    procedure Put (T : String) is
-    begin
-        null;
-    end Put;
+   procedure Put (T : String) is
+   begin
+      null;
+   end Put;
 
-    procedure Put_Line (T : String) is
-    begin
-        null;
-    end Put_Line;
+   procedure Put_Line (T : String) is
+   begin
+      null;
+   end Put_Line;
 
-    procedure New_Line is
-    begin
-        null;
-    end New_Line;
+   procedure New_Line is
+   begin
+      null;
+   end New_Line;
 
-    procedure Print_Word64 (Item : in Types.Word64) is
-    begin
-        null;
-    end Print_Word64;
+   procedure Print_Word64 (Item : in Types.Word64) is
+   begin
+      null;
+   end Print_Word64;
 
-    procedure Print_Hash (Hash : SHA2.Hash_Type) is
-    begin
-        null;
-    end Print_Hash;
+   procedure Print_Hash (Hash : SHA2.Hash_Type) is
+   begin
+      null;
+   end Print_Hash;
 
-    procedure Print_Block (Block : SHA2.Block_Type) is
-    begin
-        null;
-    end Print_Block;
+   procedure Print_Block (Block : SHA2.Block_Type) is
+   begin
+      null;
+   end Print_Block;
 
 end Debug;

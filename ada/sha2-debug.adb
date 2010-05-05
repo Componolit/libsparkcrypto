@@ -18,40 +18,34 @@
 
 package body SHA2.Debug is
 
-    procedure Put_Line (T : String)
-    is
-    begin
-        null;
-    end Put_Line;
+   procedure Put_Line (T : String) is
+   begin
+      null;
+   end Put_Line;
 
-    procedure Put_Natural (I : Natural)
-    is
-    begin
-        null;
-    end Put_Natural;
+   procedure Put_Natural (I : Natural) is
+   begin
+      null;
+   end Put_Natural;
 
-    procedure Put_T (T : SHA2.Schedule_Index)
-    is
-    begin
-        null;
-    end Put_T;
+   procedure Put_T (T : SHA2.Schedule_Index) is
+   begin
+      null;
+   end Put_T;
 
-    procedure Put_State (S : SHA2.State_Type)
-    is
-    begin
-        null;
-    end Put_State;
+   procedure Put_State (S : SHA2.State_Type) is
+   begin
+      null;
+   end Put_State;
 
-    procedure Put_Hash (H : SHA2.Hash_Type)
-    is
-    begin
-        null;
-    end Put_Hash;
+   procedure Put_Hash (H : SHA2.Hash_Type) is
+   begin
+      null;
+   end Put_Hash;
 
-    procedure Put_Schedule (S : SHA2.Schedule_Type)
-    is
-    begin
-        null;
-    end Put_Schedule;
+   procedure Put_Schedule (S : SHA2.Schedule_Type) is
+   begin
+      null;
+   end Put_Schedule;
 
 end SHA2.Debug;

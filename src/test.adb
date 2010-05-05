@@ -18,18 +18,16 @@
 
 package body Test is
 
-    procedure Run
-        (Message : String;
-         Result  : Boolean)
-    is
-    begin
-        IO.Put (Message);
-        IO.Put (": ");
-        if Result then
-            IO.Put_Line ("OK");
-        else
-            IO.Put_Line ("Failed");
-        end if;
-    end Run;
-    
+   procedure Run (Message : String; Result : Boolean) is
+   begin
+      IO.Put (Message);
+      IO.Put (": ");
+      if Result
+      then
+         IO.Put_Line ("OK");
+      else
+         IO.Put_Line ("Failed");
+      end if;
+   end Run;
+
 end Test;

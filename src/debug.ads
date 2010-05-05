@@ -17,26 +17,27 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with Types, SHA2;
---# inherit Types, SHA2;
+--# inherit SHA2,
+--#         Types;
 
 package Debug is
 
-    procedure Put (T : String);
-    --# derives null from T;
+   procedure Put (T : String);
+   --# derives null from T;
 
-    procedure Put_Line (T : String);
-    --# derives null from T;
+   procedure Put_Line (T : String);
+   --# derives null from T;
 
-    procedure New_Line;
-    --# derives ;
+   procedure New_Line;
+   --# derives ;
 
-    procedure Print_Word64 (Item : in Types.Word64);
-    --# derives null from Item;
+   procedure Print_Word64 (Item : in Types.Word64);
+   --# derives null from Item;
 
-    procedure Print_Hash (Hash : SHA2.Hash_Type);
-    --# derives null from Hash;
+   procedure Print_Hash (Hash : SHA2.Hash_Type);
+   --# derives null from Hash;
 
-    procedure Print_Block (Block : SHA2.Block_Type);
-    --# derives null from Block;
+   procedure Print_Block (Block : SHA2.Block_Type);
+   --# derives null from Block;
 
 end Debug;
