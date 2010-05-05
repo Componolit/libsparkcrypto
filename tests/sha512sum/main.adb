@@ -93,6 +93,6 @@ begin
 
    SHA2.Context_Finalize (Ctx, Block, Block_Len);
    Hash := SHA2.Get_Hash (Ctx);
-   Debug.Print_Hash (Hash);
+   IO.Print_Hash (Hash);
 
 end Main;
