@@ -16,10 +16,21 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package Interfaces is
+with Types;
+--# inherit Types;
 
-   type Unsigned_8 is mod 2 ** 8;
-   type Unsigned_32 is mod 2 ** 32;
-   type Unsigned_64 is mod 2 ** 64;
+package AES256 is
 
-end Interfaces;
+   Nk : constant Positive :=  8;
+   Nb : constant Positive :=  4;
+   Nr : constant Positive := 14;
+
+   subtype Key_Index is Natural range 1 .. Nk;
+   type Key_Type is array (Key_Index) of Types.Word32;
+
+   subtype Schedule_Index is Natural range 1 .. Nb * (Nr + 1);
+   type Schedule_Type is array (Schedule_Index) of Types.Word32;
+
+   function Key_Expansion (Key : Key_Type) return Schedule_Type;
+
+end AES256;

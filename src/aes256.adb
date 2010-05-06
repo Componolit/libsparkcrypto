@@ -16,10 +16,31 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package Interfaces is
+package body AES256 is
 
-   type Unsigned_8 is mod 2 ** 8;
-   type Unsigned_32 is mod 2 ** 32;
-   type Unsigned_64 is mod 2 ** 64;
+   function Key_Expansion (Key : Key_Type) return Schedule_Type is
+      Temp   : Types.Word32;
+      Index  : Key_Index := Key_Index'First;
+      Result : Schedule_Type;
+   begin
 
-end Interfaces;
+      for Index in Key_Index
+      loop
+         Result (Index) := Key (Index);
+      end loop;
+
+      for Index in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
+      loop
+         Temp := Result (Index - 1);
+         if Index mod Nk = 0
+         then
+            Temp := Sub_Word (Rot_Word (Temp)) xor Rcon (Index/Nk);
+         else if Index mod Nk = 4
+         then
+            Temp := Sub_Word (Temp);
+         end if;
+         Result (Index) := Result (Index - 1) xor Temp;
+      end loop;
+   end Key_Expansion;
+
+end AES256;

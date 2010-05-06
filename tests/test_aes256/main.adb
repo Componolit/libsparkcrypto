@@ -16,10 +16,21 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package Interfaces is
+with AES256;
+--# inherit AES256;
 
-   type Unsigned_8 is mod 2 ** 8;
-   type Unsigned_32 is mod 2 ** 32;
-   type Unsigned_64 is mod 2 ** 64;
-
-end Interfaces;
+--# main_program;
+procedure Main
+   --# derives ;
+is
+   W : AES256.Schedule_Type;
+begin
+   W := AES256.Key_Expansion (AES256.Key_Type'(16#60_3d_eb_10#,
+                                               16#15_ca_71_be#,
+                                               16#2b_73_ae_f0#,
+                                               16#85_7d_77_81#,
+                                               16#1f_35_2c_07#,
+                                               16#3b_61_08_d7#,
+                                               16#2d_98_10_a3#,
+                                               16#09_14_df_f4#));
+end Main;
