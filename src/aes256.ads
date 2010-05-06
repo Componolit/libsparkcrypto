@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -17,6 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with Types;
+use type Types.Word32;
 --# inherit Types;
 
 package AES256 is
@@ -32,5 +33,14 @@ package AES256 is
    type Schedule_Type is array (Schedule_Index) of Types.Word32;
 
    function Key_Expansion (Key : Key_Type) return Schedule_Type;
+
+private
+
+   type SBox_Type is array (Types.Word8) of Types.Word8;
+
+   subtype Rcon_Index is Natural range 1 .. 30;
+   type Rcon_Type is array (Rcon_Index) of Types.Word32;
+
+   function Rot_Word (Value : Types.Word32) return Types.Word32;
 
 end AES256;
