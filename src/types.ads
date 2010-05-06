@@ -31,4 +31,12 @@ package Types is
 
    function SHL (Value : Word64; Amount : Natural) return Word64;
 
+   function ROTL32 (Value : Word32; Amount : Natural) return Word32;
+
+   type Word8_Array_Index is range 1 .. 4;
+   type Word8_Array_Type is array (Word8_Array_Index) of Word8;
+
+   function Word32_To_Word8_Array (Value : Word32) return Word8_Array_Type;
+   function Word8_Array_To_Word32 (Value : Word8_Array_Type) return Word32;
+
 end Types;

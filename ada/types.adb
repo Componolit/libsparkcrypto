@@ -16,6 +16,8 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with Unchecked_Conversion;
+
 package body Types is
 
    function ROTR (Value : Word64; Amount : Natural) return Word64 is
@@ -35,5 +37,23 @@ package body Types is
       return Interfaces.Shift_Left (Value, Amount);
    end SHL;
    pragma Inline (SHL);
+
+   function ROTL32 (Value : Word32; Amount : Natural) return Word32 is
+   begin
+      return Interfaces.Rotate_Left (Value, Amount);
+   end ROTL32;
+   pragma Inline (ROTL32);
+
+   function Word32_To_Word8_Array (Value : Word32) return Word8_Array_Type is
+      function W322W8A is new Unchecked_Conversion (Word32, Word8_Array_Type);
+   begin
+      return W322W8A (Value);
+   end Word32_To_Word8_Array;
+
+   function Word8_Array_To_Word32 (Value : Word8_Array_Type) return Word32 is
+      function W8A2W32 is new Unchecked_Conversion (Word8_Array_Type, Word32);
+   begin
+      return W8A2W32 (Value);
+   end Word8_Array_To_Word32;
 
 end Types;
