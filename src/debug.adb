@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -20,11 +20,13 @@ package body Debug is
 
    procedure Put (T : String) is
    begin
+      --# accept Flow, 30, T, "Null implementation";
       null;
    end Put;
 
    procedure Put_Line (T : String) is
    begin
+      --# accept Flow, 30, T, "Null implementation";
       null;
    end Put_Line;
 
@@ -33,19 +35,16 @@ package body Debug is
       null;
    end New_Line;
 
+   procedure Print_Word32 (Item : in Types.Word32) is
+   begin
+      --# accept Flow, 30, Item, "Null implementation";
+      null;
+   end Print_Word32;
+
    procedure Print_Word64 (Item : in Types.Word64) is
    begin
+      --# accept Flow, 30, Item, "Null implementation";
       null;
    end Print_Word64;
-
-   procedure Print_Hash (Hash : SHA2.Hash_Type) is
-   begin
-      null;
-   end Print_Hash;
-
-   procedure Print_Block (Block : SHA2.Block_Type) is
-   begin
-      null;
-   end Print_Block;
 
 end Debug;

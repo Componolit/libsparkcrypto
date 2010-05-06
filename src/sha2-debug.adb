@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -20,32 +20,44 @@ package body SHA2.Debug is
 
    procedure Put_Line (T : String) is
    begin
+      --# accept Flow, 30, T, "Null implementation";
       null;
    end Put_Line;
 
    procedure Put_Natural (I : Natural) is
    begin
+      --# accept Flow, 30, I, "Null implementation";
       null;
    end Put_Natural;
 
    procedure Put_T (T : SHA2.Schedule_Index) is
    begin
+      --# accept Flow, 30, T, "Null implementation";
       null;
    end Put_T;
 
    procedure Put_State (S : SHA2.State_Type) is
    begin
+      --# accept Flow, 30, S, "Null implementation";
       null;
    end Put_State;
 
-   procedure Put_Hash (H : SHA2.Hash_Type) is
+   procedure Print_Hash (Hash : SHA2.Hash_Type) is
    begin
+      --# accept Flow, 30, Hash, "Null implementation";
       null;
-   end Put_Hash;
+   end Print_Hash;
 
    procedure Put_Schedule (S : SHA2.Schedule_Type) is
    begin
+      --# accept Flow, 30, S, "Null implementation";
       null;
    end Put_Schedule;
+
+   procedure Print_Block (Block : SHA2.Block_Type) is
+   begin
+      --# accept Flow, 30, Block, "Null implementation";
+      null;
+   end Print_Block;
 
 end SHA2.Debug;
