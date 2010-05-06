@@ -21,8 +21,11 @@ with Ada.Text_IO.Text_Streams;
 with Unchecked_Conversion;
 
 use type Types.Word64;
+use type Types.Word32;
 
 package body IO is
+
+   subtype Nibble is Natural range 0 .. 15;
 
    procedure Put (T : String) renames Ada.Text_IO.Put;
    procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
@@ -46,13 +49,72 @@ package body IO is
       return Ada.Text_IO.End_Of_File (Ada.Text_IO.Standard_Input);
    end End_Of_Stream;
 
+   function Num_To_Char (N : Nibble) return Character is
+      Digit  : Character;
+   begin
+      case N is
+      when 16#0# =>
+         Digit := '0';
+      when 16#1# =>
+         Digit := '1';
+      when 16#2# =>
+         Digit := '2';
+      when 16#3# =>
+         Digit := '3';
+      when 16#4# =>
+         Digit := '4';
+      when 16#5# =>
+         Digit := '5';
+      when 16#6# =>
+         Digit := '6';
+      when 16#7# =>
+         Digit := '7';
+      when 16#8# =>
+         Digit := '8';
+      when 16#9# =>
+         Digit := '9';
+      when 16#A# =>
+         Digit := 'a';
+      when 16#B# =>
+         Digit := 'b';
+      when 16#C# =>
+         Digit := 'c';
+      when 16#D# =>
+         Digit := 'd';
+      when 16#E# =>
+         Digit := 'e';
+      when 16#F# =>
+         Digit := 'f';
+      end case;
+      return Digit;
+   end Num_To_Char;
+
+   procedure Print_Word32 (Item : in Types.Word32) is
+      subtype HD_Index is Positive range 1 .. 8;
+      subtype HD_Type is String (HD_Index);
+
+      Result : HD_Type;
+      Number : Types.Word32;
+   begin
+
+      Number := Item;
+      Result := HD_Type'(others => 'X');
+
+      for Index in HD_Index
+         --# assert Index in HD_Index;
+      loop
+         Result ((HD_Index'Last - Index) + 1)   := Num_To_Char (Nibble (Number mod 16));
+         Number                                 := Number / 16;
+      end loop;
+
+      IO.Put (Result);
+   end Print_Word32;
+
    procedure Print_Word64 (Item : in Types.Word64) is
       subtype HD_Index is Positive range 1 .. 16;
       subtype HD_Type is String (HD_Index);
-      subtype Nibble is Natural range 0 .. 15;
 
       Result : HD_Type;
-      Digit  : Character;
       Number : Types.Word64;
    begin
 
@@ -62,45 +124,8 @@ package body IO is
       for Index in HD_Index
          --# assert Index in HD_Index;
       loop
-
-         case Nibble (Number mod 16) is
-         when 16#0# =>
-            Digit := '0';
-         when 16#1# =>
-            Digit := '1';
-         when 16#2# =>
-            Digit := '2';
-         when 16#3# =>
-            Digit := '3';
-         when 16#4# =>
-            Digit := '4';
-         when 16#5# =>
-            Digit := '5';
-         when 16#6# =>
-            Digit := '6';
-         when 16#7# =>
-            Digit := '7';
-         when 16#8# =>
-            Digit := '8';
-         when 16#9# =>
-            Digit := '9';
-         when 16#A# =>
-            Digit := 'a';
-         when 16#B# =>
-            Digit := 'b';
-         when 16#C# =>
-            Digit := 'c';
-         when 16#D# =>
-            Digit := 'd';
-         when 16#E# =>
-            Digit := 'e';
-         when 16#F# =>
-            Digit := 'f';
-         end case;
-
-         Result ((HD_Index'Last - Index) + 1)   := Digit;
+         Result ((HD_Index'Last - Index) + 1)   := Num_To_Char (Nibble (Number mod 16));
          Number                                 := Number / 16;
-
       end loop;
 
       IO.Put (Result);
