@@ -35,16 +35,28 @@ package body Debug is
       null;
    end New_Line;
 
-   procedure Print_Word32 (Item : in Types.Word32) is
+   procedure Print_Word32 (I : in Types.Word32) is
    begin
-      --# accept Flow, 30, Item, "Null implementation";
+      --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Word32;
 
-   procedure Print_Word64 (Item : in Types.Word64) is
+   procedure Print_Word64 (I : in Types.Word64) is
    begin
-      --# accept Flow, 30, Item, "Null implementation";
+      --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Word64;
+
+   procedure Print_Hash (H : SHA2.Hash_Type) is
+   begin
+      --# accept Flow, 30, H, "Null implementation";
+      null;
+   end Print_Hash;
+
+   procedure Print_Block (B : SHA2.Block_Type) is
+   begin
+      --# accept Flow, 30, B, "Null implementation";
+      null;
+   end Print_Block;
 
 end Debug;

@@ -42,22 +42,16 @@ package body SHA2.Debug is
       null;
    end Put_State;
 
-   procedure Print_Hash (Hash : SHA2.Hash_Type) is
+   procedure Put_Hash (H : SHA2.Hash_Type) is
    begin
-      --# accept Flow, 30, Hash, "Null implementation";
+      --# accept Flow, 30, H, "Null implementation";
       null;
-   end Print_Hash;
+   end Put_Hash;
 
    procedure Put_Schedule (S : SHA2.Schedule_Type) is
    begin
       --# accept Flow, 30, S, "Null implementation";
       null;
    end Put_Schedule;
-
-   procedure Print_Block (Block : SHA2.Block_Type) is
-   begin
-      --# accept Flow, 30, Block, "Null implementation";
-      null;
-   end Print_Block;
 
 end SHA2.Debug;

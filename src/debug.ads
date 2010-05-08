@@ -31,13 +31,16 @@ package Debug is
    procedure New_Line;
    --# derives ;
 
-   procedure Print_Word64 (Item : in Types.Word64);
-   --# derives null from Item;
+   procedure Print_Word32 (I : in Types.Word32);
+   --# derives null from I;
 
-   procedure Print_Hash (Hash : SHA2.Hash_Type);
-   --# derives null from Hash;
+   procedure Print_Word64 (I : in Types.Word64);
+   --# derives null from I;
 
-   procedure Print_Block (Block : SHA2.Block_Type);
-   --# derives null from Block;
+   procedure Print_Hash (H : SHA2.Hash_Type);
+   --# derives null from H;
+
+   procedure Print_Block (B : SHA2.Block_Type);
+   --# derives null from B;
 
 end Debug;
