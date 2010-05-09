@@ -21,7 +21,11 @@ with IO;
 
 package Test is
 
-   procedure Run (Message : String; Result : Boolean);
+   procedure Suite (Name : String);
+   --# derives null from Name;
+
+   procedure Run (Message : String;
+                  Result  : Boolean);
    --# derives null from Message,
    --#                   Result;
 

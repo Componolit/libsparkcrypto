@@ -18,8 +18,20 @@
 
 package body Test is
 
-   procedure Run (Message : String; Result : Boolean) is
+   procedure Suite (Name : String)
+   is
    begin
+      IO.New_Line;
+      IO.Put (Name);
+      IO.Put_Line (":");
+   end Suite;
+
+   procedure Run (Message : String;
+                  Result  : Boolean)
+   is
+   begin
+
+      IO.Put ("   ");
       IO.Put (Message);
       IO.Put (": ");
       if Result

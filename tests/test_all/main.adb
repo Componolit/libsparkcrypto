@@ -29,26 +29,31 @@ use type SHA2.Hash_Type;
 procedure Main
    --# derives ;
 is
-   Ctx1, Ctx2, Ctx3              : SHA2.Context_Type;
-   Hash1, Hash2, Hash3           : SHA2.Hash_Type;
-   Message1, Message2, Message3  : SHA2.Block_Type;
+   -- SHA2
+   SHA2_Ctx1, SHA2_Ctx2, SHA2_Ctx3  : SHA2.Context_Type;
+   Hash1, Hash2, Hash3              : SHA2.Hash_Type;
+   Message1, Message2, Message3     : SHA2.Block_Type;
 
-   Context                       : HMAC.SHA512.Context_Type;
-   Key                           : SHA2.Block_Type;
-   Block                         : SHA2.Block_Type;
-   PRF_HMAC_SHA_512              : SHA2.Hash_Type;
-   AUTH_HMAC_SHA_512             : HMAC.SHA512.Auth_Type;
+   -- HMAC-SHA2
+   HMAC_Ctx                         : HMAC.SHA512.Context_Type;
+   Key                              : SHA2.Block_Type;
+   Block                            : SHA2.Block_Type;
+   PRF_HMAC_SHA_512                 : SHA2.Hash_Type;
+   AUTH_HMAC_SHA_512                : HMAC.SHA512.Auth_Type;
 
-   AES_Ctx                       : AES256.Context;
+   -- AES
+   AES_Ctx                          : AES256.Context;
 begin
+
+   Test.Suite ("SHA2 tests");
 
    --  FIPS 180-2, Appendix C: SHA-512 Examples
 
    --  C.1 SHA-512 Example (One-Block Message)
-   Ctx1     := SHA2.Context_Init;
+   SHA2_Ctx1 := SHA2.Context_Init;
    Message1 := SHA2.Block_Type'(0 => 16#6162630000000000#, others => 0);
-   SHA2.Context_Finalize (Ctx1, Message1, 24);
-   Hash1 := SHA2.Get_Hash (Ctx1);
+   SHA2.Context_Finalize (SHA2_Ctx1, Message1, 24);
+   Hash1 := SHA2.Get_Hash (SHA2_Ctx1);
 
    Test.Run
      ("SHA-512 Example (One-Block Message)",
@@ -63,7 +68,7 @@ begin
                       16#2A9AC94FA54CA49F#));
 
    --  C.2 SHA-512 Example (Multi-Block Message)
-   Ctx2     := SHA2.Context_Init;
+   SHA2_Ctx2     := SHA2.Context_Init;
    Message2 :=
      SHA2.Block_Type'
      (16#6162636465666768#,
@@ -82,8 +87,8 @@ begin
       16#6e6f707172737475#,
       16#0000000000000000#,
       16#0000000000000000#);
-   SHA2.Context_Finalize (Ctx2, Message2, 896);
-   Hash2 := SHA2.Get_Hash (Ctx2);
+   SHA2.Context_Finalize (SHA2_Ctx2, Message2, 896);
+   Hash2 := SHA2.Get_Hash (SHA2_Ctx2);
 
    Test.Run
      ("SHA-512 Example (Multi-Block Message)",
@@ -100,14 +105,14 @@ begin
    --  C.3 SHA-512 Example (Long Message)
    Message3 := SHA2.Block_Type'(others => 16#61_61_61_61_61_61_61_61#);
 
-   Ctx3 := SHA2.Context_Init;
+   SHA2_Ctx3 := SHA2.Context_Init;
    for I in Natural range 1 .. 7812
       --#  assert I in Natural;
    loop
-      SHA2.Context_Update (Ctx3, Message3);
+      SHA2.Context_Update (SHA2_Ctx3, Message3);
    end loop;
-   SHA2.Context_Finalize (Ctx3, Message3, 512);
-   Hash3 := SHA2.Get_Hash (Ctx3);
+   SHA2.Context_Finalize (SHA2_Ctx3, Message3, 512);
+   Hash3 := SHA2.Get_Hash (SHA2_Ctx3);
 
    Test.Run
      ("SHA-512 Example (Long Message)",
@@ -121,6 +126,8 @@ begin
                       16#eb009c5c2c49aa2e#,
                       16#4eadb217ad8cc09b#));
 
+
+   Test.Suite ("HMAC tests");
 
    --  SHA512 PRF Test Vectors (RFC 4868, 2.7.1.)
 
@@ -137,9 +144,9 @@ begin
    Block := SHA2.Block_Type'(0 => 16#48_69_20_54_68_65_72_65#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 64);
-   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 64);
+   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (HMAC_Ctx);
 
    Test.Run
      ("PRF-1",
@@ -169,9 +176,9 @@ begin
                              16#696e673f00000000#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 224);
-   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 224);
+   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (HMAC_Ctx);
 
    Test.Run
      ("PRF-2",
@@ -205,9 +212,9 @@ begin
                              6 => 16#dddd000000000000#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 400);
-   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
+   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (HMAC_Ctx);
 
    Test.Run
      ("PRF-3",
@@ -242,9 +249,9 @@ begin
                              6 => 16#cdcd000000000000#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 400);
-   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
+   PRF_HMAC_SHA_512 := HMAC.SHA512.Get_Prf (HMAC_Ctx);
 
    Test.Run
      ("PRF-4",
@@ -277,9 +284,9 @@ begin
    Block := SHA2.Block_Type'(0 => 16#48_69_20_54_68_65_72_65#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 64);
-   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 64);
+   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (HMAC_Ctx);
 
    Test.Run
      ("AUTH-1",
@@ -315,9 +322,9 @@ begin
                              16#696e673f00000000#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 224);
-   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 224);
+   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (HMAC_Ctx);
 
    Test.Run
      ("AUTH-2",
@@ -352,9 +359,9 @@ begin
                              6 => 16#dddd000000000000#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 400);
-   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
+   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (HMAC_Ctx);
 
    Test.Run
      ("AUTH-3",
@@ -395,9 +402,9 @@ begin
                              6 => 16#cdcd000000000000#,
                              others => 0);
 
-   Context := HMAC.SHA512.Context_Init (Key);
-   HMAC.SHA512.Context_Finalize (Context, Block, 400);
-   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (Context);
+   HMAC_Ctx := HMAC.SHA512.Context_Init (Key);
+   HMAC.SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
+   AUTH_HMAC_SHA_512 := HMAC.SHA512.Get_Auth (HMAC_Ctx);
 
    Test.Run
      ("AUTH-4",
@@ -406,6 +413,8 @@ begin
                              1 => 16#6ca32eaea224eff5#,
                              2 => 16#e700628947470e13#,
                              3 => 16#ad01302561bab108#));
+
+   Test.Suite ("AES tests");
 
    --# accept Flow, 10, "Test not yet finished";
    --# accept Flow, 33, AES_Ctx, "Test not yet finished";
