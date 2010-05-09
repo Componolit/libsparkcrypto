@@ -16,6 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with AES256.Debug;
 
 package body AES256 is
 
@@ -71,6 +72,9 @@ package body AES256 is
          Result (Index) := Key (Index);
       end loop;
 
+      LSC.Debug.Put_Line ("Initial schedule:");
+      Debug.Print_Schedule (Result);
+
       for Index in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
       --# assert Index in Key_Index'Last + 1 .. Schedule_Index'Last;
       loop
@@ -89,4 +93,11 @@ package body AES256 is
 
    end Key_Expansion;
 
+   function Context_Init (Key : Key_Type) return Context
+   is
+      Result : Context;
+   begin
+      Result.Schedule := Key_Expansion (Key => Key);
+      return Result;
+   end Context_Init;
 end AES256;

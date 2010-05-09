@@ -16,31 +16,40 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types;
+with Types, LSC.Debug;
 use type Types.Word32;
---# inherit Types;
+--# inherit Types,
+--#         LSC.Debug;
 
 package AES256 is
 
    Nk : constant Positive :=  8;
-   Nb : constant Positive :=  4;
-   Nr : constant Positive := 14;
-
    subtype Key_Index is Natural range 1 .. Nk;
    type Key_Type is array (Key_Index) of Types.Word32;
 
-   subtype Schedule_Index is Natural range 1 .. Nb * (Nr + 1);
-   type Schedule_Type is array (Schedule_Index) of Types.Word32;
+   type Context is private;
 
-   function Key_Expansion (Key : Key_Type) return Schedule_Type;
+   function Context_Init (Key : Key_Type) return Context;
 
 private
+
+   Nb : constant Positive :=  4;
+   Nr : constant Positive := 14;
+
+   subtype Schedule_Index is Natural range 1 .. Nb * (Nr + 1);
+   type Schedule_Type is array (Schedule_Index) of Types.Word32;
 
    type SBox_Type is array (Types.Word8) of Types.Word8;
 
    subtype Rcon_Index is Natural range 1 .. 30;
    type Rcon_Type is array (Rcon_Index) of Types.Word32;
 
+   type Context is
+   record
+      Schedule : Schedule_Type;
+   end record;
+
+   function Key_Expansion (Key : Key_Type) return Schedule_Type;
    function Rot_Word (Value : Types.Word32) return Types.Word32;
 
 end AES256;
