@@ -20,14 +20,15 @@ with Ada.Text_IO, LSC.Debug, IO;
 
 package body AES256.Debug is
 
-   procedure Print_Schedule (S : AES256.Schedule_Type) is
+   package SIIO is new Ada.Text_IO.Integer_IO (AES256.Schedule_Index);
 
-      package SIIO is new Ada.Text_IO.Integer_IO (AES256.Schedule_Index);
+   procedure Print_Schedule (S : AES256.Schedule_Type)
+   is
    begin
       for Index in AES256.Schedule_Index
       loop
          IO.Put ("   W");
-         SIIO.Put (Index, Width => 3);
+         SIIO.Put (Item => Index, Width => 3);
          IO.Put (" = ");
          LSC.Debug.Print_Word32 (S (Index));
          if Index mod  AES256.Nb = 0
@@ -37,5 +38,11 @@ package body AES256.Debug is
       end loop;
       IO.New_Line;
    end Print_Schedule;
+
+   procedure Print_Schedule_Index (I : Schedule_Index)
+   is
+   begin
+       SIIO.Put (Item => I, Width => 3);
+   end Print_Schedule_Index;
 
 end AES256.Debug;

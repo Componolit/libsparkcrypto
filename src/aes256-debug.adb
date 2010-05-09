@@ -18,10 +18,18 @@
 
 package body AES256.Debug is
 
-   procedure Print_Schedule (S : AES256.Schedule_Type) is
+   procedure Print_Schedule (S : AES256.Schedule_Type)
+   is
    begin
       --# accept Flow, 30, S, "Null implementation";
       null;
    end Print_Schedule;
+
+   procedure Print_Schedule_Index (I : AES256.Schedule_Index)
+   is
+   begin
+      --# accept Flow, 30, I, "Null implementation";
+      null;
+   end Print_Schedule_Index;
 
 end AES256.Debug;
