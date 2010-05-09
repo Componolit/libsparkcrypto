@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, SHA2.Debug;
+with Types, LSC.Debug, SHA2.Debug;
 use type Types.Word64;
 
 package body SHA2 is
@@ -107,10 +107,10 @@ package body SHA2 is
 
       W := Schedule_Type'(others => 0);
 
-      Debug.Put_Line ("BLOCK UPDATE:");
+      LSC.Debug.Put_Line ("BLOCK UPDATE:");
 
       -- Print out initial state of H
-      Debug.Put_Line ("SHA-512 initial hash values:");
+      LSC.Debug.Put_Line ("SHA-512 initial hash values:");
       Debug.Put_Hash (Context.H);
 
       -------------------------------------------
@@ -133,7 +133,7 @@ package body SHA2 is
                   W (t - 16);
       end loop;
 
-      Debug.Put_Line ("Message block:");
+      LSC.Debug.Put_Line ("Message block:");
       Debug.Put_Schedule (W);
 
       -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
@@ -149,7 +149,7 @@ package body SHA2 is
          g => Context.H (6),
          h => Context.H (7));
 
-      Debug.Put_Line ("Initial state:");
+      LSC.Debug.Put_Line ("Initial state:");
       Debug.Put_State (S);
 
       -- 3. For t = 0 to 79:
@@ -190,7 +190,7 @@ package body SHA2 is
          6 => S (g) + Context.H (6),
          7 => S (h) + Context.H (7));
 
-      Debug.Put_Line ("SHA-512 final hash values:");
+      LSC.Debug.Put_Line ("SHA-512 final hash values:");
       Debug.Put_Hash (Context.H);
 
    end Context_Update_Internal;
@@ -215,9 +215,9 @@ package body SHA2 is
       Index  := Block_Index (Length / 64);
       Offset := Natural (63 - Length mod 64);
 
-      Debug.Put_Line ("Terminator offset:");
+      LSC.Debug.Put_Line ("Terminator offset:");
       Debug.Put_Natural (Offset);
-      Debug.Put_Line (".");
+      LSC.Debug.Put_Line (".");
 
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
       Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
@@ -241,7 +241,7 @@ package body SHA2 is
       Final_Block : Block_Type;
    begin
 
-      Debug.Put_Line ("FINAL BLOCK:");
+      LSC.Debug.Put_Line ("FINAL BLOCK:");
 
       Final_Block := Block;
 

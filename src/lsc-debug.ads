@@ -16,11 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, SHA2;
---# inherit SHA2,
---#         Types;
+with Types;
+--# inherit Types;
 
-package Debug is
+package LSC.Debug is
 
    procedure Put (T : String);
    --# derives null from T;
@@ -37,10 +36,4 @@ package Debug is
    procedure Print_Word64 (I : in Types.Word64);
    --# derives null from I;
 
-   procedure Print_Hash (H : SHA2.Hash_Type);
-   --# derives null from H;
-
-   procedure Print_Block (B : SHA2.Block_Type);
-   --# derives null from B;
-
-end Debug;
+end LSC.Debug;

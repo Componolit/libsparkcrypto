@@ -16,8 +16,9 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types;
---# inherit Types;
+with Types, LSC.Debug;
+--# inherit Types,
+--#         LSC.Debug;
 
 package SHA2 is
 

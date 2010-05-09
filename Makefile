@@ -3,12 +3,8 @@ DUMMY  := $(shell mkdir -p out)
 GNATMAKE_FLAGS =
 
 FILES = \
-    $(OUTDIR)/test_aes256 \
-    $(OUTDIR)/test_hmac-sha512-256 \
-    $(OUTDIR)/test_hmac-sha512-256.sum \
-    $(OUTDIR)/test_sha2.sum \
-    $(OUTDIR)/test_sha2 \
-    $(OUTDIR)/test_sha2.sum \
+    $(OUTDIR)/test_all \
+    $(OUTDIR)/test_all.sum \
     $(OUTDIR)/sha512openssl \
     $(OUTDIR)/sha512perf \
     $(OUTDIR)/sha512sum \

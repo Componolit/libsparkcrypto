@@ -16,13 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, Types, IO, Debug;
+with SHA2, Types, IO;
 use type SHA2.Hash_Type;
 use type Types.Word8;
 use type Types.Word64;
 
---# inherit Debug,
---#         IO,
+--# inherit IO,
 --#         SHA2,
 --#         Types;
 

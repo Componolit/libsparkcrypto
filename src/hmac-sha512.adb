@@ -58,7 +58,7 @@ package body HMAC.SHA512 is
    function Context_Init (Key : SHA2.Block_Type) return Context_Type is
       Result : Context_Type;
    begin
-      Debug.Put_Line ("HMAC.SHA512.Context_Init:");
+      LSC.Debug.Put_Line ("HMAC.SHA512.Context_Init:");
 
       Result.Key            := Key;
       Result.SHA512_Context := SHA2.Context_Init;
@@ -73,7 +73,7 @@ package body HMAC.SHA512 is
       Block   : in SHA2.Block_Type)
    is
    begin
-      Debug.Put_Line ("HMAC.SHA512.Context_Update:");
+      LSC.Debug.Put_Line ("HMAC.SHA512.Context_Update:");
       SHA2.Context_Update (Context.SHA512_Context, Block);
    end Context_Update;
 
@@ -84,13 +84,9 @@ package body HMAC.SHA512 is
    is
       Hash : SHA2.Hash_Type;
    begin
-      Debug.Put_Line ("HMAC.SHA512.Context_Finalize:");
+      LSC.Debug.Put_Line ("HMAC.SHA512.Context_Finalize:");
       SHA2.Context_Finalize (Context.SHA512_Context, Block, Length);
       Hash := SHA2.Get_Hash (Context.SHA512_Context);
-
-      Debug.Put_Line ("HMAC.SHA512: Intermediate Hash:");
-      Debug.Print_Hash (Hash);
-      Debug.New_Line;
 
       Context.SHA512_Context := SHA2.Context_Init;
       SHA2.Context_Update

@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body Debug is
+package body LSC.Debug is
 
    procedure Put (T : String) is
    begin
@@ -47,16 +47,4 @@ package body Debug is
       null;
    end Print_Word64;
 
-   procedure Print_Hash (H : SHA2.Hash_Type) is
-   begin
-      --# accept Flow, 30, H, "Null implementation";
-      null;
-   end Print_Hash;
-
-   procedure Print_Block (B : SHA2.Block_Type) is
-   begin
-      --# accept Flow, 30, B, "Null implementation";
-      null;
-   end Print_Block;
-
-end Debug;
+end LSC.Debug;

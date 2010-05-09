@@ -16,17 +16,5 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, IO;
-use type Types.Word64;
-
-package body Debug is
-
-   procedure Put (T : String) renames IO.Put;
-   procedure Put_Line (T : String) renames IO.Put_Line;
-   procedure New_Line renames IO.New_Line;
-   procedure Print_Word32 (I : in Types.Word32) renames IO.Print_Word32;
-   procedure Print_Word64 (I : in Types.Word64) renames IO.Print_Word64;
-   procedure Print_Hash (H : SHA2.Hash_Type) renames IO.Print_Hash;
-   procedure Print_Block (B : SHA2.Block_Type) renames IO.Print_Block;
-
-end Debug;
+package LSC is
+end LSC;
