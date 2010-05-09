@@ -45,6 +45,8 @@ package body AES256 is
     16#6300_0000#, 16#C600_0000#, 16#9700_0000#, 16#3500_0000#, 16#6a00_0000#, 16#D400_0000#,
     16#B300_0000#, 16#7d00_0000#, 16#Fa00_0000#, 16#Ef00_0000#, 16#C500_0000#, 16#9100_0000#);
 
+   ----------------------------------------------------------------------------
+
    function Sub_Word (Value : Types.Word32) return Types.Word32 is
       Temp : Types.Word8_Array_Type;
    begin
@@ -56,14 +58,20 @@ package body AES256 is
                                   Sub_Bytes (Temp (4))));
    end Sub_Word;
 
+   ----------------------------------------------------------------------------
+
    function Rot_Word (Value : Types.Word32) return Types.Word32 is
    begin
       return Types.ROTL32 (Value, 8);
    end Rot_Word;
 
+   ----------------------------------------------------------------------------
+
    function Key_Expansion (Key : Key_Type) return Schedule_Type is
-      Temp   : Types.Word32;
-      Result : Schedule_Type := Schedule_Type'(others => 0);
+      Temp     : Types.Word32;
+      Rot_Temp : Types.Word32;
+      Sub_Temp : Types.Word32;
+      Result   : Schedule_Type := Schedule_Type'(others => 0);
    begin
 
       for Index in Key_Index
@@ -74,24 +82,37 @@ package body AES256 is
 
       LSC.Debug.Put_Line ("Initial schedule:");
       Debug.Print_Schedule (Result);
+      LSC.Debug.New_Line;
 
       for Index in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
-      --# assert Index in Key_Index'Last + 1 .. Schedule_Index'Last;
+      --# assert Index in Key_Index'Last .. Schedule_Index'Last;
       loop
+
+         Debug.Print_Schedule_Index (Index);
+         LSC.Debug.Put (" | ");
+
          Temp := Result (Index - 1);
+         LSC.Debug.Print_Word32 (Temp);
+         LSC.Debug.New_Line;
+
          if Index mod Nk = 0
          then
-            Temp := Sub_Word (Rot_Word (Temp)) xor Rcon (Index/Nk);
+            Rot_Temp := Rot_Word (Temp);
+            Sub_Temp := Sub_Word (Rot_Temp);
+            Temp := Sub_Temp xor Rcon (Index/Nk);
          elsif Index mod Nk = 4
          then
             Temp := Sub_Word (Temp);
          end if;
          Result (Index) := Result (Index - 1) xor Temp;
+
       end loop;
 
       return Result;
 
    end Key_Expansion;
+
+   ----------------------------------------------------------------------------
 
    function Context_Init (Key : Key_Type) return Context
    is
@@ -100,4 +121,5 @@ package body AES256 is
       Result.Schedule := Key_Expansion (Key => Key);
       return Result;
    end Context_Init;
+
 end AES256;

@@ -24,7 +24,7 @@ use type Types.Word32;
 package AES256 is
 
    Nk : constant Positive :=  8;
-   subtype Key_Index is Natural range 1 .. Nk;
+   subtype Key_Index is Natural range 0 .. Nk - 1;
    type Key_Type is array (Key_Index) of Types.Word32;
 
    type Context is private;
@@ -36,7 +36,7 @@ private
    Nb : constant Positive :=  4;
    Nr : constant Positive := 14;
 
-   subtype Schedule_Index is Natural range 1 .. Nb * (Nr + 1);
+   subtype Schedule_Index is Natural range 0 .. Nb * (Nr + 1) - 1;
    type Schedule_Type is array (Schedule_Index) of Types.Word32;
 
    type SBox_Type is array (Types.Word8) of Types.Word8;
