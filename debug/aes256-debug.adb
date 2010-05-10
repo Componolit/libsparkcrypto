@@ -31,7 +31,7 @@ package body AES256.Debug is
          SIIO.Put (Item => Index, Width => 3);
          IO.Put (" = ");
          LSC.Debug.Print_Word32 (S (Index));
-         if Index mod  AES256.Nb = 0
+         if Index mod  AES256.Nb = AES256.Nb - 1
          then
             IO.New_Line;
          end if;
