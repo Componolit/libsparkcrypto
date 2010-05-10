@@ -72,6 +72,16 @@ package body AES256 is
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
       Result   : Schedule_Type := Schedule_Type'(others => 0);
+
+      procedure Put_Row (I : Types.Word32)
+      --# derives null from I;
+      is
+      begin
+         LSC.Debug.Put (" ");
+         LSC.Debug.Print_Word32 (I);
+         LSC.Debug.Put (" |");
+      end Put_Row;
+
    begin
 
       for Index in Key_Index
@@ -80,33 +90,80 @@ package body AES256 is
          Result (Index) := Key (Index);
       end loop;
 
-      LSC.Debug.Put_Line ("Initial schedule:");
-      Debug.Print_Schedule (Result);
-      LSC.Debug.New_Line;
+      --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
+      LSC.Debug.Put_Line ("Initial schedule:");                                                                    --
+      Debug.Print_Schedule (Result);                                                                               --
+      LSC.Debug.New_Line;                                                                                          --
+      LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
+      LSC.Debug.Put_Line ("|  i  |          |  After   |  After   |          |After XOR |          |  w[i] =  |"); --
+      LSC.Debug.Put_Line ("|(dec)|   temp   |RotWord() |SubWord() |Rcon[i/Nk]|with Rcon | w[i-Nk]  | temp XOR |"); --
+      LSC.Debug.Put_Line ("|     |          |          |          |          |          |          |  w[i-Nk] |"); --
+      LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
+      ---------------------------------------------------------------------------------------------------------------
 
       for Index in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
       --# assert Index in Key_Index'Last .. Schedule_Index'Last;
       loop
 
-         Debug.Print_Schedule_Index (Index);
-         LSC.Debug.Put (" | ");
+         --  DEBUG OUTPUT  ---------------------
+         LSC.Debug.Put ("| ");                --
+         Debug.Print_Schedule_Index (Index);  --
+         LSC.Debug.Put (" |");                --
+         ---------------------------------------
 
          Temp := Result (Index - 1);
-         LSC.Debug.Print_Word32 (Temp);
-         LSC.Debug.New_Line;
+
+         Put_Row (Temp);
 
          if Index mod Nk = 0
          then
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);
-            Temp := Sub_Temp xor Rcon (Index/Nk);
+            Temp     := Sub_Temp xor Rcon (Index/Nk);
+
+            --  DEBUG OUTPUT  ------------
+            Put_Row (Rot_Temp);         --
+            Put_Row (Sub_Temp);         --
+            Put_Row (Rcon (Index/Nk));  --
+            Put_Row (Temp);             --
+            ------------------------------
+
          elsif Index mod Nk = 4
          then
+            --  DEBUG OUTPUT  ---------------
+            LSC.Debug.Put ("          |"); --
+            ---------------------------------
+
             Temp := Sub_Word (Temp);
+
+            --  DEBUG OUTPUT  ---------------------------
+            Put_Row (Temp);                            --
+            LSC.Debug.Put ("          |          |");  --
+            ---------------------------------------------
+         else
+            --  DEBUG OUTPUT  -------------------------------------------------
+            LSC.Debug.Put ("          |          |          |          |");  --
+            -------------------------------------------------------------------
          end if;
-         Result (Index) := Result (Index - 1) xor Temp;
+
+         Result (Index) := Result (Index - Nk) xor Temp;
+
+         --  DEBUG OUTPUT  ---------------
+         Put_Row (Result (Index - Nk));  --
+         Put_Row (Result (Index));      --
+         LSC.Debug.New_Line;            --
+         ---------------------------------
 
       end loop;
+
+      --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
+      LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
+      ---------------------------------------------------------------------------------------------------------------
+
+      --  DEBUG OUTPUT  -------------------------
+      LSC.Debug.Put_Line ("Final schedule:");  --
+      Debug.Print_Schedule (Result);           --                                                                  --
+      -------------------------------------------
 
       return Result;
 
