@@ -1,6 +1,6 @@
 OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
-GNATMAKE_FLAGS =
+GNATMAKE_FLAGS = -we
 
 FILES = \
     $(OUTDIR)/test_all \
