@@ -21,22 +21,31 @@ with Interfaces;
 
 package Types is
 
-   subtype Word8 is Interfaces.Unsigned_8;
+   subtype Byte is Interfaces.Unsigned_8;
    subtype Word32 is Interfaces.Unsigned_32;
    subtype Word64 is Interfaces.Unsigned_64;
 
    function ROTR (Value : Word64; Amount : Natural) return Word64;
-
    function SHR (Value : Word64; Amount : Natural) return Word64;
-
    function SHL (Value : Word64; Amount : Natural) return Word64;
-
    function ROTL32 (Value : Word32; Amount : Natural) return Word32;
+   function SHL32 (Value : Word32; Amount : Natural) return Word32;
 
-   type Word8_Array_Index is range 1 .. 4;
-   type Word8_Array_Type is array (Word8_Array_Index) of Word8;
+   type Byte_Array_Index is range 0 .. 3;
+   type Byte_Array_Type is array (Byte_Array_Index) of Byte;
 
-   function Word32_To_Word8_Array (Value : Word32) return Word8_Array_Type;
-   function Word8_Array_To_Word32 (Value : Word8_Array_Type) return Word32;
+   function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type;
+   function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32;
+
+   function Bytes_To_Word32
+      (Byte0 : Byte;
+       Byte1 : Byte;
+       Byte2 : Byte;
+       Byte3 : Byte) return Word32;
+
+   function Byte0 (Value : Word32) return Byte;
+   function Byte1 (Value : Word32) return Byte;
+   function Byte2 (Value : Word32) return Byte;
+   function Byte3 (Value : Word32) return Byte;
 
 end Types;

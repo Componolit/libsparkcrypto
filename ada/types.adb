@@ -44,16 +44,65 @@ package body Types is
    end ROTL32;
    pragma Inline (ROTL32);
 
-   function Word32_To_Word8_Array (Value : Word32) return Word8_Array_Type is
-      function W322W8A is new Unchecked_Conversion (Word32, Word8_Array_Type);
+   function SHL32 (Value : Word32; Amount : Natural) return Word32 is
+   begin
+      return Interfaces.Shift_Left (Value, Amount);
+   end SHL32;
+   pragma Inline (SHL32);
+
+   function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type is
+      function W322W8A is new Unchecked_Conversion (Word32, Byte_Array_Type);
    begin
       return W322W8A (Value);
-   end Word32_To_Word8_Array;
+   end Word32_To_Byte_Array;
 
-   function Word8_Array_To_Word32 (Value : Word8_Array_Type) return Word32 is
-      function W8A2W32 is new Unchecked_Conversion (Word8_Array_Type, Word32);
+   function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32 is
+      function W8A2W32 is new Unchecked_Conversion (Byte_Array_Type, Word32);
    begin
       return W8A2W32 (Value);
-   end Word8_Array_To_Word32;
+   end Byte_Array_To_Word32;
+
+   function Bytes_To_Word32
+      (Byte0 : Byte;
+       Byte1 : Byte;
+       Byte2 : Byte;
+       Byte3 : Byte) return Word32
+   is
+   begin
+      return Byte_Array_To_Word32 (Byte_Array_Type'(Byte0, Byte1, Byte2, Byte3));
+   end Bytes_To_Word32;
+
+   function ByteX (Value    : Word32;
+                   Position : Byte_Array_Index) return Byte
+   is
+      Temp : Byte_Array_Type;
+   begin
+      Temp := Word32_To_Byte_Array (Value);
+      return Temp (Position);
+   end ByteX;
+
+   function Byte0 (Value : Word32) return Byte
+   is
+   begin
+      return ByteX (Value, 0);
+   end Byte0;
+
+   function Byte1 (Value : Word32) return Byte
+   is
+   begin
+      return ByteX (Value, 1);
+   end Byte1;
+
+   function Byte2 (Value : Word32) return Byte
+   is
+   begin
+      return ByteX (Value, 2);
+   end Byte2;
+
+   function Byte3 (Value : Word32) return Byte
+   is
+   begin
+      return ByteX (Value, 3);
+   end Byte3;
 
 end Types;

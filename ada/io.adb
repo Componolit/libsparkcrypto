@@ -35,10 +35,10 @@ package body IO is
       Ada.Text_IO.New_Line;
    end New_Line;
 
-   function Read_Byte return  Types.Word8 is
-      Result : Types.Word8;
+   function Read_Byte return  Types.Byte is
+      Result : Types.Byte;
    begin
-      Types.Word8'Read
+      Types.Byte'Read
         (Ada.Text_IO.Text_Streams.Stream (Ada.Text_IO.Standard_Input),
          Result);
       return Result;

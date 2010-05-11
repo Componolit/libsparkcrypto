@@ -31,7 +31,7 @@ package IO is
    procedure New_Line;
    --# derives ;
 
-   function Read_Byte return  Types.Word8;
+   function Read_Byte return  Types.Byte;
 
    function End_Of_Stream return Boolean;
 
