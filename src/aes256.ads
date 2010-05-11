@@ -24,30 +24,22 @@ use type Types.Word32;
 package AES256 is
 
    Nk : constant Positive :=  8;
-   subtype Key_Index is Natural range 0 .. Nk - 1;
-   type Key_Type is array (Key_Index) of Types.Word32;
-
-   type Context is private;
-
-   function Context_Init (Key : Key_Type) return Context;
-
-private
-
    Nb : constant Positive :=  4;
    Nr : constant Positive := 14;
 
+   subtype Key_Index is Natural range 0 .. Nk - 1;
+   subtype Block_Index is Natural range 0 .. Nb - 1;
+
+   type Key_Type is array (Key_Index) of Types.Word32;
+   type Block_Type is array (Block_Index) of Types.Word32;
+
+   function Encrypt (Key       : Key_Type;
+                     Plaintext : Block_Type) return Block_Type;
+
+private
+
    subtype Schedule_Index is Natural range 0 .. Nb * (Nr + 1) - 1;
    type Schedule_Type is array (Schedule_Index) of Types.Word32;
-
-   type SBox_Type is array (Types.Word8) of Types.Word8;
-
-   subtype Rcon_Index is Natural range 1 .. 30;
-   type Rcon_Type is array (Rcon_Index) of Types.Word32;
-
-   type Context is
-   record
-      Schedule : Schedule_Type;
-   end record;
 
    function Key_Expansion (Key : Key_Type) return Schedule_Type;
    function Rot_Word (Value : Types.Word32) return Types.Word32;

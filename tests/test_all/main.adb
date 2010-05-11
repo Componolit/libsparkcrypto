@@ -18,6 +18,7 @@
 
 with SHA2, HMAC.SHA512, AES256, IO, Test;
 use type SHA2.Hash_Type;
+use type AES256.Block_Type;
 
 --# inherit IO,
 --#         SHA2,

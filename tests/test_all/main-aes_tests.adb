@@ -17,20 +17,39 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 separate (Main)
-procedure AES_Tests is
-   AES_Ctx : AES256.Context;
+procedure AES_Tests
+is
+   Plaintext, Cyphertext, Expected_Cyphertext : AES256.Block_Type;
+   Key                                        : AES256.Key_Type;
+
 begin
 
    Test.Suite ("AES tests");
 
-   --# accept Flow, 10, "Test not yet finished";
-   --# accept Flow, 33, AES_Ctx, "Test not yet finished";
-   AES_Ctx := AES256.Context_Init (Key => AES256.Key_Type'(16#60_3d_eb_10#,
-                                                           16#15_ca_71_be#,
-                                                           16#2b_73_ae_f0#,
-                                                           16#85_7d_77_81#,
-                                                           16#1f_35_2c_07#,
-                                                           16#3b_61_08_d7#,
-                                                           16#2d_98_10_a3#,
-                                                           16#09_14_df_f4#));
+   Key := AES256.Key_Type'
+      (16#00010203#,
+       16#04050607#,
+       16#08090a0b#,
+       16#0c0d0e0f#,
+       16#10111213#,
+       16#14151617#,
+       16#18191a1b#,
+       16#1c1d1e1f#);
+
+   Plaintext := AES256.Block_Type'
+      (16#00112233#,
+       16#44556677#,
+       16#8899aabb#,
+       16#ccddeeff#);
+
+   Expected_Cyphertext := AES256.Block_Type'
+      (16#8ea2b7ca#,
+       16#516745bf#,
+       16#eafc4990#,
+       16#4b496089#);
+
+   Cyphertext := AES256.Encrypt (Key => Key, Plaintext => Plaintext);
+
+   Test.Run ("C.3 AES-256 (Nk=8, Nr=14)", Cyphertext = Expected_Cyphertext);
+
 end AES_Tests;
