@@ -102,7 +102,8 @@ package body AES256 is
       ---------------------------------------------------------------------------------------------------------------
 
       for Index in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
-      --# assert Index in Key_Index'Last .. Schedule_Index'Last;
+      --# assert
+      --#    Index in Key_Index'Last + 1 .. Schedule_Index'Last;
       loop
 
          --  DEBUG OUTPUT  ---------------------
