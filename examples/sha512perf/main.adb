@@ -19,7 +19,6 @@
 with SHA2, Types, IO;
 use type SHA2.Hash_Type;
 use type SHA2.Block_Index;
-use type Types.Word8;
 use type Types.Word64;
 
 --# inherit IO,

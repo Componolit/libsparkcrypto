@@ -18,7 +18,7 @@
 
 with SHA2, Types, IO;
 use type SHA2.Hash_Type;
-use type Types.Word8;
+use type Types.Byte;
 use type Types.Word64;
 
 --# inherit IO,
@@ -32,7 +32,7 @@ is
    --# hide Main;
 
    type Byte_Index is range 0 .. 7;
-   type Byte_Array is array (Byte_Index) of Types.Word8;
+   type Byte_Array is array (Byte_Index) of Types.Byte;
 
    Ctx        : SHA2.Context_Type;
    Hash       : SHA2.Hash_Type;

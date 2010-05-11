@@ -5,10 +5,11 @@ GNATMAKE_FLAGS = -we
 FILES = \
     $(OUTDIR)/test_all \
     $(OUTDIR)/test_all.sum \
-    $(OUTDIR)/sha512openssl \
-    $(OUTDIR)/sha512perf \
-    $(OUTDIR)/sha512sum \
-    $(OUTDIR)/sha512sum.sum \
+
+#    $(OUTDIR)/sha512openssl \
+#    $(OUTDIR)/sha512perf \
+#    $(OUTDIR)/sha512sum \
+#    $(OUTDIR)/sha512sum.sum \
 
 all: $(FILES)
 
