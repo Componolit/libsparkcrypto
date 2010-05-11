@@ -17,7 +17,7 @@ debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
 simplify:
-	@sparksimp -p=8
+	@sparksimp -t -p=4
 	@pogs -d=$(OUTDIR)
 
 $(OUTDIR)/%: tests/%/main.adb
