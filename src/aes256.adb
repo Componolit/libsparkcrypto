@@ -149,81 +149,102 @@ package body AES256 is
    function Encrypt (Key       : Key_Type;
                      Plaintext : Block_Type) return Block_Type
    is
-      Schedule          : Schedule_Type;
-      Cyphertext, X, A  : Block_Type;
+      Schedule : Schedule_Type;
+      CT       : Block_Type;
    begin
 
       Schedule := Key_Expansion (Key);
 
-      X := Block_Type'
+      --  DEBUG  -----------------------------------------------------
+      LSC.Debug.Put ("PLAINTEXT:   ");                              --
+      Debug.Print_Block (Plaintext);                                --
+      LSC.Debug.New_Line;                                           --
+      LSC.Debug.Put ("KEY:         ");                              --
+      Debug.Print_Key (Key);                                        --
+      LSC.Debug.New_Line;                                           --
+      LSC.Debug.New_Line;                                           --
+      Debug.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
+      ----------------------------------------------------------------
+
+      CT := Block_Type'
          (0 => Plaintext (0) xor Schedule (0),
           1 => Plaintext (1) xor Schedule (1),
           2 => Plaintext (2) xor Schedule (2),
           3 => Plaintext (3) xor Schedule (3));
 
-      for Index in Schedule_Index range 0 .. Nr - 1
+      for Index in Schedule_Index range 1 .. Nr - 1
       --# assert Index in Schedule_Index;
       loop
 
-         A := Block_Type'
-            (0 => (Tables.T1 (Types.Byte0 (X (0))) xor
-                   Tables.T2 (Types.Byte1 (X (1))) xor
-                   Tables.T3 (Types.Byte2 (X (2))) xor
-                   Tables.T4 (Types.Byte3 (X (3))) xor
+         --  DEBUG  --------------------------------
+         Debug.Print_Round ("start ", Index, CT);  --
+         -------------------------------------------
+
+         CT := Block_Type'
+            (0 => (Tables.T1 (Types.Byte0 (CT (0))) xor
+                   Tables.T2 (Types.Byte1 (CT (1))) xor
+                   Tables.T3 (Types.Byte2 (CT (2))) xor
+                   Tables.T4 (Types.Byte3 (CT (3))) xor
                    Schedule (Nb * Index + 0)),
 
-             1 => (Tables.T1 (Types.Byte0 (X (1))) xor
-                   Tables.T2 (Types.Byte1 (X (2))) xor
-                   Tables.T3 (Types.Byte2 (X (3))) xor
-                   Tables.T4 (Types.Byte3 (X (0))) xor
+             1 => (Tables.T1 (Types.Byte0 (CT (1))) xor
+                   Tables.T2 (Types.Byte1 (CT (2))) xor
+                   Tables.T3 (Types.Byte2 (CT (3))) xor
+                   Tables.T4 (Types.Byte3 (CT (0))) xor
                    Schedule (Nb * Index + 1)),
 
-             2 => (Tables.T1 (Types.Byte0 (X (2))) xor
-                   Tables.T2 (Types.Byte1 (X (3))) xor
-                   Tables.T3 (Types.Byte2 (X (0))) xor
-                   Tables.T4 (Types.Byte3 (X (1))) xor
+             2 => (Tables.T1 (Types.Byte0 (CT (2))) xor
+                   Tables.T2 (Types.Byte1 (CT (3))) xor
+                   Tables.T3 (Types.Byte2 (CT (0))) xor
+                   Tables.T4 (Types.Byte3 (CT (1))) xor
                    Schedule (Nb * Index + 2)),
 
-             3 => (Tables.T1 (Types.Byte0 (X (3))) xor
-                   Tables.T2 (Types.Byte1 (X (0))) xor
-                   Tables.T3 (Types.Byte2 (X (1))) xor
-                   Tables.T4 (Types.Byte3 (X (2))) xor
+             3 => (Tables.T1 (Types.Byte0 (CT (3))) xor
+                   Tables.T2 (Types.Byte1 (CT (0))) xor
+                   Tables.T3 (Types.Byte2 (CT (1))) xor
+                   Tables.T4 (Types.Byte3 (CT (2))) xor
                    Schedule (Nb * Index + 3)));
-
-         X := A;
 
       end loop;
 
-      Cyphertext := Block_Type'
+      --  DEBUG  -----------------------------------------------
+      Debug.Print_Round ("start ", Schedule_Index'(Nr), CT);  --
+      ----------------------------------------------------------
+
+      CT := Block_Type'
          (0 => Types.Bytes_To_Word32
-                  (Tables.S (Types.Byte0 (X (0))),
-                   Tables.S (Types.Byte1 (X (1))),
-                   Tables.S (Types.Byte2 (X (2))),
-                   Tables.S (Types.Byte3 (X (3)))) xor
+                  (Tables.S (Types.Byte0 (CT (0))),
+                   Tables.S (Types.Byte1 (CT (1))),
+                   Tables.S (Types.Byte2 (CT (2))),
+                   Tables.S (Types.Byte3 (CT (3)))) xor
                Schedule (Nb * Nr),
 
           1 => Types.Bytes_To_Word32
-                  (Tables.S (Types.Byte0 (X (1))),
-                   Tables.S (Types.Byte1 (X (2))),
-                   Tables.S (Types.Byte2 (X (3))),
-                   Tables.S (Types.Byte3 (X (0)))) xor
+                  (Tables.S (Types.Byte0 (CT (1))),
+                   Tables.S (Types.Byte1 (CT (2))),
+                   Tables.S (Types.Byte2 (CT (3))),
+                   Tables.S (Types.Byte3 (CT (0)))) xor
                Schedule (Nb * Nr + 1),
 
           2 => Types.Bytes_To_Word32
-                  (Tables.S (Types.Byte0 (X (2))),
-                   Tables.S (Types.Byte1 (X (3))),
-                   Tables.S (Types.Byte2 (X (0))),
-                   Tables.S (Types.Byte3 (X (1)))) xor
+                  (Tables.S (Types.Byte0 (CT (2))),
+                   Tables.S (Types.Byte1 (CT (3))),
+                   Tables.S (Types.Byte2 (CT (0))),
+                   Tables.S (Types.Byte3 (CT (1)))) xor
                Schedule (Nb * Nr + 2),
 
           3 => Types.Bytes_To_Word32
-                  (Tables.S (Types.Byte0 (X (3))),
-                   Tables.S (Types.Byte1 (X (0))),
-                   Tables.S (Types.Byte2 (X (1))),
-                   Tables.S (Types.Byte3 (X (2)))) xor
+                  (Tables.S (Types.Byte0 (CT (3))),
+                   Tables.S (Types.Byte1 (CT (0))),
+                   Tables.S (Types.Byte2 (CT (1))),
+                   Tables.S (Types.Byte3 (CT (2)))) xor
                Schedule (Nb * Nr + 3));
 
-      return Cyphertext;
+      --  DEBUG  -----------------------------------------------
+      Debug.Print_Round ("output", Schedule_Index'(Nr), CT);  --
+      ----------------------------------------------------------
+
+      return CT;
    end Encrypt;
 
    ----------------------------------------------------------------------------

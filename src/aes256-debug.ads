@@ -26,4 +26,15 @@ private package AES256.Debug is
    procedure Print_Schedule_Index (I : AES256.Schedule_Index);
    --# derives null from I;
 
+   procedure Print_Block (B : AES256.Block_Type);
+   --# derives null from B;
+
+   procedure Print_Key (K : AES256.Key_Type);
+   --# derives null from K;
+
+   procedure Print_Round (T : String;
+                          R : AES256.Schedule_Index;
+                          B : AES256.Block_Type);
+   --# derives null from T, R, B;
+
 end AES256.Debug;

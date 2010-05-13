@@ -45,4 +45,34 @@ package body AES256.Debug is
        SIIO.Put (Item => I, Width => 3);
    end Print_Schedule_Index;
 
+   procedure Print_Block (B : AES256.Block_Type)
+   is
+   begin
+      for Index in AES256.Block_Index
+      loop
+         LSC.Debug.Print_Word32 (B (Index));
+      end loop;
+   end Print_Block;
+
+   procedure Print_Key (K : AES256.Key_Type)
+   is
+   begin
+      for Index in AES256.Key_Index
+      loop
+         LSC.Debug.Print_Word32 (K (Index));
+      end loop;
+   end Print_Key;
+
+   procedure Print_Round (T : String;
+                          R : AES256.Schedule_Index;
+                          B : AES256.Block_Type)
+   is
+   begin
+      LSC.Debug.Put ("round[");
+      Print_Schedule_Index (R);
+      LSC.Debug.Put ("]." & T & "      ");
+      Debug.Print_Block (B);
+      LSC.Debug.New_Line;
+   end Print_Round;
+
 end AES256.Debug;

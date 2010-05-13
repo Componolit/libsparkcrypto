@@ -32,4 +32,29 @@ package body AES256.Debug is
       null;
    end Print_Schedule_Index;
 
+   procedure Print_Block (B : AES256.Block_Type)
+   is
+   begin
+      --# accept Flow, 30, B, "Null implementation";
+      null;
+   end Print_Block;
+
+   procedure Print_Key (K : AES256.Key_Type)
+   is
+   begin
+      --# accept Flow, 30, K, "Null implementation";
+      null;
+   end Print_Key;
+
+   procedure Print_Round (T : String;
+                          R : AES256.Schedule_Index;
+                          B : AES256.Block_Type)
+   is
+   begin
+      --# accept Flow, 30, T, "Null implementation" &
+      --#        Flow, 30, R, "Null implementation" &
+      --#        Flow, 30, B, "Null implementation";
+      null;
+   end Print_Round;
+
 end AES256.Debug;
