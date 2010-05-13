@@ -103,7 +103,7 @@ package body AES256 is
             Put_Row (Temp);                    --
             -------------------------------------
 
-         elsif Index mod Nk = 4
+         elsif Nk > 6 and Index mod Nk = Nb
          then
             --  DEBUG OUTPUT  ---------------
             LSC.Debug.Put ("          |"); --
