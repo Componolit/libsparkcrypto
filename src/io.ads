@@ -35,6 +35,9 @@ package IO is
 
    function End_Of_Stream return Boolean;
 
+   procedure Print_Byte (Item : in Types.Byte);
+   --# derives null from Item;
+
    procedure Print_Word32 (Item : in Types.Word32);
    --# derives null from Item;
 

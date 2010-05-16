@@ -24,6 +24,7 @@ package body LSC.Debug is
    procedure Put (T : String) renames IO.Put;
    procedure Put_Line (T : String) renames IO.Put_Line;
    procedure New_Line renames IO.New_Line;
+   procedure Print_Byte (I : in Types.Byte) renames IO.Print_Byte;
    procedure Print_Word32 (I : in Types.Word32) renames IO.Print_Word32;
    procedure Print_Word64 (I : in Types.Word64) renames IO.Print_Word64;
 

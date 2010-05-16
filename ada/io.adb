@@ -22,6 +22,7 @@ with Unchecked_Conversion;
 
 use type Types.Word64;
 use type Types.Word32;
+use type Types.Byte;
 
 package body IO is
 
@@ -88,6 +89,11 @@ package body IO is
       end case;
       return Digit;
    end Num_To_Char;
+
+   procedure Print_Byte (Item : in Types.Byte) is
+   begin
+      IO.Put (Num_To_Char (Nibble (Item / 16)) & Num_To_Char (Nibble (Item rem 16)));
+   end Print_Byte;
 
    procedure Print_Word32 (Item : in Types.Word32) is
       subtype HD_Index is Positive range 1 .. 8;
