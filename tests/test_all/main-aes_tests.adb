@@ -20,6 +20,7 @@ separate (Main)
 procedure AES_Tests
 is
    Plaintext, Cyphertext, Expected_Cyphertext : AES256.Block_Type;
+   Key128                                     : AES256.AES128_Key_Type;
    Key192                                     : AES256.AES192_Key_Type;
    Key256                                     : AES256.AES256_Key_Type;
    Context                                    : AES256.AES_Context;
@@ -27,6 +28,30 @@ is
 begin
 
    Test.Suite ("AES tests");
+
+   -- AES128 test
+   Key128 := AES256.AES128_Key_Type'
+      (16#00010203#,
+       16#04050607#,
+       16#08090a0b#,
+       16#0c0d0e0f#);
+
+   Plaintext := AES256.Block_Type'
+      (16#00112233#,
+       16#44556677#,
+       16#8899aabb#,
+       16#ccddeeff#);
+
+   Expected_Cyphertext := AES256.Block_Type'
+      (16#69c4e0d8#,
+       16#6a7b0430#,
+       16#d8cdb780#,
+       16#70b4c55a#);
+
+   Context := AES256.Create_AES128_Context (Key => Key128);
+   Cyphertext := AES256.Encrypt (Context => Context, Plaintext => Plaintext);
+
+   Test.Run ("C.2 AES-128 (Nk=4, Nr=10)", Cyphertext = Expected_Cyphertext);
 
    --# accept Flow, 10, Key192, "Only debug output needed";
    Key192 := AES256.AES192_Key_Type'

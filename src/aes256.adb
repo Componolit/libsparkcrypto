@@ -244,6 +244,15 @@ package body AES256 is
 
    ----------------------------------------------------------------------------
 
+   function Create_AES128_Context (Key : AES128_Key_Type) return AES_Context
+   is
+   begin
+      return AES_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 4),
+                          Nr       => 10);
+   end Create_AES128_Context;
+
+   ----------------------------------------------------------------------------
+
    function Create_AES192_Context (Key : AES192_Key_Type) return AES_Context
    is
    begin

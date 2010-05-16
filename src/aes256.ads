@@ -29,6 +29,9 @@ package AES256 is
    subtype Key_Index is Types.Index range 0 .. 7;
    type Key_Type is array (Key_Index range <>) of Types.Word32;
 
+   subtype AES128_Key_Index is Types.Index range 0 .. 3;
+   subtype AES128_Key_Type is Key_Type (AES128_Key_Index);
+
    subtype AES192_Key_Index is Types.Index range 0 .. 5;
    subtype AES192_Key_Type is Key_Type (AES192_Key_Index);
 
@@ -38,6 +41,7 @@ package AES256 is
    subtype Block_Index is Natural range 0 .. 3;
    type Block_Type is array (Block_Index) of Types.Word32;
 
+   function Create_AES128_Context (Key : AES128_Key_Type) return AES_Context;
    function Create_AES192_Context (Key : AES192_Key_Type) return AES_Context;
    function Create_AES256_Context (Key : AES256_Key_Type) return AES_Context;
 
