@@ -24,10 +24,13 @@ use type Types.Index;
 
 package AES256 is
 
-   type AES256_Context is private;
+   type AES_Context is private;
 
    subtype Key_Index is Types.Index range 0 .. 7;
    type Key_Type is array (Key_Index range <>) of Types.Word32;
+
+   subtype AES192_Key_Index is Types.Index range 0 .. 5;
+   subtype AES192_Key_Type is Key_Type (AES192_Key_Index);
 
    subtype AES256_Key_Index is Types.Index range 0 .. 7;
    subtype AES256_Key_Type is Key_Type (AES256_Key_Index);
@@ -35,9 +38,10 @@ package AES256 is
    subtype Block_Index is Natural range 0 .. 3;
    type Block_Type is array (Block_Index) of Types.Word32;
 
-   function Create_AES256_Context (Key : AES256_Key_Type) return AES256_Context;
+   function Create_AES192_Context (Key : AES192_Key_Type) return AES_Context;
+   function Create_AES256_Context (Key : AES256_Key_Type) return AES_Context;
 
-   function Encrypt (Context   : AES256_Context;
+   function Encrypt (Context   : AES_Context;
                      Plaintext : Block_Type) return Block_Type;
 
 private
@@ -47,14 +51,16 @@ private
    subtype Schedule_Index is Types.Index range 0 .. 15 * Nb - 1;
    type Schedule_Type is array (Schedule_Index) of Types.Word32;
 
-   type AES256_Context is
+   subtype Nr_Type is Types.Index range 10 .. 14;
+   subtype Nk_Type is Types.Index range  4 ..  8;
+
+   type AES_Context is
    record
       Schedule : Schedule_Type;
-      Nr       : Types.Index;
+      Nr       : Nr_Type;
    end record;
 
-   function Key_Expansion (Key : Key_Type;
-                           Nk  : Types.Index) return Schedule_Type;
+   function Key_Expansion (Key : Key_Type; Nk : Nk_Type) return Schedule_Type;
    function Rot_Word (Value : Types.Word32) return Types.Word32;
 
 end AES256;

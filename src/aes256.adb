@@ -42,7 +42,7 @@ package body AES256 is
    ----------------------------------------------------------------------------
 
    function Key_Expansion (Key : Key_Type;
-                           Nk  : Types.Index) return Schedule_Type is
+                           Nk  : Nk_Type) return Schedule_Type is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
@@ -76,9 +76,9 @@ package body AES256 is
       LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       ---------------------------------------------------------------------------------------------------------------
 
-      for I in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
+      for I in Schedule_Index range Key'Last + 1 .. Schedule_Index'Last
       --# assert
-      --#    I in Key_Index'Last + 1 .. Schedule_Index'Last;
+      --#    I in Key'Last + 1 .. Schedule_Index'Last;
       loop
 
          --  DEBUG OUTPUT  ---------------------
@@ -147,7 +147,7 @@ package body AES256 is
 
    ----------------------------------------------------------------------------
 
-   function Encrypt (Context   : AES256_Context;
+   function Encrypt (Context   : AES_Context;
                      Plaintext : Block_Type) return Block_Type
    is
       CT : Block_Type;
@@ -244,12 +244,20 @@ package body AES256 is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES256_Context (Key : AES256_Key_Type) return AES256_Context
+   function Create_AES192_Context (Key : AES192_Key_Type) return AES_Context
    is
    begin
-      return AES256_Context'(Schedule => Key_Expansion (Key => Key,
-                                                        Nk  => 8),
-                             Nr       => 14);
+      return AES_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 6),
+                          Nr       => 12);
+   end Create_AES192_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES256_Context (Key : AES256_Key_Type) return AES_Context
+   is
+   begin
+      return AES_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 8),
+                          Nr       => 14);
    end Create_AES256_Context;
 
 end AES256;
