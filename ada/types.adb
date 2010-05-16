@@ -69,7 +69,7 @@ package body Types is
        Byte3 : Byte) return Word32
    is
    begin
-      return Byte_Array_To_Word32 (Byte_Array_Type'(Byte0, Byte1, Byte2, Byte3));
+      return Byte_Array_To_Word32 (Byte_Array_Type'(Byte3, Byte2, Byte1, Byte0));
    end Bytes_To_Word32;
 
    function ByteX (Value    : Word32;
@@ -84,25 +84,25 @@ package body Types is
    function Byte0 (Value : Word32) return Byte
    is
    begin
-      return ByteX (Value, 0);
+      return ByteX (Value, Types.B0);
    end Byte0;
 
    function Byte1 (Value : Word32) return Byte
    is
    begin
-      return ByteX (Value, 1);
+      return ByteX (Value, Types.B1);
    end Byte1;
 
    function Byte2 (Value : Word32) return Byte
    is
    begin
-      return ByteX (Value, 2);
+      return ByteX (Value, Types.B2);
    end Byte2;
 
    function Byte3 (Value : Word32) return Byte
    is
    begin
-      return ByteX (Value, 3);
+      return ByteX (Value, Types.B3);
    end Byte3;
 
 end Types;

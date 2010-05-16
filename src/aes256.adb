@@ -26,10 +26,10 @@ package body AES256 is
       Temp : Types.Byte_Array_Type;
     begin
       Temp := Types.Word32_To_Byte_Array (Value);
-      return Types.Bytes_To_Word32 (Tables.S (Temp (0)),
-                                    Tables.S (Temp (1)),
-                                    Tables.S (Temp (2)),
-                                    Tables.S (Temp (3)));
+      return Types.Bytes_To_Word32 (Byte0 => Tables.S (Temp (Types.B0)),
+                                    Byte1 => Tables.S (Temp (Types.B1)),
+                                    Byte2 => Tables.S (Temp (Types.B2)),
+                                    Byte3 => Tables.S (Temp (Types.B3)));
    end Sub_Word;
 
    ----------------------------------------------------------------------------
