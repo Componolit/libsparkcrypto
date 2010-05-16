@@ -172,44 +172,44 @@ package body AES256 is
           2 => Plaintext (2) xor Schedule (2),
           3 => Plaintext (3) xor Schedule (3));
 
-      for Index in Schedule_Index range 1 .. Nr - 1
-      --# assert Index in Schedule_Index;
-      loop
+      --  DEBUG  ----------------------------------------------
+      Debug.Print_Round ("start ", Schedule_Index'(1), CT);  --
+      ---------------------------------------------------------
 
-         --  DEBUG  --------------------------------
-         Debug.Print_Round ("start ", Index, CT);  --
-         -------------------------------------------
+      for Round in Schedule_Index range 1 .. Nr - 1
+      --# assert Round in Schedule_Index;
+      loop
 
          CT := Block_Type'
             (0 => (Tables.T1 (Types.Byte0 (CT (0))) xor
                    Tables.T2 (Types.Byte1 (CT (1))) xor
                    Tables.T3 (Types.Byte2 (CT (2))) xor
                    Tables.T4 (Types.Byte3 (CT (3))) xor
-                   Schedule (Nb * Index + 0)),
+                   Schedule (Nb * Round)),
 
              1 => (Tables.T1 (Types.Byte0 (CT (1))) xor
                    Tables.T2 (Types.Byte1 (CT (2))) xor
                    Tables.T3 (Types.Byte2 (CT (3))) xor
                    Tables.T4 (Types.Byte3 (CT (0))) xor
-                   Schedule (Nb * Index + 1)),
+                   Schedule (Nb * Round + 1)),
 
              2 => (Tables.T1 (Types.Byte0 (CT (2))) xor
                    Tables.T2 (Types.Byte1 (CT (3))) xor
                    Tables.T3 (Types.Byte2 (CT (0))) xor
                    Tables.T4 (Types.Byte3 (CT (1))) xor
-                   Schedule (Nb * Index + 2)),
+                   Schedule (Nb * Round + 2)),
 
              3 => (Tables.T1 (Types.Byte0 (CT (3))) xor
                    Tables.T2 (Types.Byte1 (CT (0))) xor
                    Tables.T3 (Types.Byte2 (CT (1))) xor
                    Tables.T4 (Types.Byte3 (CT (2))) xor
-                   Schedule (Nb * Index + 3)));
+                   Schedule (Nb * Round + 3)));
+
+         --  DEBUG  --------------------------------------
+         Debug.Print_Round ("start ", Round, CT);  --
+         -------------------------------------------------
 
       end loop;
-
-      --  DEBUG  -----------------------------------------------
-      Debug.Print_Round ("start ", Schedule_Index'(Nr), CT);  --
-      ----------------------------------------------------------
 
       CT := Block_Type'
          (0 => Types.Bytes_To_Word32
@@ -240,9 +240,9 @@ package body AES256 is
                    Tables.S (Types.Byte3 (CT (2)))) xor
                Schedule (Nb * Nr + 3));
 
-      --  DEBUG  -----------------------------------------------
-      Debug.Print_Round ("output", Schedule_Index'(Nr), CT);  --
-      ----------------------------------------------------------
+      --  DEBUG  ------------------------------
+      Debug.Print_Round ("output", Nr, CT);  --
+      -----------------------------------------
 
       return CT;
    end Encrypt;
