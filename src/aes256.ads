@@ -42,7 +42,6 @@ package AES256 is
 
 private
 
-   Nr : constant Types.Index := 14;
    Nb : constant Types.Index :=  4;
 
    subtype Schedule_Index is Types.Index range 0 .. 15 * Nb - 1;
@@ -51,7 +50,7 @@ private
    type AES256_Context is
    record
       Schedule : Schedule_Type;
-      Nr       : Positive;
+      Nr       : Types.Index;
    end record;
 
    function Key_Expansion (Key : Key_Type;

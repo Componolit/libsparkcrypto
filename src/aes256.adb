@@ -171,7 +171,7 @@ package body AES256 is
       Debug.Print_Round ("start ", Schedule_Index'(1), CT);  --
       ---------------------------------------------------------
 
-      for Round in Schedule_Index range 1 .. Nr - 1
+      for Round in Schedule_Index range 1 .. Context.Nr - 1
       --# assert Round in Schedule_Index;
       loop
 
@@ -212,31 +212,31 @@ package body AES256 is
                    Tables.S (Types.Byte1 (CT (1))),
                    Tables.S (Types.Byte2 (CT (2))),
                    Tables.S (Types.Byte3 (CT (3)))) xor
-               Context.Schedule (Nb * Nr),
+               Context.Schedule (Nb * Context.Nr),
 
           1 => Types.Bytes_To_Word32
                   (Tables.S (Types.Byte0 (CT (1))),
                    Tables.S (Types.Byte1 (CT (2))),
                    Tables.S (Types.Byte2 (CT (3))),
                    Tables.S (Types.Byte3 (CT (0)))) xor
-               Context.Schedule (Nb * Nr + 1),
+               Context.Schedule (Nb * Context.Nr + 1),
 
           2 => Types.Bytes_To_Word32
                   (Tables.S (Types.Byte0 (CT (2))),
                    Tables.S (Types.Byte1 (CT (3))),
                    Tables.S (Types.Byte2 (CT (0))),
                    Tables.S (Types.Byte3 (CT (1)))) xor
-               Context.Schedule (Nb * Nr + 2),
+               Context.Schedule (Nb * Context.Nr + 2),
 
           3 => Types.Bytes_To_Word32
                   (Tables.S (Types.Byte0 (CT (3))),
                    Tables.S (Types.Byte1 (CT (0))),
                    Tables.S (Types.Byte2 (CT (1))),
                    Tables.S (Types.Byte3 (CT (2)))) xor
-               Context.Schedule (Nb * Nr + 3));
+               Context.Schedule (Nb * Context.Nr + 3));
 
       --  DEBUG  ------------------------------
-      Debug.Print_Round ("output", Nr, CT);  --
+      Debug.Print_Round ("output", Context.Nr, CT);  --
       -----------------------------------------
 
       return CT;
