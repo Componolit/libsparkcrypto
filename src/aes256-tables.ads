@@ -31,7 +31,7 @@ private package AES256.Tables is
 type SBox_Type is array (Types.Byte) of Types.Byte;
 type Table_Type is array (Types.Byte) of Types.Word32;
 
-subtype Rcon_Index is Natural range 1 .. 30;
+subtype Rcon_Index is Types.Index range 1 .. 30;
 type Rcon_Type is array (Rcon_Index) of Types.Word32;
 
 S : constant SBox_Type := SBox_Type'

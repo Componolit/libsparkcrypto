@@ -18,30 +18,44 @@
 
 with Types, LSC.Debug;
 use type Types.Word32;
+use type Types.Index;
 --# inherit Types,
 --#         LSC.Debug;
 
 package AES256 is
 
-   Nk : constant Positive :=  8;
-   Nb : constant Positive :=  4;
-   Nr : constant Positive := 14;
+   type AES256_Context is private;
 
-   subtype Key_Index is Natural range 0 .. Nk - 1;
-   subtype Block_Index is Natural range 0 .. Nb - 1;
+   subtype Key_Index is Types.Index range 0 .. 7;
+   type Key_Type is array (Key_Index range <>) of Types.Word32;
 
-   type Key_Type is array (Key_Index) of Types.Word32;
+   subtype AES256_Key_Index is Types.Index range 0 .. 7;
+   subtype AES256_Key_Type is Key_Type (AES256_Key_Index);
+
+   subtype Block_Index is Natural range 0 .. 3;
    type Block_Type is array (Block_Index) of Types.Word32;
 
-   function Encrypt (Key       : Key_Type;
+   function Create_AES256_Context (Key : AES256_Key_Type) return AES256_Context;
+
+   function Encrypt (Context   : AES256_Context;
                      Plaintext : Block_Type) return Block_Type;
 
 private
 
-   subtype Schedule_Index is Natural range 0 .. Nb * (Nr + 1) - 1;
+   Nr : constant Types.Index := 14;
+   Nb : constant Types.Index :=  4;
+
+   subtype Schedule_Index is Types.Index range 0 .. 15 * Nb - 1;
    type Schedule_Type is array (Schedule_Index) of Types.Word32;
 
-   function Key_Expansion (Key : Key_Type) return Schedule_Type;
+   type AES256_Context is
+   record
+      Schedule : Schedule_Type;
+      Nr       : Positive;
+   end record;
+
+   function Key_Expansion (Key : Key_Type;
+                           Nk  : Types.Index) return Schedule_Type;
    function Rot_Word (Value : Types.Word32) return Types.Word32;
 
 end AES256;

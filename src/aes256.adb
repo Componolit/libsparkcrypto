@@ -41,7 +41,8 @@ package body AES256 is
 
    ----------------------------------------------------------------------------
 
-   function Key_Expansion (Key : Key_Type) return Schedule_Type is
+   function Key_Expansion (Key : Key_Type;
+                           Nk  : Types.Index) return Schedule_Type is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
@@ -58,10 +59,10 @@ package body AES256 is
 
    begin
 
-      for Index in Key_Index
-      --# assert Index in Key_Index;
+      for I in Key_Index range Key'First .. Key'Last
+      --# assert I in Key_Index;
       loop
-         Result (Index) := Key (Index);
+         Result (I) := Key (I);
       end loop;
 
       --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
@@ -75,35 +76,35 @@ package body AES256 is
       LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       ---------------------------------------------------------------------------------------------------------------
 
-      for Index in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
+      for I in Schedule_Index range Key_Index'Last + 1 .. Schedule_Index'Last
       --# assert
-      --#    Index in Key_Index'Last + 1 .. Schedule_Index'Last;
+      --#    I in Key_Index'Last + 1 .. Schedule_Index'Last;
       loop
 
          --  DEBUG OUTPUT  ---------------------
          LSC.Debug.Put ("| ");                --
-         Debug.Print_Schedule_Index (Index);  --
+         Debug.Print_Schedule_Index (I);  --
          LSC.Debug.Put (" |");                --
          ---------------------------------------
 
-         Temp := Result (Index - 1);
+         Temp := Result (I - 1);
 
          Put_Row (Temp);
 
-         if Index mod Nk = 0
+         if I mod Nk = 0
          then
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);
-            Temp     := Sub_Temp xor Tables.Rcon (Index/Nk);
+            Temp     := Sub_Temp xor Tables.Rcon (I/Nk);
 
             --  DEBUG OUTPUT  -------------------
             Put_Row (Rot_Temp);                --
             Put_Row (Sub_Temp);                --
-            Put_Row (Tables.Rcon (Index/Nk));  --
+            Put_Row (Tables.Rcon (I/Nk));  --
             Put_Row (Temp);                    --
             -------------------------------------
 
-         elsif Nk > 6 and Index mod Nk = Nb
+         elsif Nk > 6 and I mod Nk = Nb
          then
             --  DEBUG OUTPUT  ---------------
             LSC.Debug.Put ("          |"); --
@@ -121,11 +122,11 @@ package body AES256 is
             -------------------------------------------------------------------
          end if;
 
-         Result (Index) := Result (Index - Nk) xor Temp;
+         Result (I) := Result (I - Nk) xor Temp;
 
          --  DEBUG OUTPUT  ---------------
-         Put_Row (Result (Index - Nk));  --
-         Put_Row (Result (Index));      --
+         Put_Row (Result (I - Nk));  --
+         Put_Row (Result (I));      --
          LSC.Debug.New_Line;            --
          ---------------------------------
 
@@ -146,31 +147,25 @@ package body AES256 is
 
    ----------------------------------------------------------------------------
 
-   function Encrypt (Key       : Key_Type;
+   function Encrypt (Context   : AES256_Context;
                      Plaintext : Block_Type) return Block_Type
    is
-      Schedule : Schedule_Type;
-      CT       : Block_Type;
+      CT : Block_Type;
    begin
-
-      Schedule := Key_Expansion (Key);
 
       --  DEBUG  -----------------------------------------------------
       LSC.Debug.Put ("PLAINTEXT:   ");                              --
       Debug.Print_Block (Plaintext);                                --
-      LSC.Debug.New_Line;                                           --
-      LSC.Debug.Put ("KEY:         ");                              --
-      Debug.Print_Key (Key);                                        --
       LSC.Debug.New_Line;                                           --
       LSC.Debug.New_Line;                                           --
       Debug.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
       ----------------------------------------------------------------
 
       CT := Block_Type'
-         (0 => Plaintext (0) xor Schedule (0),
-          1 => Plaintext (1) xor Schedule (1),
-          2 => Plaintext (2) xor Schedule (2),
-          3 => Plaintext (3) xor Schedule (3));
+         (0 => Plaintext (0) xor Context.Schedule (0),
+          1 => Plaintext (1) xor Context.Schedule (1),
+          2 => Plaintext (2) xor Context.Schedule (2),
+          3 => Plaintext (3) xor Context.Schedule (3));
 
       --  DEBUG  ----------------------------------------------
       Debug.Print_Round ("start ", Schedule_Index'(1), CT);  --
@@ -185,25 +180,25 @@ package body AES256 is
                    Tables.T2 (Types.Byte1 (CT (1))) xor
                    Tables.T3 (Types.Byte2 (CT (2))) xor
                    Tables.T4 (Types.Byte3 (CT (3))) xor
-                   Schedule (Nb * Round)),
+                   Context.Schedule (Nb * Round)),
 
              1 => (Tables.T1 (Types.Byte0 (CT (1))) xor
                    Tables.T2 (Types.Byte1 (CT (2))) xor
                    Tables.T3 (Types.Byte2 (CT (3))) xor
                    Tables.T4 (Types.Byte3 (CT (0))) xor
-                   Schedule (Nb * Round + 1)),
+                   Context.Schedule (Nb * Round + 1)),
 
              2 => (Tables.T1 (Types.Byte0 (CT (2))) xor
                    Tables.T2 (Types.Byte1 (CT (3))) xor
                    Tables.T3 (Types.Byte2 (CT (0))) xor
                    Tables.T4 (Types.Byte3 (CT (1))) xor
-                   Schedule (Nb * Round + 2)),
+                   Context.Schedule (Nb * Round + 2)),
 
              3 => (Tables.T1 (Types.Byte0 (CT (3))) xor
                    Tables.T2 (Types.Byte1 (CT (0))) xor
                    Tables.T3 (Types.Byte2 (CT (1))) xor
                    Tables.T4 (Types.Byte3 (CT (2))) xor
-                   Schedule (Nb * Round + 3)));
+                   Context.Schedule (Nb * Round + 3)));
 
          --  DEBUG  --------------------------------------
          Debug.Print_Round ("start ", Round, CT);  --
@@ -217,28 +212,28 @@ package body AES256 is
                    Tables.S (Types.Byte1 (CT (1))),
                    Tables.S (Types.Byte2 (CT (2))),
                    Tables.S (Types.Byte3 (CT (3)))) xor
-               Schedule (Nb * Nr),
+               Context.Schedule (Nb * Nr),
 
           1 => Types.Bytes_To_Word32
                   (Tables.S (Types.Byte0 (CT (1))),
                    Tables.S (Types.Byte1 (CT (2))),
                    Tables.S (Types.Byte2 (CT (3))),
                    Tables.S (Types.Byte3 (CT (0)))) xor
-               Schedule (Nb * Nr + 1),
+               Context.Schedule (Nb * Nr + 1),
 
           2 => Types.Bytes_To_Word32
                   (Tables.S (Types.Byte0 (CT (2))),
                    Tables.S (Types.Byte1 (CT (3))),
                    Tables.S (Types.Byte2 (CT (0))),
                    Tables.S (Types.Byte3 (CT (1)))) xor
-               Schedule (Nb * Nr + 2),
+               Context.Schedule (Nb * Nr + 2),
 
           3 => Types.Bytes_To_Word32
                   (Tables.S (Types.Byte0 (CT (3))),
                    Tables.S (Types.Byte1 (CT (0))),
                    Tables.S (Types.Byte2 (CT (1))),
                    Tables.S (Types.Byte3 (CT (2)))) xor
-               Schedule (Nb * Nr + 3));
+               Context.Schedule (Nb * Nr + 3));
 
       --  DEBUG  ------------------------------
       Debug.Print_Round ("output", Nr, CT);  --
@@ -248,5 +243,13 @@ package body AES256 is
    end Encrypt;
 
    ----------------------------------------------------------------------------
+
+   function Create_AES256_Context (Key : AES256_Key_Type) return AES256_Context
+   is
+   begin
+      return AES256_Context'(Schedule => Key_Expansion (Key => Key,
+                                                        Nk  => 8),
+                             Nr       => 14);
+   end Create_AES256_Context;
 
 end AES256;
