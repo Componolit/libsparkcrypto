@@ -26,7 +26,7 @@
 with Types;
 --# inherit Types;
 
-private package AES256.Tables is
+private package AES.Tables is
 
 type SBox_Type is array (Types.Byte) of Types.Byte;
 type Table_Type is array (Types.Byte) of Types.Word32;
@@ -872,4 +872,4 @@ Rcon : constant Rcon_Type := Rcon_Type'
  16#B300_0000#, 16#7d00_0000#, 16#Fa00_0000#, 16#Ef00_0000#,
  16#C500_0000#, 16#9100_0000#);
 
-end AES256.Tables;
+end AES.Tables;

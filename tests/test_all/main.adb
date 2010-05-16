@@ -16,14 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, HMAC.SHA512, AES256, IO, Test;
+with SHA2, HMAC.SHA512, AES, IO, Test;
 use type SHA2.Hash_Type;
-use type AES256.Block_Type;
+use type AES.Block_Type;
 
 --# inherit IO,
 --#         SHA2,
 --#         HMAC.SHA512,
---#         AES256,
+--#         AES,
 --#         Test;
 
 --# main_program;

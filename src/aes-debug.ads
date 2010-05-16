@@ -16,25 +16,25 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
---# inherit AES256;
+--# inherit AES;
 
-private package AES256.Debug is
+private package AES.Debug is
 
-   procedure Print_Schedule (S : AES256.Schedule_Type);
+   procedure Print_Schedule (S : AES.Schedule_Type);
    --# derives null from S;
 
-   procedure Print_Schedule_Index (I : AES256.Schedule_Index);
+   procedure Print_Schedule_Index (I : AES.Schedule_Index);
    --# derives null from I;
 
-   procedure Print_Block (B : AES256.Block_Type);
+   procedure Print_Block (B : AES.Block_Type);
    --# derives null from B;
 
-   procedure Print_Key (K : AES256.Key_Type);
+   procedure Print_Key (K : AES.Key_Type);
    --# derives null from K;
 
    procedure Print_Round (T : String;
-                          R : AES256.Schedule_Index;
-                          B : AES256.Block_Type);
+                          R : AES.Schedule_Index;
+                          B : AES.Block_Type);
    --# derives null from T, R, B;
 
-end AES256.Debug;
+end AES.Debug;

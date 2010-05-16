@@ -22,7 +22,7 @@ use type Types.Index;
 --# inherit Types,
 --#         LSC.Debug;
 
-package AES256 is
+package AES is
 
    type AES_Context is private;
 
@@ -67,4 +67,4 @@ private
    function Key_Expansion (Key : Key_Type; Nk : Nk_Type) return Schedule_Type;
    function Rot_Word (Value : Types.Word32) return Types.Word32;
 
-end AES256;
+end AES;

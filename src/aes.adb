@@ -16,9 +16,9 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with AES256.Tables, AES256.Debug;
+with AES.Tables, AES.Debug;
 
-package body AES256 is
+package body AES is
 
    ----------------------------------------------------------------------------
 
@@ -269,4 +269,4 @@ package body AES256 is
                           Nr       => 14);
    end Create_AES256_Context;
 
-end AES256;
+end AES;
