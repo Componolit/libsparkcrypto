@@ -41,15 +41,4 @@ package Types is
    function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type;
    function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32;
 
-   function Bytes_To_Word32
-      (Byte0 : Byte;
-       Byte1 : Byte;
-       Byte2 : Byte;
-       Byte3 : Byte) return Word32;
-
-   function Byte0 (Value : Word32) return Byte;
-   function Byte1 (Value : Word32) return Byte;
-   function Byte2 (Value : Word32) return Byte;
-   function Byte3 (Value : Word32) return Byte;
-
 end Types;

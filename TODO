@@ -1,4 +1,3 @@
-* Move all own implementation into src (for checking with SPARK).
 * Move all packages to LSC.
 * Implement AES-128 and AES-192.
 * Separate AES encryption and decryption into different child packages.

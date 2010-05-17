@@ -16,11 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, LSC.Debug;
+with Types, LSC.Debug, LSC.Ops;
 use type Types.Word32;
 use type Types.Index;
 --# inherit Types,
---#         LSC.Debug;
+--#         LSC.Debug,
+--#         LSC.Ops;
 
 package AES is
 

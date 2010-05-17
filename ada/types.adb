@@ -55,54 +55,13 @@ package body Types is
    begin
       return W322W8A (Value);
    end Word32_To_Byte_Array;
+   pragma Inline (Word32_To_Byte_Array);
 
    function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32 is
       function W8A2W32 is new Unchecked_Conversion (Byte_Array_Type, Word32);
    begin
       return W8A2W32 (Value);
    end Byte_Array_To_Word32;
-
-   function Bytes_To_Word32
-      (Byte0 : Byte;
-       Byte1 : Byte;
-       Byte2 : Byte;
-       Byte3 : Byte) return Word32
-   is
-   begin
-      return Byte_Array_To_Word32 (Byte_Array_Type'(Byte3, Byte2, Byte1, Byte0));
-   end Bytes_To_Word32;
-
-   function ByteX (Value    : Word32;
-                   Position : Byte_Array_Index) return Byte
-   is
-      Temp : Byte_Array_Type;
-   begin
-      Temp := Word32_To_Byte_Array (Value);
-      return Temp (Position);
-   end ByteX;
-
-   function Byte0 (Value : Word32) return Byte
-   is
-   begin
-      return ByteX (Value, Types.B0);
-   end Byte0;
-
-   function Byte1 (Value : Word32) return Byte
-   is
-   begin
-      return ByteX (Value, Types.B1);
-   end Byte1;
-
-   function Byte2 (Value : Word32) return Byte
-   is
-   begin
-      return ByteX (Value, Types.B2);
-   end Byte2;
-
-   function Byte3 (Value : Word32) return Byte
-   is
-   begin
-      return ByteX (Value, Types.B3);
-   end Byte3;
+   pragma Inline (Byte_Array_To_Word32);
 
 end Types;
