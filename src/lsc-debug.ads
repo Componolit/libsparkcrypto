@@ -30,6 +30,9 @@ package LSC.Debug is
    procedure New_Line;
    --# derives ;
 
+   procedure Print_Byte (I : in Types.Byte);
+   --# derives null from I;
+
    procedure Print_Word32 (I : in Types.Word32);
    --# derives null from I;
 

@@ -31,9 +31,12 @@ package IO is
    procedure New_Line;
    --# derives ;
 
-   function Read_Byte return  Types.Word8;
+   function Read_Byte return  Types.Byte;
 
    function End_Of_Stream return Boolean;
+
+   procedure Print_Byte (Item : in Types.Byte);
+   --# derives null from Item;
 
    procedure Print_Word32 (Item : in Types.Word32);
    --# derives null from Item;

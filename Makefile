@@ -1,14 +1,15 @@
 OUTDIR  = out
 DUMMY  := $(shell mkdir -p out)
-GNATMAKE_FLAGS =
+GNATMAKE_FLAGS = -we
 
 FILES = \
     $(OUTDIR)/test_all \
     $(OUTDIR)/test_all.sum \
-    $(OUTDIR)/sha512openssl \
-    $(OUTDIR)/sha512perf \
-    $(OUTDIR)/sha512sum \
-    $(OUTDIR)/sha512sum.sum \
+
+#    $(OUTDIR)/sha512openssl \
+#    $(OUTDIR)/sha512perf \
+#    $(OUTDIR)/sha512sum \
+#    $(OUTDIR)/sha512sum.sum \
 
 all: $(FILES)
 
@@ -16,7 +17,7 @@ debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
 simplify:
-	@sparksimp -p=8
+	@sparksimp -t -p=4
 	@pogs -d=$(OUTDIR)
 
 $(OUTDIR)/%: tests/%/main.adb

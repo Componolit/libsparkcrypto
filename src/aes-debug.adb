@@ -16,20 +16,45 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body AES256.Debug is
+package body AES.Debug is
 
-   procedure Print_Schedule (S : AES256.Schedule_Type)
+   procedure Print_Schedule (S : AES.Schedule_Type)
    is
    begin
       --# accept Flow, 30, S, "Null implementation";
       null;
    end Print_Schedule;
 
-   procedure Print_Schedule_Index (I : AES256.Schedule_Index)
+   procedure Print_Schedule_Index (I : AES.Schedule_Index)
    is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Schedule_Index;
 
-end AES256.Debug;
+   procedure Print_Block (B : AES.Block_Type)
+   is
+   begin
+      --# accept Flow, 30, B, "Null implementation";
+      null;
+   end Print_Block;
+
+   procedure Print_Key (K : AES.Key_Type)
+   is
+   begin
+      --# accept Flow, 30, K, "Null implementation";
+      null;
+   end Print_Key;
+
+   procedure Print_Round (T : String;
+                          R : AES.Schedule_Index;
+                          B : AES.Block_Type)
+   is
+   begin
+      --# accept Flow, 30, T, "Null implementation" &
+      --#        Flow, 30, R, "Null implementation" &
+      --#        Flow, 30, B, "Null implementation";
+      null;
+   end Print_Round;
+
+end AES.Debug;
