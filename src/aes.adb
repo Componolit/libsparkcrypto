@@ -172,7 +172,9 @@ package body AES is
       ---------------------------------------------------------
 
       for Round in Schedule_Index range 1 .. Context.Nr - 1
-      --# assert Round in Schedule_Index;
+      --# assert
+      --#    Round <= Context.Nr - 1 and
+      --#    Context = Context%;
       loop
 
          CT := Block_Type'
