@@ -31,6 +31,7 @@ $(OUTDIR)/%: tests/%/main.c
 $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.idx $(OUTDIR)/%.smf
 	@mkdir -p $(OUTDIR)/$(*F).proof
 	@spark \
+		-dpc \
 		-brief \
 		-vcg \
 		-config=$< \
