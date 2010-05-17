@@ -43,8 +43,14 @@ package body SHA2 is
       z    : Types.Word64)
       return Types.Word64
    is
+      -- This is a workaround for the simplifier, which is not able
+      -- to discharge the (not x) expression directly due to a search
+      -- depth limit.
+      Not_X : Types.Word64;
    begin
-      return ((x and y) xor ((not x) and z));
+      Not_X := not x;
+      --# assert Not_X in Types.Word64 and Not_X = not x;
+      return ((x and y) xor (Not_X and z));
    end Ch;
 
    function Maj
