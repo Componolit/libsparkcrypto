@@ -12,10 +12,10 @@ SPARK_PROGS = \
 PROOFS = \
    $(addsuffix .sum, $(SPARK_PROGS))
 
-CPROGS = \
+C_PROGS = \
    sha512openssl
 
-all: $(addprefix $(OUTDIR)/,$(PROGS))
+all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS) $(C_PROGS))
 proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 
 debug: GNATMAKE_FLAGS += -aIdebug
@@ -40,8 +40,8 @@ $(OUTDIR)/%: progs/%/main.c
 # how to examine a program
 #
 $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf
-	@mkdir -p $(OUTDIR)/$(*F).prf
-	@spark \
+	mkdir -p $(OUTDIR)/$(*F).prf
+	spark \
 		-brief \
 		-vcg \
 		-config=$< \
@@ -49,8 +49,8 @@ $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/
 		-output_dir=$(OUTDIR)/$(*F).prf \
 		-index=$(OUTDIR)/$(*F).prf/spark.idx \
 		@$(OUTDIR)/$(*F).prf/spark.smf
-	@(cd $(OUTDIR)/$(*F).prf && sparksimp -t -p=4)
-	@pogs -d=$(OUTDIR)/$(*F).prf -o=$@
+	(cd $(OUTDIR)/$(*F).prf && sparksimp -t -p=4)
+	pogs -d=$(OUTDIR)/$(*F).prf -o=$@
 
 #
 # how to create index and meta files
