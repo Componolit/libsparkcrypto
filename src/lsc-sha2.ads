@@ -24,7 +24,7 @@ package LSC.SHA2 is
 
    type Context_Type is private;
 
-   type Word64_Array_Type is array (Natural range <>) of LSC.Types.Word64;
+   type Word64_Array_Type is array (Natural range <>) of Types.Word64;
 
    subtype Block_Index is Natural range 0 .. 15;
    subtype Block_Type is Word64_Array_Type (Block_Index);
@@ -32,7 +32,7 @@ package LSC.SHA2 is
    subtype Hash_Index is Natural range 0 .. 7;
    subtype Hash_Type is Word64_Array_Type (Hash_Index);
 
-   subtype Block_Length_Type is LSC.Types.Word64 range 0 .. 1023;
+   subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 
    -- Initialize SHA2 context.
    function Context_Init return Context_Type;
@@ -59,15 +59,15 @@ package LSC.SHA2 is
 private
 
    type Data_Length is record
-      LSW : LSC.Types.Word64;
-      MSW : LSC.Types.Word64;
+      LSW : Types.Word64;
+      MSW : Types.Word64;
    end record;
 
    type State_Index is (a, b, c, d, e, f, g, h);
-   type State_Type is array (State_Index) of LSC.Types.Word64;
+   type State_Type is array (State_Index) of Types.Word64;
 
    type Schedule_Index is range 0 .. 79;
-   type Schedule_Type is array (Schedule_Index) of LSC.Types.Word64;
+   type Schedule_Type is array (Schedule_Index) of Types.Word64;
 
    type Context_Type is record
       Length : Data_Length;
@@ -77,7 +77,7 @@ private
    function Init_Data_Length return Data_Length;
 
    procedure Add (Item  : in out Data_Length;
-                  Value : in     LSC.Types.Word64);
+                  Value : in     Types.Word64);
    --# derives Item from *,
    --#                   Value;
 
@@ -88,23 +88,23 @@ private
    --#                    Length;
 
    function Ch
-     (x    : LSC.Types.Word64;
-      y    : LSC.Types.Word64;
-      z    : LSC.Types.Word64)
-      return LSC.Types.Word64;
+     (x    : Types.Word64;
+      y    : Types.Word64;
+      z    : Types.Word64)
+      return Types.Word64;
    --# return (x and y) xor ((not x) and z);
 
    function Maj
-     (x    : LSC.Types.Word64;
-      y    : LSC.Types.Word64;
-      z    : LSC.Types.Word64)
-      return LSC.Types.Word64;
+     (x    : Types.Word64;
+      y    : Types.Word64;
+      z    : Types.Word64)
+      return Types.Word64;
    --# return (x and y) xor (x and z) xor (y and z);
 
-   function Cap_Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
-   function Cap_Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
-   function Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
-   function Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
+   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64;
+   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64;
+   function Sigma_0_512 (x : Types.Word64) return Types.Word64;
+   function Sigma_1_512 (x : Types.Word64) return Types.Word64;
 
    K : constant Schedule_Type :=
       Schedule_Type'

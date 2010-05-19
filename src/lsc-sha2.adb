@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Types, LSC.Debug, LSC.SHA2.Debug;
+with LSC.Debug, LSC.Types, LSC.SHA2.Print;
 use type LSC.Types.Word64;
 
 package body LSC.SHA2 is
@@ -27,27 +27,27 @@ package body LSC.SHA2 is
    end Init_Data_Length;
 
    procedure Add (Item  : in out Data_Length;
-                  Value : in     LSC.Types.Word64) is
+                  Value : in     Types.Word64) is
    begin
-      if (Item.LSW + Value) <= LSC.Types.Word64'Last
+      if (Item.LSW + Value) <= Types.Word64'Last
       then
          Item.LSW := Item.LSW + Value;
       else
          Item.MSW := Item.MSW + 1;
-         Item.LSW := LSC.Types.Word64'Last - Value;
+         Item.LSW := Types.Word64'Last - Value;
       end if;
    end Add;
 
    function Ch
-     (x    : LSC.Types.Word64;
-      y    : LSC.Types.Word64;
-      z    : LSC.Types.Word64)
-      return LSC.Types.Word64
+     (x    : Types.Word64;
+      y    : Types.Word64;
+      z    : Types.Word64)
+      return Types.Word64
    is
       -- This is a workaround for the simplifier, which is not able
       -- to discharge the (not x) expression directly due to a search
       -- depth limit.
-      Not_X : LSC.Types.Word64;
+      Not_X : Types.Word64;
    begin
       Not_X := not x;
       --# assert Not_X in Types.Word64 and Not_X = not x;
@@ -55,41 +55,41 @@ package body LSC.SHA2 is
    end Ch;
 
    function Maj
-     (x    : LSC.Types.Word64;
-      y    : LSC.Types.Word64;
-      z    : LSC.Types.Word64)
-      return LSC.Types.Word64
+     (x    : Types.Word64;
+      y    : Types.Word64;
+      z    : Types.Word64)
+      return Types.Word64
    is
    begin
       return (x and y) xor (x and z) xor (y and z);
    end Maj;
 
-   function Cap_Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
+   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64 is
    begin
-      return LSC.Types.ROTR (x, 28) xor
-             LSC.Types.ROTR (x, 34) xor
-             LSC.Types.ROTR (x, 39);
+      return Types.ROTR (x, 28) xor
+             Types.ROTR (x, 34) xor
+             Types.ROTR (x, 39);
    end Cap_Sigma_0_512;
 
-   function Cap_Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
+   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64 is
    begin
-      return LSC.Types.ROTR (x, 14) xor
-             LSC.Types.ROTR (x, 18) xor
-             LSC.Types.ROTR (x, 41);
+      return Types.ROTR (x, 14) xor
+             Types.ROTR (x, 18) xor
+             Types.ROTR (x, 41);
    end Cap_Sigma_1_512;
 
-   function Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
+   function Sigma_0_512 (x : Types.Word64) return Types.Word64 is
    begin
-      return LSC.Types.ROTR (x, 1) xor
-             LSC.Types.ROTR (x, 8) xor
-             LSC.Types.SHR (x, 7);
+      return Types.ROTR (x, 1) xor
+             Types.ROTR (x, 8) xor
+             Types.SHR (x, 7);
    end Sigma_0_512;
 
-   function Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
+   function Sigma_1_512 (x : Types.Word64) return Types.Word64 is
    begin
-      return LSC.Types.ROTR (x, 19) xor
-             LSC.Types.ROTR (x, 61) xor
-             LSC.Types.SHR (x, 6);
+      return Types.ROTR (x, 19) xor
+             Types.ROTR (x, 61) xor
+             Types.SHR (x, 6);
    end Sigma_1_512;
 
    function Context_Init return Context_Type is
@@ -113,16 +113,16 @@ package body LSC.SHA2 is
    is
       W      : Schedule_Type;
       S      : State_Type;
-      T1, T2 : LSC.Types.Word64;
+      T1, T2 : Types.Word64;
    begin
 
       W := Schedule_Type'(others => 0);
 
-      LSC.Debug.Put_Line ("BLOCK UPDATE:");
+      Debug.Put_Line ("BLOCK UPDATE:");
 
       -- Print out initial state of H
-      LSC.Debug.Put_Line ("SHA-512 initial hash values:");
-      Debug.Put_Hash (Context.H);
+      Debug.Put_Line ("SHA-512 initial hash values:");
+      Print.Put_Hash (Context.H);
 
       -------------------------------------------
       --  Section 6.3.2 SHA-512 Hash Computations
@@ -144,8 +144,8 @@ package body LSC.SHA2 is
                   W (t - 16);
       end loop;
 
-      LSC.Debug.Put_Line ("Message block:");
-      Debug.Put_Schedule (W);
+      Debug.Put_Line ("Message block:");
+      Print.Put_Schedule (W);
 
       -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
       --    h with the (i-1)st hash value:
@@ -160,8 +160,8 @@ package body LSC.SHA2 is
          g => Context.H (6),
          h => Context.H (7));
 
-      LSC.Debug.Put_Line ("Initial state:");
-      Debug.Put_State (S);
+      Debug.Put_Line ("Initial state:");
+      Print.Put_State (S);
 
       -- 3. For t = 0 to 79:
       for t in Schedule_Index range 0 .. 79
@@ -185,8 +185,8 @@ package body LSC.SHA2 is
             b => S (a),
             a => T1 + T2);
 
-         Debug.Put_T (t);
-         Debug.Put_State (S);
+         Print.Put_T (t);
+         Print.Put_State (S);
       end loop;
 
       -- 4. Compute the i-th intermediate hash value H-i:
@@ -201,8 +201,8 @@ package body LSC.SHA2 is
          6 => S (g) + Context.H (6),
          7 => S (h) + Context.H (7));
 
-      LSC.Debug.Put_Line ("SHA-512 final hash values:");
-      Debug.Put_Hash (Context.H);
+      Debug.Put_Line ("SHA-512 final hash values:");
+      Print.Put_Hash (Context.H);
 
    end Context_Update_Internal;
 
@@ -226,9 +226,9 @@ package body LSC.SHA2 is
       Index  := Block_Index (Length / 64);
       Offset := Natural (63 - Length mod 64);
 
-      LSC.Debug.Put_Line ("Terminator offset:");
-      Debug.Put_Natural (Offset);
-      LSC.Debug.Put_Line (".");
+      Debug.Put_Line ("Terminator offset:");
+      Print.Put_Natural (Offset);
+      Debug.Put_Line (".");
 
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
       Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
@@ -252,7 +252,7 @@ package body LSC.SHA2 is
       Final_Block : Block_Type;
    begin
 
-      LSC.Debug.Put_Line ("FINAL BLOCK:");
+      Debug.Put_Line ("FINAL BLOCK:");
 
       Final_Block := Block;
 

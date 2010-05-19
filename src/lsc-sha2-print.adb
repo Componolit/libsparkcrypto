@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.SHA2.Debug is
+package body LSC.SHA2.Print is
 
    procedure Put_Line (T : String) is
    begin
@@ -30,28 +30,28 @@ package body LSC.SHA2.Debug is
       null;
    end Put_Natural;
 
-   procedure Put_T (T : LSC.SHA2.Schedule_Index) is
+   procedure Put_T (T : SHA2.Schedule_Index) is
    begin
       --# accept Flow, 30, T, "Null implementation";
       null;
    end Put_T;
 
-   procedure Put_State (S : LSC.SHA2.State_Type) is
+   procedure Put_State (S : SHA2.State_Type) is
    begin
       --# accept Flow, 30, S, "Null implementation";
       null;
    end Put_State;
 
-   procedure Put_Hash (H : LSC.SHA2.Hash_Type) is
+   procedure Put_Hash (H : SHA2.Hash_Type) is
    begin
       --# accept Flow, 30, H, "Null implementation";
       null;
    end Put_Hash;
 
-   procedure Put_Schedule (S : LSC.SHA2.Schedule_Type) is
+   procedure Put_Schedule (S : SHA2.Schedule_Type) is
    begin
       --# accept Flow, 30, S, "Null implementation";
       null;
    end Put_Schedule;
 
-end LSC.SHA2.Debug;
+end LSC.SHA2.Print;

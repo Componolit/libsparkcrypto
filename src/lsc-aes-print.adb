@@ -16,30 +16,30 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.AES.Debug is
+package body LSC.AES.Print is
 
-   procedure Print_Schedule (S : LSC.AES.Schedule_Type)
+   procedure Print_Schedule (S : AES.Schedule_Type)
    is
    begin
       --# accept Flow, 30, S, "Null implementation";
       null;
    end Print_Schedule;
 
-   procedure Print_Schedule_Index (I : LSC.AES.Schedule_Index)
+   procedure Print_Schedule_Index (I : AES.Schedule_Index)
    is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Schedule_Index;
 
-   procedure Print_Block (B : LSC.AES.Block_Type)
+   procedure Print_Block (B : AES.Block_Type)
    is
    begin
       --# accept Flow, 30, B, "Null implementation";
       null;
    end Print_Block;
 
-   procedure Print_Key (K : LSC.AES.Key_Type)
+   procedure Print_Key (K : AES.Key_Type)
    is
    begin
       --# accept Flow, 30, K, "Null implementation";
@@ -47,8 +47,8 @@ package body LSC.AES.Debug is
    end Print_Key;
 
    procedure Print_Round (T : String;
-                          R : LSC.AES.Schedule_Index;
-                          B : LSC.AES.Block_Type)
+                          R : AES.Schedule_Index;
+                          B : AES.Block_Type)
    is
    begin
       --# accept Flow, 30, T, "Null implementation" &
@@ -57,4 +57,4 @@ package body LSC.AES.Debug is
       null;
    end Print_Round;
 
-end LSC.AES.Debug;
+end LSC.AES.Print;

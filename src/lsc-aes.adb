@@ -16,45 +16,45 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.AES.Tables, LSC.AES.Debug;
+with LSC.AES.Tables, LSC.AES.Print;
 
 package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Sub_Word (Value : LSC.Types.Word32) return LSC.Types.Word32 is
-      Temp : LSC.Types.Byte_Array_Type;
+   function Sub_Word (Value : Types.Word32) return Types.Word32 is
+      Temp : Types.Byte_Array_Type;
     begin
-      Temp := LSC.Types.Word32_To_Byte_Array (Value);
-      return LSC.Ops.Bytes_To_Word32 (Byte0 => Tables.S (Temp (LSC.Types.B0)),
-                                      Byte1 => Tables.S (Temp (LSC.Types.B1)),
-                                      Byte2 => Tables.S (Temp (LSC.Types.B2)),
-                                      Byte3 => Tables.S (Temp (LSC.Types.B3)));
+      Temp := Types.Word32_To_Byte_Array (Value);
+      return Ops.Bytes_To_Word32 (Byte0 => Tables.S (Temp (Types.B0)),
+                                      Byte1 => Tables.S (Temp (Types.B1)),
+                                      Byte2 => Tables.S (Temp (Types.B2)),
+                                      Byte3 => Tables.S (Temp (Types.B3)));
    end Sub_Word;
 
    ----------------------------------------------------------------------------
 
-   function Rot_Word (Value : LSC.Types.Word32) return LSC.Types.Word32 is
+   function Rot_Word (Value : Types.Word32) return Types.Word32 is
    begin
-      return LSC.Types.ROTL32 (Value, 8);
+      return Types.ROTL32 (Value, 8);
    end Rot_Word;
 
    ----------------------------------------------------------------------------
 
    function Key_Expansion (Key : Key_Type;
                            Nk  : Nk_Type) return Schedule_Type is
-      Temp     : LSC.Types.Word32;
-      Rot_Temp : LSC.Types.Word32;
-      Sub_Temp : LSC.Types.Word32;
+      Temp     : Types.Word32;
+      Rot_Temp : Types.Word32;
+      Sub_Temp : Types.Word32;
       Result   : Schedule_Type := Schedule_Type'(others => 0);
 
-      procedure Put_Row (I : LSC.Types.Word32)
+      procedure Put_Row (I : Types.Word32)
       --# derives null from I;
       is
       begin
-         LSC.Debug.Put (" ");
-         LSC.Debug.Print_Word32 (I);
-         LSC.Debug.Put (" |");
+         Debug.Put (" ");
+         Debug.Print_Word32 (I);
+         Debug.Put (" |");
       end Put_Row;
 
    begin
@@ -66,14 +66,14 @@ package body LSC.AES is
       end loop;
 
       --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
-      LSC.Debug.Put_Line ("Initial schedule:");                                                                    --
-      Debug.Print_Schedule (Result);                                                                               --
-      LSC.Debug.New_Line;                                                                                          --
-      LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
-      LSC.Debug.Put_Line ("|  i  |          |  After   |  After   |          |After XOR |          |  w[i] =  |"); --
-      LSC.Debug.Put_Line ("|(dec)|   temp   |RotWord() |SubWord() |Rcon[i/Nk]|with Rcon | w[i-Nk]  | temp XOR |"); --
-      LSC.Debug.Put_Line ("|     |          |          |          |          |          |          |  w[i-Nk] |"); --
-      LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
+      Debug.Put_Line ("Initial schedule:");                                                                    --
+      Print.Print_Schedule (Result);                                                                               --
+      Debug.New_Line;                                                                                          --
+      Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
+      Debug.Put_Line ("|  i  |          |  After   |  After   |          |After XOR |          |  w[i] =  |"); --
+      Debug.Put_Line ("|(dec)|   temp   |RotWord() |SubWord() |Rcon[i/Nk]|with Rcon | w[i-Nk]  | temp XOR |"); --
+      Debug.Put_Line ("|     |          |          |          |          |          |          |  w[i-Nk] |"); --
+      Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       ---------------------------------------------------------------------------------------------------------------
 
       for I in Schedule_Index range Key'Last + 1 .. Schedule_Index'Last
@@ -82,9 +82,9 @@ package body LSC.AES is
       loop
 
          --  DEBUG OUTPUT  ---------------------
-         LSC.Debug.Put ("| ");                --
-         Debug.Print_Schedule_Index (I);  --
-         LSC.Debug.Put (" |");                --
+         Debug.Put ("| ");                --
+         Print.Print_Schedule_Index (I);  --
+         Debug.Put (" |");                --
          ---------------------------------------
 
          Temp := Result (I - 1);
@@ -107,18 +107,18 @@ package body LSC.AES is
          elsif Nk > 6 and I mod Nk = Nb
          then
             --  DEBUG OUTPUT  ---------------
-            LSC.Debug.Put ("          |"); --
+            Debug.Put ("          |"); --
             ---------------------------------
 
             Temp := Sub_Word (Temp);
 
             --  DEBUG OUTPUT  ---------------------------
             Put_Row (Temp);                            --
-            LSC.Debug.Put ("          |          |");  --
+            Debug.Put ("          |          |");  --
             ---------------------------------------------
          else
             --  DEBUG OUTPUT  -------------------------------------------------
-            LSC.Debug.Put ("          |          |          |          |");  --
+            Debug.Put ("          |          |          |          |");  --
             -------------------------------------------------------------------
          end if;
 
@@ -127,18 +127,18 @@ package body LSC.AES is
          --  DEBUG OUTPUT  ---------------
          Put_Row (Result (I - Nk));  --
          Put_Row (Result (I));      --
-         LSC.Debug.New_Line;            --
+         Debug.New_Line;            --
          ---------------------------------
 
       end loop;
 
       --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
-      LSC.Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
+      Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       ---------------------------------------------------------------------------------------------------------------
 
       --  DEBUG OUTPUT  -------------------------
-      LSC.Debug.Put_Line ("Final schedule:");  --
-      Debug.Print_Schedule (Result);           --                                                                  --
+      Debug.Put_Line ("Final schedule:");  --
+      Print.Print_Schedule (Result);           --                                                                  --
       -------------------------------------------
 
       return Result;
@@ -154,11 +154,11 @@ package body LSC.AES is
    begin
 
       --  DEBUG  -----------------------------------------------------
-      LSC.Debug.Put ("PLAINTEXT:   ");                              --
-      Debug.Print_Block (Plaintext);                                --
-      LSC.Debug.New_Line;                                           --
-      LSC.Debug.New_Line;                                           --
-      Debug.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
+      Debug.Put ("PLAINTEXT:   ");                              --
+      Print.Print_Block (Plaintext);                                --
+      Debug.New_Line;                                           --
+      Debug.New_Line;                                           --
+      Print.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
       ----------------------------------------------------------------
 
       CT := Block_Type'
@@ -168,7 +168,7 @@ package body LSC.AES is
           3 => Plaintext (3) xor Context.Schedule (3));
 
       --  DEBUG  ----------------------------------------------
-      Debug.Print_Round ("start ", Schedule_Index'(1), CT);  --
+      Print.Print_Round ("start ", Schedule_Index'(1), CT);  --
       ---------------------------------------------------------
 
       for Round in Schedule_Index range 1 .. Context.Nr - 1
@@ -178,67 +178,67 @@ package body LSC.AES is
       loop
 
          CT := Block_Type'
-            (0 => (Tables.T1 (LSC.Ops.Byte0 (CT (0))) xor
-                   Tables.T2 (LSC.Ops.Byte1 (CT (1))) xor
-                   Tables.T3 (LSC.Ops.Byte2 (CT (2))) xor
-                   Tables.T4 (LSC.Ops.Byte3 (CT (3))) xor
+            (0 => (Tables.T1 (Ops.Byte0 (CT (0))) xor
+                   Tables.T2 (Ops.Byte1 (CT (1))) xor
+                   Tables.T3 (Ops.Byte2 (CT (2))) xor
+                   Tables.T4 (Ops.Byte3 (CT (3))) xor
                    Context.Schedule (Nb * Round)),
 
-             1 => (Tables.T1 (LSC.Ops.Byte0 (CT (1))) xor
-                   Tables.T2 (LSC.Ops.Byte1 (CT (2))) xor
-                   Tables.T3 (LSC.Ops.Byte2 (CT (3))) xor
-                   Tables.T4 (LSC.Ops.Byte3 (CT (0))) xor
+             1 => (Tables.T1 (Ops.Byte0 (CT (1))) xor
+                   Tables.T2 (Ops.Byte1 (CT (2))) xor
+                   Tables.T3 (Ops.Byte2 (CT (3))) xor
+                   Tables.T4 (Ops.Byte3 (CT (0))) xor
                    Context.Schedule (Nb * Round + 1)),
 
-             2 => (Tables.T1 (LSC.Ops.Byte0 (CT (2))) xor
-                   Tables.T2 (LSC.Ops.Byte1 (CT (3))) xor
-                   Tables.T3 (LSC.Ops.Byte2 (CT (0))) xor
-                   Tables.T4 (LSC.Ops.Byte3 (CT (1))) xor
+             2 => (Tables.T1 (Ops.Byte0 (CT (2))) xor
+                   Tables.T2 (Ops.Byte1 (CT (3))) xor
+                   Tables.T3 (Ops.Byte2 (CT (0))) xor
+                   Tables.T4 (Ops.Byte3 (CT (1))) xor
                    Context.Schedule (Nb * Round + 2)),
 
-             3 => (Tables.T1 (LSC.Ops.Byte0 (CT (3))) xor
-                   Tables.T2 (LSC.Ops.Byte1 (CT (0))) xor
-                   Tables.T3 (LSC.Ops.Byte2 (CT (1))) xor
-                   Tables.T4 (LSC.Ops.Byte3 (CT (2))) xor
+             3 => (Tables.T1 (Ops.Byte0 (CT (3))) xor
+                   Tables.T2 (Ops.Byte1 (CT (0))) xor
+                   Tables.T3 (Ops.Byte2 (CT (1))) xor
+                   Tables.T4 (Ops.Byte3 (CT (2))) xor
                    Context.Schedule (Nb * Round + 3)));
 
          --  DEBUG  --------------------------------------
-         Debug.Print_Round ("start ", Round, CT);  --
+         Print.Print_Round ("start ", Round, CT);  --
          -------------------------------------------------
 
       end loop;
 
       CT := Block_Type'
-         (0 => LSC.Ops.Bytes_To_Word32
-                  (Tables.S (LSC.Ops.Byte0 (CT (0))),
-                   Tables.S (LSC.Ops.Byte1 (CT (1))),
-                   Tables.S (LSC.Ops.Byte2 (CT (2))),
-                   Tables.S (LSC.Ops.Byte3 (CT (3)))) xor
+         (0 => Ops.Bytes_To_Word32
+                  (Tables.S (Ops.Byte0 (CT (0))),
+                   Tables.S (Ops.Byte1 (CT (1))),
+                   Tables.S (Ops.Byte2 (CT (2))),
+                   Tables.S (Ops.Byte3 (CT (3)))) xor
                Context.Schedule (Nb * Context.Nr),
 
-          1 => LSC.Ops.Bytes_To_Word32
-                  (Tables.S (LSC.Ops.Byte0 (CT (1))),
-                   Tables.S (LSC.Ops.Byte1 (CT (2))),
-                   Tables.S (LSC.Ops.Byte2 (CT (3))),
-                   Tables.S (LSC.Ops.Byte3 (CT (0)))) xor
+          1 => Ops.Bytes_To_Word32
+                  (Tables.S (Ops.Byte0 (CT (1))),
+                   Tables.S (Ops.Byte1 (CT (2))),
+                   Tables.S (Ops.Byte2 (CT (3))),
+                   Tables.S (Ops.Byte3 (CT (0)))) xor
                Context.Schedule (Nb * Context.Nr + 1),
 
-          2 => LSC.Ops.Bytes_To_Word32
-                  (Tables.S (LSC.Ops.Byte0 (CT (2))),
-                   Tables.S (LSC.Ops.Byte1 (CT (3))),
-                   Tables.S (LSC.Ops.Byte2 (CT (0))),
-                   Tables.S (LSC.Ops.Byte3 (CT (1)))) xor
+          2 => Ops.Bytes_To_Word32
+                  (Tables.S (Ops.Byte0 (CT (2))),
+                   Tables.S (Ops.Byte1 (CT (3))),
+                   Tables.S (Ops.Byte2 (CT (0))),
+                   Tables.S (Ops.Byte3 (CT (1)))) xor
                Context.Schedule (Nb * Context.Nr + 2),
 
-          3 => LSC.Ops.Bytes_To_Word32
-                  (Tables.S (LSC.Ops.Byte0 (CT (3))),
-                   Tables.S (LSC.Ops.Byte1 (CT (0))),
-                   Tables.S (LSC.Ops.Byte2 (CT (1))),
-                   Tables.S (LSC.Ops.Byte3 (CT (2)))) xor
+          3 => Ops.Bytes_To_Word32
+                  (Tables.S (Ops.Byte0 (CT (3))),
+                   Tables.S (Ops.Byte1 (CT (0))),
+                   Tables.S (Ops.Byte2 (CT (1))),
+                   Tables.S (Ops.Byte3 (CT (2)))) xor
                Context.Schedule (Nb * Context.Nr + 3));
 
       --  DEBUG  ------------------------------
-      Debug.Print_Round ("output", Context.Nr, CT);  --
+      Print.Print_Round ("output", Context.Nr, CT);  --
       -----------------------------------------
 
       return CT;

@@ -35,19 +35,19 @@ package body LSC.Debug is
       null;
    end New_Line;
 
-   procedure Print_Byte (I : in LSC.Types.Byte) is
+   procedure Print_Byte (I : in Types.Byte) is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Byte;
 
-   procedure Print_Word32 (I : in LSC.Types.Word32) is
+   procedure Print_Word32 (I : in Types.Word32) is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Word32;
 
-   procedure Print_Word64 (I : in LSC.Types.Word64) is
+   procedure Print_Word64 (I : in Types.Word64) is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;

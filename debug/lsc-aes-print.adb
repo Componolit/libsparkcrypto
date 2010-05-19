@@ -18,7 +18,7 @@
 
 with Ada.Text_IO, LSC.Debug, LSC.IO;
 
-package body LSC.AES.Debug is
+package body LSC.AES.Print is
 
    package SIIO is new Ada.Text_IO.Integer_IO (LSC.AES.Schedule_Index);
 
@@ -71,8 +71,8 @@ package body LSC.AES.Debug is
       LSC.Debug.Put ("round[");
       Print_Schedule_Index (R);
       LSC.Debug.Put ("]." & T & "      ");
-      Debug.Print_Block (B);
+      Print_Block (B);
       LSC.Debug.New_Line;
    end Print_Round;
 
-end LSC.AES.Debug;
+end LSC.AES.Print;

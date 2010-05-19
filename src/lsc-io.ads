@@ -31,17 +31,17 @@ package LSC.IO is
    procedure New_Line;
    --# derives ;
 
-   function Read_Byte return  LSC.Types.Byte;
+   function Read_Byte return  Types.Byte;
 
    function End_Of_Stream return Boolean;
 
-   procedure Print_Byte (Item : in LSC.Types.Byte);
+   procedure Print_Byte (Item : in Types.Byte);
    --# derives null from Item;
 
-   procedure Print_Word32 (Item : in LSC.Types.Word32);
+   procedure Print_Word32 (Item : in Types.Word32);
    --# derives null from Item;
 
-   procedure Print_Word64 (Item : in LSC.Types.Word64);
+   procedure Print_Word64 (Item : in Types.Word64);
    --# derives null from Item;
 
    procedure Print_Hash (Hash : SHA2.Hash_Type);

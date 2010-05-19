@@ -19,7 +19,7 @@
 with LSC.IO;
 with Ada.Text_IO; use Ada.Text_IO;
 
-package body LSC.SHA2.Debug is
+package body LSC.SHA2.Print is
 
    package SIO is new Ada.Text_IO.Integer_IO (SHA2.Schedule_Index);
    package IIO is new Ada.Text_IO.Integer_IO (Natural);
@@ -95,4 +95,4 @@ package body LSC.SHA2.Debug is
       New_Line;
    end Put_Schedule;
 
-end LSC.SHA2.Debug;
+end LSC.SHA2.Print;

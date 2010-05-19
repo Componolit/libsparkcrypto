@@ -18,7 +18,6 @@
 
 with LSC.SHA2, LSC.Types, LSC.IO;
 use type LSC.SHA2.Hash_Type;
-use type LSC.SHA2.Block_Index;
 use type LSC.Types.Word64;
 
 --# inherit LSC.IO,

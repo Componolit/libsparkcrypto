@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -16,26 +16,25 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
---# inherit LSC.SHA2;
+--# inherit LSC.AES;
 
-private package LSC.SHA2.Debug is
+private package LSC.AES.Print is
 
-   procedure Put_T (T : LSC.SHA2.Schedule_Index);
-   --# derives null from T;
+   procedure Print_Schedule (S : AES.Schedule_Type);
+   --# derives null from S;
 
-   procedure Put_Natural (I : Natural);
+   procedure Print_Schedule_Index (I : AES.Schedule_Index);
    --# derives null from I;
 
-   procedure Put_Line (T : String);
-   --# derives null from T;
+   procedure Print_Block (B : AES.Block_Type);
+   --# derives null from B;
 
-   procedure Put_State (S : LSC.SHA2.State_Type);
-   --# derives null from S;
+   procedure Print_Key (K : AES.Key_Type);
+   --# derives null from K;
 
-   procedure Put_Hash (H : LSC.SHA2.Hash_Type);
-   --# derives null from H;
+   procedure Print_Round (T : String;
+                          R : AES.Schedule_Index;
+                          B : AES.Block_Type);
+   --# derives null from T, R, B;
 
-   procedure Put_Schedule (S : LSC.SHA2.Schedule_Type);
-   --# derives null from S;
-
-end LSC.SHA2.Debug;
+end LSC.AES.Print;

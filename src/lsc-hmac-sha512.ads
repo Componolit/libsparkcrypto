@@ -28,44 +28,44 @@ package LSC.HMAC.SHA512 is
    type Context_Type is private;
 
    subtype Auth_Index is Natural range 0 .. 3;
-   subtype Auth_Type is LSC.SHA2.Word64_Array_Type (Auth_Index);
+   subtype Auth_Type is SHA2.Word64_Array_Type (Auth_Index);
 
-   function Context_Init (Key : LSC.SHA2.Block_Type) return Context_Type;
+   function Context_Init (Key : SHA2.Block_Type) return Context_Type;
 
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in LSC.SHA2.Block_Type);
+      Block   : in SHA2.Block_Type);
    --# derives Context from *,
    --#                      Block;
 
    procedure Context_Finalize
      (Context : in out Context_Type;
-      Block   : in LSC.SHA2.Block_Type;
-      Length  : in LSC.SHA2.Block_Length_Type);
+      Block   : in SHA2.Block_Type;
+      Length  : in SHA2.Block_Length_Type);
    --# derives Context from *,
    --#                      Block,
    --#                      Length;
 
-   function Get_Prf  (Context : in Context_Type) return LSC.SHA2.Hash_Type;
+   function Get_Prf  (Context : in Context_Type) return SHA2.Hash_Type;
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
 private
 
    type Context_Type is record
-      SHA512_Context : LSC.SHA2.Context_Type;
-      Key            : LSC.SHA2.Block_Type;
+      SHA512_Context : SHA2.Context_Type;
+      Key            : SHA2.Block_Type;
    end record;
 
    function Block_XOR
-     (Left  : LSC.SHA2.Block_Type;
-      Right : LSC.SHA2.Block_Type)
-      return  LSC.SHA2.Block_Type;
+     (Left  : SHA2.Block_Type;
+      Right : SHA2.Block_Type)
+      return  SHA2.Block_Type;
    --# return Result =>
-   --#    (for all I in LSC.SHA2.Block_Index =>
+   --#    (for all I in SHA2.Block_Index =>
    --#         (Result (I) = (Left (I) xor Right (I))));
 
-   function To_Block (Item : LSC.SHA2.Hash_Type) return LSC.SHA2.Block_Type;
+   function To_Block (Item : SHA2.Hash_Type) return SHA2.Block_Type;
    --# return Result =>
-   --#     (for all I in LSC.SHA2.Hash_Index => (Result (I) = Item (I)));
+   --#     (for all I in SHA2.Hash_Index => (Result (I) = Item (I)));
 
 end LSC.HMAC.SHA512;
