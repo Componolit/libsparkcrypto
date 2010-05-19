@@ -51,7 +51,7 @@ begin
    Context := AES.Create_AES128_Context (Key => Key128);
    Cyphertext := AES.Encrypt (Context => Context, Plaintext => Plaintext);
 
-   Test.Run ("C.2 AES-128 (Nk=4, Nr=10)", Cyphertext = Expected_Cyphertext);
+   Test.Run ("C.1 AES-128 (Nk=4, Nr=10)", Cyphertext = Expected_Cyphertext);
 
    --# accept Flow, 10, Key192, "Only debug output needed";
    Key192 := AES.AES192_Key_Type'

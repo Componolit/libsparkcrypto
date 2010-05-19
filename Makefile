@@ -1,54 +1,78 @@
-OUTDIR  = out
+OUTDIR  = $(realpath out)
 DUMMY  := $(shell mkdir -p out)
 GNATMAKE_FLAGS = -we
 
-FILES = \
-    $(OUTDIR)/test_all \
-    $(OUTDIR)/test_all.sum \
+SPARK_PROGS = \
+	test_aes \
+	test_sha2 \
+	test_hmac \
+   sha512perf \
+   sha512sum
 
-#    $(OUTDIR)/sha512openssl \
-#    $(OUTDIR)/sha512perf \
-#    $(OUTDIR)/sha512sum \
-#    $(OUTDIR)/sha512sum.sum \
+PROOFS = \
+   $(addsuffix .sum, $(SPARK_PROGS))
 
-all: $(FILES)
+CPROGS = \
+   sha512openssl
+
+all: $(addprefix $(OUTDIR)/,$(PROGS))
+proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
-simplify:
-	@sparksimp -t -p=4
-	@pogs -d=$(OUTDIR)
+$(OUTDIR)/sha512openssl: CFLAGS += -lssl
 
-$(OUTDIR)/%: tests/%/main.adb
+#
+# how to build an Ada program
+#
+$(OUTDIR)/%: progs/%/main.adb
 	@mkdir -p $@.bin
 	@gnatmake $(GNATMAKE_FLAGS) -aIshadow -aIsrc -D $@.bin -o $@ $<
 
-$(OUTDIR)/sha512openssl: CFLAGS += -lssl
-
-$(OUTDIR)/%: tests/%/main.c
+#
+# how to build a C program
+#
+$(OUTDIR)/%: progs/%/main.c
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.idx $(OUTDIR)/%.smf
-	@mkdir -p $(OUTDIR)/$(*F).proof
+#
+# how to examine a program
+#
+$(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf
+	@mkdir -p $(OUTDIR)/$(*F).prf
 	@spark \
-		-dpc \
 		-brief \
 		-vcg \
 		-config=$< \
 		-warn=warnings.conf \
-		-output_dir=$(OUTDIR)/$(*F).proof \
-		-index=$(OUTDIR)/$(*F).idx \
-		@$(OUTDIR)/$(*F).smf
+		-output_dir=$(OUTDIR)/$(*F).prf \
+		-index=$(OUTDIR)/$(*F).prf/spark.idx \
+		@$(OUTDIR)/$(*F).prf/spark.smf
+	@(cd $(OUTDIR)/$(*F).prf && sparksimp -t -p=4)
+	@pogs -d=$(OUTDIR)/$(*F).prf -o=$@
 
-$(OUTDIR)/%.idx $(OUTDIR)/%.smf:
-	@(cd tests/$(*F); sparkmake -duplicates_are_errors -dir=$(realpath src) -index=$(realpath $(OUTDIR))/$(*F).idx -meta=$(realpath $(OUTDIR))/$(*F).smf)
+#
+# how to create index and meta files
+#
+$(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf:
+	mkdir -p $(@D)
+	(cd progs/$(*F); sparkmake -duplicates_are_errors -dir=$(realpath src) -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
 
+#
+# how to build the target configuration generator
+#
 $(OUTDIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 	@gnatmake -D $(OUTDIR) -o $@ $^
 
+#
+# how to generate the target configuration file
+#
 $(OUTDIR)/target.cfg: $(OUTDIR)/confgen
 	@$< > $@
 
+#
+# clean up
+#
 clean:
 	rm -rf $(OUTDIR)

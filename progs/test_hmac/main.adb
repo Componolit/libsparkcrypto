@@ -16,14 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, HMAC.SHA512, AES, IO, Test;
-use type SHA2.Hash_Type;
-use type AES.Block_Type;
+with SHA2, HMAC.SHA512, IO, Test;
+use type SHA2.Word64_Array_Type;
 
 --# inherit IO,
 --#         SHA2,
 --#         HMAC.SHA512,
---#         AES,
 --#         Test;
 
 --# main_program;
@@ -31,22 +29,12 @@ procedure Main
    --# derives ;
 is
 
-   procedure SHA2_Tests
-   --# derives ;
-   is separate;
-
    procedure HMAC_Tests
-   --# derives ;
-   is separate;
-
-   procedure AES_Tests
    --# derives ;
    is separate;
 
 begin
 
-   SHA2_Tests;
    HMAC_Tests;
-   AES_Tests;
 
 end Main;
