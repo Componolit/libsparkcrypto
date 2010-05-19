@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
-
+--
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -16,25 +16,6 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
---# inherit AES;
+package LSC.HMAC is
 
-private package AES.Debug is
-
-   procedure Print_Schedule (S : AES.Schedule_Type);
-   --# derives null from S;
-
-   procedure Print_Schedule_Index (I : AES.Schedule_Index);
-   --# derives null from I;
-
-   procedure Print_Block (B : AES.Block_Type);
-   --# derives null from B;
-
-   procedure Print_Key (K : AES.Key_Type);
-   --# derives null from K;
-
-   procedure Print_Round (T : String;
-                          R : AES.Schedule_Index;
-                          B : AES.Block_Type);
-   --# derives null from T, R, B;
-
-end AES.Debug;
+end LSC.HMAC;

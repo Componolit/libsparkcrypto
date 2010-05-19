@@ -16,27 +16,27 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Ada.Text_IO, LSC.Debug, IO;
+with Ada.Text_IO, LSC.Debug, LSC.IO;
 
-package body AES.Debug is
+package body LSC.AES.Debug is
 
-   package SIIO is new Ada.Text_IO.Integer_IO (AES.Schedule_Index);
+   package SIIO is new Ada.Text_IO.Integer_IO (LSC.AES.Schedule_Index);
 
-   procedure Print_Schedule (S : AES.Schedule_Type)
+   procedure Print_Schedule (S : LSC.AES.Schedule_Type)
    is
    begin
-      for Index in AES.Schedule_Index
+      for Index in LSC.AES.Schedule_Index
       loop
-         IO.Put ("   W");
+         LSC.IO.Put ("   W");
          SIIO.Put (Item => Index, Width => 3);
-         IO.Put (" = ");
+         LSC.IO.Put (" = ");
          LSC.Debug.Print_Word32 (S (Index));
-         if Index mod  AES.Nb = AES.Nb - 1
+         if Index mod  LSC.AES.Nb = LSC.AES.Nb - 1
          then
-            IO.New_Line;
+            LSC.IO.New_Line;
          end if;
       end loop;
-      IO.New_Line;
+      LSC.IO.New_Line;
    end Print_Schedule;
 
    procedure Print_Schedule_Index (I : Schedule_Index)
@@ -45,27 +45,27 @@ package body AES.Debug is
        SIIO.Put (Item => I, Width => 3);
    end Print_Schedule_Index;
 
-   procedure Print_Block (B : AES.Block_Type)
+   procedure Print_Block (B : LSC.AES.Block_Type)
    is
    begin
-      for Index in AES.Block_Index
+      for Index in LSC.AES.Block_Index
       loop
          LSC.Debug.Print_Word32 (B (Index));
       end loop;
    end Print_Block;
 
-   procedure Print_Key (K : AES.Key_Type)
+   procedure Print_Key (K : LSC.AES.Key_Type)
    is
    begin
-      for Index in AES.Key_Index
+      for Index in LSC.AES.Key_Index
       loop
          LSC.Debug.Print_Word32 (K (Index));
       end loop;
    end Print_Key;
 
    procedure Print_Round (T : String;
-                          R : AES.Schedule_Index;
-                          B : AES.Block_Type)
+                          R : LSC.AES.Schedule_Index;
+                          B : LSC.AES.Block_Type)
    is
    begin
       LSC.Debug.Put ("round[");
@@ -75,4 +75,4 @@ package body AES.Debug is
       LSC.Debug.New_Line;
    end Print_Round;
 
-end AES.Debug;
+end LSC.AES.Debug;

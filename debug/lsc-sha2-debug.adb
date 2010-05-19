@@ -16,10 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with IO;
+with LSC.IO;
 with Ada.Text_IO; use Ada.Text_IO;
 
-package body SHA2.Debug is
+package body LSC.SHA2.Debug is
 
    package SIO is new Ada.Text_IO.Integer_IO (SHA2.Schedule_Index);
    package IIO is new Ada.Text_IO.Integer_IO (Natural);
@@ -47,12 +47,12 @@ package body SHA2.Debug is
         ("      a/e               b/f               c/g               d/h");
       for Index in SHA2.State_Index
       loop
-         IO.Print_Word64 (S (Index));
+         LSC.IO.Print_Word64 (S (Index));
          if Index = d
          then
             New_Line;
          else
-            IO.Put ("  ");
+            LSC.IO.Put ("  ");
          end if;
       end loop;
       New_Line;
@@ -67,7 +67,7 @@ package body SHA2.Debug is
          Put ("  H");
          Put (Index'Img);
          Put (" = ");
-         IO.Print_Word64 (H (Index));
+         LSC.IO.Print_Word64 (H (Index));
          New_Line;
       end loop;
       New_Line;
@@ -84,15 +84,15 @@ package body SHA2.Debug is
          Put ("  W");
          SIO.Put (Item => Index);
          Put (" = ");
-         IO.Print_Word64 (S (Index));
+         LSC.IO.Print_Word64 (S (Index));
          Put ("     W");
          SIO.Put (Second_Index);
          Put (" = ");
-         IO.Print_Word64 (S (Second_Index));
+         LSC.IO.Print_Word64 (S (Second_Index));
          New_Line;
       end loop;
       New_Line;
       New_Line;
    end Put_Schedule;
 
-end SHA2.Debug;
+end LSC.SHA2.Debug;

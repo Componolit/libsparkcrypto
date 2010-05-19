@@ -16,20 +16,20 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types;
---# inherit Types;
+with LSC.Types;
+--# inherit LSC.Types;
 
 package LSC.Ops is
 
    function Bytes_To_Word32
-      (Byte0 : Types.Byte;
-       Byte1 : Types.Byte;
-       Byte2 : Types.Byte;
-       Byte3 : Types.Byte) return Types.Word32;
+      (Byte0 : LSC.Types.Byte;
+       Byte1 : LSC.Types.Byte;
+       Byte2 : LSC.Types.Byte;
+       Byte3 : LSC.Types.Byte) return LSC.Types.Word32;
 
-   function Byte0 (Value : Types.Word32) return Types.Byte;
-   function Byte1 (Value : Types.Word32) return Types.Byte;
-   function Byte2 (Value : Types.Word32) return Types.Byte;
-   function Byte3 (Value : Types.Word32) return Types.Byte;
+   function Byte0 (Value : LSC.Types.Word32) return LSC.Types.Byte;
+   function Byte1 (Value : LSC.Types.Word32) return LSC.Types.Byte;
+   function Byte2 (Value : LSC.Types.Word32) return LSC.Types.Byte;
+   function Byte3 (Value : LSC.Types.Word32) return LSC.Types.Byte;
 
 end LSC.Ops;

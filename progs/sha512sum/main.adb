@@ -16,14 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, Types, IO;
-use type SHA2.Hash_Type;
-use type Types.Byte;
-use type Types.Word64;
+with LSC.SHA2, LSC.Types, LSC.IO;
+use type LSC.SHA2.Hash_Type;
+use type LSC.Types.Byte;
+use type LSC.Types.Word64;
 
---# inherit IO,
---#         SHA2,
---#         Types;
+--# inherit LSC.IO,
+--#         LSC.SHA2,
+--#         LSC.Types;
 
 --# main_program;
 procedure Main
@@ -32,24 +32,24 @@ is
    --# hide Main;
 
    type Byte_Index is range 0 .. 7;
-   type Byte_Array is array (Byte_Index) of Types.Byte;
+   type Byte_Array is array (Byte_Index) of LSC.Types.Byte;
 
-   Ctx        : SHA2.Context_Type;
-   Hash       : SHA2.Hash_Type;
+   Ctx        : LSC.SHA2.Context_Type;
+   Hash       : LSC.SHA2.Hash_Type;
    Next_Bytes : Byte_Array;
-   Block      : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
-   Block_Len  : Types.Word64    := 0;
+   Block      : LSC.SHA2.Block_Type := LSC.SHA2.Block_Type'(others => 0);
+   Block_Len  : LSC.Types.Word64    := 0;
 
-   function To_Word64 (Data : Byte_Array) return Types.Word64 is
-      Result : Types.Word64 := 0;
+   function To_Word64 (Data : Byte_Array) return LSC.Types.Word64 is
+      Result : LSC.Types.Word64 := 0;
    begin
 
       for Index in Byte_Index
          --# assert Index in Byte_Index;
       loop
          Result := Result xor
-                   Types.SHL
-                      (Types.Word64 (Data (Index)),
+                   LSC.Types.SHL
+                      (LSC.Types.Word64 (Data (Index)),
                        8 * Natural ((Byte_Index'Last - Index)));
       end loop;
 
@@ -59,19 +59,19 @@ is
 
 begin
 
-   Ctx := SHA2.Context_Init;
+   Ctx := LSC.SHA2.Context_Init;
 
-   while not IO.End_Of_Stream
+   while not LSC.IO.End_Of_Stream
    loop
 
-      for Index in SHA2.Block_Index
+      for Index in LSC.SHA2.Block_Index
       loop
 
          for Byte_Pos in Byte_Index
          loop
-            if not IO.End_Of_Stream
+            if not LSC.IO.End_Of_Stream
             then
-               Next_Bytes (Byte_Pos) := IO.Read_Byte;
+               Next_Bytes (Byte_Pos) := LSC.IO.Read_Byte;
                Block_Len             := Block_Len + 8;
             else
                Next_Bytes (Byte_Pos) := 0;
@@ -84,14 +84,14 @@ begin
 
       if Block_Len = 1024
       then
-         SHA2.Context_Update (Ctx, Block);
+         LSC.SHA2.Context_Update (Ctx, Block);
          Block_Len := 0;
       end if;
 
    end loop;
 
-   SHA2.Context_Finalize (Ctx, Block, Block_Len);
-   Hash := SHA2.Get_Hash (Ctx);
-   IO.Print_Hash (Hash);
+   LSC.SHA2.Context_Finalize (Ctx, Block, Block_Len);
+   Hash := LSC.SHA2.Get_Hash (Ctx);
+   LSC.IO.Print_Hash (Hash);
 
 end Main;

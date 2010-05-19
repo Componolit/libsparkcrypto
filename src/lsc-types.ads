@@ -19,7 +19,7 @@
 with Interfaces;
 --# inherit Interfaces;
 
-package Types is
+package LSC.Types is
 
    type Index is range 0 .. 59;
 
@@ -41,4 +41,4 @@ package Types is
    function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type;
    function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32;
 
-end Types;
+end LSC.Types;

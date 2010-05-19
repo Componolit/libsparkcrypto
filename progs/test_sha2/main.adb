@@ -16,12 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, IO, Test;
-use type SHA2.Hash_Type;
+with LSC.SHA2, LSC.IO, LSC.Test;
+use type LSC.SHA2.Hash_Type;
 
---# inherit IO,
---#         SHA2,
---#         Test;
+--# inherit LSC.IO,
+--#         LSC.SHA2,
+--#         LSC.Test;
 
 --# main_program;
 procedure Main

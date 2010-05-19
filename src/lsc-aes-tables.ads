@@ -23,16 +23,16 @@
 --  other reasons  why the executable file  might be covered by  the GNU Public
 --  License.
 
-with Types;
---# inherit Types;
+with LSC.Types;
+--# inherit LSC.Types;
 
-private package AES.Tables is
+private package LSC.AES.Tables is
 
-type SBox_Type is array (Types.Byte) of Types.Byte;
-type Table_Type is array (Types.Byte) of Types.Word32;
+type SBox_Type is array (LSC.Types.Byte) of LSC.Types.Byte;
+type Table_Type is array (LSC.Types.Byte) of LSC.Types.Word32;
 
-subtype Rcon_Index is Types.Index range 1 .. 30;
-type Rcon_Type is array (Rcon_Index) of Types.Word32;
+subtype Rcon_Index is LSC.Types.Index range 1 .. 30;
+type Rcon_Type is array (Rcon_Index) of LSC.Types.Word32;
 
 S : constant SBox_Type := SBox_Type'
 (16#63#, 16#7c#, 16#77#, 16#7b#, 16#f2#, 16#6b#, 16#6f#, 16#c5#, 16#30#, 16#01#, 16#67#, 16#2b#, 16#fe#, 16#d7#, 16#ab#, 16#76#,
@@ -872,4 +872,4 @@ Rcon : constant Rcon_Type := Rcon_Type'
  16#B300_0000#, 16#7d00_0000#, 16#Fa00_0000#, 16#Ef00_0000#,
  16#C500_0000#, 16#9100_0000#);
 
-end AES.Tables;
+end LSC.AES.Tables;

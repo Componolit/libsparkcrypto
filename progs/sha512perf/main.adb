@@ -16,14 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with SHA2, Types, IO;
-use type SHA2.Hash_Type;
-use type SHA2.Block_Index;
-use type Types.Word64;
+with LSC.SHA2, LSC.Types, LSC.IO;
+use type LSC.SHA2.Hash_Type;
+use type LSC.SHA2.Block_Index;
+use type LSC.Types.Word64;
 
---# inherit IO,
---#         SHA2,
---#         Types;
+--# inherit LSC.IO,
+--#         LSC.SHA2,
+--#         LSC.Types;
 
 --# main_program;
 procedure Main
@@ -31,21 +31,21 @@ procedure Main
 is
    --# hide Main;
 
-   Ctx   : SHA2.Context_Type;
-   Hash  : SHA2.Hash_Type;
-   Block : SHA2.Block_Type :=
-      SHA2.Block_Type'(others => 16#eaea_eaea_eaea_eaea#);
+   Ctx   : LSC.SHA2.Context_Type;
+   Hash  : LSC.SHA2.Hash_Type;
+   Block : LSC.SHA2.Block_Type :=
+               LSC.SHA2.Block_Type'(others => 16#eaea_eaea_eaea_eaea#);
 
 begin
 
-   Ctx := SHA2.Context_Init;
+   Ctx := LSC.SHA2.Context_Init;
    for I in Natural range 1 .. 1_000_000
    loop
-      SHA2.Context_Update (Ctx, Block);
+      LSC.SHA2.Context_Update (Ctx, Block);
    end loop;
-   SHA2.Context_Finalize (Ctx, Block, 0);
-   Hash := SHA2.Get_Hash (Ctx);
+   LSC.SHA2.Context_Finalize (Ctx, Block, 0);
+   Hash := LSC.SHA2.Get_Hash (Ctx);
 
-   IO.Print_Hash (Hash);
+   LSC.IO.Print_Hash (Hash);
 
 end Main;

@@ -16,39 +16,39 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with AES.Tables, AES.Debug;
+with LSC.AES.Tables, LSC.AES.Debug;
 
-package body AES is
+package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Sub_Word (Value : Types.Word32) return Types.Word32 is
-      Temp : Types.Byte_Array_Type;
+   function Sub_Word (Value : LSC.Types.Word32) return LSC.Types.Word32 is
+      Temp : LSC.Types.Byte_Array_Type;
     begin
-      Temp := Types.Word32_To_Byte_Array (Value);
-      return LSC.Ops.Bytes_To_Word32 (Byte0 => Tables.S (Temp (Types.B0)),
-                                      Byte1 => Tables.S (Temp (Types.B1)),
-                                      Byte2 => Tables.S (Temp (Types.B2)),
-                                      Byte3 => Tables.S (Temp (Types.B3)));
+      Temp := LSC.Types.Word32_To_Byte_Array (Value);
+      return LSC.Ops.Bytes_To_Word32 (Byte0 => Tables.S (Temp (LSC.Types.B0)),
+                                      Byte1 => Tables.S (Temp (LSC.Types.B1)),
+                                      Byte2 => Tables.S (Temp (LSC.Types.B2)),
+                                      Byte3 => Tables.S (Temp (LSC.Types.B3)));
    end Sub_Word;
 
    ----------------------------------------------------------------------------
 
-   function Rot_Word (Value : Types.Word32) return Types.Word32 is
+   function Rot_Word (Value : LSC.Types.Word32) return LSC.Types.Word32 is
    begin
-      return Types.ROTL32 (Value, 8);
+      return LSC.Types.ROTL32 (Value, 8);
    end Rot_Word;
 
    ----------------------------------------------------------------------------
 
    function Key_Expansion (Key : Key_Type;
                            Nk  : Nk_Type) return Schedule_Type is
-      Temp     : Types.Word32;
-      Rot_Temp : Types.Word32;
-      Sub_Temp : Types.Word32;
+      Temp     : LSC.Types.Word32;
+      Rot_Temp : LSC.Types.Word32;
+      Sub_Temp : LSC.Types.Word32;
       Result   : Schedule_Type := Schedule_Type'(others => 0);
 
-      procedure Put_Row (I : Types.Word32)
+      procedure Put_Row (I : LSC.Types.Word32)
       --# derives null from I;
       is
       begin
@@ -271,4 +271,4 @@ package body AES is
                           Nr       => 14);
    end Create_AES256_Context;
 
-end AES;
+end LSC.AES;

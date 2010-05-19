@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
-
+--
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -16,42 +16,30 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body SHA2.Debug is
+package body LSC.Test is
 
-   procedure Put_Line (T : String) is
+   procedure Suite (Name : String)
+   is
    begin
-      --# accept Flow, 30, T, "Null implementation";
-      null;
-   end Put_Line;
+      LSC.IO.New_Line;
+      LSC.IO.Put (Name);
+      LSC.IO.Put_Line (":");
+   end Suite;
 
-   procedure Put_Natural (I : Natural) is
+   procedure Run (Message : String;
+                  Result  : Boolean)
+   is
    begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Put_Natural;
 
-   procedure Put_T (T : SHA2.Schedule_Index) is
-   begin
-      --# accept Flow, 30, T, "Null implementation";
-      null;
-   end Put_T;
+      LSC.IO.Put ("   ");
+      LSC.IO.Put (Message);
+      LSC.IO.Put (": ");
+      if Result
+      then
+         LSC.IO.Put_Line ("OK");
+      else
+         LSC.IO.Put_Line ("Failed");
+      end if;
+   end Run;
 
-   procedure Put_State (S : SHA2.State_Type) is
-   begin
-      --# accept Flow, 30, S, "Null implementation";
-      null;
-   end Put_State;
-
-   procedure Put_Hash (H : SHA2.Hash_Type) is
-   begin
-      --# accept Flow, 30, H, "Null implementation";
-      null;
-   end Put_Hash;
-
-   procedure Put_Schedule (S : SHA2.Schedule_Type) is
-   begin
-      --# accept Flow, 30, S, "Null implementation";
-      null;
-   end Put_Schedule;
-
-end SHA2.Debug;
+end LSC.Test;

@@ -16,37 +16,38 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, LSC.Debug, SHA2.Debug;
-use type Types.Word64;
+with LSC.Types, LSC.Debug, LSC.SHA2.Debug;
+use type LSC.Types.Word64;
 
-package body SHA2 is
+package body LSC.SHA2 is
 
    function Init_Data_Length return Data_Length is
    begin
       return Data_Length'(0, 0);
    end Init_Data_Length;
 
-   procedure Add (Item : in out Data_Length; Value : in Types.Word64) is
+   procedure Add (Item  : in out Data_Length;
+                  Value : in     LSC.Types.Word64) is
    begin
-      if (Item.LSW + Value) <= Types.Word64'Last
+      if (Item.LSW + Value) <= LSC.Types.Word64'Last
       then
          Item.LSW := Item.LSW + Value;
       else
          Item.MSW := Item.MSW + 1;
-         Item.LSW := Types.Word64'Last - Value;
+         Item.LSW := LSC.Types.Word64'Last - Value;
       end if;
    end Add;
 
    function Ch
-     (x    : Types.Word64;
-      y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64
+     (x    : LSC.Types.Word64;
+      y    : LSC.Types.Word64;
+      z    : LSC.Types.Word64)
+      return LSC.Types.Word64
    is
       -- This is a workaround for the simplifier, which is not able
       -- to discharge the (not x) expression directly due to a search
       -- depth limit.
-      Not_X : Types.Word64;
+      Not_X : LSC.Types.Word64;
    begin
       Not_X := not x;
       --# assert Not_X in Types.Word64 and Not_X = not x;
@@ -54,37 +55,41 @@ package body SHA2 is
    end Ch;
 
    function Maj
-     (x    : Types.Word64;
-      y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64
+     (x    : LSC.Types.Word64;
+      y    : LSC.Types.Word64;
+      z    : LSC.Types.Word64)
+      return LSC.Types.Word64
    is
    begin
       return (x and y) xor (x and z) xor (y and z);
    end Maj;
 
-   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64 is
+   function Cap_Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
    begin
-      return Types.ROTR (x, 28) xor
-             Types.ROTR (x, 34) xor
-             Types.ROTR (x, 39);
+      return LSC.Types.ROTR (x, 28) xor
+             LSC.Types.ROTR (x, 34) xor
+             LSC.Types.ROTR (x, 39);
    end Cap_Sigma_0_512;
 
-   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64 is
+   function Cap_Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
    begin
-      return Types.ROTR (x, 14) xor
-             Types.ROTR (x, 18) xor
-             Types.ROTR (x, 41);
+      return LSC.Types.ROTR (x, 14) xor
+             LSC.Types.ROTR (x, 18) xor
+             LSC.Types.ROTR (x, 41);
    end Cap_Sigma_1_512;
 
-   function Sigma_0_512 (x : Types.Word64) return Types.Word64 is
+   function Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
    begin
-      return Types.ROTR (x, 1) xor Types.ROTR (x, 8) xor Types.SHR (x, 7);
+      return LSC.Types.ROTR (x, 1) xor
+             LSC.Types.ROTR (x, 8) xor
+             LSC.Types.SHR (x, 7);
    end Sigma_0_512;
 
-   function Sigma_1_512 (x : Types.Word64) return Types.Word64 is
+   function Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64 is
    begin
-      return Types.ROTR (x, 19) xor Types.ROTR (x, 61) xor Types.SHR (x, 6);
+      return LSC.Types.ROTR (x, 19) xor
+             LSC.Types.ROTR (x, 61) xor
+             LSC.Types.SHR (x, 6);
    end Sigma_1_512;
 
    function Context_Init return Context_Type is
@@ -104,11 +109,11 @@ package body SHA2 is
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;
-      Block   : in Block_Type)
+      Block   : in     Block_Type)
    is
       W      : Schedule_Type;
       S      : State_Type;
-      T1, T2 : Types.Word64;
+      T1, T2 : LSC.Types.Word64;
    begin
 
       W := Schedule_Type'(others => 0);
@@ -280,4 +285,4 @@ package body SHA2 is
       return Context.H;
    end Get_Hash;
 
-end SHA2;
+end LSC.SHA2;

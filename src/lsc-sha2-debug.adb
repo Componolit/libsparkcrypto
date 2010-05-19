@@ -16,13 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.Debug is
-
-   procedure Put (T : String) is
-   begin
-      --# accept Flow, 30, T, "Null implementation";
-      null;
-   end Put;
+package body LSC.SHA2.Debug is
 
    procedure Put_Line (T : String) is
    begin
@@ -30,27 +24,34 @@ package body LSC.Debug is
       null;
    end Put_Line;
 
-   procedure New_Line is
-   begin
-      null;
-   end New_Line;
-
-   procedure Print_Byte (I : in LSC.Types.Byte) is
+   procedure Put_Natural (I : Natural) is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
-   end Print_Byte;
+   end Put_Natural;
 
-   procedure Print_Word32 (I : in LSC.Types.Word32) is
+   procedure Put_T (T : LSC.SHA2.Schedule_Index) is
    begin
-      --# accept Flow, 30, I, "Null implementation";
+      --# accept Flow, 30, T, "Null implementation";
       null;
-   end Print_Word32;
+   end Put_T;
 
-   procedure Print_Word64 (I : in LSC.Types.Word64) is
+   procedure Put_State (S : LSC.SHA2.State_Type) is
    begin
-      --# accept Flow, 30, I, "Null implementation";
+      --# accept Flow, 30, S, "Null implementation";
       null;
-   end Print_Word64;
+   end Put_State;
 
-end LSC.Debug;
+   procedure Put_Hash (H : LSC.SHA2.Hash_Type) is
+   begin
+      --# accept Flow, 30, H, "Null implementation";
+      null;
+   end Put_Hash;
+
+   procedure Put_Schedule (S : LSC.SHA2.Schedule_Type) is
+   begin
+      --# accept Flow, 30, S, "Null implementation";
+      null;
+   end Put_Schedule;
+
+end LSC.SHA2.Debug;

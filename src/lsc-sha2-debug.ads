@@ -16,38 +16,26 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, SHA2;
---# inherit SHA2,
---#         Types;
+--# inherit LSC.SHA2;
 
-package IO is
+private package LSC.SHA2.Debug is
 
-   procedure Put (T : String);
+   procedure Put_T (T : LSC.SHA2.Schedule_Index);
    --# derives null from T;
+
+   procedure Put_Natural (I : Natural);
+   --# derives null from I;
 
    procedure Put_Line (T : String);
    --# derives null from T;
 
-   procedure New_Line;
-   --# derives ;
+   procedure Put_State (S : LSC.SHA2.State_Type);
+   --# derives null from S;
 
-   function Read_Byte return  Types.Byte;
+   procedure Put_Hash (H : LSC.SHA2.Hash_Type);
+   --# derives null from H;
 
-   function End_Of_Stream return Boolean;
+   procedure Put_Schedule (S : LSC.SHA2.Schedule_Type);
+   --# derives null from S;
 
-   procedure Print_Byte (Item : in Types.Byte);
-   --# derives null from Item;
-
-   procedure Print_Word32 (Item : in Types.Word32);
-   --# derives null from Item;
-
-   procedure Print_Word64 (Item : in Types.Word64);
-   --# derives null from Item;
-
-   procedure Print_Hash (Hash : SHA2.Hash_Type);
-   --# derives null from Hash;
-
-   procedure Print_Block (Block : SHA2.Block_Type);
-   --# derives null from Block;
-
-end IO;
+end LSC.SHA2.Debug;

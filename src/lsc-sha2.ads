@@ -16,15 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, LSC.Debug;
---# inherit Types,
+with LSC.Types, LSC.Debug;
+--# inherit LSC.Types,
 --#         LSC.Debug;
 
-package SHA2 is
+package LSC.SHA2 is
 
    type Context_Type is private;
 
-   type Word64_Array_Type is array (Natural range <>) of Types.Word64;
+   type Word64_Array_Type is array (Natural range <>) of LSC.Types.Word64;
 
    subtype Block_Index is Natural range 0 .. 15;
    subtype Block_Type is Word64_Array_Type (Block_Index);
@@ -32,7 +32,7 @@ package SHA2 is
    subtype Hash_Index is Natural range 0 .. 7;
    subtype Hash_Type is Word64_Array_Type (Hash_Index);
 
-   subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
+   subtype Block_Length_Type is LSC.Types.Word64 range 0 .. 1023;
 
    -- Initialize SHA2 context.
    function Context_Init return Context_Type;
@@ -40,15 +40,15 @@ package SHA2 is
    -- Update SHA2 context with message block.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in Block_Type);
+      Block   : in     Block_Type);
    --# derives Context from *,
    --#                      Block;
 
    -- Finalize SHA2 context with final message block.
    procedure Context_Finalize
      (Context : in out Context_Type;
-      Block   : in Block_Type;
-      Length  : in Block_Length_Type);
+      Block   : in     Block_Type;
+      Length  : in     Block_Length_Type);
    --# derives Context from *,
    --#                      Block,
    --#                      Length;
@@ -59,23 +59,15 @@ package SHA2 is
 private
 
    type Data_Length is record
-      LSW : Types.Word64;
-      MSW : Types.Word64;
+      LSW : LSC.Types.Word64;
+      MSW : LSC.Types.Word64;
    end record;
 
-   type State_Index is (
-      a,
-      b,
-      c,
-      d,
-      e,
-      f,
-      g,
-      h);
-   type State_Type is array (State_Index) of Types.Word64;
+   type State_Index is (a, b, c, d, e, f, g, h);
+   type State_Type is array (State_Index) of LSC.Types.Word64;
 
    type Schedule_Index is range 0 .. 79;
-   type Schedule_Type is array (Schedule_Index) of Types.Word64;
+   type Schedule_Type is array (Schedule_Index) of LSC.Types.Word64;
 
    type Context_Type is record
       Length : Data_Length;
@@ -84,34 +76,35 @@ private
 
    function Init_Data_Length return Data_Length;
 
-   procedure Add (Item : in out Data_Length; Value : in Types.Word64);
+   procedure Add (Item  : in out Data_Length;
+                  Value : in     LSC.Types.Word64);
    --# derives Item from *,
    --#                   Value;
 
    procedure Block_Terminate
      (Block  : in out Block_Type;
-      Length : in Block_Length_Type);
+      Length : in     Block_Length_Type);
    --# derives Block from *,
    --#                    Length;
 
    function Ch
-     (x    : Types.Word64;
-      y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64;
+     (x    : LSC.Types.Word64;
+      y    : LSC.Types.Word64;
+      z    : LSC.Types.Word64)
+      return LSC.Types.Word64;
    --# return (x and y) xor ((not x) and z);
 
    function Maj
-     (x    : Types.Word64;
-      y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64;
+     (x    : LSC.Types.Word64;
+      y    : LSC.Types.Word64;
+      z    : LSC.Types.Word64)
+      return LSC.Types.Word64;
    --# return (x and y) xor (x and z) xor (y and z);
 
-   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64;
-   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64;
-   function Sigma_0_512 (x : Types.Word64) return Types.Word64;
-   function Sigma_1_512 (x : Types.Word64) return Types.Word64;
+   function Cap_Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
+   function Cap_Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
+   function Sigma_0_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
+   function Sigma_1_512 (x : LSC.Types.Word64) return LSC.Types.Word64;
 
    K : constant Schedule_Type :=
       Schedule_Type'
@@ -198,8 +191,8 @@ private
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;
-      Block   : in Block_Type);
+      Block   : in     Block_Type);
    --# derives Context from *,
    --#                      Block;
 
-end SHA2;
+end LSC.SHA2;

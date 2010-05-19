@@ -18,7 +18,7 @@
 
 with Unchecked_Conversion;
 
-package body Types is
+package body LSC.Types is
 
    function ROTR (Value : Word64; Amount : Natural) return Word64 is
    begin
@@ -64,4 +64,4 @@ package body Types is
    end Byte_Array_To_Word32;
    pragma Inline (Byte_Array_To_Word32);
 
-end Types;
+end LSC.Types;

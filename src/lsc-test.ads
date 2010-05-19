@@ -16,10 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with IO;
---# inherit IO;
+with LSC.IO;
+--# inherit LSC.IO;
 
-package Test is
+package LSC.Test is
 
    procedure Suite (Name : String);
    --# derives null from Name;
@@ -29,4 +29,4 @@ package Test is
    --# derives null from Message,
    --#                   Result;
 
-end Test;
+end LSC.Test;

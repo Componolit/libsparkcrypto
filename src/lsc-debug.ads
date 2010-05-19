@@ -16,8 +16,8 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types;
---# inherit Types;
+with LSC, LSC.Types;
+--  inherit LSC.Types;
 
 package LSC.Debug is
 
@@ -30,13 +30,13 @@ package LSC.Debug is
    procedure New_Line;
    --# derives ;
 
-   procedure Print_Byte (I : in Types.Byte);
+   procedure Print_Byte (I : in LSC.Types.Byte);
    --# derives null from I;
 
-   procedure Print_Word32 (I : in Types.Word32);
+   procedure Print_Word32 (I : in LSC.Types.Word32);
    --# derives null from I;
 
-   procedure Print_Word64 (I : in Types.Word64);
+   procedure Print_Word64 (I : in LSC.Types.Word64);
    --# derives null from I;
 
 end LSC.Debug;

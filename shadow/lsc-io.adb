@@ -16,15 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with Types, IO;
+with LSC.Types, LSC.IO;
 with Ada.Text_IO.Text_Streams;
 with Unchecked_Conversion;
 
-use type Types.Word64;
-use type Types.Word32;
-use type Types.Byte;
+use type LSC.Types.Word64;
+use type LSC.Types.Word32;
+use type LSC.Types.Byte;
 
-package body IO is
+package body LSC.IO is
 
    subtype Nibble is Natural range 0 .. 15;
 
@@ -160,4 +160,4 @@ package body IO is
       end loop;
       IO.New_Line;
    end Print_Block;
-end IO;
+end LSC.IO;

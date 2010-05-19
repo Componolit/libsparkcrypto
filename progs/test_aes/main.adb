@@ -16,12 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with AES, IO, Test;
-use type AES.Block_Type;
+with LSC.AES, LSC.IO, LSC.Test;
+use type LSC.AES.Block_Type;
 
---# inherit IO,
---#         AES,
---#         Test;
+--# inherit LSC.IO,
+--#         LSC.AES,
+--#         LSC.Test;
 
 --# main_program;
 procedure Main
