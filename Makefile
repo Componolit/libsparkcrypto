@@ -22,7 +22,7 @@ simplify:
 
 $(OUTDIR)/%: tests/%/main.adb
 	@mkdir -p $@.bin
-	@gnatmake $(GNATMAKE_FLAGS) -aIada -aIsrc -D $@.bin -o $@ $<
+	@gnatmake $(GNATMAKE_FLAGS) -aIshadow -aIsrc -D $@.bin -o $@ $<
 
 $(OUTDIR)/sha512openssl: CFLAGS += -lssl
 
