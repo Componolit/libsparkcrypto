@@ -41,9 +41,9 @@ package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Key_Expansion (Key : Key_Type;
-                           Nk  : Nk_Type;
-                           Nr  : Nr_Type) return Schedule_Type is
+   function Enc_Key_Expansion (Key : Key_Type;
+                               Nk  : Nk_Type;
+                               Nr  : Nr_Type) return Schedule_Type is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
@@ -144,7 +144,62 @@ package body LSC.AES is
 
       return Result;
 
-   end Key_Expansion;
+   end Enc_Key_Expansion;
+
+   ----------------------------------------------------------------------------
+
+   function Dec_Key_Expansion (Key : Key_Type;
+                               Nk  : Nk_Type;
+                               Nr  : Nr_Type) return Schedule_Type
+   is
+      Result         : Schedule_Type;
+      A0, A1, A2, A3 : Types.Word32;
+   begin
+
+      Result := Enc_Key_Expansion (Key, Nk, Nr);
+
+      for Round in Schedule_Index range 1 .. Nr - 1
+      --# assert Round in 1 .. Nr - 1;
+      loop
+
+         A0 := Result (Nb * Round);
+         A1 := Result (Nb * Round + 1);
+         A2 := Result (Nb * Round + 2);
+         A3 := Result (Nb * Round + 3);
+
+         Result (Nb * Round) :=
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A0)),
+                      Tables.U2 (Ops.Byte1 (A0)),
+                      Tables.U3 (Ops.Byte2 (A0)),
+                      Tables.U4 (Ops.Byte3 (A0)));
+
+         Result (Nb * Round + 1) :=
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A1)),
+                      Tables.U2 (Ops.Byte1 (A1)),
+                      Tables.U3 (Ops.Byte2 (A1)),
+                      Tables.U4 (Ops.Byte3 (A1)));
+
+         Result (Nb * Round + 2) :=
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A2)),
+                      Tables.U2 (Ops.Byte1 (A2)),
+                      Tables.U3 (Ops.Byte2 (A2)),
+                      Tables.U4 (Ops.Byte3 (A2)));
+
+         Result (Nb * Round + 3) :=
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A3)),
+                      Tables.U2 (Ops.Byte1 (A3)),
+                      Tables.U3 (Ops.Byte2 (A3)),
+                      Tables.U4 (Ops.Byte3 (A3)));
+      end loop;
+
+      --  DEBUG OUTPUT  -----------------------
+      Debug.Put_Line ("Inverse schedule:");  --
+      Print.Print_Schedule (Result);         --
+      -----------------------------------------
+
+      return Result;
+
+   end Dec_Key_Expansion;
 
    ----------------------------------------------------------------------------
 
@@ -289,10 +344,11 @@ package body LSC.AES is
       (Key : AES128_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key,
-                                                         Nk  => 4,
-                                                         Nr  => 10),
-                              Nr       => 10);
+      return AES_Enc_Context'
+         (Schedule => Enc_Key_Expansion (Key => Key,
+                                         Nk  => 4,
+                                         Nr  => 10),
+          Nr       => 10);
    end Create_AES128_Enc_Context;
 
    ----------------------------------------------------------------------------
@@ -301,10 +357,11 @@ package body LSC.AES is
       (Key : AES192_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key,
-                                                         Nk  => 6,
-                                                         Nr  => 12),
-                              Nr       => 12);
+      return AES_Enc_Context'
+         (Schedule => Enc_Key_Expansion (Key => Key,
+                                         Nk  => 6,
+                                         Nr  => 12),
+          Nr       => 12);
    end Create_AES192_Enc_Context;
 
    ----------------------------------------------------------------------------
@@ -313,10 +370,11 @@ package body LSC.AES is
       (Key : AES256_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key,
-                                                         Nk  => 8,
-                                                         Nr  => 14),
-                              Nr       => 14);
+      return AES_Enc_Context'
+         (Schedule => Enc_Key_Expansion (Key => Key,
+                                     Nk  => 8,
+                                     Nr  => 14),
+          Nr       => 14);
    end Create_AES256_Enc_Context;
 
    ----------------------------------------------------------------------------
@@ -325,11 +383,38 @@ package body LSC.AES is
       (Key : AES128_Key_Type) return AES_Dec_Context
    is
    begin
-      return AES_Dec_Context'(Schedule => Key_Expansion (Key => Key,
-                                                         Nk  => 4,
-                                                         Nr  => 10),
-                              Nr       => 10);
+      return AES_Dec_Context'
+         (Schedule => Dec_Key_Expansion (Key => Key,
+                                         Nk  => 4,
+                                         Nr  => 10),
+          Nr       => 10);
    end Create_AES128_Dec_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES192_Dec_Context
+      (Key : AES192_Key_Type) return AES_Dec_Context
+   is
+   begin
+      return AES_Dec_Context'
+         (Schedule => Dec_Key_Expansion (Key => Key,
+                                         Nk  => 6,
+                                         Nr  => 12),
+          Nr       => 12);
+   end Create_AES192_Dec_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES256_Dec_Context
+      (Key : AES256_Key_Type) return AES_Dec_Context
+   is
+   begin
+      return AES_Dec_Context'
+         (Schedule => Dec_Key_Expansion (Key => Key,
+                                         Nk  => 8,
+                                         Nr  => 14),
+          Nr       => 14);
+   end Create_AES256_Dec_Context;
 
    ----------------------------------------------------------------------------
 
@@ -340,20 +425,20 @@ package body LSC.AES is
       C0, C1, C2, C3 : Types.Word32;
    begin
 
-      --  DEBUG  -----------------------------------------------------
-      Debug.Put ("CIPHERTEXT:  ");                                  --
-      Print.Print_Block (Ciphertext);                               --
-      Debug.New_Line;                                               --
-      Debug.New_Line;                                               --
-      Print.Print_Round ("iinput", Schedule_Index'(0), Ciphertext); --
-      ----------------------------------------------------------------
+      --  DEBUG  ---------------------------------------------------------------
+      Debug.Put ("CIPHERTEXT:  ");                                            --
+      Print.Print_Block (Ciphertext);                                         --
+      Debug.New_Line;                                                         --
+      Debug.New_Line;                                                         --
+      Print.Print_Round ("iinput", Schedule_Index'(Context.Nr), Ciphertext);  --
+      --------------------------------------------------------------------------
 
-      C0 := Ciphertext (0) xor Context.Schedule (0);
-      C1 := Ciphertext (1) xor Context.Schedule (1);
-      C2 := Ciphertext (2) xor Context.Schedule (2);
-      C3 := Ciphertext (3) xor Context.Schedule (3);
+      C0 := Ciphertext (0) xor Context.Schedule (Nb * Context.Nr);
+      C1 := Ciphertext (1) xor Context.Schedule (Nb * Context.Nr + 1);
+      C2 := Ciphertext (2) xor Context.Schedule (Nb * Context.Nr + 2);
+      C3 := Ciphertext (3) xor Context.Schedule (Nb * Context.Nr + 3);
 
-      for Round in Schedule_Index range 1 .. Context.Nr - 1
+      for Round in reverse Schedule_Index range 1 .. Context.Nr - 1
       loop
 
          --  DEBUG  -----------------------------------------
@@ -414,7 +499,7 @@ package body LSC.AES is
       end loop;
 
       --  DEBUG  -----------------------------------------
-      Print.Print_Round ("start ", Context.Nr,          --
+      Print.Print_Round ("istart", 0,                   --
                          Block_Type'(C0, C1, C2, C3));  --
       ----------------------------------------------------
 
@@ -423,7 +508,7 @@ package body LSC.AES is
                Tables.Si (Ops.Byte1 (C3)),
                Tables.Si (Ops.Byte2 (C2)),
                Tables.Si (Ops.Byte3 (C1))) xor
-            Context.Schedule (Nb * Context.Nr);
+            Context.Schedule (0);
 
       --# assert
       --#    A0 in Types.Word32;
@@ -433,35 +518,35 @@ package body LSC.AES is
                Tables.Si (Ops.Byte1 (C0)),
                Tables.Si (Ops.Byte2 (C3)),
                Tables.Si (Ops.Byte3 (C2))) xor
-            Context.Schedule (Nb * Context.Nr + 1);
+            Context.Schedule (1);
 
       --# assert
       --#    A0 in Types.Word32 and A1 in Types.Word32;
 
       A2 := Ops.Bytes_To_Word32
-              (Tables.S (Ops.Byte0 (C2)),
-               Tables.S (Ops.Byte1 (C1)),
-               Tables.S (Ops.Byte2 (C0)),
-               Tables.S (Ops.Byte3 (C3))) xor
-            Context.Schedule (Nb * Context.Nr + 2);
+              (Tables.Si (Ops.Byte0 (C2)),
+               Tables.Si (Ops.Byte1 (C1)),
+               Tables.Si (Ops.Byte2 (C0)),
+               Tables.Si (Ops.Byte3 (C3))) xor
+            Context.Schedule (2);
 
       --# assert
       --#    A0 in Types.Word32 and A1 in Types.Word32 and
       --#    A2 in Types.Word32;
 
       A3 := Ops.Bytes_To_Word32
-              (Tables.S (Ops.Byte0 (C3)),
-               Tables.S (Ops.Byte1 (C2)),
-               Tables.S (Ops.Byte2 (C1)),
-               Tables.S (Ops.Byte3 (C0))) xor
-            Context.Schedule (Nb * Context.Nr + 3);
+              (Tables.Si (Ops.Byte0 (C3)),
+               Tables.Si (Ops.Byte1 (C2)),
+               Tables.Si (Ops.Byte2 (C1)),
+               Tables.Si (Ops.Byte3 (C0))) xor
+            Context.Schedule (3);
 
       --# assert
       --#    A0 in Types.Word32 and A1 in Types.Word32 and
       --#    A2 in Types.Word32 and A3 in Types.Word32;
 
       --  DEBUG  -----------------------------------------
-      Print.Print_Round ("ioutpt", Context.Nr,          --
+      Print.Print_Round ("ioutpt", 0,                   --
                          Block_Type'(A0, A1, A2, A3));  --
       ----------------------------------------------------
 

@@ -51,6 +51,8 @@ package LSC.AES is
                      Plaintext : Block_Type) return Block_Type;
 
    function Create_AES128_Dec_Context (Key : AES128_Key_Type) return AES_Dec_Context;
+   function Create_AES192_Dec_Context (Key : AES192_Key_Type) return AES_Dec_Context;
+   function Create_AES256_Dec_Context (Key : AES256_Key_Type) return AES_Dec_Context;
 
    function Decrypt (Context    : AES_Dec_Context;
                      Ciphertext : Block_Type) return Block_Type;
@@ -77,9 +79,14 @@ private
       Nr       : Nr_Type;
    end record;
 
-   function Key_Expansion (Key : Key_Type;
-                           Nk  : Nk_Type;
-                           Nr  : Nr_Type) return Schedule_Type;
+   function Enc_Key_Expansion (Key : Key_Type;
+                               Nk  : Nk_Type;
+                               Nr  : Nr_Type) return Schedule_Type;
+
+   function Dec_Key_Expansion (Key : Key_Type;
+                               Nk  : Nk_Type;
+                               Nr  : Nr_Type) return Schedule_Type;
+
    function Rot_Word (Value : Types.Word32) return Types.Word32;
 
 end LSC.AES;
