@@ -150,6 +150,7 @@ package body LSC.AES is
    function Encrypt (Context   : AES_Enc_Context;
                      Plaintext : Block_Type) return Block_Type
    is
+      A0, A1, A2, A3 : Types.Word32;
       C0, C1, C2, C3 : Types.Word32;
    begin
 
@@ -177,7 +178,7 @@ package body LSC.AES is
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context%;
 
-         C0 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C0)),
+         A0 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C0)),
                          Tables.T2 (Ops.Byte1 (C1)),
                          Tables.T3 (Ops.Byte2 (C2)),
                          Tables.T4 (Ops.Byte3 (C3)),
@@ -187,7 +188,7 @@ package body LSC.AES is
          --#    Round <= Context.Nr - 1 and Context = Context% and
          --#    C0 in Types.Word32;
 
-         C1 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C1)),
+         A1 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C1)),
                          Tables.T2 (Ops.Byte1 (C2)),
                          Tables.T3 (Ops.Byte2 (C3)),
                          Tables.T4 (Ops.Byte3 (C0)),
@@ -197,7 +198,7 @@ package body LSC.AES is
          --#    Round <= Context.Nr - 1 and Context = Context% and
          --#    C0 in Types.Word32      and C1 in Types.Word32;
 
-         C2 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C2)),
+         A2 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C2)),
                          Tables.T2 (Ops.Byte1 (C3)),
                          Tables.T3 (Ops.Byte2 (C0)),
                          Tables.T4 (Ops.Byte3 (C1)),
@@ -208,7 +209,7 @@ package body LSC.AES is
          --#    C0 in Types.Word32      and C1 in Types.Word32 and
          --#    C2 in Types.Word32;
 
-         C3 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C3)),
+         A3 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C3)),
                          Tables.T2 (Ops.Byte1 (C0)),
                          Tables.T3 (Ops.Byte2 (C1)),
                          Tables.T4 (Ops.Byte3 (C2)),
@@ -219,14 +220,19 @@ package body LSC.AES is
          --#    C0 in Types.Word32      and C1 in Types.Word32 and
          --#    C2 in Types.Word32      and C3 in Types.Word32;
 
-         --  DEBUG  -----------------------------------------
-         Print.Print_Round ("start ", Round,               --
-                            Block_Type'(C0, C1, C2, C3));  --
-         ----------------------------------------------------
+         C0 := A0;
+         C1 := A1;
+         C2 := A2;
+         C3 := A3;
 
       end loop;
 
-      C0 := Ops.Bytes_To_Word32
+      --  DEBUG  -----------------------------------------
+      Print.Print_Round ("start ", Context.Nr,          --
+                         Block_Type'(C0, C1, C2, C3));  --
+      ----------------------------------------------------
+
+      A0 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C0)),
                Tables.S (Ops.Byte1 (C1)),
                Tables.S (Ops.Byte2 (C2)),
@@ -234,9 +240,9 @@ package body LSC.AES is
             Context.Schedule (Nb * Context.Nr);
 
       --# assert
-      --#    C0 in Types.Word32;
+      --#    A0 in Types.Word32;
 
-      C1 := Ops.Bytes_To_Word32
+      A1 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C1)),
                Tables.S (Ops.Byte1 (C2)),
                Tables.S (Ops.Byte2 (C3)),
@@ -244,9 +250,9 @@ package body LSC.AES is
             Context.Schedule (Nb * Context.Nr + 1);
 
       --# assert
-      --#    C0 in Types.Word32 and C1 in Types.Word32;
+      --#    A0 in Types.Word32 and A1 in Types.Word32;
 
-      C2 := Ops.Bytes_To_Word32
+      A2 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C2)),
                Tables.S (Ops.Byte1 (C3)),
                Tables.S (Ops.Byte2 (C0)),
@@ -254,10 +260,10 @@ package body LSC.AES is
             Context.Schedule (Nb * Context.Nr + 2);
 
       --# assert
-      --#    C0 in Types.Word32 and C1 in Types.Word32 and
-      --#    C2 in Types.Word32;
+      --#    A0 in Types.Word32 and A1 in Types.Word32 and
+      --#    A2 in Types.Word32;
 
-      C3 := Ops.Bytes_To_Word32
+      A3 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C3)),
                Tables.S (Ops.Byte1 (C0)),
                Tables.S (Ops.Byte2 (C1)),
@@ -265,15 +271,15 @@ package body LSC.AES is
             Context.Schedule (Nb * Context.Nr + 3);
 
       --# assert
-      --#    C0 in Types.Word32 and C1 in Types.Word32 and
-      --#    C2 in Types.Word32 and C3 in Types.Word32;
+      --#    A0 in Types.Word32 and A1 in Types.Word32 and
+      --#    A2 in Types.Word32 and A3 in Types.Word32;
 
       --  DEBUG  -----------------------------------------
       Print.Print_Round ("output", Context.Nr,          --
-                         Block_Type'(C0, C1, C2, C3));  --
+                         Block_Type'(A0, A1, A2, A3));  --
       ----------------------------------------------------
 
-      return Block_Type'(C0, C1, C2, C3);
+      return Block_Type'(A0, A1, A2, A3);
    end Encrypt;
 
    ----------------------------------------------------------------------------
