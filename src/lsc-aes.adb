@@ -65,27 +65,27 @@ package body LSC.AES is
          Result (I) := Key (I);
       end loop;
 
-      --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
+      --  DEBUG OUTPUT  -----------------------------------------------------------------------------------------
       Debug.Put_Line ("Initial schedule:");                                                                    --
-      Print.Print_Schedule (Result);                                                                               --
+      Print.Print_Schedule (Result);                                                                           --
       Debug.New_Line;                                                                                          --
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       Debug.Put_Line ("|  i  |          |  After   |  After   |          |After XOR |          |  w[i] =  |"); --
       Debug.Put_Line ("|(dec)|   temp   |RotWord() |SubWord() |Rcon[i/Nk]|with Rcon | w[i-Nk]  | temp XOR |"); --
       Debug.Put_Line ("|     |          |          |          |          |          |          |  w[i-Nk] |"); --
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
-      ---------------------------------------------------------------------------------------------------------------
+      -----------------------------------------------------------------------------------------------------------
 
       for I in Schedule_Index range Key'Last + 1 .. Schedule_Index'Last
       --# assert
       --#    I in Key'Last + 1 .. Schedule_Index'Last;
       loop
 
-         --  DEBUG OUTPUT  ---------------------
+         --  DEBUG OUTPUT  -----------------
          Debug.Put ("| ");                --
          Print.Print_Schedule_Index (I);  --
          Debug.Put (" |");                --
-         ---------------------------------------
+         -----------------------------------
 
          Temp := Result (I - 1);
 
@@ -100,7 +100,7 @@ package body LSC.AES is
             --  DEBUG OUTPUT  -------------------
             Put_Row (Rot_Temp);                --
             Put_Row (Sub_Temp);                --
-            Put_Row (Tables.Rcon (I/Nk));  --
+            Put_Row (Tables.Rcon (I/Nk));      --
             Put_Row (Temp);                    --
             -------------------------------------
 
@@ -112,34 +112,34 @@ package body LSC.AES is
 
             Temp := Sub_Word (Temp);
 
-            --  DEBUG OUTPUT  ---------------------------
-            Put_Row (Temp);                            --
+            --  DEBUG OUTPUT  -----------------------
+            Put_Row (Temp);                        --
             Debug.Put ("          |          |");  --
-            ---------------------------------------------
+            -----------------------------------------
          else
-            --  DEBUG OUTPUT  -------------------------------------------------
+            --  DEBUG OUTPUT  ---------------------------------------------
             Debug.Put ("          |          |          |          |");  --
-            -------------------------------------------------------------------
+            ---------------------------------------------------------------
          end if;
 
          Result (I) := Result (I - Nk) xor Temp;
 
-         --  DEBUG OUTPUT  ---------------
+         --  DEBUG OUTPUT  ------------
          Put_Row (Result (I - Nk));  --
-         Put_Row (Result (I));      --
-         Debug.New_Line;            --
-         ---------------------------------
+         Put_Row (Result (I));       --
+         Debug.New_Line;             --
+         ------------------------------
 
       end loop;
 
-      --  DEBUG OUTPUT  ---------------------------------------------------------------------------------------------
+      --  DEBUG OUTPUT  -----------------------------------------------------------------------------------------
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
-      ---------------------------------------------------------------------------------------------------------------
+      -----------------------------------------------------------------------------------------------------------
 
-      --  DEBUG OUTPUT  -------------------------
+      --  DEBUG OUTPUT  ---------------------
       Debug.Put_Line ("Final schedule:");  --
-      Print.Print_Schedule (Result);           --                                                                  --
-      -------------------------------------------
+      Print.Print_Schedule (Result);       --
+      ---------------------------------------
 
       return Result;
 
@@ -166,10 +166,10 @@ package body LSC.AES is
       C2 := Plaintext (2) xor Context.Schedule (2);
       C3 := Plaintext (3) xor Context.Schedule (3);
 
-      --  DEBUG  --------------------------------------------------
-      Print.Print_Round ("start ", Schedule_Index'(1),           --
+      --  DEBUG  -----------------------------------------
+      Print.Print_Round ("start ", Schedule_Index'(1),  --
                          Block_Type'(C0, C1, C2, C3));  --
-      -------------------------------------------------------------
+      ----------------------------------------------------
 
       for Round in Schedule_Index range 1 .. Context.Nr - 1
       loop
@@ -219,10 +219,10 @@ package body LSC.AES is
          --#    C0 in Types.Word32      and C1 in Types.Word32 and
          --#    C2 in Types.Word32      and C3 in Types.Word32;
 
-         --  DEBUG  --------------------------------------------------
-         Print.Print_Round ("start ", Round,                        --
+         --  DEBUG  -----------------------------------------
+         Print.Print_Round ("start ", Round,               --
                             Block_Type'(C0, C1, C2, C3));  --
-         -------------------------------------------------------------
+         ----------------------------------------------------
 
       end loop;
 
@@ -268,10 +268,10 @@ package body LSC.AES is
       --#    C0 in Types.Word32 and C1 in Types.Word32 and
       --#    C2 in Types.Word32 and C3 in Types.Word32;
 
-      --  DEBUG  --------------------------------------------------
-      Print.Print_Round ("output", Context.Nr,                   --
+      --  DEBUG  -----------------------------------------
+      Print.Print_Round ("output", Context.Nr,          --
                          Block_Type'(C0, C1, C2, C3));  --
-      -------------------------------------------------------------
+      ----------------------------------------------------
 
       return Block_Type'(C0, C1, C2, C3);
    end Encrypt;
