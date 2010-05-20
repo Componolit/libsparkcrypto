@@ -21,6 +21,8 @@ proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
+$(OUTDIR)/test_aes.sum: $(OUTDIR)/test_aes.prf/lsc_/aes/encrypt.rlu
+
 $(OUTDIR)/sha512openssl: CFLAGS += -lssl
 
 #
@@ -70,6 +72,12 @@ $(OUTDIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 #
 $(OUTDIR)/target.cfg: $(OUTDIR)/confgen
 	@$< > $@
+
+#
+# how to create (i.e. copy) an RLU file
+#
+$(OUTDIR)/%.rlu:
+	@cp rules/$(@F) $@
 
 #
 # clean up
