@@ -150,98 +150,130 @@ package body LSC.AES is
    function Encrypt (Context   : AES_Context;
                      Plaintext : Block_Type) return Block_Type
    is
-      CT : Block_Type;
+      C0, C1, C2, C3 : Types.Word32;
    begin
 
       --  DEBUG  -----------------------------------------------------
-      Debug.Put ("PLAINTEXT:   ");                              --
+      Debug.Put ("PLAINTEXT:   ");                                  --
       Print.Print_Block (Plaintext);                                --
-      Debug.New_Line;                                           --
-      Debug.New_Line;                                           --
+      Debug.New_Line;                                               --
+      Debug.New_Line;                                               --
       Print.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
       ----------------------------------------------------------------
 
-      CT := Block_Type'
-         (0 => Plaintext (0) xor Context.Schedule (0),
-          1 => Plaintext (1) xor Context.Schedule (1),
-          2 => Plaintext (2) xor Context.Schedule (2),
-          3 => Plaintext (3) xor Context.Schedule (3));
+      C0 := Plaintext (0) xor Context.Schedule (0);
+      C1 := Plaintext (1) xor Context.Schedule (1);
+      C2 := Plaintext (2) xor Context.Schedule (2);
+      C3 := Plaintext (3) xor Context.Schedule (3);
 
-      --  DEBUG  ----------------------------------------------
-      Print.Print_Round ("start ", Schedule_Index'(1), CT);  --
-      ---------------------------------------------------------
+      --  DEBUG  --------------------------------------------------
+      Print.Print_Round ("start ", Schedule_Index'(1),           --
+                         Block_Type'(C0, C1, C2, C3));  --
+      -------------------------------------------------------------
 
       for Round in Schedule_Index range 1 .. Context.Nr - 1
-      --# assert
-      --#    Round <= Context.Nr - 1 and
-      --#    Context = Context%;
       loop
 
-         CT := Block_Type'
-            (0 => (Tables.T1 (Ops.Byte0 (CT (0))) xor
-                   Tables.T2 (Ops.Byte1 (CT (1))) xor
-                   Tables.T3 (Ops.Byte2 (CT (2))) xor
-                   Tables.T4 (Ops.Byte3 (CT (3))) xor
-                   Context.Schedule (Nb * Round)),
+         --# assert
+         --#    Round <= Context.Nr - 1 and Context = Context%;
 
-             1 => (Tables.T1 (Ops.Byte0 (CT (1))) xor
-                   Tables.T2 (Ops.Byte1 (CT (2))) xor
-                   Tables.T3 (Ops.Byte2 (CT (3))) xor
-                   Tables.T4 (Ops.Byte3 (CT (0))) xor
-                   Context.Schedule (Nb * Round + 1)),
+         C0 := (Tables.T1 (Ops.Byte0 (C0)) xor
+                Tables.T2 (Ops.Byte1 (C1)) xor
+                Tables.T3 (Ops.Byte2 (C2)) xor
+                Tables.T4 (Ops.Byte3 (C3)) xor
+                Context.Schedule (Nb * Round));
 
-             2 => (Tables.T1 (Ops.Byte0 (CT (2))) xor
-                   Tables.T2 (Ops.Byte1 (CT (3))) xor
-                   Tables.T3 (Ops.Byte2 (CT (0))) xor
-                   Tables.T4 (Ops.Byte3 (CT (1))) xor
-                   Context.Schedule (Nb * Round + 2)),
+         --# assert
+         --#    Round <= Context.Nr - 1 and Context = Context% and
+         --#    C0 in Types.Word32;
 
-             3 => (Tables.T1 (Ops.Byte0 (CT (3))) xor
-                   Tables.T2 (Ops.Byte1 (CT (0))) xor
-                   Tables.T3 (Ops.Byte2 (CT (1))) xor
-                   Tables.T4 (Ops.Byte3 (CT (2))) xor
-                   Context.Schedule (Nb * Round + 3)));
+         C1 := (Tables.T1 (Ops.Byte0 (C1)) xor
+                Tables.T2 (Ops.Byte1 (C2)) xor
+                Tables.T3 (Ops.Byte2 (C3)) xor
+                Tables.T4 (Ops.Byte3 (C0)) xor
+                Context.Schedule (Nb * Round + 1));
 
-         --  DEBUG  --------------------------------------
-         Print.Print_Round ("start ", Round, CT);  --
-         -------------------------------------------------
+         --# assert
+         --#    Round <= Context.Nr - 1 and Context = Context% and
+         --#    C0 in Types.Word32      and C1 in Types.Word32;
+
+         C2 := (Tables.T1 (Ops.Byte0 (C2)) xor
+                Tables.T2 (Ops.Byte1 (C3)) xor
+                Tables.T3 (Ops.Byte2 (C0)) xor
+                Tables.T4 (Ops.Byte3 (C1)) xor
+                Context.Schedule (Nb * Round + 2));
+
+         --# assert
+         --#    Round <= Context.Nr - 1 and Context = Context% and
+         --#    C0 in Types.Word32      and C1 in Types.Word32 and
+         --#    C2 in Types.Word32;
+
+         C3 := (Tables.T1 (Ops.Byte0 (C3)) xor
+                Tables.T2 (Ops.Byte1 (C0)) xor
+                Tables.T3 (Ops.Byte2 (C1)) xor
+                Tables.T4 (Ops.Byte3 (C2)) xor
+                Context.Schedule (Nb * Round + 3));
+
+         --# assert
+         --#    Round <= Context.Nr - 1 and Context = Context% and
+         --#    C0 in Types.Word32      and C1 in Types.Word32 and
+         --#    C2 in Types.Word32      and C3 in Types.Word32;
+
+         --  DEBUG  --------------------------------------------------
+         Print.Print_Round ("start ", Round,                        --
+                            Block_Type'(C0, C1, C2, C3));  --
+         -------------------------------------------------------------
 
       end loop;
 
-      CT := Block_Type'
-         (0 => Ops.Bytes_To_Word32
-                  (Tables.S (Ops.Byte0 (CT (0))),
-                   Tables.S (Ops.Byte1 (CT (1))),
-                   Tables.S (Ops.Byte2 (CT (2))),
-                   Tables.S (Ops.Byte3 (CT (3)))) xor
-               Context.Schedule (Nb * Context.Nr),
+      C0 := Ops.Bytes_To_Word32
+              (Tables.S (Ops.Byte0 (C0)),
+               Tables.S (Ops.Byte1 (C1)),
+               Tables.S (Ops.Byte2 (C2)),
+               Tables.S (Ops.Byte3 (C3))) xor
+            Context.Schedule (Nb * Context.Nr);
 
-          1 => Ops.Bytes_To_Word32
-                  (Tables.S (Ops.Byte0 (CT (1))),
-                   Tables.S (Ops.Byte1 (CT (2))),
-                   Tables.S (Ops.Byte2 (CT (3))),
-                   Tables.S (Ops.Byte3 (CT (0)))) xor
-               Context.Schedule (Nb * Context.Nr + 1),
+      --# assert
+      --#    C0 in Types.Word32;
 
-          2 => Ops.Bytes_To_Word32
-                  (Tables.S (Ops.Byte0 (CT (2))),
-                   Tables.S (Ops.Byte1 (CT (3))),
-                   Tables.S (Ops.Byte2 (CT (0))),
-                   Tables.S (Ops.Byte3 (CT (1)))) xor
-               Context.Schedule (Nb * Context.Nr + 2),
+      C1 := Ops.Bytes_To_Word32
+              (Tables.S (Ops.Byte0 (C1)),
+               Tables.S (Ops.Byte1 (C2)),
+               Tables.S (Ops.Byte2 (C3)),
+               Tables.S (Ops.Byte3 (C0))) xor
+            Context.Schedule (Nb * Context.Nr + 1);
 
-          3 => Ops.Bytes_To_Word32
-                  (Tables.S (Ops.Byte0 (CT (3))),
-                   Tables.S (Ops.Byte1 (CT (0))),
-                   Tables.S (Ops.Byte2 (CT (1))),
-                   Tables.S (Ops.Byte3 (CT (2)))) xor
-               Context.Schedule (Nb * Context.Nr + 3));
+      --# assert
+      --#    C0 in Types.Word32 and C1 in Types.Word32;
 
-      --  DEBUG  ------------------------------
-      Print.Print_Round ("output", Context.Nr, CT);  --
-      -----------------------------------------
+      C2 := Ops.Bytes_To_Word32
+              (Tables.S (Ops.Byte0 (C2)),
+               Tables.S (Ops.Byte1 (C3)),
+               Tables.S (Ops.Byte2 (C0)),
+               Tables.S (Ops.Byte3 (C1))) xor
+            Context.Schedule (Nb * Context.Nr + 2);
 
-      return CT;
+      --# assert
+      --#    C0 in Types.Word32 and C1 in Types.Word32 and
+      --#    C2 in Types.Word32;
+
+      C3 := Ops.Bytes_To_Word32
+              (Tables.S (Ops.Byte0 (C3)),
+               Tables.S (Ops.Byte1 (C0)),
+               Tables.S (Ops.Byte2 (C1)),
+               Tables.S (Ops.Byte3 (C2))) xor
+            Context.Schedule (Nb * Context.Nr + 3);
+
+      --# assert
+      --#    C0 in Types.Word32 and C1 in Types.Word32 and
+      --#    C2 in Types.Word32 and C3 in Types.Word32;
+
+      --  DEBUG  --------------------------------------------------
+      Print.Print_Round ("output", Context.Nr,                   --
+                         Block_Type'(C0, C1, C2, C3));  --
+      -------------------------------------------------------------
+
+      return Block_Type'(C0, C1, C2, C3);
    end Encrypt;
 
    ----------------------------------------------------------------------------
