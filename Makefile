@@ -77,6 +77,7 @@ $(OUTDIR)/target.cfg: $(OUTDIR)/confgen
 # how to create (i.e. copy) an RLU file
 #
 $(OUTDIR)/%.rlu:
+	@mkdir -p $(@D)
 	@cp rules/$(@F) $@
 
 #
