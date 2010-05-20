@@ -17,6 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with LSC.Types;
+use type LSC.Types.Word32;
 --# inherit LSC.Types;
 
 package LSC.Ops is
@@ -31,5 +32,8 @@ package LSC.Ops is
    function Byte1 (Value : Types.Word32) return Types.Byte;
    function Byte2 (Value : Types.Word32) return Types.Byte;
    function Byte3 (Value : Types.Word32) return Types.Byte;
+
+   function XOR5 (V0, V1, V2, V3, V4 : Types.Word32) return Types.Word32;
+   --# return V0 xor V1 xor V2 xor V3 xor V4;
 
 end LSC.Ops;
