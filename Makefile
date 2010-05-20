@@ -21,7 +21,7 @@ proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
-$(OUTDIR)/test_aes.sum: $(OUTDIR)/test_aes.prf/lsc_/aes/encrypt.rlu
+$(OUTDIR)/test_aes.sum: $(OUTDIR)/test_aes.prf/lsc_/aes/aes.rlu
 
 $(OUTDIR)/sha512openssl: CFLAGS += -lssl
 
