@@ -42,7 +42,8 @@ package body LSC.AES is
    ----------------------------------------------------------------------------
 
    function Key_Expansion (Key : Key_Type;
-                           Nk  : Nk_Type) return Schedule_Type is
+                           Nk  : Nk_Type;
+                           Nr  : Nr_Type) return Schedule_Type is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
@@ -76,9 +77,9 @@ package body LSC.AES is
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       -----------------------------------------------------------------------------------------------------------
 
-      for I in Schedule_Index range Key'Last + 1 .. Schedule_Index'Last
+      for I in Schedule_Index range Key'Last + 1 .. Nb * (Nr + 1) - 1
       --# assert
-      --#    I in Key'Last + 1 .. Schedule_Index'Last;
+      --#    I in Key'Last + 1 .. Nb * (Nr + 1);
       loop
 
          --  DEBUG OUTPUT  -----------------
@@ -167,13 +168,13 @@ package body LSC.AES is
       C2 := Plaintext (2) xor Context.Schedule (2);
       C3 := Plaintext (3) xor Context.Schedule (3);
 
-      --  DEBUG  -----------------------------------------
-      Print.Print_Round ("start ", Schedule_Index'(1),  --
-                         Block_Type'(C0, C1, C2, C3));  --
-      ----------------------------------------------------
-
       for Round in Schedule_Index range 1 .. Context.Nr - 1
       loop
+
+         --  DEBUG  -----------------------------------------
+         Print.Print_Round ("start ", Round,               --
+                            Block_Type'(C0, C1, C2, C3));  --
+         ----------------------------------------------------
 
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context%;
@@ -288,7 +289,9 @@ package body LSC.AES is
       (Key : AES128_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 4),
+      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key,
+                                                         Nk  => 4,
+                                                         Nr  => 10),
                               Nr       => 10);
    end Create_AES128_Enc_Context;
 
@@ -298,7 +301,9 @@ package body LSC.AES is
       (Key : AES192_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 6),
+      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key,
+                                                         Nk  => 6,
+                                                         Nr  => 12),
                               Nr       => 12);
    end Create_AES192_Enc_Context;
 
@@ -308,7 +313,9 @@ package body LSC.AES is
       (Key : AES256_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 8),
+      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key,
+                                                         Nk  => 8,
+                                                         Nr  => 14),
                               Nr       => 14);
    end Create_AES256_Enc_Context;
 
@@ -318,7 +325,9 @@ package body LSC.AES is
       (Key : AES128_Key_Type) return AES_Dec_Context
    is
    begin
-      return AES_Dec_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 4),
+      return AES_Dec_Context'(Schedule => Key_Expansion (Key => Key,
+                                                         Nk  => 4,
+                                                         Nr  => 10),
                               Nr       => 10);
    end Create_AES128_Dec_Context;
 
