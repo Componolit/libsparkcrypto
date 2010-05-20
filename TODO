@@ -1,3 +1,2 @@
-* Implement AES decryption
 * Implement SHA-384 (and SHA-256?).
 * Implement RIPEMD-160
