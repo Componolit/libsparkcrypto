@@ -177,42 +177,42 @@ package body LSC.AES is
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context%;
 
-         C0 := (Tables.T1 (Ops.Byte0 (C0)) xor
-                Tables.T2 (Ops.Byte1 (C1)) xor
-                Tables.T3 (Ops.Byte2 (C2)) xor
-                Tables.T4 (Ops.Byte3 (C3)) xor
-                Context.Schedule (Nb * Round));
+         C0 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C0)),
+                         Tables.T2 (Ops.Byte1 (C1)),
+                         Tables.T3 (Ops.Byte2 (C2)),
+                         Tables.T4 (Ops.Byte3 (C3)),
+                         Context.Schedule (Nb * Round));
 
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context% and
          --#    C0 in Types.Word32;
 
-         C1 := (Tables.T1 (Ops.Byte0 (C1)) xor
-                Tables.T2 (Ops.Byte1 (C2)) xor
-                Tables.T3 (Ops.Byte2 (C3)) xor
-                Tables.T4 (Ops.Byte3 (C0)) xor
-                Context.Schedule (Nb * Round + 1));
+         C1 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C1)),
+                         Tables.T2 (Ops.Byte1 (C2)),
+                         Tables.T3 (Ops.Byte2 (C3)),
+                         Tables.T4 (Ops.Byte3 (C0)),
+                         Context.Schedule (Nb * Round + 1));
 
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context% and
          --#    C0 in Types.Word32      and C1 in Types.Word32;
 
-         C2 := (Tables.T1 (Ops.Byte0 (C2)) xor
-                Tables.T2 (Ops.Byte1 (C3)) xor
-                Tables.T3 (Ops.Byte2 (C0)) xor
-                Tables.T4 (Ops.Byte3 (C1)) xor
-                Context.Schedule (Nb * Round + 2));
+         C2 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C2)),
+                         Tables.T2 (Ops.Byte1 (C3)),
+                         Tables.T3 (Ops.Byte2 (C0)),
+                         Tables.T4 (Ops.Byte3 (C1)),
+                         Context.Schedule (Nb * Round + 2));
 
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context% and
          --#    C0 in Types.Word32      and C1 in Types.Word32 and
          --#    C2 in Types.Word32;
 
-         C3 := (Tables.T1 (Ops.Byte0 (C3)) xor
-                Tables.T2 (Ops.Byte1 (C0)) xor
-                Tables.T3 (Ops.Byte2 (C1)) xor
-                Tables.T4 (Ops.Byte3 (C2)) xor
-                Context.Schedule (Nb * Round + 3));
+         C3 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C3)),
+                         Tables.T2 (Ops.Byte1 (C0)),
+                         Tables.T3 (Ops.Byte2 (C1)),
+                         Tables.T4 (Ops.Byte3 (C2)),
+                         Context.Schedule (Nb * Round + 3));
 
          --# assert
          --#    Round <= Context.Nr - 1 and Context = Context% and
