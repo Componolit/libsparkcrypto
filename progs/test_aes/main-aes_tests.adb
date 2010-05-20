@@ -36,7 +36,7 @@ begin
 
    --  Key expansion
 
-   --# accept Flow, 10, Key192, "Only debug output needed";
+   --# accept Flow, 10, Key128, "Only debug output needed";
    Key128 := LSC.AES.AES128_Key_Type'
       (16#2b7e1516#, 16#28aed2a6#, 16#abf71588#, 16#09cf4f3c#);
 
