@@ -23,7 +23,7 @@ is
    Key128                                     : LSC.AES.AES128_Key_Type;
    Key192                                     : LSC.AES.AES192_Key_Type;
    Key256                                     : LSC.AES.AES256_Key_Type;
-   Context                                    : LSC.AES.AES_Context;
+   Context                                    : LSC.AES.AES_Enc_Context;
 
 begin
 
@@ -48,7 +48,7 @@ begin
        16#d8cdb780#,
        16#70b4c55a#);
 
-   Context := LSC.AES.Create_AES128_Context (Key => Key128);
+   Context := LSC.AES.Create_AES128_Enc_Context (Key => Key128);
    Cyphertext := LSC.AES.Encrypt (Context => Context, Plaintext => Plaintext);
 
    LSC.Test.Run ("C.1 AES-128 (Nk=4, Nr=10)", Cyphertext = Expected_Cyphertext);
@@ -63,7 +63,7 @@ begin
        16#522c6b7b#);
 
    --# accept Flow, 10, "Only debug output needed";
-   Context := LSC.AES.Create_AES192_Context (Key => Key192);
+   Context := LSC.AES.Create_AES192_Enc_Context (Key => Key192);
 
    -- AES192 test
    Key192 := LSC.AES.AES192_Key_Type'
@@ -86,7 +86,7 @@ begin
        16#6eaf70a0#,
        16#ec0d7191#);
 
-   Context := LSC.AES.Create_AES192_Context (Key => Key192);
+   Context := LSC.AES.Create_AES192_Enc_Context (Key => Key192);
    Cyphertext := LSC.AES.Encrypt (Context => Context, Plaintext => Plaintext);
 
    LSC.Test.Run ("C.2 AES-192 (Nk=6, Nr=12)", Cyphertext = Expected_Cyphertext);
@@ -103,7 +103,7 @@ begin
        16#0914dff4#);
 
    --# accept Flow, 10, "Only debug output needed";
-   Context := LSC.AES.Create_AES256_Context (Key => Key256);
+   Context := LSC.AES.Create_AES256_Enc_Context (Key => Key256);
 
    Key256 := LSC.AES.AES256_Key_Type'
       (16#00010203#,
@@ -127,7 +127,7 @@ begin
        16#eafc4990#,
        16#4b496089#);
 
-   Context := LSC.AES.Create_AES256_Context (Key => Key256);
+   Context := LSC.AES.Create_AES256_Enc_Context (Key => Key256);
    Cyphertext := LSC.AES.Encrypt (Context => Context, Plaintext => Plaintext);
 
    LSC.Test.Run ("C.3 AES-256 (Nk=8, Nr=14)", Cyphertext = Expected_Cyphertext);

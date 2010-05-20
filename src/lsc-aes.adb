@@ -147,7 +147,7 @@ package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Encrypt (Context   : AES_Context;
+   function Encrypt (Context   : AES_Enc_Context;
                      Plaintext : Block_Type) return Block_Type
    is
       C0, C1, C2, C3 : Types.Word32;
@@ -278,29 +278,32 @@ package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES128_Context (Key : AES128_Key_Type) return AES_Context
+   function Create_AES128_Enc_Context
+      (Key : AES128_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 4),
-                          Nr       => 10);
-   end Create_AES128_Context;
+      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 4),
+                              Nr       => 10);
+   end Create_AES128_Enc_Context;
 
    ----------------------------------------------------------------------------
 
-   function Create_AES192_Context (Key : AES192_Key_Type) return AES_Context
+   function Create_AES192_Enc_Context
+      (Key : AES192_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 6),
-                          Nr       => 12);
-   end Create_AES192_Context;
+      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 6),
+                              Nr       => 12);
+   end Create_AES192_Enc_Context;
 
    ----------------------------------------------------------------------------
 
-   function Create_AES256_Context (Key : AES256_Key_Type) return AES_Context
+   function Create_AES256_Enc_Context
+      (Key : AES256_Key_Type) return AES_Enc_Context
    is
    begin
-      return AES_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 8),
-                          Nr       => 14);
-   end Create_AES256_Context;
+      return AES_Enc_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 8),
+                              Nr       => 14);
+   end Create_AES256_Enc_Context;
 
 end LSC.AES;
