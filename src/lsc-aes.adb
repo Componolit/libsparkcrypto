@@ -306,4 +306,25 @@ package body LSC.AES is
                               Nr       => 14);
    end Create_AES256_Enc_Context;
 
+   ----------------------------------------------------------------------------
+
+   function Create_AES128_Dec_Context
+      (Key : AES128_Key_Type) return AES_Dec_Context
+   is
+   begin
+      return AES_Dec_Context'(Schedule => Key_Expansion (Key => Key, Nk  => 4),
+                              Nr       => 10);
+   end Create_AES128_Dec_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Decrypt (Context    : AES_Dec_Context;
+                     Ciphertext : Block_Type) return Block_Type
+   is
+   --# accept Flow, 30, Context, "Still testing" &
+   --#        Flow, 50, Context, "Still testing";
+   begin
+      return Ciphertext;
+   end Decrypt;
+
 end LSC.AES;

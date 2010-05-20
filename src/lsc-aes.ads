@@ -26,6 +26,7 @@ use type LSC.Types.Index;
 package LSC.AES is
 
    type AES_Enc_Context is private;
+   type AES_Dec_Context is private;
 
    subtype Key_Index is Types.Index range 0 .. 7;
    type Key_Type is array (Key_Index range <>) of Types.Word32;
@@ -49,6 +50,11 @@ package LSC.AES is
    function Encrypt (Context   : AES_Enc_Context;
                      Plaintext : Block_Type) return Block_Type;
 
+   function Create_AES128_Dec_Context (Key : AES128_Key_Type) return AES_Dec_Context;
+
+   function Decrypt (Context    : AES_Dec_Context;
+                     Ciphertext : Block_Type) return Block_Type;
+
 private
 
    Nb : constant Types.Index :=  4;
@@ -60,6 +66,12 @@ private
    subtype Nk_Type is Types.Index range  4 ..  8;
 
    type AES_Enc_Context is
+   record
+      Schedule : Schedule_Type;
+      Nr       : Nr_Type;
+   end record;
+
+   type AES_Dec_Context is
    record
       Schedule : Schedule_Type;
       Nr       : Nr_Type;
