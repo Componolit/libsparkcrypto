@@ -245,18 +245,14 @@ package body LSC.AES is
                             Block_Type'(C0, C1, C2, C3));  --
          ----------------------------------------------------
 
-         --# assert
-         --#    Round <= Context.Nr - 1 and Context = Context%;
-
          A0 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C0)),
                          Tables.T2 (Ops.Byte1 (C1)),
                          Tables.T3 (Ops.Byte2 (C2)),
                          Tables.T4 (Ops.Byte3 (C3)),
                          Context.Schedule (Nb * Round));
 
-         --# assert
-         --#    Round <= Context.Nr - 1 and Context = Context% and
-         --#    C0 in Types.Word32;
+         --# assert Context = Context% and
+         --#        A0 in Types.Word32;
 
          A1 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C1)),
                          Tables.T2 (Ops.Byte1 (C2)),
@@ -264,9 +260,9 @@ package body LSC.AES is
                          Tables.T4 (Ops.Byte3 (C0)),
                          Context.Schedule (Nb * Round + 1));
 
-         --# assert
-         --#    Round <= Context.Nr - 1 and Context = Context% and
-         --#    C0 in Types.Word32      and C1 in Types.Word32;
+         --# assert Context = Context% and
+         --#        A0 in Types.Word32 and
+         --#        A1 in Types.Word32;
 
          A2 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C2)),
                          Tables.T2 (Ops.Byte1 (C3)),
@@ -274,10 +270,10 @@ package body LSC.AES is
                          Tables.T4 (Ops.Byte3 (C1)),
                          Context.Schedule (Nb * Round + 2));
 
-         --# assert
-         --#    Round <= Context.Nr - 1 and Context = Context% and
-         --#    C0 in Types.Word32      and C1 in Types.Word32 and
-         --#    C2 in Types.Word32;
+         --# assert Context = Context% and
+         --#        A0 in Types.Word32 and
+         --#        A1 in Types.Word32 and
+         --#        A2 in Types.Word32;
 
          A3 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C3)),
                          Tables.T2 (Ops.Byte1 (C0)),
@@ -285,10 +281,11 @@ package body LSC.AES is
                          Tables.T4 (Ops.Byte3 (C2)),
                          Context.Schedule (Nb * Round + 3));
 
-         --# assert
-         --#    Round <= Context.Nr - 1 and Context = Context% and
-         --#    C0 in Types.Word32      and C1 in Types.Word32 and
-         --#    C2 in Types.Word32      and C3 in Types.Word32;
+         --# assert Context = Context% and
+         --#        A0 in Types.Word32 and
+         --#        A1 in Types.Word32 and
+         --#        A2 in Types.Word32 and
+         --#        A3 in Types.Word32;
 
          C0 := A0;
          C1 := A1;
@@ -309,8 +306,7 @@ package body LSC.AES is
                Tables.S (Ops.Byte3 (C3))) xor
             Context.Schedule (Nb * Context.Nr);
 
-      --# assert
-      --#    A0 in Types.Word32;
+      --# assert A0 in Types.Word32;
 
       A1 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C1)),
@@ -319,8 +315,8 @@ package body LSC.AES is
                Tables.S (Ops.Byte3 (C0))) xor
             Context.Schedule (Nb * Context.Nr + 1);
 
-      --# assert
-      --#    A0 in Types.Word32 and A1 in Types.Word32;
+      --# assert A0 in Types.Word32 and
+      --#        A1 in Types.Word32;
 
       A2 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C2)),
@@ -329,9 +325,9 @@ package body LSC.AES is
                Tables.S (Ops.Byte3 (C1))) xor
             Context.Schedule (Nb * Context.Nr + 2);
 
-      --# assert
-      --#    A0 in Types.Word32 and A1 in Types.Word32 and
-      --#    A2 in Types.Word32;
+      --# assert A0 in Types.Word32 and
+      --#        A1 in Types.Word32 and
+      --#        A2 in Types.Word32;
 
       A3 := Ops.Bytes_To_Word32
               (Tables.S (Ops.Byte0 (C3)),
@@ -340,9 +336,10 @@ package body LSC.AES is
                Tables.S (Ops.Byte3 (C2))) xor
             Context.Schedule (Nb * Context.Nr + 3);
 
-      --# assert
-      --#    A0 in Types.Word32 and A1 in Types.Word32 and
-      --#    A2 in Types.Word32 and A3 in Types.Word32;
+      --# assert A0 in Types.Word32 and
+      --#        A1 in Types.Word32 and
+      --#        A2 in Types.Word32 and
+      --#        A3 in Types.Word32;
 
       --  DEBUG  -----------------------------------------
       Print.Print_Round ("output", Context.Nr,          --
