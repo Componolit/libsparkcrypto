@@ -152,44 +152,58 @@ package body LSC.AES is
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type
    is
-      Result         : Schedule_Type;
-      A0, A1, A2, A3 : Types.Word32;
+      Result : Schedule_Type;
    begin
 
       Result := Enc_Key_Expansion (Key, Nk, Nr);
 
       for Round in Schedule_Index range 1 .. Nr - 1
-      --# assert Round in 1 .. Nr - 1;
       loop
 
-         A0 := Result (Nb * Round);
-         A1 := Result (Nb * Round + 1);
-         A2 := Result (Nb * Round + 2);
-         A3 := Result (Nb * Round + 3);
+         --# assert Nb * Round in Schedule_Index;
 
          Result (Nb * Round) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A0)),
-                      Tables.U2 (Ops.Byte1 (A0)),
-                      Tables.U3 (Ops.Byte2 (A0)),
-                      Tables.U4 (Ops.Byte3 (A0)));
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round))),
+                      Tables.U2 (Ops.Byte1 (Result (Nb * Round))),
+                      Tables.U3 (Ops.Byte2 (Result (Nb * Round))),
+                      Tables.U4 (Ops.Byte3 (Result (Nb * Round))));
+      end loop;
+
+      for Round in Schedule_Index range 1 .. Nr - 1
+      loop
+
+         --# assert Nb * Round + 1 in Schedule_Index;
 
          Result (Nb * Round + 1) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A1)),
-                      Tables.U2 (Ops.Byte1 (A1)),
-                      Tables.U3 (Ops.Byte2 (A1)),
-                      Tables.U4 (Ops.Byte3 (A1)));
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round + 1))),
+                      Tables.U2 (Ops.Byte1 (Result (Nb * Round + 1))),
+                      Tables.U3 (Ops.Byte2 (Result (Nb * Round + 1))),
+                      Tables.U4 (Ops.Byte3 (Result (Nb * Round + 1))));
+
+      end loop;
+
+      for Round in Schedule_Index range 1 .. Nr - 1
+      loop
+
+         --# assert Nb * Round + 2 in Schedule_Index;
 
          Result (Nb * Round + 2) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A2)),
-                      Tables.U2 (Ops.Byte1 (A2)),
-                      Tables.U3 (Ops.Byte2 (A2)),
-                      Tables.U4 (Ops.Byte3 (A2)));
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round + 2))),
+                      Tables.U2 (Ops.Byte1 (Result (Nb * Round + 2))),
+                      Tables.U3 (Ops.Byte2 (Result (Nb * Round + 2))),
+                      Tables.U4 (Ops.Byte3 (Result (Nb * Round + 2))));
+      end loop;
+
+      for Round in Schedule_Index range 1 .. Nr - 1
+      loop
+
+         --# assert Nb * Round + 3 in Schedule_Index;
 
          Result (Nb * Round + 3) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (A3)),
-                      Tables.U2 (Ops.Byte1 (A3)),
-                      Tables.U3 (Ops.Byte2 (A3)),
-                      Tables.U4 (Ops.Byte3 (A3)));
+            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round + 3))),
+                      Tables.U2 (Ops.Byte1 (Result (Nb * Round + 3))),
+                      Tables.U3 (Ops.Byte2 (Result (Nb * Round + 3))),
+                      Tables.U4 (Ops.Byte3 (Result (Nb * Round + 3))));
       end loop;
 
       --  DEBUG OUTPUT  -----------------------
