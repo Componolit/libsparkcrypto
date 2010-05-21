@@ -42,8 +42,8 @@ $(OUTDIR)/%: progs/%/main.c
 # how to examine a program
 #
 $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf
-	mkdir -p $(OUTDIR)/$(*F).prf
-	spark \
+	@mkdir -p $(OUTDIR)/$(*F).prf
+	@spark \
 		-brief \
 		-vcg \
 		-config=$< \
@@ -51,8 +51,10 @@ $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/
 		-output_dir=$(OUTDIR)/$(*F).prf \
 		-index=$(OUTDIR)/$(*F).prf/spark.idx \
 		@$(OUTDIR)/$(*F).prf/spark.smf
-	(cd $(OUTDIR)/$(*F).prf && sparksimp -t -p=4)
-	pogs -d=$(OUTDIR)/$(*F).prf -o=$@
+	(cd $(OUTDIR)/$(*F).prf && sparksimp -t -p=5)
+	@pogs -d=$(OUTDIR)/$(*F).prf -o=$@
+	@tail -n14 $@ | head -n13
+	@echo
 
 #
 # how to create index and meta files
