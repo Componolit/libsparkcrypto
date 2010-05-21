@@ -21,7 +21,7 @@ with Interfaces;
 
 package LSC.Types is
 
-   type Index is range 0 .. 59;
+   type Index is range 0 .. 60;
 
    subtype Byte is Interfaces.Unsigned_8;
    subtype Word32 is Interfaces.Unsigned_32;
