@@ -78,9 +78,9 @@ package body LSC.AES is
       -----------------------------------------------------------------------------------------------------------
 
       for I in Schedule_Index range Key'Last + 1 .. Nb * (Nr + 1) - 1
-      --# assert
-      --#    I in Key'Last + 1 .. Nb * (Nr + 1);
       loop
+
+         --# assert Nk = Nk%;
 
          --  DEBUG OUTPUT  -----------------
          Debug.Put ("| ");                --
@@ -90,13 +90,29 @@ package body LSC.AES is
 
          Temp := Result (I - 1);
 
-         Put_Row (Temp);
+         --# assert Temp in Types.Word32 and
+         --#        Nk = Nk%;
+
+         --  DEBUG OUTPUT  -
+         Put_Row (Temp);  --
+         -------------------
 
          if I mod Nk = 0
          then
             Rot_Temp := Rot_Word (Temp);
+
+            --# assert Rot_Temp in Types.Word32 and
+            --#        Nk = Nk%;
+
             Sub_Temp := Sub_Word (Rot_Temp);
+
+            --# assert Sub_Temp in Types.Word32 and
+            --#        Nk = Nk%;
+
             Temp     := Sub_Temp xor Tables.Rcon (I/Nk);
+
+            --# assert Temp in Types.Word32 and
+            --#        Nk = Nk%;
 
             --  DEBUG OUTPUT  -------------------
             Put_Row (Rot_Temp);                --
