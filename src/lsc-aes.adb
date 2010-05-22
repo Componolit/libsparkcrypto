@@ -27,9 +27,9 @@ package body LSC.AES is
     begin
       Temp := Types.Word32_To_Byte_Array (Value);
       return Ops.Bytes_To_Word32 (Byte0 => Tables.S (Temp (Types.B0)),
-                                      Byte1 => Tables.S (Temp (Types.B1)),
-                                      Byte2 => Tables.S (Temp (Types.B2)),
-                                      Byte3 => Tables.S (Temp (Types.B3)));
+                                  Byte1 => Tables.S (Temp (Types.B1)),
+                                  Byte2 => Tables.S (Temp (Types.B2)),
+                                  Byte3 => Tables.S (Temp (Types.B3)));
    end Sub_Word;
 
    ----------------------------------------------------------------------------
