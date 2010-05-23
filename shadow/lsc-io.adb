@@ -137,9 +137,9 @@ package body LSC.IO is
       IO.Put (Result);
    end Print_Word64;
 
-   procedure Print_Hash (Hash : SHA2.Hash_Type) is
+   procedure Print_Hash (Hash : SHA2.SHA512_Hash_Type) is
    begin
-      for Index in SHA2.Hash_Index
+      for Index in SHA2.SHA512_Hash_Index
          --# assert Index in SHA2.Hash_Index;
       loop
          Print_Word64 (Hash (Index));

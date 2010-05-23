@@ -17,7 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with LSC.SHA2, LSC.Types, LSC.IO;
-use type LSC.SHA2.Hash_Type;
+use type LSC.SHA2.SHA512_Hash_Type;
 use type LSC.Types.Byte;
 use type LSC.Types.Word64;
 
@@ -35,7 +35,7 @@ is
    type Byte_Array is array (Byte_Index) of LSC.Types.Byte;
 
    Ctx        : LSC.SHA2.Context_Type;
-   Hash       : LSC.SHA2.Hash_Type;
+   Hash       : LSC.SHA2.SHA512_Hash_Type;
    Next_Bytes : Byte_Array;
    Block      : LSC.SHA2.Block_Type := LSC.SHA2.Block_Type'(others => 0);
    Block_Len  : LSC.Types.Word64    := 0;
@@ -59,7 +59,7 @@ is
 
 begin
 
-   Ctx := LSC.SHA2.Context_Init;
+   Ctx := LSC.SHA2.SHA512_Context_Init;
 
    while not LSC.IO.End_Of_Stream
    loop
@@ -91,7 +91,7 @@ begin
    end loop;
 
    LSC.SHA2.Context_Finalize (Ctx, Block, Block_Len);
-   Hash := LSC.SHA2.Get_Hash (Ctx);
+   Hash := LSC.SHA2.SHA512_Get_Hash (Ctx);
    LSC.IO.Print_Hash (Hash);
 
 end Main;

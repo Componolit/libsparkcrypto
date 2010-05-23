@@ -17,7 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with LSC.SHA2, LSC.IO, LSC.Test;
-use type LSC.SHA2.Hash_Type;
+use type LSC.SHA2.SHA512_Hash_Type;
 
 --# inherit LSC.IO,
 --#         LSC.SHA2,

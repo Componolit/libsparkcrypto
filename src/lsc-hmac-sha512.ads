@@ -46,7 +46,7 @@ package LSC.HMAC.SHA512 is
    --#                      Block,
    --#                      Length;
 
-   function Get_Prf  (Context : in Context_Type) return SHA2.Hash_Type;
+   function Get_Prf  (Context : in Context_Type) return SHA2.SHA512_Hash_Type;
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
 private
@@ -64,8 +64,8 @@ private
    --#    (for all I in SHA2.Block_Index =>
    --#         (Result (I) = (Left (I) xor Right (I))));
 
-   function To_Block (Item : SHA2.Hash_Type) return SHA2.Block_Type;
+   function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type;
    --# return Result =>
-   --#     (for all I in SHA2.Hash_Index => (Result (I) = Item (I)));
+   --#     (for all I in SHA2.SHA512_Hash_Index => (Result (I) = Item (I)));
 
 end LSC.HMAC.SHA512;

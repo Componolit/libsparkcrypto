@@ -92,20 +92,19 @@ package body LSC.SHA2 is
              Types.SHR (x, 6);
    end Sigma_1_512;
 
-   function Context_Init return Context_Type is
+   function SHA512_Context_Init return Context_Type is
    begin
       return Context_Type'
         (Length => Init_Data_Length,
-         H      =>
-        Hash_Type'(0 => 16#6a09e667f3bcc908#,
-                   1 => 16#bb67ae8584caa73b#,
-                   2 => 16#3c6ef372fe94f82b#,
-                   3 => 16#a54ff53a5f1d36f1#,
-                   4 => 16#510e527fade682d1#,
-                   5 => 16#9b05688c2b3e6c1f#,
-                   6 => 16#1f83d9abfb41bd6b#,
-                   7 => 16#5be0cd19137e2179#));
-   end Context_Init;
+         H      => SHA512_Hash_Type'(0 => 16#6a09e667f3bcc908#,
+                                     1 => 16#bb67ae8584caa73b#,
+                                     2 => 16#3c6ef372fe94f82b#,
+                                     3 => 16#a54ff53a5f1d36f1#,
+                                     4 => 16#510e527fade682d1#,
+                                     5 => 16#9b05688c2b3e6c1f#,
+                                     6 => 16#1f83d9abfb41bd6b#,
+                                     7 => 16#5be0cd19137e2179#));
+   end SHA512_Context_Init;
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;
@@ -191,7 +190,7 @@ package body LSC.SHA2 is
 
       -- 4. Compute the i-th intermediate hash value H-i:
       Context.H :=
-        Hash_Type'
+        SHA512_Hash_Type'
         (0 => S (a) + Context.H (0),
          1 => S (b) + Context.H (1),
          2 => S (c) + Context.H (2),
@@ -280,9 +279,9 @@ package body LSC.SHA2 is
 
    end Context_Finalize;
 
-   function Get_Hash (Context : Context_Type) return Hash_Type is
+   function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type is
    begin
       return Context.H;
-   end Get_Hash;
+   end SHA512_Get_Hash;
 
 end LSC.SHA2;

@@ -22,7 +22,7 @@ procedure HMAC_Tests is
    HMAC_Ctx                         : LSC.HMAC.SHA512.Context_Type;
    Key                              : LSC.SHA2.Block_Type;
    Block                            : LSC.SHA2.Block_Type;
-   PRF_HMAC_SHA_512                 : LSC.SHA2.Hash_Type;
+   PRF_HMAC_SHA_512                 : LSC.SHA2.SHA512_Hash_Type;
    AUTH_HMAC_SHA_512                : LSC.HMAC.SHA512.Auth_Type;
 
 begin
@@ -51,14 +51,14 @@ begin
    LSC.Test.Run
      ("PRF-1",
       PRF_HMAC_SHA_512 =
-      LSC.SHA2.Hash_Type'(16#87aa7cdea5ef619d#,
-                          16#4ff0b4241a1d6cb0#,
-                          16#2379f4e2ce4ec278#,
-                          16#7ad0b30545e17cde#,
-                          16#daa833b7d6b8a702#,
-                          16#038b274eaea3f4e4#,
-                          16#be9d914eeb61f170#,
-                          16#2e696c203a126854#));
+      LSC.SHA2.SHA512_Hash_Type'(16#87aa7cdea5ef619d#,
+                                 16#4ff0b4241a1d6cb0#,
+                                 16#2379f4e2ce4ec278#,
+                                 16#7ad0b30545e17cde#,
+                                 16#daa833b7d6b8a702#,
+                                 16#038b274eaea3f4e4#,
+                                 16#be9d914eeb61f170#,
+                                 16#2e696c203a126854#));
 
    ----------------------
    --  Test Case PRF-2 --
@@ -83,14 +83,14 @@ begin
    LSC.Test.Run
      ("PRF-2",
       PRF_HMAC_SHA_512 =
-      LSC.SHA2.Hash_Type'(16#164b7a7bfcf819e2#,
-                          16#e395fbe73b56e0a3#,
-                          16#87bd64222e831fd6#,
-                          16#10270cd7ea250554#,
-                          16#9758bf75c05a994a#,
-                          16#6d034f65f8f0e6fd#,
-                          16#caeab1a34d4a6b4b#,
-                          16#636e070a38bce737#));
+      LSC.SHA2.SHA512_Hash_Type'(16#164b7a7bfcf819e2#,
+                                 16#e395fbe73b56e0a3#,
+                                 16#87bd64222e831fd6#,
+                                 16#10270cd7ea250554#,
+                                 16#9758bf75c05a994a#,
+                                 16#6d034f65f8f0e6fd#,
+                                 16#caeab1a34d4a6b4b#,
+                                 16#636e070a38bce737#));
 
    ----------------------
    --  Test Case PRF-3 --
@@ -119,14 +119,14 @@ begin
    LSC.Test.Run
      ("PRF-3",
       PRF_HMAC_SHA_512 =
-      LSC.SHA2.Hash_Type'(16#fa73b0089d56a284#,
-                          16#efb0f0756c890be9#,
-                          16#b1b5dbdd8ee81a36#,
-                          16#55f83e33b2279d39#,
-                          16#bf3e848279a722c8#,
-                          16#06b485a47e67c807#,
-                          16#b946a337bee89426#,
-                          16#74278859e13292fb#));
+      LSC.SHA2.SHA512_Hash_Type'(16#fa73b0089d56a284#,
+                                 16#efb0f0756c890be9#,
+                                 16#b1b5dbdd8ee81a36#,
+                                 16#55f83e33b2279d39#,
+                                 16#bf3e848279a722c8#,
+                                 16#06b485a47e67c807#,
+                                 16#b946a337bee89426#,
+                                 16#74278859e13292fb#));
 
    ----------------------
    --  Test Case PRF-4 --
@@ -156,14 +156,14 @@ begin
    LSC.Test.Run
      ("PRF-4",
       PRF_HMAC_SHA_512 =
-      LSC.SHA2.Hash_Type'(16#b0ba465637458c69#,
-                          16#90e5a8c5f61d4af7#,
-                          16#e576d97ff94b872d#,
-                          16#e76f8050361ee3db#,
-                          16#a91ca5c11aa25eb4#,
-                          16#d679275cc5788063#,
-                          16#a5f19741120c4f2d#,
-                          16#e2adebeb10a298dd#));
+      LSC.SHA2.SHA512_Hash_Type'(16#b0ba465637458c69#,
+                                 16#90e5a8c5f61d4af7#,
+                                 16#e576d97ff94b872d#,
+                                 16#e76f8050361ee3db#,
+                                 16#a91ca5c11aa25eb4#,
+                                 16#d679275cc5788063#,
+                                 16#a5f19741120c4f2d#,
+                                 16#e2adebeb10a298dd#));
 
    -----------------------
    --  Test Case AUTH-1 --

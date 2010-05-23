@@ -44,7 +44,7 @@ package LSC.IO is
    procedure Print_Word64 (Item : in Types.Word64);
    --# derives null from Item;
 
-   procedure Print_Hash (Hash : SHA2.Hash_Type);
+   procedure Print_Hash (Hash : SHA2.SHA512_Hash_Type);
    --# derives null from Hash;
 
    procedure Print_Block (Block : SHA2.Block_Type);

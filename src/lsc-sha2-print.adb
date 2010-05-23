@@ -42,7 +42,7 @@ package body LSC.SHA2.Print is
       null;
    end Put_State;
 
-   procedure Put_Hash (H : SHA2.Hash_Type) is
+   procedure Put_Hash (H : SHA2.SHA512_Hash_Type) is
    begin
       --# accept Flow, 30, H, "Null implementation";
       null;

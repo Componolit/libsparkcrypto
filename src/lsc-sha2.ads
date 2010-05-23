@@ -29,13 +29,13 @@ package LSC.SHA2 is
    subtype Block_Index is Natural range 0 .. 15;
    subtype Block_Type is Word64_Array_Type (Block_Index);
 
-   subtype Hash_Index is Natural range 0 .. 7;
-   subtype Hash_Type is Word64_Array_Type (Hash_Index);
+   subtype SHA512_Hash_Index is Natural range 0 .. 7;
+   subtype SHA512_Hash_Type is Word64_Array_Type (SHA512_Hash_Index);
 
    subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 
    -- Initialize SHA2 context.
-   function Context_Init return Context_Type;
+   function SHA512_Context_Init return Context_Type;
 
    -- Update SHA2 context with message block.
    procedure Context_Update
@@ -53,8 +53,8 @@ package LSC.SHA2 is
    --#                      Block,
    --#                      Length;
 
-   -- Return SHA512 hash.
-   function Get_Hash (Context : Context_Type) return Hash_Type;
+   -- Return SHA2 hash.
+   function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type;
 
 private
 
@@ -71,7 +71,7 @@ private
 
    type Context_Type is record
       Length : Data_Length;
-      H      : Hash_Type;
+      H      : SHA512_Hash_Type;
    end record;
 
    function Init_Data_Length return Data_Length;

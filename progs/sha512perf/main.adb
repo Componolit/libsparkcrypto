@@ -17,7 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with LSC.SHA2, LSC.Types, LSC.IO;
-use type LSC.SHA2.Hash_Type;
+use type LSC.SHA2.SHA512_Hash_Type;
 use type LSC.Types.Word64;
 
 --# inherit LSC.IO,
@@ -31,19 +31,19 @@ is
    --# hide Main;
 
    Ctx   : LSC.SHA2.Context_Type;
-   Hash  : LSC.SHA2.Hash_Type;
+   Hash  : LSC.SHA2.SHA512_Hash_Type;
    Block : LSC.SHA2.Block_Type :=
                LSC.SHA2.Block_Type'(others => 16#eaea_eaea_eaea_eaea#);
 
 begin
 
-   Ctx := LSC.SHA2.Context_Init;
+   Ctx := LSC.SHA2.SHA512_Context_Init;
    for I in Natural range 1 .. 1_000_000
    loop
       LSC.SHA2.Context_Update (Ctx, Block);
    end loop;
    LSC.SHA2.Context_Finalize (Ctx, Block, 0);
-   Hash := LSC.SHA2.Get_Hash (Ctx);
+   Hash := LSC.SHA2.SHA512_Get_Hash (Ctx);
 
    LSC.IO.Print_Hash (Hash);
 
