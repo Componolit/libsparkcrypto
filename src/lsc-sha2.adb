@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Debug, LSC.Types, LSC.SHA2.Print;
+with LSC.Debug, LSC.Types, LSC.SHA2.Print, LSC.SHA2.Tables;
 use type LSC.Types.Word64;
 
 package body LSC.SHA2 is
@@ -170,7 +170,7 @@ package body LSC.SHA2 is
          T1 := S (h) +
                Cap_Sigma_1_512 (S (e)) +
                Ch (S (e), S (f), S (g)) +
-               K (t) +
+               Tables.K (t) +
                W (t);
          T2 := Cap_Sigma_0_512 (S (a)) + Maj (S (a), S (b), S (c));
 
