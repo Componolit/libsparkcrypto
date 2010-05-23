@@ -106,6 +106,20 @@ package body LSC.SHA2 is
                                      7 => 16#5be0cd19137e2179#));
    end SHA512_Context_Init;
 
+   function SHA384_Context_Init return Context_Type is
+   begin
+      return Context_Type'
+        (Length => Init_Data_Length,
+         H      => SHA512_Hash_Type'(0 => 16#cbbb9d5dc1059ed8#,
+                                     1 => 16#629a292a367cd507#,
+                                     2 => 16#9159015a3070dd17#,
+                                     3 => 16#152fecd8f70e5939#,
+                                     4 => 16#67332667ffc00b31#,
+                                     5 => 16#8eb44a8768581511#,
+                                     6 => 16#db0c2e0d64f98fa7#,
+                                     7 => 16#47b5481dbefa4fa4#));
+   end SHA384_Context_Init;
+
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
@@ -283,5 +297,15 @@ package body LSC.SHA2 is
    begin
       return Context.H;
    end SHA512_Get_Hash;
+
+   function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type is
+   begin
+      return SHA384_Hash_Type'(0 => Context.H (0),
+                               1 => Context.H (1),
+                               2 => Context.H (2),
+                               3 => Context.H (3),
+                               4 => Context.H (4),
+                               5 => Context.H (5));
+   end SHA384_Get_Hash;
 
 end LSC.SHA2;

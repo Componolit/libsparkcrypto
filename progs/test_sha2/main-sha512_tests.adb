@@ -17,13 +17,13 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 separate (Main)
-procedure SHA2_Tests is
+procedure SHA512_Tests is
    SHA2_Ctx1, SHA2_Ctx2, SHA2_Ctx3  : LSC.SHA2.Context_Type;
    Hash1, Hash2, Hash3              : LSC.SHA2.SHA512_Hash_Type;
    Message1, Message2, Message3     : LSC.SHA2.Block_Type;
 begin
 
-   LSC.Test.Suite ("SHA2 tests");
+   LSC.Test.Suite ("SHA512 tests");
 
    --  FIPS 180-2, Appendix C: SHA-512 Examples
 
@@ -104,4 +104,4 @@ begin
                                  16#eb009c5c2c49aa2e#,
                                  16#4eadb217ad8cc09b#));
 
-end SHA2_Tests;
+end SHA512_Tests;

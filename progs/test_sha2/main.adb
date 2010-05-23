@@ -28,12 +28,17 @@ procedure Main
    --# derives ;
 is
 
-   procedure SHA2_Tests
+   procedure SHA384_Tests
+   --# derives ;
+   is separate;
+
+   procedure SHA512_Tests
    --# derives ;
    is separate;
 
 begin
 
-   SHA2_Tests;
+   SHA384_Tests;
+   SHA512_Tests;
 
 end Main;
