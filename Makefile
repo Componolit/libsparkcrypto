@@ -18,6 +18,9 @@ C_PROGS = \
 all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS) $(C_PROGS))
 proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 
+test: $(OUTDIR)/test_*
+	@for f in $^; do $$f; done;
+
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
@@ -29,8 +32,8 @@ $(OUTDIR)/sha512openssl: CFLAGS += -lssl
 # how to build an Ada program
 #
 $(OUTDIR)/%: progs/%/main.adb
-	@mkdir -p $@.bin
-	@gnatmake $(GNATMAKE_FLAGS) -aIshadow -aIsrc -D $@.bin -o $@ $<
+	@mkdir -p $(@D)/build/$(@F)
+	@gnatmake $(GNATMAKE_FLAGS) -aIshadow -aIsrc -D $(@D)/build/$(@F) -o $@ $<
 
 #
 # how to build a C program
