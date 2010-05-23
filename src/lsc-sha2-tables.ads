@@ -16,9 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with LSC.SHA2;
+--# inherit LSC.SHA2;
+
 private package LSC.SHA2.Tables is
 
-K : constant Schedule_Type := Schedule_Type'
+K : constant SHA2.Schedule_Type := SHA2.Schedule_Type'
   (16#428a2f98d728ae22#, 16#7137449123ef65cd#, 16#b5c0fbcfec4d3b2f#, 16#e9b5dba58189dbbc#,
    16#3956c25bf348b538#, 16#59f111f1b605d019#, 16#923f82a4af194f9b#, 16#ab1c5ed5da6d8118#,
    16#d807aa98a3030242#, 16#12835b0145706fbe#, 16#243185be4ee4b28c#, 16#550c7dc3d5ffb4e2#,
