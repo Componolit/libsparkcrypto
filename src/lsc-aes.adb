@@ -43,7 +43,8 @@ package body LSC.AES is
 
    function Enc_Key_Expansion (Key : Key_Type;
                                Nk  : Nk_Type;
-                               Nr  : Nr_Type) return Schedule_Type is
+                               Nr  : Nr_Type) return Schedule_Type
+   is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
@@ -61,8 +62,8 @@ package body LSC.AES is
    begin
 
       for I in Key_Index range Key'First .. Key'Last
-      --# assert I in Key_Index;
       loop
+         --# assert I in Schedule_Index;
          Result (I) := Key (I);
       end loop;
 
@@ -77,10 +78,10 @@ package body LSC.AES is
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       -----------------------------------------------------------------------------------------------------------
 
-      for I in Schedule_Index range Key'Last + 1 .. Nb * (Nr + 1) - 1
+      for I in Schedule_Index range Nk .. Nb * (Nr + 1) - 1
       loop
 
-         --# assert Nk = Nk%;
+         --# assert I >= Nk;
 
          --  DEBUG OUTPUT  -----------------
          Debug.Put ("| ");                --
@@ -90,29 +91,16 @@ package body LSC.AES is
 
          Temp := Result (I - 1);
 
-         --# assert Temp in Types.Word32 and
-         --#        Nk = Nk%;
-
          --  DEBUG OUTPUT  -
          Put_Row (Temp);  --
          -------------------
 
          if I mod Nk = 0
          then
+
             Rot_Temp := Rot_Word (Temp);
-
-            --# assert Rot_Temp in Types.Word32 and
-            --#        Nk = Nk%;
-
             Sub_Temp := Sub_Word (Rot_Temp);
-
-            --# assert Sub_Temp in Types.Word32 and
-            --#        Nk = Nk%;
-
-            Temp     := Sub_Temp xor Tables.Rcon (I/Nk);
-
-            --# assert Temp in Types.Word32 and
-            --#        Nk = Nk%;
+            Temp     := Ops.XOR2 (Sub_Temp, Tables.Rcon (I/Nk));
 
             --  DEBUG OUTPUT  -------------------
             Put_Row (Rot_Temp);                --
@@ -139,7 +127,7 @@ package body LSC.AES is
             ---------------------------------------------------------------
          end if;
 
-         Result (I) := Result (I - Nk) xor Temp;
+         Result (I) := Ops.XOR2 (Result (I - Nk), Temp);
 
          --  DEBUG OUTPUT  ------------
          Put_Row (Result (I - Nk));  --
