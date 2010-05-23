@@ -82,10 +82,12 @@ private
    function Enc_Key_Expansion (Key : Key_Type;
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type;
+   --# pre Key'Length = Nk;
 
    function Dec_Key_Expansion (Key : Key_Type;
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type;
+   --# pre Key'Length = Nk;
 
    function Rot_Word (Value : Types.Word32) return Types.Word32;
 
