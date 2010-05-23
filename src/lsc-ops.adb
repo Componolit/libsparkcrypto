@@ -61,6 +61,13 @@ package body LSC.Ops is
       return ByteX (Value, Types.B3);
    end Byte3;
 
+   function XOR2 (V0, V1 : Types.Word32) return Types.Word32
+   is
+   begin
+      return V0 xor V1;
+   end XOR2;
+   pragma Inline (XOR2);
+
    function XOR4 (V0, V1, V2, V3 : Types.Word32) return Types.Word32
    is
    begin

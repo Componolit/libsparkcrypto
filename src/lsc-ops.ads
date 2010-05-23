@@ -33,6 +33,9 @@ package LSC.Ops is
    function Byte2 (Value : Types.Word32) return Types.Byte;
    function Byte3 (Value : Types.Word32) return Types.Byte;
 
+   function XOR2 (V0, V1 : Types.Word32) return Types.Word32;
+   --# return V0 xor V1;
+
    function XOR4 (V0, V1, V2, V3 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2 xor V3;
 
