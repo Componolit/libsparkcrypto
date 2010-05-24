@@ -59,10 +59,10 @@ package body LSC.SHA2.Print is
       New_Line;
    end Put_State;
 
-   procedure Put_Hash (H : SHA2.Hash_Type) is
+   procedure Put_Hash (H : SHA2.SHA512_Hash_Type) is
    begin
       New_Line;
-      for Index in SHA2.Hash_Index
+      for Index in SHA2.SHA512_Hash_Index
       loop
          Put ("  H");
          Put (Index'Img);
