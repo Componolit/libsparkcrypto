@@ -17,6 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with LSC.Types, LSC.Debug;
+use type LSC.Types.Index;
 --# inherit LSC.Types,
 --#         LSC.Debug;
 
@@ -24,16 +25,14 @@ package LSC.SHA2 is
 
    type Context_Type is private;
 
-   type Word64_Array_Type is array (Natural range <>) of Types.Word64;
+   subtype Block_Index is Types.Index range 0 .. 15;
+   subtype Block_Type is Types.Word64_Array_Type (Block_Index);
 
-   subtype Block_Index is Natural range 0 .. 15;
-   subtype Block_Type is Word64_Array_Type (Block_Index);
+   subtype SHA512_Hash_Index is Types.Index range 0 .. 7;
+   subtype SHA512_Hash_Type is Types.Word64_Array_Type (SHA512_Hash_Index);
 
-   subtype SHA512_Hash_Index is Natural range 0 .. 7;
-   subtype SHA512_Hash_Type is Word64_Array_Type (SHA512_Hash_Index);
-
-   subtype SHA384_Hash_Index is Natural range 0 .. 5;
-   subtype SHA384_Hash_Type is Word64_Array_Type (SHA384_Hash_Index);
+   subtype SHA384_Hash_Index is Types.Index range 0 .. 5;
+   subtype SHA384_Hash_Type is Types.Word64_Array_Type (SHA384_Hash_Index);
 
    subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 

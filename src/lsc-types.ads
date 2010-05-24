@@ -41,4 +41,6 @@ package LSC.Types is
    function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type;
    function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32;
 
+   type Word64_Array_Type is array (Index range <>) of Word64;
+
 end LSC.Types;

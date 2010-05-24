@@ -16,12 +16,13 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2, LSC.HMAC.SHA512, LSC.IO, LSC.Test;
-use type LSC.SHA2.Word64_Array_Type;
+with LSC.SHA2, LSC.HMAC.SHA512, LSC.IO, LSC.Types, LSC.Test;
+use type LSC.Types.Word64_Array_Type;
 
 --# inherit LSC.IO,
 --#         LSC.SHA2,
 --#         LSC.HMAC.SHA512,
+--#         LSC.Types,
 --#         LSC.Test;
 
 --# main_program;

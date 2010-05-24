@@ -27,8 +27,8 @@ package LSC.HMAC.SHA512 is
 
    type Context_Type is private;
 
-   subtype Auth_Index is Natural range 0 .. 3;
-   subtype Auth_Type is SHA2.Word64_Array_Type (Auth_Index);
+   subtype Auth_Index is Types.Index range 0 .. 3;
+   subtype Auth_Type is Types.Word64_Array_Type (Auth_Index);
 
    function Context_Init (Key : SHA2.Block_Type) return Context_Type;
 

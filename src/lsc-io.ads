@@ -17,6 +17,7 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with LSC.Types, LSC.SHA2;
+use type LSC.Types.Index;
 --# inherit LSC.SHA2,
 --#         LSC.Types;
 
