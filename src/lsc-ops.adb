@@ -68,6 +68,13 @@ package body LSC.Ops is
    end XOR2;
    pragma Inline (XOR2);
 
+   function XOR3 (V0, V1, V2 : Types.Word32) return Types.Word32
+   is
+   begin
+      return V0 xor V1 xor V2;
+   end XOR3;
+   pragma Inline (XOR3);
+
    function XOR4 (V0, V1, V2, V3 : Types.Word32) return Types.Word32
    is
    begin
