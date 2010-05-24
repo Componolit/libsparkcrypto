@@ -6,6 +6,7 @@ SPARK_PROGS = \
 	test_aes \
 	test_sha2 \
 	test_hmac \
+	test_ripemd160 \
    sha512perf \
    sha512sum
 
