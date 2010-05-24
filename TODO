@@ -4,3 +4,4 @@
 * Fix SHA2 test drivers
 * Improve performance
 * Implement AES2 and HMAC test drivers
+* Add separators between functions
