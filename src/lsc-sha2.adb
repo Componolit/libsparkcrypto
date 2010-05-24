@@ -221,7 +221,7 @@ package body LSC.SHA2 is
 
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in Block_Type)
+      Block   : in     Block_Type)
    is
    begin
       Context_Update_Internal (Context, Block);
@@ -230,7 +230,7 @@ package body LSC.SHA2 is
 
    procedure Block_Terminate
      (Block  : in out Block_Type;
-      Length : in Block_Length_Type)
+      Length : in     Block_Length_Type)
    is
       Index  : Block_Index;
       Offset : Natural;
@@ -259,8 +259,8 @@ package body LSC.SHA2 is
 
    procedure Context_Finalize
      (Context : in out Context_Type;
-      Block   : in Block_Type;
-      Length  : in Block_Length_Type)
+      Block   : in     Block_Type;
+      Length  : in     Block_Length_Type)
    is
       Final_Block : Block_Type;
    begin
