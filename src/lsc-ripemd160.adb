@@ -55,7 +55,11 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
-      Result : Types.Word32 := 0;
+      --  WORKAROUND: The temporary variables for the negation of x, y and z are
+      --  necessary to keep the evaluation depth for the simplifier low enough to
+      --  simplify this automatically!
+      Not_x, Not_y, Not_z : Types.Word32;
+      Result              : Types.Word32 := 0;
    begin
 
       if     0 <= j and j <= 15
@@ -63,16 +67,24 @@ package body LSC.RIPEMD160 is
          Result := Ops.XOR3 (x, y, z);
       elsif 16 <= j and j <= 31
       then
-         Result := (x and y) or ((not x) and z);
+         Not_x := not x;
+         --# assert Not_x in Types.Word32;
+         Result := (x and y) or (Not_x and z);
       elsif 32 <= j and j <= 47
       then
-         Result := Ops.XOR2 (x or (not y), z);  
+         Not_y := not y;
+         --# assert Not_y in Types.Word32;
+         Result := Ops.XOR2 (x or Not_y, z);
       elsif 48 <= j and j <= 63
       then
-         Result := (x and z) or (y and (not z));
+         Not_z := not z;
+         --# assert Not_z in Types.Word32;
+         Result := (x and z) or (y and Not_z);
       elsif 64 <= j and j <= 49
       then
-         Result := Ops.XOR2 (x, y or (not z));
+         Not_z := not z;
+         --# assert Not_z in Types.Word32;
+         Result := Ops.XOR2 (x, y or Not_z);
       end if;
 
       return Result;
