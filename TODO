@@ -5,3 +5,5 @@
 * Improve performance
 * Implement AES2 and HMAC test drivers
 * Add separators between functions
+* Split debug package to prevent unecessary building/analysis of unrelated packages.
+* Implement integrated performance comarison tool sparkcrypto vs. openssl.
