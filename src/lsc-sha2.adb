@@ -241,9 +241,9 @@ package body LSC.SHA2 is
       Index  := Block_Index (Length / 64);
       Offset := Natural (63 - Length mod 64);
 
-      Debug.Put_Line ("Terminator offset:");
+      Debug.Put ("Terminator offset =");
       Debug.Print_Natural (Offset);
-      Debug.Put_Line (".");
+      Debug.New_Line;
 
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
       Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
