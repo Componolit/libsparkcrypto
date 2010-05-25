@@ -146,21 +146,55 @@ package body LSC.RIPEMD160 is
       Add (Context.Length, 512);
    end Context_Update;
 
+   procedure Block_Terminate
+     (Block  : in out Block_Type;
+      Length : in     Block_Length_Type)
+   is
+      Index  : Block_Index;
+      Offset : Natural;
+   begin
+
+      Index  := Block_Index (Length / 32);
+      Offset := Natural (32 - Length mod 32);
+
+      Block (Index) := Block (Index) xor Types.SHL32 (1, Offset);
+      Block (Index) := Block (Index) and Types.SHL32 (not 0, Offset);
+
+      if Index < Block_Index'Last
+      then
+         for I in Block_Index range (Index + 1) .. Block_Index'Last
+            --# assert I in Block_Index;
+         loop
+            Block (I) := 0;
+         end loop;
+      end if;
+
+   end Block_Terminate;
+
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
       Length  : in     Block_Length_Type)
    is
-      Final_Block : Block_Type;
+      Final_Block : Block_Type := Block_Type'(others => 0);
    begin
 
       Debug.Put_Line ("FINAL BLOCK:");
 
-      Final_Block := Block;
-
       --  Add length of last block to data length.
       Add (Context.Length, Length);
 
+      --  Set trailing '1' marker and zero out rest of the block.
+      Block_Terminate (Block => Final_Block, Length => Length);
+
+      --  Update block
+      Context_Update_Internal (Context => Context, Block => Block);
+
+      --  Set length in final block.
+      Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
+      Final_Block (Block_Type'Last)     := Context.Length.LSW;
+
+      --  Update final block
       Context_Update_Internal (Context => Context, Block => Final_Block);
 
    end Context_Finalize;
