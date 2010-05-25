@@ -70,8 +70,8 @@ private
    type State_Index is (a, b, c, d, e, f, g, h);
    type State_Type is array (State_Index) of Types.Word64;
 
-   type Schedule_Index is range 0 .. 79;
-   type Schedule_Type is array (Schedule_Index) of Types.Word64;
+   subtype Schedule_Index is Types.Index range 0 .. 79;
+   subtype Schedule_Type is Types.Word64_Array_Type (Schedule_Index);
 
    type Context_Type is record
       Length : Data_Length;

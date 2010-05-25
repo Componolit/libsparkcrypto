@@ -20,22 +20,7 @@
 
 private package LSC.SHA2.Print is
 
-   procedure Put_T (T : SHA2.Schedule_Index);
-   --# derives null from T;
-
-   procedure Put_Natural (I : Natural);
-   --# derives null from I;
-
-   procedure Put_Line (T : String);
-   --# derives null from T;
-
    procedure Put_State (S : SHA2.State_Type);
-   --# derives null from S;
-
-   procedure Put_Hash (H : SHA2.SHA512_Hash_Type);
-   --# derives null from H;
-
-   procedure Put_Schedule (S : SHA2.Schedule_Type);
    --# derives null from S;
 
 end LSC.SHA2.Print;

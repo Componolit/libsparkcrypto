@@ -135,7 +135,7 @@ package body LSC.SHA2 is
 
       -- Print out initial state of H
       Debug.Put_Line ("SHA-512 initial hash values:");
-      Print.Put_Hash (Context.H);
+      Debug.Print_Word64_Array (Context.H, 2, Types.Index'Last, True);
 
       -------------------------------------------
       --  Section 6.3.2 SHA-512 Hash Computations
@@ -158,7 +158,7 @@ package body LSC.SHA2 is
       end loop;
 
       Debug.Put_Line ("Message block:");
-      Print.Put_Schedule (W);
+      Debug.Print_Word64_Array (W, 2, 8, True);
 
       -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
       --    h with the (i-1)st hash value:
@@ -198,7 +198,9 @@ package body LSC.SHA2 is
             b => S (a),
             a => T1 + T2);
 
-         Print.Put_T (t);
+         Debug.Put ("t =");
+         Debug.Print_Index (t);
+         Debug.New_Line;
          Print.Put_State (S);
       end loop;
 
@@ -215,7 +217,7 @@ package body LSC.SHA2 is
          7 => S (h) + Context.H (7));
 
       Debug.Put_Line ("SHA-512 final hash values:");
-      Print.Put_Hash (Context.H);
+      Debug.Print_Word64_Array (Context.H, 2, Types.Index'Last, True);
 
    end Context_Update_Internal;
 
@@ -240,7 +242,7 @@ package body LSC.SHA2 is
       Offset := Natural (63 - Length mod 64);
 
       Debug.Put_Line ("Terminator offset:");
-      Print.Put_Natural (Offset);
+      Debug.Print_Natural (Offset);
       Debug.Put_Line (".");
 
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
