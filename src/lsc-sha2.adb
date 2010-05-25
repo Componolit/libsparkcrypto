@@ -145,7 +145,7 @@ package body LSC.SHA2 is
       for t in Schedule_Index range 0 .. 15
          --# assert t in 0 .. 15;
       loop
-         W (t) := Block (Block_Index (t));
+         W (t) := Block (t);
       end loop;
 
       for t in Schedule_Index range 16 .. 79
