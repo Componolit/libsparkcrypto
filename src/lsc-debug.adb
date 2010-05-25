@@ -53,4 +53,17 @@ package body LSC.Debug is
       null;
    end Print_Word64;
 
+   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean)
+   is
+   begin
+      --# accept Flow, 30, Block, "Null implementation" &
+      --#        Flow, 30, Space, "Null implementation" &
+      --#        Flow, 30, Break, "Null implementation" &
+      --#        Flow, 30, Newln, "Null implementation";
+      null;
+   end Print_Word32_Array;
+
 end LSC.Debug;

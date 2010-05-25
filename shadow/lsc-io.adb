@@ -160,4 +160,38 @@ package body LSC.IO is
       end loop;
       IO.New_Line;
    end Print_Block;
+
+   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean)
+   is
+   begin
+
+      for I in Types.Index range Block'First .. Block'Last
+      loop
+
+         Print_Word32 (Block (I));
+
+         -- space separate values
+         for S in 1 .. Space
+         loop
+            IO.Put (" ");
+         end loop;
+
+         -- new line
+         if I mod Break = Break - 1
+         then
+            IO.New_Line;
+         end if;
+
+      end loop;
+
+      if Newln
+      then
+         IO.New_Line;
+      end if;
+
+   end Print_Word32_Array;
+
 end LSC.IO;

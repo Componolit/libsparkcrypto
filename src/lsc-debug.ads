@@ -39,4 +39,10 @@ package LSC.Debug is
    procedure Print_Word64 (I : in Types.Word64);
    --# derives null from I;
 
+   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean);
+   --# derives null from Block, Space, Break, Newln;
+
 end LSC.Debug;

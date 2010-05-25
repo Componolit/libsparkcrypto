@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -27,5 +27,9 @@ package body LSC.Debug is
    procedure Print_Byte (I : in LSC.Types.Byte) renames LSC.IO.Print_Byte;
    procedure Print_Word32 (I : in LSC.Types.Word32) renames LSC.IO.Print_Word32;
    procedure Print_Word64 (I : in LSC.Types.Word64) renames LSC.IO.Print_Word64;
+   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean) renames LSC.IO.Print_Word32_Array;
 
 end LSC.Debug;
