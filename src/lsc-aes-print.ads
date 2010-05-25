@@ -20,18 +20,6 @@
 
 private package LSC.AES.Print is
 
-   procedure Print_Schedule (S : AES.Schedule_Type);
-   --# derives null from S;
-
-   procedure Print_Schedule_Index (I : AES.Schedule_Index);
-   --# derives null from I;
-
-   procedure Print_Block (B : AES.Block_Type);
-   --# derives null from B;
-
-   procedure Print_Key (K : AES.Key_Type);
-   --# derives null from K;
-
    procedure Print_Round (T : String;
                           R : AES.Schedule_Index;
                           B : AES.Block_Type);

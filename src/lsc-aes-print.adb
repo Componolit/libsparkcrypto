@@ -18,34 +18,6 @@
 
 package body LSC.AES.Print is
 
-   procedure Print_Schedule (S : AES.Schedule_Type)
-   is
-   begin
-      --# accept Flow, 30, S, "Null implementation";
-      null;
-   end Print_Schedule;
-
-   procedure Print_Schedule_Index (I : AES.Schedule_Index)
-   is
-   begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Print_Schedule_Index;
-
-   procedure Print_Block (B : AES.Block_Type)
-   is
-   begin
-      --# accept Flow, 30, B, "Null implementation";
-      null;
-   end Print_Block;
-
-   procedure Print_Key (K : AES.Key_Type)
-   is
-   begin
-      --# accept Flow, 30, K, "Null implementation";
-      null;
-   end Print_Key;
-
    procedure Print_Round (T : String;
                           R : AES.Schedule_Index;
                           B : AES.Block_Type)
