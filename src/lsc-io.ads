@@ -51,4 +51,26 @@ package LSC.IO is
    procedure Print_Block (Block : SHA2.Block_Type);
    --# derives null from Block;
 
+   procedure Print_Index (I : in Types.Index);
+   --# derives null from I;
+
+   procedure Print_Natural (I : in Natural);
+   --# derives null from I;
+
+   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean);
+   --# derives null from Block, Space, Break, Newln;
+   --# pre
+   --#    Break > 0;
+
+   procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean);
+   --# derives null from Block, Space, Break, Newln;
+   --# pre
+   --#    Break > 0;
+
 end LSC.IO;

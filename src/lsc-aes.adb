@@ -69,7 +69,7 @@ package body LSC.AES is
 
       --  DEBUG OUTPUT  -----------------------------------------------------------------------------------------
       Debug.Put_Line ("Initial schedule:");                                                                    --
-      Print.Print_Schedule (Result);                                                                           --
+      Debug.Print_Word32_Array (Result, 1, 4, True);                                                           --
       Debug.New_Line;                                                                                          --
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       Debug.Put_Line ("|  i  |          |  After   |  After   |          |After XOR |          |  w[i] =  |"); --
@@ -83,11 +83,11 @@ package body LSC.AES is
 
          --# assert I >= Nk;
 
-         --  DEBUG OUTPUT  -----------------
-         Debug.Put ("| ");                --
-         Print.Print_Schedule_Index (I);  --
-         Debug.Put (" |");                --
-         -----------------------------------
+         --  DEBUG OUTPUT  --------
+         Debug.Put ("| ");       --
+         Debug.Print_Index (I);  --
+         Debug.Put (" |");       --
+         --------------------------
 
          Temp := Result (I - 1);
 
@@ -141,10 +141,10 @@ package body LSC.AES is
       Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
       -----------------------------------------------------------------------------------------------------------
 
-      --  DEBUG OUTPUT  ---------------------
-      Debug.Put_Line ("Final schedule:");  --
-      Print.Print_Schedule (Result);       --
-      ---------------------------------------
+      --  DEBUG OUTPUT  -------------------------------
+      Debug.Put_Line ("Final schedule:");            --
+      Debug.Print_Word32_Array (Result, 1, 4, True); --
+      -------------------------------------------------
 
       return Result;
 
@@ -210,10 +210,10 @@ package body LSC.AES is
                       Tables.U4 (Ops.Byte3 (Result (Nb * Round + 3))));
       end loop;
 
-      --  DEBUG OUTPUT  -----------------------
-      Debug.Put_Line ("Inverse schedule:");  --
-      Print.Print_Schedule (Result);         --
-      -----------------------------------------
+      --  DEBUG OUTPUT  --------------------------------
+      Debug.Put_Line ("Inverse schedule:");           --
+      Debug.Print_Word32_Array (Result, 1, 4, True);  --
+      --------------------------------------------------
 
       return Result;
 
@@ -230,7 +230,7 @@ package body LSC.AES is
 
       --  DEBUG  -----------------------------------------------------
       Debug.Put ("PLAINTEXT:   ");                                  --
-      Print.Print_Block (Plaintext);                                --
+      Debug.Print_Word32_Array (Plaintext, 1, 8, True);             --
       Debug.New_Line;                                               --
       Debug.New_Line;                                               --
       Print.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
@@ -442,8 +442,7 @@ package body LSC.AES is
 
       --  DEBUG  ---------------------------------------------------------------
       Debug.Put ("CIPHERTEXT:  ");                                            --
-      Print.Print_Block (Ciphertext);                                         --
-      Debug.New_Line;                                                         --
+      Debug.Print_Word32_Array (Ciphertext, 1, 8, True);                      --
       Debug.New_Line;                                                         --
       Print.Print_Round ("iinput", Schedule_Index'(Context.Nr), Ciphertext);  --
       --------------------------------------------------------------------------

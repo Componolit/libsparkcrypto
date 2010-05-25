@@ -40,8 +40,8 @@ package LSC.AES is
    subtype AES256_Key_Index is Types.Index range 0 .. 7;
    subtype AES256_Key_Type is Key_Type (AES256_Key_Index);
 
-   subtype Block_Index is Natural range 0 .. 3;
-   type Block_Type is array (Block_Index) of Types.Word32;
+   subtype Block_Index is Types.Index range 0 .. 3;
+   subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
    function Create_AES128_Enc_Context (Key : AES128_Key_Type) return AES_Enc_Context;
    function Create_AES192_Enc_Context (Key : AES192_Key_Type) return AES_Enc_Context;
@@ -62,7 +62,7 @@ private
    Nb : constant Types.Index :=  4;
 
    subtype Schedule_Index is Types.Index range 0 .. 15 * Nb - 1;
-   type Schedule_Type is array (Schedule_Index) of Types.Word32;
+   subtype Schedule_Type is Types.Word32_Array_Type (Schedule_Index);
 
    subtype Nr_Type is Types.Index range 10 .. 14;
    subtype Nk_Type is Types.Index range  4 ..  8;

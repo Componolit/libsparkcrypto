@@ -179,7 +179,8 @@ package body LSC.RIPEMD160 is
       Final_Block : Block_Type := Block_Type'(others => 0);
    begin
 
-      Debug.Put_Line ("FINAL BLOCK:");
+      Debug.Put_Line ("Block:");
+      Debug.Print_Word32_Array (Block, 1, 8, True);
 
       --  Add length of last block to data length.
       Add (Context.Length, Length);
@@ -193,6 +194,9 @@ package body LSC.RIPEMD160 is
       --  Set length in final block.
       Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
       Final_Block (Block_Type'Last)     := Context.Length.LSW;
+
+      Debug.Put_Line ("Final_Block:");
+      Debug.Print_Word32_Array (Final_Block, 1, 8, True);
 
       --  Update final block
       Context_Update_Internal (Context => Context, Block => Final_Block);

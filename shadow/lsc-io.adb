@@ -160,4 +160,86 @@ package body LSC.IO is
       end loop;
       IO.New_Line;
    end Print_Block;
+
+   procedure Print_Index (I : in Types.Index)
+   is
+      package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);
+   begin
+       SIIO.Put (Item => I, Width => 3);
+   end Print_Index;
+
+   procedure Print_Natural (I : Natural) is
+      package IIO is new Ada.Text_IO.Integer_IO (Natural);
+   begin
+      IIO.Put (I);
+   end Print_Natural;
+
+   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean)
+   is
+   begin
+
+      for I in Types.Index range Block'First .. Block'Last
+      loop
+
+         Print_Word32 (Block (I));
+
+         -- space separate values
+         for S in 1 .. Space
+         loop
+            IO.Put (" ");
+         end loop;
+
+         -- intermediate new line
+         if I mod Break = Break - 1
+         then
+            IO.New_Line;
+         end if;
+
+      end loop;
+
+      -- final new line
+      if Newln
+      then
+         IO.New_Line;
+      end if;
+
+   end Print_Word32_Array;
+
+   procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
+                                 Space : in Natural;
+                                 Break : in Types.Index;
+                                 Newln : in Boolean)
+   is
+   begin
+
+      for I in Types.Index range Block'First .. Block'Last
+      loop
+
+         Print_Word64 (Block (I));
+
+         -- space separate values
+         for S in 1 .. Space
+         loop
+            IO.Put (" ");
+         end loop;
+
+         -- intermediate new line
+         if I mod Break = Break - 1
+         then
+            IO.New_Line;
+         end if;
+
+      end loop;
+
+      -- final new line
+      if Newln
+      then
+         IO.New_Line;
+      end if;
+
+   end Print_Word64_Array;
+
 end LSC.IO;
