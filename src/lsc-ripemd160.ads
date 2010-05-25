@@ -81,6 +81,12 @@ private
    --# derives Item from *,
    --#                   Value;
 
+   procedure Block_Terminate
+     (Block  : in out Block_Type;
+      Length : in     Block_Length_Type);
+   --# derives Block from *,
+   --#                    Length;
+
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type);
