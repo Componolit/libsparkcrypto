@@ -28,6 +28,7 @@ package body LSC.Debug is
    procedure Print_Word32 (I : in LSC.Types.Word32) renames LSC.IO.Print_Word32;
    procedure Print_Word64 (I : in LSC.Types.Word64) renames LSC.IO.Print_Word64;
    procedure Print_Index (I : in Types.Index) renames LSC.IO.Print_Index;
+   procedure Print_Natural (I : in Natural) renames LSC.IO.Print_Natural;
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;

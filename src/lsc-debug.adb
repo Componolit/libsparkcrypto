@@ -60,6 +60,13 @@ package body LSC.Debug is
       null;
    end Print_Index;
 
+   procedure Print_Natural (I : in Natural)
+   is
+   begin
+      --# accept Flow, 30, I, "Null implementation";
+      null;
+   end Print_Natural;
+
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;

@@ -26,8 +26,6 @@ use type LSC.Types.Byte;
 
 package body LSC.IO is
 
-   package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);
-
    subtype Nibble is Natural range 0 .. 15;
 
    procedure Put (T : String) renames Ada.Text_IO.Put;
@@ -165,9 +163,16 @@ package body LSC.IO is
 
    procedure Print_Index (I : in Types.Index)
    is
+      package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);
    begin
        SIIO.Put (Item => I, Width => 3);
    end Print_Index;
+
+   procedure Print_Natural (I : Natural) is
+      package IIO is new Ada.Text_IO.Integer_IO (Natural);
+   begin
+      IIO.Put (I);
+   end Print_Natural;
 
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;

@@ -54,6 +54,9 @@ package LSC.IO is
    procedure Print_Index (I : in Types.Index);
    --# derives null from I;
 
+   procedure Print_Natural (I : in Natural);
+   --# derives null from I;
+
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
