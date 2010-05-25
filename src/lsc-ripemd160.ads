@@ -59,11 +59,6 @@ package LSC.RIPEMD160 is
 
 private
 
-   subtype Round_Index is Types.Index range 0 .. 79;
-
-   subtype K_Type is Types.Word32_Array_Type (Round_Index);
-   type SR_Type is array (Round_Index) of Block_Index;
-
    type Data_Length is record
       LSW : Types.Word32;
       MSW : Types.Word32;
@@ -110,7 +105,8 @@ private
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure gg (A : in out Types.Word32;
                  B : in     Types.Word32;
@@ -119,7 +115,8 @@ private
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure hh (A : in out Types.Word32;
                  B : in     Types.Word32;
@@ -128,7 +125,8 @@ private
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure ii (A : in out Types.Word32;
                  B : in     Types.Word32;
@@ -137,7 +135,8 @@ private
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure jj (A : in out Types.Word32;
                  B : in     Types.Word32;
@@ -146,7 +145,8 @@ private
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure fff (A : in out Types.Word32;
                   B : in     Types.Word32;
@@ -155,7 +155,8 @@ private
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure ggg (A : in out Types.Word32;
                   B : in     Types.Word32;
@@ -164,7 +165,8 @@ private
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure hhh (A : in out Types.Word32;
                   B : in     Types.Word32;
@@ -173,7 +175,8 @@ private
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure iii (A : in out Types.Word32;
                   B : in     Types.Word32;
@@ -182,7 +185,8 @@ private
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
    procedure jjj (A : in out Types.Word32;
                   B : in     Types.Word32;
@@ -191,6 +195,7 @@ private
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural);
-   --# derives A, C from *, B, D, E, X, S;
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
 
 end LSC.RIPEMD160;

@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.RIPEMD160.Tables;
+with LSC.RIPEMD160.Print;
 
 package body LSC.RIPEMD160 is
 
@@ -44,9 +44,6 @@ package body LSC.RIPEMD160 is
    function Context_Init return Context_Type
    is
    begin
-      Debug.New_Line;
-      Debug.New_Line;
-      Debug.Put_Line ("RIPEMD-160 INIT");
       return Context_Type'
          (Length => Init_Data_Length,
           H      => Hash_Type'(0 => 16#67452301#,
@@ -92,6 +89,10 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
+      --  WORKAROUND: The temporary variable for the negation is necessary to
+      --  keep the evaluation depth for the simplifier low enough to simplify
+      --  this automatically!
+
       Not_y : Types.Word32;
    begin
       Not_y := not y;
@@ -106,6 +107,10 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
+      --  WORKAROUND: The temporary variable for the negation is necessary to
+      --  keep the evaluation depth for the simplifier low enough to simplify
+      --  this automatically!
+
       Not_z : Types.Word32;
    begin
       Not_z := not z;
@@ -120,6 +125,10 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
+      --  WORKAROUND: The temporary variable for the negation is necessary to
+      --  keep the evaluation depth for the simplifier low enough to simplify
+      --  this automatically!
+
       Not_z : Types.Word32;
    begin
       Not_z := not z;
@@ -138,14 +147,14 @@ package body LSC.RIPEMD160 is
                  S : in     Natural)
    is
    begin
-      Debug.Put ("A=");
-      Debug.Print_Word32 (A);
+      Print.Print_Schedule (" FF/S", A, B, C, D, E, X, S);
       A := A + f (B, C, D) + X;
-      Debug.Put ("  X=");
-      Debug.Print_Word32 (X);
-      Debug.New_Line;
+      Debug.Put ("       "); Debug.Print_Word32 (A); Debug.Put (" ");
       A := Types.ROTL32 (A, S) + E;
+      Debug.Print_Word32 (A); Debug.New_Line;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule (" FF/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end ff;
 
    ---------------------------------------------------------------------------
@@ -159,9 +168,12 @@ package body LSC.RIPEMD160 is
                  S : in     Natural)
    is
    begin
-      A := g (B, C, D) + X + 16#5a82_7999#;
+      Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S);
+      A := A + g (B, C, D) + X + 16#5a82_7999#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule (" GG/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end gg;
 
    ---------------------------------------------------------------------------
@@ -175,9 +187,12 @@ package body LSC.RIPEMD160 is
                  S : in     Natural)
    is
    begin
-      A := h (B, C, D) + X + 16#6ed9_eba1#;
+      Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S);
+      A := A + h (B, C, D) + X + 16#6ed9_eba1#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule (" HH/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end hh;
 
    ---------------------------------------------------------------------------
@@ -191,9 +206,12 @@ package body LSC.RIPEMD160 is
                  S : in     Natural)
    is
    begin
-      A := i (B, C, D) + X + 16#8f1b_bcdc#;
+      Print.Print_Schedule (" II/S", A, B, C, D, E, X, S);
+      A := A + i (B, C, D) + X + 16#8f1b_bcdc#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule (" II/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end ii;
 
    ---------------------------------------------------------------------------
@@ -207,9 +225,12 @@ package body LSC.RIPEMD160 is
                  S : in     Natural)
    is
    begin
-      A := j (B, C, D) + X + 16#a953_fd4e#;
+      Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S);
+      A := A + j (B, C, D) + X + 16#a953_fd4e#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule (" JJ/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end jj;
 
    ---------------------------------------------------------------------------
@@ -223,9 +244,12 @@ package body LSC.RIPEMD160 is
                   S : in     Natural)
    is
    begin
-      A := f (B, C, D) + X;
+      Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S);
+      A := A + f (B, C, D) + X;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule ("FFF/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end fff;
 
    ---------------------------------------------------------------------------
@@ -239,9 +263,12 @@ package body LSC.RIPEMD160 is
                   S : in     Natural)
    is
    begin
-      A := g (B, C, D) + X + 16#7a6d_76e9#;
+      Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S);
+      A := A + g (B, C, D) + X + 16#7a6d_76e9#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule ("GGG/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end ggg;
 
    ---------------------------------------------------------------------------
@@ -255,9 +282,12 @@ package body LSC.RIPEMD160 is
                   S : in     Natural)
    is
    begin
-      A := h (B, C, D) + X + 16#6d70_3ef3#;
+      Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S);
+      A := A + h (B, C, D) + X + 16#6d70_3ef3#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule ("HHH/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end hhh;
 
    ---------------------------------------------------------------------------
@@ -271,9 +301,12 @@ package body LSC.RIPEMD160 is
                   S : in     Natural)
    is
    begin
-      A := i (B, C, D) + X + 16#5c4d_d124#;
+      Print.Print_Schedule ("III/S", A, B, C, D, E, X, S);
+      A := A + i (B, C, D) + X + 16#5c4d_d124#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule ("III/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end iii;
 
    ---------------------------------------------------------------------------
@@ -287,9 +320,12 @@ package body LSC.RIPEMD160 is
                   S : in     Natural)
    is
    begin
-      A := j (B, C, D) + X + 16#50a2_8be6#;
+      Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S);
+      A := A + j (B, C, D) + X + 16#50a2_8be6#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
+      Print.Print_Schedule ("JJJ/E", A, B, C, D, E, X, S);
+      Debug.New_Line;
    end jjj;
 
    ---------------------------------------------------------------------------
@@ -298,225 +334,247 @@ package body LSC.RIPEMD160 is
      (Context : in out Context_Type;
       X       : in     Block_Type)
    is
-      H, H1 : Hash_Type;
+       H0,  H1,  H2,  H3,  H4 : Types.Word32;
+      HH0, HH1, HH2, HH3, HH4 : Types.Word32;
    begin
 
-      H  := Context.H;
-      H1 := Context.H;
+       H0 := Context.H (0);
+       H1 := Context.H (1);
+       H2 := Context.H (2);
+       H3 := Context.H (3);
+       H4 := Context.H (4);
 
-      Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      Debug.New_Line;
+      HH0 := Context.H (0);
+      HH1 := Context.H (1);
+      HH2 := Context.H (2);
+      HH3 := Context.H (3);
+      HH4 := Context.H (4);
 
       --  Round 1
-      ff (H (0), H (1), H (2), H (3), H (4), X ( 0), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (4), H (0), H (1), H (2), H (3), X ( 1), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (3), H (4), H (0), H (1), H (2), X ( 2), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (2), H (3), H (4), H (0), H (1), X ( 3), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (1), H (2), H (3), H (4), H (0), X ( 4),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (0), H (1), H (2), H (3), H (4), X ( 5),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (4), H (0), H (1), H (2), H (3), X ( 6),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (3), H (4), H (0), H (1), H (2), X ( 7),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (2), H (3), H (4), H (0), H (1), X ( 8), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (1), H (2), H (3), H (4), H (0), X ( 9), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (0), H (1), H (2), H (3), H (4), X (10), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (4), H (0), H (1), H (2), H (3), X (11), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (3), H (4), H (0), H (1), H (2), X (12),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (2), H (3), H (4), H (0), H (1), X (13),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (1), H (2), H (3), H (4), H (0), X (14),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ff (H (0), H (1), H (2), H (3), H (4), X (15),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
+      --# assert True;
+
+      ff (H0, H1, H2, H3, H4, X ( 0), 11);
+      ff (H4, H0, H1, H2, H3, X ( 1), 14);
+      ff (H3, H4, H0, H1, H2, X ( 2), 15);
+      ff (H2, H3, H4, H0, H1, X ( 3), 12);
+      ff (H1, H2, H3, H4, H0, X ( 4),  5);
+      ff (H0, H1, H2, H3, H4, X ( 5),  8);
+      ff (H4, H0, H1, H2, H3, X ( 6),  7);
+      ff (H3, H4, H0, H1, H2, X ( 7),  9);
+      ff (H2, H3, H4, H0, H1, X ( 8), 11);
+      ff (H1, H2, H3, H4, H0, X ( 9), 13);
+      ff (H0, H1, H2, H3, H4, X (10), 14);
+      ff (H4, H0, H1, H2, H3, X (11), 15);
+      ff (H3, H4, H0, H1, H2, X (12),  6);
+      ff (H2, H3, H4, H0, H1, X (13),  7);
+      ff (H1, H2, H3, H4, H0, X (14),  9);
+      ff (H0, H1, H2, H3, H4, X (15),  8);
 
       --  Round 2
+      --# assert True;
 
-      gg (H (4), H (0), H (1), H (2), H (3), X ( 7),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (3), H (4), H (0), H (1), H (2), X ( 4),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (2), H (3), H (4), H (0), H (1), X (13),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (1), H (2), H (3), H (4), H (0), X ( 1), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (0), H (1), H (2), H (3), H (4), X (10), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (4), H (0), H (1), H (2), H (3), X ( 6),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (3), H (4), H (0), H (1), H (2), X (15),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (2), H (3), H (4), H (0), H (1), X ( 3), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (1), H (2), H (3), H (4), H (0), X (12),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (0), H (1), H (2), H (3), H (4), X ( 0), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (4), H (0), H (1), H (2), H (3), X ( 9), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (3), H (4), H (0), H (1), H (2), X ( 5),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (2), H (3), H (4), H (0), H (1), X ( 2), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (1), H (2), H (3), H (4), H (0), X (14),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (0), H (1), H (2), H (3), H (4), X (11), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      gg (H (4), H (0), H (1), H (2), H (3), X ( 8), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
+
+      gg (H4, H0, H1, H2, H3, X ( 7),  7);
+      gg (H3, H4, H0, H1, H2, X ( 4),  6);
+      gg (H2, H3, H4, H0, H1, X (13),  8);
+      gg (H1, H2, H3, H4, H0, X ( 1), 13);
+      gg (H0, H1, H2, H3, H4, X (10), 11);
+      gg (H4, H0, H1, H2, H3, X ( 6),  9);
+      gg (H3, H4, H0, H1, H2, X (15),  7);
+      gg (H2, H3, H4, H0, H1, X ( 3), 15);
+      gg (H1, H2, H3, H4, H0, X (12),  7);
+      gg (H0, H1, H2, H3, H4, X ( 0), 12);
+      gg (H4, H0, H1, H2, H3, X ( 9), 15);
+      gg (H3, H4, H0, H1, H2, X ( 5),  9);
+      gg (H2, H3, H4, H0, H1, X ( 2), 11);
+      gg (H1, H2, H3, H4, H0, X (14),  7);
+      gg (H0, H1, H2, H3, H4, X (11), 13);
+      gg (H4, H0, H1, H2, H3, X ( 8), 12);
 
       --  Round 3
+      --# assert True;
 
-      hh (H (3), H (4), H (0), H (1), H (2), X ( 3), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (2), H (3), H (4), H (0), H (1), X (10), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (1), H (2), H (3), H (4), H (0), X (14),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (0), H (1), H (2), H (3), H (4), X ( 4),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (4), H (0), H (1), H (2), H (3), X ( 9), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (3), H (4), H (0), H (1), H (2), X (15),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (2), H (3), H (4), H (0), H (1), X ( 8), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (1), H (2), H (3), H (4), H (0), X ( 1), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (0), H (1), H (2), H (3), H (4), X ( 2), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (4), H (0), H (1), H (2), H (3), X ( 7),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (3), H (4), H (0), H (1), H (2), X ( 0), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (2), H (3), H (4), H (0), H (1), X ( 6),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (1), H (2), H (3), H (4), H (0), X (13),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (0), H (1), H (2), H (3), H (4), X (11), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (4), H (0), H (1), H (2), H (3), X ( 5),  7); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      hh (H (3), H (4), H (0), H (1), H (2), X (12),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
+      hh (H3, H4, H0, H1, H2, X ( 3), 11);
+      hh (H2, H3, H4, H0, H1, X (10), 13);
+      hh (H1, H2, H3, H4, H0, X (14),  6);
+      hh (H0, H1, H2, H3, H4, X ( 4),  7);
+      hh (H4, H0, H1, H2, H3, X ( 9), 14);
+      hh (H3, H4, H0, H1, H2, X (15),  9);
+      hh (H2, H3, H4, H0, H1, X ( 8), 13);
+      hh (H1, H2, H3, H4, H0, X ( 1), 15);
+      hh (H0, H1, H2, H3, H4, X ( 2), 14);
+      hh (H4, H0, H1, H2, H3, X ( 7),  8);
+      hh (H3, H4, H0, H1, H2, X ( 0), 13);
+      hh (H2, H3, H4, H0, H1, X ( 6),  6);
+      hh (H1, H2, H3, H4, H0, X (13),  5);
+      hh (H0, H1, H2, H3, H4, X (11), 12);
+      hh (H4, H0, H1, H2, H3, X ( 5),  7);
+      hh (H3, H4, H0, H1, H2, X (12),  5);
 
       --  Round 4
+      --# assert True;
 
-      ii (H (2), H (3), H (4), H (0), H (1), X ( 1), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (1), H (2), H (3), H (4), H (0), X ( 9), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (0), H (1), H (2), H (3), H (4), X (11), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (4), H (0), H (1), H (2), H (3), X (10), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (3), H (4), H (0), H (1), H (2), X ( 0), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (2), H (3), H (4), H (0), H (1), X ( 8), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (1), H (2), H (3), H (4), H (0), X (12),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (0), H (1), H (2), H (3), H (4), X ( 4),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (4), H (0), H (1), H (2), H (3), X (13),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (3), H (4), H (0), H (1), H (2), X ( 3), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (2), H (3), H (4), H (0), H (1), X ( 7),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (1), H (2), H (3), H (4), H (0), X (15),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (0), H (1), H (2), H (3), H (4), X (14),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (4), H (0), H (1), H (2), H (3), X ( 5),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (3), H (4), H (0), H (1), H (2), X ( 6),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      ii (H (2), H (3), H (4), H (0), H (1), X ( 2), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
+      ii (H2, H3, H4, H0, H1, X ( 1), 11);
+      ii (H1, H2, H3, H4, H0, X ( 9), 12);
+      ii (H0, H1, H2, H3, H4, X (11), 14);
+      ii (H4, H0, H1, H2, H3, X (10), 15);
+      ii (H3, H4, H0, H1, H2, X ( 0), 14);
+      ii (H2, H3, H4, H0, H1, X ( 8), 15);
+      ii (H1, H2, H3, H4, H0, X (12),  9);
+      ii (H0, H1, H2, H3, H4, X ( 4),  8);
+      ii (H4, H0, H1, H2, H3, X (13),  9);
+      ii (H3, H4, H0, H1, H2, X ( 3), 14);
+      ii (H2, H3, H4, H0, H1, X ( 7),  5);
+      ii (H1, H2, H3, H4, H0, X (15),  6);
+      ii (H0, H1, H2, H3, H4, X (14),  8);
+      ii (H4, H0, H1, H2, H3, X ( 5),  6);
+      ii (H3, H4, H0, H1, H2, X ( 6),  5);
+      ii (H2, H3, H4, H0, H1, X ( 2), 12);
 
       --  Round 5
+      --# assert True;
 
-      jj (H (1), H (2), H (3), H (4), H (0), X ( 4),  9); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (0), H (1), H (2), H (3), H (4), X ( 0), 15); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (4), H (0), H (1), H (2), H (3), X ( 5),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (3), H (4), H (0), H (1), H (2), X ( 9), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (2), H (3), H (4), H (0), H (1), X ( 7),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (1), H (2), H (3), H (4), H (0), X (12),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (0), H (1), H (2), H (3), H (4), X ( 2), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (4), H (0), H (1), H (2), H (3), X (10), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (3), H (4), H (0), H (1), H (2), X (14),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (2), H (3), H (4), H (0), H (1), X ( 1), 12); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (1), H (2), H (3), H (4), H (0), X ( 3), 13); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (0), H (1), H (2), H (3), H (4), X ( 8), 14); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (4), H (0), H (1), H (2), H (3), X (11), 11); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (3), H (4), H (0), H (1), H (2), X ( 6),  8); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (2), H (3), H (4), H (0), H (1), X (15),  5); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
-      jj (H (1), H (2), H (3), H (4), H (0), X (13),  6); Debug.Print_Word32_Array (H, 1, Types.Index'Last, True);
+      jj (H1, H2, H3, H4, H0, X ( 4),  9);
+      jj (H0, H1, H2, H3, H4, X ( 0), 15);
+      jj (H4, H0, H1, H2, H3, X ( 5),  5);
+      jj (H3, H4, H0, H1, H2, X ( 9), 11);
+      jj (H2, H3, H4, H0, H1, X ( 7),  6);
+      jj (H1, H2, H3, H4, H0, X (12),  8);
+      jj (H0, H1, H2, H3, H4, X ( 2), 13);
+      jj (H4, H0, H1, H2, H3, X (10), 12);
+      jj (H3, H4, H0, H1, H2, X (14),  5);
+      jj (H2, H3, H4, H0, H1, X ( 1), 12);
+      jj (H1, H2, H3, H4, H0, X ( 3), 13);
+      jj (H0, H1, H2, H3, H4, X ( 8), 14);
+      jj (H4, H0, H1, H2, H3, X (11), 11);
+      jj (H3, H4, H0, H1, H2, X ( 6),  8);
+      jj (H2, H3, H4, H0, H1, X (15),  5);
+      jj (H1, H2, H3, H4, H0, X (13),  6);
 
       --  Parallel round 1
+      --# assert True;
 
-      jjj (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 5),  8);
-      jjj (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X (14),  9);
-      jjj (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 7),  9);
-      jjj (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 0), 11);
-      jjj (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 9), 13);
-      jjj (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 2), 15);
-      jjj (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X (11), 15);
-      jjj (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 4),  5);
-      jjj (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X (13),  7);
-      jjj (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 6),  7);
-      jjj (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X (15),  8);
-      jjj (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 8), 11);
-      jjj (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 1), 14);
-      jjj (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X (10), 14);
-      jjj (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 3), 12);
-      jjj (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X (12),  6);
+      jjj (HH0, HH1, HH2, HH3, HH4, X ( 5),  8);
+      jjj (HH4, HH0, HH1, HH2, HH3, X (14),  9);
+      jjj (HH3, HH4, HH0, HH1, HH2, X ( 7),  9);
+      jjj (HH2, HH3, HH4, HH0, HH1, X ( 0), 11);
+      jjj (HH1, HH2, HH3, HH4, HH0, X ( 9), 13);
+      jjj (HH0, HH1, HH2, HH3, HH4, X ( 2), 15);
+      jjj (HH4, HH0, HH1, HH2, HH3, X (11), 15);
+      jjj (HH3, HH4, HH0, HH1, HH2, X ( 4),  5);
+      jjj (HH2, HH3, HH4, HH0, HH1, X (13),  7);
+      jjj (HH1, HH2, HH3, HH4, HH0, X ( 6),  7);
+      jjj (HH0, HH1, HH2, HH3, HH4, X (15),  8);
+      jjj (HH4, HH0, HH1, HH2, HH3, X ( 8), 11);
+      jjj (HH3, HH4, HH0, HH1, HH2, X ( 1), 14);
+      jjj (HH2, HH3, HH4, HH0, HH1, X (10), 14);
+      jjj (HH1, HH2, HH3, HH4, HH0, X ( 3), 12);
+      jjj (HH0, HH1, HH2, HH3, HH4, X (12),  6);
 
       --  Parallel round 2
+      --# assert True;
 
-      iii (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 6),  9);
-      iii (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (11), 13);
-      iii (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 3), 15);
-      iii (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 7),  7);
-      iii (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 0), 12);
-      iii (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X (13),  8);
-      iii (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 5),  9);
-      iii (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X (10), 11);
-      iii (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (14),  7);
-      iii (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X (15),  7);
-      iii (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 8), 12);
-      iii (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (12),  7);
-      iii (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 4),  6);
-      iii (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 9), 15);
-      iii (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 1), 13);
-      iii (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 2), 11);
+      iii (HH4, HH0, HH1, HH2, HH3, X ( 6),  9);
+      iii (HH3, HH4, HH0, HH1, HH2, X (11), 13);
+      iii (HH2, HH3, HH4, HH0, HH1, X ( 3), 15);
+      iii (HH1, HH2, HH3, HH4, HH0, X ( 7),  7);
+      iii (HH0, HH1, HH2, HH3, HH4, X ( 0), 12);
+      iii (HH4, HH0, HH1, HH2, HH3, X (13),  8);
+      iii (HH3, HH4, HH0, HH1, HH2, X ( 5),  9);
+      iii (HH2, HH3, HH4, HH0, HH1, X (10), 11);
+      iii (HH1, HH2, HH3, HH4, HH0, X (14),  7);
+      iii (HH0, HH1, HH2, HH3, HH4, X (15),  7);
+      iii (HH4, HH0, HH1, HH2, HH3, X ( 8), 12);
+      iii (HH3, HH4, HH0, HH1, HH2, X (12),  7);
+      iii (HH2, HH3, HH4, HH0, HH1, X ( 4),  6);
+      iii (HH1, HH2, HH3, HH4, HH0, X ( 9), 15);
+      iii (HH0, HH1, HH2, HH3, HH4, X ( 1), 13);
+      iii (HH4, HH0, HH1, HH2, HH3, X ( 2), 11);
 
       --  Parallel round 3
+      --# assert True;
 
-      hhh (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (15),  9);
-      hhh (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 5),  7);
-      hhh (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 1), 15);
-      hhh (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 3), 11);
-      hhh (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 7),  8);
-      hhh (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (14),  6);
-      hhh (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 6),  6);
-      hhh (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 9), 14);
-      hhh (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X (11), 12);
-      hhh (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 8), 13);
-      hhh (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (12),  5);
-      hhh (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 2), 14);
-      hhh (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (10), 13);
-      hhh (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 0), 13);
-      hhh (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 4),  7);
-      hhh (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (13),  5);
+      hhh (HH3, HH4, HH0, HH1, HH2, X (15),  9);
+      hhh (HH2, HH3, HH4, HH0, HH1, X ( 5),  7);
+      hhh (HH1, HH2, HH3, HH4, HH0, X ( 1), 15);
+      hhh (HH0, HH1, HH2, HH3, HH4, X ( 3), 11);
+      hhh (HH4, HH0, HH1, HH2, HH3, X ( 7),  8);
+      hhh (HH3, HH4, HH0, HH1, HH2, X (14),  6);
+      hhh (HH2, HH3, HH4, HH0, HH1, X ( 6),  6);
+      hhh (HH1, HH2, HH3, HH4, HH0, X ( 9), 14);
+      hhh (HH0, HH1, HH2, HH3, HH4, X (11), 12);
+      hhh (HH4, HH0, HH1, HH2, HH3, X ( 8), 13);
+      hhh (HH3, HH4, HH0, HH1, HH2, X (12),  5);
+      hhh (HH2, HH3, HH4, HH0, HH1, X ( 2), 14);
+      hhh (HH1, HH2, HH3, HH4, HH0, X (10), 13);
+      hhh (HH0, HH1, HH2, HH3, HH4, X ( 0), 13);
+      hhh (HH4, HH0, HH1, HH2, HH3, X ( 4),  7);
+      hhh (HH3, HH4, HH0, HH1, HH2, X (13),  5);
 
       --  Parallel round 4
+      --# assert True;
 
-      ggg (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 8), 15);
-      ggg (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 6),  5);
-      ggg (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 4),  8);
-      ggg (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 1), 11);
-      ggg (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 3), 14);
-      ggg (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X (11), 14);
-      ggg (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (15),  6);
-      ggg (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 0), 14);
-      ggg (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 5),  6);
-      ggg (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (12),  9);
-      ggg (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 2), 12);
-      ggg (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (13),  9);
-      ggg (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 9), 12);
-      ggg (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 7),  5);
-      ggg (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X (10), 15);
-      ggg (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X (14),  8);
+      ggg (HH2, HH3, HH4, HH0, HH1, X ( 8), 15);
+      ggg (HH1, HH2, HH3, HH4, HH0, X ( 6),  5);
+      ggg (HH0, HH1, HH2, HH3, HH4, X ( 4),  8);
+      ggg (HH4, HH0, HH1, HH2, HH3, X ( 1), 11);
+      ggg (HH3, HH4, HH0, HH1, HH2, X ( 3), 14);
+      ggg (HH2, HH3, HH4, HH0, HH1, X (11), 14);
+      ggg (HH1, HH2, HH3, HH4, HH0, X (15),  6);
+      ggg (HH0, HH1, HH2, HH3, HH4, X ( 0), 14);
+      ggg (HH4, HH0, HH1, HH2, HH3, X ( 5),  6);
+      ggg (HH3, HH4, HH0, HH1, HH2, X (12),  9);
+      ggg (HH2, HH3, HH4, HH0, HH1, X ( 2), 12);
+      ggg (HH1, HH2, HH3, HH4, HH0, X (13),  9);
+      ggg (HH0, HH1, HH2, HH3, HH4, X ( 9), 12);
+      ggg (HH4, HH0, HH1, HH2, HH3, X ( 7),  5);
+      ggg (HH3, HH4, HH0, HH1, HH2, X (10), 15);
+      ggg (HH2, HH3, HH4, HH0, HH1, X (14),  8);
 
       --  Parallel round 5.
+      --# assert True;
 
-      fff (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (12),  8);
-      fff (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X (15),  5);
-      fff (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X (10), 12);
-      fff (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 4),  9);
-      fff (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 1), 12);
-      fff (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X ( 5),  5);
-      fff (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X ( 8), 14);
-      fff (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 7),  6);
-      fff (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 6),  8);
-      fff (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 2), 13);
-      fff (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (13),  6);
-      fff (H1 (0), H1 (1), H1 (2), H1 (3), H1 (4), X (14),  5);
-      fff (H1 (4), H1 (0), H1 (1), H1 (2), H1 (3), X ( 0), 15);
-      fff (H1 (3), H1 (4), H1 (0), H1 (1), H1 (2), X ( 3), 13);
-      fff (H1 (2), H1 (3), H1 (4), H1 (0), H1 (1), X ( 9), 11);
-      fff (H1 (1), H1 (2), H1 (3), H1 (4), H1 (0), X (11), 11);
+      fff (HH1, HH2, HH3, HH4, HH0, X (12),  8);
+      fff (HH0, HH1, HH2, HH3, HH4, X (15),  5);
+      fff (HH4, HH0, HH1, HH2, HH3, X (10), 12);
+      fff (HH3, HH4, HH0, HH1, HH2, X ( 4),  9);
+      fff (HH2, HH3, HH4, HH0, HH1, X ( 1), 12);
+      fff (HH1, HH2, HH3, HH4, HH0, X ( 5),  5);
+      fff (HH0, HH1, HH2, HH3, HH4, X ( 8), 14);
+      fff (HH4, HH0, HH1, HH2, HH3, X ( 7),  6);
+      fff (HH3, HH4, HH0, HH1, HH2, X ( 6),  8);
+      fff (HH2, HH3, HH4, HH0, HH1, X ( 2), 13);
+      fff (HH1, HH2, HH3, HH4, HH0, X (13),  6);
+      fff (HH0, HH1, HH2, HH3, HH4, X (14),  5);
+      fff (HH4, HH0, HH1, HH2, HH3, X ( 0), 15);
+      fff (HH3, HH4, HH0, HH1, HH2, X ( 3), 13);
+      fff (HH2, HH3, HH4, HH0, HH1, X ( 9), 11);
+      fff (HH1, HH2, HH3, HH4, HH0, X (11), 11);
 
       --  Combine results.
+      --# assert True;
 
-      H1 (3)        := Context.H (1) + H (2) + H1 (3);
-      Context.H (1) := Context.H (2) + H (3) + H1 (4);
-      Context.H (2) := Context.H (3) + H (4) + H1 (0);
-      Context.H (3) := Context.H (4) + H (0) + H1 (1);
-      Context.H (4) := Context.H (0) + H (1) + H1 (2);
-      Context.H (0) := H1 (3);
+      HH3           := Context.H (1) + H2 + HH3;
+      Context.H (1) := Context.H (2) + H3 + HH4;
+      Context.H (2) := Context.H (3) + H4 + HH0;
+      Context.H (3) := Context.H (4) + H0 + HH1;
+      Context.H (4) := Context.H (0) + H1 + HH2;
+      Context.H (0) := HH3;
 
    end Context_Update_Internal;
+
+   ---------------------------------------------------------------------------
 
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type)
    is
    begin
-      Debug.Put_Line ("RIPEMD-160 UPDATE");
-
       Context_Update_Internal (Context, Block);
       Add (Context.Length, 512);
    end Context_Update;
+
+   ---------------------------------------------------------------------------
 
    procedure Block_Terminate
      (Block  : in out Block_Type;
@@ -527,11 +585,7 @@ package body LSC.RIPEMD160 is
    begin
 
       Index := Block_Index (Length / 32);
-      Offset := Natural (Length mod 32 / 8);
-
-      Debug.Put ("   Terminator offset =");
-      Debug.Print_Natural (Offset);
-      Debug.New_Line; 
+      Offset := Natural ((Length mod 32) / 8);
 
       Block (Index) := Block (Index) xor Types.SHL32 (16#80#, 8 * Offset);
 --      Block (Index) := Block (Index) and Types.SHL32 (not 16#80#, 8 * Offset);
@@ -547,47 +601,45 @@ package body LSC.RIPEMD160 is
 
    end Block_Terminate;
 
+   ---------------------------------------------------------------------------
+
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
       Length  : in     Block_Length_Type)
    is
-      B1 : Block_Type;
-      B2 : Block_Type := Block_Type'(others => 0);
+      Final_Block : Block_Type;
    begin
 
-      Debug.Put_Line ("RIPEMD-160 FINAL");
-
-      B1 := Block;
+      Final_Block := Block;
 
       --  Add length of last block to data length.
       Add (Context.Length, Length);
 
       --  Set trailing '1' marker and zero out rest of the block.
-      Block_Terminate (B1, Length);
+      Block_Terminate (Final_Block, Length);
 
-      Debug.Put_Line ("   Last data block:");
-      Debug.Print_Word32_Array (B1, 1, 8, True);
-
-      --  Update block
-      Context_Update_Internal (Context, B1);
+      --  Terminator and length values won't fit into current block.
+      if Length > 447
+      then
+         Context_Update_Internal (Context, Final_Block);
+         Final_Block := Block_Type'(others => 0);
+      end if;
 
       --  Set length in final block.
-      B2 (Block_Type'Last - 1) := Context.Length.MSW;
-      B2 (Block_Type'Last)     := Context.Length.LSW;
-
-      Debug.Put_Line ("   Final block:");
-      Debug.Print_Word32_Array (B2, 1, 8, True);
+      Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
+      Final_Block (Block_Type'Last)     := Context.Length.LSW;
 
       --  Update final block
-      Context_Update_Internal (Context, B2);
+      Context_Update_Internal (Context, Final_Block);
 
    end Context_Finalize;
 
+   ---------------------------------------------------------------------------
+
    function Get_Hash (Context : Context_Type) return Hash_Type is
    begin
-      Debug.Put_Line ("RIPEMD-160 GET_HASH");
-      Debug.Put ("            ");
+      Debug.Put_Line ("HASH:");
       Debug.Print_Word32_Array (Context.H, 1, Types.Index'Last, True);
       return Context.H;
    end Get_Hash;
