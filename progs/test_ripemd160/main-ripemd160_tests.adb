@@ -34,11 +34,11 @@ begin
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 Example (empty string)",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#9c1185a5#,
-                                                 16#c5e9fc54#,
-                                                 16#61280897#,
-                                                 16#7ee8f548#,
-                                                 16#b2258d31#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(16#a585119c#,
+                                                 16#54fce9c5#,
+                                                 16#97082861#,
+                                                 16#48f5e87e#,
+                                                 16#318d25b2#));
 
    --  "a"
    Ctx := LSC.RIPEMD160.Context_Init;
@@ -47,11 +47,11 @@ begin
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 Example ('a')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#0bdc9d2d#,
-                                                 16#256b3ee9#,
-                                                 16#daae347b#,
-                                                 16#e6f4dc83#,
-                                                 16#5a467ffe#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(16#2d9ddc0b#,
+                                                 16#e93e6b25#,
+                                                 16#7b34aeda#,
+                                                 16#83dcf4e6#,
+                                                 16#fe7f465a#));
 
    --  "abc"
    Ctx := LSC.RIPEMD160.Context_Init;
