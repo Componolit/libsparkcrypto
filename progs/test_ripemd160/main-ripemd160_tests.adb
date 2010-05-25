@@ -29,7 +29,7 @@ begin
 
    --  "" (empty string)
    Ctx := LSC.RIPEMD160.Context_Init;
-   Message := LSC.RIPEMD160.Block_Type'(0 => 16#00000000#, others => 0);
+   Message := LSC.RIPEMD160.Block_Type'(others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 0);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 

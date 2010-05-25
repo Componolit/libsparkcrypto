@@ -89,16 +89,108 @@ private
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;
-      Block   : in     Block_Type);
+      X       : in     Block_Type);
    --# derives Context from *,
-   --#                      Block;
+   --#                      X;
 
 
    --  nonlinear functions at bit level
-   function f
-      (j : Round_Index;
-       x : Types.Word32;
-       y : Types.Word32;
-       z : Types.Word32) return Types.Word32;
+   function f (x, y, z : Types.Word32) return Types.Word32;
+   function g (x, y, z : Types.Word32) return Types.Word32;
+   function h (x, y, z : Types.Word32) return Types.Word32;
+   function i (x, y, z : Types.Word32) return Types.Word32;
+   function j (x, y, z : Types.Word32) return Types.Word32;
+
+   --  round procedures
+
+   procedure ff (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure gg (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure hh (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure ii (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure jj (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure fff (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure ggg (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure hhh (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure iii (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
+
+   procedure jjj (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural);
+   --# derives A, C from *, B, D, E, X, S;
 
 end LSC.RIPEMD160;
