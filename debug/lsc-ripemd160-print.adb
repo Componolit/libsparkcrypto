@@ -20,14 +20,14 @@ with LSC.Debug;
 
 package body LSC.RIPEMD160.Print is
 
-   procedure Print (M : String;
-                    A : Types.Word32;
-                    B : Types.Word32;
-                    C : Types.Word32;
-                    D : Types.Word32;
-                    E : Types.Word32;
-                    X : Types.Word32;
-                    S : Natural)
+   procedure Print_Schedule (M : String;
+                             A : Types.Word32;
+                             B : Types.Word32;
+                             C : Types.Word32;
+                             D : Types.Word32;
+                             E : Types.Word32;
+                             X : Types.Word32;
+                             S : Natural)
    is
    begin
       Debug.Put (M);
@@ -54,6 +54,6 @@ package body LSC.RIPEMD160.Print is
       Debug.Print_Natural (S);
 
       Debug.New_Line;
-   end Print;
+   end Print_Schedule;
 
 end LSC.RIPEMD160.Print;
