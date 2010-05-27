@@ -580,24 +580,28 @@ package body LSC.RIPEMD160 is
      (Block  : in out Block_Type;
       Length : in     Block_Length_Type)
    is
-      Index  : Block_Index;
-      Offset : Natural;
+      Block_Array : Types.Byte_Array_Type;
+      Index       : Block_Index;
+      Offset      : Natural;
    begin
 
-      Index := Block_Index (Length / 32);
-      Offset := Natural ((Length mod 32) / 8);
+      Index  := Block_Index (Length / 32);
+      Offset := Natural (31 - Length mod 32);
 
-      Block (Index) := Block (Index) xor Types.SHL32 (16#80#, 8 * Offset);
---      Block (Index) := Block (Index) and Types.SHL32 (not 16#80#, 8 * Offset);
+      Block (Index) := Ops.Byte_Swap (Block (Index));
+      Block (Index) := Block (Index) xor Types.SHL32 (1, Offset);
+      Block (Index) := Block (Index) and Types.SHL32 (not 0, Offset);
+      Block (Index) := Ops.Byte_Swap (Block (Index));
 
---      if Index < Block_Index'Last
---      then
---         for I in Block_Index range Block_Index'First .. (Index - 1)
---            --# assert I in Block_Index;
---         loop
---            Block (I) := 0;
---         end loop;
---      end if;
+      if Index < Block_Index'Last
+      then
+         for I in Block_Index range (Index + 1) .. Block_Index'Last
+            --# assert I in Block_Index;
+         loop
+            Block (I) := 0;
+         end loop;
+      end if;
+
 
    end Block_Terminate;
 
