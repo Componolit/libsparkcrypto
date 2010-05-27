@@ -40,25 +40,25 @@ package body LSC.Ops is
    function Byte0 (Value : Types.Word32) return Types.Byte
    is
    begin
-      return ByteX (Value, Types.B0);
+      return ByteX (Value, 3);
    end Byte0;
 
    function Byte1 (Value : Types.Word32) return Types.Byte
    is
    begin
-      return ByteX (Value, Types.B1);
+      return ByteX (Value, 2);
    end Byte1;
 
    function Byte2 (Value : Types.Word32) return Types.Byte
    is
    begin
-      return ByteX (Value, Types.B2);
+      return ByteX (Value, 1);
    end Byte2;
 
    function Byte3 (Value : Types.Word32) return Types.Byte
    is
    begin
-      return ByteX (Value, Types.B3);
+      return ByteX (Value, 0);
    end Byte3;
 
    function XOR2 (V0, V1 : Types.Word32) return Types.Word32
