@@ -580,7 +580,6 @@ package body LSC.RIPEMD160 is
      (Block  : in out Block_Type;
       Length : in     Block_Length_Type)
    is
-      Block_Array : Types.Byte_Array_Type;
       Index       : Block_Index;
       Offset      : Natural;
    begin
@@ -595,10 +594,10 @@ package body LSC.RIPEMD160 is
 
       if Index < Block_Index'Last
       then
-         for I in Block_Index range (Index + 1) .. Block_Index'Last
-            --# assert I in Block_Index;
+         for Pos in Block_Index range (Index + 1) .. Block_Index'Last
+            --# assert Pos in Block_Index;
          loop
-            Block (I) := 0;
+            Block (Pos) := 0;
          end loop;
       end if;
 
