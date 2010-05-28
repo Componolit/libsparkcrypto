@@ -69,12 +69,11 @@ begin
    --  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
    Ctx := LSC.RIPEMD160.Context_Init;
    Message := LSC.RIPEMD160.Block_Type'
-      (16#43444142#, 16#47484546#, 16#4b4c494a#, 16#4f504d4e#,
-       16#53545152#, 16#57585556#, 16#6162595a#, 16#65666364#,
-       16#696a6768#, 16#6d6e6b6c#, 16#71726f70#, 16#75767374#,
-       16#797a7778#, 16#32333031#, 16#36373435#, 16#0a003839#);
-   LSC.RIPEMD160.Context_Update (Ctx, Message);
-   LSC.RIPEMD160.Context_Finalize (Ctx, Message, 0);
+      (16#44434241#, 16#48474645#, 16#4c4b4a49#, 16#504f4e4d#,
+       16#54535251#, 16#58575655#, 16#62615a59#, 16#66656463#,
+       16#6a696867#, 16#6e6d6c6b#, 16#7271706f#, 16#76757473#,
+       16#7a797877#, 16#33323130#, 16#37363534#, 16#000a3938#);
+   LSC.RIPEMD160.Context_Finalize (Ctx, Message, 496);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 Example ('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789')",
