@@ -338,6 +338,11 @@ package body LSC.RIPEMD160 is
       HH0, HH1, HH2, HH3, HH4 : Types.Word32;
    begin
 
+      -- DEBUG -------------------------------------------------------------
+      Debug.Put ("Context_Update_Internal:");                                     --
+      Debug.Print_Word32_Array (X, 1, Types.Index'Last, True);  --
+      ----------------------------------------------------------------------
+
        H0 := Context.H (0);
        H1 := Context.H (1);
        H2 := Context.H (2);
