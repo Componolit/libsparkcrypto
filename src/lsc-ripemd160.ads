@@ -16,11 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Types, LSC.Ops, LSC.Debug;
+with LSC.Types, LSC.Ops, LSC.Byteorder, LSC.Debug;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;
 --# inherit LSC.Types,
 --#         LSC.Ops,
+--#         LSC.Byteorder,
 --#         LSC.Debug;
 
 package LSC.RIPEMD160 is
