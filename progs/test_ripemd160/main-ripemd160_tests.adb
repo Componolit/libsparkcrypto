@@ -157,6 +157,7 @@ begin
    Message := LSC.RIPEMD160.Block_Type'(others => 16#61616161#);
 
    for I in Natural range 1 .. 15625
+   --# assert I in 1 .. 15625;
    loop
       LSC.RIPEMD160.Context_Update (Ctx, Message);
    end loop;
