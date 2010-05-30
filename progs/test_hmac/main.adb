@@ -30,12 +30,12 @@ procedure Main
    --# derives ;
 is
 
-   procedure HMAC_Tests
+   procedure HMAC_SHA512_Tests
    --# derives ;
    is separate;
 
 begin
 
-   HMAC_Tests;
+   HMAC_SHA512_Tests;
 
 end Main;
