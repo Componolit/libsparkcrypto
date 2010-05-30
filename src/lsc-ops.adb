@@ -61,13 +61,13 @@ package body LSC.Ops is
       return ByteX (Value, 0);
    end Byte3;
 
-   function Byte_Swap (Value : Types.Word32) return Types.Word32
+   function Byte_Swap32 (Value : Types.Word32) return Types.Word32
    is
       Temp : Types.Byte_Array_Type;
    begin
       Temp := Types.Word32_To_Byte_Array (Value);
       return Bytes_To_Word32 (Temp (0), Temp (1), Temp (2), Temp (3));
-   end Byte_Swap;
+   end Byte_Swap32;
 
    function XOR2 (V0, V1 : Types.Word32) return Types.Word32
    is
