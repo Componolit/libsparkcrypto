@@ -22,17 +22,44 @@ use type LSC.Types.Word64;
 package body LSC.Debug is
 
    procedure Put (T : String) renames LSC.IO.Put;
+
+   ----------------------------------------------------------------------------
+
    procedure Put_Line (T : String) renames LSC.IO.Put_Line;
+
+   ----------------------------------------------------------------------------
+
    procedure New_Line renames LSC.IO.New_Line;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Byte (I : in LSC.Types.Byte) renames LSC.IO.Print_Byte;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Word32 (I : in LSC.Types.Word32) renames LSC.IO.Print_Word32;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Word64 (I : in LSC.Types.Word64) renames LSC.IO.Print_Word64;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Index (I : in Types.Index) renames LSC.IO.Print_Index;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Natural (I : in Natural) renames LSC.IO.Print_Natural;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
                                  Newln : in Boolean) renames LSC.IO.Print_Word32_Array;
+
+   ----------------------------------------------------------------------------
+
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;

@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 

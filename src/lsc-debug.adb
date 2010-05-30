@@ -24,16 +24,22 @@ package body LSC.Debug is
       null;
    end Put;
 
+   ----------------------------------------------------------------------------
+
    procedure Put_Line (T : String) is
    begin
       --# accept Flow, 30, T, "Null implementation";
       null;
    end Put_Line;
 
+   ----------------------------------------------------------------------------
+
    procedure New_Line is
    begin
       null;
    end New_Line;
+
+   ----------------------------------------------------------------------------
 
    procedure Print_Byte (I : in Types.Byte) is
    begin
@@ -41,17 +47,23 @@ package body LSC.Debug is
       null;
    end Print_Byte;
 
+   ----------------------------------------------------------------------------
+
    procedure Print_Word32 (I : in Types.Word32) is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Word32;
 
+   ----------------------------------------------------------------------------
+
    procedure Print_Word64 (I : in Types.Word64) is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Word64;
+
+   ----------------------------------------------------------------------------
 
    procedure Print_Index (I : in Types.Index)
    is
@@ -60,12 +72,16 @@ package body LSC.Debug is
       null;
    end Print_Index;
 
+   ----------------------------------------------------------------------------
+
    procedure Print_Natural (I : in Natural)
    is
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
    end Print_Natural;
+
+   ----------------------------------------------------------------------------
 
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
@@ -79,6 +95,8 @@ package body LSC.Debug is
       --#        Flow, 30, Newln, "Null implementation";
       null;
    end Print_Word32_Array;
+
+   ----------------------------------------------------------------------------
 
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;

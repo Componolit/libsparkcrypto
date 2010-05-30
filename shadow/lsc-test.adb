@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -25,6 +25,8 @@ package body LSC.Test is
       LSC.IO.Put (Name);
       LSC.IO.Put_Line (":");
    end Suite;
+
+   ----------------------------------------------------------------------------
 
    procedure Run (Message : String;
                   Result  : Boolean)

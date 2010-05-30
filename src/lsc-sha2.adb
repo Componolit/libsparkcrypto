@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -26,6 +26,8 @@ package body LSC.SHA2 is
       return Data_Length'(0, 0);
    end Init_Data_Length;
 
+   ----------------------------------------------------------------------------
+
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word64) is
    begin
@@ -37,6 +39,8 @@ package body LSC.SHA2 is
          Item.LSW := Types.Word64'Last - Value;
       end if;
    end Add;
+
+   ----------------------------------------------------------------------------
 
    function Ch
      (x    : Types.Word64;
@@ -54,6 +58,8 @@ package body LSC.SHA2 is
       return ((x and y) xor (Not_X and z));
    end Ch;
 
+   ----------------------------------------------------------------------------
+
    function Maj
      (x    : Types.Word64;
       y    : Types.Word64;
@@ -64,12 +70,16 @@ package body LSC.SHA2 is
       return (x and y) xor (x and z) xor (y and z);
    end Maj;
 
+   ----------------------------------------------------------------------------
+
    function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64 is
    begin
       return Types.ROTR (x, 28) xor
              Types.ROTR (x, 34) xor
              Types.ROTR (x, 39);
    end Cap_Sigma_0_512;
+
+   ----------------------------------------------------------------------------
 
    function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64 is
    begin
@@ -78,6 +88,8 @@ package body LSC.SHA2 is
              Types.ROTR (x, 41);
    end Cap_Sigma_1_512;
 
+   ----------------------------------------------------------------------------
+
    function Sigma_0_512 (x : Types.Word64) return Types.Word64 is
    begin
       return Types.ROTR (x, 1) xor
@@ -85,12 +97,16 @@ package body LSC.SHA2 is
              Types.SHR (x, 7);
    end Sigma_0_512;
 
+   ----------------------------------------------------------------------------
+
    function Sigma_1_512 (x : Types.Word64) return Types.Word64 is
    begin
       return Types.ROTR (x, 19) xor
              Types.ROTR (x, 61) xor
              Types.SHR (x, 6);
    end Sigma_1_512;
+
+   ----------------------------------------------------------------------------
 
    function SHA512_Context_Init return Context_Type is
    begin
@@ -106,6 +122,8 @@ package body LSC.SHA2 is
                                      7 => 16#5be0cd19137e2179#));
    end SHA512_Context_Init;
 
+   ----------------------------------------------------------------------------
+
    function SHA384_Context_Init return Context_Type is
    begin
       return Context_Type'
@@ -119,6 +137,8 @@ package body LSC.SHA2 is
                                      6 => 16#db0c2e0d64f98fa7#,
                                      7 => 16#47b5481dbefa4fa4#));
    end SHA384_Context_Init;
+
+   ----------------------------------------------------------------------------
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;
@@ -221,6 +241,8 @@ package body LSC.SHA2 is
 
    end Context_Update_Internal;
 
+   ----------------------------------------------------------------------------
+
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type)
@@ -229,6 +251,8 @@ package body LSC.SHA2 is
       Context_Update_Internal (Context, Block);
       Add (Context.Length, 1024);
    end Context_Update;
+
+   ----------------------------------------------------------------------------
 
    procedure Block_Terminate
      (Block  : in out Block_Type;
@@ -258,6 +282,8 @@ package body LSC.SHA2 is
       end if;
 
    end Block_Terminate;
+
+   ----------------------------------------------------------------------------
 
    procedure Context_Finalize
      (Context : in out Context_Type;
@@ -295,10 +321,14 @@ package body LSC.SHA2 is
 
    end Context_Finalize;
 
+   ----------------------------------------------------------------------------
+
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type is
    begin
       return Context.H;
    end SHA512_Get_Hash;
+
+   ----------------------------------------------------------------------------
 
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type is
    begin

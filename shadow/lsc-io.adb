@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -28,15 +28,26 @@ package body LSC.IO is
 
    subtype Nibble is Natural range 0 .. 15;
 
+   ----------------------------------------------------------------------------
+
    procedure Put (T : String) renames Ada.Text_IO.Put;
+
+   ----------------------------------------------------------------------------
+
    procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
 
-   procedure New_Line is
+   ----------------------------------------------------------------------------
+
+   procedure New_Line
+   is
    begin
       Ada.Text_IO.New_Line;
    end New_Line;
 
-   function Read_Byte return  Types.Byte is
+   ----------------------------------------------------------------------------
+
+   function Read_Byte return  Types.Byte
+   is
       Result : Types.Byte;
    begin
       Types.Byte'Read
@@ -45,12 +56,18 @@ package body LSC.IO is
       return Result;
    end Read_Byte;
 
-   function End_Of_Stream return Boolean is
+   ----------------------------------------------------------------------------
+
+   function End_Of_Stream return Boolean
+   is
    begin
       return Ada.Text_IO.End_Of_File (Ada.Text_IO.Standard_Input);
    end End_Of_Stream;
 
-   function Num_To_Char (N : Nibble) return Character is
+   ----------------------------------------------------------------------------
+
+   function Num_To_Char (N : Nibble) return Character
+   is
       Digit  : Character;
    begin
       case N is
@@ -90,12 +107,18 @@ package body LSC.IO is
       return Digit;
    end Num_To_Char;
 
-   procedure Print_Byte (Item : in Types.Byte) is
+   ----------------------------------------------------------------------------
+
+   procedure Print_Byte (Item : in Types.Byte)
+   is
    begin
       IO.Put (Num_To_Char (Nibble (Item / 16)) & Num_To_Char (Nibble (Item rem 16)));
    end Print_Byte;
 
-   procedure Print_Word32 (Item : in Types.Word32) is
+   ----------------------------------------------------------------------------
+
+   procedure Print_Word32 (Item : in Types.Word32)
+   is
       subtype HD_Index is Positive range 1 .. 8;
       subtype HD_Type is String (HD_Index);
 
@@ -116,7 +139,10 @@ package body LSC.IO is
       IO.Put (Result);
    end Print_Word32;
 
-   procedure Print_Word64 (Item : in Types.Word64) is
+   ----------------------------------------------------------------------------
+
+   procedure Print_Word64 (Item : in Types.Word64)
+   is
       subtype HD_Index is Positive range 1 .. 16;
       subtype HD_Type is String (HD_Index);
 
@@ -137,7 +163,10 @@ package body LSC.IO is
       IO.Put (Result);
    end Print_Word64;
 
-   procedure Print_Hash (Hash : SHA2.SHA512_Hash_Type) is
+   ----------------------------------------------------------------------------
+
+   procedure Print_Hash (Hash : SHA2.SHA512_Hash_Type)
+   is
    begin
       for Index in SHA2.SHA512_Hash_Index
          --# assert Index in SHA2.Hash_Index;
@@ -146,7 +175,10 @@ package body LSC.IO is
       end loop;
    end Print_Hash;
 
-   procedure Print_Block (Block : SHA2.Block_Type) is
+   ----------------------------------------------------------------------------
+
+   procedure Print_Block (Block : SHA2.Block_Type)
+   is
    begin
       for Index in SHA2.Block_Index
          --# assert Index in SHA2.Block_Index;
@@ -161,6 +193,8 @@ package body LSC.IO is
       IO.New_Line;
    end Print_Block;
 
+   ----------------------------------------------------------------------------
+
    procedure Print_Index (I : in Types.Index)
    is
       package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);
@@ -168,11 +202,16 @@ package body LSC.IO is
        SIIO.Put (Item => I, Width => 3);
    end Print_Index;
 
-   procedure Print_Natural (I : Natural) is
+   ----------------------------------------------------------------------------
+
+   procedure Print_Natural (I : Natural)
+   is
       package IIO is new Ada.Text_IO.Integer_IO (Natural);
    begin
       IIO.Put (I);
    end Print_Natural;
+
+   ----------------------------------------------------------------------------
 
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
@@ -207,6 +246,8 @@ package body LSC.IO is
       end if;
 
    end Print_Word32_Array;
+
+   ----------------------------------------------------------------------------
 
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;

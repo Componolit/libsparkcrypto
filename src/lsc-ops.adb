@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -28,6 +28,8 @@ package body LSC.Ops is
       return Types.Byte_Array_To_Word32 (Types.Byte_Array_Type'(Byte3, Byte2, Byte1, Byte0));
    end Bytes_To_Word32;
 
+   ----------------------------------------------------------------------------
+
    function ByteX (Value    : Types.Word32;
                    Position : Types.Byte_Array_Index) return Types.Byte
    is
@@ -37,11 +39,15 @@ package body LSC.Ops is
       return Temp (Position);
    end ByteX;
 
+   ----------------------------------------------------------------------------
+
    function Byte0 (Value : Types.Word32) return Types.Byte
    is
    begin
       return ByteX (Value, 3);
    end Byte0;
+
+   ----------------------------------------------------------------------------
 
    function Byte1 (Value : Types.Word32) return Types.Byte
    is
@@ -49,17 +55,23 @@ package body LSC.Ops is
       return ByteX (Value, 2);
    end Byte1;
 
+   ----------------------------------------------------------------------------
+
    function Byte2 (Value : Types.Word32) return Types.Byte
    is
    begin
       return ByteX (Value, 1);
    end Byte2;
 
+   ----------------------------------------------------------------------------
+
    function Byte3 (Value : Types.Word32) return Types.Byte
    is
    begin
       return ByteX (Value, 0);
    end Byte3;
+
+   ----------------------------------------------------------------------------
 
    function Byte_Swap32 (Value : Types.Word32) return Types.Word32
    is
@@ -69,12 +81,16 @@ package body LSC.Ops is
       return Bytes_To_Word32 (Temp (0), Temp (1), Temp (2), Temp (3));
    end Byte_Swap32;
 
+   ----------------------------------------------------------------------------
+
    function XOR2 (V0, V1 : Types.Word32) return Types.Word32
    is
    begin
       return V0 xor V1;
    end XOR2;
    pragma Inline (XOR2);
+
+   ----------------------------------------------------------------------------
 
    function XOR3 (V0, V1, V2 : Types.Word32) return Types.Word32
    is
@@ -83,12 +99,16 @@ package body LSC.Ops is
    end XOR3;
    pragma Inline (XOR3);
 
+   ----------------------------------------------------------------------------
+
    function XOR4 (V0, V1, V2, V3 : Types.Word32) return Types.Word32
    is
    begin
       return V0 xor V1 xor V2 xor V3;
    end XOR4;
    pragma Inline (XOR4);
+
+   ----------------------------------------------------------------------------
 
    function XOR5 (V0, V1, V2, V3, V4 : Types.Word32) return Types.Word32
    is

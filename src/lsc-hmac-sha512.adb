@@ -1,5 +1,5 @@
 --  This file is part of the sparkcrypto library.
---
+
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
 
@@ -23,6 +23,8 @@ package body LSC.HMAC.SHA512 is
    OPad : constant SHA2.Block_Type :=
       SHA2.Block_Type'(others => 16#5C5C5C5C_5C5C5C5C#);
 
+   ----------------------------------------------------------------------------
+
    function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type is
       Result : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
    begin
@@ -37,6 +39,8 @@ package body LSC.HMAC.SHA512 is
       end loop;
       return Result;
    end To_Block;
+
+   ----------------------------------------------------------------------------
 
    function Block_XOR
      (Left  : SHA2.Block_Type;
@@ -55,6 +59,8 @@ package body LSC.HMAC.SHA512 is
       return Result;
    end Block_XOR;
 
+   ----------------------------------------------------------------------------
+
    function Context_Init (Key : SHA2.Block_Type) return Context_Type is
       Result : Context_Type;
    begin
@@ -68,6 +74,8 @@ package body LSC.HMAC.SHA512 is
       return Result;
    end Context_Init;
 
+   ----------------------------------------------------------------------------
+
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in SHA2.Block_Type)
@@ -76,6 +84,8 @@ package body LSC.HMAC.SHA512 is
       Debug.Put_Line ("HMAC.SHA512.Context_Update:");
       SHA2.Context_Update (Context.SHA512_Context, Block);
    end Context_Update;
+
+   ----------------------------------------------------------------------------
 
    procedure Context_Finalize
      (Context : in out Context_Type;
@@ -95,10 +105,14 @@ package body LSC.HMAC.SHA512 is
       SHA2.Context_Finalize (Context.SHA512_Context, To_Block (Hash), 512);
    end Context_Finalize;
 
+   ----------------------------------------------------------------------------
+
    function Get_Prf (Context : in Context_Type) return SHA2.SHA512_Hash_Type is
    begin
       return SHA2.SHA512_Get_Hash (Context.SHA512_Context);
    end Get_Prf;
+
+   ----------------------------------------------------------------------------
 
    function Get_Auth (Context : in Context_Type) return Auth_Type is
       Result : Auth_Type := Auth_Type'(others => 0);
