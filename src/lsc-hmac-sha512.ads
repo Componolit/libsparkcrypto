@@ -34,14 +34,14 @@ package LSC.HMAC.SHA512 is
 
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in SHA2.Block_Type);
+      Block   : in     SHA2.Block_Type);
    --# derives Context from *,
    --#                      Block;
 
    procedure Context_Finalize
      (Context : in out Context_Type;
-      Block   : in SHA2.Block_Type;
-      Length  : in SHA2.Block_Length_Type);
+      Block   : in     SHA2.Block_Type;
+      Length  : in     SHA2.Block_Length_Type);
    --# derives Context from *,
    --#                      Block,
    --#                      Length;
@@ -56,13 +56,20 @@ private
       Key            : SHA2.Block_Type;
    end record;
 
-   function Block_XOR
-     (Left  : SHA2.Block_Type;
-      Right : SHA2.Block_Type)
-      return  SHA2.Block_Type;
-   --# return Result =>
-   --#    (for all I in SHA2.Block_Index =>
-   --#         (Result (I) = (Left (I) xor Right (I))));
+   procedure Block_XOR
+     (Left   : in     SHA2.Block_Type;
+      Right  : in     SHA2.Block_Type;
+      Result :    out SHA2.Block_Type);
+   --# derives
+   --#   Result from Left, Right;
+   --# pre
+   --#   Left'First = Right'First and
+   --#   Left'Last  = Right'Last;
+   --# post
+   --#   Right'First = Result'First and
+   --#   Right'Last  = Result'Last  and
+   --#   (for all I in SHA2.Block_Index =>
+   --#        (Result (I) = (Left (I) xor Right (I))));
 
    function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type;
    --# return Result =>
