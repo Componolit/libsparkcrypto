@@ -57,18 +57,18 @@ private
    end record;
 
    procedure Block_XOR
-     (Left   : in     SHA2.Block_Type;
-      Right  : in     SHA2.Block_Type;
-      Result :    out SHA2.Block_Type);
+     (Left   : in     Types.Word64_Array_Type;
+      Right  : in     Types.Word64_Array_Type;
+      Result : in out Types.Word64_Array_Type);
    --# derives
-   --#   Result from Left, Right;
+   --#   Result from *, Left, Right;
    --# pre
-   --#   Left'First = Right'First and
-   --#   Left'Last  = Right'Last;
-   --# post
+   --#   Left'First  = Right'First and
+   --#   Left'Last   = Right'Last  and
    --#   Right'First = Result'First and
-   --#   Right'Last  = Result'Last  and
-   --#   (for all I in SHA2.Block_Index =>
+   --#   Right'Last  = Result'Last;
+   --# post
+   --#   (for all I in Types.Index range Left'First .. Left'Last =>
    --#        (Result (I) = (Left (I) xor Right (I))));
 
    function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type;

@@ -43,17 +43,16 @@ package body LSC.HMAC.SHA512 is
    ----------------------------------------------------------------------------
 
    procedure Block_XOR
-     (Left   : in     SHA2.Block_Type;
-      Right  : in     SHA2.Block_Type;
-      Result :    out SHA2.Block_Type)
+     (Left   : in     Types.Word64_Array_Type;
+      Right  : in     Types.Word64_Array_Type;
+      Result : in out Types.Word64_Array_Type)
    is
    begin
-      Result := SHA2.Block_Type'(others => 0);
-      for I in SHA2.Block_Index
+      for I in Types.Index range Result'First .. Result'Last
       loop
          Result (I) := Left (I) xor Right (I);
          --# assert
-         --#    (for all Pos in SHA2.Block_Index range SHA2.Block_Index'First .. I =>
+         --#    (for all Pos in Types.Index range Result'First .. I =>
          --#         (Result (Pos) = (Left (Pos) xor Right (Pos))));
       end loop;
    end Block_XOR;
@@ -62,7 +61,7 @@ package body LSC.HMAC.SHA512 is
 
    function Context_Init (Key : SHA2.Block_Type) return Context_Type is
       Result : Context_Type;
-      Temp   : SHA2.Block_Type;
+      Temp   : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
    begin
       Debug.Put_Line ("HMAC.SHA512.Context_Init:");
 
@@ -92,7 +91,7 @@ package body LSC.HMAC.SHA512 is
       Length  : in     SHA2.Block_Length_Type)
    is
       Hash : SHA2.SHA512_Hash_Type;
-      Temp : SHA2.Block_Type;
+      Temp : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
    begin
       Debug.Put_Line ("HMAC.SHA512.Context_Finalize:");
       SHA2.Context_Finalize (Context.SHA512_Context, Block, Length);
