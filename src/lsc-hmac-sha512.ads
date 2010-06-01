@@ -16,11 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2, LSC.Types, LSC.Debug;
+with LSC.SHA2, LSC.Types, LSC.Ops64, LSC.Debug;
 use type LSC.Types.Word64;
 
 --# inherit LSC.Debug,
 --#         LSC.SHA2,
+--#         LSC.Ops64,
 --#         LSC.Types;
 
 package LSC.HMAC.SHA512 is
