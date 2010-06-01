@@ -27,6 +27,27 @@ debug: all
 
 $(OUTDIR)/sha512openssl: CFLAGS += -lssl
 
+lib: $(OUTDIR)/lib.sum
+
+$(OUTDIR)/lib.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb
+	@mkdir -p $(@D)
+	@spark \
+		-brief \
+		-vcg \
+		-config=$(OUTDIR)/target.cfg \
+		-warn=warnings.conf \
+		-output_dir=$(OUTDIR)/lib \
+		-index=$(OUTDIR)/libsparkcrypto.idx \
+		src/*.adb
+	(cd $(OUTDIR)/lib && sparksimp -t -p=5)
+	@pogs -d=$(OUTDIR)/lib -o=$@
+	@tail -n14 $@ | head -n13
+	@echo
+
+
+$(OUTDIR)/libsparkcrypto.idx:
+	(cd src && sparkmake -duplicates_are_errors -index=$@ -nometafile)
+
 #
 # how to build an Ada program
 #
