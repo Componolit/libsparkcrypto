@@ -42,35 +42,33 @@ package body LSC.HMAC.SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function Block_XOR
-     (Left  : SHA2.Block_Type;
-      Right : SHA2.Block_Type)
-      return  SHA2.Block_Type
+   procedure Block_XOR
+     (Left   : in     Types.Word64_Array_Type;
+      Right  : in     Types.Word64_Array_Type;
+      Result : in out Types.Word64_Array_Type)
    is
-      Result : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
    begin
-      for I in SHA2.Block_Index
+      for I in Types.Index range Result'First .. Result'Last
       loop
          Result (I) := Left (I) xor Right (I);
          --# assert
-         --#    (for all Pos in SHA2.Block_Index range SHA2.Block_Index'First .. I =>
+         --#    (for all Pos in Types.Index range Result'First .. I =>
          --#         (Result (Pos) = (Left (Pos) xor Right (Pos))));
       end loop;
-      return Result;
    end Block_XOR;
 
    ----------------------------------------------------------------------------
 
    function Context_Init (Key : SHA2.Block_Type) return Context_Type is
       Result : Context_Type;
+      Temp   : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
    begin
       Debug.Put_Line ("HMAC.SHA512.Context_Init:");
 
       Result.Key            := Key;
       Result.SHA512_Context := SHA2.SHA512_Context_Init;
-      SHA2.Context_Update
-        (Result.SHA512_Context,
-         Block_XOR (Result.Key, IPad));
+      Block_XOR (IPad, Result.Key, Temp);
+      SHA2.Context_Update (Result.SHA512_Context, Temp);
       return Result;
    end Context_Init;
 
@@ -89,19 +87,19 @@ package body LSC.HMAC.SHA512 is
 
    procedure Context_Finalize
      (Context : in out Context_Type;
-      Block   : in SHA2.Block_Type;
-      Length  : in SHA2.Block_Length_Type)
+      Block   : in     SHA2.Block_Type;
+      Length  : in     SHA2.Block_Length_Type)
    is
       Hash : SHA2.SHA512_Hash_Type;
+      Temp : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
    begin
       Debug.Put_Line ("HMAC.SHA512.Context_Finalize:");
       SHA2.Context_Finalize (Context.SHA512_Context, Block, Length);
       Hash := SHA2.SHA512_Get_Hash (Context.SHA512_Context);
 
       Context.SHA512_Context := SHA2.SHA512_Context_Init;
-      SHA2.Context_Update
-        (Context.SHA512_Context,
-         Block_XOR (Context.Key, OPad));
+      Block_XOR (OPad, Context.Key, Temp);
+      SHA2.Context_Update (Context.SHA512_Context, Temp);
       SHA2.Context_Finalize (Context.SHA512_Context, To_Block (Hash), 512);
    end Context_Finalize;
 
