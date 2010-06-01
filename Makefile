@@ -30,7 +30,7 @@ $(OUTDIR)/sha512openssl: CFLAGS += -lssl
 lib: $(OUTDIR)/lib.sum
 
 $(OUTDIR)/lib.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb src/*.ads
-	@mkdir -p $(@D)
+	@mkdir -p $(@D) $(OUTDIR)/lib
 	@spark \
 		-brief \
 		-vcg \
