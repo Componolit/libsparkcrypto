@@ -81,7 +81,7 @@ package body LSC.AES is
       for I in Schedule_Index range Nk .. Nb * (Nr + 1) - 1
       loop
 
-         --# assert I >= Nk;
+         --# assert I in Schedule_Index;
 
          --  DEBUG OUTPUT  --------
          Debug.Put ("| ");       --
@@ -98,6 +98,8 @@ package body LSC.AES is
          if I mod Nk = 0
          then
 
+            --# assert I mod Nk = 0;
+
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);
             Temp     := Ops.XOR2 (Sub_Temp, Tables.Rcon (I/Nk));
@@ -111,6 +113,9 @@ package body LSC.AES is
 
          elsif Nk > 6 and I mod Nk = Nb
          then
+
+            --# assert Nk > 0 and I mod Nk = Nb;
+
             --  DEBUG OUTPUT  ---------------
             Debug.Put ("          |"); --
             ---------------------------------
@@ -127,6 +132,8 @@ package body LSC.AES is
             ---------------------------------------------------------------
          end if;
 
+         --# assert I - Nk in Schedule_Index and
+         --#        I in Schedule_Index;
          Result (I) := Ops.XOR2 (Result (I - Nk), Temp);
 
          --  DEBUG OUTPUT  ------------
