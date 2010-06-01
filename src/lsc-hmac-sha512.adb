@@ -50,7 +50,7 @@ package body LSC.HMAC.SHA512 is
    begin
       for I in Types.Index range Result'First .. Result'Last
       loop
-         Result (I) := Left (I) xor Right (I);
+         Result (I) := Ops64.XOR2 (Left (I), Right (I));
          --# assert
          --#    (for all Pos in Types.Index range Result'First .. I =>
          --#         (Result (Pos) = (Left (Pos) xor Right (Pos))));
