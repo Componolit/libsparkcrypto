@@ -98,7 +98,8 @@ package body LSC.AES is
          if I mod Nk = 0
          then
 
-            --# assert I mod Nk = 0;
+            --# assert I mod Nk = 0 and
+            --#        I/Nk in Tables.Rcon_Index;
 
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);
