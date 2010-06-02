@@ -70,7 +70,7 @@ private
    --#   Right'Last  = Result'Last;
    --# post
    --#   (for all I in Types.Index range Left'First .. Left'Last =>
-   --#        (Result (I) = (Left (I) xor Right (I))));
+   --#        (Result (I) = Ops64.XOR2 (Left (I), Right (I))));
 
    function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type;
    --# return Result =>
