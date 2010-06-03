@@ -19,7 +19,7 @@ C_PROGS = \
 all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS) $(C_PROGS))
 proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 
-test: $(OUTDIR)/test_*
+test: $(addprefix $(OUTDIR)/,$(filter test_%,$(SPARK_PROGS)))
 	@for f in $^; do $$f; done;
 
 debug: GNATMAKE_FLAGS += -aIdebug
