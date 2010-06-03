@@ -42,27 +42,6 @@ package body LSC.HMAC.SHA512 is
 
    ----------------------------------------------------------------------------
 
-   procedure Block_XOR
-     (Left   : in     Types.Word64_Array_Type;
-      Right  : in     Types.Word64_Array_Type;
-      Result : in out Types.Word64_Array_Type)
-   is
-   begin
-      for I in Types.Index range Result'First .. Result'Last
-      loop
-         --# check
-         --#    I <= Left'Last   and
-         --#    I <= Right'Last  and
-         --#    I <= Result'Last;
-         Result (I) := Ops64.XOR2 (Left (I), Right (I));
-         --# assert
-         --#   (for all Pos in Types.Index range Result'First .. I =>
-         --#       (Result (Pos) = Ops64.XOR2 (Left (Pos), Right (Pos))));
-      end loop;
-   end Block_XOR;
-
-   ----------------------------------------------------------------------------
-
    function Context_Init (Key : SHA2.Block_Type) return Context_Type is
       Result : Context_Type;
       Temp   : SHA2.Block_Type := SHA2.Block_Type'(others => 0);
@@ -71,7 +50,7 @@ package body LSC.HMAC.SHA512 is
 
       Result.Key            := Key;
       Result.SHA512_Context := SHA2.SHA512_Context_Init;
-      Block_XOR (IPad, Result.Key, Temp);
+      Ops64.Block_XOR (IPad, Result.Key, Temp);
       SHA2.Context_Update (Result.SHA512_Context, Temp);
       return Result;
    end Context_Init;
@@ -102,7 +81,7 @@ package body LSC.HMAC.SHA512 is
       Hash := SHA2.SHA512_Get_Hash (Context.SHA512_Context);
 
       Context.SHA512_Context := SHA2.SHA512_Context_Init;
-      Block_XOR (OPad, Context.Key, Temp);
+      Ops64.Block_XOR (OPad, Context.Key, Temp);
       SHA2.Context_Update (Context.SHA512_Context, Temp);
       SHA2.Context_Finalize (Context.SHA512_Context, To_Block (Hash), 512);
    end Context_Finalize;

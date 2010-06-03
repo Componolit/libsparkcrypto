@@ -25,4 +25,19 @@ package LSC.Ops64 is
    function XOR2 (V0, V1 : Types.Word64) return Types.Word64;
    --# return V0 xor V1;
 
+   procedure Block_XOR
+     (Left   : in     Types.Word64_Array_Type;
+      Right  : in     Types.Word64_Array_Type;
+      Result : in out Types.Word64_Array_Type);
+   --# derives
+   --#   Result from *, Left, Right;
+   --# pre
+   --#   Left'First  = Right'First and
+   --#   Left'Last   = Right'Last  and
+   --#   Right'First = Result'First and
+   --#   Right'Last  = Result'Last;
+   --# post
+   --#   (for all I in Types.Index range Left'First .. Left'Last =>
+   --#        (Result (I) = XOR2 (Left (I), Right (I))));
+
 end LSC.Ops64;

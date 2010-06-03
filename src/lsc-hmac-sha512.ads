@@ -57,21 +57,6 @@ private
       Key            : SHA2.Block_Type;
    end record;
 
-   procedure Block_XOR
-     (Left   : in     Types.Word64_Array_Type;
-      Right  : in     Types.Word64_Array_Type;
-      Result : in out Types.Word64_Array_Type);
-   --# derives
-   --#   Result from *, Left, Right;
-   --# pre
-   --#   Left'First  = Right'First and
-   --#   Left'Last   = Right'Last  and
-   --#   Right'First = Result'First and
-   --#   Right'Last  = Result'Last;
-   --# post
-   --#   (for all I in Types.Index range Left'First .. Left'Last =>
-   --#        (Result (I) = Ops64.XOR2 (Left (I), Right (I))));
-
    function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type;
    --# return Result =>
    --#     (for all I in SHA2.SHA512_Hash_Index => (Result (I) = Item (I)));
