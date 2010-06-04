@@ -117,4 +117,25 @@ package body LSC.Ops is
    end XOR5;
    pragma Inline (XOR5);
 
+   ----------------------------------------------------------------------------
+
+   procedure Block_XOR
+     (Left   : in     Types.Word32_Array_Type;
+      Right  : in     Types.Word32_Array_Type;
+      Result : in out Types.Word32_Array_Type)
+   is
+   begin
+      for I in Types.Index range Result'First .. Result'Last
+      loop
+         --# check
+         --#    I <= Left'Last   and
+         --#    I <= Right'Last  and
+         --#    I <= Result'Last;
+         Result (I) := XOR2 (Left (I), Right (I));
+         --# assert
+         --#   (for all Pos in Types.Index range Result'First .. I =>
+         --#       (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
+      end loop;
+   end Block_XOR;
+
 end LSC.Ops;

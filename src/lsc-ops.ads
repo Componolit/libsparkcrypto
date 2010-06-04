@@ -46,4 +46,19 @@ package LSC.Ops is
    function XOR5 (V0, V1, V2, V3, V4 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2 xor V3 xor V4;
 
+   procedure Block_XOR
+     (Left   : in     Types.Word32_Array_Type;
+      Right  : in     Types.Word32_Array_Type;
+      Result : in out Types.Word32_Array_Type);
+   --# derives
+   --#   Result from *, Left, Right;
+   --# pre
+   --#   Left'First  = Right'First and
+   --#   Left'Last   = Right'Last  and
+   --#   Right'First = Result'First and
+   --#   Right'Last  = Result'Last;
+   --# post
+   --#   (for all I in Types.Index range Left'First .. Left'Last =>
+   --#        (Result (I) = XOR2 (Left (I), Right (I))));
+
 end LSC.Ops;
