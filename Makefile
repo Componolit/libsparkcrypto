@@ -6,6 +6,7 @@ SPARK_PROGS = \
 	test_aes \
 	test_sha2 \
 	test_hmac \
+   benchmark
 
 PROOFS = \
    $(addsuffix .sum, $(SPARK_PROGS))
