@@ -30,6 +30,7 @@ use type LSC.Types.Word64_Array_Type;
 
 --# inherit LSC.IO,
 --#         LSC.SHA2,
+--#         LSC.RIPEMD160,
 --#         LSC.HMAC.SHA512,
 --#         LSC.HMAC.SHA384,
 --#         LSC.HMAC.RIPEMD,
