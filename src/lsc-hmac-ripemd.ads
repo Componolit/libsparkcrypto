@@ -28,9 +28,6 @@ package LSC.HMAC.RIPEMD is
 
    type Context_Type is private;
 
-   subtype Auth_Index is Types.Index range 0 .. 2;
-   subtype Auth_Type is Types.Word32_Array_Type (Auth_Index);
-
    function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type;
 
    procedure Context_Update
@@ -47,8 +44,7 @@ package LSC.HMAC.RIPEMD is
    --#                      Block,
    --#                      Length;
 
-   function Get_Prf  (Context : in Context_Type) return RIPEMD160.Hash_Type;
-   function Get_Auth (Context : in Context_Type) return Auth_Type;
+   function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type;
 
 private
 

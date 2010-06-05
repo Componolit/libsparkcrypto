@@ -88,25 +88,9 @@ package body LSC.HMAC.RIPEMD is
 
    ----------------------------------------------------------------------------
 
-   function Get_Prf (Context : in Context_Type) return RIPEMD160.Hash_Type is
+   function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type is
    begin
       return RIPEMD160.Get_Hash (Context.RIPEMD160_Context);
-   end Get_Prf;
-
-   ----------------------------------------------------------------------------
-
-   function Get_Auth (Context : in Context_Type) return Auth_Type is
-      Result : Auth_Type := Auth_Type'(others => 0);
-      Prf    : RIPEMD160.Hash_Type;
-   begin
-      Prf := RIPEMD160.Get_Hash (Context.RIPEMD160_Context);
-      for Index in Auth_Index
-      --# assert
-      --#    Index in Auth_Index;
-      loop
-         Result (Index) := Prf (Index);
-      end loop;
-      return Result;
    end Get_Auth;
 
 end LSC.HMAC.RIPEMD;
