@@ -109,6 +109,12 @@ begin
                                       16#dddddddd#,
                                       16#dddddddd#,
                                       16#dddddddd#,
+                                      16#dddddddd#,
+                                      16#dddddddd#,
+                                      16#dddddddd#,
+                                      16#dddddddd#,
+                                      16#dddddddd#,
+                                      16#dddddddd#,
                                       16#0000dddd#,
                                       others => 0);
 
@@ -139,6 +145,12 @@ begin
 
    --  50 times 16#cd#
    Block := LSC.RIPEMD160.Block_Type'(16#cdcdcdcd#,
+                                      16#cdcdcdcd#,
+                                      16#cdcdcdcd#,
+                                      16#cdcdcdcd#,
+                                      16#cdcdcdcd#,
+                                      16#cdcdcdcd#,
+                                      16#cdcdcdcd#,
                                       16#cdcdcdcd#,
                                       16#cdcdcdcd#,
                                       16#cdcdcdcd#,
