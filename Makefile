@@ -6,15 +6,9 @@ SPARK_PROGS = \
 	test_aes \
 	test_sha2 \
 	test_hmac \
-	test_ripemd160 \
-   sha512perf \
-   sha512sum
 
 PROOFS = \
    $(addsuffix .sum, $(SPARK_PROGS))
-
-C_PROGS = \
-   sha512openssl
 
 all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS) $(C_PROGS))
 proof: $(addprefix $(OUTDIR)/,$(PROOFS))
