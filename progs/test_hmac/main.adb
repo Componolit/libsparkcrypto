@@ -16,13 +16,23 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2, LSC.HMAC.SHA512, LSC.HMAC.SHA384, LSC.IO, LSC.Types, LSC.Test;
+with LSC.SHA2,
+     LSC.RIPEMD160,
+     LSC.HMAC.SHA512,
+     LSC.HMAC.SHA384,
+     LSC.HMAC.RIPEMD,
+     LSC.IO,
+     LSC.Types,
+     LSC.Test;
+
+use type LSC.Types.Word32_Array_Type;
 use type LSC.Types.Word64_Array_Type;
 
 --# inherit LSC.IO,
 --#         LSC.SHA2,
 --#         LSC.HMAC.SHA512,
 --#         LSC.HMAC.SHA384,
+--#         LSC.HMAC.RIPEMD,
 --#         LSC.Types,
 --#         LSC.Test;
 
@@ -39,9 +49,14 @@ is
    --# derives ;
    is separate;
 
+   procedure HMAC_RIPEMD160_Tests
+   --# derives ;
+   is separate;
+
 begin
 
    HMAC_SHA384_Tests;
    HMAC_SHA512_Tests;
+   HMAC_RIPEMD160_Tests;
 
 end Main;
