@@ -1,6 +1,4 @@
 * Implement SHA-256
-* Update HMAC for RIPEMD-160 and SHA256
-* Fix SHA2 test drivers
+* Update HMAC for SHA256
 * Improve performance
-* Implement AES2 and HMAC test drivers
 * Implement integrated performance comarison tool sparkcrypto vs. openssl.
