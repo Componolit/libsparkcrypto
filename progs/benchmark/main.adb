@@ -16,18 +16,28 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2, LSC.Types, LSC.IO;
+with LSC.SHA2, LSC.Types, LSC.IO, OpenSSL;
 use type LSC.SHA2.SHA512_Hash_Type;
 use type LSC.Types.Word64;
 
 --# inherit LSC.IO,
 --#         LSC.SHA2,
 --#         LSC.Types;
+--#         LSC.Debug;
+--#         OpenSSL;
 
 --# main_program;
 procedure Main
    --# derives ;
 is
+   Context : aliased OpenSSL.SHA512_Context;
+   Block   : aliased LSC.SHA2.Block_Type;
+   Hash    : aliased LSC.SHA2.SHA512_Hash_Type;
 begin
-   null;
+
+   Block := LSC.SHA2.Block_Type'(0 => 16#0000000000636261#, others => 0);
+   OpenSSL.C_SHA512_Init (Context'Unchecked_Access);
+   OpenSSL.C_SHA512_Update (Context'Unchecked_Access, Block'Unchecked_Access, 3);
+   OpenSSL.C_SHA512_Final (Hash'Unchecked_Access, Context'Unchecked_Access);
+   LSC.IO.Print_Word64_Array (Hash, Space => 2, Break => 4, Newln => True);
 end Main;
