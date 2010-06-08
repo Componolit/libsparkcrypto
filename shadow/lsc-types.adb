@@ -65,22 +65,42 @@ package body LSC.Types is
 
    ----------------------------------------------------------------------------
 
-   function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type
+   function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type
    is
-      function W322W8A is new Unchecked_Conversion (Word32, Byte_Array_Type);
+      function W322W8A is new Unchecked_Conversion (Word32, Byte_Array32_Type);
    begin
       return W322W8A (Value);
-   end Word32_To_Byte_Array;
-   pragma Inline (Word32_To_Byte_Array);
+   end Word32_To_Byte_Array32;
+   pragma Inline (Word32_To_Byte_Array32);
 
    ----------------------------------------------------------------------------
 
-   function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32
+   function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32
    is
-      function W8A2W32 is new Unchecked_Conversion (Byte_Array_Type, Word32);
+      function W8A2W32 is new Unchecked_Conversion (Byte_Array32_Type, Word32);
    begin
       return W8A2W32 (Value);
-   end Byte_Array_To_Word32;
-   pragma Inline (Byte_Array_To_Word32);
+   end Byte_Array32_To_Word32;
+   pragma Inline (Byte_Array32_To_Word32);
+
+   ----------------------------------------------------------------------------
+
+   function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type
+   is
+      function W642W8A is new Unchecked_Conversion (Word64, Byte_Array64_Type);
+   begin
+      return W642W8A (Value);
+   end Word64_To_Byte_Array64;
+   pragma Inline (Word64_To_Byte_Array64);
+
+   ----------------------------------------------------------------------------
+
+   function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64
+   is
+      function W8A2W64 is new Unchecked_Conversion (Byte_Array64_Type, Word64);
+   begin
+      return W8A2W64 (Value);
+   end Byte_Array64_To_Word64;
+   pragma Inline (Byte_Array64_To_Word64);
 
 end LSC.Types;

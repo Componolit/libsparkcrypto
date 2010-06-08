@@ -33,11 +33,17 @@ package LSC.Types is
    function ROTL32 (Value : Word32; Amount : Natural) return Word32;
    function SHL32 (Value : Word32; Amount : Natural) return Word32;
 
-   subtype Byte_Array_Index is Index range 0 .. 3;
-   type Byte_Array_Type is array (Byte_Array_Index) of Byte;
+   subtype Byte_Array32_Index is Index range 0 .. 3;
+   type Byte_Array32_Type is array (Byte_Array32_Index) of Byte;
 
-   function Word32_To_Byte_Array (Value : Word32) return Byte_Array_Type;
-   function Byte_Array_To_Word32 (Value : Byte_Array_Type) return Word32;
+   subtype Byte_Array64_Index is Index range 0 .. 7;
+   type Byte_Array64_Type is array (Byte_Array64_Index) of Byte;
+
+   function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type;
+   function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32;
+
+   function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type;
+   function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64;
 
    type Word32_Array_Type is array (Index range <>) of Word32;
    type Word64_Array_Type is array (Index range <>) of Word64;

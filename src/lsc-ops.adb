@@ -18,24 +18,24 @@
 
 package body LSC.Ops is
 
-   function Bytes_To_Word32
+   function Bytes32_To_Word32
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
        Byte3 : Types.Byte) return Types.Word32
    is
    begin
-      return Types.Byte_Array_To_Word32 (Types.Byte_Array_Type'(Byte3, Byte2, Byte1, Byte0));
-   end Bytes_To_Word32;
+      return Types.Byte_Array32_To_Word32 (Types.Byte_Array32_Type'(Byte3, Byte2, Byte1, Byte0));
+   end Bytes32_To_Word32;
 
    ----------------------------------------------------------------------------
 
    function ByteX (Value    : Types.Word32;
-                   Position : Types.Byte_Array_Index) return Types.Byte
+                   Position : Types.Byte_Array32_Index) return Types.Byte
    is
-      Temp : Types.Byte_Array_Type;
+      Temp : Types.Byte_Array32_Type;
    begin
-      Temp := Types.Word32_To_Byte_Array (Value);
+      Temp := Types.Word32_To_Byte_Array32 (Value);
       return Temp (Position);
    end ByteX;
 
@@ -75,10 +75,10 @@ package body LSC.Ops is
 
    function Byte_Swap32 (Value : Types.Word32) return Types.Word32
    is
-      Temp : Types.Byte_Array_Type;
+      Temp : Types.Byte_Array32_Type;
    begin
-      Temp := Types.Word32_To_Byte_Array (Value);
-      return Bytes_To_Word32 (Temp (0), Temp (1), Temp (2), Temp (3));
+      Temp := Types.Word32_To_Byte_Array32 (Value);
+      return Bytes32_To_Word32 (Temp (0), Temp (1), Temp (2), Temp (3));
    end Byte_Swap32;
 
    ----------------------------------------------------------------------------

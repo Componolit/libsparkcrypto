@@ -23,13 +23,13 @@ package body LSC.AES is
    ----------------------------------------------------------------------------
 
    function Sub_Word (Value : Types.Word32) return Types.Word32 is
-      Temp : Types.Byte_Array_Type;
+      Temp : Types.Byte_Array32_Type;
     begin
-      Temp := Types.Word32_To_Byte_Array (Value);
-      return Ops.Bytes_To_Word32 (Byte0 => Tables.S (Temp (3)),
-                                  Byte1 => Tables.S (Temp (2)),
-                                  Byte2 => Tables.S (Temp (1)),
-                                  Byte3 => Tables.S (Temp (0)));
+      Temp := Types.Word32_To_Byte_Array32 (Value);
+      return Ops.Bytes32_To_Word32 (Byte0 => Tables.S (Temp (3)),
+                                    Byte1 => Tables.S (Temp (2)),
+                                    Byte2 => Tables.S (Temp (1)),
+                                    Byte3 => Tables.S (Temp (0)));
    end Sub_Word;
 
    ----------------------------------------------------------------------------
@@ -310,28 +310,28 @@ package body LSC.AES is
                          Block_Type'(C0, C1, C2, C3));  --
       ----------------------------------------------------
 
-      A0 := Ops.Bytes_To_Word32
+      A0 := Ops.Bytes32_To_Word32
               (Tables.S (Ops.Byte0 (C0)),
                Tables.S (Ops.Byte1 (C1)),
                Tables.S (Ops.Byte2 (C2)),
                Tables.S (Ops.Byte3 (C3))) xor
             Context.Schedule (Nb * Context.Nr);
 
-      A1 := Ops.Bytes_To_Word32
+      A1 := Ops.Bytes32_To_Word32
               (Tables.S (Ops.Byte0 (C1)),
                Tables.S (Ops.Byte1 (C2)),
                Tables.S (Ops.Byte2 (C3)),
                Tables.S (Ops.Byte3 (C0))) xor
             Context.Schedule (Nb * Context.Nr + 1);
 
-      A2 := Ops.Bytes_To_Word32
+      A2 := Ops.Bytes32_To_Word32
               (Tables.S (Ops.Byte0 (C2)),
                Tables.S (Ops.Byte1 (C3)),
                Tables.S (Ops.Byte2 (C0)),
                Tables.S (Ops.Byte3 (C1))) xor
             Context.Schedule (Nb * Context.Nr + 2);
 
-      A3 := Ops.Bytes_To_Word32
+      A3 := Ops.Bytes32_To_Word32
               (Tables.S (Ops.Byte0 (C3)),
                Tables.S (Ops.Byte1 (C0)),
                Tables.S (Ops.Byte2 (C1)),
@@ -496,28 +496,28 @@ package body LSC.AES is
                          Block_Type'(C0, C1, C2, C3));  --
       ----------------------------------------------------
 
-      A0 := Ops.Bytes_To_Word32
+      A0 := Ops.Bytes32_To_Word32
               (Tables.Si (Ops.Byte0 (C0)),
                Tables.Si (Ops.Byte1 (C3)),
                Tables.Si (Ops.Byte2 (C2)),
                Tables.Si (Ops.Byte3 (C1))) xor
             Context.Schedule (0);
 
-      A1 := Ops.Bytes_To_Word32
+      A1 := Ops.Bytes32_To_Word32
               (Tables.Si (Ops.Byte0 (C1)),
                Tables.Si (Ops.Byte1 (C0)),
                Tables.Si (Ops.Byte2 (C3)),
                Tables.Si (Ops.Byte3 (C2))) xor
             Context.Schedule (1);
 
-      A2 := Ops.Bytes_To_Word32
+      A2 := Ops.Bytes32_To_Word32
               (Tables.Si (Ops.Byte0 (C2)),
                Tables.Si (Ops.Byte1 (C1)),
                Tables.Si (Ops.Byte2 (C0)),
                Tables.Si (Ops.Byte3 (C3))) xor
             Context.Schedule (2);
 
-      A3 := Ops.Bytes_To_Word32
+      A3 := Ops.Bytes32_To_Word32
               (Tables.Si (Ops.Byte0 (C3)),
                Tables.Si (Ops.Byte1 (C2)),
                Tables.Si (Ops.Byte2 (C1)),

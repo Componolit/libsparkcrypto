@@ -22,7 +22,7 @@ use type LSC.Types.Word32;
 
 package LSC.Ops is
 
-   function Bytes_To_Word32
+   function Bytes32_To_Word32
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
