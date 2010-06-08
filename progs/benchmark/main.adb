@@ -31,7 +31,7 @@ use type LSC.Types.Word64;
 procedure Main
    --# derives ;
 is
-   Block           : LSC.SHA2.Block_Type;
+   Block1, Block2  : LSC.SHA2.Block_Type;
 
    SHA512_Context1 : OpenSSL.SHA512_Context_Type;
    Hash1           : LSC.SHA2.SHA512_Hash_Type;
@@ -42,15 +42,18 @@ is
    Length          : LSC.SHA2.Block_Length_Type;
 begin
 
-   Block  := LSC.SHA2.Block_Type'(others => 16#0000000000636261#);
+   Block1  := LSC.SHA2.Block_Type'(others => 16#deadbeefcafebabe#);
+   Block2  := LSC.SHA2.Block_Type'(others => 16#0000000000636261#);
    Length := 56;
 
    OpenSSL.Context_Init (SHA512_Context1);
-   OpenSSL.Context_Finalize (SHA512_Context1, Block, Length);
+   OpenSSL.Context_Update (SHA512_Context1, Block1);
+   OpenSSL.Context_Finalize (SHA512_Context1, Block2, Length);
    Hash1 := OpenSSL.SHA512_Get_Hash (SHA512_Context1);
 
    SHA512_Context2 := LSC.SHA2.SHA512_Context_Init;
-   LSC.SHA2.Context_Finalize (SHA512_Context2, Block, Length);
+   LSC.SHA2.Context_Update (SHA512_Context2, Block1);
+   LSC.SHA2.Context_Finalize (SHA512_Context2, Block2, Length);
    Hash2 := LSC.SHA2.SHA512_Get_Hash (SHA512_Context2);
 
    LSC.Test.Run ("Equal result", Hash1 = Hash2);
