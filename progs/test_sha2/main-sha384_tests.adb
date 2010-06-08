@@ -29,38 +29,38 @@ begin
 
    --  D.1 SHA-384 Example (One-Block Message)
    SHA2_Ctx1 := LSC.SHA2.SHA384_Context_Init;
-   Message1 := LSC.SHA2.Block_Type'(0 => 16#6162630000000000#, others => 0);
+   Message1 := LSC.SHA2.Block_Type'(0 => 16#0000000000636261#, others => 0);
    LSC.SHA2.Context_Finalize (SHA2_Ctx1, Message1, 24);
    Hash1 := LSC.SHA2.SHA384_Get_Hash (SHA2_Ctx1);
 
    LSC.Test.Run
      ("SHA-384 Example (One-Block Message)",
       Hash1 =
-      LSC.SHA2.SHA384_Hash_Type'(16#cb00753f45a35e8b#,
-                                 16#b5a03d699ac65007#,
-                                 16#272c32ab0eded163#,
-                                 16#1a8b605a43ff5bed#,
-                                 16#8086072ba1e7cc23#,
-                                 16#58baeca134c825a7#));
+      LSC.SHA2.SHA384_Hash_Type'(16#8b5ea3453f7500cb#,
+                                 16#0750c69a693da0b5#,
+                                 16#63d1de0eab322c27#,
+                                 16#ed5bff435a608b1a#,
+                                 16#23cce7a12b078680#,
+                                 16#a725c834a1ecba58#));
 
    --  D.2 SHA-384 Example (Multi-Block Message)
    SHA2_Ctx2     := LSC.SHA2.SHA384_Context_Init;
    Message2 :=
      LSC.SHA2.Block_Type'
-     (16#6162636465666768#,
-      16#6263646566676869#,
-      16#636465666768696a#,
-      16#6465666768696a6b#,
-      16#65666768696a6b6c#,
-      16#666768696a6b6c6d#,
-      16#6768696a6b6c6d6e#,
-      16#68696a6b6c6d6e6f#,
-      16#696a6b6c6d6e6f70#,
-      16#6a6b6c6d6e6f7071#,
-      16#6b6c6d6e6f707172#,
-      16#6c6d6e6f70717273#,
-      16#6d6e6f7071727374#,
-      16#6e6f707172737475#,
+     (16#6867666564636261#,
+      16#6968676665646362#,
+      16#6a69686766656463#,
+      16#6b6a696867666564#,
+      16#6c6b6a6968676665#,
+      16#6d6c6b6a69686766#,
+      16#6e6d6c6b6a696867#,
+      16#6f6e6d6c6b6a6968#,
+      16#706f6e6d6c6b6a69#,
+      16#71706f6e6d6c6b6a#,
+      16#7271706f6e6d6c6b#,
+      16#737271706f6e6d6c#,
+      16#74737271706f6e6d#,
+      16#7574737271706f6e#,
       16#0000000000000000#,
       16#0000000000000000#);
    LSC.SHA2.Context_Finalize (SHA2_Ctx2, Message2, 896);
@@ -69,12 +69,12 @@ begin
    LSC.Test.Run
      ("SHA-384 Example (Multi-Block Message)",
       Hash2 =
-      LSC.SHA2.SHA384_Hash_Type'(16#09330c33f71147e8#,
-                                 16#3d192fc782cd1b47#,
-                                 16#53111b173b3b05d2#,
-                                 16#2fa08086e3b0f712#,
-                                 16#fcc7c71a557e2db9#,
-                                 16#66c3e9fa91746039#));
+      LSC.SHA2.SHA384_Hash_Type'(16#e84711f7330c3309#,
+                                 16#471bcd82c72f193d#,
+                                 16#d2053b3b171b1153#,
+                                 16#12f7b0e38680a02f#,
+                                 16#b92d7e551ac7c7fc#,
+                                 16#39607491fae9c366#));
 
    --  D.3 SHA-384 Example (Long Message)
    Message3 := LSC.SHA2.Block_Type'(others => 16#61_61_61_61_61_61_61_61#);
@@ -91,11 +91,11 @@ begin
    LSC.Test.Run
      ("SHA-384 Example (Long Message)",
       Hash3 =
-      LSC.SHA2.SHA384_Hash_Type'(16#9d0e1809716474cb#,
-                                 16#086e834e310a4a1c#,
-                                 16#ed149e9c00f24852#,
-                                 16#7972cec5704c2a5b#,
-                                 16#07b8b3dc38ecc4eb#,
-                                 16#ae97ddd87f3d8985#));
+      LSC.SHA2.SHA384_Hash_Type'(16#cb74647109180e9d#,
+                                 16#1c4a0a314e836e08#,
+                                 16#5248f2009c9e14ed#,
+                                 16#5b2a4c70c5ce7279#,
+                                 16#ebc4ec38dcb3b807#,
+                                 16#85893d7fd8dd97ae#));
 
 end SHA384_Tests;

@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Debug, LSC.Types, LSC.SHA2.Print, LSC.SHA2.Tables;
+with LSC.Debug, LSC.Types, LSC.SHA2.Print, LSC.SHA2.Tables, LSC.Byteorder;
 use type LSC.Types.Word64;
 
 package body LSC.SHA2 is
@@ -165,7 +165,7 @@ package body LSC.SHA2 is
       for t in Schedule_Index range 0 .. 15
          --# assert t in 0 .. 15;
       loop
-         W (t) := Block (t);
+         W (t) := Byteorder.Native_To_BE64 (Block (t));
       end loop;
 
       for t in Schedule_Index range 16 .. 79
@@ -269,8 +269,10 @@ package body LSC.SHA2 is
       Debug.Print_Natural (Offset);
       Debug.New_Line;
 
+      Block (Index) := Byteorder.Native_To_BE64 (Block (Index));
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
       Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
+      Block (Index) := Byteorder.BE_To_Native64 (Block (Index));
 
       if Index < Block_Index'Last
       then
@@ -314,8 +316,8 @@ package body LSC.SHA2 is
       end if;
 
       --  Set length in final block.
-      Final_Block (Block_Type'Last - 1) := Context.Length.MSW;
-      Final_Block (Block_Type'Last)     := Context.Length.LSW;
+      Final_Block (Block_Type'Last - 1) := Byteorder.BE_To_Native64 (Context.Length.MSW);
+      Final_Block (Block_Type'Last)     := Byteorder.BE_To_Native64 (Context.Length.LSW);
 
       Context_Update_Internal (Context => Context, Block => Final_Block);
 
@@ -325,19 +327,26 @@ package body LSC.SHA2 is
 
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type is
    begin
-      return Context.H;
+      return SHA512_Hash_Type'(0 => LSC.Byteorder.BE_To_Native64 (Context.H (0)),
+                               1 => LSC.Byteorder.BE_To_Native64 (Context.H (1)),
+                               2 => LSC.Byteorder.BE_To_Native64 (Context.H (2)),
+                               3 => LSC.Byteorder.BE_To_Native64 (Context.H (3)),
+                               4 => LSC.Byteorder.BE_To_Native64 (Context.H (4)),
+                               5 => LSC.Byteorder.BE_To_Native64 (Context.H (5)),
+                               6 => LSC.Byteorder.BE_To_Native64 (Context.H (6)),
+                               7 => LSC.Byteorder.BE_To_Native64 (Context.H (7)));
    end SHA512_Get_Hash;
 
    ----------------------------------------------------------------------------
 
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type is
    begin
-      return SHA384_Hash_Type'(0 => Context.H (0),
-                               1 => Context.H (1),
-                               2 => Context.H (2),
-                               3 => Context.H (3),
-                               4 => Context.H (4),
-                               5 => Context.H (5));
+      return SHA384_Hash_Type'(0 => LSC.Byteorder.BE_To_Native64 (Context.H (0)),
+                               1 => LSC.Byteorder.BE_To_Native64 (Context.H (1)),
+                               2 => LSC.Byteorder.BE_To_Native64 (Context.H (2)),
+                               3 => LSC.Byteorder.BE_To_Native64 (Context.H (3)),
+                               4 => LSC.Byteorder.BE_To_Native64 (Context.H (4)),
+                               5 => LSC.Byteorder.BE_To_Native64 (Context.H (5)));
    end SHA384_Get_Hash;
 
 end LSC.SHA2;
