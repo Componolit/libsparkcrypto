@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2, LSC.Types, LSC.IO, OpenSSL;
+with LSC.SHA2, LSC.Types, LSC.IO, LSC.Test, OpenSSL;
 use type LSC.SHA2.SHA512_Hash_Type;
 use type LSC.Types.Word64;
 
@@ -24,20 +24,36 @@ use type LSC.Types.Word64;
 --#         LSC.SHA2,
 --#         LSC.Types;
 --#         LSC.Debug;
+--#         LSC.Test;
 --#         OpenSSL;
 
 --# main_program;
 procedure Main
    --# derives ;
 is
-   Context : aliased OpenSSL.SHA512_Context;
-   Block   : aliased LSC.SHA2.Block_Type;
-   Hash    : aliased LSC.SHA2.SHA512_Hash_Type;
+   Block           : LSC.SHA2.Block_Type;
+
+   SHA512_Context1 : OpenSSL.SHA512_Context_Type;
+   Hash1           : LSC.SHA2.SHA512_Hash_Type;
+
+   SHA512_Context2 : LSC.SHA2.Context_Type;
+   Hash2           : LSC.SHA2.SHA512_Hash_Type;
+
+   Length          : LSC.SHA2.Block_Length_Type;
 begin
 
-   Block := LSC.SHA2.Block_Type'(0 => 16#0000000000636261#, others => 0);
-   OpenSSL.C_SHA512_Init (Context'Unchecked_Access);
-   OpenSSL.C_SHA512_Update (Context'Unchecked_Access, Block'Unchecked_Access, 3);
-   OpenSSL.C_SHA512_Final (Hash'Unchecked_Access, Context'Unchecked_Access);
-   LSC.IO.Print_Word64_Array (Hash, Space => 2, Break => 4, Newln => True);
+   Block  := LSC.SHA2.Block_Type'(others => 16#0000000000636261#);
+   Length := 56;
+
+   OpenSSL.Context_Init (SHA512_Context1);
+   OpenSSL.Context_Finalize (SHA512_Context1, Block, Length);
+   Hash1 := OpenSSL.SHA512_Get_Hash (SHA512_Context1);
+
+   SHA512_Context2 := LSC.SHA2.SHA512_Context_Init;
+   LSC.SHA2.Context_Finalize (SHA512_Context2, Block, Length);
+   Hash2 := LSC.SHA2.SHA512_Get_Hash (SHA512_Context2);
+
+   LSC.Test.Run ("Equal result", Hash1 = Hash2);
+   LSC.IO.Print_Word64_Array (Hash1, 1, LSC.Types.Index'Last, True);
+   LSC.IO.Print_Word64_Array (Hash2, 1, LSC.Types.Index'Last, True);
 end Main;
