@@ -18,6 +18,24 @@
 
 package body LSC.Ops64 is
 
+   function Bytes64_To_Word64
+      (Byte0 : Types.Byte;
+       Byte1 : Types.Byte;
+       Byte2 : Types.Byte;
+       Byte3 : Types.Byte;
+       Byte4 : Types.Byte;
+       Byte5 : Types.Byte;
+       Byte6 : Types.Byte;
+       Byte7 : Types.Byte) return Types.Word64
+   is
+   begin
+      return Types.Byte_Array64_To_Word64
+          (Types.Byte_Array64_Type'(Byte7, Byte6, Byte5, Byte4,
+                                    Byte3, Byte2, Byte1, Byte0));
+   end Bytes64_To_Word64;
+
+   ----------------------------------------------------------------------------
+
    function XOR2 (V0, V1 : Types.Word64) return Types.Word64
    is
    begin
@@ -45,5 +63,16 @@ package body LSC.Ops64 is
          --#       (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
       end loop;
    end Block_XOR;
+
+   ----------------------------------------------------------------------------
+
+   function Byte_Swap (Value : Types.Word64) return Types.Word64
+   is
+      Temp : Types.Byte_Array64_Type;
+   begin
+      Temp := Types.Word64_To_Byte_Array64 (Value);
+      return Bytes64_To_Word64 (Temp (0), Temp (1), Temp (2), Temp (3),
+                                Temp (4), Temp (5), Temp (6), Temp (7));
+   end Byte_Swap;
 
 end LSC.Ops64;

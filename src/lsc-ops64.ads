@@ -40,4 +40,16 @@ package LSC.Ops64 is
    --#   (for all I in Types.Index range Left'First .. Left'Last =>
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
 
+   function Byte_Swap (Value : Types.Word64) return Types.Word64;
+
+   function Bytes64_To_Word64
+      (Byte0 : Types.Byte;
+       Byte1 : Types.Byte;
+       Byte2 : Types.Byte;
+       Byte3 : Types.Byte;
+       Byte4 : Types.Byte;
+       Byte5 : Types.Byte;
+       Byte6 : Types.Byte;
+       Byte7 : Types.Byte) return Types.Word64;
+
 end LSC.Ops64;
