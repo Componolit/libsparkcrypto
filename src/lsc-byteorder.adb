@@ -80,4 +80,68 @@ package body LSC.Byteorder is
       return Result;
    end LE_To_Native32;
 
+   ---------------------------------------------------------------------------
+
+   function Native_To_BE64 (Item : Types.Word64) return Types.Word64
+   is
+      Result : Types.Word64;
+   begin
+      --# accept Flow, 22, "Native_Order is a configuration constant.";
+      if Native_Order = Little_Endian
+      then
+         Result := Ops64.Byte_Swap (Item);
+      else
+         Result := Item;
+      end if;
+      return Result;
+   end Native_To_BE64;
+
+   ---------------------------------------------------------------------------
+
+   function Native_To_LE64 (Item : Types.Word64) return Types.Word64
+   is
+      Result : Types.Word64;
+   begin
+      --# accept Flow, 22, "Native_Order is a configuration constant.";
+      if Native_Order = Big_Endian
+      then
+         Result := Ops64.Byte_Swap (Item);
+      else
+         Result := Item;
+      end if;
+      return Result;
+   end Native_To_LE64;
+
+   ---------------------------------------------------------------------------
+
+   function BE_To_Native64 (Item : Types.Word64) return Types.Word64
+   is
+      Result : Types.Word64;
+   begin
+      --# accept Flow, 22, "Native_Order is a configuration constant.";
+      if Native_Order = Little_Endian
+      then
+         Result := Ops64.Byte_Swap (Item);
+      else
+         Result := Item;
+      end if;
+      return Result;
+   end BE_To_Native64;
+
+   ---------------------------------------------------------------------------
+
+   function LE_To_Native64 (Item : Types.Word64) return Types.Word64
+   is
+      Result : Types.Word64;
+   begin
+      --# accept Flow, 22, "Native_Order is a configuration constant.";
+      if Native_Order = Big_Endian
+      then
+         Result := Ops64.Byte_Swap (Item);
+      else
+         Result := Item;
+      end if;
+      return Result;
+   end LE_To_Native64;
+
 end LSC.Byteorder;

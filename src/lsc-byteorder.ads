@@ -16,8 +16,9 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Ops, LSC.Types;
+with LSC.Ops, LSC.Ops64, LSC.Types;
 --# inherit LSC.Ops,
+--#         LSC.Ops64,
 --#         LSC.Types;
 
 package LSC.Byteorder is
@@ -30,5 +31,11 @@ package LSC.Byteorder is
 
    function BE_To_Native32 (Item : Types.Word32) return Types.Word32;
    function LE_To_Native32 (Item : Types.Word32) return Types.Word32;
+
+   function Native_To_BE64 (Item : Types.Word64) return Types.Word64;
+   function Native_To_LE64 (Item : Types.Word64) return Types.Word64;
+
+   function BE_To_Native64 (Item : Types.Word64) return Types.Word64;
+   function LE_To_Native64 (Item : Types.Word64) return Types.Word64;
 
 end LSC.Byteorder;
