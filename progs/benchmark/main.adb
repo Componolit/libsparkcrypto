@@ -84,7 +84,7 @@ begin
       H2 := LSC.SHA2.SHA384_Get_Hash (SHA384_Context2);
       D2 := Clock - S2;
 
-      Results (1) := Result ("   100000 rounds of SHA384", H1 = H2, D1, D2);
+      Results (1) := Result ("   SHA384", H1 = H2, D1, D2);
    end;
 
    -- SHA512 benchmark
@@ -117,7 +117,7 @@ begin
       H2 := LSC.SHA2.SHA512_Get_Hash (SHA512_Context2);
       D2 := Clock - S2;
 
-      Results (1) := Result ("   100000 rounds of SHA512", H1 = H2, D1, D2);
+      Results (1) := Result ("   SHA512", H1 = H2, D1, D2);
    end;
 
    -- RIPEMD-160 benchmark
@@ -150,7 +150,7 @@ begin
       H2 := LSC.RIPEMD160.Get_Hash (RIPEMD160_Context2);
       D2 := Clock - S2;
 
-      Results (1) := Result ("100000 rounds of RIPEMD160", H1 = H2, D1, D2);
+      Results (1) := Result ("RIPEMD160", H1 = H2, D1, D2);
    end;
 
 end Main;
