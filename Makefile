@@ -20,8 +20,6 @@ test: $(addprefix $(OUTDIR)/,$(filter test_%,$(SPARK_PROGS)))
 debug: GNATMAKE_FLAGS += -aIdebug
 debug: all
 
-$(OUTDIR)/sha512openssl: CFLAGS += -lssl
-
 lib: $(OUTDIR)/lib.sum
 
 $(OUTDIR)/lib.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb src/*.ads
@@ -41,6 +39,7 @@ $(OUTDIR)/lib.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb s
 	@tail -n14 $@ | head -n13
 	@echo
 
+$(OUTDIR)/benchmark: GNATMAKE_FLAGS += -O3 -gnatB -gnatn -gnatp -gnatVn
 
 $(OUTDIR)/libsparkcrypto.idx:
 	(cd src && sparkmake -duplicates_are_errors -index=$@ -nometafile)
