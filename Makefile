@@ -39,7 +39,7 @@ $(OUTDIR)/lib.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb s
 	@tail -n14 $@ | head -n13
 	@echo
 
-$(OUTDIR)/benchmark: GNATMAKE_FLAGS += -O3 -gnatB -gnatn -gnatp -gnatVn
+$(OUTDIR)/benchmark: GNATMAKE_FLAGS += -O3
 
 $(OUTDIR)/libsparkcrypto.idx:
 	(cd src && sparkmake -duplicates_are_errors -index=$@ -nometafile)
