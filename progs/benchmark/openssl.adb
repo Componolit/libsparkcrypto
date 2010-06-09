@@ -12,7 +12,7 @@ package body OpenSSL is
    begin
       OpenSSL.C_SHA512_Update (Context.C_Context'Unrestricted_Access,
                                Block'Unrestricted_Access,
-                               64);
+                               128);
    end Context_Update;
 
    procedure Context_Finalize (Context : in out SHA512_Context_Type;
