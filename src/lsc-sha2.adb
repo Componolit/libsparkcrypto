@@ -16,8 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Debug, LSC.Types, LSC.SHA2.Print, LSC.SHA2.Tables, LSC.Byteorder;
-use type LSC.Types.Word64;
+with LSC.SHA2.Print, LSC.SHA2.Tables;
 
 package body LSC.SHA2 is
 
@@ -327,26 +326,26 @@ package body LSC.SHA2 is
 
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type is
    begin
-      return SHA512_Hash_Type'(0 => LSC.Byteorder.BE_To_Native64 (Context.H (0)),
-                               1 => LSC.Byteorder.BE_To_Native64 (Context.H (1)),
-                               2 => LSC.Byteorder.BE_To_Native64 (Context.H (2)),
-                               3 => LSC.Byteorder.BE_To_Native64 (Context.H (3)),
-                               4 => LSC.Byteorder.BE_To_Native64 (Context.H (4)),
-                               5 => LSC.Byteorder.BE_To_Native64 (Context.H (5)),
-                               6 => LSC.Byteorder.BE_To_Native64 (Context.H (6)),
-                               7 => LSC.Byteorder.BE_To_Native64 (Context.H (7)));
+      return SHA512_Hash_Type'(0 => Byteorder.BE_To_Native64 (Context.H (0)),
+                               1 => Byteorder.BE_To_Native64 (Context.H (1)),
+                               2 => Byteorder.BE_To_Native64 (Context.H (2)),
+                               3 => Byteorder.BE_To_Native64 (Context.H (3)),
+                               4 => Byteorder.BE_To_Native64 (Context.H (4)),
+                               5 => Byteorder.BE_To_Native64 (Context.H (5)),
+                               6 => Byteorder.BE_To_Native64 (Context.H (6)),
+                               7 => Byteorder.BE_To_Native64 (Context.H (7)));
    end SHA512_Get_Hash;
 
    ----------------------------------------------------------------------------
 
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type is
    begin
-      return SHA384_Hash_Type'(0 => LSC.Byteorder.BE_To_Native64 (Context.H (0)),
-                               1 => LSC.Byteorder.BE_To_Native64 (Context.H (1)),
-                               2 => LSC.Byteorder.BE_To_Native64 (Context.H (2)),
-                               3 => LSC.Byteorder.BE_To_Native64 (Context.H (3)),
-                               4 => LSC.Byteorder.BE_To_Native64 (Context.H (4)),
-                               5 => LSC.Byteorder.BE_To_Native64 (Context.H (5)));
+      return SHA384_Hash_Type'(0 => Byteorder.BE_To_Native64 (Context.H (0)),
+                               1 => Byteorder.BE_To_Native64 (Context.H (1)),
+                               2 => Byteorder.BE_To_Native64 (Context.H (2)),
+                               3 => Byteorder.BE_To_Native64 (Context.H (3)),
+                               4 => Byteorder.BE_To_Native64 (Context.H (4)),
+                               5 => Byteorder.BE_To_Native64 (Context.H (5)));
    end SHA384_Get_Hash;
 
 end LSC.SHA2;

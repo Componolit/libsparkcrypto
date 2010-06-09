@@ -16,10 +16,12 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Types, LSC.Debug;
+with LSC.Types, LSC.Debug, LSC.Byteorder;
 use type LSC.Types.Index;
+use type LSC.Types.Word64;
 --# inherit LSC.Types,
---#         LSC.Debug;
+--#         LSC.Debug,
+--#         LSC.Byteorder;
 
 package LSC.SHA2 is
 
