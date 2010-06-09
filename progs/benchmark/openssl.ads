@@ -1,22 +1,52 @@
-with LSC.Types, LSC.SHA2, Interfaces.C;
+with LSC.Types;
+with LSC.SHA2;
+with LSC.RIPEMD160;
+with Interfaces.C;
+
+use type LSC.Types.Word32;
 use type LSC.Types.Word64;
---# inherit LSC.Types,
---#         LSC.SHA2;
 
 package OpenSSL is
 
    type SHA512_Context_Type is private;
+   type SHA384_Context_Type is private;
+   type RIPEMD160_Context_Type is private;
 
-   procedure Context_Init (Context : in out SHA512_Context_Type);
+   -- SHA-384
+   procedure SHA384_Context_Init (Context : in out SHA384_Context_Type);
 
-   procedure Context_Update (Context : in out SHA512_Context_Type;
-                             Block   : in     LSC.SHA2.Block_Type);
+   procedure SHA384_Context_Update (Context : in out SHA384_Context_Type;
+                                    Block   : in     LSC.SHA2.Block_Type);
 
-   procedure Context_Finalize (Context : in out SHA512_Context_Type;
-                               Block   : in     LSC.SHA2.Block_Type;
-                               Length  : in     LSC.SHA2.Block_Length_Type);
+   procedure SHA384_Context_Finalize (Context : in out SHA384_Context_Type;
+                                      Block   : in     LSC.SHA2.Block_Type;
+                                      Length  : in     LSC.SHA2.Block_Length_Type);
+
+   function SHA384_Get_Hash (Context : in SHA384_Context_Type) return LSC.SHA2.SHA384_Hash_Type;
+
+   -- SHA-512
+   procedure SHA512_Context_Init (Context : in out SHA512_Context_Type);
+
+   procedure SHA512_Context_Update (Context : in out SHA512_Context_Type;
+                                    Block   : in     LSC.SHA2.Block_Type);
+
+   procedure SHA512_Context_Finalize (Context : in out SHA512_Context_Type;
+                                      Block   : in     LSC.SHA2.Block_Type;
+                                      Length  : in     LSC.SHA2.Block_Length_Type);
 
    function SHA512_Get_Hash (Context : in SHA512_Context_Type) return LSC.SHA2.SHA512_Hash_Type;
+
+   -- RIPEMD-160
+   procedure RIPEMD160_Context_Init (Context : in out RIPEMD160_Context_Type);
+
+   procedure RIPEMD160_Context_Update (Context : in out RIPEMD160_Context_Type;
+                                       Block   : in     LSC.RIPEMD160.Block_Type);
+
+   procedure RIPEMD160_Context_Finalize (Context : in out RIPEMD160_Context_Type;
+                                         Block   : in     LSC.RIPEMD160.Block_Type;
+                                         Length  : in     LSC.RIPEMD160.Block_Length_Type);
+
+   function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
 
 private
 
@@ -24,23 +54,45 @@ private
 
    pragma Linker_Options ("-lcrypto");
 
-   type C_SHA512_Context_Type is array (1 .. 216) of Character;
-   for C_SHA512_Context_Type'Size use 8*216;
-   type C_SHA512_Context_Ptr is access all C_SHA512_Context_Type;
-
    type Block_Type_Ptr is access all LSC.SHA2.Block_Type;
-   type Hash_Type_Ptr is access all LSC.SHA2.SHA512_Hash_Type;
-
-   pragma Convention (C, C_SHA512_Context_Type);
-   pragma Convention (C, C_SHA512_Context_Ptr);
    pragma Convention (C, Block_Type_Ptr);
+
+   type Hash_Type_Ptr is access all LSC.SHA2.SHA512_Hash_Type;
    pragma Convention (C, Hash_Type_Ptr);
 
-   type SHA512_Context_Type is
+   --  SHA-384 C binding
+   type C_SHA384_Context_Type is array (1 .. 216) of Character;
+   for C_SHA384_Context_Type'Size use 8*216;
+   pragma Convention (C, C_SHA384_Context_Type);
+
+   type C_SHA384_Context_Ptr is access all C_SHA384_Context_Type;
+   pragma Convention (C, C_SHA384_Context_Ptr);
+
+   procedure C_SHA384_Init (Context : C_SHA384_Context_Ptr);
+   pragma Import (C, C_SHA384_Init, "SHA384_Init");
+
+   procedure C_SHA384_Update (Context : C_SHA384_Context_Ptr;
+                              Data    : Block_Type_Ptr;
+                              Length  : Interfaces.C.Size_t);
+   pragma Import (C, C_SHA384_Update, "SHA384_Update");
+
+   procedure C_SHA384_Final (MD      : Hash_Type_Ptr;
+                             Context : C_SHA384_Context_Ptr);
+   pragma Import (C, C_SHA384_Final, "SHA384_Final");
+
+   type SHA384_Context_Type is
    record
-      C_Context : C_SHA512_Context_Type;
-      Hash      : LSC.SHA2.SHA512_Hash_Type;
+      C_Context : C_SHA384_Context_Type;
+      Hash      : LSC.SHA2.SHA384_Hash_Type;
    end record;
+
+   --  SHA-512 C binding
+   type C_SHA512_Context_Type is array (1 .. 216) of Character;
+   for C_SHA512_Context_Type'Size use 8*216;
+   pragma Convention (C, C_SHA512_Context_Type);
+
+   type C_SHA512_Context_Ptr is access all C_SHA512_Context_Type;
+   pragma Convention (C, C_SHA512_Context_Ptr);
 
    procedure C_SHA512_Init (Context : C_SHA512_Context_Ptr);
    pragma Import (C, C_SHA512_Init, "SHA512_Init");
@@ -54,4 +106,42 @@ private
                              Context : C_SHA512_Context_Ptr);
    pragma Import (C, C_SHA512_Final, "SHA512_Final");
 
+   type SHA512_Context_Type is
+   record
+      C_Context : C_SHA512_Context_Type;
+      Hash      : LSC.SHA2.SHA512_Hash_Type;
+   end record;
+
+   --  RIPEMD C binding
+
+   type RIPEMD160_Block_Type_Ptr is access all LSC.RIPEMD160.Block_Type;
+   pragma Convention (C, RIPEMD160_Block_Type_Ptr);
+
+   type RIPEMD160_Hash_Type_Ptr is access all LSC.RIPEMD160.Hash_Type;
+   pragma Convention (C, RIPEMD160_Hash_Type_Ptr);
+
+   type C_RIPEMD160_Context_Type is array (1 .. 216) of Character;
+   for C_RIPEMD160_Context_Type'Size use 8*216;
+   pragma Convention (C, C_RIPEMD160_Context_Type);
+
+   type C_RIPEMD160_Context_Ptr is access all C_RIPEMD160_Context_Type;
+   pragma Convention (C, C_RIPEMD160_Context_Ptr);
+
+   procedure C_RIPEMD160_Init (Context : C_RIPEMD160_Context_Ptr);
+   pragma Import (C, C_RIPEMD160_Init, "RIPEMD160_Init");
+
+   procedure C_RIPEMD160_Update (Context : C_RIPEMD160_Context_Ptr;
+                                 Data    : RIPEMD160_Block_Type_Ptr;
+                                 Length  : Interfaces.C.Size_t);
+   pragma Import (C, C_RIPEMD160_Update, "RIPEMD160_Update");
+
+   procedure C_RIPEMD160_Final (MD      : RIPEMD160_Hash_Type_Ptr;
+                                Context : C_RIPEMD160_Context_Ptr);
+   pragma Import (C, C_RIPEMD160_Final, "RIPEMD160_Final");
+
+   type RIPEMD160_Context_Type is
+   record
+      C_Context : C_RIPEMD160_Context_Type;
+      Hash      : LSC.RIPEMD160.Hash_Type;
+   end record;
 end OpenSSL;
