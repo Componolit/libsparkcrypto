@@ -1,0 +1,22 @@
+project Build_Libsparkcrypto
+is
+   type Mode_Type is ("debug", "release");
+   Mode: Mode_Type := external ("mode", "release");
+
+   Default_Src_Dirs := ("../src", "../shadow");
+
+   for Library_Name     use "sparkcrypto";
+   for Library_Kind     use "static";
+   for Library_Dir      use "../out/libsparkcrypto/adalib";
+   for Library_Src_Dir  use "../out/libsparkcrypto/adainclude";
+
+   for Object_Dir use "../out";
+
+   case Mode is
+      when "release" =>
+         for Source_Dirs use Default_Src_Dirs;
+      when "debug" =>
+         for Source_Dirs use ("../debug") & Default_Src_Dirs;
+   end case;
+
+end Build_Libsparkcrypto;

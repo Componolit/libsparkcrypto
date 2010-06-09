@@ -1,0 +1,8 @@
+with "libsparkcrypto";
+
+project Build
+is
+   for Source_Dirs use (".");
+   for Object_Dir use "../../out";
+   for Main use ("main.adb");
+end Build;
