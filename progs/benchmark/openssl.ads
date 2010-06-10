@@ -19,6 +19,7 @@
 with LSC.Types;
 with LSC.SHA2;
 with LSC.RIPEMD160;
+with LSC.AES;
 with Interfaces.C;
 
 use type LSC.Types.Word32;
@@ -66,10 +67,6 @@ package OpenSSL is
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
 
-private
-
-   --# hide OpenSSL;
-
    pragma Linker_Options ("-lcrypto");
 
    type Block_Type_Ptr is access all LSC.SHA2.Block_Type;
@@ -96,12 +93,6 @@ private
                              Context : C_Context_Ptr);
    pragma Import (C, C_SHA384_Final, "SHA384_Final");
 
-   type SHA384_Context_Type is
-   record
-      C_Context : C_Context_Type;
-      Hash      : LSC.SHA2.SHA384_Hash_Type;
-   end record;
-
    --  SHA-512 C binding
    procedure C_SHA512_Init (Context : C_Context_Ptr);
    pragma Import (C, C_SHA512_Init, "SHA512_Init");
@@ -114,12 +105,6 @@ private
    procedure C_SHA512_Final (MD      : Hash_Type_Ptr;
                              Context : C_Context_Ptr);
    pragma Import (C, C_SHA512_Final, "SHA512_Final");
-
-   type SHA512_Context_Type is
-   record
-      C_Context : C_Context_Type;
-      Hash      : LSC.SHA2.SHA512_Hash_Type;
-   end record;
 
    --  RIPEMD C binding
    type RIPEMD160_Block_Type_Ptr is access all LSC.RIPEMD160.Block_Type;
@@ -140,9 +125,40 @@ private
                                 Context : C_Context_Ptr);
    pragma Import (C, C_RIPEMD160_Final, "RIPEMD160_Final");
 
+   --  AES C binding
+   type Key_Ptr is access all LSC.AES.AES256_Key_Type;
+   pragma Convention (C, Key_Ptr);
+   type Block_Ptr is access all LSC.AES.Block_Type;
+   pragma Convention (C, Block_Ptr);
+
+   procedure C_AES_set_encrypt_key (UserKey : Key_Ptr;
+                                    Bits    : Interfaces.C.Int;
+                                    AESKey  : C_Context_Ptr);
+   pragma Import (C, C_AES_set_encrypt_key, "AES_set_encrypt_key");
+
+   procedure C_AES_encrypt (In_Block  : Block_Ptr;
+                            Out_Block : Block_Ptr;
+                            AESKey    : C_Context_Ptr);
+   pragma Import (C, C_AES_encrypt, "AES_encrypt");
+
+private
+
+   type SHA384_Context_Type is
+   record
+      C_Context : C_Context_Type;
+      Hash      : LSC.SHA2.SHA384_Hash_Type;
+   end record;
+
+   type SHA512_Context_Type is
+   record
+      C_Context : C_Context_Type;
+      Hash      : LSC.SHA2.SHA512_Hash_Type;
+   end record;
+
    type RIPEMD160_Context_Type is
    record
       C_Context : C_Context_Type;
       Hash      : LSC.RIPEMD160.Hash_Type;
    end record;
+
 end OpenSSL;

@@ -19,6 +19,9 @@
 with LSC.SHA2;
 with LSC.RIPEMD160;
 with LSC.Types;
+with LSC.AES;
+with LSC.Test;
+with LSC.IO;
 with OpenSSL;
 
 with Ada.Text_IO; use Ada.Text_IO;
@@ -53,6 +56,38 @@ is
    end Result;
 
 begin
+
+   declare
+      Plaintext, Ciphertext, Expected_Ciphertext : LSC.AES.Block_Type;
+      Key256                                     : LSC.AES.AES256_Key_Type;
+      Key                                        : OpenSSL.C_Context_Type;
+   begin
+      Key256 := LSC.AES.AES256_Key_Type'
+         (16#03020100#, 16#04050607#, 16#08090a0b#, 16#0c0d0e0f#,
+          16#13121110#, 16#14151617#, 16#18191a1b#, 16#1c1d1e1f#);
+
+      Plaintext := LSC.AES.Block_Type'
+         (16#33221100#, 16#44556677#, 16#8899aabb#, 16#ccddeeff#);
+
+      Expected_Ciphertext := LSC.AES.Block_Type'
+         (16#cab7a28e#, 16#516745bf#, 16#eafc4990#, 16#4b496089#);
+
+      OpenSSL.C_AES_set_encrypt_key (UserKey => Key256'Unrestricted_Access,
+                                     Bits    => 256,
+                                     AESKey  => Key'Unrestricted_Access);
+
+      OpenSSL.C_AES_encrypt (In_Block  => Plaintext'Unrestricted_Access,
+                             Out_Block => Ciphertext'Unrestricted_Access,
+                             AESKey    => Key'Unrestricted_Access);
+
+      LSC.IO.Put ("Ciphertext: ");
+      LSC.IO.Print_Word32_Array (Ciphertext, 2, LSC.Types.Index'Last, True);
+      LSC.IO.Put ("Expected:   ");
+      LSC.IO.Print_Word32_Array (Expected_Ciphertext, 2, LSC.Types.Index'Last, True);
+      LSC.Test.Run ("AES", Ciphertext = Expected_Ciphertext);
+   end;
+
+   return;
 
    -- SHA384 benchmark
    declare
