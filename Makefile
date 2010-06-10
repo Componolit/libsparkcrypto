@@ -1,5 +1,5 @@
-OUTDIR  = $(realpath out)
-DUMMY  := $(shell mkdir -p out)
+OUTDIR  = $(CURDIR)/out
+DUMMY  := $(shell mkdir -p $(OUTDIR))
 GNATMAKE_FLAGS = -we
 
 SPARK_PROGS = test_aes test_sha2 test_hmac
@@ -42,13 +42,13 @@ $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum: $(OUTDIR)/target.cfg $(OUTDI
 $(OUTDIR)/benchmark: GNATMAKE_FLAGS += -O3
 
 $(OUTDIR)/libsparkcrypto.idx:
-	(cd src && sparkmake -dir=$(realpath system) -duplicates_are_errors -index=$@ -nometafile)
+	(cd src && sparkmake -dir=$(CURDIR)/system -duplicates_are_errors -index=$@ -nometafile)
 
 #
 # how to build an Ada program
 #
 $(OUTDIR)/%: progs/%/build.gpr $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
-	gnatmake $(GNATMAKE_FLAGS) -aP$(realpath $(OUTDIR)/libsparkcrypto) -o $@ -P $<
+	gnatmake $(GNATMAKE_FLAGS) -aP$(OUTDIR)/libsparkcrypto -o $@ -P $<
 
 #
 # how to examine a program
@@ -73,7 +73,7 @@ $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/
 #
 $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf:
 	mkdir -p $(@D)
-	(cd progs/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -dir=$(realpath system) -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
+	(cd progs/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -dir=$(CURDIR)/system -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
 
 #
 # how to build the target configuration generator
