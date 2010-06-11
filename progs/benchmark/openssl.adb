@@ -19,6 +19,60 @@
 package body OpenSSL is
 
    ----------------------------------------------------------------------------
+   -- AES
+   ----------------------------------------------------------------------------
+
+   function Create_AES128_Enc_Context (Key : LSC.AES.AES128_Key_Type)
+      return AES_Enc_Context_Type
+   is
+      Result : C_Context_Type;
+   begin
+      C_AES_set_encrypt_key (UserKey => Key'Unrestricted_Access,
+                             Bits    => 128,
+                             AESKey  => Result'Unrestricted_Access);
+      return AES_Enc_Context_Type'(C_Context => Result);
+   end Create_AES128_Enc_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES192_Enc_Context (Key : LSC.AES.AES192_Key_Type)
+       return AES_Enc_Context_Type
+   is
+      Result : C_Context_Type;
+   begin
+      C_AES_set_encrypt_key (UserKey => Key'Unrestricted_Access,
+                             Bits    => 192,
+                             AESKey  => Result'Unrestricted_Access);
+      return AES_Enc_Context_Type'(C_Context => Result);
+   end Create_AES192_Enc_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES256_Enc_Context (Key : LSC.AES.AES256_Key_Type)
+      return AES_Enc_Context_Type
+   is
+      Result : C_Context_Type;
+   begin
+      C_AES_set_encrypt_key (UserKey => Key'Unrestricted_Access,
+                             Bits    => 256,
+                             AESKey  => Result'Unrestricted_Access);
+      return AES_Enc_Context_Type'(C_Context => Result);
+   end Create_AES256_Enc_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Encrypt (Context   : AES_Enc_Context_Type;
+                     Plaintext : LSC.AES.Block_Type) return LSC.AES.Block_Type
+   is
+      Result : LSC.AES.Block_Type;
+   begin
+      C_AES_encrypt (In_Block  => Plaintext'Unrestricted_Access,
+                     Out_Block => Result'Unrestricted_Access,
+                     AESKey    => Context.C_Context'Unrestricted_Access);
+      return Result;
+   end Encrypt;
+
+   ----------------------------------------------------------------------------
    -- SHA-512
    ----------------------------------------------------------------------------
 

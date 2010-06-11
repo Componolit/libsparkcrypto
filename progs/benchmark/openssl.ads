@@ -2,7 +2,6 @@
 
 --  Copyright (C) 2010  secunet Security Networks AG
 --  Copyright (C) 2010  Alexander Senier <mail@senier.net>
-
 --  This library  is free software:  you can  redistribute it and/or  modify it
 --  under the  terms of the GNU  Lesser General Public License  as published by
 --  the Free Software Foundation, either version  3 of the License, or (at your
@@ -30,6 +29,15 @@ package OpenSSL is
    type SHA512_Context_Type is private;
    type SHA384_Context_Type is private;
    type RIPEMD160_Context_Type is private;
+   type AES_Enc_Context_Type is private;
+
+   -- AES
+   function Create_AES128_Enc_Context (Key : LSC.AES.AES128_Key_Type) return AES_Enc_Context_Type;
+   function Create_AES192_Enc_Context (Key : LSC.AES.AES192_Key_Type) return AES_Enc_Context_Type;
+   function Create_AES256_Enc_Context (Key : LSC.AES.AES256_Key_Type) return AES_Enc_Context_Type;
+
+   function Encrypt (Context   : AES_Enc_Context_Type;
+                     Plaintext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
 
    -- SHA-384
    procedure SHA384_Context_Init (Context : in out SHA384_Context_Type);
@@ -66,6 +74,8 @@ package OpenSSL is
                                          Length  : in     LSC.RIPEMD160.Block_Length_Type);
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
+
+private
 
    pragma Linker_Options ("-lcrypto");
 
@@ -141,7 +151,10 @@ package OpenSSL is
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_encrypt, "AES_encrypt");
 
-private
+   type AES_Enc_Context_Type is
+   record
+      C_Context : C_Context_Type;
+   end record;
 
    type SHA384_Context_Type is
    record
