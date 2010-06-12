@@ -47,5 +47,5 @@ begin
    H2 := LSC.SHA2.SHA384_Get_Hash (SHA384_Context2);
    D2 := Clock - S2;
 
-   Result ("   SHA384", H1 = H2, D1, D2);
+   Result ("     SHA384", H1 = H2, D1, D2);
 end Test_SHA384;

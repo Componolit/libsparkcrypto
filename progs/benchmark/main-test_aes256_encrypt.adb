@@ -58,12 +58,5 @@ begin
    end loop;
    D2 := Clock - S2;
 
-   for I in Message_Type'Range
-   loop
-      LSC.IO.Print_Word32_Array (Cipher1 (I), 1, LSC.Types.Index'Last, False);
-      Put ("    ");
-      LSC.IO.Print_Word32_Array (Cipher2 (I), 1, LSC.Types.Index'Last, True);
-   end loop;
-
-   Result ("  AES-256", Cipher1 = Cipher2, D1, D2);
+   Result ("AES-256_ENC", Cipher1 = Cipher2, D1, D2);
 end;

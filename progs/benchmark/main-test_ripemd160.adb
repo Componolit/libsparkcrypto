@@ -47,5 +47,5 @@ begin
    H2 := LSC.RIPEMD160.Get_Hash (RIPEMD160_Context2);
    D2 := Clock - S2;
 
-   Result ("RIPEMD160", H1 = H2, D1, D2);
+   Result ("  RIPEMD160", H1 = H2, D1, D2);
 end;

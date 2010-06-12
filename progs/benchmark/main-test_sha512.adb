@@ -47,5 +47,5 @@ begin
    H2 := LSC.SHA2.SHA512_Get_Hash (SHA512_Context2);
    D2 := Clock - S2;
 
-   Result ("   SHA512", H1 = H2, D1, D2);
+   Result ("     SHA512", H1 = H2, D1, D2);
 end Test_SHA512;
