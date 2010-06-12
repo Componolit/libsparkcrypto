@@ -28,7 +28,10 @@ is
 begin
 
    Plain := Message_Type'
-      (others => LSC.AES.Block_Type'(others => 16#deadbeef#));
+      (others => LSC.AES.Block_Type'(16#33221100#,
+                                     16#77665544#,
+                                     16#bbaa9988#,
+                                     16#ffeeddcc#));
 
    Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
                                        16#07060504#,
@@ -38,7 +41,6 @@ begin
                                        16#17161514#,
                                        16#1b1a1918#,
                                        16#1f1e1d1c#);
-
 
    Context1 := LSC.AES.Create_AES256_Enc_Context (Key256);
    S1 := Clock;
@@ -55,6 +57,13 @@ begin
       Cipher2 (I) := OpenSSL.Encrypt (Context2, Plain (I));
    end loop;
    D2 := Clock - S2;
+
+   for I in Message_Type'Range
+   loop
+      LSC.IO.Print_Word32_Array (Cipher1 (I), 1, LSC.Types.Index'Last, False);
+      Put ("    ");
+      LSC.IO.Print_Word32_Array (Cipher2 (I), 1, LSC.Types.Index'Last, True);
+   end loop;
 
    Result ("  AES-256", Cipher1 = Cipher2, D1, D2);
 end;
