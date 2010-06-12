@@ -1,6 +1,6 @@
 OUTDIR  = $(CURDIR)/out
 DUMMY  := $(shell mkdir -p $(OUTDIR))
-GNATMAKE_FLAGS = -we
+GNATMAKE_FLAGS = -we -O3
 
 SPARK_PROGS = test_aes test_sha2 test_hmac
 ADA_PROGS   = benchmark
