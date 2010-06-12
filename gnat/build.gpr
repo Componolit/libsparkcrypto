@@ -2,7 +2,10 @@ with "libsparkcrypto";
 
 project Build
 is
-   for Source_Dirs use (".");
-   for Object_Dir use "../../out";
+   Sources := external ("sources");
+   Outdir  := external ("outdir");
+
+   for Source_Dirs use (sources);
+   for Object_Dir use Outdir;
    for Main use ("main.adb");
 end Build;

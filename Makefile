@@ -18,7 +18,7 @@ debug: all
 
 $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum
 	@gnatmake $(GNATMAKE_FLAGS) -p -P gnat/build_libsparkcrypto
-	@install -D -m 644 gnat/libsparkcrypto.gpr $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
+	@install -D -m 644 gnat/libsparkcrypto.gpr.tmpl $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
 	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
 	@install -m 644 src/*.ads $(OUTDIR)/libsparkcrypto/adainclude
 
@@ -47,8 +47,8 @@ $(OUTDIR)/libsparkcrypto.idx:
 #
 # how to build an Ada program
 #
-$(OUTDIR)/%: progs/%/build.gpr $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
-	gnatmake $(GNATMAKE_FLAGS) -aP$(OUTDIR)/libsparkcrypto -o $@ -P $<
+$(OUTDIR)/%: $(CURDIR)/progs/% $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
+	gnatmake $(GNATMAKE_FLAGS) -aP$(OUTDIR)/libsparkcrypto -Xsources=$< -Xoutdir=$(OUTDIR) -o $@ -P gnat/build.gpr
 
 #
 # how to examine a program
