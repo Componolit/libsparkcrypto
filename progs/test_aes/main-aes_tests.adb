@@ -37,20 +37,28 @@ begin
    --  Key expansion
 
    --# accept Flow, 10, Key128, "Only debug output needed";
-   Key128 := LSC.AES.AES128_Key_Type'
-      (16#2b7e1516#, 16#28aed2a6#, 16#abf71588#, 16#09cf4f3c#);
+   Key128 := LSC.AES.AES128_Key_Type'(16#16157e2b#,
+                                      16#a6d2ae28#,
+                                      16#8815f7ab#,
+                                      16#3c4fcf09#);
 
    --# accept Flow, 10, "Only debug output needed";
    Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
 
-   Key128 := LSC.AES.AES128_Key_Type'
-      (16#00010203#, 16#04050607#, 16#08090a0b#, 16#0c0d0e0f#);
+   Key128 := LSC.AES.AES128_Key_Type'(16#03020100#,
+                                      16#07060504#,
+                                      16#0b0a0908#,
+                                      16#0f0e0d0c#);
 
-   Plaintext := LSC.AES.Block_Type'
-      (16#00112233#, 16#44556677#, 16#8899aabb#, 16#ccddeeff#);
+   Plaintext := LSC.AES.Block_Type'(16#33221100#,
+                                    16#77665544#,
+                                    16#bbaa9988#,
+                                    16#ffeeddcc#);
 
-   Ciphertext := LSC.AES.Block_Type'
-      (16#69c4e0d8#, 16#6a7b0430#, 16#d8cdb780#, 16#70b4c55a#);
+   Ciphertext := LSC.AES.Block_Type'(16#d8e0c469#,
+                                     16#30047b6a#,
+                                     16#80b7cdd8#,
+                                     16#5ac5b470#);
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
@@ -67,22 +75,32 @@ begin
    --------------
 
    --# accept Flow, 10, Key192, "Only debug output needed";
-   Key192 := LSC.AES.AES192_Key_Type'
-      (16#8e73b0f7#, 16#da0e6452#, 16#c810f32b#,
-       16#809079e5#, 16#62f8ead2#, 16#522c6b7b#);
+   Key192 := LSC.AES.AES192_Key_Type'(16#f7b0738e#,
+                                      16#52640eda#,
+                                      16#2bf310c8#,
+                                      16#e5799080#,
+                                      16#d2eaf862#,
+                                      16#7b6b2c52#);
 
    --# accept Flow, 10, "Only debug output needed";
    Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
 
-   Key192 := LSC.AES.AES192_Key_Type'
-      (16#00010203#, 16#04050607#, 16#08090a0b#,
-       16#0c0d0e0f#, 16#10111213#, 16#14151617#);
+   Key192 := LSC.AES.AES192_Key_Type'(16#03020100#,
+                                      16#07060504#,
+                                      16#0b0a0908#,
+                                      16#0f0e0d0c#,
+                                      16#13121110#,
+                                      16#17161514#);
 
-   Plaintext := LSC.AES.Block_Type'
-      (16#00112233#, 16#44556677#, 16#8899aabb#, 16#ccddeeff#);
+   Plaintext := LSC.AES.Block_Type'(16#33221100#,
+                                    16#77665544#,
+                                    16#bbaa9988#,
+                                    16#ffeeddcc#);
 
-   Ciphertext := LSC.AES.Block_Type'
-      (16#dda97ca4#, 16#864cdfe0#, 16#6eaf70a0#, 16#ec0d7191#);
+   Ciphertext := LSC.AES.Block_Type'(16#a47ca9dd#,
+                                     16#e0df4c86#,
+                                     16#a070af6e#,
+                                     16#91710dec#);
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
@@ -99,22 +117,36 @@ begin
    --------------
 
    --# accept Flow, 10, Key256, "Only debug output needed";
-   Key256 := LSC.AES.AES256_Key_Type'
-      (16#603deb10#, 16#15ca71be#, 16#2b73aef0#, 16#857d7781#,
-       16#1f352c07#, 16#3b6108d7#, 16#2d9810a3#, 16#0914dff4#);
+   Key256 := LSC.AES.AES256_Key_Type'(16#10eb3d60#,
+                                      16#be71ca15#,
+                                      16#f0ae732b#,
+                                      16#81777d85#,
+                                      16#072c351f#,
+                                      16#d708613b#,
+                                      16#a310982d#,
+                                      16#f4df1409#);
 
    --# accept Flow, 10, "Only debug output needed";
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);
 
-   Key256 := LSC.AES.AES256_Key_Type'
-      (16#00010203#, 16#04050607#, 16#08090a0b#, 16#0c0d0e0f#,
-       16#10111213#, 16#14151617#, 16#18191a1b#, 16#1c1d1e1f#);
+   Key256 := LSC.AES.AES256_Key_Type'(16#03020100#,
+                                      16#07060504#,
+                                      16#0b0a0908#,
+                                      16#0f0e0d0c#,
+                                      16#13121110#,
+                                      16#17161514#,
+                                      16#1b1a1918#,
+                                      16#1f1e1d1c#);
 
-   Plaintext := LSC.AES.Block_Type'
-      (16#00112233#, 16#44556677#, 16#8899aabb#, 16#ccddeeff#);
+   Plaintext := LSC.AES.Block_Type'(16#33221100#,
+                                    16#77665544#,
+                                    16#bbaa9988#,
+                                    16#ffeeddcc#);
 
-   Ciphertext := LSC.AES.Block_Type'
-      (16#8ea2b7ca#, 16#516745bf#, 16#eafc4990#, 16#4b496089#);
+   Ciphertext := LSC.AES.Block_Type'(16#cab7a28e#,
+                                     16#bf456751#,
+                                     16#9049fcea#,
+                                     16#8960494b#);
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);
