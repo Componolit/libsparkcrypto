@@ -1,5 +1,4 @@
 * Implement SHA-256
 * Update HMAC for SHA256
 * Improve performance
-* Implement integrated performance comarison tool sparkcrypto vs. openssl.
 * Implement AES-CBC (and possibly other modes).
