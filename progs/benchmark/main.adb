@@ -53,6 +53,8 @@ is
       end if;
    end Result;
 
+   procedure Test_AES128_Encrypt is separate;
+   procedure Test_AES192_Encrypt is separate;
    procedure Test_AES256_Encrypt is separate;
    procedure Test_SHA384 is separate;
    procedure Test_SHA512 is separate;
@@ -60,6 +62,8 @@ is
 
 begin
 
+   Test_AES128_Encrypt;
+   Test_AES192_Encrypt;
    Test_AES256_Encrypt;
    Test_SHA384;
    Test_SHA512;
