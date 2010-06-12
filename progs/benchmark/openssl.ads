@@ -15,6 +15,13 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  ATTENTION: This is *NOT* a proper OpenSSL binding. It is very hacky and
+--  e.g. relies on facts like GNAT being used, that 'access all' is equivalent
+--  to a C pointer, and much more. It is bad style and only intended for
+--  benchmarking LSC - do not use it for anything but that. You've been warned!
+-------------------------------------------------------------------------------
+
 with LSC.Types;
 with LSC.SHA2;
 with LSC.RIPEMD160;
