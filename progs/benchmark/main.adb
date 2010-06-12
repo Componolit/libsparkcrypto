@@ -56,6 +56,7 @@ is
    procedure Test_AES128_Encrypt is separate;
    procedure Test_AES192_Encrypt is separate;
    procedure Test_AES256_Encrypt is separate;
+   procedure Test_AES256_Decrypt is separate;
    procedure Test_SHA384 is separate;
    procedure Test_SHA512 is separate;
    procedure Test_RIPEMD160 is separate;
@@ -65,6 +66,7 @@ begin
    Test_AES128_Encrypt;
    Test_AES192_Encrypt;
    Test_AES256_Encrypt;
+   Test_AES256_Decrypt;
    Test_SHA384;
    Test_SHA512;
    Test_RIPEMD160;

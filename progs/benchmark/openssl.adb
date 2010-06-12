@@ -73,6 +73,58 @@ package body OpenSSL is
    end Encrypt;
 
    ----------------------------------------------------------------------------
+
+   function Create_AES128_Dec_Context (Key : LSC.AES.AES128_Key_Type)
+      return AES_Dec_Context_Type
+   is
+      Result : C_Context_Type;
+   begin
+      C_AES_set_decrypt_key (UserKey => Key'Unrestricted_Access,
+                             Bits    => 128,
+                             AESKey  => Result'Unrestricted_Access);
+      return AES_Dec_Context_Type'(C_Context => Result);
+   end Create_AES128_Dec_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES192_Dec_Context (Key : LSC.AES.AES192_Key_Type)
+       return AES_Dec_Context_Type
+   is
+      Result : C_Context_Type;
+   begin
+      C_AES_set_decrypt_key (UserKey => Key'Unrestricted_Access,
+                             Bits    => 192,
+                             AESKey  => Result'Unrestricted_Access);
+      return AES_Dec_Context_Type'(C_Context => Result);
+   end Create_AES192_Dec_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Create_AES256_Dec_Context (Key : LSC.AES.AES256_Key_Type)
+      return AES_Dec_Context_Type
+   is
+      Result : C_Context_Type;
+   begin
+      C_AES_set_decrypt_key (UserKey => Key'Unrestricted_Access,
+                             Bits    => 256,
+                             AESKey  => Result'Unrestricted_Access);
+      return AES_Dec_Context_Type'(C_Context => Result);
+   end Create_AES256_Dec_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Decrypt (Context    : AES_Dec_Context_Type;
+                     Ciphertext : LSC.AES.Block_Type) return LSC.AES.Block_Type
+   is
+      Result : LSC.AES.Block_Type;
+   begin
+      C_AES_decrypt (In_Block  => Ciphertext'Unrestricted_Access,
+                     Out_Block => Result'Unrestricted_Access,
+                     AESKey    => Context.C_Context'Unrestricted_Access);
+      return Result;
+   end Decrypt;
+
+   ----------------------------------------------------------------------------
    -- SHA-512
    ----------------------------------------------------------------------------
 

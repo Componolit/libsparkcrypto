@@ -30,6 +30,7 @@ package OpenSSL is
    type SHA384_Context_Type is private;
    type RIPEMD160_Context_Type is private;
    type AES_Enc_Context_Type is private;
+   type AES_Dec_Context_Type is private;
 
    -- AES
    function Create_AES128_Enc_Context (Key : LSC.AES.AES128_Key_Type) return AES_Enc_Context_Type;
@@ -38,6 +39,15 @@ package OpenSSL is
 
    function Encrypt (Context   : AES_Enc_Context_Type;
                      Plaintext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
+   pragma Inline (Encrypt);
+
+   function Create_AES128_Dec_Context (Key : LSC.AES.AES128_Key_Type) return AES_Dec_Context_Type;
+   function Create_AES192_Dec_Context (Key : LSC.AES.AES192_Key_Type) return AES_Dec_Context_Type;
+   function Create_AES256_Dec_Context (Key : LSC.AES.AES256_Key_Type) return AES_Dec_Context_Type;
+
+   function Decrypt (Context    : AES_Dec_Context_Type;
+                     Ciphertext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
+   pragma Inline (Decrypt);
 
    -- SHA-384
    procedure SHA384_Context_Init (Context : in out SHA384_Context_Type);
@@ -48,6 +58,7 @@ package OpenSSL is
    procedure SHA384_Context_Finalize (Context : in out SHA384_Context_Type;
                                       Block   : in     LSC.SHA2.Block_Type;
                                       Length  : in     LSC.SHA2.Block_Length_Type);
+   pragma Inline (SHA384_Context_Update, SHA384_Context_Finalize);
 
    function SHA384_Get_Hash (Context : in SHA384_Context_Type) return LSC.SHA2.SHA384_Hash_Type;
 
@@ -60,6 +71,7 @@ package OpenSSL is
    procedure SHA512_Context_Finalize (Context : in out SHA512_Context_Type;
                                       Block   : in     LSC.SHA2.Block_Type;
                                       Length  : in     LSC.SHA2.Block_Length_Type);
+   pragma Inline (SHA512_Context_Update, SHA512_Context_Finalize);
 
    function SHA512_Get_Hash (Context : in SHA512_Context_Type) return LSC.SHA2.SHA512_Hash_Type;
 
@@ -72,6 +84,7 @@ package OpenSSL is
    procedure RIPEMD160_Context_Finalize (Context : in out RIPEMD160_Context_Type;
                                          Block   : in     LSC.RIPEMD160.Block_Type;
                                          Length  : in     LSC.RIPEMD160.Block_Length_Type);
+   pragma Inline (RIPEMD160_Context_Update, RIPEMD160_Context_Finalize);
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
 
@@ -151,7 +164,22 @@ private
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_encrypt, "AES_encrypt");
 
+   procedure C_AES_set_decrypt_key (UserKey : Key_Ptr;
+                                    Bits    : Interfaces.C.Int;
+                                    AESKey  : C_Context_Ptr);
+   pragma Import (C, C_AES_set_decrypt_key, "AES_set_decrypt_key");
+
+   procedure C_AES_decrypt (In_Block  : Block_Ptr;
+                            Out_Block : Block_Ptr;
+                            AESKey    : C_Context_Ptr);
+   pragma Import (C, C_AES_decrypt, "AES_decrypt");
+
    type AES_Enc_Context_Type is
+   record
+      C_Context : C_Context_Type;
+   end record;
+
+   type AES_Dec_Context_Type is
    record
       C_Context : C_Context_Type;
    end record;
