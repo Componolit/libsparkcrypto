@@ -19,12 +19,12 @@
 separate (Main)
 procedure Test_AES256_Encrypt
 is
-   type Message_Type is array (1 .. 10000) of LSC.AES.Block_Type;
+   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
 
    Plain, Cipher1, Cipher2 : Message_Type;
    Key256                  : LSC.AES.AES256_Key_Type;
-   Context1                : LSC.AES.AES_Enc_Context;
-   Context2                : OpenSSL.AES_Enc_Context_Type;
+   Context1                : OpenSSL.AES_Enc_Context_Type;
+   Context2                : LSC.AES.AES_Enc_Context;
 begin
 
    Plain := Message_Type'
@@ -42,19 +42,25 @@ begin
                                        16#1b1a1918#,
                                        16#1f1e1d1c#);
 
-   Context1 := LSC.AES.Create_AES256_Enc_Context (Key256);
+   Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
    S1 := Clock;
-   for I in Message_Type'Range
+   for k in 1 .. 10
    loop
-      Cipher1 (I) := LSC.AES.Encrypt (Context1, Plain (I));
+      for I in Message_Type'Range
+      loop
+         Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+      end loop;
    end loop;
    D1 := Clock - S1;
 
-   Context2 := OpenSSL.Create_AES256_Enc_Context (Key256);
+   Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
    S2 := Clock;
-   for I in Message_Type'Range
+   for k in 1 .. 10
    loop
-      Cipher2 (I) := OpenSSL.Encrypt (Context2, Plain (I));
+      for I in Message_Type'Range
+      loop
+         Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+      end loop;
    end loop;
    D2 := Clock - S2;
 
