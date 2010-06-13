@@ -52,7 +52,7 @@ $(OUTDIR)/libsparkcrypto.idx:
 #
 # how to build an Ada program
 #
-$(OUTDIR)/%: $(CURDIR)/progs/% $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
+$(OUTDIR)/%: $(CURDIR)/tests/% $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
 	gnatmake $(GNATMAKE_FLAGS) -aP$(OUTDIR)/libsparkcrypto -Xsources=$< -Xoutdir=$(OUTDIR) -o $@ -P gnat/build.gpr
 
 #
@@ -78,7 +78,7 @@ $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/
 #
 $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf:
 	mkdir -p $(@D)
-	(cd progs/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -dir=$(CURDIR)/system -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
+	(cd tests/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -dir=$(CURDIR)/system -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
 
 #
 # how to build the target configuration generator
