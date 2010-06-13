@@ -6,6 +6,11 @@ SPARK_PROGS = test_aes test_sha2 test_hmac
 ADA_PROGS   = benchmark
 PROOFS      = $(addsuffix .sum, $(SPARK_PROGS))
 
+# Disable proof dependency if NOPROOF environment variable is set.
+ifeq ($(NOPROOF),)
+PROOF_DEP = $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum
+endif
+
 all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS)) $(addprefix $(OUTDIR)/,$(ADA_PROGS))
 
 proof: $(addprefix $(OUTDIR)/,$(PROOFS))
@@ -16,7 +21,7 @@ test: $(addprefix $(OUTDIR)/,$(filter test_%,$(SPARK_PROGS)))
 debug: GNATMAKE_FLAGS += -Xmode=debug
 debug: all
 
-$(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum
+$(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(PROOF_DEP)
 	@gnatmake $(GNATMAKE_FLAGS) -p -P gnat/build_libsparkcrypto
 	@install -D -m 644 gnat/libsparkcrypto.gpr.tmpl $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
 	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
