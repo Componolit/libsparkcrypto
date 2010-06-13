@@ -44,6 +44,9 @@ package LSC.AES is
    subtype Block_Index is Types.Index range 0 .. 3;
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
+   subtype Message_Index is Natural;
+   type Message_Type is array (Message_Index range <>) of Block_Type;
+
    function Create_AES128_Enc_Context (Key : AES128_Key_Type) return AES_Enc_Context;
    function Create_AES192_Enc_Context (Key : AES192_Key_Type) return AES_Enc_Context;
    function Create_AES256_Enc_Context (Key : AES256_Key_Type) return AES_Enc_Context;

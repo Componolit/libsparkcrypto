@@ -16,33 +16,24 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.AES, LSC.IO, LSC.Test, LSC.Byteorder, LSC.Types, LSC.AES.CBC;
-use type LSC.AES.Block_Type;
-use type LSC.AES.Message_Type;
+package body LSC.AES.CBC is
 
---# inherit LSC.IO,
---#         LSC.AES,
---#         LSC.Test,
---#         LSC.Byteorder,
---#         LSC.Types,
---#         LSC.AES.CBC;
+   procedure Encrypt (Context    : in     AES.AES_Enc_Context;
+                      IV         : in     AES.Block_Type;
+                      Plaintext  : in     AES.Message_Type;
+                      Ciphertext : in out AES.Message_Type)
+   is
+      Temp : AES.Block_Type := AES.Block_Type'(others => 0);
+      Next : AES.Block_Type;
+   begin
+      Next := IV;
+      for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
+      --# assert I in Plaintext'First .. Plaintext'Last;
+      loop
+         Ops.Block_XOR (Next, Plaintext (I), Temp);
+         Ciphertext (I) := AES.Encrypt (Context, Temp);
+         Next := Ciphertext (I);
+      end loop;
+   end Encrypt;
 
---# main_program;
-procedure Main
-   --# derives ;
-is
-
-   procedure AES_Tests
-   --# derives ;
-   is separate;
-
-   procedure AES_CBC_Tests
-   --# derives ;
-   is separate;
-
-begin
-
-   AES_Tests;
-   AES_CBC_Tests;
-
-end Main;
+end LSC.AES.CBC;
