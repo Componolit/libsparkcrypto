@@ -22,13 +22,14 @@ is
    subtype Msg_Index is Natural range 1 .. 4;
    subtype Msg_Type is LSC.AES.Message_Type (Msg_Index);
 
-   Plaintext, Ciphertext, Result : Msg_Type;
-   Key128                        : LSC.AES.AES128_Key_Type;
-   Key192                        : LSC.AES.AES192_Key_Type;
-   Key256                        : LSC.AES.AES256_Key_Type;
-   IV                            : LSC.AES.Block_Type;
-   Enc_Context                   : LSC.AES.AES_Enc_Context;
-   Dec_Context                   : LSC.AES.AES_Dec_Context;
+   Plaintext, Ciphertext : Msg_Type;
+   Result                : Msg_Type := Msg_Type'(others => LSC.AES.Block_Type'(others => 0));
+   Key128                : LSC.AES.AES128_Key_Type;
+   Key192                : LSC.AES.AES192_Key_Type;
+   Key256                : LSC.AES.AES256_Key_Type;
+   IV                    : LSC.AES.Block_Type;
+   Enc_Context           : LSC.AES.AES_Enc_Context;
+   Dec_Context           : LSC.AES.AES_Dec_Context;
 
 begin
 
