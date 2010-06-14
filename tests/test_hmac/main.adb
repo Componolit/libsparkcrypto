@@ -23,6 +23,7 @@ with LSC.SHA2,
      LSC.HMAC.RIPEMD,
      LSC.IO,
      LSC.Types,
+     LSC.Byteorder,
      LSC.Test;
 
 use type LSC.Types.Word32_Array_Type;
@@ -35,12 +36,24 @@ use type LSC.Types.Word64_Array_Type;
 --#         LSC.HMAC.SHA384,
 --#         LSC.HMAC.RIPEMD,
 --#         LSC.Types,
+--#         LSC.Byteorder,
 --#         LSC.Test;
 
 --# main_program;
 procedure Main
    --# derives ;
 is
+   function N (Item : LSC.Types.Word64) return LSC.Types.Word64
+   is
+   begin
+      return LSC.Byteorder.BE_To_Native64 (Item);
+   end N;
+
+   function M (Item : LSC.Types.Word32) return LSC.Types.Word32
+   is
+   begin
+      return LSC.Byteorder.BE_To_Native32 (Item);
+   end M;
 
    procedure HMAC_SHA384_Tests
    --# derives ;
