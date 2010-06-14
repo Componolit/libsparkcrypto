@@ -31,6 +31,11 @@ use type LSC.AES.Message_Type;
 procedure Main
    --# derives ;
 is
+   function N (Item : LSC.Types.Word32) return LSC.Types.Word32
+   is
+   begin
+      return LSC.Byteorder.BE_To_Native32 (Item);
+   end N;
 
    procedure AES_Tests
    --# derives ;

@@ -30,12 +30,6 @@ is
    Enc_Context                   : LSC.AES.AES_Enc_Context;
    Dec_Context                   : LSC.AES.AES_Dec_Context;
 
-   function N (Item : LSC.Types.Word32) return LSC.Types.Word32
-   is
-   begin
-      return LSC.Byteorder.BE_To_Native32 (Item);
-   end N;
-
 begin
 
    Plaintext := Msg_Type'
