@@ -16,6 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  FIPS PUB 198, The Keyed-Hash Message Authentication Code (HMAC), National
+--  Institute of Standards and Technology, U.S. Department of Commerce, March
+--  2002.
+--  [doc/specs/fips-198a.pdf]
+-------------------------------------------------------------------------------
+
 package LSC.HMAC is
 
 end LSC.HMAC;

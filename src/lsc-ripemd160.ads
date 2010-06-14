@@ -16,6 +16,17 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
+--  Strengthened Version of RIPEMD, April 1996
+--  [doc/specs/sp800-38a.pdf]
+--
+--  R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992
+--  [doc/specs/rfc1320.txt.pdf]
+-------------------------------------------------------------------------------
+
 with LSC.Types, LSC.Ops, LSC.Byteorder, LSC.Debug;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;

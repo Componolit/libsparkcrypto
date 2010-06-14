@@ -1,7 +1,5 @@
 * Implement SHA-256
 * Update HMAC for SHA256
 * Improve performance
-* Implement AES-CBC (and possibly other modes).
 * Add proper install target for library.
 * Test on a big-endian machine.
-* Insert references to specification documents into .ads files.

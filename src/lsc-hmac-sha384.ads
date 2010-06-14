@@ -16,6 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  S. Kelly, Using HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512 with IPsec,
+--  RFC 4868, May 2007
+--  [doc/specs/rfc4868.txt.pdf]
+-------------------------------------------------------------------------------
+
 with LSC.SHA2, LSC.Types, LSC.Ops64, LSC.Debug;
 use type LSC.Types.Word64;
 

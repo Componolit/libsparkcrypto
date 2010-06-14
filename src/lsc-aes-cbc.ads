@@ -16,6 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
+--  Methods and Techniques, NIST Special Publication 800-38A, 2001 Edition
+--  National Institute of Standards and Technology, U.S. Department of
+--  Commerce, December 2001
+-------------------------------------------------------------------------------
+
 with LSC.AES, LSC.Ops;
 --# inherit LSC.AES,
 --#         LSC.Ops;

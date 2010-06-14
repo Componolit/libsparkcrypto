@@ -16,6 +16,18 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  FIPS PUB 197, Advanced Encryption Standard (AES), National Institute of
+--  Standards and Technology, U.S. Department of Commerce, November 2001.
+--  [doc/specs/fips-197.pdf]
+--
+--  Joan Daemen and Vincent Rijmen, AES submission document on Rijndael,
+--  Version 2, September 1999.
+--  [doc/specs/Rijndael-ammended.pdf]
+-------------------------------------------------------------------------------
+
 with LSC.Types, LSC.Debug, LSC.Ops, LSC.Byteorder;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;

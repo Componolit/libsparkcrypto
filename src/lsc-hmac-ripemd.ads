@@ -16,6 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
+--  February 1998.
+--  [doc/specs/rfc2286.txt.pdf]
+-------------------------------------------------------------------------------
+
 with LSC.RIPEMD160, LSC.Types, LSC.Ops, LSC.Debug;
 use type LSC.Types.Word32;
 

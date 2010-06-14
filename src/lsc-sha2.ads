@@ -16,6 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  FIPS PUB 180-2, Secure Hash Standard, National Institute of Standards and
+--  Technology, U.S. Department of Commerce, August 2002.
+--  [doc/specs/fips180-2.pdf]
+--
+-------------------------------------------------------------------------------
+
 with LSC.Types, LSC.Debug, LSC.Byteorder;
 use type LSC.Types.Index;
 use type LSC.Types.Word64;
