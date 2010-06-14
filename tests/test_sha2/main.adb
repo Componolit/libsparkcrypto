@@ -16,17 +16,24 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2, LSC.IO, LSC.Test;
+with LSC.SHA2, LSC.IO, LSC.Test, LSC.Types, LSC.Byteorder;
 use type LSC.SHA2.SHA512_Hash_Type;
 
 --# inherit LSC.IO,
 --#         LSC.SHA2,
+--#         LSC.Byteorder,
+--#         LSC.Types,
 --#         LSC.Test;
 
 --# main_program;
 procedure Main
    --# derives ;
 is
+   function N (Item : LSC.Types.Word64) return LSC.Types.Word64
+   is
+   begin
+      return LSC.Byteorder.BE_To_Native64 (Item);
+   end N;
 
    procedure SHA384_Tests
    --# derives ;

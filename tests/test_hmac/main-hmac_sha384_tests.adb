@@ -35,14 +35,13 @@ begin
    --  Test Case PRF-1 --
    ----------------------
 
-   Key   := LSC.SHA2.Block_Type'(16#0b0b0b0b0b0b0b0b#,
-                                 16#0b0b0b0b0b0b0b0b#,
-                                 16#000000000b0b0b0b#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
+       N (16#0b0b0b0b00000000#), others => 0);
 
    -- "Hi There"
-   Block := LSC.SHA2.Block_Type'(16#6572656854206948#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#4869205468657265#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 64);
@@ -51,28 +50,25 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-PRF-1",
       PRF_HMAC_SHA_384 =
-      LSC.SHA2.SHA384_Hash_Type'(16#629548d84439d0af#,
-                                 16#7f9046abf425086b#,
-                                 16#c61e10e4dbdaf915#,
-                                 16#9cc5eb7c4c03aa82#,
-                                 16#7fde6e07a99eeafa#,
-                                 16#b69cfab2e852f14a#));
+      LSC.SHA2.SHA384_Hash_Type'
+         (N (16#afd03944d8489562#), N (16#6b0825f4ab46907f#),
+          N (16#15f9dadbe4101ec6#), N (16#82aa034c7cebc59c#),
+          N (16#faea9ea9076ede7f#), N (16#4af152e8b2fa9cb6#)));
 
    ----------------------
    --  Test Case PRF-2 --
    ----------------------
 
    --  "Jefe"
-   Key   := LSC.SHA2.Block_Type'(16#000000006566654a#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#4a65666500000000#), others => 0);
 
    --  "what do ya want "
    --  "for nothing?"
-   Block := LSC.SHA2.Block_Type'(16#206f642074616877#,
-                                 16#20746e6177206179#,
-                                 16#68746f6e20726f66#,
-                                 16#000000003f676e69#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#7768617420646f20#), N (16#79612077616e7420#),
+       N (16#666f72206e6f7468#), N (16#696e673f00000000#),
+       others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 224);
@@ -81,32 +77,24 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-PRF-2",
       PRF_HMAC_SHA_384 =
-      LSC.SHA2.SHA384_Hash_Type'(16#31404876e3d245af#,
-                                 16#1b6b8ab5d2787f61#,
-                                 16#471ba0f564f47e9c#,
-                                 16#5e44226373c32ee4#,
-                                 16#c7e2695eca40228e#,
-                                 16#4916b2faec39328b#));
+      LSC.SHA2.SHA384_Hash_Type'
+      (N (16#af45d2e376484031#), N (16#617f78d2b58a6b1b#), N (16#9c7ef464f5a01b47#),
+       N (16#e42ec3736322445e#), N (16#8e2240ca5e69e2c7#), N (16#8b3239ecfab21649#)));
 
    ----------------------
    --  Test Case PRF-3 --
    ----------------------
 
    --  20 times 16#aa#
-   Key   := LSC.SHA2.Block_Type'(16#aaaaaaaaaaaaaaaa#,
-                                 16#aaaaaaaaaaaaaaaa#,
-                                 16#00000000aaaaaaaa#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#aaaaaaaaaaaaaaaa#), N (16#aaaaaaaaaaaaaaaa#),
+       N (16#aaaaaaaa00000000#), others => 0);
 
    --  50 times 16#dd#
-   Block := LSC.SHA2.Block_Type'(16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#000000000000dddd#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
+       N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
+       N (16#dddd000000000000#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 400);
@@ -115,33 +103,24 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-PRF-3",
       PRF_HMAC_SHA_384 =
-      LSC.SHA2.SHA384_Hash_Type'(16#8aade6d308260688#,
-                                 16#6fa8c814e0aca20a#,
-                                 16#eb9fac47d935a60a#,
-                                 16#4b146659e5f43ee8#,
-                                 16#b91438c19db35a2a#,
-                                 16#274fa301e1b63a4e#));
+      LSC.SHA2.SHA384_Hash_Type'
+      (N (16#88062608d3e6ad8a#), N (16#0aa2ace014c8a86f#), N (16#0aa635d947ac9feb#),
+       N (16#e83ef4e55966144b#), N (16#2a5ab39dc13814b9#), N (16#4e3ab6e101a34f27#)));
 
    ----------------------
    --  Test Case PRF-4 --
    ----------------------
 
    --  25 bytes
-   Key   := LSC.SHA2.Block_Type'(16#0807060504030201#,
-                                 16#100f0e0d0c0b0a09#,
-                                 16#1817161514131211#,
-                                 16#0000000000000019#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#0102030405060708#), N (16#090a0b0c0d0e0f10#), N (16#1112131415161718#),
+       N (16#1900000000000000#), others => 0);
 
    --  50 times 16#dd#
-   Block := LSC.SHA2.Block_Type'(16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#000000000000cdcd#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
+       N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
+       N (16#cdcd000000000000#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 400);
@@ -150,29 +129,23 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-PRF-4",
       PRF_HMAC_SHA_384 =
-      LSC.SHA2.SHA384_Hash_Type'(16#85253c78b7698a3e#,
-                                 16#a76caf9062ab3319#,
-                                 16#9c0050084881997a#,
-                                 16#4e3b571f6e7c57c5#,
-                                 16#79d6a7c423dd0168#,
-                                 16#fbcf74c686a3f8cc#));
+      LSC.SHA2.SHA384_Hash_Type'
+      (N (16#3e8a69b7783c2585#), N (16#1933ab6290af6ca7#), N (16#7a9981480850009c#),
+       N (16#c5577c6e1f573b4e#), N (16#6801dd23c4a7d679#), N (16#ccf8a386c674cffb#)));
 
    -----------------------
    --  Test Case AUTH-1 --
    -----------------------
 
    --  48 bytes
-   Key   := LSC.SHA2.Block_Type'(16#0b0b0b0b0b0b0b0b#,
-                                 16#0b0b0b0b0b0b0b0b#,
-                                 16#0b0b0b0b0b0b0b0b#,
-                                 16#0b0b0b0b0b0b0b0b#,
-                                 16#0b0b0b0b0b0b0b0b#,
-                                 16#0b0b0b0b0b0b0b0b#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
+       N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
+       others => 0);
 
    -- "Hi There"
-   Block := LSC.SHA2.Block_Type'(0 => 16#6572656854206948#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (0 => N (16#4869205468657265#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 64);
@@ -181,9 +154,8 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-AUTH-1",
       AUTH_HMAC_SHA_384 =
-      LSC.HMAC.SHA384.Auth_Type'(16#726a5c6f63d5a8b6#,
-                                 16#c7e67ecf7d97f924#,
-                                 16#73e9decb480c6dfb#));
+      LSC.HMAC.SHA384.Auth_Type'
+      (N (16#b6a8d5636f5c6a72#), N (16#24f9977dcf7ee6c7#), N (16#fb6d0c48cbdee973#)));
 
    -----------------------
    --  Test Case AUTH-2 --
@@ -193,21 +165,16 @@ begin
    --  "JefeJefeJefeJefe"
    --  "JefeJefeJefeJefe"
    --  "JefeJefeJefeJefe"
-   Key   := LSC.SHA2.Block_Type'(16#6566654a6566654a#,
-                                 16#6566654a6566654a#,
-                                 16#6566654a6566654a#,
-                                 16#6566654a6566654a#,
-                                 16#6566654a6566654a#,
-                                 16#6566654a6566654a#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#4a6566654a656665#), N (16#4a6566654a656665#), N (16#4a6566654a656665#),
+       N (16#4a6566654a656665#), N (16#4a6566654a656665#), N (16#4a6566654a656665#),
+       others => 0);
 
    --  "what do ya want "
    --  "for nothing?"
-   Block := LSC.SHA2.Block_Type'(16#206f642074616877#,
-                                 16#20746e6177206179#,
-                                 16#68746f6e20726f66#,
-                                 16#000000003f676e69#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#7768617420646f20#), N (16#79612077616e7420#), N (16#666f72206e6f7468#),
+       N (16#696e673f00000000#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 224);
@@ -216,32 +183,24 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-AUTH-2",
       AUTH_HMAC_SHA_384 =
-      LSC.HMAC.SHA384.Auth_Type'(16#fd42184f9753732c#,
-                                 16#2221a42c453cd566#,
-                                 16#4d18fb4c590b8cb2#));
+      LSC.HMAC.SHA384.Auth_Type'
+      (N (16#2c7353974f1842fd#), N (16#66d53c452ca42122#), N (16#b28c0b594cfb184d#)));
 
    -----------------------
    --  Test Case AUTH-3 --
    -----------------------
 
    --  48 times 16#aa#
-   Key   := LSC.SHA2.Block_Type'(16#aaaaaaaaaaaaaaaa#,
-                                 16#aaaaaaaaaaaaaaaa#,
-                                 16#aaaaaaaaaaaaaaaa#,
-                                 16#aaaaaaaaaaaaaaaa#,
-                                 16#aaaaaaaaaaaaaaaa#,
-                                 16#aaaaaaaaaaaaaaaa#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#aaaaaaaaaaaaaaaa#), N (16#aaaaaaaaaaaaaaaa#), N (16#aaaaaaaaaaaaaaaa#),
+       N (16#aaaaaaaaaaaaaaaa#), N (16#aaaaaaaaaaaaaaaa#), N (16#aaaaaaaaaaaaaaaa#),
+       others => 0);
 
    --  50 times 16#dd#
-   Block := LSC.SHA2.Block_Type'(16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#dddddddddddddddd#,
-                                 16#000000000000dddd#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
+       N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
+       N (16#dddd000000000000#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 400);
@@ -250,31 +209,23 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-AUTH-3",
       AUTH_HMAC_SHA_384 =
-      LSC.HMAC.SHA384.Auth_Type'(16#327402e09b439f80#,
-                                 16#534b165286534a1d#,
-                                 16#16c3a08481504a55#));
+      LSC.HMAC.SHA384.Auth_Type'
+      (N (16#809f439be0027432#), N (16#1d4a538652164b53#), N (16#554a508184a0c316#)));
 
    -----------------------
    --  Test Case AUTH-4 --
    -----------------------
 
-   Key   := LSC.SHA2.Block_Type'(16#0807060504030201#,
-                                 16#100f0e0d0c0b0a09#,
-                                 16#1817161514131211#,
-                                 16#201f1e1d1c1b1a19#,
-                                 16#11100f0e0d0c0b0a#,
-                                 16#1918171615141312#,
-                                 others => 0);
+   Key   := LSC.SHA2.Block_Type'
+      (N (16#0102030405060708#), N (16#090a0b0c0d0e0f10#), N (16#1112131415161718#),
+       N (16#191a1b1c1d1e1f20#), N (16#0a0b0c0d0e0f1011#), N (16#1213141516171819#),
+       others => 0);
 
    --  50 times 16#dd#
-   Block := LSC.SHA2.Block_Type'(16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#cdcdcdcdcdcdcdcd#,
-                                 16#000000000000cdcd#,
-                                 others => 0);
+   Block := LSC.SHA2.Block_Type'
+      (N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
+       N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
+       N (16#cdcd000000000000#), others => 0);
 
    HMAC_Ctx := LSC.HMAC.SHA384.Context_Init (Key);
    LSC.HMAC.SHA384.Context_Finalize (HMAC_Ctx, Block, 400);
@@ -283,7 +234,7 @@ begin
    LSC.Test.Run
      ("HMAC-SHA384-AUTH-4",
       AUTH_HMAC_SHA_384 =
-      LSC.HMAC.SHA384.Auth_Type'(16#8035e6c68500545b#,
-                                 16#d19e6093242b5396#,
-                                 16#5cbb874f778f29cb#));
+      LSC.HMAC.SHA384.Auth_Type'
+      (N (16#5b540085c6e63580#), N (16#96532b2493609ed1#), N (16#cb298f774f87bb5c#)));
+
 end HMAC_SHA384_Tests;

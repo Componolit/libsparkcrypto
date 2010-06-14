@@ -34,127 +34,127 @@ begin
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 (empty string)",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#a585119c#,
-                                                 16#54fce9c5#,
-                                                 16#97082861#,
-                                                 16#48f5e87e#,
-                                                 16#318d25b2#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#9c1185a5#),
+                                                 N (16#c5e9fc54#),
+                                                 N (16#61280897#),
+                                                 N (16#7ee8f548#),
+                                                 N (16#b2258d31#)));
 
    --  "a"
    Ctx := LSC.RIPEMD160.Context_Init;
-   Message := LSC.RIPEMD160.Block_Type'(16#00000061#, others => 0);
+   Message := LSC.RIPEMD160.Block_Type'(N (16#61000000#), others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 8);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 ('a')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#2d9ddc0b#,
-                                                 16#e93e6b25#,
-                                                 16#7b34aeda#,
-                                                 16#83dcf4e6#,
-                                                 16#fe7f465a#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#0bdc9d2d#),
+                                                 N (16#256b3ee9#),
+                                                 N (16#daae347b#),
+                                                 N (16#e6f4dc83#),
+                                                 N (16#5a467ffe#)));
 
    --  "abc"
    Ctx := LSC.RIPEMD160.Context_Init;
-   Message := LSC.RIPEMD160.Block_Type'(16#00636261#, others => 0);
+   Message := LSC.RIPEMD160.Block_Type'(N (16#61626300#), others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 24);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 ('abc')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#f708b28e#,
-                                                 16#7a985de0#,
-                                                 16#8e4a049b#,
-                                                 16#87b0c698#,
-                                                 16#fc0b5af1#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#8eb208f7#),
+                                                 N (16#e05d987a#),
+                                                 N (16#9b044a8e#),
+                                                 N (16#98c6b087#),
+                                                 N (16#f15a0bfc#)));
 
    --  "message digest"
    Ctx := LSC.RIPEMD160.Context_Init;
    Message := LSC.RIPEMD160.Block_Type'
-      (16#7373656d#, 16#20656761#, 16#65676964#, 16#00007473#,
+      (N (16#6d657373#), N (16#20656761#), N (16#65676964#), N (16#00007473#),
        others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 112);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 ('message digest')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#ef89065d#,
-                                                 16#e5fad249#,
-                                                 16#b181b872#,
-                                                 16#fa5fa823#,
-                                                 16#365f5921#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#5d0689ef#),
+                                                 N (16#49d2fae5#),
+                                                 N (16#72b881b1#),
+                                                 N (16#23a85ffa#),
+                                                 N (16#21595f36#)));
 
    --  "abcdefghijklmnopqrstuvwxyz"
    Ctx := LSC.RIPEMD160.Context_Init;
    Message := LSC.RIPEMD160.Block_Type'
-      (16#64636261#, 16#68676665#, 16#6c6b6a69#, 16#706f6e6d#,
-       16#74737271#, 16#78777675#, 16#00007a79#, others => 0);
+      (N (16#61626364#), N (16#68676665#), N (16#6c6b6a69#), N (16#706f6e6d#),
+       N (16#71727374#), N (16#78777675#), N (16#00007a79#), others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 208);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 ('a...z')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#10271cf7#,
-                                                 16#1b2c699c#,
-                                                 16#ebdcbb56#,
-                                                 16#65289d5b#,
-                                                 16#bc8d70b3#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#f71c2710#),
+                                                 N (16#9c692c1b#),
+                                                 N (16#56bbdceb#),
+                                                 N (16#5b9d2865#),
+                                                 N (16#b3708dbc#)));
 
    --  "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
    Ctx := LSC.RIPEMD160.Context_Init;
    Message := LSC.RIPEMD160.Block_Type'
-      (16#64636261#, 16#65646362#, 16#66656463#, 16#67666564#,
-       16#68676665#, 16#69686766#, 16#6a696867#, 16#6b6a6968#,
-       16#6c6b6a69#, 16#6d6c6b6a#, 16#6e6d6c6b#, 16#6f6e6d6c#,
-       16#706f6e6d#, 16#71706f6e#, others => 0);
+      (N (16#61626364#), N (16#65646362#), N (16#66656463#), N (16#67666564#),
+       N (16#65666768#), N (16#69686766#), N (16#6a696867#), N (16#6b6a6968#),
+       N (16#696a6b6c#), N (16#6d6c6b6a#), N (16#6e6d6c6b#), N (16#6f6e6d6c#),
+       N (16#6d6e6f70#), 16#71706f6e#, others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 448);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 ('abcdbcdecdefdefgefgh...')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#3853a012#,
-                                                 16#880c9c4a#,
-                                                 16#6ca005e4#,
-                                                 16#9af4dc27#,
-                                                 16#2beb62da#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#12a05338#),
+                                                 N (16#4a9c0c88#),
+                                                 N (16#e405a06c#),
+                                                 N (16#27dcf49a#),
+                                                 N (16#da62eb2b#)));
 
    --  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
    Ctx := LSC.RIPEMD160.Context_Init;
    Message := LSC.RIPEMD160.Block_Type'
-      (16#44434241#, 16#48474645#, 16#4c4b4a49#, 16#504f4e4d#,
-       16#54535251#, 16#58575655#, 16#62615a59#, 16#66656463#,
-       16#6a696867#, 16#6e6d6c6b#, 16#7271706f#, 16#76757473#,
-       16#7a797877#, 16#33323130#, 16#37363534#, 16#000a3938#);
+      (N (16#41424344#), N (16#48474645#), N (16#4c4b4a49#), N (16#504f4e4d#),
+       N (16#51525354#), N (16#58575655#), N (16#62615a59#), N (16#66656463#),
+       N (16#6768696a#), N (16#6e6d6c6b#), N (16#7271706f#), N (16#76757473#),
+       N (16#7778797a#), N (16#33323130#), N (16#37363534#), N (16#000a3938#));
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 496);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 ('A...Za...z0...9')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#6e0be2b0#,
-                                                 16#02641631#,
-                                                 16#873aed86#,
-                                                 16#793071a5#,
-                                                 16#89511fb2#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#b0e20b6e#),
+                                                 N (16#31166402#),
+                                                 N (16#86ed3a87#),
+                                                 N (16#a5713079#),
+                                                 N (16#b21f5189#)));
 
    --  8 times "1234567890"
    Ctx := LSC.RIPEMD160.Context_Init;
    Message := LSC.RIPEMD160.Block_Type'
-      (16#34333231#, 16#38373635#, 16#32313039#, 16#36353433#,
-       16#30393837#, 16#34333231#, 16#38373635#, 16#32313039#,
-       16#36353433#, 16#30393837#, 16#34333231#, 16#38373635#,
-       16#32313039#, 16#36353433#, 16#30393837#, 16#34333231#);
+      (N (16#31323334#), N (16#38373635#), N (16#32313039#), N (16#36353433#),
+       N (16#37383930#), N (16#34333231#), N (16#38373635#), N (16#32313039#),
+       N (16#33343536#), N (16#30393837#), N (16#34333231#), N (16#38373635#),
+       N (16#39303132#), N (16#36353433#), N (16#30393837#), N (16#34333231#));
    LSC.RIPEMD160.Context_Update (Ctx, Message);
 
    Message := LSC.RIPEMD160.Block_Type'
-      (16#38373635#, 16#32313039#, 16#36353433#, 16#30393837#,
+      (N (16#35363738#), N (16#32313039#), N (16#36353433#), N (16#30393837#),
        others => 0);
    LSC.RIPEMD160.Context_Finalize (Ctx, Message, 128);
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 (8 times '1234567890')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#452e759b#,
-                                                 16#394b3d57#,
-                                                 16#32d3dbf4#,
-                                                 16#bf82ab3c#,
-                                                 16#fb6b3263#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#9b752e45#),
+                                                 N (16#573d4b39#),
+                                                 N (16#f4dbd332#),
+                                                 N (16#3cab82bf#),
+                                                 N (16#63326bfb#)));
 
    --  1 million times "a"
    Ctx := LSC.RIPEMD160.Context_Init;
-   Message := LSC.RIPEMD160.Block_Type'(others => 16#61616161#);
+   Message := LSC.RIPEMD160.Block_Type'(others => N (16#61616161#));
 
    for I in Natural range 1 .. 15625
    --# assert I in 1 .. 15625;
@@ -166,9 +166,9 @@ begin
    Hash := LSC.RIPEMD160.Get_Hash (Ctx);
 
    LSC.Test.Run ("RIPEMD-160 (one million times 'a')",
-                 Hash = LSC.RIPEMD160.Hash_Type'(16#43327852#,
-                                                 16#db7b69c1#,
-                                                 16#f9376de1#,
-                                                 16#83f0687f#,
-                                                 16#2815dc25#));
+                 Hash = LSC.RIPEMD160.Hash_Type'(N (16#52783243#),
+                                                 N (16#c1697bdb#),
+                                                 N (16#e16d37f9#),
+                                                 N (16#7f68f083#),
+                                                 N (16#25dc1528#)));
 end RIPEMD160_Tests;

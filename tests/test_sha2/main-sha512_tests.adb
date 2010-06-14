@@ -29,59 +29,59 @@ begin
 
    --  C.1 SHA-512 Example (One-Block Message)
    SHA2_Ctx1 := LSC.SHA2.SHA512_Context_Init;
-   Message1 := LSC.SHA2.Block_Type'(0 => 16#0000000000636261#, others => 0);
+   Message1 := LSC.SHA2.Block_Type'(N (16#6162630000000000#), others => 0);
    LSC.SHA2.Context_Finalize (SHA2_Ctx1, Message1, 24);
    Hash1 := LSC.SHA2.SHA512_Get_Hash (SHA2_Ctx1);
 
    LSC.Test.Run
      ("SHA-512 Example (One-Block Message)",
       Hash1 =
-      LSC.SHA2.SHA512_Hash_Type'(16#BA7A6193A135AFDD#,
-                                 16#314120AE497341CC#,
-                                 16#A27EA9894EFAE612#,
-                                 16#9AD3554BE6EE9E0A#,
-                                 16#A8C14F272A999221#,
-                                 16#BDEBFEA3233CBA36#,
-                                 16#0EE83C6423444D45#,
-                                 16#9FA44CA54FC99A2A#));
+      LSC.SHA2.SHA512_Hash_Type'(N (16#ddaf35a193617aba#),
+                                 N (16#cc417349ae204131#),
+                                 N (16#12e6fa4e89a97ea2#),
+                                 N (16#0a9eeee64b55d39a#),
+                                 N (16#2192992a274fc1a8#),
+                                 N (16#36ba3c23a3feebbd#),
+                                 N (16#454d4423643ce80e#),
+                                 N (16#2a9ac94fa54ca49f#)));
 
    --  C.2 SHA-512 Example (Multi-Block Message)
    SHA2_Ctx2     := LSC.SHA2.SHA512_Context_Init;
    Message2 :=
      LSC.SHA2.Block_Type'
-     (16#6867666564636261#,
-      16#6968676665646362#,
-      16#6a69686766656463#,
-      16#6b6a696867666564#,
-      16#6c6b6a6968676665#,
-      16#6d6c6b6a69686766#,
-      16#6e6d6c6b6a696867#,
-      16#6f6e6d6c6b6a6968#,
-      16#706f6e6d6c6b6a69#,
-      16#71706f6e6d6c6b6a#,
-      16#7271706f6e6d6c6b#,
-      16#737271706f6e6d6c#,
-      16#74737271706f6e6d#,
-      16#7574737271706f6e#,
-      16#0000000000000000#,
-      16#0000000000000000#);
+     (N (16#6162636465666768#),
+      N (16#6263646566676869#),
+      N (16#636465666768696a#),
+      N (16#6465666768696a6b#),
+      N (16#65666768696a6b6c#),
+      N (16#666768696a6b6c6d#),
+      N (16#6768696a6b6c6d6e#),
+      N (16#68696a6b6c6d6e6f#),
+      N (16#696a6b6c6d6e6f70#),
+      N (16#6a6b6c6d6e6f7071#),
+      N (16#6b6c6d6e6f707172#),
+      N (16#6c6d6e6f70717273#),
+      N (16#6d6e6f7071727374#),
+      N (16#6e6f707172737475#),
+      N (16#0000000000000000#),
+      N (16#0000000000000000#));
    LSC.SHA2.Context_Finalize (SHA2_Ctx2, Message2, 896);
    Hash2 := LSC.SHA2.SHA512_Get_Hash (SHA2_Ctx2);
 
    LSC.Test.Run
      ("SHA-512 Example (Multi-Block Message)",
       Hash2 =
-      LSC.SHA2.SHA512_Hash_Type'(16#da13e3da759b958e#,
-                                 16#3f14fc1428f7f48c#,
-                                 16#a17f9febc679778f#,
-                                 16#189088b6adae9972#,
-                                 16#e4f700499e281d50#,
-                                 16#3a43b5c4de991b33#,
-                                 16#5426ddb6ee29d3c7#,
-                                 16#09e94b875be5965e#));
+      LSC.SHA2.SHA512_Hash_Type'(N (16#8e959b75dae313da#),
+                                 N (16#8cf4f72814fc143f#),
+                                 N (16#8f7779c6eb9f7fa1#),
+                                 N (16#7299aeadb6889018#),
+                                 N (16#501d289e4900f7e4#),
+                                 N (16#331b99dec4b5433a#),
+                                 N (16#c7d329eeb6dd2654#),
+                                 N (16#5e96e55b874be909#)));
 
    --  C.3 SHA-512 Example (Long Message)
-   Message3 := LSC.SHA2.Block_Type'(others => 16#61_61_61_61_61_61_61_61#);
+   Message3 := LSC.SHA2.Block_Type'(others => N (16#6161616161616161#));
 
    SHA2_Ctx3 := LSC.SHA2.SHA512_Context_Init;
    for I in Natural range 1 .. 7812
@@ -95,13 +95,13 @@ begin
    LSC.Test.Run
      ("SHA-512 Example (Long Message)",
       Hash3 =
-      LSC.SHA2.SHA512_Hash_Type'(16#6469e70c3d4818e7#,
-                                 16#63b415bcc7422e4e#,
-                                 16#2844203bb1981f8e#,
-                                 16#eb73a9af03a83256#,
-                                 16#0aa67e8744f20fde#,
-                                 16#1bc377e52c43b04c#,
-                                 16#2eaa492c5c9c00eb#,
-                                 16#9bc08cad17b2ad4e#));
+      LSC.SHA2.SHA512_Hash_Type'(N (16#e718483d0ce76964#),
+                                 N (16#4e2e42c7bc15b463#),
+                                 N (16#8e1f98b13b204428#),
+                                 N (16#5632a803afa973eb#),
+                                 N (16#de0ff244877ea60a#),
+                                 N (16#4cb0432ce577c31b#),
+                                 N (16#eb009c5c2c49aa2e#),
+                                 N (16#4eadb217ad8cc09b#)));
 
 end SHA512_Tests;
