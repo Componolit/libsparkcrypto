@@ -3,3 +3,4 @@
 * Improve performance
 * Add proper install target for library.
 * Test on a big-endian machine.
+* Add README explaining the library and directory structure
