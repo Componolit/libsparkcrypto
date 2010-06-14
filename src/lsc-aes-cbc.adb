@@ -28,7 +28,7 @@ package body LSC.AES.CBC is
    begin
       Next := IV;
       for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
-      --# assert true
+      --# assert true;
       loop
          Ops.Block_XOR (Next, Plaintext (I), Temp);
          Next := AES.Encrypt (Context, Temp);
@@ -48,7 +48,7 @@ package body LSC.AES.CBC is
    begin
       Next := IV;
       for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
-      --# assert true
+      --# assert true;
       loop
          Temp := AES.Decrypt (Context, Ciphertext (I));
          Ops.Block_XOR (Temp, Next, Plaintext (I));
