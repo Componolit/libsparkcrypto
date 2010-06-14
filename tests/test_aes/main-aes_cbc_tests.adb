@@ -22,10 +22,13 @@ is
    subtype Msg_Index is Natural range 1 .. 4;
    subtype Msg_Type is LSC.AES.Message_Type (Msg_Index);
 
-   Plaintext, Ciphertext, Expected_Ciphertext : Msg_Type;
-   Key256                                     : LSC.AES.AES256_Key_Type;
-   IV                                         : LSC.AES.Block_Type;
-   Enc_Context                                : LSC.AES.AES_Enc_Context;
+   Plaintext, Ciphertext, Result : Msg_Type;
+   Key128                        : LSC.AES.AES128_Key_Type;
+   Key192                        : LSC.AES.AES192_Key_Type;
+   Key256                        : LSC.AES.AES256_Key_Type;
+   IV                            : LSC.AES.Block_Type;
+   Enc_Context                   : LSC.AES.AES_Enc_Context;
+   Dec_Context                   : LSC.AES.AES_Dec_Context;
 
    function N (Item : LSC.Types.Word32) return LSC.Types.Word32
    is
@@ -44,6 +47,53 @@ begin
    IV := LSC.AES.Block_Type'(N (16#00010203#), N (16#04050607#), N (16#08090a0b#), N (16#0c0d0e0f#));
 
    --------------
+   -- AES128 test
+   --------------
+
+   Key128 := LSC.AES.AES128_Key_Type'
+      (N (16#2b7e1516#), N (16#28aed2a6#), N (16#abf71588#), N (16#09cf4f3c#));
+
+   Ciphertext := Msg_Type'
+      (LSC.AES.Block_Type'(N (16#7649abac#), N (16#8119b246#), N (16#cee98e9b#), N (16#12e9197d#)),
+      (LSC.AES.Block_Type'(N (16#5086cb9b#), N (16#507219ee#), N (16#95db113a#), N (16#917678b2#))),
+      (LSC.AES.Block_Type'(N (16#73bed6b8#), N (16#e3c1743b#), N (16#7116e69e#), N (16#22229516#))),
+      (LSC.AES.Block_Type'(N (16#3ff1caa1#), N (16#681fac09#), N (16#120eca30#), N (16#7586e1a7#))));
+
+   --  Encryption
+   Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
+   LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, Result);
+   LSC.Test.Run ("F.2.1 CBC-AES128.Encrypt", Result = Ciphertext);
+
+   --  Decryption
+   Dec_Context := LSC.AES.Create_AES128_Dec_Context (Key128);
+   LSC.AES.CBC.Decrypt (Dec_Context, IV, Ciphertext, Result);
+   LSC.Test.Run ("F.2.2 CBC-AES128.Decrypt", Result = Plaintext);
+
+   --------------
+   -- AES192 test
+   --------------
+
+   Key192 := LSC.AES.AES192_Key_Type'
+      (N (16#8e73b0f7#), N (16#da0e6452#), N (16#c810f32b#),
+       N (16#809079e5#), N (16#62f8ead2#), N (16#522c6b7b#));
+
+   Ciphertext := Msg_Type'
+      (LSC.AES.Block_Type'(N (16#4f021db2#), N (16#43bc633d#), N (16#7178183a#), N (16#9fa071e8#)),
+       LSC.AES.Block_Type'(N (16#b4d9ada9#), N (16#ad7dedf4#), N (16#e5e73876#), N (16#3f69145a#)),
+       LSC.AES.Block_Type'(N (16#571b2420#), N (16#12fb7ae0#), N (16#7fa9baac#), N (16#3df102e0#)),
+       LSC.AES.Block_Type'(N (16#08b0e279#), N (16#88598881#), N (16#d920a9e6#), N (16#4f5615cd#)));
+
+   --  Encryption
+   Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
+   LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, Result);
+   LSC.Test.Run ("F.2.3 CBC-AES192.Encrypt", Result = Ciphertext);
+
+   --  Decryption
+   Dec_Context := LSC.AES.Create_AES192_Dec_Context (Key192);
+   LSC.AES.CBC.Decrypt (Dec_Context, IV, Ciphertext, Result);
+   LSC.Test.Run ("F.2.4 CBC-AES192.Decrypt", Result = Plaintext);
+
+   --------------
    -- AES256 test
    --------------
 
@@ -51,7 +101,7 @@ begin
       (N (16#603deb10#), N (16#15ca71be#), N (16#2b73aef0#), N (16#857d7781#),
        N (16#1f352c07#), N (16#3b6108d7#), N (16#2d9810a3#), N (16#0914dff4#));
 
-   Expected_Ciphertext := Msg_Type'
+   Ciphertext := Msg_Type'
       (LSC.AES.Block_Type'(N (16#f58c4c04#), N (16#d6e5f1ba#), N (16#779eabfb#), N (16#5f7bfbd6#)),
        LSC.AES.Block_Type'(N (16#9cfc4e96#), N (16#7edb808d#), N (16#679f777b#), N (16#c6702c7d#)),
        LSC.AES.Block_Type'(N (16#39f23369#), N (16#a9d9bacf#), N (16#a530e263#), N (16#04231461#)),
@@ -59,7 +109,12 @@ begin
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);
-   LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, Ciphertext);
-   LSC.Test.Run ("F.2.5 CBC-AES256.Encrypt", Ciphertext = Expected_Ciphertext);
+   LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, Result);
+   LSC.Test.Run ("F.2.5 CBC-AES256.Encrypt", Result = Ciphertext);
+
+   --  Decryption
+   Dec_Context := LSC.AES.Create_AES256_Dec_Context (Key256);
+   LSC.AES.CBC.Decrypt (Dec_Context, IV, Ciphertext, Result);
+   LSC.Test.Run ("F.2.6 CBC-AES256.Decrypt", Result = Plaintext);
 
 end AES_CBC_Tests;

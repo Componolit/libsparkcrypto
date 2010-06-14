@@ -28,12 +28,31 @@ package body LSC.AES.CBC is
    begin
       Next := IV;
       for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
-      --# assert I in Plaintext'First .. Plaintext'Last;
+      --# assert true
       loop
          Ops.Block_XOR (Next, Plaintext (I), Temp);
-         Ciphertext (I) := AES.Encrypt (Context, Temp);
-         Next := Ciphertext (I);
+         Next := AES.Encrypt (Context, Temp);
+         Ciphertext (I) := Next;
       end loop;
    end Encrypt;
 
+   ----------------------------------------------------------------------------
+
+   procedure Decrypt (Context    : in     AES.AES_Dec_Context;
+                      IV         : in     AES.Block_Type;
+                      Ciphertext : in     AES.Message_Type;
+                      Plaintext  : in out AES.Message_Type)
+   is
+      Temp : AES.Block_Type;
+      Next : AES.Block_Type;
+   begin
+      Next := IV;
+      for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
+      --# assert true
+      loop
+         Temp := AES.Decrypt (Context, Ciphertext (I));
+         Ops.Block_XOR (Temp, Next, Plaintext (I));
+         Next := Ciphertext (I);
+      end loop;
+   end Decrypt;
 end LSC.AES.CBC;

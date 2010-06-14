@@ -28,4 +28,10 @@ package LSC.AES.CBC is
                       Ciphertext : in out AES.Message_Type);
    --# derives Ciphertext from *, Context, IV, Plaintext;
 
+   procedure Decrypt (Context    : in     AES.AES_Dec_Context;
+                      IV         : in     AES.Block_Type;
+                      Ciphertext : in     AES.Message_Type;
+                      Plaintext  : in out AES.Message_Type);
+   --# derives Plaintext from *, Context, IV, Ciphertext;
+
 end LSC.AES.CBC;
