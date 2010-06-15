@@ -24,5 +24,6 @@ private package LSC.AES.Print is
                           R : AES.Schedule_Index;
                           B : AES.Block_Type);
    --# derives null from T, R, B;
+   pragma Inline (Print_Round);
 
 end LSC.AES.Print;

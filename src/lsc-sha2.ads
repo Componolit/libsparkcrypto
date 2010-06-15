@@ -57,6 +57,7 @@ package LSC.SHA2 is
       Block   : in     Block_Type);
    --# derives Context from *,
    --#                      Block;
+   pragma Inline (Context_Update);
 
    -- Finalize SHA2 context with final message block.
    procedure Context_Finalize
@@ -95,12 +96,14 @@ private
                   Value : in     Types.Word64);
    --# derives Item from *,
    --#                   Value;
+   pragma Inline (Add);
 
    procedure Block_Terminate
      (Block  : in out Block_Type;
       Length : in     Block_Length_Type);
    --# derives Block from *,
    --#                    Length;
+   pragma Inline (Block_Terminate);
 
    function Ch
      (x    : Types.Word64;
@@ -108,6 +111,7 @@ private
       z    : Types.Word64)
       return Types.Word64;
    --# return (x and y) xor ((not x) and z);
+   pragma Inline (Ch);
 
    function Maj
      (x    : Types.Word64;
@@ -115,12 +119,19 @@ private
       z    : Types.Word64)
       return Types.Word64;
    --# return (x and y) xor (x and z) xor (y and z);
+   pragma Inline (Maj);
 
    function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64;
-   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64;
-   function Sigma_0_512 (x : Types.Word64) return Types.Word64;
-   function Sigma_1_512 (x : Types.Word64) return Types.Word64;
+   pragma Inline (Cap_Sigma_0_512);
 
+   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64;
+   pragma Inline (Cap_Sigma_1_512);
+
+   function Sigma_0_512 (x : Types.Word64) return Types.Word64;
+   pragma Inline (Sigma_0_512);
+
+   function Sigma_1_512 (x : Types.Word64) return Types.Word64;
+   pragma Inline (Sigma_1_512);
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;

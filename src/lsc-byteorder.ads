@@ -27,15 +27,27 @@ package LSC.Byteorder is
    Native_Order : constant Order_Type := Little_Endian;
 
    function Native_To_BE32 (Item : Types.Word32) return Types.Word32;
+   pragma Inline (Native_To_BE32);
+
    function Native_To_LE32 (Item : Types.Word32) return Types.Word32;
+   pragma Inline (Native_To_LE32);
 
    function BE_To_Native32 (Item : Types.Word32) return Types.Word32;
+   pragma Inline (BE_To_Native32);
+
    function LE_To_Native32 (Item : Types.Word32) return Types.Word32;
+   pragma Inline (LE_To_Native32);
 
    function Native_To_BE64 (Item : Types.Word64) return Types.Word64;
+   pragma Inline (Native_To_BE64);
+
    function Native_To_LE64 (Item : Types.Word64) return Types.Word64;
+   pragma Inline (Native_To_LE64);
 
    function BE_To_Native64 (Item : Types.Word64) return Types.Word64;
+   pragma Inline (BE_To_Native64);
+
    function LE_To_Native64 (Item : Types.Word64) return Types.Word64;
+   pragma Inline (LE_To_Native64);
 
 end LSC.Byteorder;

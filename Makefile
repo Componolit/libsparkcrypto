@@ -25,7 +25,8 @@ $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(PROOF_DEP)
 	@gnatmake $(GNATMAKE_FLAGS) -p -P gnat/build_libsparkcrypto
 	@install -D -m 644 gnat/libsparkcrypto.gpr.tmpl $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
 	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
-	@install -m 644 src/*.ads $(OUTDIR)/libsparkcrypto/adainclude
+	@install -m 644 src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
+	@install -m 644 shadow/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
 ifneq ($(DEBUG),)
 	@install -m 644 debug/*.ads $(OUTDIR)/libsparkcrypto/adainclude
 endif

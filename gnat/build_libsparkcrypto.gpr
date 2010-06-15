@@ -16,7 +16,7 @@ is
    case Mode is
       when "release" =>
          for Source_Dirs use Default_Src_Dirs;
-         Compiler_Switches := ("-O3", "-gnatN", "-Winline");
+         Compiler_Switches := ("-O3", "-gnatN", "-Winline", "-fomit-frame-pointer", "-gnatp");
 
       when "debug" =>
          for Source_Dirs use ("../debug") & Default_Src_Dirs;

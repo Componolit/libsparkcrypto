@@ -42,7 +42,7 @@ begin
 
    Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
    S1 := Clock;
-   for k in 1 .. 10
+   for k in 1 .. 20
    loop
       for I in Message_Type'Range
       loop
@@ -53,7 +53,7 @@ begin
 
    Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
    S2 := Clock;
-   for k in 1 .. 10
+   for k in 1 .. 20
    loop
       for I in Message_Type'Range
       loop

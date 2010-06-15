@@ -22,5 +22,6 @@ private package LSC.SHA2.Print is
 
    procedure Put_State (S : SHA2.State_Type);
    --# derives null from S;
+   pragma Inline (Put_State);
 
 end LSC.SHA2.Print;

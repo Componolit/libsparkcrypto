@@ -30,5 +30,6 @@ private package LSC.RIPEMD160.Print is
                              X : Types.Word32;
                              S : Natural);
    --# derives null from M, A, B, C, D, E, X, S;
+   pragma Inline (Print_Schedule);
 
 end LSC.RIPEMD160.Print;

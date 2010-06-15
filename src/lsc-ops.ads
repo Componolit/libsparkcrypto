@@ -29,6 +29,10 @@ package LSC.Ops is
        Byte3 : Types.Byte) return Types.Word32;
    pragma Inline (Bytes32_To_Word32);
 
+   function ByteX (Value    : Types.Word32;
+                   Position : Types.Byte_Array32_Index) return Types.Byte;
+   pragma Inline (ByteX);
+
    function Byte0 (Value : Types.Word32) return Types.Byte;
    pragma Inline (Byte0);
 
