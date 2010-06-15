@@ -3,7 +3,7 @@ is
    type Mode_Type is ("debug", "release");
    Mode: Mode_Type := external ("mode", "release");
 
-   Default_Src_Dirs := ("../src", "../shadow");
+   Default_Src_Dirs := ("../src", "../shadow/src");
    Compiler_Switches := ();
 
    for Library_Name     use "sparkcrypto";
@@ -19,7 +19,7 @@ is
          Compiler_Switches := ("-O3", "-gnatN", "-Winline", "-fomit-frame-pointer", "-gnatp");
 
       when "debug" =>
-         for Source_Dirs use ("../debug") & Default_Src_Dirs;
+         for Source_Dirs use ("../shadow/debug") & Default_Src_Dirs;
          Compiler_Switches := ("-O0");
    end case;
 

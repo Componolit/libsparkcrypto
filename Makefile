@@ -26,9 +26,9 @@ $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(PROOF_DEP)
 	@install -D -m 644 gnat/libsparkcrypto.gpr.tmpl $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
 	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
 	@install -m 644 src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
-	@install -m 644 shadow/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
+	@install -m 644 shadow/src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
 ifneq ($(DEBUG),)
-	@install -m 644 debug/*.ads $(OUTDIR)/libsparkcrypto/adainclude
+	@install -m 644 shadow/debug/*.ads $(OUTDIR)/libsparkcrypto/adainclude
 endif
 
 $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb src/*.ads
@@ -49,7 +49,7 @@ $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum: $(OUTDIR)/target.cfg $(OUTDI
 	@echo
 
 $(OUTDIR)/libsparkcrypto.idx:
-	(cd src && sparkmake -dir=$(CURDIR)/system -duplicates_are_errors -index=$@ -nometafile)
+	(cd src && sparkmake -duplicates_are_errors -index=$@ -nometafile)
 
 #
 # how to build an Ada program
@@ -80,7 +80,7 @@ $(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/
 #
 $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf:
 	mkdir -p $(@D)
-	(cd tests/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -dir=$(CURDIR)/system -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
+	(cd tests/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
 
 #
 # how to build the target configuration generator
