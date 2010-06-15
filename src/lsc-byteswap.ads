@@ -16,8 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Types;
---# inherit LSC.Types;
+with LSC.Types, LSC.Ops, LSC.Ops64;
+--# inherit LSC.Types,
+--#         LSC.Ops,
+--#         LSC.Ops64;
 
 package LSC.Byteswap is
 
