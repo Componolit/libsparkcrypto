@@ -165,36 +165,6 @@ package body LSC.IO is
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Hash (Hash : SHA2.SHA512_Hash_Type)
-   is
-   begin
-      for Index in SHA2.SHA512_Hash_Index
-         --# assert Index in SHA2.Hash_Index;
-      loop
-         Print_Word64 (Hash (Index));
-      end loop;
-   end Print_Hash;
-
-   ----------------------------------------------------------------------------
-
-   procedure Print_Block (Block : SHA2.Block_Type)
-   is
-   begin
-      for Index in SHA2.Block_Index
-         --# assert Index in SHA2.Block_Index;
-      loop
-         Print_Word64 (Block (Index));
-         IO.Put ("  ");
-         if Index mod 4 = 3
-         then
-            IO.New_Line;
-         end if;
-      end loop;
-      IO.New_Line;
-   end Print_Block;
-
-   ----------------------------------------------------------------------------
-
    procedure Print_Index (I : in Types.Index)
    is
       package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);

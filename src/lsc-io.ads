@@ -16,10 +16,9 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Types, LSC.SHA2;
+with LSC.Types;
 use type LSC.Types.Index;
---# inherit LSC.SHA2,
---#         LSC.Types;
+--# inherit LSC.Types;
 
 package LSC.IO is
 
@@ -44,12 +43,6 @@ package LSC.IO is
 
    procedure Print_Word64 (Item : in Types.Word64);
    --# derives null from Item;
-
-   procedure Print_Hash (Hash : SHA2.SHA512_Hash_Type);
-   --# derives null from Hash;
-
-   procedure Print_Block (Block : SHA2.Block_Type);
-   --# derives null from Block;
 
    procedure Print_Index (I : in Types.Index);
    --# derives null from I;
