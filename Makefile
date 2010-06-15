@@ -1,6 +1,5 @@
 OUTDIR  = $(CURDIR)/out
 DUMMY  := $(shell mkdir -p $(OUTDIR))
-GNATMAKE_FLAGS = -we -O3
 
 SPARK_PROGS = test_aes test_sha2 test_hmac
 ADA_PROGS   = benchmark
@@ -11,6 +10,10 @@ ifeq ($(NOPROOF),)
 PROOF_DEP = $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum
 endif
 
+ifneq ($(DEBUG),)
+GNATMAKE_FLAGS += -Xmode=debug
+endif
+
 all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS)) $(addprefix $(OUTDIR)/,$(ADA_PROGS))
 
 proof: $(addprefix $(OUTDIR)/,$(PROOFS))
@@ -18,14 +21,14 @@ proof: $(addprefix $(OUTDIR)/,$(PROOFS))
 test: $(addprefix $(OUTDIR)/,$(filter test_%,$(SPARK_PROGS)))
 	@for f in $^; do $$f; done;
 
-debug: GNATMAKE_FLAGS += -Xmode=debug
-debug: all
-
 $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(PROOF_DEP)
 	@gnatmake $(GNATMAKE_FLAGS) -p -P gnat/build_libsparkcrypto
 	@install -D -m 644 gnat/libsparkcrypto.gpr.tmpl $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
 	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
 	@install -m 644 src/*.ads $(OUTDIR)/libsparkcrypto/adainclude
+ifneq ($(DEBUG),)
+	@install -m 644 debug/*.ads $(OUTDIR)/libsparkcrypto/adainclude
+endif
 
 $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb src/*.ads
 	@mkdir -p $(@D) $(OUTDIR)/proof
@@ -43,8 +46,6 @@ $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum: $(OUTDIR)/target.cfg $(OUTDI
 	@pogs -s -d=$(OUTDIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
-
-$(OUTDIR)/benchmark: GNATMAKE_FLAGS += -O3
 
 $(OUTDIR)/libsparkcrypto.idx:
 	(cd src && sparkmake -dir=$(CURDIR)/system -duplicates_are_errors -index=$@ -nometafile)

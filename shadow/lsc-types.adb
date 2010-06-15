@@ -25,7 +25,6 @@ package body LSC.Types is
    begin
       return Interfaces.Rotate_Right (Value, Amount);
    end ROTR;
-   pragma Inline (ROTR);
 
    ----------------------------------------------------------------------------
 
@@ -34,7 +33,6 @@ package body LSC.Types is
    begin
       return Interfaces.Shift_Right (Value, Amount);
    end SHR;
-   pragma Inline (SHR);
 
    ----------------------------------------------------------------------------
 
@@ -43,7 +41,6 @@ package body LSC.Types is
    begin
       return Interfaces.Shift_Left (Value, Amount);
    end SHL;
-   pragma Inline (SHL);
 
    ----------------------------------------------------------------------------
 
@@ -52,7 +49,6 @@ package body LSC.Types is
    begin
       return Interfaces.Rotate_Left (Value, Amount);
    end ROTL32;
-   pragma Inline (ROTL32);
 
    ----------------------------------------------------------------------------
 
@@ -61,7 +57,6 @@ package body LSC.Types is
    begin
       return Interfaces.Shift_Left (Value, Amount);
    end SHL32;
-   pragma Inline (SHL32);
 
    ----------------------------------------------------------------------------
 
@@ -71,7 +66,6 @@ package body LSC.Types is
    begin
       return W322W8A (Value);
    end Word32_To_Byte_Array32;
-   pragma Inline (Word32_To_Byte_Array32);
 
    ----------------------------------------------------------------------------
 
@@ -81,7 +75,6 @@ package body LSC.Types is
    begin
       return W8A2W32 (Value);
    end Byte_Array32_To_Word32;
-   pragma Inline (Byte_Array32_To_Word32);
 
    ----------------------------------------------------------------------------
 
@@ -91,7 +84,6 @@ package body LSC.Types is
    begin
       return W642W8A (Value);
    end Word64_To_Byte_Array64;
-   pragma Inline (Word64_To_Byte_Array64);
 
    ----------------------------------------------------------------------------
 
@@ -101,6 +93,5 @@ package body LSC.Types is
    begin
       return W8A2W64 (Value);
    end Byte_Array64_To_Word64;
-   pragma Inline (Byte_Array64_To_Word64);
 
 end LSC.Types;

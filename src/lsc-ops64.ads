@@ -24,6 +24,7 @@ package LSC.Ops64 is
 
    function XOR2 (V0, V1 : Types.Word64) return Types.Word64;
    --# return V0 xor V1;
+   pragma Inline (XOR2);
 
    procedure Block_XOR
      (Left   : in     Types.Word64_Array_Type;
@@ -39,8 +40,10 @@ package LSC.Ops64 is
    --# post
    --#   (for all I in Types.Index range Left'First .. Left'Last =>
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
+   pragma Inline (Block_XOR);
 
    function Byte_Swap (Value : Types.Word64) return Types.Word64;
+   pragma Inline (Byte_Swap);
 
    function Bytes64_To_Word64
       (Byte0 : Types.Byte;
@@ -51,5 +54,6 @@ package LSC.Ops64 is
        Byte5 : Types.Byte;
        Byte6 : Types.Byte;
        Byte7 : Types.Byte) return Types.Word64;
+   pragma Inline (Bytes64_To_Word64);
 
 end LSC.Ops64;

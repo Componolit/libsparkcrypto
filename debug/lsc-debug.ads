@@ -21,8 +21,6 @@ with LSC.Types;
 
 package LSC.Debug is
 
-   pragma Pure;
-
    procedure Put (T : String);
    --# derives null from T;
    pragma Inline (Put);

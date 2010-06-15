@@ -4,6 +4,7 @@ is
    Mode: Mode_Type := external ("mode", "release");
 
    Default_Src_Dirs := ("../src", "../shadow");
+   Compiler_Switches := ();
 
    for Library_Name     use "sparkcrypto";
    for Library_Kind     use "static";
@@ -15,8 +16,15 @@ is
    case Mode is
       when "release" =>
          for Source_Dirs use Default_Src_Dirs;
+         Compiler_Switches := ("-O3", "-gnatN", "-Winline");
+
       when "debug" =>
          for Source_Dirs use ("../debug") & Default_Src_Dirs;
+         Compiler_Switches := ("-O0");
    end case;
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections") & Compiler_Switches;
+   end Compiler;
 
 end Build_Libsparkcrypto;

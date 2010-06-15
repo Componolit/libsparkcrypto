@@ -27,24 +27,38 @@ package LSC.Ops is
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
        Byte3 : Types.Byte) return Types.Word32;
+   pragma Inline (Bytes32_To_Word32);
 
    function Byte0 (Value : Types.Word32) return Types.Byte;
+   pragma Inline (Byte0);
+
    function Byte1 (Value : Types.Word32) return Types.Byte;
+   pragma Inline (Byte1);
+
    function Byte2 (Value : Types.Word32) return Types.Byte;
+   pragma Inline (Byte2);
+
    function Byte3 (Value : Types.Word32) return Types.Byte;
+   pragma Inline (Byte3);
+
    function Byte_Swap32 (Value : Types.Word32) return Types.Word32;
+   pragma Inline (Byte_Swap32);
 
    function XOR2 (V0, V1 : Types.Word32) return Types.Word32;
    --# return V0 xor V1;
+   pragma Inline (XOR2);
 
    function XOR3 (V0, V1, V2 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2;
+   pragma Inline (XOR3);
 
    function XOR4 (V0, V1, V2, V3 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2 xor V3;
+   pragma Inline (XOR4);
 
    function XOR5 (V0, V1, V2, V3, V4 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2 xor V3 xor V4;
+   pragma Inline (XOR5);
 
    procedure Block_XOR
      (Left   : in     Types.Word32_Array_Type;
@@ -60,5 +74,6 @@ package LSC.Ops is
    --# post
    --#   (for all I in Types.Index range Left'First .. Left'Last =>
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
+   pragma Inline (Block_XOR);
 
 end LSC.Ops;

@@ -8,4 +8,13 @@ is
    for Source_Dirs use (sources);
    for Object_Dir use Outdir;
    for Main use ("main.adb");
+
+   package Linker is
+      for Default_Switches ("Ada") use ("--gcsections");
+   end Linker;
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN");
+   end Compiler;
+
 end Build;

@@ -28,7 +28,7 @@ begin
    Block2  := LSC.SHA2.Block_Type'(others => 16#0000000000636261#);
 
    S1 := Clock;
-   for I in 1 .. 100000
+   for I in 1 .. 500000
    loop
       OpenSSL.SHA512_Context_Init (SHA512_Context1);
       OpenSSL.SHA512_Context_Update (SHA512_Context1, Block1);
@@ -38,7 +38,7 @@ begin
    D1 := Clock - S1;
 
    S2 := Clock;
-   for I in 1 .. 100000
+   for I in 1 .. 500000
    loop
       SHA512_Context2 := LSC.SHA2.SHA512_Context_Init;
       LSC.SHA2.Context_Update (SHA512_Context2, Block1);

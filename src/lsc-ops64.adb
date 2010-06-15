@@ -41,7 +41,6 @@ package body LSC.Ops64 is
    begin
       return V0 xor V1;
    end XOR2;
-   pragma Inline (XOR2);
 
    ----------------------------------------------------------------------------
 

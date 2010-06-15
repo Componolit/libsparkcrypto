@@ -88,7 +88,6 @@ package body LSC.Ops is
    begin
       return V0 xor V1;
    end XOR2;
-   pragma Inline (XOR2);
 
    ----------------------------------------------------------------------------
 
@@ -97,7 +96,6 @@ package body LSC.Ops is
    begin
       return V0 xor V1 xor V2;
    end XOR3;
-   pragma Inline (XOR3);
 
    ----------------------------------------------------------------------------
 
@@ -106,7 +104,6 @@ package body LSC.Ops is
    begin
       return V0 xor V1 xor V2 xor V3;
    end XOR4;
-   pragma Inline (XOR4);
 
    ----------------------------------------------------------------------------
 
@@ -115,7 +112,6 @@ package body LSC.Ops is
    begin
       return V0 xor V1 xor V2 xor V3 xor V4;
    end XOR5;
-   pragma Inline (XOR5);
 
    ----------------------------------------------------------------------------
 

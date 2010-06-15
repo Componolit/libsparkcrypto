@@ -21,6 +21,8 @@ with Interfaces;
 
 package LSC.Types is
 
+   pragma Pure;
+
    type Index is range 0 .. 79;
 
    subtype Byte is Interfaces.Unsigned_8;
@@ -28,10 +30,19 @@ package LSC.Types is
    subtype Word64 is Interfaces.Unsigned_64;
 
    function ROTR (Value : Word64; Amount : Natural) return Word64;
+   pragma Inline (ROTR);
+
    function SHR (Value : Word64; Amount : Natural) return Word64;
+   pragma Inline (SHR);
+
    function SHL (Value : Word64; Amount : Natural) return Word64;
+   pragma Inline (SHL);
+
    function ROTL32 (Value : Word32; Amount : Natural) return Word32;
+   pragma Inline (ROTL32);
+
    function SHL32 (Value : Word32; Amount : Natural) return Word32;
+   pragma Inline (SHL32);
 
    subtype Byte_Array32_Index is Index range 0 .. 3;
    type Byte_Array32_Type is array (Byte_Array32_Index) of Byte;
@@ -40,10 +51,16 @@ package LSC.Types is
    type Byte_Array64_Type is array (Byte_Array64_Index) of Byte;
 
    function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type;
+   pragma Inline (Word32_To_Byte_Array32);
+
    function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32;
+   pragma Inline (Byte_Array32_To_Word32);
 
    function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type;
+   pragma Inline (Word64_To_Byte_Array64);
+
    function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64;
+   pragma Inline (Byte_Array64_To_Word64);
 
    type Word32_Array_Type is array (Index range <>) of Word32;
    type Word64_Array_Type is array (Index range <>) of Word64;
