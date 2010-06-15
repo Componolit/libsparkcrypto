@@ -45,9 +45,6 @@ package LSC.Ops is
    function Byte3 (Value : Types.Word32) return Types.Byte;
    pragma Inline (Byte3);
 
-   function Byte_Swap32 (Value : Types.Word32) return Types.Word32;
-   pragma Inline (Byte_Swap32);
-
    function XOR2 (V0, V1 : Types.Word32) return Types.Word32;
    --# return V0 xor V1;
    pragma Inline (XOR2);

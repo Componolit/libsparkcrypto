@@ -25,7 +25,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Little_Endian
       then
-         Result := Ops.Byte_Swap32 (Item);
+         Result := Byteswap.Swap32 (Item);
       else
          Result := Item;
       end if;
@@ -41,7 +41,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Big_Endian
       then
-         Result := Ops.Byte_Swap32 (Item);
+         Result := Byteswap.Swap32 (Item);
       else
          Result := Item;
       end if;
@@ -57,7 +57,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Little_Endian
       then
-         Result := Ops.Byte_Swap32 (Item);
+         Result := Byteswap.Swap32 (Item);
       else
          Result := Item;
       end if;
@@ -73,7 +73,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Big_Endian
       then
-         Result := Ops.Byte_Swap32 (Item);
+         Result := Byteswap.Swap32 (Item);
       else
          Result := Item;
       end if;
@@ -89,7 +89,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Little_Endian
       then
-         Result := Ops64.Byte_Swap (Item);
+         Result := Byteswap.Swap64 (Item);
       else
          Result := Item;
       end if;
@@ -105,7 +105,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Big_Endian
       then
-         Result := Ops64.Byte_Swap (Item);
+         Result := Byteswap.Swap64 (Item);
       else
          Result := Item;
       end if;
@@ -121,7 +121,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Little_Endian
       then
-         Result := Ops64.Byte_Swap (Item);
+         Result := Byteswap.Swap64 (Item);
       else
          Result := Item;
       end if;
@@ -137,7 +137,7 @@ package body LSC.Byteorder is
       --# accept Flow, 22, "Native_Order is a configuration constant.";
       if Native_Order = Big_Endian
       then
-         Result := Ops64.Byte_Swap (Item);
+         Result := Byteswap.Swap64 (Item);
       else
          Result := Item;
       end if;

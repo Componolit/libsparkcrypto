@@ -3,7 +3,7 @@ is
    type Mode_Type is ("debug", "release");
    Mode: Mode_Type := external ("mode", "release");
 
-   Default_Src_Dirs := ("../src", "../shadow/src");
+   Default_Src_Dirs := ("../shadow/x86_64", "../src", "../shadow/src");
    Compiler_Switches := ();
 
    for Library_Name     use "sparkcrypto";

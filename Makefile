@@ -27,6 +27,7 @@ $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(PROOF_DEP)
 	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
 	@install -m 644 src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
 	@install -m 644 shadow/src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
+	@install -m 644 shadow/x86_64/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
 ifneq ($(DEBUG),)
 	@install -m 644 shadow/debug/*.ads $(OUTDIR)/libsparkcrypto/adainclude
 endif

@@ -63,15 +63,4 @@ package body LSC.Ops64 is
       end loop;
    end Block_XOR;
 
-   ----------------------------------------------------------------------------
-
-   function Byte_Swap (Value : Types.Word64) return Types.Word64
-   is
-      Temp : Types.Byte_Array64_Type;
-   begin
-      Temp := Types.Word64_To_Byte_Array64 (Value);
-      return Bytes64_To_Word64 (Temp (0), Temp (1), Temp (2), Temp (3),
-                                Temp (4), Temp (5), Temp (6), Temp (7));
-   end Byte_Swap;
-
 end LSC.Ops64;
