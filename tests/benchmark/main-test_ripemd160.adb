@@ -28,7 +28,7 @@ begin
    Block2  := LSC.RIPEMD160.Block_Type'(others => 16#00636261#);
 
    S1 := Clock;
-   for I in 1 .. 100000
+   for I in 1 .. 200000
    loop
       OpenSSL.RIPEMD160_Context_Init (RIPEMD160_Context1);
       OpenSSL.RIPEMD160_Context_Update (RIPEMD160_Context1, Block1);
@@ -38,7 +38,7 @@ begin
    D1 := Clock - S1;
 
    S2 := Clock;
-   for I in 1 .. 100000
+   for I in 1 .. 200000
    loop
       RIPEMD160_Context2 := LSC.RIPEMD160.Context_Init;
       LSC.RIPEMD160.Context_Update (RIPEMD160_Context2, Block1);
