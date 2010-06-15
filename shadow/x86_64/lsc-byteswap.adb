@@ -26,7 +26,7 @@ package body LSC.Byteswap is
    begin
       System.Machine_Code.Asm
          ("bswap %0",
-          Inputs   => (Types.Word32'Asm_Input ("r", Value)),
+          Inputs   => (Types.Word32'Asm_Input ("0", Value)),
           Outputs  => (Types.Word32'Asm_Output ("=r", Result)),
           Volatile => True);
       return Result;
@@ -40,7 +40,7 @@ package body LSC.Byteswap is
    begin
       System.Machine_Code.Asm
          ("bswap %0",
-          Inputs   => (Types.Word64'Asm_Input ("r", Value)),
+          Inputs   => (Types.Word64'Asm_Input ("0", Value)),
           Outputs  => (Types.Word64'Asm_Output ("=r", Result)),
           Volatile => True);
       return Result;
