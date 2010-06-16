@@ -88,6 +88,7 @@ private
    type Context_Type is record
       Length : Data_Length;
       H      : SHA512_Hash_Type;
+      W      : Schedule_Type;
    end record;
 
    function Init_Data_Length return Data_Length;

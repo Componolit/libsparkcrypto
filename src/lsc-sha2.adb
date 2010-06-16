@@ -118,7 +118,8 @@ package body LSC.SHA2 is
                                      4 => 16#510e527fade682d1#,
                                      5 => 16#9b05688c2b3e6c1f#,
                                      6 => 16#1f83d9abfb41bd6b#,
-                                     7 => 16#5be0cd19137e2179#));
+                                     7 => 16#5be0cd19137e2179#),
+         W      => Schedule_Type'(others => 0));
    end SHA512_Context_Init;
 
    ----------------------------------------------------------------------------
@@ -134,7 +135,8 @@ package body LSC.SHA2 is
                                      4 => 16#67332667ffc00b31#,
                                      5 => 16#8eb44a8768581511#,
                                      6 => 16#db0c2e0d64f98fa7#,
-                                     7 => 16#47b5481dbefa4fa4#));
+                                     7 => 16#47b5481dbefa4fa4#),
+         W      => Schedule_Type'(others => 0));
    end SHA384_Context_Init;
 
    ----------------------------------------------------------------------------
@@ -148,8 +150,6 @@ package body LSC.SHA2 is
       T1, T2 : Types.Word64;
    begin
 
-      W := Schedule_Type'(others => 0);
-
       Debug.Put_Line ("BLOCK UPDATE:");
 
       -- Print out initial state of H
@@ -160,24 +160,24 @@ package body LSC.SHA2 is
       --  Section 6.3.2 SHA-512 Hash Computations
       -------------------------------------------
 
-      --  1. Prepare the message schedule, W(t):
+      --  1. Prepare the message schedule, Context.W(t):
       for t in Schedule_Index range 0 .. 15
          --# assert t in 0 .. 15;
       loop
-         W (t) := Byteorder.Native_To_BE64 (Block (t));
+         Context.W (t) := Byteorder.Native_To_BE64 (Block (t));
       end loop;
 
       for t in Schedule_Index range 16 .. 79
          --# assert t in 16 .. 79;
       loop
-         W (t) := Sigma_1_512 (W (t - 2)) +
-                  W (t - 7) +
-                  Sigma_0_512 (W (t - 15)) +
-                  W (t - 16);
+         Context.W (t) := Sigma_1_512 (Context.W (t - 2)) +
+                                       Context.W (t - 7) +
+                                       Sigma_0_512 (Context.W (t - 15)) +
+                                       Context.W (t - 16);
       end loop;
 
       Debug.Put_Line ("Message block:");
-      Debug.Print_Word64_Array (W, 2, 8, True);
+      Debug.Print_Word64_Array (Context.W, 2, 8, True);
 
       -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
       --    h with the (i-1)st hash value:
@@ -203,7 +203,7 @@ package body LSC.SHA2 is
                Cap_Sigma_1_512 (S (e)) +
                Ch (S (e), S (f), S (g)) +
                Tables.K (t) +
-               W (t);
+               Context.W (t);
          T2 := Cap_Sigma_0_512 (S (a)) + Maj (S (a), S (b), S (c));
 
          S :=
