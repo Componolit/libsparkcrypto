@@ -79,9 +79,6 @@ private
       MSW : Types.Word64;
    end record;
 
-   type State_Index is (a, b, c, d, e, f, g, h);
-   type State_Type is array (State_Index) of Types.Word64;
-
    subtype Schedule_Index is Types.Index range 0 .. 79;
    subtype Schedule_Type is Types.Word64_Array_Type (Schedule_Index);
 

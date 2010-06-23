@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2.Print, LSC.SHA2.Tables;
+with LSC.SHA2.Tables;
 
 package body LSC.SHA2 is
 
@@ -145,8 +145,32 @@ package body LSC.SHA2 is
      (Context : in out Context_Type;
       Block   : in     Block_Type)
    is
-      S      : State_Type;
-      T1, T2 : Types.Word64;
+      a, b, c, d, e, f, g, h : Types.Word64;
+
+      procedure SHA2_Op (r  : in     Schedule_Index;
+                         a0 : in     Types.Word64;
+                         a1 : in     Types.Word64;
+                         a2 : in     Types.Word64;
+                         a3 : in out Types.Word64;
+                         a4 : in     Types.Word64;
+                         a5 : in     Types.Word64;
+                         a6 : in     Types.Word64;
+                         a7 : in out Types.Word64)
+      --# global
+      --#    Context;
+      --# derives
+      --#    a3 from *, a4, a5, a6, a7, r, Context &
+      --#    a7 from a0, a1, a2, a4, a5, a6, a7, r, Context;
+      is
+         T1, T2 : Types.Word64;
+      begin
+         T1 := a7 + Cap_Sigma_1_512 (a4) + Ch (a4, a5, a6) + Tables.K (r) + Context.W (r);
+         T2 := Cap_Sigma_0_512 (a0) + Maj (a0, a1, a2);
+         a3 := a3 + T1;
+         a7 := T1 + T2;
+      end SHA2_Op;
+      pragma Inline (SHA2_Op);
+
    begin
 
       Debug.Put_Line ("BLOCK UPDATE:");
@@ -180,59 +204,40 @@ package body LSC.SHA2 is
 
       -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
       --    h with the (i-1)st hash value:
-      S :=
-        State_Type'
-        (a => Context.H (0),
-         b => Context.H (1),
-         c => Context.H (2),
-         d => Context.H (3),
-         e => Context.H (4),
-         f => Context.H (5),
-         g => Context.H (6),
-         h => Context.H (7));
-
-      Debug.Put_Line ("Initial state:");
-      Print.Put_State (S);
+      a := Context.H (0);
+      b := Context.H (1);
+      c := Context.H (2);
+      d := Context.H (3);
+      e := Context.H (4);
+      f := Context.H (5);
+      g := Context.H (6);
+      h := Context.H (7);
 
       -- 3. For t = 0 to 79:
-      for t in Schedule_Index range 0 .. 79
-         --# assert t in 0 .. 79;
+      for t in Schedule_Index range 0 .. 9
+      --# assert true;
       loop
-         T1 := S (h) +
-               Cap_Sigma_1_512 (S (e)) +
-               Ch (S (e), S (f), S (g)) +
-               Tables.K (t) +
-               Context.W (t);
-         T2 := Cap_Sigma_0_512 (S (a)) + Maj (S (a), S (b), S (c));
-
-         S :=
-           State_Type'
-           (h => S (g),
-            g => S (f),
-            f => S (e),
-            e => S (d) + T1,
-            d => S (c),
-            c => S (b),
-            b => S (a),
-            a => T1 + T2);
-
-         Debug.Put ("t =");
-         Debug.Print_Index (t);
-         Debug.New_Line;
-         Print.Put_State (S);
+         SHA2_Op (8 * t + 0, a, b, c, d, e, f, g, h);
+         SHA2_Op (8 * t + 1, h, a, b, c, d, e, f, g);
+         SHA2_Op (8 * t + 2, g, h, a, b, c, d, e, f);
+         SHA2_Op (8 * t + 3, f, g, h, a, b, c, d, e);
+         SHA2_Op (8 * t + 4, e, f, g, h, a, b, c, d);
+         SHA2_Op (8 * t + 5, d, e, f, g, h, a, b, c);
+         SHA2_Op (8 * t + 6, c, d, e, f, g, h, a, b);
+         SHA2_Op (8 * t + 7, b, c, d, e, f, g, h, a);
       end loop;
 
       -- 4. Compute the i-th intermediate hash value H-i:
       Context.H :=
         SHA512_Hash_Type'
-        (0 => S (a) + Context.H (0),
-         1 => S (b) + Context.H (1),
-         2 => S (c) + Context.H (2),
-         3 => S (d) + Context.H (3),
-         4 => S (e) + Context.H (4),
-         5 => S (f) + Context.H (5),
-         6 => S (g) + Context.H (6),
-         7 => S (h) + Context.H (7));
+        (0 => a + Context.H (0),
+         1 => b + Context.H (1),
+         2 => c + Context.H (2),
+         3 => d + Context.H (3),
+         4 => e + Context.H (4),
+         5 => f + Context.H (5),
+         6 => g + Context.H (6),
+         7 => h + Context.H (7));
 
       Debug.Put_Line ("SHA-512 final hash values:");
       Debug.Print_Word64_Array (Context.H, 2, Types.Index'Last, True);
