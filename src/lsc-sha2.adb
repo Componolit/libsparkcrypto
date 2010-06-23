@@ -214,18 +214,106 @@ package body LSC.SHA2 is
       h := Context.H (7);
 
       -- 3. For t = 0 to 79:
-      for t in Schedule_Index range 0 .. 9
+
+      SHA2_Op ( 0, a, b, c, d, e, f, g, h);
+      SHA2_Op ( 1, h, a, b, c, d, e, f, g);
+      SHA2_Op ( 2, g, h, a, b, c, d, e, f);
+      SHA2_Op ( 3, f, g, h, a, b, c, d, e);
+      SHA2_Op ( 4, e, f, g, h, a, b, c, d);
+      SHA2_Op ( 5, d, e, f, g, h, a, b, c);
+      SHA2_Op ( 6, c, d, e, f, g, h, a, b);
+      SHA2_Op ( 7, b, c, d, e, f, g, h, a);
       --# assert true;
-      loop
-         SHA2_Op (8 * t + 0, a, b, c, d, e, f, g, h);
-         SHA2_Op (8 * t + 1, h, a, b, c, d, e, f, g);
-         SHA2_Op (8 * t + 2, g, h, a, b, c, d, e, f);
-         SHA2_Op (8 * t + 3, f, g, h, a, b, c, d, e);
-         SHA2_Op (8 * t + 4, e, f, g, h, a, b, c, d);
-         SHA2_Op (8 * t + 5, d, e, f, g, h, a, b, c);
-         SHA2_Op (8 * t + 6, c, d, e, f, g, h, a, b);
-         SHA2_Op (8 * t + 7, b, c, d, e, f, g, h, a);
-      end loop;
+
+      SHA2_Op ( 8, a, b, c, d, e, f, g, h);
+      SHA2_Op ( 9, h, a, b, c, d, e, f, g);
+      SHA2_Op (10, g, h, a, b, c, d, e, f);
+      SHA2_Op (11, f, g, h, a, b, c, d, e);
+      SHA2_Op (12, e, f, g, h, a, b, c, d);
+      SHA2_Op (13, d, e, f, g, h, a, b, c);
+      SHA2_Op (14, c, d, e, f, g, h, a, b);
+      SHA2_Op (15, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (16, a, b, c, d, e, f, g, h);
+      SHA2_Op (17, h, a, b, c, d, e, f, g);
+      SHA2_Op (18, g, h, a, b, c, d, e, f);
+      SHA2_Op (19, f, g, h, a, b, c, d, e);
+      SHA2_Op (20, e, f, g, h, a, b, c, d);
+      SHA2_Op (21, d, e, f, g, h, a, b, c);
+      SHA2_Op (22, c, d, e, f, g, h, a, b);
+      SHA2_Op (23, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (24, a, b, c, d, e, f, g, h);
+      SHA2_Op (25, h, a, b, c, d, e, f, g);
+      SHA2_Op (26, g, h, a, b, c, d, e, f);
+      SHA2_Op (27, f, g, h, a, b, c, d, e);
+      SHA2_Op (28, e, f, g, h, a, b, c, d);
+      SHA2_Op (29, d, e, f, g, h, a, b, c);
+      SHA2_Op (30, c, d, e, f, g, h, a, b);
+      SHA2_Op (31, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (32, a, b, c, d, e, f, g, h);
+      SHA2_Op (33, h, a, b, c, d, e, f, g);
+      SHA2_Op (34, g, h, a, b, c, d, e, f);
+      SHA2_Op (35, f, g, h, a, b, c, d, e);
+      SHA2_Op (36, e, f, g, h, a, b, c, d);
+      SHA2_Op (37, d, e, f, g, h, a, b, c);
+      SHA2_Op (38, c, d, e, f, g, h, a, b);
+      SHA2_Op (39, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (40, a, b, c, d, e, f, g, h);
+      SHA2_Op (41, h, a, b, c, d, e, f, g);
+      SHA2_Op (42, g, h, a, b, c, d, e, f);
+      SHA2_Op (43, f, g, h, a, b, c, d, e);
+      SHA2_Op (44, e, f, g, h, a, b, c, d);
+      SHA2_Op (45, d, e, f, g, h, a, b, c);
+      SHA2_Op (46, c, d, e, f, g, h, a, b);
+      SHA2_Op (47, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (48, a, b, c, d, e, f, g, h);
+      SHA2_Op (49, h, a, b, c, d, e, f, g);
+      SHA2_Op (50, g, h, a, b, c, d, e, f);
+      SHA2_Op (51, f, g, h, a, b, c, d, e);
+      SHA2_Op (52, e, f, g, h, a, b, c, d);
+      SHA2_Op (53, d, e, f, g, h, a, b, c);
+      SHA2_Op (54, c, d, e, f, g, h, a, b);
+      SHA2_Op (55, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (56, a, b, c, d, e, f, g, h);
+      SHA2_Op (57, h, a, b, c, d, e, f, g);
+      SHA2_Op (58, g, h, a, b, c, d, e, f);
+      SHA2_Op (59, f, g, h, a, b, c, d, e);
+      SHA2_Op (60, e, f, g, h, a, b, c, d);
+      SHA2_Op (61, d, e, f, g, h, a, b, c);
+      SHA2_Op (62, c, d, e, f, g, h, a, b);
+      SHA2_Op (63, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (64, a, b, c, d, e, f, g, h);
+      SHA2_Op (65, h, a, b, c, d, e, f, g);
+      SHA2_Op (66, g, h, a, b, c, d, e, f);
+      SHA2_Op (67, f, g, h, a, b, c, d, e);
+      SHA2_Op (68, e, f, g, h, a, b, c, d);
+      SHA2_Op (69, d, e, f, g, h, a, b, c);
+      SHA2_Op (70, c, d, e, f, g, h, a, b);
+      SHA2_Op (71, b, c, d, e, f, g, h, a);
+      --# assert true;
+
+      SHA2_Op (72, a, b, c, d, e, f, g, h);
+      SHA2_Op (73, h, a, b, c, d, e, f, g);
+      SHA2_Op (74, g, h, a, b, c, d, e, f);
+      SHA2_Op (75, f, g, h, a, b, c, d, e);
+      SHA2_Op (76, e, f, g, h, a, b, c, d);
+      SHA2_Op (77, d, e, f, g, h, a, b, c);
+      SHA2_Op (78, c, d, e, f, g, h, a, b);
+      SHA2_Op (79, b, c, d, e, f, g, h, a);
+      --# assert true;
 
       -- 4. Compute the i-th intermediate hash value H-i:
       Context.H :=
