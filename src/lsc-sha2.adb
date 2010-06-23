@@ -145,7 +145,6 @@ package body LSC.SHA2 is
      (Context : in out Context_Type;
       Block   : in     Block_Type)
    is
-      W      : Schedule_Type;
       S      : State_Type;
       T1, T2 : Types.Word64;
    begin
