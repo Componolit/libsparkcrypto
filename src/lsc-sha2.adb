@@ -144,10 +144,35 @@ package body LSC.SHA2 is
       Block   : in     Block_Type)
    is
       W      : Schedule_Type;
-      T1, T2, a, b, c, d, e, f, g, h : Types.Word64;
+      a, b, c, d, e, f, g, h : Types.Word64;
+
+      procedure SHA2_Op (r  : in     Schedule_Index;
+                         a0 : in     Types.Word64;
+                         a1 : in     Types.Word64;
+                         a2 : in     Types.Word64;
+                         a3 : in out Types.Word64;
+                         a4 : in     Types.Word64;
+                         a5 : in     Types.Word64;
+                         a6 : in     Types.Word64;
+                         a7 : in out Types.Word64)
+      --# global
+      --#    W;
+      --# derives
+      --#    a3 from *, a4, a5, a6, a7, r, W &
+      --#    a7 from a0, a1, a2, a4, a5, a6, a7, r, W;
+      is
+         T1, T2 : Types.Word64;
+      begin
+         T1 := a7 + Cap_Sigma_1_512 (a4) + Ch (a4, a5, a6) + Tables.K (r) + W (r);
+         T2 := Cap_Sigma_0_512 (a0) + Maj (a0, a1, a2);
+         a3 := a3 + T1;
+         a7 := T1 + T2;
+      end SHA2_Op;
+      pragma Inline (SHA2_Op);
+
    begin
 
-      --  W := Schedule_Type'(others => 0);
+      W := Schedule_Type'(others => 0);
 
       Debug.Put_Line ("BLOCK UPDATE:");
 
@@ -193,54 +218,14 @@ package body LSC.SHA2 is
       for t in Schedule_Index range 0 .. 9
       --# assert true;
       loop
-         -- round t + 0
-         T1 := h + Cap_Sigma_1_512 (e) + Ch (e, f, g) + Tables.K (8 * t + 0) + W (8 * t + 0);
-         T2 := Cap_Sigma_0_512 (a) + Maj (a, b, c);
-         d :=  d + T1;
-         h := T1 + T2;
-
-         -- round t + 1
-         T1 := g + Cap_Sigma_1_512 (d) + Ch (d, e, f) + Tables.K (8 * t + 1) + W (8 * t + 1);
-         T2 := Cap_Sigma_0_512 (h) + Maj (h, a, b);
-         c  :=  c + T1;
-         g  := T1 + T2;
-
-         -- round t + 2
-         T1 := f + Cap_Sigma_1_512 (c) + Ch (c, d, e) + Tables.K (8 * t + 2) + W (8 * t + 2);
-         T2 := Cap_Sigma_0_512 (g) + Maj (g, h, a);
-         b  :=  b + T1;
-         f  := T1 + T2;
-
-         -- round t + 3
-         T1 := e + Cap_Sigma_1_512 (b) + Ch (b, c, d) + Tables.K (8 * t + 3) + W (8 * t + 3);
-         T2 := Cap_Sigma_0_512 (f) + Maj (f, g, h);
-         a  :=  a + T1;
-         e  := T1 + T2;
-
-         -- round t + 4
-         T1 := d + Cap_Sigma_1_512 (a) + Ch (a, b, c) + Tables.K (8 * t + 4) + W (8 * t + 4);
-         T2 := Cap_Sigma_0_512 (e) + Maj (e, f, g);
-         h  :=  h + T1;
-         d  := T1 + T2;
-
-         -- round t + 5
-         T1 := c + Cap_Sigma_1_512 (h) + Ch (h, a, b) + Tables.K (8 * t + 5) + W (8 * t + 5);
-         T2 := Cap_Sigma_0_512 (d) + Maj (d, e, f);
-         g  :=  g + T1;
-         c  := T1 + T2;
-
-         -- round t + 6
-         T1 := b + Cap_Sigma_1_512 (g) + Ch (g, h, a) + Tables.K (8 * t + 6) + W (8 * t + 6);
-         T2 := Cap_Sigma_0_512 (c) + Maj (c, d, e);
-         f  :=  f + T1;
-         b  := T1 + T2;
-
-         -- round t + 7
-         T1 := a + Cap_Sigma_1_512 (f) + Ch (f, g, h) + Tables.K (8 * t + 7) + W (8 * t + 7);
-         T2 := Cap_Sigma_0_512 (b) + Maj (b, c, d);
-         e  :=  e + T1;
-         a  := T1 + T2;
-
+         SHA2_Op (8 * t + 0, a, b, c, d, e, f, g, h);
+         SHA2_Op (8 * t + 1, h, a, b, c, d, e, f, g);
+         SHA2_Op (8 * t + 2, g, h, a, b, c, d, e, f);
+         SHA2_Op (8 * t + 3, f, g, h, a, b, c, d, e);
+         SHA2_Op (8 * t + 4, e, f, g, h, a, b, c, d);
+         SHA2_Op (8 * t + 5, d, e, f, g, h, a, b, c);
+         SHA2_Op (8 * t + 6, c, d, e, f, g, h, a, b);
+         SHA2_Op (8 * t + 7, b, c, d, e, f, g, h, a);
       end loop;
 
       -- 4. Compute the i-th intermediate hash value H-i:
