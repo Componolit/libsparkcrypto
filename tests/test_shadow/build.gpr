@@ -1,0 +1,17 @@
+with "libsparkcrypto";
+
+project Build
+is
+   for Source_Dirs use (".");
+   for Object_Dir use "out";
+   for Main use ("main.adb");
+
+   package Linker is
+      for Default_Switches ("Ada") use ("--gcsections");
+   end Linker;
+
+   package Compiler is
+      for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN", "-fomit-frame-pointer", "-gnatp");
+   end Compiler;
+
+end Build;

@@ -1,0 +1,10 @@
+directory structure:
+
+src/shared  - sources analysed by SPARK Examiner and used by Ada compiler
+
+src/spark   - sources only analysed by SPARK Examiner (e.g. replacements for
+              languaged defined packages)
+
+src/ada     - sources only used by Ada compiler
+
+src/debug   - sources for debug builds, only used by Ada compiler

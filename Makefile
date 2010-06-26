@@ -1,109 +1,79 @@
-OUTDIR  = $(CURDIR)/out
-DUMMY  := $(shell mkdir -p $(OUTDIR))
+OUTPUT_DIR = $(CURDIR)/out
+DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof)
+ARCH      := $(shell uname -m)
+MODE      ?= release
+TESTS      = test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
 
-SPARK_PROGS = test_aes test_sha2 test_hmac
-ADA_PROGS   = benchmark
-PROOFS      = $(addsuffix .sum, $(SPARK_PROGS))
+SPARK_OPTS  = \
+   -brief \
+   -vcg \
+   -dpc \
+   -nosli \
+   -config=$(OUTPUT_DIR)/target.cfg \
+   -warn=warnings.conf \
+   -output_dir=$(OUTPUT_DIR)/proof
 
-# Disable proof dependency if NOPROOF environment variable is set.
-ifeq ($(NOPROOF),)
-PROOF_DEP = $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum
+ifeq ($(ARCH),x86_64)
+ENDIANESS = little_endian
+else
+$(error Unsupported architecture: $(ARCH))
 endif
 
-ifneq ($(DEBUG),)
-GNATMAKE_FLAGS += -Xmode=debug
-endif
+SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
+ADA_DIRS    = src/ada/$(ARCH) src/ada/generic
+SPARK_DIRS  = src/spark
 
-all: $(addprefix $(OUTDIR)/,$(SPARK_PROGS)) $(addprefix $(OUTDIR)/,$(ADA_PROGS))
+all: install_local $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 
-proof: $(addprefix $(OUTDIR)/,$(PROOFS))
+build: $(OUTPUT_DIR)/build/libsparkcrypto.a
 
-test: $(addprefix $(OUTDIR)/,$(filter test_%,$(SPARK_PROGS)))
-	@for f in $^; do $$f; done;
+tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
+	(for t in $^; do $$t; done)
 
-$(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr: $(PROOF_DEP)
-	@gnatmake $(GNATMAKE_FLAGS) -p -P gnat/build_libsparkcrypto
-	@install -D -m 644 gnat/libsparkcrypto.gpr.tmpl $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
-	@install -d -m 755 $(OUTDIR)/libsparkcrypto/adainclude
-	@install -m 644 src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
-	@install -m 644 shadow/src/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
-	@install -m 644 shadow/x86_64/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
-ifneq ($(DEBUG),)
-	@install -m 644 shadow/debug/*.ad? $(OUTDIR)/libsparkcrypto/adainclude
-endif
+$(OUTPUT_DIR)/build/libsparkcrypto.a:
+	gnatmake -Xarch=$(ARCH) -Xendianess=$(ENDIANESS) -Xmode=$(MODE) -p -P build/build_libsparkcrypto
 
-$(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum: $(OUTDIR)/target.cfg $(OUTDIR)/libsparkcrypto.idx src/*.adb src/*.ads
-	@mkdir -p $(@D) $(OUTDIR)/proof
-	@spark \
-		-brief \
-		-vcg \
-		-dpc \
-		-nosli \
-		-config=$(OUTDIR)/target.cfg \
-		-warn=warnings.conf \
-		-output_dir=$(OUTDIR)/proof \
-		-index=$(OUTDIR)/libsparkcrypto.idx \
-		src/*.adb
-	(cd $(OUTDIR)/proof && sparksimp -t -p=5)
-	@pogs -s -d=$(OUTDIR)/proof -o=$@
+$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/libsparkcrypto/libsparkcrypto.idx $(OUTPUT_DIR)/target.cfg
+	spark -index=$< $(SPARK_OPTS) $(CURDIR)/src/shared/generic/*.adb
+	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5)
+	pogs -s -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
 
-$(OUTDIR)/libsparkcrypto.idx:
-	(cd src && sparkmake -duplicates_are_errors -index=$@ -nometafile)
+install: build
+	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sparkinclude $(DESTDIR)/sharedinclude
+	install -p -m 755 $(OUTPUT_DIR)/build/adalib/libsparkcrypto.a $(DESTDIR)/adalib/libsparkcrypto.a
+	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
+	install -p -m 644 src/shared/$(ENDIANESS)/*.ad? $(DESTDIR)/sharedinclude/
+	install -p -m 644 src/shared/generic/*.ad? $(DESTDIR)/sharedinclude/
+	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/
+	install -p -m 644 src/ada/$(ARCH)/*.ad? $(DESTDIR)/adainclude/
+	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
+	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
+	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
+
+install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
+install_local: install
 
 #
-# how to build an Ada program
+# how to build a test
 #
-$(OUTDIR)/%: $(CURDIR)/tests/% $(OUTDIR)/libsparkcrypto/libsparkcrypto.gpr
-	gnatmake $(GNATMAKE_FLAGS) -aP$(OUTDIR)/libsparkcrypto -Xsources=$< -Xoutdir=$(OUTDIR) -o $@ -P gnat/build.gpr
-
-#
-# how to examine a program
-#
-$(OUTDIR)/%.sum: $(OUTDIR)/target.cfg $(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf $(OUTDIR)/libsparkcrypto/adalib/libsparkcrypto.sum
-	@mkdir -p $(OUTDIR)/$(*F).prf
-	@spark \
-		-brief \
-		-vcg \
-		-config=$< \
-		-warn=warnings.conf \
-		-output_dir=$(OUTDIR)/$(*F).prf \
-		-index=$(OUTDIR)/$(*F).prf/spark.idx \
-		@$(OUTDIR)/$(*F).prf/spark.smf
-	(cd $(OUTDIR)/$(*F).prf && sparksimp -t -p=5)
-	@pogs -d=$(OUTDIR)/$(*F).prf -o=$@
-	@tail -n14 $@ | head -n13
-	@echo
-
-#
-# how to create index and meta files
-#
-$(OUTDIR)/%.prf/spark.idx $(OUTDIR)/%.prf/spark.smf:
-	mkdir -p $(@D)
-	(cd tests/$(*F); sparkmake -duplicates_are_errors -dir=$(OUTDIR)/libsparkcrypto/adainclude -index=$(@D)/spark.idx -meta=$(@D)/spark.smf)
+$(OUTPUT_DIR)/tests/%: install_local
+	make -C tests/$(@F) DESTDIR=$(OUTPUT_DIR)/tests LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto install
 
 #
 # how to build the target configuration generator
 #
-$(OUTDIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
-	@gnatmake -D $(OUTDIR) -o $@ $^
+$(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
+	gnatmake -D $(OUTPUT_DIR) -o $@ $^
 
 #
 # how to generate the target configuration file
 #
-$(OUTDIR)/target.cfg: $(OUTDIR)/confgen
-	@$< > $@
+$(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
+	$< > $@
 
-#
-# how to create (i.e. copy) an RLU file
-#
-$(OUTDIR)/%.rlu:
-	@mkdir -p $(@D)
-	@cp rules/$(@F) $@
-
-#
-# clean up
-#
 clean:
-	rm -rf $(OUTDIR)
+	rm -rf $(OUTPUT_DIR)
+
+.PHONY: all install install_local build tests

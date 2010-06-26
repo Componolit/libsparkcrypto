@@ -65,6 +65,9 @@ is
 
 begin
 
+   New_Line;
+   Put_Line ("libsparkcrypto benchmarks:");
+
    Test_AES128_Encrypt;
    Test_AES192_Encrypt;
    Test_AES256_Encrypt;

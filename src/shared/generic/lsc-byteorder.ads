@@ -24,9 +24,6 @@ with LSC.Ops, LSC.Ops64, LSC.Types, LSC.Byteswap;
 
 package LSC.Byteorder is
 
-   type Order_Type is (Big_Endian, Little_Endian);
-   Native_Order : constant Order_Type := Little_Endian;
-
    function Native_To_BE32 (Item : Types.Word32) return Types.Word32;
    pragma Inline (Native_To_BE32);
 

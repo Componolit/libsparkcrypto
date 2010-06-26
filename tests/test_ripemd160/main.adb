@@ -16,17 +16,25 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.RIPEMD160, LSC.IO, LSC.Test;
+with LSC.RIPEMD160, LSC.IO, LSC.Byteorder, LSC.Types, LSC.Test;
 use type LSC.RIPEMD160.Hash_Type;
 
 --# inherit LSC.IO,
+--#         LSC.Byteorder,
 --#         LSC.RIPEMD160,
+--#         LSC.Types,
 --#         LSC.Test;
 
 --# main_program;
 procedure Main
    --# derives ;
 is
+   function N (Item : LSC.Types.Word32) return LSC.Types.Word32
+   is
+   begin
+      return LSC.Byteorder.BE_To_Native32 (Item);
+   end N;
+
 
    procedure RIPEMD160_Tests
    --# derives ;
