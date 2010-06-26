@@ -62,6 +62,12 @@ $(OUTPUT_DIR)/tests/%: install_local
 	make -C tests/$(@F) DESTDIR=$(OUTPUT_DIR)/tests LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto install
 
 #
+# how to clean a test
+#
+clean_%:
+	make -C tests/$(*F) clean
+
+#
 # how to build the target configuration generator
 #
 $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
@@ -73,7 +79,7 @@ $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 	$< > $@
 
-clean:
+clean: $(addprefix clean_, $(TESTS))
 	rm -rf $(OUTPUT_DIR)
 
 .PHONY: all install install_local build tests
