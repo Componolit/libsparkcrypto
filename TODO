@@ -5,3 +5,5 @@
 * Test on a big-endian machine.
 * Add README explaining the library and directory structure
 * properly configure architecture/feature specific include paths
+* denote all 32-bit routines with 32 (e.g. LSC.Ops).
+* separate 32 and 64 bit implementations of LSC.Byteorder.
