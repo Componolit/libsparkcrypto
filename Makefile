@@ -23,9 +23,9 @@ SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ADA_DIRS    = src/ada/$(ARCH) src/ada/generic
 SPARK_DIRS  = src/spark
 
-all: install_local $(OUTPUT_DIR)/proof/libsparkcrypto.sum
-
+all: install_local proof tests
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
+proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
@@ -33,14 +33,17 @@ tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake -Xarch=$(ARCH) -Xendianess=$(ENDIANESS) -Xmode=$(MODE) -p -P build/build_libsparkcrypto
 
-$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/libsparkcrypto/libsparkcrypto.idx $(OUTPUT_DIR)/target.cfg
+$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/target.cfg
 	spark -index=$< $(SPARK_OPTS) $(CURDIR)/src/shared/generic/*.adb
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5)
 	pogs -s -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
 
-install: build
+$(OUTPUT_DIR)/proof/libsparkcrypto.idx:
+	(cd $(OUTPUT_DIR)/empty && sparkmake $(addprefix -dir=$(CURDIR)/, $(SHARED_DIRS)) -dir=$(CURDIR)/src/spark -nometa -index=$@)
+
+install: build proof
 	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sparkinclude $(DESTDIR)/sharedinclude
 	install -p -m 755 $(OUTPUT_DIR)/build/adalib/libsparkcrypto.a $(DESTDIR)/adalib/libsparkcrypto.a
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
@@ -50,6 +53,7 @@ install: build
 	install -p -m 644 src/ada/$(ARCH)/*.ad? $(DESTDIR)/adainclude/
 	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
 	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
+	install -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
@@ -65,7 +69,7 @@ $(OUTPUT_DIR)/tests/%: install_local
 # how to clean a test
 #
 clean_%:
-	make -C tests/$(*F) clean
+	@make -C tests/$(*F) clean
 
 #
 # how to build the target configuration generator
@@ -80,6 +84,6 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 	$< > $@
 
 clean: $(addprefix clean_, $(TESTS))
-	rm -rf $(OUTPUT_DIR)
+	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local build tests
+.PHONY: all install install_local build tests proof
