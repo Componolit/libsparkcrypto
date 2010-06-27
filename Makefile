@@ -33,7 +33,7 @@ endif
 
 ifeq ($(NO_PROOF),)
 ALL_GOALS += proof
-INSTALL_DEPS += install_proofs
+INSTALL_DEPS += install_proof
 endif
 
 ifeq ($(NO_TESTS),)
@@ -74,8 +74,8 @@ endif
 	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
-install_proof:
-	install -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
+install_proof: proof
+	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
