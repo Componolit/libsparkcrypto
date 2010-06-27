@@ -11,6 +11,14 @@ SPARK_OPTS  = \
    -warn=warnings.conf \
    -output_dir=$(OUTPUT_DIR)/proof
 
+SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
+ADA_DIRS    = src/ada/$(ARCH) src/ada/generic
+SPARK_DIRS  = src/spark
+ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
+
+ALL_GOALS      = install_local
+INSTALL_DEPS   = build
+
 ifeq ($(SPARK8),)
 SPARK_OPTS += -dpc -nosli
 endif
@@ -23,13 +31,16 @@ else
 $(error Unsupported architecture: $(ARCH))
 endif
 
-SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
-ADA_DIRS    = src/ada/$(ARCH) src/ada/generic
-SPARK_DIRS  = src/spark
+ifeq ($(NO_PROOF),)
+ALL_GOALS += proof
+INSTALL_DEPS += install_proofs
+endif
 
-ARCH_FILES = $(wildcard src/ada/$(ARCH)/*.ad?)
+ifeq ($(NO_TESTS),)
+ALL_GOALS += tests
+endif
 
-all: install_local proof tests
+all: $(ALL_GOALS)
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
 proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 
@@ -49,7 +60,7 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $
 $(OUTPUT_DIR)/proof/libsparkcrypto.idx:
 	(cd $(OUTPUT_DIR)/empty && sparkmake $(addprefix -dir=$(CURDIR)/, $(SHARED_DIRS)) -dir=$(CURDIR)/src/spark -nometa -index=$@)
 
-install: build proof
+install: $(INSTALL_DEPS)
 	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sparkinclude $(DESTDIR)/sharedinclude
 	install -p -m 755 $(OUTPUT_DIR)/build/adalib/libsparkcrypto.a $(DESTDIR)/adalib/libsparkcrypto.a
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
@@ -61,8 +72,10 @@ ifneq ($(strip $(ARCH_FILES)),)
 endif
 	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
 	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
-	install -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
+
+install_proof:
+	install -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
