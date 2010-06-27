@@ -25,10 +25,12 @@ endif
 
 ifeq ($(ARCH),x86_64)
 ENDIANESS = little_endian
-else ifeq ($(ARCH),i686)
-ENDIANESS = little_endian
 else
-$(error Unsupported architecture: $(ARCH))
+   ifeq ($(ARCH),i686)
+      ENDIANESS = little_endian
+   else
+   $(error Unsupported architecture: $(ARCH))
+   endif
 endif
 
 ifeq ($(NO_PROOF),)
