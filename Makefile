@@ -7,11 +7,13 @@ TESTS      = test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
 SPARK_OPTS  = \
    -brief \
    -vcg \
-   -dpc \
-   -nosli \
    -config=$(OUTPUT_DIR)/target.cfg \
    -warn=warnings.conf \
    -output_dir=$(OUTPUT_DIR)/proof
+
+ifeq ($(SPARK8),)
+SPARK_OPTS += -dpc -nosli
+endif
 
 ifeq ($(ARCH),x86_64)
 ENDIANESS = little_endian
