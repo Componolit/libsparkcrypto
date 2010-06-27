@@ -15,6 +15,8 @@ SPARK_OPTS  = \
 
 ifeq ($(ARCH),x86_64)
 ENDIANESS = little_endian
+else ifeq ($(ARCH),i686)
+ENDIANESS = little_endian
 else
 $(error Unsupported architecture: $(ARCH))
 endif
@@ -22,6 +24,8 @@ endif
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ADA_DIRS    = src/ada/$(ARCH) src/ada/generic
 SPARK_DIRS  = src/spark
+
+ARCH_FILES = $(wildcard src/ada/$(ARCH)/*.ad?)
 
 all: install_local proof tests
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
@@ -50,7 +54,9 @@ install: build proof
 	install -p -m 644 src/shared/$(ENDIANESS)/*.ad? $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/shared/generic/*.ad? $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/
-	install -p -m 644 src/ada/$(ARCH)/*.ad? $(DESTDIR)/adainclude/
+ifneq ($(strip $(ARCH_FILES)),)
+	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
+endif
 	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
 	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
 	install -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
