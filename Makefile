@@ -73,7 +73,7 @@ ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
 endif
 	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
-	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
+	install -p -m 444 $(OUTPUT_DIR)/build/adalib/*.ali $(DESTDIR)/adalib/
 
 install_proof: proof
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
@@ -86,13 +86,13 @@ install_local: install
 # how to build a test
 #
 $(OUTPUT_DIR)/tests/%: install_local
-	make -C tests/$(@F) DESTDIR=$(OUTPUT_DIR)/tests LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto install
+	$(MAKE) -C tests/$(@F) DESTDIR=$(OUTPUT_DIR)/tests LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto install
 
 #
 # how to clean a test
 #
 clean_%:
-	@make -C tests/$(*F) clean
+	@make -s -C tests/$(*F) clean
 
 #
 # how to build the target configuration generator
