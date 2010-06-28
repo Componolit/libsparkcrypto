@@ -74,10 +74,10 @@ ifneq ($(strip $(ARCH_FILES)),)
 endif
 	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
 	install -p -m 444 $(OUTPUT_DIR)/build/*.ali $(DESTDIR)/adalib/
-	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
 install_proof: proof
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
+	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
