@@ -52,11 +52,27 @@ package body LSC.Types is
 
    ----------------------------------------------------------------------------
 
+   function ROTR32 (Value : Word32; Amount : Natural) return Word32
+   is
+   begin
+      return Interfaces.Rotate_Right (Value, Amount);
+   end ROTR32;
+
+   ----------------------------------------------------------------------------
+
    function SHL32 (Value : Word32; Amount : Natural) return Word32
    is
    begin
       return Interfaces.Shift_Left (Value, Amount);
    end SHL32;
+
+   ----------------------------------------------------------------------------
+
+   function SHR32 (Value : Word32; Amount : Natural) return Word32
+   is
+   begin
+      return Interfaces.Shift_Right (Value, Amount);
+   end SHR32;
 
    ----------------------------------------------------------------------------
 
