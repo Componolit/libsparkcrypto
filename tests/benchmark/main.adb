@@ -16,6 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
+with LSC.SHA256;
 with LSC.SHA512;
 with LSC.RIPEMD160;
 with LSC.Types;
@@ -59,6 +60,7 @@ is
    procedure Test_AES128_Decrypt is separate;
    procedure Test_AES192_Decrypt is separate;
    procedure Test_AES256_Decrypt is separate;
+   procedure Test_SHA256 is separate;
    procedure Test_SHA384 is separate;
    procedure Test_SHA512 is separate;
    procedure Test_RIPEMD160 is separate;
@@ -74,6 +76,7 @@ begin
    Test_AES128_Decrypt;
    Test_AES192_Decrypt;
    Test_AES256_Decrypt;
+   Test_SHA256;
    Test_SHA384;
    Test_SHA512;
    Test_RIPEMD160;

@@ -129,7 +129,53 @@ package body OpenSSL is
    end Decrypt;
 
    ----------------------------------------------------------------------------
-   -- SHA-512
+   -- SHA-256
+   ----------------------------------------------------------------------------
+
+   procedure SHA256_Context_Init (Context : in out SHA256_Context_Type)
+   is
+   begin
+      OpenSSL.C_SHA256_Init (Context.C_Context'Unrestricted_Access);
+   end SHA256_Context_Init;
+
+   ----------------------------------------------------------------------------
+
+   procedure SHA256_Context_Update
+      (Context : in out SHA256_Context_Type;
+       Block   : in     LSC.SHA256.Block_Type)
+   is
+   begin
+      OpenSSL.C_SHA256_Update (Context.C_Context'Unrestricted_Access,
+                               Block'Unrestricted_Access,
+                               64);
+   end SHA256_Context_Update;
+
+   ----------------------------------------------------------------------------
+
+   procedure SHA256_Context_Finalize
+      (Context : in out SHA256_Context_Type;
+       Block   : in     LSC.SHA256.Block_Type;
+       Length  : in     LSC.SHA256.Block_Length_Type)
+   is
+   begin
+      OpenSSL.C_SHA256_Update (Context.C_Context'Unrestricted_Access,
+                               Block'Unrestricted_Access,
+                               Interfaces.C.size_t (Length / 8));
+      OpenSSL.C_SHA256_Final (Context.Hash'Unrestricted_Access,
+                              Context.C_Context'Unrestricted_Access);
+   end SHA256_Context_Finalize;
+
+   ----------------------------------------------------------------------------
+
+   function SHA256_Get_Hash (Context : in SHA256_Context_Type)
+      return LSC.SHA256.SHA256_Hash_Type
+   is
+   begin
+      return Context.Hash;
+   end SHA256_Get_Hash;
+
+   ----------------------------------------------------------------------------
+   -- SHA-384
    ----------------------------------------------------------------------------
 
    procedure SHA384_Context_Init (Context : in out SHA384_Context_Type)
