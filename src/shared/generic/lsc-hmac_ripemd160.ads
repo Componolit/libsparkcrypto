@@ -19,54 +19,50 @@
 -------------------------------------------------------------------------------
 --  References:
 --
---  S. Kelly, Using HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512 with IPsec,
---  RFC 4868, May 2007
---  [doc/specs/rfc4868.txt.pdf]
+--  J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
+--  February 1998.
+--  [doc/specs/rfc2286.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.SHA2, LSC.Types, LSC.Ops64, LSC.Debug;
-use type LSC.Types.Word64;
+with LSC.RIPEMD160, LSC.Types, LSC.Ops, LSC.Debug;
+use type LSC.Types.Word32;
 
 --# inherit LSC.Debug,
---#         LSC.SHA2,
---#         LSC.Ops64,
+--#         LSC.RIPEMD160,
+--#         LSC.Ops,
 --#         LSC.Types;
 
-package LSC.HMAC.SHA512 is
+package LSC.HMAC_RIPEMD160 is
 
    type Context_Type is private;
 
-   subtype Auth_Index is Types.Index range 0 .. 3;
-   subtype Auth_Type is Types.Word64_Array_Type (Auth_Index);
-
-   function Context_Init (Key : SHA2.Block_Type) return Context_Type;
+   function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type;
 
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     SHA2.Block_Type);
+      Block   : in     RIPEMD160.Block_Type);
    --# derives Context from *,
    --#                      Block;
 
    procedure Context_Finalize
      (Context : in out Context_Type;
-      Block   : in     SHA2.Block_Type;
-      Length  : in     SHA2.Block_Length_Type);
+      Block   : in     RIPEMD160.Block_Type;
+      Length  : in     RIPEMD160.Block_Length_Type);
    --# derives Context from *,
    --#                      Block,
    --#                      Length;
 
-   function Get_Prf  (Context : in Context_Type) return SHA2.SHA512_Hash_Type;
-   function Get_Auth (Context : in Context_Type) return Auth_Type;
+   function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type;
 
 private
 
    type Context_Type is record
-      SHA512_Context : SHA2.Context_Type;
-      Key            : SHA2.Block_Type;
+      RIPEMD160_Context : RIPEMD160.Context_Type;
+      Key               : RIPEMD160.Block_Type;
    end record;
 
-   function To_Block (Item : SHA2.SHA512_Hash_Type) return SHA2.Block_Type;
+   function To_Block (Item : RIPEMD160.Hash_Type) return RIPEMD160.Block_Type;
    --# return Result =>
-   --#     (for all I in SHA2.SHA512_Hash_Index => (Result (I) = Item (I)));
+   --#     (for all I in RIPEMD160.Hash_Index => (Result (I) = Item (I)));
 
-end LSC.HMAC.SHA512;
+end LSC.HMAC_RIPEMD160;

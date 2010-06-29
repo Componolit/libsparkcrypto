@@ -20,15 +20,15 @@ SPARK_OPTS = \
 		-index=$(OUTPUT_DIR)/global.idx \
       -output_dir=$(OUTPUT_DIR)/proof
 
-all: $(OUTPUT_DIR)/test_sha2 $(OUTPUT_DIR)/test_sha2.sum
+all: $(OUTPUT_DIR)/test_sha512 $(OUTPUT_DIR)/test_sha512.sum
 
-install: $(OUTPUT_DIR)/test_sha2
-	install -D -m 755 $< $(DESTDIR)/test_sha2
+install: $(OUTPUT_DIR)/test_sha512
+	install -D -m 755 $< $(DESTDIR)/test_sha512
 
-$(OUTPUT_DIR)/test_sha2:
-	gnatmake -aP$(LSC_DIR) -o test_sha2 -P build.gpr
+$(OUTPUT_DIR)/test_sha512:
+	gnatmake -aP$(LSC_DIR) -o test_sha512 -P build.gpr
 
-$(OUTPUT_DIR)/test_sha2.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/global.idx $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf
+$(OUTPUT_DIR)/test_sha512.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/global.idx $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf
 	spark -config=$< $(SPARK_OPTS) main.adb
 	(cd $(OUTPUT_DIR) && sparksimp -t -p=5)
 	pogs -o=$@

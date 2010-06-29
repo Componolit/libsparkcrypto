@@ -142,7 +142,7 @@ package body OpenSSL is
 
    procedure SHA384_Context_Update
       (Context : in out SHA384_Context_Type;
-       Block   : in     LSC.SHA2.Block_Type)
+       Block   : in     LSC.SHA512.Block_Type)
    is
    begin
       OpenSSL.C_SHA384_Update (Context.C_Context'Unrestricted_Access,
@@ -154,8 +154,8 @@ package body OpenSSL is
 
    procedure SHA384_Context_Finalize
       (Context : in out SHA384_Context_Type;
-       Block   : in     LSC.SHA2.Block_Type;
-       Length  : in     LSC.SHA2.Block_Length_Type)
+       Block   : in     LSC.SHA512.Block_Type;
+       Length  : in     LSC.SHA512.Block_Length_Type)
    is
    begin
       OpenSSL.C_SHA384_Update (Context.C_Context'Unrestricted_Access,
@@ -168,7 +168,7 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function SHA384_Get_Hash (Context : in SHA384_Context_Type)
-      return LSC.SHA2.SHA384_Hash_Type
+      return LSC.SHA512.SHA384_Hash_Type
    is
    begin
       return Context.Hash;
@@ -188,7 +188,7 @@ package body OpenSSL is
 
    procedure SHA512_Context_Update
       (Context : in out SHA512_Context_Type;
-       Block   : in     LSC.SHA2.Block_Type)
+       Block   : in     LSC.SHA512.Block_Type)
    is
    begin
       OpenSSL.C_SHA512_Update (Context.C_Context'Unrestricted_Access,
@@ -200,8 +200,8 @@ package body OpenSSL is
 
    procedure SHA512_Context_Finalize
       (Context : in out SHA512_Context_Type;
-       Block   : in     LSC.SHA2.Block_Type;
-       Length  : in     LSC.SHA2.Block_Length_Type)
+       Block   : in     LSC.SHA512.Block_Type;
+       Length  : in     LSC.SHA512.Block_Length_Type)
    is
    begin
       OpenSSL.C_SHA512_Update (Context.C_Context'Unrestricted_Access,
@@ -214,7 +214,7 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function SHA512_Get_Hash (Context : in SHA512_Context_Type)
-      return LSC.SHA2.SHA512_Hash_Type
+      return LSC.SHA512.SHA512_Hash_Type
    is
    begin
       return Context.Hash;

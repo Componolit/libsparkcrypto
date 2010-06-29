@@ -32,7 +32,7 @@ use type LSC.Types.Word64;
 --#         LSC.Debug,
 --#         LSC.Byteorder;
 
-package LSC.SHA2 is
+package LSC.SHA512 is
 
    type Context_Type is private;
 
@@ -47,11 +47,11 @@ package LSC.SHA2 is
 
    subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 
-   -- Initialize SHA2 context.
+   -- Initialize SHA512 context.
    function SHA512_Context_Init return Context_Type;
    function SHA384_Context_Init return Context_Type;
 
-   -- Update SHA2 context with message block.
+   -- Update SHA512 context with message block.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type);
@@ -59,7 +59,7 @@ package LSC.SHA2 is
    --#                      Block;
    pragma Inline (Context_Update);
 
-   -- Finalize SHA2 context with final message block.
+   -- Finalize SHA512 context with final message block.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
@@ -68,7 +68,7 @@ package LSC.SHA2 is
    --#                      Block,
    --#                      Length;
 
-   -- Return SHA2 hash.
+   -- Return SHA512 hash.
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type;
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type;
 
@@ -137,4 +137,4 @@ private
    --# derives Context from *,
    --#                      Block;
 
-end LSC.SHA2;
+end LSC.SHA512;

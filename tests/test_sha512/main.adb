@@ -16,15 +16,36 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
--------------------------------------------------------------------------------
---  References:
---
---  FIPS PUB 198, The Keyed-Hash Message Authentication Code (HMAC), National
---  Institute of Standards and Technology, U.S. Department of Commerce, March
---  2002.
---  [doc/specs/fips-198a.pdf]
--------------------------------------------------------------------------------
+with LSC.SHA512, LSC.IO, LSC.Test, LSC.Types, LSC.Byteorder;
+use type LSC.SHA512.SHA512_Hash_Type;
 
-package LSC.HMAC is
+--# inherit LSC.IO,
+--#         LSC.SHA512,
+--#         LSC.Byteorder,
+--#         LSC.Types,
+--#         LSC.Test;
 
-end LSC.HMAC;
+--# main_program;
+procedure Main
+   --# derives ;
+is
+   function N (Item : LSC.Types.Word64) return LSC.Types.Word64
+   is
+   begin
+      return LSC.Byteorder.BE_To_Native64 (Item);
+   end N;
+
+   procedure SHA384_Tests
+   --# derives ;
+   is separate;
+
+   procedure SHA512_Tests
+   --# derives ;
+   is separate;
+
+begin
+
+   SHA384_Tests;
+   SHA512_Tests;
+
+end Main;

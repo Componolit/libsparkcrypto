@@ -23,7 +23,7 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
-with LSC.SHA2;
+with LSC.SHA512;
 with LSC.RIPEMD160;
 with LSC.AES;
 with Interfaces.C;
@@ -60,27 +60,27 @@ package OpenSSL is
    procedure SHA384_Context_Init (Context : in out SHA384_Context_Type);
 
    procedure SHA384_Context_Update (Context : in out SHA384_Context_Type;
-                                    Block   : in     LSC.SHA2.Block_Type);
+                                    Block   : in     LSC.SHA512.Block_Type);
 
    procedure SHA384_Context_Finalize (Context : in out SHA384_Context_Type;
-                                      Block   : in     LSC.SHA2.Block_Type;
-                                      Length  : in     LSC.SHA2.Block_Length_Type);
+                                      Block   : in     LSC.SHA512.Block_Type;
+                                      Length  : in     LSC.SHA512.Block_Length_Type);
    pragma Inline (SHA384_Context_Update, SHA384_Context_Finalize);
 
-   function SHA384_Get_Hash (Context : in SHA384_Context_Type) return LSC.SHA2.SHA384_Hash_Type;
+   function SHA384_Get_Hash (Context : in SHA384_Context_Type) return LSC.SHA512.SHA384_Hash_Type;
 
    -- SHA-512
    procedure SHA512_Context_Init (Context : in out SHA512_Context_Type);
 
    procedure SHA512_Context_Update (Context : in out SHA512_Context_Type;
-                                    Block   : in     LSC.SHA2.Block_Type);
+                                    Block   : in     LSC.SHA512.Block_Type);
 
    procedure SHA512_Context_Finalize (Context : in out SHA512_Context_Type;
-                                      Block   : in     LSC.SHA2.Block_Type;
-                                      Length  : in     LSC.SHA2.Block_Length_Type);
+                                      Block   : in     LSC.SHA512.Block_Type;
+                                      Length  : in     LSC.SHA512.Block_Length_Type);
    pragma Inline (SHA512_Context_Update, SHA512_Context_Finalize);
 
-   function SHA512_Get_Hash (Context : in SHA512_Context_Type) return LSC.SHA2.SHA512_Hash_Type;
+   function SHA512_Get_Hash (Context : in SHA512_Context_Type) return LSC.SHA512.SHA512_Hash_Type;
 
    -- RIPEMD-160
    procedure RIPEMD160_Context_Init (Context : in out RIPEMD160_Context_Type);
@@ -99,10 +99,10 @@ private
 
    pragma Linker_Options ("-lcrypto");
 
-   type Block_Type_Ptr is access all LSC.SHA2.Block_Type;
+   type Block_Type_Ptr is access all LSC.SHA512.Block_Type;
    pragma Convention (C, Block_Type_Ptr);
 
-   type Hash_Type_Ptr is access all LSC.SHA2.SHA512_Hash_Type;
+   type Hash_Type_Ptr is access all LSC.SHA512.SHA512_Hash_Type;
    pragma Convention (C, Hash_Type_Ptr);
 
    type C_Context_Type is array (1 .. 512) of Character;
@@ -194,13 +194,13 @@ private
    type SHA384_Context_Type is
    record
       C_Context : C_Context_Type;
-      Hash      : LSC.SHA2.SHA384_Hash_Type;
+      Hash      : LSC.SHA512.SHA384_Hash_Type;
    end record;
 
    type SHA512_Context_Type is
    record
       C_Context : C_Context_Type;
-      Hash      : LSC.SHA2.SHA512_Hash_Type;
+      Hash      : LSC.SHA512.SHA512_Hash_Type;
    end record;
 
    type RIPEMD160_Context_Type is

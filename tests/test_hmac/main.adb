@@ -16,11 +16,11 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA2,
+with LSC.SHA512,
      LSC.RIPEMD160,
-     LSC.HMAC.SHA512,
-     LSC.HMAC.SHA384,
-     LSC.HMAC.RIPEMD,
+     LSC.HMAC_SHA512,
+     LSC.HMAC_SHA384,
+     LSC.HMAC_RIPEMD160,
      LSC.IO,
      LSC.Types,
      LSC.Byteorder,
@@ -32,9 +32,9 @@ use type LSC.Types.Word64_Array_Type;
 --# inherit LSC.IO,
 --#         LSC.SHA2,
 --#         LSC.RIPEMD160,
---#         LSC.HMAC.SHA512,
---#         LSC.HMAC.SHA384,
---#         LSC.HMAC.RIPEMD,
+--#         LSC.HMAC_SHA512,
+--#         LSC.HMAC_SHA384,
+--#         LSC.HMAC_RIPEMD160,
 --#         LSC.Types,
 --#         LSC.Byteorder,
 --#         LSC.Test;

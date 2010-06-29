@@ -19,13 +19,13 @@
 separate (Main)
 procedure Test_SHA384
 is
-   Block1, Block2  : LSC.SHA2.Block_Type;
+   Block1, Block2  : LSC.SHA512.Block_Type;
    SHA384_Context1 : OpenSSL.SHA384_Context_Type;
-   SHA384_Context2 : LSC.SHA2.Context_Type;
-   H1, H2          : LSC.SHA2.SHA384_Hash_Type;
+   SHA384_Context2 : LSC.SHA512.Context_Type;
+   H1, H2          : LSC.SHA512.SHA384_Hash_Type;
 begin
-   Block1  := LSC.SHA2.Block_Type'(others => 16#deadbeefcafebabe#);
-   Block2  := LSC.SHA2.Block_Type'(others => 16#0000000000636261#);
+   Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
+   Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
 
    S1 := Clock;
    for I in 1 .. 500000
@@ -40,11 +40,11 @@ begin
    S2 := Clock;
    for I in 1 .. 500000
    loop
-      SHA384_Context2 := LSC.SHA2.SHA384_Context_Init;
-      LSC.SHA2.Context_Update (SHA384_Context2, Block1);
-      LSC.SHA2.Context_Finalize (SHA384_Context2, Block2, 56);
+      SHA384_Context2 := LSC.SHA512.SHA384_Context_Init;
+      LSC.SHA512.Context_Update (SHA384_Context2, Block1);
+      LSC.SHA512.Context_Finalize (SHA384_Context2, Block2, 56);
    end loop;
-   H2 := LSC.SHA2.SHA384_Get_Hash (SHA384_Context2);
+   H2 := LSC.SHA512.SHA384_Get_Hash (SHA384_Context2);
    D2 := Clock - S2;
 
    Result ("     SHA384", H1 = H2, D1, D2);

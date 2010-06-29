@@ -19,7 +19,7 @@
 separate (Main)
 procedure HMAC_RIPEMD160_Tests is
 
-   HMAC_Ctx    : LSC.HMAC.RIPEMD.Context_Type;
+   HMAC_Ctx    : LSC.HMAC_RIPEMD160.Context_Type;
    Key         : LSC.RIPEMD160.Block_Type;
    Block       : LSC.RIPEMD160.Block_Type;
    MAC         : LSC.RIPEMD160.Hash_Type;
@@ -42,9 +42,9 @@ begin
    Block := LSC.RIPEMD160.Block_Type'
       (M (16#48692054#), M (16#68657265#), others => 0);
 
-   HMAC_Ctx := LSC.HMAC.RIPEMD.Context_Init (Key);
-   LSC.HMAC.RIPEMD.Context_Finalize (HMAC_Ctx, Block, 64);
-   MAC := LSC.HMAC.RIPEMD.Get_Auth (HMAC_Ctx);
+   HMAC_Ctx := LSC.HMAC_RIPEMD160.Context_Init (Key);
+   LSC.HMAC_RIPEMD160.Context_Finalize (HMAC_Ctx, Block, 64);
+   MAC := LSC.HMAC_RIPEMD160.Get_Auth (HMAC_Ctx);
 
    LSC.Test.Run
      ("HMAC-RIPEMD160-1",
@@ -66,9 +66,9 @@ begin
       (M (16#77686174#), M (16#20646f20#), M (16#79612077#), M (16#616e7420#),
        M (16#666f7220#), M (16#6e6f7468#), M (16#696e673f#), others => 0);
 
-   HMAC_Ctx := LSC.HMAC.RIPEMD.Context_Init (Key);
-   LSC.HMAC.RIPEMD.Context_Finalize (HMAC_Ctx, Block, 224);
-   MAC := LSC.HMAC.RIPEMD.Get_Auth (HMAC_Ctx);
+   HMAC_Ctx := LSC.HMAC_RIPEMD160.Context_Init (Key);
+   LSC.HMAC_RIPEMD160.Context_Finalize (HMAC_Ctx, Block, 224);
+   MAC := LSC.HMAC_RIPEMD160.Get_Auth (HMAC_Ctx);
 
    LSC.Test.Run
      ("HMAC-RIPEMD160-2",
@@ -93,9 +93,9 @@ begin
        M (16#dddddddd#), M (16#dddddddd#), M (16#dddddddd#),
        M (16#dddd0000#), others => 0);
 
-   HMAC_Ctx := LSC.HMAC.RIPEMD.Context_Init (Key);
-   LSC.HMAC.RIPEMD.Context_Finalize (HMAC_Ctx, Block, 400);
-   MAC := LSC.HMAC.RIPEMD.Get_Auth (HMAC_Ctx);
+   HMAC_Ctx := LSC.HMAC_RIPEMD160.Context_Init (Key);
+   LSC.HMAC_RIPEMD160.Context_Finalize (HMAC_Ctx, Block, 400);
+   MAC := LSC.HMAC_RIPEMD160.Get_Auth (HMAC_Ctx);
 
    LSC.Test.Run
      ("HMAC-RIPEMD160-3",
@@ -120,9 +120,9 @@ begin
        M (16#cdcdcdcd#), M (16#cdcdcdcd#), M (16#cdcdcdcd#),
        M (16#cdcd0000#), others => 0);
 
-   HMAC_Ctx := LSC.HMAC.RIPEMD.Context_Init (Key);
-   LSC.HMAC.RIPEMD.Context_Finalize (HMAC_Ctx, Block, 400);
-   MAC := LSC.HMAC.RIPEMD.Get_Auth (HMAC_Ctx);
+   HMAC_Ctx := LSC.HMAC_RIPEMD160.Context_Init (Key);
+   LSC.HMAC_RIPEMD160.Context_Finalize (HMAC_Ctx, Block, 400);
+   MAC := LSC.HMAC_RIPEMD160.Get_Auth (HMAC_Ctx);
 
    LSC.Test.Run
      ("HMAC-RIPEMD160-4",

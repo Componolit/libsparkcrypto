@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.HMAC.RIPEMD is
+package body LSC.HMAC_RIPEMD160 is
 
    IPad : constant RIPEMD160.Block_Type :=
       RIPEMD160.Block_Type'(others => 16#36363636#);
@@ -93,4 +93,4 @@ package body LSC.HMAC.RIPEMD is
       return RIPEMD160.Get_Hash (Context.RIPEMD160_Context);
    end Get_Auth;
 
-end LSC.HMAC.RIPEMD;
+end LSC.HMAC_RIPEMD160;
