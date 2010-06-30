@@ -19,9 +19,9 @@
 -------------------------------------------------------------------------------
 --  References:
 --
---  FIPS PUB 180-2, Secure Hash Standard, National Institute of Standards and
---  Technology, U.S. Department of Commerce, August 2002.
---  [doc/specs/fips180-2.pdf]
+--  FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of Standards
+--  and Technology, U.S. Department of Commerce, October 2008.
+--  [doc/specs/fips180-3_final.pdf]
 --
 -------------------------------------------------------------------------------
 
