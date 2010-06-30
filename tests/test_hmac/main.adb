@@ -16,27 +16,33 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA512,
+with LSC.SHA256,
+     LSC.SHA512,
      LSC.RIPEMD160,
+     LSC.HMAC_SHA256,
      LSC.HMAC_SHA512,
      LSC.HMAC_SHA384,
      LSC.HMAC_RIPEMD160,
      LSC.IO,
      LSC.Types,
      LSC.Byteorder,
+     LSC.Debug,
      LSC.Test;
 
 use type LSC.Types.Word32_Array_Type;
 use type LSC.Types.Word64_Array_Type;
 
 --# inherit LSC.IO,
---#         LSC.SHA2,
+--#         LSC.SHA256,
+--#         LSC.SHA512,
 --#         LSC.RIPEMD160,
+--#         LSC.HMAC_SHA256,
 --#         LSC.HMAC_SHA512,
 --#         LSC.HMAC_SHA384,
 --#         LSC.HMAC_RIPEMD160,
 --#         LSC.Types,
 --#         LSC.Byteorder,
+--#         LSC.Debug,
 --#         LSC.Test;
 
 --# main_program;
@@ -55,6 +61,10 @@ is
       return LSC.Byteorder.BE_To_Native32 (Item);
    end M;
 
+   procedure HMAC_SHA256_Tests
+   --# derives ;
+   is separate;
+
    procedure HMAC_SHA384_Tests
    --# derives ;
    is separate;
@@ -69,6 +79,7 @@ is
 
 begin
 
+   HMAC_SHA256_Tests;
    HMAC_SHA384_Tests;
    HMAC_SHA512_Tests;
    HMAC_RIPEMD160_Tests;
