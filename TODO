@@ -4,3 +4,4 @@
 * denote all 32-bit routines with 32 (e.g. LSC.Ops).
 * separate 32 and 64 bit implementations of LSC.Byteorder.
 * Move operations in LSC.Types to LSC.Ops.
+* Perform dead path analysis
