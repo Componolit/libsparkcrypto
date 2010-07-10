@@ -16,14 +16,22 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.SHA256, LSC.SHA512, LSC.IO, LSC.Test, LSC.Types, LSC.Byteorder;
+with LSC.SHA256,
+     LSC.SHA512,
+     LSC.IO,
+     LSC.Test,
+     LSC.Types,
+     LSC.Byteorder32,
+     LSC.Byteorder64;
+
 use type LSC.SHA512.SHA512_Hash_Type;
 use type LSC.SHA256.SHA256_Hash_Type;
 
 --# inherit LSC.IO,
 --#         LSC.SHA256,
 --#         LSC.SHA512,
---#         LSC.Byteorder,
+--#         LSC.Byteorder32,
+--#         LSC.Byteorder64,
 --#         LSC.Types,
 --#         LSC.Test;
 
@@ -34,13 +42,13 @@ is
    function N (Item : LSC.Types.Word64) return LSC.Types.Word64
    is
    begin
-      return LSC.Byteorder.BE_To_Native64 (Item);
+      return LSC.Byteorder64.BE_To_Native (Item);
    end N;
 
    function M (Item : LSC.Types.Word32) return LSC.Types.Word32
    is
    begin
-      return LSC.Byteorder.BE_To_Native32 (Item);
+      return LSC.Byteorder32.BE_To_Native (Item);
    end M;
 
    procedure SHA256_Tests

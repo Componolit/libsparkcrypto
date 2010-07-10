@@ -25,7 +25,8 @@ with LSC.SHA256,
      LSC.HMAC_RIPEMD160,
      LSC.IO,
      LSC.Types,
-     LSC.Byteorder,
+     LSC.Byteorder32,
+     LSC.Byteorder64,
      LSC.Debug,
      LSC.Test;
 
@@ -41,7 +42,8 @@ use type LSC.Types.Word64_Array_Type;
 --#         LSC.HMAC_SHA384,
 --#         LSC.HMAC_RIPEMD160,
 --#         LSC.Types,
---#         LSC.Byteorder,
+--#         LSC.Byteorder32,
+--#         LSC.Byteorder64,
 --#         LSC.Debug,
 --#         LSC.Test;
 
@@ -52,13 +54,13 @@ is
    function N (Item : LSC.Types.Word64) return LSC.Types.Word64
    is
    begin
-      return LSC.Byteorder.BE_To_Native64 (Item);
+      return LSC.Byteorder64.BE_To_Native (Item);
    end N;
 
    function M (Item : LSC.Types.Word32) return LSC.Types.Word32
    is
    begin
-      return LSC.Byteorder.BE_To_Native32 (Item);
+      return LSC.Byteorder32.BE_To_Native (Item);
    end M;
 
    procedure HMAC_SHA256_Tests

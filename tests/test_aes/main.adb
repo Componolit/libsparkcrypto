@@ -16,14 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.AES, LSC.IO, LSC.Test, LSC.Byteorder, LSC.Types, LSC.AES.CBC;
+with LSC.AES, LSC.IO, LSC.Test, LSC.Byteorder32, LSC.Types, LSC.AES.CBC;
 use type LSC.AES.Block_Type;
 use type LSC.AES.Message_Type;
 
 --# inherit LSC.IO,
 --#         LSC.AES,
 --#         LSC.Test,
---#         LSC.Byteorder,
+--#         LSC.Byteorder32,
 --#         LSC.Types,
 --#         LSC.AES.CBC;
 
@@ -34,7 +34,7 @@ is
    function N (Item : LSC.Types.Word32) return LSC.Types.Word32
    is
    begin
-      return LSC.Byteorder.BE_To_Native32 (Item);
+      return LSC.Byteorder32.BE_To_Native (Item);
    end N;
 
    procedure AES_Tests
