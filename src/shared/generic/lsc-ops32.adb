@@ -16,9 +16,9 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.Ops is
+package body LSC.Ops32 is
 
-   function Bytes32_To_Word32
+   function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
@@ -26,7 +26,7 @@ package body LSC.Ops is
    is
    begin
       return Types.Byte_Array32_To_Word32 (Types.Byte_Array32_Type'(Byte3, Byte2, Byte1, Byte0));
-   end Bytes32_To_Word32;
+   end Bytes_To_Word;
 
    ----------------------------------------------------------------------------
 
@@ -124,4 +124,4 @@ package body LSC.Ops is
       end loop;
    end Block_XOR;
 
-end LSC.Ops;
+end LSC.Ops32;

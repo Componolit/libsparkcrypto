@@ -27,11 +27,11 @@
 --  [doc/specs/rfc1320.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Ops, LSC.Byteorder, LSC.Debug;
+with LSC.Types, LSC.Ops32, LSC.Byteorder, LSC.Debug;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;
 --# inherit LSC.Types,
---#         LSC.Ops,
+--#         LSC.Ops32,
 --#         LSC.Byteorder,
 --#         LSC.Debug;
 

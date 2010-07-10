@@ -24,12 +24,12 @@
 --  [doc/specs/rfc4868.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.SHA256, LSC.Types, LSC.Ops, LSC.Debug;
+with LSC.SHA256, LSC.Types, LSC.Ops32, LSC.Debug;
 use type LSC.Types.Word32;
 
 --# inherit LSC.Debug,
 --#         LSC.SHA256,
---#         LSC.Ops,
+--#         LSC.Ops32,
 --#         LSC.Types;
 
 package LSC.HMAC_SHA256 is

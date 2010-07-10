@@ -25,9 +25,9 @@
 --  Commerce, December 2001
 -------------------------------------------------------------------------------
 
-with LSC.AES, LSC.Ops;
+with LSC.AES, LSC.Ops32;
 --# inherit LSC.AES,
---#         LSC.Ops;
+--#         LSC.Ops32;
 
 package LSC.AES.CBC is
 

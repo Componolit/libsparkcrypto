@@ -20,14 +20,14 @@ with LSC.Types;
 use type LSC.Types.Word32;
 --# inherit LSC.Types;
 
-package LSC.Ops is
+package LSC.Ops32 is
 
-   function Bytes32_To_Word32
+   function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
        Byte3 : Types.Byte) return Types.Word32;
-   pragma Inline (Bytes32_To_Word32);
+   pragma Inline (Bytes_To_Word);
 
    function ByteX (Value    : Types.Word32;
                    Position : Types.Byte_Array32_Index) return Types.Byte;
@@ -77,4 +77,4 @@ package LSC.Ops is
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
    pragma Inline (Block_XOR);
 
-end LSC.Ops;
+end LSC.Ops32;

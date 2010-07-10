@@ -23,7 +23,7 @@ package body LSC.Byteswap is
       Temp : Types.Byte_Array32_Type;
    begin
       Temp := Types.Word32_To_Byte_Array32 (Value);
-      return Ops.Bytes32_To_Word32 (Temp (0), Temp (1), Temp (2), Temp (3));
+      return Ops32.Bytes_To_Word (Temp (0), Temp (1), Temp (2), Temp (3));
    end Swap32;
 
    ----------------------------------------------------------------------------
@@ -33,8 +33,8 @@ package body LSC.Byteswap is
       Temp : Types.Byte_Array64_Type;
    begin
       Temp := Types.Word64_To_Byte_Array64 (Value);
-      return Ops64.Bytes64_To_Word64 (Temp (0), Temp (1), Temp (2), Temp (3),
-                                      Temp (4), Temp (5), Temp (6), Temp (7));
+      return Ops64.Bytes_To_Word (Temp (0), Temp (1), Temp (2), Temp (3),
+                                  Temp (4), Temp (5), Temp (6), Temp (7));
    end Swap64;
 
 end LSC.Byteswap;

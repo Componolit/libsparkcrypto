@@ -26,10 +26,10 @@ package body LSC.AES is
       Temp : Types.Byte_Array32_Type;
     begin
       Temp := Types.Word32_To_Byte_Array32 (Value);
-      return Ops.Bytes32_To_Word32 (Byte0 => Tables.S (Temp (3)),
-                                    Byte1 => Tables.S (Temp (2)),
-                                    Byte2 => Tables.S (Temp (1)),
-                                    Byte3 => Tables.S (Temp (0)));
+      return Ops32.Bytes_To_Word (Byte0 => Tables.S (Temp (3)),
+                                  Byte1 => Tables.S (Temp (2)),
+                                  Byte2 => Tables.S (Temp (1)),
+                                  Byte3 => Tables.S (Temp (0)));
    end Sub_Word;
 
    ----------------------------------------------------------------------------
@@ -103,7 +103,7 @@ package body LSC.AES is
 
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);
-            Temp     := Ops.XOR2 (Sub_Temp, Tables.Rcon (I/Nk));
+            Temp     := Ops32.XOR2 (Sub_Temp, Tables.Rcon (I/Nk));
 
             --  DEBUG OUTPUT  -------------------
             Put_Row (Rot_Temp);                --
@@ -135,7 +135,7 @@ package body LSC.AES is
 
          --# assert I - Nk in Schedule_Index and
          --#        I in Schedule_Index;
-         Result (I) := Ops.XOR2 (Result (I - Nk), Temp);
+         Result (I) := Ops32.XOR2 (Result (I - Nk), Temp);
 
          --  DEBUG OUTPUT  ------------
          Put_Row (Result (I - Nk));  --
@@ -175,10 +175,10 @@ package body LSC.AES is
          --# assert Nb * Round in Schedule_Index;
 
          Result (Nb * Round) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round))),
-                      Tables.U2 (Ops.Byte1 (Result (Nb * Round))),
-                      Tables.U3 (Ops.Byte2 (Result (Nb * Round))),
-                      Tables.U4 (Ops.Byte3 (Result (Nb * Round))));
+            Ops32.XOR4 (Tables.U1 (Ops32.Byte0 (Result (Nb * Round))),
+                        Tables.U2 (Ops32.Byte1 (Result (Nb * Round))),
+                        Tables.U3 (Ops32.Byte2 (Result (Nb * Round))),
+                        Tables.U4 (Ops32.Byte3 (Result (Nb * Round))));
       end loop;
 
       for Round in Schedule_Index range 1 .. Nr - 1
@@ -187,10 +187,10 @@ package body LSC.AES is
          --# assert Nb * Round + 1 in Schedule_Index;
 
          Result (Nb * Round + 1) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round + 1))),
-                      Tables.U2 (Ops.Byte1 (Result (Nb * Round + 1))),
-                      Tables.U3 (Ops.Byte2 (Result (Nb * Round + 1))),
-                      Tables.U4 (Ops.Byte3 (Result (Nb * Round + 1))));
+            Ops32.XOR4 (Tables.U1 (Ops32.Byte0 (Result (Nb * Round + 1))),
+                        Tables.U2 (Ops32.Byte1 (Result (Nb * Round + 1))),
+                        Tables.U3 (Ops32.Byte2 (Result (Nb * Round + 1))),
+                        Tables.U4 (Ops32.Byte3 (Result (Nb * Round + 1))));
 
       end loop;
 
@@ -200,10 +200,10 @@ package body LSC.AES is
          --# assert Nb * Round + 2 in Schedule_Index;
 
          Result (Nb * Round + 2) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round + 2))),
-                      Tables.U2 (Ops.Byte1 (Result (Nb * Round + 2))),
-                      Tables.U3 (Ops.Byte2 (Result (Nb * Round + 2))),
-                      Tables.U4 (Ops.Byte3 (Result (Nb * Round + 2))));
+            Ops32.XOR4 (Tables.U1 (Ops32.Byte0 (Result (Nb * Round + 2))),
+                        Tables.U2 (Ops32.Byte1 (Result (Nb * Round + 2))),
+                        Tables.U3 (Ops32.Byte2 (Result (Nb * Round + 2))),
+                        Tables.U4 (Ops32.Byte3 (Result (Nb * Round + 2))));
       end loop;
 
       for Round in Schedule_Index range 1 .. Nr - 1
@@ -212,10 +212,10 @@ package body LSC.AES is
          --# assert Nb * Round + 3 in Schedule_Index;
 
          Result (Nb * Round + 3) :=
-            Ops.XOR4 (Tables.U1 (Ops.Byte0 (Result (Nb * Round + 3))),
-                      Tables.U2 (Ops.Byte1 (Result (Nb * Round + 3))),
-                      Tables.U3 (Ops.Byte2 (Result (Nb * Round + 3))),
-                      Tables.U4 (Ops.Byte3 (Result (Nb * Round + 3))));
+            Ops32.XOR4 (Tables.U1 (Ops32.Byte0 (Result (Nb * Round + 3))),
+                        Tables.U2 (Ops32.Byte1 (Result (Nb * Round + 3))),
+                        Tables.U3 (Ops32.Byte2 (Result (Nb * Round + 3))),
+                        Tables.U4 (Ops32.Byte3 (Result (Nb * Round + 3))));
       end loop;
 
       --  DEBUG OUTPUT  --------------------------------
@@ -269,28 +269,28 @@ package body LSC.AES is
                             Block_Type'(C0, C1, C2, C3));  --
          ----------------------------------------------------
 
-         A0 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C0)),
-                         Tables.T2 (Ops.Byte1 (C1)),
-                         Tables.T3 (Ops.Byte2 (C2)),
-                         Tables.T4 (Ops.Byte3 (C3)),
+         A0 := Ops32.XOR5 (Tables.T1 (Ops32.Byte0 (C0)),
+                         Tables.T2 (Ops32.Byte1 (C1)),
+                         Tables.T3 (Ops32.Byte2 (C2)),
+                         Tables.T4 (Ops32.Byte3 (C3)),
                          Context.Schedule (Nb * Round));
 
-         A1 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C1)),
-                         Tables.T2 (Ops.Byte1 (C2)),
-                         Tables.T3 (Ops.Byte2 (C3)),
-                         Tables.T4 (Ops.Byte3 (C0)),
+         A1 := Ops32.XOR5 (Tables.T1 (Ops32.Byte0 (C1)),
+                         Tables.T2 (Ops32.Byte1 (C2)),
+                         Tables.T3 (Ops32.Byte2 (C3)),
+                         Tables.T4 (Ops32.Byte3 (C0)),
                          Context.Schedule (Nb * Round + 1));
 
-         A2 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C2)),
-                         Tables.T2 (Ops.Byte1 (C3)),
-                         Tables.T3 (Ops.Byte2 (C0)),
-                         Tables.T4 (Ops.Byte3 (C1)),
+         A2 := Ops32.XOR5 (Tables.T1 (Ops32.Byte0 (C2)),
+                         Tables.T2 (Ops32.Byte1 (C3)),
+                         Tables.T3 (Ops32.Byte2 (C0)),
+                         Tables.T4 (Ops32.Byte3 (C1)),
                          Context.Schedule (Nb * Round + 2));
 
-         A3 := Ops.XOR5 (Tables.T1 (Ops.Byte0 (C3)),
-                         Tables.T2 (Ops.Byte1 (C0)),
-                         Tables.T3 (Ops.Byte2 (C1)),
-                         Tables.T4 (Ops.Byte3 (C2)),
+         A3 := Ops32.XOR5 (Tables.T1 (Ops32.Byte0 (C3)),
+                         Tables.T2 (Ops32.Byte1 (C0)),
+                         Tables.T3 (Ops32.Byte2 (C1)),
+                         Tables.T4 (Ops32.Byte3 (C2)),
                          Context.Schedule (Nb * Round + 3));
 
          --# assert
@@ -317,32 +317,32 @@ package body LSC.AES is
                          Block_Type'(C0, C1, C2, C3));  --
       ----------------------------------------------------
 
-      A0 := Ops.Bytes32_To_Word32
-              (Tables.S (Ops.Byte0 (C0)),
-               Tables.S (Ops.Byte1 (C1)),
-               Tables.S (Ops.Byte2 (C2)),
-               Tables.S (Ops.Byte3 (C3))) xor
+      A0 := Ops32.Bytes_To_Word
+              (Tables.S (Ops32.Byte0 (C0)),
+               Tables.S (Ops32.Byte1 (C1)),
+               Tables.S (Ops32.Byte2 (C2)),
+               Tables.S (Ops32.Byte3 (C3))) xor
             Context.Schedule (Nb * Context.Nr);
 
-      A1 := Ops.Bytes32_To_Word32
-              (Tables.S (Ops.Byte0 (C1)),
-               Tables.S (Ops.Byte1 (C2)),
-               Tables.S (Ops.Byte2 (C3)),
-               Tables.S (Ops.Byte3 (C0))) xor
+      A1 := Ops32.Bytes_To_Word
+              (Tables.S (Ops32.Byte0 (C1)),
+               Tables.S (Ops32.Byte1 (C2)),
+               Tables.S (Ops32.Byte2 (C3)),
+               Tables.S (Ops32.Byte3 (C0))) xor
             Context.Schedule (Nb * Context.Nr + 1);
 
-      A2 := Ops.Bytes32_To_Word32
-              (Tables.S (Ops.Byte0 (C2)),
-               Tables.S (Ops.Byte1 (C3)),
-               Tables.S (Ops.Byte2 (C0)),
-               Tables.S (Ops.Byte3 (C1))) xor
+      A2 := Ops32.Bytes_To_Word
+              (Tables.S (Ops32.Byte0 (C2)),
+               Tables.S (Ops32.Byte1 (C3)),
+               Tables.S (Ops32.Byte2 (C0)),
+               Tables.S (Ops32.Byte3 (C1))) xor
             Context.Schedule (Nb * Context.Nr + 2);
 
-      A3 := Ops.Bytes32_To_Word32
-              (Tables.S (Ops.Byte0 (C3)),
-               Tables.S (Ops.Byte1 (C0)),
-               Tables.S (Ops.Byte2 (C1)),
-               Tables.S (Ops.Byte3 (C2))) xor
+      A3 := Ops32.Bytes_To_Word
+              (Tables.S (Ops32.Byte0 (C3)),
+               Tables.S (Ops32.Byte1 (C0)),
+               Tables.S (Ops32.Byte2 (C1)),
+               Tables.S (Ops32.Byte3 (C2))) xor
             Context.Schedule (Nb * Context.Nr + 3);
 
       --  DEBUG  -----------------------------------------
@@ -475,29 +475,29 @@ package body LSC.AES is
                             Block_Type'(C0, C1, C2, C3));  --
          ----------------------------------------------------
 
-         A0 := Ops.XOR5 (Tables.T5 (Ops.Byte0 (C0)),
-                         Tables.T6 (Ops.Byte1 (C3)),
-                         Tables.T7 (Ops.Byte2 (C2)),
-                         Tables.T8 (Ops.Byte3 (C1)),
-                         Context.Schedule (Nb * Round));
+         A0 := Ops32.XOR5 (Tables.T5 (Ops32.Byte0 (C0)),
+                           Tables.T6 (Ops32.Byte1 (C3)),
+                           Tables.T7 (Ops32.Byte2 (C2)),
+                           Tables.T8 (Ops32.Byte3 (C1)),
+                           Context.Schedule (Nb * Round));
 
-         A1 := Ops.XOR5 (Tables.T5 (Ops.Byte0 (C1)),
-                         Tables.T6 (Ops.Byte1 (C0)),
-                         Tables.T7 (Ops.Byte2 (C3)),
-                         Tables.T8 (Ops.Byte3 (C2)),
-                         Context.Schedule (Nb * Round + 1));
+         A1 := Ops32.XOR5 (Tables.T5 (Ops32.Byte0 (C1)),
+                           Tables.T6 (Ops32.Byte1 (C0)),
+                           Tables.T7 (Ops32.Byte2 (C3)),
+                           Tables.T8 (Ops32.Byte3 (C2)),
+                           Context.Schedule (Nb * Round + 1));
 
-         A2 := Ops.XOR5 (Tables.T5 (Ops.Byte0 (C2)),
-                         Tables.T6 (Ops.Byte1 (C1)),
-                         Tables.T7 (Ops.Byte2 (C0)),
-                         Tables.T8 (Ops.Byte3 (C3)),
-                         Context.Schedule (Nb * Round + 2));
+         A2 := Ops32.XOR5 (Tables.T5 (Ops32.Byte0 (C2)),
+                           Tables.T6 (Ops32.Byte1 (C1)),
+                           Tables.T7 (Ops32.Byte2 (C0)),
+                           Tables.T8 (Ops32.Byte3 (C3)),
+                           Context.Schedule (Nb * Round + 2));
 
-         A3 := Ops.XOR5 (Tables.T5 (Ops.Byte0 (C3)),
-                         Tables.T6 (Ops.Byte1 (C2)),
-                         Tables.T7 (Ops.Byte2 (C1)),
-                         Tables.T8 (Ops.Byte3 (C0)),
-                         Context.Schedule (Nb * Round + 3));
+         A3 := Ops32.XOR5 (Tables.T5 (Ops32.Byte0 (C3)),
+                           Tables.T6 (Ops32.Byte1 (C2)),
+                           Tables.T7 (Ops32.Byte2 (C1)),
+                           Tables.T8 (Ops32.Byte3 (C0)),
+                           Context.Schedule (Nb * Round + 3));
 
          C0 := A0;
          C1 := A1;
@@ -513,32 +513,32 @@ package body LSC.AES is
                          Block_Type'(C0, C1, C2, C3));  --
       ----------------------------------------------------
 
-      A0 := Ops.Bytes32_To_Word32
-              (Tables.Si (Ops.Byte0 (C0)),
-               Tables.Si (Ops.Byte1 (C3)),
-               Tables.Si (Ops.Byte2 (C2)),
-               Tables.Si (Ops.Byte3 (C1))) xor
+      A0 := Ops32.Bytes_To_Word
+              (Tables.Si (Ops32.Byte0 (C0)),
+               Tables.Si (Ops32.Byte1 (C3)),
+               Tables.Si (Ops32.Byte2 (C2)),
+               Tables.Si (Ops32.Byte3 (C1))) xor
             Context.Schedule (0);
 
-      A1 := Ops.Bytes32_To_Word32
-              (Tables.Si (Ops.Byte0 (C1)),
-               Tables.Si (Ops.Byte1 (C0)),
-               Tables.Si (Ops.Byte2 (C3)),
-               Tables.Si (Ops.Byte3 (C2))) xor
+      A1 := Ops32.Bytes_To_Word
+              (Tables.Si (Ops32.Byte0 (C1)),
+               Tables.Si (Ops32.Byte1 (C0)),
+               Tables.Si (Ops32.Byte2 (C3)),
+               Tables.Si (Ops32.Byte3 (C2))) xor
             Context.Schedule (1);
 
-      A2 := Ops.Bytes32_To_Word32
-              (Tables.Si (Ops.Byte0 (C2)),
-               Tables.Si (Ops.Byte1 (C1)),
-               Tables.Si (Ops.Byte2 (C0)),
-               Tables.Si (Ops.Byte3 (C3))) xor
+      A2 := Ops32.Bytes_To_Word
+              (Tables.Si (Ops32.Byte0 (C2)),
+               Tables.Si (Ops32.Byte1 (C1)),
+               Tables.Si (Ops32.Byte2 (C0)),
+               Tables.Si (Ops32.Byte3 (C3))) xor
             Context.Schedule (2);
 
-      A3 := Ops.Bytes32_To_Word32
-              (Tables.Si (Ops.Byte0 (C3)),
-               Tables.Si (Ops.Byte1 (C2)),
-               Tables.Si (Ops.Byte2 (C1)),
-               Tables.Si (Ops.Byte3 (C0))) xor
+      A3 := Ops32.Bytes_To_Word
+              (Tables.Si (Ops32.Byte0 (C3)),
+               Tables.Si (Ops32.Byte1 (C2)),
+               Tables.Si (Ops32.Byte2 (C1)),
+               Tables.Si (Ops32.Byte3 (C0))) xor
             Context.Schedule (3);
 
       --  DEBUG  -----------------------------------------

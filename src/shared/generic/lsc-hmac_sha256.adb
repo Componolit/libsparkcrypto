@@ -50,7 +50,7 @@ package body LSC.HMAC_SHA256 is
 
       Result.Key            := Key;
       Result.SHA256_Context := SHA256.SHA256_Context_Init;
-      Ops.Block_XOR (IPad, Result.Key, Temp);
+      Ops32.Block_XOR (IPad, Result.Key, Temp);
       SHA256.Context_Update (Result.SHA256_Context, Temp);
       return Result;
    end Context_Init;
@@ -81,7 +81,7 @@ package body LSC.HMAC_SHA256 is
       Hash := SHA256.SHA256_Get_Hash (Context.SHA256_Context);
 
       Context.SHA256_Context := SHA256.SHA256_Context_Init;
-      Ops.Block_XOR (OPad, Context.Key, Temp);
+      Ops32.Block_XOR (OPad, Context.Key, Temp);
       SHA256.Context_Update (Context.SHA256_Context, Temp);
       SHA256.Context_Finalize (Context.SHA256_Context, To_Block (Hash), 256);
    end Context_Finalize;

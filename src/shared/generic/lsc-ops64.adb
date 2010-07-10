@@ -18,7 +18,7 @@
 
 package body LSC.Ops64 is
 
-   function Bytes64_To_Word64
+   function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
@@ -32,7 +32,7 @@ package body LSC.Ops64 is
       return Types.Byte_Array64_To_Word64
           (Types.Byte_Array64_Type'(Byte7, Byte6, Byte5, Byte4,
                                     Byte3, Byte2, Byte1, Byte0));
-   end Bytes64_To_Word64;
+   end Bytes_To_Word;
 
    ----------------------------------------------------------------------------
 

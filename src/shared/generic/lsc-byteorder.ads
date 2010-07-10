@@ -16,8 +16,8 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Ops, LSC.Ops64, LSC.Types, LSC.Byteswap;
---# inherit LSC.Ops,
+with LSC.Ops32, LSC.Ops64, LSC.Types, LSC.Byteswap;
+--# inherit LSC.Ops32,
 --#         LSC.Ops64,
 --#         LSC.Types,
 --#         LSC.Byteswap;

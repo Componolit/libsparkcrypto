@@ -42,7 +42,7 @@ package LSC.Ops64 is
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
    pragma Inline (Block_XOR);
 
-   function Bytes64_To_Word64
+   function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
        Byte2 : Types.Byte;
@@ -51,6 +51,6 @@ package LSC.Ops64 is
        Byte5 : Types.Byte;
        Byte6 : Types.Byte;
        Byte7 : Types.Byte) return Types.Word64;
-   pragma Inline (Bytes64_To_Word64);
+   pragma Inline (Bytes_To_Word);
 
 end LSC.Ops64;

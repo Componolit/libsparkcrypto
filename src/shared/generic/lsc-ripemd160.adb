@@ -61,7 +61,7 @@ package body LSC.RIPEMD160 is
        z : Types.Word32) return Types.Word32
    is
    begin
-      return Ops.XOR3 (x, y, z);
+      return Ops32.XOR3 (x, y, z);
    end f;
 
    ---------------------------------------------------------------------------
@@ -97,7 +97,7 @@ package body LSC.RIPEMD160 is
    begin
       Not_y := not y;
       --# assert Not_y in Types.Word32;
-      return Ops.XOR2 (x or Not_y, z);
+      return Ops32.XOR2 (x or Not_y, z);
    end h;
 
    ---------------------------------------------------------------------------
@@ -133,7 +133,7 @@ package body LSC.RIPEMD160 is
    begin
       Not_z := not z;
       --# assert Not_z in Types.Word32;
-      return Ops.XOR2 (x, y or Not_z);
+      return Ops32.XOR2 (x, y or Not_z);
    end j;
 
    ---------------------------------------------------------------------------

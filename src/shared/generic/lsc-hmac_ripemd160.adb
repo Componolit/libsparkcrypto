@@ -50,7 +50,7 @@ package body LSC.HMAC_RIPEMD160 is
 
       Result.Key            := Key;
       Result.RIPEMD160_Context := RIPEMD160.Context_Init;
-      Ops.Block_XOR (IPad, Result.Key, Temp);
+      Ops32.Block_XOR (IPad, Result.Key, Temp);
       RIPEMD160.Context_Update (Result.RIPEMD160_Context, Temp);
       return Result;
    end Context_Init;
@@ -81,7 +81,7 @@ package body LSC.HMAC_RIPEMD160 is
       Hash := RIPEMD160.Get_Hash (Context.RIPEMD160_Context);
 
       Context.RIPEMD160_Context := RIPEMD160.Context_Init;
-      Ops.Block_XOR (OPad, Context.Key, Temp);
+      Ops32.Block_XOR (OPad, Context.Key, Temp);
       RIPEMD160.Context_Update (Context.RIPEMD160_Context, Temp);
       RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, To_Block (Hash), 160);
    end Context_Finalize;
