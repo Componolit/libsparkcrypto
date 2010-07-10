@@ -25,12 +25,12 @@
 --
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Debug, LSC.Byteorder;
+with LSC.Types, LSC.Debug, LSC.Byteorder64;
 use type LSC.Types.Index;
 use type LSC.Types.Word64;
 --# inherit LSC.Types,
 --#         LSC.Debug,
---#         LSC.Byteorder;
+--#         LSC.Byteorder64;
 
 package LSC.SHA512 is
 

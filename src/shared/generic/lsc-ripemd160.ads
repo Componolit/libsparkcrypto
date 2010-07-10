@@ -27,12 +27,12 @@
 --  [doc/specs/rfc1320.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Ops32, LSC.Byteorder, LSC.Debug;
+with LSC.Types, LSC.Ops32, LSC.Byteorder32, LSC.Debug;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;
 --# inherit LSC.Types,
 --#         LSC.Ops32,
---#         LSC.Byteorder,
+--#         LSC.Byteorder32,
 --#         LSC.Debug;
 
 package LSC.RIPEMD160 is

@@ -186,7 +186,7 @@ package body LSC.SHA256 is
       for t in Schedule_Index range 0 .. 15
          --# assert t in 0 .. 15;
       loop
-         Context.W (t) := Byteorder.Native_To_BE32 (Block (t));
+         Context.W (t) := Byteorder32.Native_To_BE (Block (t));
       end loop;
 
       for t in Schedule_Index range 16 .. 63
@@ -339,10 +339,10 @@ package body LSC.SHA256 is
       Debug.Print_Natural (Offset);
       Debug.New_Line;
 
-      Block (Index) := Byteorder.Native_To_BE32 (Block (Index));
+      Block (Index) := Byteorder32.Native_To_BE (Block (Index));
       Block (Index) := Block (Index) xor Types.SHL32 (1, Offset);
       Block (Index) := Block (Index) and Types.SHL32 (not 0, Offset);
-      Block (Index) := Byteorder.BE_To_Native32 (Block (Index));
+      Block (Index) := Byteorder32.BE_To_Native (Block (Index));
 
       if Index < Block_Index'Last
       then
@@ -386,8 +386,8 @@ package body LSC.SHA256 is
       end if;
 
       --  Set length in final block.
-      Final_Block (Block_Type'Last - 1) := Byteorder.BE_To_Native32 (Context.Length.MSW);
-      Final_Block (Block_Type'Last)     := Byteorder.BE_To_Native32 (Context.Length.LSW);
+      Final_Block (Block_Type'Last - 1) := Byteorder32.BE_To_Native (Context.Length.MSW);
+      Final_Block (Block_Type'Last)     := Byteorder32.BE_To_Native (Context.Length.LSW);
 
       Context_Update_Internal (Context => Context, Block => Final_Block);
 
@@ -397,14 +397,14 @@ package body LSC.SHA256 is
 
    function SHA256_Get_Hash (Context : Context_Type) return SHA256_Hash_Type is
    begin
-      return SHA256_Hash_Type'(0 => Byteorder.BE_To_Native32 (Context.H (0)),
-                               1 => Byteorder.BE_To_Native32 (Context.H (1)),
-                               2 => Byteorder.BE_To_Native32 (Context.H (2)),
-                               3 => Byteorder.BE_To_Native32 (Context.H (3)),
-                               4 => Byteorder.BE_To_Native32 (Context.H (4)),
-                               5 => Byteorder.BE_To_Native32 (Context.H (5)),
-                               6 => Byteorder.BE_To_Native32 (Context.H (6)),
-                               7 => Byteorder.BE_To_Native32 (Context.H (7)));
+      return SHA256_Hash_Type'(0 => Byteorder32.BE_To_Native (Context.H (0)),
+                               1 => Byteorder32.BE_To_Native (Context.H (1)),
+                               2 => Byteorder32.BE_To_Native (Context.H (2)),
+                               3 => Byteorder32.BE_To_Native (Context.H (3)),
+                               4 => Byteorder32.BE_To_Native (Context.H (4)),
+                               5 => Byteorder32.BE_To_Native (Context.H (5)),
+                               6 => Byteorder32.BE_To_Native (Context.H (6)),
+                               7 => Byteorder32.BE_To_Native (Context.H (7)));
    end SHA256_Get_Hash;
 
 end LSC.SHA256;

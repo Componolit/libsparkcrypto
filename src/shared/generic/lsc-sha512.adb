@@ -187,7 +187,7 @@ package body LSC.SHA512 is
       for t in Schedule_Index range 0 .. 15
          --# assert t in 0 .. 15;
       loop
-         Context.W (t) := Byteorder.Native_To_BE64 (Block (t));
+         Context.W (t) := Byteorder64.Native_To_BE (Block (t));
       end loop;
 
       for t in Schedule_Index range 16 .. 79
@@ -360,10 +360,10 @@ package body LSC.SHA512 is
       Debug.Print_Natural (Offset);
       Debug.New_Line;
 
-      Block (Index) := Byteorder.Native_To_BE64 (Block (Index));
+      Block (Index) := Byteorder64.Native_To_BE (Block (Index));
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);
       Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
-      Block (Index) := Byteorder.BE_To_Native64 (Block (Index));
+      Block (Index) := Byteorder64.BE_To_Native (Block (Index));
 
       if Index < Block_Index'Last
       then
@@ -407,8 +407,8 @@ package body LSC.SHA512 is
       end if;
 
       --  Set length in final block.
-      Final_Block (Block_Type'Last - 1) := Byteorder.BE_To_Native64 (Context.Length.MSW);
-      Final_Block (Block_Type'Last)     := Byteorder.BE_To_Native64 (Context.Length.LSW);
+      Final_Block (Block_Type'Last - 1) := Byteorder64.BE_To_Native (Context.Length.MSW);
+      Final_Block (Block_Type'Last)     := Byteorder64.BE_To_Native (Context.Length.LSW);
 
       Context_Update_Internal (Context => Context, Block => Final_Block);
 
@@ -418,26 +418,26 @@ package body LSC.SHA512 is
 
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type is
    begin
-      return SHA512_Hash_Type'(0 => Byteorder.BE_To_Native64 (Context.H (0)),
-                               1 => Byteorder.BE_To_Native64 (Context.H (1)),
-                               2 => Byteorder.BE_To_Native64 (Context.H (2)),
-                               3 => Byteorder.BE_To_Native64 (Context.H (3)),
-                               4 => Byteorder.BE_To_Native64 (Context.H (4)),
-                               5 => Byteorder.BE_To_Native64 (Context.H (5)),
-                               6 => Byteorder.BE_To_Native64 (Context.H (6)),
-                               7 => Byteorder.BE_To_Native64 (Context.H (7)));
+      return SHA512_Hash_Type'(0 => Byteorder64.BE_To_Native (Context.H (0)),
+                               1 => Byteorder64.BE_To_Native (Context.H (1)),
+                               2 => Byteorder64.BE_To_Native (Context.H (2)),
+                               3 => Byteorder64.BE_To_Native (Context.H (3)),
+                               4 => Byteorder64.BE_To_Native (Context.H (4)),
+                               5 => Byteorder64.BE_To_Native (Context.H (5)),
+                               6 => Byteorder64.BE_To_Native (Context.H (6)),
+                               7 => Byteorder64.BE_To_Native (Context.H (7)));
    end SHA512_Get_Hash;
 
    ----------------------------------------------------------------------------
 
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type is
    begin
-      return SHA384_Hash_Type'(0 => Byteorder.BE_To_Native64 (Context.H (0)),
-                               1 => Byteorder.BE_To_Native64 (Context.H (1)),
-                               2 => Byteorder.BE_To_Native64 (Context.H (2)),
-                               3 => Byteorder.BE_To_Native64 (Context.H (3)),
-                               4 => Byteorder.BE_To_Native64 (Context.H (4)),
-                               5 => Byteorder.BE_To_Native64 (Context.H (5)));
+      return SHA384_Hash_Type'(0 => Byteorder64.BE_To_Native (Context.H (0)),
+                               1 => Byteorder64.BE_To_Native (Context.H (1)),
+                               2 => Byteorder64.BE_To_Native (Context.H (2)),
+                               3 => Byteorder64.BE_To_Native (Context.H (3)),
+                               4 => Byteorder64.BE_To_Native (Context.H (4)),
+                               5 => Byteorder64.BE_To_Native (Context.H (5)));
    end SHA384_Get_Hash;
 
 end LSC.SHA512;

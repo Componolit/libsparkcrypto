@@ -64,7 +64,7 @@ package body LSC.AES is
       for I in Key_Index range Key'First .. Key'Last
       loop
          --# assert I in Schedule_Index;
-         Result (I) := Byteorder.Native_To_BE32 (Key (I));
+         Result (I) := Byteorder32.Native_To_BE (Key (I));
       end loop;
 
       --  DEBUG OUTPUT  -----------------------------------------------------------------------------------------
@@ -244,16 +244,16 @@ package body LSC.AES is
       Print.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
       ----------------------------------------------------------------
 
-      C0 := Byteorder.Native_To_BE32 (Plaintext (0)) xor
+      C0 := Byteorder32.Native_To_BE (Plaintext (0)) xor
             Context.Schedule (0);
 
-      C1 := Byteorder.Native_To_BE32 (Plaintext (1)) xor
+      C1 := Byteorder32.Native_To_BE (Plaintext (1)) xor
             Context.Schedule (1);
 
-      C2 := Byteorder.Native_To_BE32 (Plaintext (2)) xor
+      C2 := Byteorder32.Native_To_BE (Plaintext (2)) xor
             Context.Schedule (2);
 
-      C3 := Byteorder.Native_To_BE32 (Plaintext (3)) xor
+      C3 := Byteorder32.Native_To_BE (Plaintext (3)) xor
             Context.Schedule (3);
 
       for Round in Schedule_Index range 1 .. Context.Nr - 1
@@ -350,10 +350,10 @@ package body LSC.AES is
                          Block_Type'(A0, A1, A2, A3));  --
       ----------------------------------------------------
 
-      return Block_Type'(Byteorder.BE_To_Native32 (A0),
-                         Byteorder.BE_To_Native32 (A1),
-                         Byteorder.BE_To_Native32 (A2),
-                         Byteorder.BE_To_Native32 (A3));
+      return Block_Type'(Byteorder32.BE_To_Native (A0),
+                         Byteorder32.BE_To_Native (A1),
+                         Byteorder32.BE_To_Native (A2),
+                         Byteorder32.BE_To_Native (A3));
    end Encrypt;
 
    ----------------------------------------------------------------------------
@@ -450,16 +450,16 @@ package body LSC.AES is
       Print.Print_Round ("iinput", Schedule_Index'(Context.Nr), Ciphertext);  --
       --------------------------------------------------------------------------
 
-      C0 := Byteorder.Native_To_BE32 (Ciphertext (0)) xor
+      C0 := Byteorder32.Native_To_BE (Ciphertext (0)) xor
             Context.Schedule (Nb * Context.Nr);
 
-      C1 := Byteorder.Native_To_BE32 (Ciphertext (1)) xor
+      C1 := Byteorder32.Native_To_BE (Ciphertext (1)) xor
             Context.Schedule (Nb * Context.Nr + 1);
 
-      C2 := Byteorder.Native_To_BE32 (Ciphertext (2)) xor
+      C2 := Byteorder32.Native_To_BE (Ciphertext (2)) xor
             Context.Schedule (Nb * Context.Nr + 2);
 
-      C3 := Byteorder.Native_To_BE32 (Ciphertext (3)) xor
+      C3 := Byteorder32.Native_To_BE (Ciphertext (3)) xor
             Context.Schedule (Nb * Context.Nr + 3);
 
       for Round in reverse Schedule_Index range 1 .. Context.Nr - 1
@@ -546,10 +546,10 @@ package body LSC.AES is
                          Block_Type'(A0, A1, A2, A3));  --
       ----------------------------------------------------
 
-      return Block_Type'(Byteorder.BE_To_Native32 (A0),
-                         Byteorder.BE_To_Native32 (A1),
-                         Byteorder.BE_To_Native32 (A2),
-                         Byteorder.BE_To_Native32 (A3));
+      return Block_Type'(Byteorder32.BE_To_Native (A0),
+                         Byteorder32.BE_To_Native (A1),
+                         Byteorder32.BE_To_Native (A2),
+                         Byteorder32.BE_To_Native (A3));
    end Decrypt;
 
 end LSC.AES;

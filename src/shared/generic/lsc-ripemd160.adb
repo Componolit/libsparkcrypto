@@ -592,10 +592,10 @@ package body LSC.RIPEMD160 is
       Index  := Block_Index (Length / 32);
       Offset := Natural (31 - Length mod 32);
 
-      Block (Index) := Byteorder.Native_To_BE32 (Block (Index));
+      Block (Index) := Byteorder32.Native_To_BE (Block (Index));
       Block (Index) := Block (Index) xor Types.SHL32 (1, Offset);
       Block (Index) := Block (Index) and Types.SHL32 (not 0, Offset);
-      Block (Index) := Byteorder.BE_To_Native32 (Block (Index));
+      Block (Index) := Byteorder32.BE_To_Native (Block (Index));
 
       if Index < Block_Index'Last
       then

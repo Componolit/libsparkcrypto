@@ -25,12 +25,12 @@
 --
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Debug, LSC.Byteorder;
+with LSC.Types, LSC.Debug, LSC.Byteorder32;
 use type LSC.Types.Index;
 use type LSC.Types.Word32;
 --# inherit LSC.Types,
 --#         LSC.Debug,
---#         LSC.Byteorder;
+--#         LSC.Byteorder32;
 
 package LSC.SHA256 is
 
