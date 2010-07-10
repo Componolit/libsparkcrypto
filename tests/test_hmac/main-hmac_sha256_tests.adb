@@ -173,12 +173,8 @@ begin
    --  Test Case AUTH-1 --
    -----------------------
 
-   --  48 bytes
+   --  32 bytes
    Key   := LSC.SHA256.Block_Type'(M (16#0b0b0b0b#),
-                                   M (16#0b0b0b0b#),
-                                   M (16#0b0b0b0b#),
-                                   M (16#0b0b0b0b#),
-                                   M (16#0b0b0b0b#),
                                    M (16#0b0b0b0b#),
                                    M (16#0b0b0b0b#),
                                    M (16#0b0b0b0b#),
@@ -211,9 +207,15 @@ begin
 
    --  "JefeJefeJefeJefe"
    --  "JefeJefeJefeJefe"
-   --  "JefeJefeJefeJefe"
-   --  "JefeJefeJefeJefe"
-   Key   := LSC.SHA256.Block_Type'(others => (16#4a656665#));
+   Key   := LSC.SHA256.Block_Type'(M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   M (16#4a656665#),
+                                   others => 0);
 
    --  "what do ya want "
    --  "for nothing?"
@@ -242,12 +244,8 @@ begin
    --  Test Case AUTH-3 --
    -----------------------
 
-   --  48 times 16#aa#
+   --  32 times 16#aa#
    Key   := LSC.SHA256.Block_Type'(M (16#aaaaaaaa#),
-                                   M (16#aaaaaaaa#),
-                                   M (16#aaaaaaaa#),
-                                   M (16#aaaaaaaa#),
-                                   M (16#aaaaaaaa#),
                                    M (16#aaaaaaaa#),
                                    M (16#aaaaaaaa#),
                                    M (16#aaaaaaaa#),
@@ -280,15 +278,16 @@ begin
    LSC.Test.Run
      ("HMAC-SHA256-AUTH-3",
       AUTH_HMAC_SHA_256 =
-      LSC.HMAC_SHA256.Auth_Type'(16#cdcb1220#,
-                                 16#d1ecccea#,
-                                 16#91e53aba#,
-                                 16#3092f962#));
+      LSC.HMAC_SHA256.Auth_Type'(M (16#cdcb1220#),
+                                 M (16#d1ecccea#),
+                                 M (16#91e53aba#),
+                                 M (16#3092f962#)));
 
    -----------------------
    --  Test Case AUTH-4 --
    -----------------------
 
+   --  32 byte
    Key   := LSC.SHA256.Block_Type'(M (16#01020304#),
                                    M (16#05060708#),
                                    M (16#090a0b0c#),
@@ -297,13 +296,9 @@ begin
                                    M (16#15161718#),
                                    M (16#191a1b1c#),
                                    M (16#1d1e1f20#),
-                                   M (16#0a0b0c0d#),
-                                   M (16#0e0f1011#),
-                                   M (16#12131415#),
-                                   M (16#16171819#),
                                    others => 0);
 
-   --  50 times 16#dd#
+   --  50 times 16#cd#
    Block := LSC.SHA256.Block_Type'(M (16#cdcdcdcd#),
                                    M (16#cdcdcdcd#),
                                    M (16#cdcdcdcd#),

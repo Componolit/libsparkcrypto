@@ -1,4 +1,3 @@
-* Update HMAC for SHA256
 * Test on a big-endian machine.
 * Improve README explaining the library and directory structure
 * denote all 32-bit routines with 32 (e.g. LSC.Ops).
