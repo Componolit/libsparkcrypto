@@ -1,5 +1,4 @@
 * Test on a big-endian machine.
 * Improve README explaining the library and directory structure
-* separate 32 and 64 bit implementations of LSC.Byteorder.
 * Perform dead path analysis
 * Optimize simplification performance
