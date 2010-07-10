@@ -16,36 +16,21 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.Byteorder64 is
+with System.Machine_Code;
+with Unchecked_Conversion;
 
-   function Native_To_BE (Item : Types.Word64) return Types.Word64
+package body LSC.Byteswap32 is
+
+   function Swap (Value : Types.Word32) return Types.Word32
    is
+      Result : Types.Word32;
    begin
-      return Item;
-   end Native_To_BE;
+      System.Machine_Code.Asm
+         ("bswap %0",
+          Inputs   => (Types.Word32'Asm_Input ("0", Value)),
+          Outputs  => (Types.Word32'Asm_Output ("=r", Result)),
+          Volatile => True);
+      return Result;
+   end Swap;
 
-   ---------------------------------------------------------------------------
-
-   function Native_To_LE (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Byteswap64.Swap (Item);
-   end Native_To_LE;
-
-   ---------------------------------------------------------------------------
-
-   function BE_To_Native (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Item;
-   end BE_To_Native;
-
-   ---------------------------------------------------------------------------
-
-   function LE_To_Native (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Byteswap64.Swap (Item);
-   end LE_To_Native;
-
-end LSC.Byteorder64;
+end LSC.Byteswap32;

@@ -21,7 +21,7 @@ package body LSC.Byteorder64 is
    function Native_To_BE (Item : Types.Word64) return Types.Word64
    is
    begin
-      return Byteswap.Swap64 (Item);
+      return Byteswap64.Swap (Item);
    end Native_To_BE;
 
    ---------------------------------------------------------------------------
@@ -37,7 +37,7 @@ package body LSC.Byteorder64 is
    function BE_To_Native (Item : Types.Word64) return Types.Word64
    is
    begin
-      return Byteswap.Swap64 (Item);
+      return Byteswap64.Swap (Item);
    end BE_To_Native;
 
    ---------------------------------------------------------------------------

@@ -21,7 +21,7 @@ package body LSC.Byteorder32 is
    function Native_To_BE (Item : Types.Word32) return Types.Word32
    is
    begin
-      return Byteswap.Swap32 (Item);
+      return Byteswap32.Swap (Item);
    end Native_To_BE;
 
    ---------------------------------------------------------------------------
@@ -37,7 +37,7 @@ package body LSC.Byteorder32 is
    function BE_To_Native (Item : Types.Word32) return Types.Word32
    is
    begin
-      return Byteswap.Swap32 (Item);
+      return Byteswap32.Swap (Item);
    end BE_To_Native;
 
    ---------------------------------------------------------------------------

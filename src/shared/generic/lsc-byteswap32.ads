@@ -16,17 +16,13 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Types, LSC.Ops32, LSC.Ops64;
+with LSC.Types, LSC.Ops32;
 --# inherit LSC.Types,
---#         LSC.Ops32,
---#         LSC.Ops64;
+--#         LSC.Ops32;
 
-package LSC.Byteswap is
+package LSC.Byteswap32 is
 
-   function Swap32 (Value : Types.Word32) return Types.Word32;
-   pragma Inline (Swap32);
+   function Swap (Value : Types.Word32) return Types.Word32;
+   pragma Inline (Swap);
 
-   function Swap64 (Value : Types.Word64) return Types.Word64;
-   pragma Inline (Swap64);
-
-end LSC.Byteswap;
+end LSC.Byteswap32;

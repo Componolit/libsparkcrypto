@@ -16,7 +16,7 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.IO, LSC.Test, LSC.Types, LSC.Byteswap;
+with LSC.IO, LSC.Test, LSC.Types, LSC.Byteswap32, LSC.Byteswap64;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
@@ -34,8 +34,8 @@ begin
    LSC.Test.Suite ("Shadow tests");
 
    LSC.Test.Run
-     ("Byte swap (32-bit)", LSC.Byteswap.Swap32 (16#aabbccdd#) = 16#ddccbbaa#);
+     ("Byte swap (32-bit)", LSC.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#);
 
    LSC.Test.Run
-     ("Byte swap (64-bit)", LSC.Byteswap.Swap64 (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#);
+     ("Byte swap (64-bit)", LSC.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#);
 end Main;

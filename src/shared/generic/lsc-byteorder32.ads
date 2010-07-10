@@ -16,10 +16,10 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with LSC.Ops32, LSC.Types, LSC.Byteswap;
+with LSC.Ops32, LSC.Types, LSC.Byteswap32;
 --# inherit LSC.Ops32,
 --#         LSC.Types,
---#         LSC.Byteswap;
+--#         LSC.Byteswap32;
 
 package LSC.Byteorder32 is
 

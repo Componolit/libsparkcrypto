@@ -16,36 +16,13 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.Byteorder64 is
+with LSC.Types, LSC.Ops64;
+--# inherit LSC.Types,
+--#         LSC.Ops64;
 
-   function Native_To_BE (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Item;
-   end Native_To_BE;
+package LSC.Byteswap64 is
 
-   ---------------------------------------------------------------------------
+   function Swap (Value : Types.Word64) return Types.Word64;
+   pragma Inline (Swap);
 
-   function Native_To_LE (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Byteswap64.Swap (Item);
-   end Native_To_LE;
-
-   ---------------------------------------------------------------------------
-
-   function BE_To_Native (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Item;
-   end BE_To_Native;
-
-   ---------------------------------------------------------------------------
-
-   function LE_To_Native (Item : Types.Word64) return Types.Word64
-   is
-   begin
-      return Byteswap64.Swap (Item);
-   end LE_To_Native;
-
-end LSC.Byteorder64;
+end LSC.Byteswap64;

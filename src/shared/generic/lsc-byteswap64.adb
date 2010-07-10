@@ -16,34 +16,15 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-with System.Machine_Code;
+package body LSC.Byteswap64 is
 
-package body LSC.Byteswap is
-
-   function Swap32 (Value : Types.Word32) return Types.Word32
+   function Swap (Value : Types.Word64) return Types.Word64
    is
-      Result : Types.Word32;
+      Temp : Types.Byte_Array64_Type;
    begin
-      System.Machine_Code.Asm
-         ("bswap %0",
-          Inputs   => (Types.Word32'Asm_Input ("0", Value)),
-          Outputs  => (Types.Word32'Asm_Output ("=r", Result)),
-          Volatile => True);
-      return Result;
-   end Swap32;
+      Temp := Types.Word64_To_Byte_Array64 (Value);
+      return Ops64.Bytes_To_Word (Temp (0), Temp (1), Temp (2), Temp (3),
+                                  Temp (4), Temp (5), Temp (6), Temp (7));
+   end Swap;
 
-   ---------------------------------------------------------------------------
-
-   function Swap64 (Value : Types.Word64) return Types.Word64
-   is
-      Result : Types.Word64;
-   begin
-      System.Machine_Code.Asm
-         ("bswap %0",
-          Inputs   => (Types.Word64'Asm_Input ("0", Value)),
-          Outputs  => (Types.Word64'Asm_Output ("=r", Result)),
-          Volatile => True);
-      return Result;
-   end Swap64;
-
-end LSC.Byteswap;
+end LSC.Byteswap64;

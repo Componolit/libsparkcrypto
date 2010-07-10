@@ -16,25 +16,14 @@
 --  You should  have received a copy  of the GNU Lesser  General Public License
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
-package body LSC.Byteswap is
+package body LSC.Byteswap32 is
 
-   function Swap32 (Value : Types.Word32) return Types.Word32
+   function Swap (Value : Types.Word32) return Types.Word32
    is
       Temp : Types.Byte_Array32_Type;
    begin
       Temp := Types.Word32_To_Byte_Array32 (Value);
       return Ops32.Bytes_To_Word (Temp (0), Temp (1), Temp (2), Temp (3));
-   end Swap32;
+   end Swap;
 
-   ----------------------------------------------------------------------------
-
-   function Swap64 (Value : Types.Word64) return Types.Word64
-   is
-      Temp : Types.Byte_Array64_Type;
-   begin
-      Temp := Types.Word64_To_Byte_Array64 (Value);
-      return Ops64.Bytes_To_Word (Temp (0), Temp (1), Temp (2), Temp (3),
-                                  Temp (4), Temp (5), Temp (6), Temp (7));
-   end Swap64;
-
-end LSC.Byteswap;
+end LSC.Byteswap32;

@@ -17,39 +17,19 @@
 --  along with this library. If not, see <http://www.gnu.org/licenses/>.
 
 with System.Machine_Code;
-with Unchecked_Conversion;
 
-package body LSC.Byteswap is
+package body LSC.Byteswap64 is
 
-   function Swap32 (Value : Types.Word32) return Types.Word32
+   function Swap (Value : Types.Word64) return Types.Word64
    is
-      Result : Types.Word32;
+      Result : Types.Word64;
    begin
       System.Machine_Code.Asm
          ("bswap %0",
-          Inputs   => (Types.Word32'Asm_Input ("0", Value)),
-          Outputs  => (Types.Word32'Asm_Output ("=r", Result)),
+          Inputs   => (Types.Word64'Asm_Input ("0", Value)),
+          Outputs  => (Types.Word64'Asm_Output ("=r", Result)),
           Volatile => True);
       return Result;
-   end Swap32;
+   end Swap;
 
-   ---------------------------------------------------------------------------
-
-   function Swap64 (Value : Types.Word64) return Types.Word64
-   is
-      type W32A is
-      record
-         MSB : Types.Word32;
-         LSB : Types.Word32;
-      end record;
-
-      function To_Word64 is new Unchecked_Conversion (W32A, Types.Word64);
-      function To_W32A   is new Unchecked_Conversion (Types.Word64, W32A);
-
-      Temp : W32A := To_W32A (Value);
-   begin
-      return To_Word64 (W32A'(MSB => Swap32 (Temp.LSB),
-                              LSB => Swap32 (Temp.MSB)));
-   end Swap64;
-
-end LSC.Byteswap;
+end LSC.Byteswap64;
