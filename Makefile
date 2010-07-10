@@ -55,7 +55,7 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/target.cfg
 	spark -index=$< $(SPARK_OPTS) $(CURDIR)/src/shared/generic/*.adb
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5)
-	pogs -s -d=$(OUTPUT_DIR)/proof -o=$@
+	pogs -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
 
