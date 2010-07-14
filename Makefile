@@ -75,8 +75,7 @@ endif
 	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
 	install -p -m 444 $(OUTPUT_DIR)/build/adalib/*.ali $(DESTDIR)/adalib/
 
-install_proof: proof
-	install -d -m 755 $(DESTDIR)/sparkinclude $(DESTDIR)/sharedinclude
+install_proof: install proof
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
