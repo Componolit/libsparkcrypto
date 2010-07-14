@@ -1,4 +1,3 @@
 * Test on a big-endian machine.
-* Improve README explaining the library and directory structure
 * Perform dead path analysis
 * Optimize simplification performance
