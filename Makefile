@@ -1,8 +1,11 @@
 OUTPUT_DIR = $(CURDIR)/out
 DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof)
-ARCH      := $(shell uname -m)
+UNAME_M   := $(shell uname -m)
+
+ARCH      ?= $(UNAME_M)
 MODE      ?= release
-TESTS      = test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+TESTS     ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+DESTDIR   ?= /usr/local
 
 SPARK_OPTS  = \
    -brief \
