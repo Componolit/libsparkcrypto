@@ -55,12 +55,15 @@ tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake -Xarch=$(ARCH) -Xendianess=$(ENDIANESS) -Xmode=$(MODE) -p -P build/build_libsparkcrypto
 
-$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/target.cfg
-	spark -index=$< $(SPARK_OPTS) $(CURDIR)/src/shared/generic/*.adb
+$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(OUTPUT_DIR)/target.cfg
+	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5)
 	pogs -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
+
+$(OUTPUT_DIR)/proof/libsparkcrypto.smf:
+	find $(CURDIR)/src/shared/generic -name '*.adb' -print > $@
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.idx:
 	(cd $(OUTPUT_DIR)/empty && sparkmake $(addprefix -dir=$(CURDIR)/, $(SHARED_DIRS)) -dir=$(CURDIR)/src/spark -nometa -index=$@)
