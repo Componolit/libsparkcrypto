@@ -62,7 +62,5 @@ private
    end record;
 
    function To_Block (Item : RIPEMD160.Hash_Type) return RIPEMD160.Block_Type;
-   --# return Result =>
-   --#     (for all I in RIPEMD160.Hash_Index => (Result (I) = Item (I)));
 
 end LSC.HMAC_RIPEMD160;

@@ -21,19 +21,23 @@ package body LSC.AES.CBC is
    procedure Encrypt (Context    : in     AES.AES_Enc_Context;
                       IV         : in     AES.Block_Type;
                       Plaintext  : in     AES.Message_Type;
-                      Ciphertext : in out AES.Message_Type)
+                      Ciphertext :    out AES.Message_Type)
    is
-      Temp : AES.Block_Type := AES.Block_Type'(others => 0);
+      Temp : AES.Block_Type;
       Next : AES.Block_Type;
    begin
       Next := IV;
-      for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
+      for I in AES.Message_Index range Ciphertext'First .. Ciphertext'Last
       --# assert true;
       loop
          Ops32.Block_XOR (Next, Plaintext (I), Temp);
          Next := AES.Encrypt (Context, Temp);
+
+         --# accept Flow, 23, Ciphertext, "Initialized in complete loop";
          Ciphertext (I) := Next;
       end loop;
+
+      --# accept Flow, 602, Ciphertext, Ciphertext, "Initialized in complete loop";
    end Encrypt;
 
    ----------------------------------------------------------------------------
@@ -41,7 +45,7 @@ package body LSC.AES.CBC is
    procedure Decrypt (Context    : in     AES.AES_Dec_Context;
                       IV         : in     AES.Block_Type;
                       Ciphertext : in     AES.Message_Type;
-                      Plaintext  : in out AES.Message_Type)
+                      Plaintext  :    out AES.Message_Type)
    is
       Temp : AES.Block_Type;
       Next : AES.Block_Type;
@@ -51,8 +55,12 @@ package body LSC.AES.CBC is
       --# assert true;
       loop
          Temp := AES.Decrypt (Context, Ciphertext (I));
+
+         --# accept Flow, 23, Plaintext, "Initialized in complete loop";
          Ops32.Block_XOR (Temp, Next, Plaintext (I));
          Next := Ciphertext (I);
       end loop;
+
+      --# accept Flow, 602, Plaintext, Plaintext, "Initialized in complete loop";
    end Decrypt;
 end LSC.AES.CBC;

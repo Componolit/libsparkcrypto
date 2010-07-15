@@ -34,9 +34,9 @@ package LSC.AES.CBC is
    procedure Encrypt (Context    : in     AES.AES_Enc_Context;
                       IV         : in     AES.Block_Type;
                       Plaintext  : in     AES.Message_Type;
-                      Ciphertext : in out AES.Message_Type);
+                      Ciphertext :    out AES.Message_Type);
    --# derives
-   --#    Ciphertext from *, Context, IV, Plaintext;
+   --#    Ciphertext from Context, IV, Plaintext;
    --# pre
    --#    Plaintext'First = Ciphertext'First and
    --#    Plaintext'Last  = Ciphertext'Last;
@@ -44,9 +44,9 @@ package LSC.AES.CBC is
    procedure Decrypt (Context    : in     AES.AES_Dec_Context;
                       IV         : in     AES.Block_Type;
                       Ciphertext : in     AES.Message_Type;
-                      Plaintext  : in out AES.Message_Type);
+                      Plaintext  :    out AES.Message_Type);
    --# derives
-   --#    Plaintext from *, Context, IV, Ciphertext;
+   --#    Plaintext from Context, IV, Ciphertext;
    --# pre
    --#    Plaintext'First = Ciphertext'First and
    --#    Plaintext'Last  = Ciphertext'Last;

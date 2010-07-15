@@ -26,17 +26,21 @@ package body LSC.HMAC_SHA256 is
    ----------------------------------------------------------------------------
 
    function To_Block (Item : SHA256.SHA256_Hash_Type) return SHA256.Block_Type is
-      Result : SHA256.Block_Type := SHA256.Block_Type'(others => 0);
+      Result : SHA256.Block_Type;
    begin
-      for I in SHA256.SHA256_Hash_Index
+      for I in SHA256.Block_Index
+      --# assert true;
       loop
-         Result (I) := Item (I);
-         --# assert
-         --#    (I in SHA256.SHA256_Hash_Index) and
-         --#    (I in SHA256.Block_Index) and
-         --#    (for all Pos in SHA256.SHA256_Hash_Index range SHA256.SHA256_Hash_Index'First .. I =>
-         --#         (Result (Pos) = Item (Pos)));
+         --# accept Flow, 23, Result, "Initialized in complete loop";
+         if I in SHA256.SHA256_Hash_Index
+         then
+            Result (I) := Item (I);
+         else
+            Result (I) := 0;
+         end if;
       end loop;
+
+      --# accept Flow, 602, Result, "Initialized in complete loop";
       return Result;
    end To_Block;
 
@@ -44,7 +48,7 @@ package body LSC.HMAC_SHA256 is
 
    function Context_Init (Key : SHA256.Block_Type) return Context_Type is
       Result : Context_Type;
-      Temp   : SHA256.Block_Type := SHA256.Block_Type'(others => 0);
+      Temp   : SHA256.Block_Type;
    begin
       Debug.Put_Line ("HMAC.SHA256.Context_Init:");
 
@@ -74,7 +78,7 @@ package body LSC.HMAC_SHA256 is
       Length  : in     SHA256.Block_Length_Type)
    is
       Hash : SHA256.SHA256_Hash_Type;
-      Temp : SHA256.Block_Type := SHA256.Block_Type'(others => 0);
+      Temp : SHA256.Block_Type;
    begin
       Debug.Put_Line ("HMAC.SHA256.Context_Finalize:");
       SHA256.Context_Finalize (Context.SHA256_Context, Block, Length);
@@ -96,16 +100,21 @@ package body LSC.HMAC_SHA256 is
    ----------------------------------------------------------------------------
 
    function Get_Auth (Context : in Context_Type) return Auth_Type is
-      Result : Auth_Type := Auth_Type'(others => 0);
+      Result : Auth_Type;
       Prf    : SHA256.SHA256_Hash_Type;
    begin
       Prf := SHA256.SHA256_Get_Hash (Context.SHA256_Context);
       for Index in Auth_Index
       --# assert
-      --#    Index in Auth_Index;
+      --#    Prf (Index) in Types.Word32 and
+      --#    Index <= Result'Last        and
+      --#    Index <= Prf'Last;
       loop
+         --# accept Flow, 23, Result, "Initialized in complete loop";
          Result (Index) := Prf (Index);
       end loop;
+
+      --# accept Flow, 602, Result, "Initialized in complete loop";
       return Result;
    end Get_Auth;
 

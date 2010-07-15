@@ -64,9 +64,9 @@ package LSC.Ops32 is
    procedure Block_XOR
      (Left   : in     Types.Word32_Array_Type;
       Right  : in     Types.Word32_Array_Type;
-      Result : in out Types.Word32_Array_Type);
+      Result :    out Types.Word32_Array_Type);
    --# derives
-   --#   Result from *, Left, Right;
+   --#   Result from Left, Right;
    --# pre
    --#   Left'First  = Right'First and
    --#   Left'Last   = Right'Last  and

@@ -66,7 +66,5 @@ private
    end record;
 
    function To_Block (Item : SHA256.SHA256_Hash_Type) return SHA256.Block_Type;
-   --# return Result =>
-   --#     (for all I in SHA256.SHA256_Hash_Index => (Result (I) = Item (I)));
 
 end LSC.HMAC_SHA256;

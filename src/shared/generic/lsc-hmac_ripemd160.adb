@@ -26,17 +26,21 @@ package body LSC.HMAC_RIPEMD160 is
    ----------------------------------------------------------------------------
 
    function To_Block (Item : RIPEMD160.Hash_Type) return RIPEMD160.Block_Type is
-      Result : RIPEMD160.Block_Type := RIPEMD160.Block_Type'(others => 0);
+      Result : RIPEMD160.Block_Type;
    begin
-      for I in RIPEMD160.Hash_Index
+      for I in RIPEMD160.Block_Index
+      --# assert true;
       loop
-         Result (I) := Item (I);
-         --# assert
-         --#    (I in RIPEMD160.Hash_Index) and
-         --#    (I in RIPEMD160.Block_Index) and
-         --#    (for all Pos in RIPEMD160.Hash_Index range RIPEMD160.Hash_Index'First .. I =>
-         --#         (Result (Pos) = Item (Pos)));
+         --# accept Flow, 23, Result, "Initialized in complete loop";
+         if I in RIPEMD160.Hash_Index
+         then
+            Result (I) := Item (I);
+         else
+            Result (I) := 0;
+         end if;
       end loop;
+
+      --# accept Flow, 602, Result, "Initialized in complete loop";
       return Result;
    end To_Block;
 
@@ -44,7 +48,7 @@ package body LSC.HMAC_RIPEMD160 is
 
    function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type is
       Result : Context_Type;
-      Temp   : RIPEMD160.Block_Type := RIPEMD160.Block_Type'(others => 0);
+      Temp   : RIPEMD160.Block_Type;
    begin
       Debug.Put_Line ("HMAC.RIPEMD160.Context_Init:");
 
@@ -74,7 +78,7 @@ package body LSC.HMAC_RIPEMD160 is
       Length  : in     RIPEMD160.Block_Length_Type)
    is
       Hash : RIPEMD160.Hash_Type;
-      Temp : RIPEMD160.Block_Type := RIPEMD160.Block_Type'(others => 0);
+      Temp : RIPEMD160.Block_Type;
    begin
       Debug.Put_Line ("HMAC.RIPEMD160.Context_Finalize:");
       RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Block, Length);

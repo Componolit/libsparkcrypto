@@ -108,7 +108,7 @@ package body LSC.Ops32 is
    procedure Block_XOR
      (Left   : in     Types.Word32_Array_Type;
       Right  : in     Types.Word32_Array_Type;
-      Result : in out Types.Word32_Array_Type)
+      Result :    out Types.Word32_Array_Type)
    is
    begin
       for I in Types.Index range Result'First .. Result'Last
@@ -117,11 +117,15 @@ package body LSC.Ops32 is
          --#    I <= Left'Last   and
          --#    I <= Right'Last  and
          --#    I <= Result'Last;
+
+         --# accept Flow, 23, Result, "Initialized in complete loop";
          Result (I) := XOR2 (Left (I), Right (I));
          --# assert
          --#   (for all Pos in Types.Index range Result'First .. I =>
          --#       (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
       end loop;
+
+      --# accept Flow, 602, Result, Result, "Initialized in complete loop";
    end Block_XOR;
 
 end LSC.Ops32;
