@@ -3,3 +3,4 @@
 * Optimize simplification performance
 * Switch to a reasonable test framework
 * Convert LSC.AES.CBC.{Encrypt|Decrypt} functions
+* Add API documentation
