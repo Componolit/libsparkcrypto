@@ -73,6 +73,8 @@ package LSC.AES is
    function Decrypt (Context    : AES_Dec_Context;
                      Ciphertext : Block_Type) return Block_Type;
 
+   Null_Block : constant Block_Type;
+
 private
 
    Nb : constant Types.Index :=  4;
@@ -110,5 +112,7 @@ private
    --#   Nk < (Nb * (Nr + 1) - 1);
 
    function Rot_Word (Value : Types.Word32) return Types.Word32;
+
+   Null_Block : constant Block_Type := Block_Type'(others => 0);
 
 end LSC.AES;
