@@ -44,7 +44,7 @@ package body LSC.HMAC_SHA512 is
 
    function Context_Init (Key : SHA512.Block_Type) return Context_Type is
       Result : Context_Type;
-      Temp   : SHA512.Block_Type := SHA512.Block_Type'(others => 0);
+      Temp   : SHA512.Block_Type;
    begin
       Debug.Put_Line ("HMAC.SHA512.Context_Init:");
 
@@ -74,7 +74,7 @@ package body LSC.HMAC_SHA512 is
       Length  : in     SHA512.Block_Length_Type)
    is
       Hash : SHA512.SHA512_Hash_Type;
-      Temp : SHA512.Block_Type := SHA512.Block_Type'(others => 0);
+      Temp : SHA512.Block_Type;
    begin
       Debug.Put_Line ("HMAC.SHA512.Context_Finalize:");
       SHA512.Context_Finalize (Context.SHA512_Context, Block, Length);
