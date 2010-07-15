@@ -106,8 +106,8 @@ package body LSC.HMAC_SHA256 is
       Prf := SHA256.SHA256_Get_Hash (Context.SHA256_Context);
       for Index in Auth_Index
       --# assert
-      --#    Prf (Index) in Types.Word32 and
-      --#    Index <= Result'Last        and
+      --#    (for all I in SHA256.SHA256_Hash_Index => (Prf (I) in Types.Word32)) and
+      --#    Index <= Result'Last                                                 and
       --#    Index <= Prf'Last;
       loop
          --# accept Flow, 23, Result, "Initialized in complete loop";
