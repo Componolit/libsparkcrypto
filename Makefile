@@ -2,10 +2,12 @@ OUTPUT_DIR = $(CURDIR)/out
 DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof)
 UNAME_M   := $(shell uname -m)
 
-ARCH      ?= $(UNAME_M)
-MODE      ?= release
-TESTS     ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
-DESTDIR   ?= /usr/local
+GNATMAKE_FLAGS	?=
+IO					?= textio
+ARCH      		?= $(UNAME_M)
+MODE      		?= release
+TESTS     		?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+DESTDIR   		?= /usr/local
 
 SPARK_OPTS  = \
    -brief \
@@ -53,7 +55,7 @@ tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
 
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
-	gnatmake -Xarch=$(ARCH) -Xendianess=$(ENDIANESS) -Xmode=$(MODE) -p -P build/build_libsparkcrypto
+	gnatmake $(GNATMAKE_FLAGS) -Xarch=$(ARCH) -Xendianess=$(ENDIANESS) -Xmode=$(MODE) -Xio=$(IO) -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(OUTPUT_DIR)/target.cfg
 	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
@@ -77,6 +79,7 @@ install_files: build
 	install -p -m 644 src/shared/$(ENDIANESS)/*.ad? $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/shared/generic/*.ad? $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/
+	install -p -m 644 src/ada/$(IO)/*.ad? $(DESTDIR)/adainclude/
 ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
 endif
