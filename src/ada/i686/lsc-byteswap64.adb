@@ -18,6 +18,7 @@
 
 with System.Machine_Code;
 with Unchecked_Conversion;
+with LSC.Byteswap32;
 
 package body LSC.Byteswap64 is
 
@@ -34,8 +35,8 @@ package body LSC.Byteswap64 is
 
       Temp : W32A := To_W32A (Value);
    begin
-      return To_Word64 (W32A'(MSB => Swap32 (Temp.LSB),
-                              LSB => Swap32 (Temp.MSB)));
+      return To_Word64 (W32A'(MSB => LSC.Byteswap32.Swap (Temp.LSB),
+                              LSB => LSC.Byteswap32.Swap (Temp.MSB)));
    end Swap;
 
 end LSC.Byteswap64;
