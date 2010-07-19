@@ -138,6 +138,8 @@ variable   | description
 ------------------------------------------------------------------------------
 'MODE'     | Build mode ('release' or 'debug').
 ------------------------------------------------------------------------------
+'RUNTIME'  | Runtime to build for ('native' or 'zfp').
+------------------------------------------------------------------------------
 'TESTS'    | List of tests to build and run (see Makefile for tests implemented).
 ------------------------------------------------------------------------------
 'NO_TESTS' | Disable tests step.

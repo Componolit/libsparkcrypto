@@ -2,12 +2,12 @@ OUTPUT_DIR = $(CURDIR)/out
 DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof)
 UNAME_M   := $(shell uname -m)
 
-GNATMAKE_FLAGS	?=
-IO					?= textio
-ARCH      		?= $(UNAME_M)
-MODE      		?= release
-TESTS     		?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
-DESTDIR   		?= /usr/local
+IO			?= textio
+ARCH     ?= $(UNAME_M)
+MODE     ?= release
+RUNTIME  ?= native
+TESTS    ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+DESTDIR  ?= /usr/local
 
 SPARK_OPTS  = \
    -brief \
@@ -24,28 +24,43 @@ ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 ALL_GOALS      = install_local
 INSTALL_DEPS   = install_files
 
+# Feature: SPARK8
 ifeq ($(SPARK8),)
 SPARK_OPTS += -dpc -nosli
 endif
 
-ifeq ($(ARCH),x86_64)
-ENDIANESS = little_endian
+# Feature: ARCH
+ifeq      ($(ARCH),x86_64)
+   ENDIANESS = little_endian
+else ifeq ($(ARCH),i686)
+   ENDIANESS = little_endian
 else
-   ifeq ($(ARCH),i686)
-      ENDIANESS = little_endian
-   else
    $(error Unsupported architecture: $(ARCH))
-   endif
 endif
 
+# Feature: RUNTIME
+ifeq      ($(RUNTIME),native)
+   IO		= textio
+else ifeq ($(RUNTIME),zfp)
+	# Tests and Text_IO are unsupported for zfp
+   TESTS =
+   IO    = nullio
+else
+   $(error Unsupported runtime: $(RUNTIME))
+endif
+
+# Feature: NO_PROOF
 ifeq ($(NO_PROOF),)
 ALL_GOALS += proof
 INSTALL_DEPS += install_proof
 endif
 
+# Feature: NO_TESTS
 ifeq ($(NO_TESTS),)
 ALL_GOALS += tests
 endif
+
+###############################################################################
 
 all: $(ALL_GOALS)
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
@@ -55,7 +70,13 @@ tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
 
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
-	gnatmake $(GNATMAKE_FLAGS) -Xarch=$(ARCH) -Xendianess=$(ENDIANESS) -Xmode=$(MODE) -Xio=$(IO) -p -P build/build_libsparkcrypto
+	gnatmake \
+		-Xarch=$(ARCH) \
+		-Xendianess=$(ENDIANESS) \
+		-Xmode=$(MODE) \
+		-Xio=$(IO) \
+		-Xruntime=$(RUNTIME) \
+		-p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(OUTPUT_DIR)/target.cfg
 	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
