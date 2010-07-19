@@ -33,7 +33,7 @@ is
 
    case Mode is
       when "release" =>
-         Compiler_Switches := ("-O3", "-gnatN", "-Winline", "-gnatp");
+         Compiler_Switches := ("-O2", "-gnatN", "-Winline", "-gnatp");
          for Source_Dirs use Source_Dirs;
 
       when "debug" =>
