@@ -148,6 +148,8 @@ variable   | description
 ------------------------------------------------------------------------------
 'SPARK8'   | Enable SPARK 8 support.
 ------------------------------------------------------------------------------
+'SPARK_DIR'| Base directory of the SPARK installation.
+------------------------------------------------------------------------------
 'DESTDIR'  | Installation base directory.
 
 Document preparation

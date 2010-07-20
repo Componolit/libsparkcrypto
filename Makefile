@@ -24,6 +24,11 @@ ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 ALL_GOALS      = install_local
 INSTALL_DEPS   = install_files
 
+# SPARK_DIR must be set
+ifeq ($(SPARK_DIR),)
+$(error SPARK_DIR is not set - set it to the base directory of your SPARK installation)
+endif
+
 # Feature: SPARK8
 ifeq ($(SPARK8),)
 SPARK_OPTS += -dpc -nosli
