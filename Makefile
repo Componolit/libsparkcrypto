@@ -2,17 +2,18 @@ OUTPUT_DIR = $(CURDIR)/out
 DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof)
 UNAME_M   := $(shell uname -m)
 
-IO			?= textio
-ARCH     ?= $(UNAME_M)
-MODE     ?= release
-RUNTIME  ?= native
-TESTS    ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
-DESTDIR  ?= /usr/local
+IO				?= textio
+ARCH     	?= $(UNAME_M)
+MODE     	?= release
+RUNTIME  	?= native
+TESTS    	?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+DESTDIR  	?= /usr/local
+TARGET_CFG	?= $(OUTPUT_DIR)/target.cfg
 
 SPARK_OPTS  = \
    -brief \
    -vcg \
-   -config=$(OUTPUT_DIR)/target.cfg \
+   -config=$(TARGET_CFG) \
    -warn=warnings.conf \
    -output_dir=$(OUTPUT_DIR)/proof
 
@@ -83,7 +84,7 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 		-Xruntime=$(RUNTIME) \
 		-p -P build/build_libsparkcrypto
 
-$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(OUTPUT_DIR)/target.cfg
+$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
 	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5)
 	pogs -d=$(OUTPUT_DIR)/proof -o=$@

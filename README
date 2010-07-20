@@ -132,25 +132,27 @@ configured.
 Configuration is performed automatically by the top-level 'Makefile' and can be
 altered by passing the following variables to 'make':
 
-variable   | description
+variable     | description
 ------------------------------------------------------------------------------
-'ARCH'     | CPU architecture as reported by 'uname -m'.
+'ARCH'       | CPU architecture as reported by 'uname -m'.
 ------------------------------------------------------------------------------
-'MODE'     | Build mode ('release' or 'debug').
+'MODE'       | Build mode ('release' or 'debug').
 ------------------------------------------------------------------------------
-'RUNTIME'  | Runtime to build for ('native' or 'zfp').
+'RUNTIME'    | Runtime to build for ('native' or 'zfp').
 ------------------------------------------------------------------------------
-'TESTS'    | List of tests to build and run (see Makefile for tests implemented).
+'TESTS'      | List of tests to build and run (see Makefile for tests implemented).
 ------------------------------------------------------------------------------
-'NO_TESTS' | Disable tests step.
+'NO_TESTS'   | Disable tests step.
 ------------------------------------------------------------------------------
-'NO_PROOF' | Disable proof step.
+'NO_PROOF'   | Disable proof step.
 ------------------------------------------------------------------------------
-'SPARK8'   | Enable SPARK 8 support.
+'SPARK8'     | Enable SPARK 8 support.
 ------------------------------------------------------------------------------
-'SPARK_DIR'| Base directory of the SPARK installation.
+'TARGET_CFG' | Target system configuration.
 ------------------------------------------------------------------------------
-'DESTDIR'  | Installation base directory.
+'SPARK_DIR'  | Base directory of the SPARK installation.
+------------------------------------------------------------------------------
+'DESTDIR'    | Installation base directory.
 
 Document preparation
 ####################
