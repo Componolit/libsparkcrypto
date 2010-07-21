@@ -34,6 +34,11 @@ procedure HMAC_SHA512_Tests is
    PRF_HMAC_SHA_512                 : LSC.SHA512.SHA512_Hash_Type;
    AUTH_HMAC_SHA_512                : LSC.HMAC_SHA512.Auth_Type;
 
+   subtype Message1_Index is Natural range 1 .. 1;
+   subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
+
+   Message1 : Message1_Type;
+
 begin
 
    LSC.Test.Suite ("HMAC-SHA512 tests");
@@ -155,16 +160,11 @@ begin
           N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#), others => 0);
 
    -- "Hi There"
-   Block := LSC.SHA512.Block_Type'
-         (N (16#4869205468657265#), others => 0);
-
-   HMAC_Ctx := LSC.HMAC_SHA512.Context_Init (Key);
-   LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 64);
-   AUTH_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Auth (HMAC_Ctx);
+   Message1 := Message1_Type'(1 => LSC.SHA512.Block_Type'(N (16#4869205468657265#), others => 0));
 
    LSC.Test.Run
      ("HMAC-SHA512-AUTH-1",
-      AUTH_HMAC_SHA_512 =
+      LSC.HMAC_SHA512.Authenticate (Key, Message1, 64) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#637edc6e01dce7e6#), N (16#742a99451aae82df#), N (16#23da3e92439e590e#),
           N (16#43e761b33e910fb8#)));
