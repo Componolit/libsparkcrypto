@@ -54,6 +54,9 @@ package LSC.SHA512 is
 
    subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 
+   subtype Message_Index is Natural;
+   type Message_Type is array (Message_Index range <>) of Block_Type;
+
    -- Initialize SHA512 context.
    function SHA512_Context_Init return Context_Type;
    function SHA384_Context_Init return Context_Type;
