@@ -51,6 +51,8 @@ To build and prove libsparkcrypto, the following tools are required:
 
 * GCC-based Ada compiler (FSF or GNAT)
 * SPARK 9 (SPARK-Pro or SPARK-GPL)
+* GNU make, version >= 3.81
+* OpenSSL (if buiding the benchmark, tested with 0.9.8g)
 
 The primary development environments of libsparkcrypto are Debian 5 (x86_64)
 and Ubuntu 10.04 (x86_64). Though the source and project files are system
