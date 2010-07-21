@@ -9,6 +9,7 @@ RUNTIME  	?= native
 TESTS    	?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
 DESTDIR  	?= /usr/local
 TARGET_CFG	?= $(OUTPUT_DIR)/target.cfg
+OPT       	?= 3
 
 SPARK_OPTS  = \
    -brief \
@@ -82,6 +83,7 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 		-Xmode=$(MODE) \
 		-Xio=$(IO) \
 		-Xruntime=$(RUNTIME) \
+		-Xopt=$(OPT) \
 		-p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)

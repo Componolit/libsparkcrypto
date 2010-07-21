@@ -145,6 +145,8 @@ variable     | description
 ------------------------------------------------------------------------------
 'MODE'       | Build mode ('release' or 'debug').
 ------------------------------------------------------------------------------
+'OPT'        | Optimization level to use ('s', '0', '1', '2' or '3').
+------------------------------------------------------------------------------
 'RUNTIME'    | Runtime to build for ('native' or 'zfp').
 ------------------------------------------------------------------------------
 'TESTS'      | List of tests to build and run (see Makefile for tests implemented).
