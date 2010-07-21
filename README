@@ -49,12 +49,19 @@ algorithms and modes:
 Building and installing
 #######################
 
+Known issues
+=============
+
+* GNAT Pro 6.3.1 (and maybe other versions) is known to cause trouble if
+  optimization is set to -O3. It will generate invalid code for all  HMAC
+  implementations, all respective test cases will fail.
+
 Required tools
 ==============
 
 To build and prove libsparkcrypto, the following tools are required:
 
-* GCC-based Ada compiler (FSF or GNAT)
+* GCC
 * SPARK 9 (SPARK-Pro or SPARK-GPL)
 * GNU make, version >= 3.81
 * OpenSSL (if buiding the benchmark, tested with 0.9.8g)
