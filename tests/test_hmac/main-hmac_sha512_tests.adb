@@ -32,9 +32,8 @@ procedure HMAC_SHA512_Tests is
    Key                              : LSC.SHA512.Block_Type;
    Block                            : LSC.SHA512.Block_Type;
    PRF_HMAC_SHA_512                 : LSC.SHA512.SHA512_Hash_Type;
-   AUTH_HMAC_SHA_512                : LSC.HMAC_SHA512.Auth_Type;
 
-   subtype Message1_Index is Natural range 1 .. 1;
+   subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
 
    Message1 : Message1_Type;
@@ -184,17 +183,13 @@ begin
 
    --  "what do ya want "
    --  "for nothing?"
-   Block := LSC.SHA512.Block_Type'
+   Message1 := Message1_Type'(1 => LSC.SHA512.Block_Type'
       (N (16#7768617420646f20#), N (16#79612077616e7420#), N (16#666f72206e6f7468#),
-       N (16#696e673f00000000#), others => 0);
-
-   HMAC_Ctx := LSC.HMAC_SHA512.Context_Init (Key);
-   LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 224);
-   AUTH_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Auth (HMAC_Ctx);
+       N (16#696e673f00000000#), others => 0));
 
    LSC.Test.Run
      ("HMAC-SHA512-AUTH-2",
-      AUTH_HMAC_SHA_512 =
+      LSC.HMAC_SHA512.Authenticate (Key, Message1, 224) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#cb370917ae8a7ce2#), N (16#8cfd1d8f4705d614#), N (16#1c173b2a9362c15d#),
           N (16#f235dfb251b15454#)));
@@ -210,18 +205,14 @@ begin
           N (16#aaaaaaaaaaaaaaaa#), N (16#aaaaaaaaaaaaaaaa#), others => 0);
 
    --  50 times 16#dd#
-   Block := LSC.SHA512.Block_Type'
+   Message1 := Message1_Type'(1 => LSC.SHA512.Block_Type'
          (N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
           N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
-          N (16#dddd000000000000#), others => 0);
-
-   HMAC_Ctx := LSC.HMAC_SHA512.Context_Init (Key);
-   LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
-   AUTH_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Auth (HMAC_Ctx);
+          N (16#dddd000000000000#), others => 0));
 
    LSC.Test.Run
      ("HMAC-SHA512-AUTH-3",
-      AUTH_HMAC_SHA_512 =
+      LSC.HMAC_SHA512.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#2ee7acd783624ca9#), N (16#398710f3ee05ae41#), N (16#b9f9b0510c87e49e#),
           N (16#586cc9bf961733d8#)));
@@ -242,18 +233,14 @@ begin
        N (16#3132333435363738#), N (16#393a3b3c3d3e3f40#), others => 0);
 
    --  50 times 16#dd#
-   Block := LSC.SHA512.Block_Type'
+   Message1 := Message1_Type'(1 => LSC.SHA512.Block_Type'
       (N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
        N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
-       N (16#cdcd000000000000#), others => 0);
-
-   HMAC_Ctx := LSC.HMAC_SHA512.Context_Init (Key);
-   LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
-   AUTH_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Auth (HMAC_Ctx);
+       N (16#cdcd000000000000#), others => 0));
 
    LSC.Test.Run
      ("HMAC-SHA512-AUTH-4",
-      AUTH_HMAC_SHA_512 =
+      LSC.HMAC_SHA512.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#5e6688e5a3daec82#), N (16#6ca32eaea224eff5#), N (16#e700628947470e13#),
           N (16#ad01302561bab108#)));

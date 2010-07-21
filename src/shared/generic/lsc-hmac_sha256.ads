@@ -33,6 +33,7 @@
 
 with LSC.SHA256, LSC.Types, LSC.Ops32, LSC.Debug;
 use type LSC.Types.Word32;
+use type LSC.Types.Word64;
 
 --# inherit LSC.Debug,
 --#         LSC.SHA256,
@@ -64,6 +65,11 @@ package LSC.HMAC_SHA256 is
 
    function Get_Prf  (Context : in Context_Type) return SHA256.SHA256_Hash_Type;
    function Get_Auth (Context : in Context_Type) return Auth_Type;
+
+   function Authenticate
+      (Key         : SHA256.Block_Type;
+       Message     : SHA256.Message_Type;
+       Last_Length : SHA256.Block_Length_Type) return Auth_Type;
 
 private
 

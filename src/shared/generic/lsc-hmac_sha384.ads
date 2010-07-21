@@ -65,6 +65,10 @@ package LSC.HMAC_SHA384 is
    function Get_Prf  (Context : in Context_Type) return SHA512.SHA384_Hash_Type;
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
+   function Authenticate
+      (Key         : SHA512.Block_Type;
+       Message     : SHA512.Message_Type;
+       Last_Length : SHA512.Block_Length_Type) return Auth_Type;
 private
 
    type Context_Type is record

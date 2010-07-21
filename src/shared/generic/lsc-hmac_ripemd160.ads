@@ -33,6 +33,7 @@
 
 with LSC.RIPEMD160, LSC.Types, LSC.Ops32, LSC.Debug;
 use type LSC.Types.Word32;
+use type LSC.Types.Word64;
 
 --# inherit LSC.Debug,
 --#         LSC.RIPEMD160,
@@ -60,6 +61,11 @@ package LSC.HMAC_RIPEMD160 is
    --#                      Length;
 
    function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type;
+
+   function Authenticate
+      (Key         : RIPEMD160.Block_Type;
+       Message     : RIPEMD160.Message_Type;
+       Last_Length : RIPEMD160.Block_Length_Type) return RIPEMD160.Hash_Type;
 
 private
 

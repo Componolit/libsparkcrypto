@@ -36,6 +36,7 @@
 
 with LSC.Types, LSC.Ops32, LSC.Byteorder32, LSC.Debug;
 use type LSC.Types.Word32;
+use type LSC.Types.Word64;
 use type LSC.Types.Index;
 --# inherit LSC.Types,
 --#         LSC.Ops32,
@@ -53,6 +54,11 @@ package LSC.RIPEMD160 is
    subtype Hash_Type is Types.Word32_Array_Type (Hash_Index);
 
    subtype Block_Length_Type is Types.Word32 range 0 .. 511;
+
+   --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 511 bit,
+   --  this makes 2^53 blocks.
+   subtype Message_Index is Types.Word64 range 1 .. 2 ** 53;
+   type Message_Type is array (Message_Index range <>) of Block_Type;
 
    -- Initialize RIPEMD-160 context.
    function Context_Init return Context_Type;

@@ -120,16 +120,17 @@ package body LSC.HMAC_SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function Authenticate (Key          : SHA512.Block_Type;
-                          Message      : SHA512.Message_Type;
-                          Last_Length  : SHA512.Block_Length_Type) return Auth_Type
+   function Authenticate
+      (Key         : SHA512.Block_Type;
+       Message     : SHA512.Message_Type;
+       Last_Length : SHA512.Block_Length_Type) return Auth_Type
    is
       HMAC_Ctx : Context_Type;
    begin
       HMAC_Ctx := Context_Init (Key);
       if Message'Last > Message'First
       then
-         for I in Natural range Message'First .. Message'Last - 1
+         for I in Types.Word64 range Message'First .. Message'Last - 1
          --# assert true;
          loop
             Context_Update (HMAC_Ctx, Message (I));

@@ -54,7 +54,9 @@ package LSC.SHA512 is
 
    subtype Block_Length_Type is Types.Word64 range 0 .. 1023;
 
-   subtype Message_Index is Natural;
+   --  A SHA512 hash can be at most 2^128 bit long. As one block has 1024 bit,
+   --  this makes 2^118 blocks. We support a size of 2^64 only!
+   subtype Message_Index is Types.Word64 range 0 .. 2**64 - 1;
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
    -- Initialize SHA512 context.

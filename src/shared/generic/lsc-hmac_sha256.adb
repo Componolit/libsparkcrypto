@@ -127,4 +127,26 @@ package body LSC.HMAC_SHA256 is
       return Result;
    end Get_Auth;
 
+   ----------------------------------------------------------------------------
+
+   function Authenticate
+      (Key         : SHA256.Block_Type;
+       Message     : SHA256.Message_Type;
+       Last_Length : SHA256.Block_Length_Type) return Auth_Type
+   is
+      HMAC_Ctx : Context_Type;
+   begin
+      HMAC_Ctx := Context_Init (Key);
+      if Message'Last > Message'First
+      then
+         for I in Types.Word64 range Message'First .. Message'Last - 1
+         --# assert true;
+         loop
+            Context_Update (HMAC_Ctx, Message (I));
+         end loop;
+      end if;
+      Context_Finalize (HMAC_Ctx, Message (Message'Last), Last_Length);
+      return Get_Auth (HMAC_Ctx);
+   end Authenticate;
+
 end LSC.HMAC_SHA256;
