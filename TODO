@@ -1,4 +1,3 @@
-* Implement Authenticate function for all HMAC packages, adopt test.
 * Test on a big-endian machine.
 * Perform dead path analysis
 * Optimize simplification performance
