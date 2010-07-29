@@ -125,18 +125,30 @@ package body LSC.HMAC_SHA512 is
        Message     : SHA512.Message_Type;
        Last_Length : SHA512.Block_Length_Type) return Auth_Type
    is
-      HMAC_Ctx : Context_Type;
+      HMAC_Ctx       : Context_Type;
+      Last_Block_Pos : Types.Word64;
+      Last_Block     : SHA512.Block_Type;
    begin
+
+      if Last_Length = 0
+      then
+         Last_Block_Pos := Message'Last;
+         Last_Block     := SHA512.Block_Type'(others => 0);
+      else
+         Last_Block_Pos := Message'Last - 1;
+         Last_Block     := Message (Message'Last);
+      end if;
+
       HMAC_Ctx := Context_Init (Key);
       if Message'Last > Message'First
       then
-         for I in Types.Word64 range Message'First .. Message'Last - 1
+         for I in Types.Word64 range Message'First .. Last_Block_Pos
          --# assert true;
          loop
             Context_Update (HMAC_Ctx, Message (I));
          end loop;
       end if;
-      Context_Finalize (HMAC_Ctx, Message (Message'Last), Last_Length);
+      Context_Finalize (HMAC_Ctx, Last_Block, Last_Length);
       return Get_Auth (HMAC_Ctx);
    end Authenticate;
 
