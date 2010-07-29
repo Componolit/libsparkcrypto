@@ -32,7 +32,7 @@
 --
 --  Joan Daemen and Vincent Rijmen, AES submission document on Rijndael,
 --  Version 2, September 1999.
---  [doc/specs/Rijndael-ammended.pdf]
+--  [doc/specs/Rijndael-amended.pdf]
 -------------------------------------------------------------------------------
 
 with LSC.Types, LSC.Debug, LSC.Ops32, LSC.Byteorder32;
