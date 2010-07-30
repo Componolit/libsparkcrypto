@@ -50,10 +50,12 @@ package LSC.RIPEMD160 is
    subtype Block_Index is Types.Index range 0 .. 15;
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
+   Block_Size : constant := 512;
+
    subtype Hash_Index is Types.Index range 0 .. 4;
    subtype Hash_Type is Types.Word32_Array_Type (Hash_Index);
 
-   subtype Block_Length_Type is Types.Word32 range 0 .. 511;
+   subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
    --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 511 bit,
    --  this makes 2^53 blocks.

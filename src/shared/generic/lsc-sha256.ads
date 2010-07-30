@@ -47,10 +47,12 @@ package LSC.SHA256 is
    subtype Block_Index is Types.Index range 0 .. 15;
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
+   Block_Size : constant := 512;
+
    subtype SHA256_Hash_Index is Types.Index range 0 .. 7;
    subtype SHA256_Hash_Type is Types.Word32_Array_Type (SHA256_Hash_Index);
 
-   subtype Block_Length_Type is Types.Word32 range 0 .. 511;
+   subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
    --  A SHA256 message can be at most 2^64 bit long. As one block has 511 bit,
    --  this makes 2^53 blocks.

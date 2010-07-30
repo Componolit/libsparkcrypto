@@ -44,6 +44,8 @@ package LSC.HMAC_RIPEMD160 is
 
    type Context_Type is private;
 
+   subtype Block_Length_Type is Types.Word32 range 1 .. RIPEMD160.Block_Size;
+
    function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type;
 
    procedure Context_Update
@@ -65,7 +67,7 @@ package LSC.HMAC_RIPEMD160 is
    function Authenticate
       (Key         : RIPEMD160.Block_Type;
        Message     : RIPEMD160.Message_Type;
-       Last_Length : RIPEMD160.Block_Length_Type) return RIPEMD160.Hash_Type;
+       Last_Length : Block_Length_Type) return RIPEMD160.Hash_Type;
 
 private
 

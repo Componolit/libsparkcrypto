@@ -44,6 +44,8 @@ package LSC.HMAC_SHA256 is
 
    type Context_Type is private;
 
+   subtype Block_Length_Type is Types.Word32 range 1 .. SHA256.Block_Size;
+
    subtype Auth_Index is Types.Index range 0 .. 3;
    subtype Auth_Type is Types.Word32_Array_Type (Auth_Index);
 
@@ -69,7 +71,7 @@ package LSC.HMAC_SHA256 is
    function Authenticate
       (Key         : SHA256.Block_Type;
        Message     : SHA256.Message_Type;
-       Last_Length : SHA256.Block_Length_Type) return Auth_Type;
+       Last_Length : Block_Length_Type) return Auth_Type;
 
 private
 
