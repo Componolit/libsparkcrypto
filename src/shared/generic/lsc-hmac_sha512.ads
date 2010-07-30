@@ -46,6 +46,8 @@ package LSC.HMAC_SHA512 is
    subtype Auth_Index is Types.Index range 0 .. 3;
    subtype Auth_Type is Types.Word64_Array_Type (Auth_Index);
 
+   subtype Block_Length_Type is Types.Word64 range 1 .. SHA512.Block_Size;
+
    function Context_Init (Key : SHA512.Block_Type) return Context_Type;
 
    procedure Context_Update
@@ -68,7 +70,7 @@ package LSC.HMAC_SHA512 is
    function Authenticate
       (Key         : SHA512.Block_Type;
        Message     : SHA512.Message_Type;
-       Last_Length : SHA512.Block_Length_Type) return Auth_Type;
+       Last_Length : Block_Length_Type) return Auth_Type;
 
 private
 

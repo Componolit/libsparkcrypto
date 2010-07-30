@@ -123,32 +123,38 @@ package body LSC.HMAC_SHA512 is
    function Authenticate
       (Key         : SHA512.Block_Type;
        Message     : SHA512.Message_Type;
-       Last_Length : SHA512.Block_Length_Type) return Auth_Type
+       Last_Length : Block_Length_Type) return Auth_Type
    is
-      HMAC_Ctx       : Context_Type;
-      Last_Block_Pos : Types.Word64;
-      Last_Block     : SHA512.Block_Type;
+      HMAC_Ctx     : Context_Type;
    begin
 
-      if Last_Length = 0
-      then
-         Last_Block_Pos := Message'Last;
-         Last_Block     := SHA512.Block_Type'(others => 0);
-      else
-         Last_Block_Pos := Message'Last - 1;
-         Last_Block     := Message (Message'Last);
-      end if;
-
       HMAC_Ctx := Context_Init (Key);
-      if Message'Last > Message'First
+
+      -- handle all blocks, but the last.
+      if Message'First > Message'Last
       then
-         for I in Types.Word64 range Message'First .. Last_Block_Pos
-         --# assert true;
+         for I in SHA512.Message_Index range Message'First .. Message'Last - 1
          loop
+            --# assert
+            --#    Message'First > Message'Last and
+            --#    I <= Message'Last;
             Context_Update (HMAC_Ctx, Message (I));
          end loop;
       end if;
-      Context_Finalize (HMAC_Ctx, Last_Block, Last_Length);
+
+      --  If the last block of the message is a full block (i.e. Last_Length is
+      --  Block_Length_Type'Last) then we have to pass it to Context_Update and
+      --  call Context_Finalize with a length of 0 (on a dummy block)
+      --  afterwards.
+      if Last_Length = Block_Length_Type'Last then Context_Update (HMAC_Ctx,
+         Message (Message'Last));
+
+         -- Message (Message'Last) is unused here, as Length is 0.
+         Context_Finalize (HMAC_Ctx, Message (Message'Last), 0);
+      else
+         Context_Finalize (HMAC_Ctx, Message (Message'Last), Last_Length);
+      end if;
+
       return Get_Auth (HMAC_Ctx);
    end Authenticate;
 
