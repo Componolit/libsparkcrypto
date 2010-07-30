@@ -4,3 +4,4 @@
 * Switch to a reasonable test framework
 * Convert LSC.AES.CBC.{Encrypt|Decrypt} functions
 * Add API documentation
+* Update license to official FSF library exception
