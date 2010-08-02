@@ -28,7 +28,6 @@
 separate (Main)
 procedure HMAC_RIPEMD160_Tests is
 
-   HMAC_Ctx    : LSC.HMAC_RIPEMD160.Context_Type;
    Key         : LSC.RIPEMD160.Block_Type;
 
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
