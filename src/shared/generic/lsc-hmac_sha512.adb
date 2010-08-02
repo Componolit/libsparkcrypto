@@ -125,18 +125,19 @@ package body LSC.HMAC_SHA512 is
        Message     : SHA512.Message_Type;
        Last_Length : Block_Length_Type) return Auth_Type
    is
-      HMAC_Ctx     : Context_Type;
+      HMAC_Ctx : Context_Type;
+      Dummy    : constant SHA512.Block_Type := SHA512.Block_Type'(others => 0);
    begin
 
       HMAC_Ctx := Context_Init (Key);
 
       -- handle all blocks, but the last.
-      if Message'First > Message'Last
+      if Message'Last > Message'First
       then
          for I in SHA512.Message_Index range Message'First .. Message'Last - 1
          loop
             --# assert
-            --#    Message'First > Message'Last and
+            --#    Message'Last > Message'First and
             --#    I <= Message'Last;
             Context_Update (HMAC_Ctx, Message (I));
          end loop;
@@ -146,11 +147,10 @@ package body LSC.HMAC_SHA512 is
       --  Block_Length_Type'Last) then we have to pass it to Context_Update and
       --  call Context_Finalize with a length of 0 (on a dummy block)
       --  afterwards.
-      if Last_Length = Block_Length_Type'Last then Context_Update (HMAC_Ctx,
-         Message (Message'Last));
-
-         -- Message (Message'Last) is unused here, as Length is 0.
-         Context_Finalize (HMAC_Ctx, Message (Message'Last), 0);
+      if Last_Length = SHA512.Block_Size
+      then
+         Context_Update (HMAC_Ctx, Message (Message'Last));
+         Context_Finalize (HMAC_Ctx, Dummy, 0);
       else
          Context_Finalize (HMAC_Ctx, Message (Message'Last), Last_Length);
       end if;
