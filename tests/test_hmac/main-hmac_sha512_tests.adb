@@ -340,6 +340,6 @@ begin
      ("HMAC-SHA512-MULTI-1",
       LSC.HMAC_SHA512.Authenticate (Key, Message12, 736) =
       LSC.HMAC_SHA512.Auth_Type'(
-         N (16#f37c7e265f5f34dc#), N (16#b0afdf3e2672e8d6#), N (16#3d23b1d60c1d5d81#), N (16#54322101da4d9c85#)));
+         N (16#24b3907ac82497a4#), N (16#d7e0db7c317b93a7#), N (16#f2c35ce153913d86#), N (16#608068d30ce4ef0a#)));
 
 end HMAC_SHA512_Tests;
