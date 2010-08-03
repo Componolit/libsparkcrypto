@@ -20,12 +20,13 @@ SPARK_OPTS = \
 		-index=$(OUTPUT_DIR)/global.idx \
       -output_dir=$(OUTPUT_DIR)/proof
 
-all: $(OUTPUT_DIR)/test_hmac $(OUTPUT_DIR)/test_hmac.sum genhmac
+all: $(OUTPUT_DIR)/test_hmac $(OUTPUT_DIR)/test_hmac.sum $(OUTPUT_DIR)/genhmac
 
 install: $(OUTPUT_DIR)/test_hmac
 	install -D -m 755 $< $(DESTDIR)/test_hmac
 
-genhmac: CFLAGS += -W -Wall -Werror LDLAGS += -lssl
+$(OUTPUT_DIR)/genhmac:
+	$(CC) -W -Wall -Werror -o $@ genhmac.c -lssl
 
 $(OUTPUT_DIR)/test_hmac:
 	gnatmake -aP$(LSC_DIR) -o test_hmac -P build.gpr
