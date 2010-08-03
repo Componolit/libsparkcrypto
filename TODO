@@ -5,3 +5,5 @@
 * Convert LSC.AES.CBC.{Encrypt|Decrypt} functions
 * Add API documentation
 * Update license to official FSF library exception
+* Fix HMAC implementation (apart from SHA512)
+* Add multi-block HMAC test cases for all implementations, add block-sized multi-block tests.
