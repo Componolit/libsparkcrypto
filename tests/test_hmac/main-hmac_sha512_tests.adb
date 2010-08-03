@@ -36,10 +36,14 @@ procedure HMAC_SHA512_Tests is
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
 
+   subtype Message5_Index is LSC.Types.Word64 range 1 .. 5;
+   subtype Message5_Type is LSC.SHA512.Message_Type (Message5_Index);
+
    subtype Message12_Index is LSC.Types.Word64 range 1 .. 12;
    subtype Message12_Type is LSC.SHA512.Message_Type (Message12_Index);
 
    Message1  : Message1_Type;
+   Message5  : Message5_Type;
    Message12 : Message12_Type;
 
    use type LSC.Types.Word64;
@@ -255,14 +259,18 @@ begin
    --  Test Case MULTI-1 --
    ------------------------
 
-   -- This test was generated using dd, the OpenSSL command line tool and hexdump:
+   --  Multiple message blocks, not block aligned. This test was generated using
+   --  dd, the genhmac command line tool (based on OpenSSL) and xxd:
    --
-   -- $ dd if=/dev/urandom bs=1 count=64 of=key.dat
-   -- $ dd if=/dev/urandom bs=1 count=1500 of=message.dat
-   -- $ openssl dgst -sha512 -hmac $(cat key.dat) -binary message.dat > hash.dat
-   -- $ hexdump -e '"N (16#"' -e '8/1 "%2.2x"' -e '"#),\n"' key.dat
-   -- $ hexdump -e '"N (16#"' -e '8/1 "%2.2x"' -e '"#),\n"' message.dat
-   -- $ hexdump -e '"N (16#"' -e '8/1 "%2.2x"' -e '"#),\n"' hash.dat
+   --  $ dd if=/dev/urandom bs=1 count=64 of=HMAC_SHA512-KEY-1.dat
+   --  $ dd if=/dev/urandom bs=1 count=1500 of=HMAC_SHA512-MESSAGE-1.dat
+   --  $ ./out/genhmac \
+   --       HMAC_SHA512-KEY-1.dat \
+   --       HMAC_SHA512-MESSAGE-1.dat \
+   --       HMAC_SHA512-HASH-1.dat
+   --  $ xxd -c32 -g8 HMAC_SHA512-KEY-1.dat
+   --  $ xxd -c32 -g8 HMAC_SHA512-MESSAGE-1.dat
+   --  $ xxd -c32 -g8 HMAC_SHA512-HASH-1.dat
 
    --  Hexdump of key.dat
    Key   := LSC.SHA512.Block_Type'(
@@ -341,5 +349,66 @@ begin
       LSC.HMAC_SHA512.Authenticate (Key, Message12, 736) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#24b3907ac82497a4#), N (16#d7e0db7c317b93a7#), N (16#f2c35ce153913d86#), N (16#608068d30ce4ef0a#)));
+
+   ------------------------
+   --  Test Case MULTI-2 --
+   ------------------------
+
+   --  Multiple message blocks, not block aligned. This test was generated using
+   --  dd, the genhmac command line tool (based on OpenSSL) and xxd:
+   --
+   --  $ dd if=/dev/urandom bs=1 count=128 of=HMAC_SHA512-KEY-2.dat
+   --  $ dd if=/dev/urandom bs=1 count=640 of=HMAC_SHA512-MESSAGE-2.dat
+   --  $ ./out/genhmac \
+   --       HMAC_SHA512-KEY-2.dat \
+   --       HMAC_SHA512-MESSAGE-2.dat \
+   --       HMAC_SHA512-HASH-2.dat
+   --  $ xxd -c32 -g8 HMAC_SHA512-KEY-2.dat
+   --  $ xxd -c32 -g8 HMAC_SHA512-MESSAGE-2.dat
+   --  $ xxd -c32 -g8 HMAC_SHA512-HASH-2.dat
+
+   --  Hexdump of HMAC_SHA512-KEY-2.dat
+   Key   := LSC.SHA512.Block_Type'(
+      N (16#e3a86aea63f58fac#), N (16#a858ef8a994605e4#), N (16#e8da8502cf68ca6b#), N (16#dba3651502c3fd38#),
+      N (16#9f360e30f13b4658#), N (16#522d6584e290197e#), N (16#8938f191c9bf6467#), N (16#7220a5df9da19d85#),
+      N (16#fbfe98bbe1acb251#), N (16#2f0bb1957c8e5cc9#), N (16#872a2687d13ef45f#), N (16#3346616d0cf7eed0#),
+      N (16#bdf8c89926a895aa#), N (16#591415eb888342f5#), N (16#10547d8796a606e5#), N (16#543edfda43c9b8f7#)
+   );
+
+   --  Hexdump of HMAC_SHA512-MESSAGE-2.dat
+   Message5 := Message5_Type'(
+   LSC.SHA512.Block_Type'(
+      N (16#18da28d1fd3f10b6#), N (16#547fd81ae9e64dc0#), N (16#1cd015147e8d92e9#), N (16#9ceec40b8279c4df#),
+      N (16#69964480f23e6630#), N (16#b735e934879e7264#), N (16#a16f36b520565543#), N (16#0f965fbf99ea62ce#),
+      N (16#c3bf473481537028#), N (16#6d8a3014dc3bf8dc#), N (16#1c4484168ec39393#), N (16#7f89f6f1c0107484#),
+      N (16#cd1d23d75d1f8b8e#), N (16#4622dc6c8ada84b9#), N (16#267b341999f75146#), N (16#896721a3d977d6bc#)),
+   LSC.SHA512.Block_Type'(
+      N (16#eb91ced1c0574314#), N (16#ea03bb202fb7064d#), N (16#75108edcc8b4790f#), N (16#59a5ecf6c9524198#),
+      N (16#e5b47305fce4e4aa#), N (16#f91f8315bffdaa45#), N (16#463287010beea839#), N (16#203056994db783e6#),
+      N (16#9ad1bc202f4a7b77#), N (16#f7f33e3a9af3d096#), N (16#5718eca50e70198a#), N (16#493b35dfd0b7d04f#),
+      N (16#a50195ab13130324#), N (16#ee875c16be090345#), N (16#d5e43684fcd678b7#), N (16#77401f45d85b63c3#)),
+   LSC.SHA512.Block_Type'(
+      N (16#c02b855d3bd13445#), N (16#14740c3cdf873d2d#), N (16#f811a72883b6a0a3#), N (16#58771622c1cc5c07#),
+      N (16#223f0ccfec5f90a8#), N (16#50d1d552a7d8f178#), N (16#88024175e377e21e#), N (16#c78eaf843f81baab#),
+      N (16#c62d5a390b760849#), N (16#62aa63307c0959e6#), N (16#abc001d49773a782#), N (16#4147840acb1bd02e#),
+      N (16#784b5aa724d9b218#), N (16#cf5d53115f4acd2c#), N (16#88a42a14af3b2f77#), N (16#43b9f144e044f6f4#)),
+   LSC.SHA512.Block_Type'(
+      N (16#5e79ce696409e5f1#), N (16#9d61a5af2412ae08#), N (16#3ef6d62fd3af2fbb#), N (16#e8328d99517e6aaf#),
+      N (16#5fba0969fa2cd91e#), N (16#c9f58450f3fa2378#), N (16#cf5bafc2ae702d23#), N (16#9028b457ff93bef3#),
+      N (16#0985b6f4f0387ff7#), N (16#c04bf5d9a67d9216#), N (16#2d8c32f5805f5125#), N (16#c5db4a90600b7a20#),
+      N (16#ac51ec5414fd9394#), N (16#07d05d456ea3d04b#), N (16#de50ee63274ad6d6#), N (16#74d24549bb0b95a5#)),
+   LSC.SHA512.Block_Type'(
+      N (16#7c11d824625f1080#), N (16#b46895271e8547f1#), N (16#440df9c275bc4578#), N (16#979905e940683d18#),
+      N (16#87d089c49b91fdfc#), N (16#a31cffc297d3e156#), N (16#d06360c9695a2914#), N (16#aa10cfe1c90ff89e#),
+      N (16#9a75f63eed5fdca7#), N (16#a11bee9a01246a17#), N (16#76aba38f962a1cf7#), N (16#e1df2e5834d8b4c5#),
+      N (16#23dcdae23ce5de10#), N (16#a23ea0978a51ea7b#), N (16#76df2b1631741fe4#), N (16#510dc8cc08dcabf2#))
+   );
+
+   --  Compare with hexdump of HMAC_SHA512-HASH-2.dat
+   LSC.Test.Run
+     ("HMAC-SHA512-MULTI-2",
+      LSC.HMAC_SHA512.Authenticate (Key, Message5, 1024) =
+      LSC.HMAC_SHA512.Auth_Type'(
+         N (16#412015d264458463#), N (16#0c23f0685dce9e06#), N (16#d790cd4af47e70b7#), N (16#4809daea24ebdcd4#)));
 
 end HMAC_SHA512_Tests;
