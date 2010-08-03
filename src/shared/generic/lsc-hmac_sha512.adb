@@ -129,6 +129,9 @@ package body LSC.HMAC_SHA512 is
       Dummy    : constant SHA512.Block_Type := SHA512.Block_Type'(others => 0);
    begin
 
+      Debug.New_Line;
+      Debug.Put_Line (">>> HMAC_SHA512.Authenticate start.");
+
       HMAC_Ctx := Context_Init (Key);
 
       -- handle all blocks, but the last.
@@ -140,6 +143,10 @@ package body LSC.HMAC_SHA512 is
             --#    Message'Last > Message'First and
             --#    I <= Message'Last;
             Context_Update (HMAC_Ctx, Message (I));
+
+            Debug.Put ("    HMAC_SHA512.Authenticate: round ");
+            Debug.Print_Word64 (I);
+            Debug.Put_Line (".");
          end loop;
       end if;
 
@@ -149,11 +156,18 @@ package body LSC.HMAC_SHA512 is
       --  afterwards.
       if Last_Length = SHA512.Block_Size
       then
+         Debug.Put_Line ("    HMAC_SHA512.Authenticate: Full last block.");
          Context_Update (HMAC_Ctx, Message (Message'Last));
          Context_Finalize (HMAC_Ctx, Dummy, 0);
       else
+         Debug.Put ("    HMAC_SHA512.Authenticate: Partial last block of length ");
+         Debug.Print_Word64 (Last_Length);
+         Debug.Put_Line (".");
          Context_Finalize (HMAC_Ctx, Message (Message'Last), Last_Length);
       end if;
+
+      Debug.Put_Line (">>> HMAC_SHA512.Authenticate end.");
+      Debug.New_Line;
 
       return Get_Auth (HMAC_Ctx);
    end Authenticate;
