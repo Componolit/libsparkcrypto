@@ -7,3 +7,4 @@
 * Update license to official FSF library exception
 * Fix HMAC implementation (apart from SHA512)
 * Add multi-block HMAC test cases for all implementations, add block-sized multi-block tests.
+* Change HMAC Authenticate API to use message size (not size of last block)
