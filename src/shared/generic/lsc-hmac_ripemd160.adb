@@ -119,7 +119,7 @@ package body LSC.HMAC_RIPEMD160 is
       HMAC_Ctx := Context_Init (Key);
 
       -- handle all blocks, but the last.
-      if Message'First > Message'Last
+      if Message'Last > Message'First
       then
          for I in RIPEMD160.Message_Index range Message'First .. Message'Last - 1
          loop
