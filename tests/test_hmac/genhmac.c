@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <fcntl.h>
+#include <string.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
 #include <openssl/hmac.h>
@@ -49,19 +50,37 @@ main (int argc, char **argv)
    int fd;
    char *key, *msg;
    int key_len, msg_len;
+   const char *algo, *key_file, *msg_file, *dgst_file;
+   const EVP_MD *md = NULL;
 
    unsigned int dgst_len;
    unsigned char dgst[EVP_MAX_MD_SIZE];
 
-   if (argc != 4)
+   if (argc != 5)
    {
-      errx (1, "Insufficient arguments: genhmac <key_file> <message_file> <digest_output_file>\n");
+      errx (1, "Insufficient arguments: genhmac {sha256|sha384|sha512|rmd160} <key_file> <message_file> <digest_output_file>\n");
    }
 
-   map_file (argv[1], &key, &key_len);
-   map_file (argv[2], &msg, &msg_len);
+   algo      = argv[1];
+   key_file  = argv[2];
+   msg_file  = argv[3];
+   dgst_file = argv[4];
 
-   HMAC (EVP_sha512(),
+   /* select algorithm */
+   if (0 == strcmp (algo, "sha256")) md = EVP_sha256();
+      else
+   if (0 == strcmp (algo, "sha384")) md = EVP_sha384();
+      else
+   if (0 == strcmp (algo, "sha512")) md = EVP_sha512();
+      else
+   if (0 == strcmp (algo, "rmd160")) md = EVP_ripemd160();
+      else
+   errx (1, "Unknown algorithm: %s", algo);
+
+   map_file (key_file, &key, &key_len);
+   map_file (msg_file, &msg, &msg_len);
+
+   HMAC (md,
          key,
          key_len,
          (unsigned char *)msg,
@@ -69,12 +88,12 @@ main (int argc, char **argv)
          dgst,
          &dgst_len);
 
-   printf ("DIGEST has length %d\n", dgst_len);
+   printf ("DIGEST %s has length %d\n", algo, dgst_len);
 
-   fd = open (argv[3], O_CREAT|O_TRUNC|O_RDWR);
+   fd = open (dgst_file, O_CREAT|O_TRUNC|O_RDWR, 0644);
    if (fd == -1)
    {
-      err (1, "Error opening output file: %s\n", argv[3]);
+      err (1, "Error opening output file: %s\n", dgst_file);
    }
 
    if (write (fd, dgst, dgst_len) == -1)
