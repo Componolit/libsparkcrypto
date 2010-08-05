@@ -36,7 +36,15 @@ procedure HMAC_SHA384_Tests is
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
 
-   Message1 : Message1_Type;
+   subtype Message2_Index is LSC.Types.Word64 range 1 .. 2;
+   subtype Message2_Type is LSC.SHA512.Message_Type (Message2_Index);
+
+   subtype Message3_Index is LSC.Types.Word64 range 1 .. 3;
+   subtype Message3_Type is LSC.SHA512.Message_Type (Message3_Index);
+
+   Message1  : Message1_Type;
+   Message2  : Message2_Type;
+   Message3  : Message3_Type;
 
 begin
 
@@ -233,5 +241,74 @@ begin
       LSC.HMAC_SHA384.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA384.Auth_Type'
       (N (16#5b540085c6e63580#), N (16#96532b2493609ed1#), N (16#cb298f774f87bb5c#)));
+
+   ------------------------
+   --  Test Case MULTI-1 --
+   ------------------------
+
+   --  Hexdump of hmac_sha384-key-1.dat
+   Key   := LSC.SHA512.Block_Type'(
+      N (16#2cad6b4b0b01b5b4#), N (16#a4de252f2b594736#), N (16#68e85fdc40de1d25#), N (16#c25d4ecc2a7dfec4#),
+      N (16#53334b6ee5b4a4fb#), N (16#33cf52a70f23a351#), N (16#e7e124dc78b56c76#), N (16#18c14c301ef0452a#),
+      N (16#29b8cdb0821d774a#), N (16#d0e55480530bd091#), N (16#0f92dcb33037cded#), N (16#d8fabd1bcd519cba#),
+      N (16#8dc8cd68bbd33d5e#), N (16#2e22a320d6a71a60#), N (16#ba16964831e0e8e6#), N (16#b5527d657d6a9daa#)
+   );
+
+   --  Hexdump of hmac_sha384-message-1.dat
+   Message2 := Message2_Type'(
+   LSC.SHA512.Block_Type'(
+      N (16#c7e3ae3df95ca9a8#), N (16#13242d4052700304#), N (16#fc8dab7c4bffff62#), N (16#de0b364b87a1f8c7#),
+      N (16#5e9b3f6b31f552ec#), N (16#f8a53724b01ff176#), N (16#eb9922a221b0003a#), N (16#682dca9fdfa49e59#),
+      N (16#b652f8c834c89936#), N (16#486df5779f720734#), N (16#77e912b3568cd483#), N (16#7059267c1d013521#),
+      N (16#b6c763924fea7e17#), N (16#58591d2a1781fcac#), N (16#072e963f2a02e23a#), N (16#831344b9c9ddc17e#)),
+   LSC.SHA512.Block_Type'(
+      N (16#68d70a8125e29904#), N (16#00aa442072ea6d52#), N (16#f890ce20e7fff07a#), N (16#ffb79d3c294fba57#),
+      N (16#1546abc37b2071ca#), N (16#cffd731e25232350#), N (16#635e8e8a3693a8f2#), N (16#d13ec3505e6912d5#),
+      N (16#c8855484eb251327#), N (16#2c42eaa8afa3d8ea#), N (16#82546d44da4e8553#), N (16#6844ec16107925a7#),
+      N (16#8d3449f3c6cbff01#), N (16#b304d133a118c1d7#), N (16#2e0b4f754b38fa9e#), N (16#0a082fd37ca98c56#))
+   );
+
+   --  Hexdump of hmac_sha384-hash-1.dat
+   LSC.Test.Run
+     ("HMAC-SHA384-MULTI-1",
+      LSC.HMAC_SHA384.Authenticate (Key, Message2, 1024) =
+      LSC.HMAC_SHA384.Auth_Type'(
+         N (16#89869091210b3653#), N (16#21f60d6409b9ab5e#), N (16#fd8eea749f22dce3#)));
+
+   ------------------------
+   --  Test Case MULTI-2 --
+   ------------------------
+
+   --  Hexdump of hmac_sha384-key-2.dat
+   Key   := LSC.SHA512.Block_Type'(
+      N (16#2466663d3e7bedcd#), N (16#e4c229484312440f#), N (16#954849019d214069#), N (16#759fdd03f6af0f1b#),
+      N (16#4c6c4a0b78380f75#), N (16#12802b15ed72cf2d#), N (16#b82984e56921b813#), N (16#ffbc70abcf9aaa27#),
+      N (16#042d2484d803ca23#), N (16#65830c9094ac5f3e#), N (16#fe810d7c628cd67d#), N (16#2e0acc568cd94862#),
+      N (16#d45e471822988e27#), N (16#9d51cc4502a919bc#), N (16#3038d2e9c3336935#), N (16#eafcb8c2a0ac3878#)
+   );
+
+   --  Hexdump of hmac_sha384-message-2.dat
+   Message3 := Message3_Type'(
+   LSC.SHA512.Block_Type'(
+      N (16#225832edcff4d97b#), N (16#6d6d9329fe9f7eff#), N (16#f3311f03f6168ca7#), N (16#493eadbafb66bff2#),
+      N (16#9c106683539a0193#), N (16#88444e2f7be708b3#), N (16#eb736e77d15339e8#), N (16#978839ef2d4afc9d#),
+      N (16#1b2eb2501b9a0f8b#), N (16#41ed05fb650f52a2#), N (16#c8440f9f214ce15e#), N (16#07f811255328e5f6#),
+      N (16#c7bcedaf34271920#), N (16#ab24105256cace3e#), N (16#aca191607991c49a#), N (16#bce83199afee2786#)),
+   LSC.SHA512.Block_Type'(
+      N (16#70b6f46c918f88df#), N (16#5f2a3ddcaef7cc29#), N (16#0134f34d30012e18#), N (16#bab3ac55fe992b34#),
+      N (16#763d72beb784ea0e#), N (16#51fea85641166183#), N (16#f2c8d745c128e374#), N (16#4d85f98ce6500504#),
+      N (16#6e4e29023d97146e#), N (16#491c2f043406fde8#), N (16#8e387a86ab56ada2#), N (16#46a28e21298790b6#),
+      N (16#d6dc2d1b8f582696#), N (16#e9eda4cc3779af1d#), N (16#310a961c1619328d#), N (16#d44f8da9f1d547e1#)),
+   LSC.SHA512.Block_Type'(
+      N (16#41e7558b1f771b63#), N (16#73ca7b8ea99afefa#), N (16#1423e9fb847a0f57#), N (16#1a848c52b9424d2e#),
+      N (16#b9effba7b7063973#), N (16#f56bf7b52116cb7f#), N (16#3974bb7d3bc0be6a#), others => 0)
+   );
+
+   --  Compare with hexdump of hmac_sha384-hash-2.dat
+   LSC.Test.Run
+     ("HMAC-SHA384-MULTI-2",
+      LSC.HMAC_SHA384.Authenticate (Key, Message3, 448) =
+      LSC.HMAC_SHA384.Auth_Type'(
+         N (16#144cd21ae50bfb0f#), N (16#ed473b88e7b33470#), N (16#5c59fecda5f978c8#)));
 
 end HMAC_SHA384_Tests;

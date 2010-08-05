@@ -5,8 +5,7 @@
 * Convert LSC.AES.CBC.{Encrypt|Decrypt} functions
 * Add API documentation
 * Update license to official FSF library exception
-* Fix HMAC implementation (apart from SHA512)
-* Add multi-block HMAC test cases for all implementations, add block-sized multi-block tests.
+* Fix HMAC-SHA256 implementation
 * Change HMAC Authenticate API to use message size (not size of last block)
 * Enable compiler warnings, make warnings errors
 * Add length parameter to AES.{Ecrypt|Decrypt), i.e. allow handling of parts of the message

@@ -36,7 +36,15 @@ procedure HMAC_SHA256_Tests is
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA256.Message_Type (Message1_Index);
 
+   subtype Message4_Index is LSC.Types.Word64 range 1 .. 4;
+   subtype Message4_Type is LSC.SHA256.Message_Type (Message4_Index);
+
+   subtype Message5_Index is LSC.Types.Word64 range 1 .. 5;
+   subtype Message5_Type is LSC.SHA256.Message_Type (Message5_Index);
+
    Message1 : Message1_Type;
+   Message4 : Message4_Type;
+   Message5 : Message5_Type;
 
 begin
 
@@ -324,5 +332,98 @@ begin
                                  M (16#b40b35c2#),
                                  M (16#115b1346#),
                                  M (16#903d2ef4#)));
+
+   ------------------------
+   --  Test Case MULTI-1 --
+   ------------------------
+
+   -- hmac_sha256-key-1.dat
+   Key := LSC.SHA256.Block_Type'(
+      M (16#e94f399e#), M (16#6451ce39#), M (16#7b49d580#), M (16#bafdf532#),
+      M (16#ee24aa25#), M (16#6b0721bf#), M (16#c7f67939#), M (16#903fc021#),
+      M (16#ca3c517c#), M (16#1ce00fa3#), M (16#ed0a5ff2#), M (16#a2c32049#),
+      M (16#d3452f2b#), M (16#cdba563a#), M (16#3edf4f0d#), M (16#6bd26dad#)
+   );
+
+   -- hmac_sha256-message-1.dat
+   Message4 := Message4_Type'(
+   LSC.SHA256.Block_Type'(
+      M (16#1d68a3cd#), M (16#6b07a7e3#), M (16#3ce93a05#), M (16#f89defe5#),
+      M (16#0142fe91#), M (16#8508e319#), M (16#b283d17c#), M (16#1423afc0#),
+      M (16#86508665#), M (16#b34c6d13#), M (16#777da272#), M (16#d202d291#),
+      M (16#91c89d4b#), M (16#f2852209#), M (16#a4241e91#), M (16#2e4c9b6e#)),
+   LSC.SHA256.Block_Type'(
+      M (16#8342da56#), M (16#5fa7bbb0#), M (16#0e5541f7#), M (16#11ac4f01#),
+      M (16#69bd4113#), M (16#a51388fc#), M (16#f57aac73#), M (16#95d774eb#),
+      M (16#07eb51e1#), M (16#526efaa3#), M (16#c589f223#), M (16#89adaf4d#),
+      M (16#48d01d42#), M (16#99a16171#), M (16#7a84a41c#), M (16#5cabe95b#)),
+   LSC.SHA256.Block_Type'(
+      M (16#d056a140#), M (16#25e4da39#), M (16#54251a17#), M (16#288bbf71#),
+      M (16#7040f900#), M (16#e6b3eeb9#), M (16#b4c7337e#), M (16#59c946c0#),
+      M (16#d72b53b2#), M (16#04e16a4a#), M (16#bb00aa33#), M (16#fc674d6a#),
+      M (16#cdb821d9#), M (16#b1d2a1ca#), M (16#0d286937#), M (16#81ef2acf#)),
+   LSC.SHA256.Block_Type'(
+      M (16#e908e006#), M (16#815853a2#), M (16#d6100b5d#), M (16#a81ce416#),
+      M (16#d98ba37d#), M (16#36e3c68b#), M (16#52cf0c1c#), M (16#aa9805b9#),
+      M (16#3b7e68b7#), M (16#2c56511d#), M (16#711336b8#), M (16#eb1fe87f#),
+      M (16#88b5870c#), M (16#697807fd#), M (16#dd1d1028#), M (16#87d5777f#))
+      );
+
+   -- hmac_sha256-hash-1.dat
+   LSC.Test.Run
+     ("HMAC-SHA256-MULTI-1",
+      LSC.HMAC_SHA256.Authenticate (Key, Message4, 512) =
+      LSC.SHA256.SHA256_Hash_Type'(
+      M (16#15667870#), M (16#c4957c0f#), M (16#46de0f26#), M (16#c19804ae#),
+      M (16#d1169bdf#), M (16#fd8beeb3#), M (16#c5e04706#), M (16#a59f3094#)));
+
+   ------------------------
+   --  Test Case MULTI-2 --
+   ------------------------
+
+   -- hmac_sha256-key-2.dat
+   Key := LSC.SHA256.Block_Type'(
+      M (16#f9bce67a#), M (16#4d76ff6d#), M (16#d14b0371#), M (16#7b63696c#),
+      M (16#563ff8ee#), M (16#1825343e#), M (16#3732b7ff#), M (16#d881d8c1#),
+      M (16#f5e75c76#), M (16#0fab3418#), M (16#8281a08b#), M (16#dbdf6264#),
+      M (16#27566d34#), M (16#a61c20cf#), M (16#41db3611#), M (16#4d8d63f9#)
+   );
+
+   -- hmac_sha256-message-2.dat
+   Message5 := Message5_Type'(
+   LSC.SHA256.Block_Type'(
+      M (16#05b4583b#), M (16#e4dabc55#), M (16#2d3ec9bb#), M (16#d9a36cfc#),
+      M (16#ec9cd70a#), M (16#c28326e3#), M (16#55fa0488#), M (16#963c2dae#),
+      M (16#c8046861#), M (16#27944daa#), M (16#7c9935a3#), M (16#7a15387e#),
+      M (16#724669bd#), M (16#3ee51c80#), M (16#f01dd16e#), M (16#d6eaae5d#)),
+   LSC.SHA256.Block_Type'(
+      M (16#031d4365#), M (16#aecd1468#), M (16#623ecfef#), M (16#8bc48e96#),
+      M (16#d14fd471#), M (16#adec193a#), M (16#2d803593#), M (16#876083a6#),
+      M (16#771684e6#), M (16#022d917e#), M (16#b96c6472#), M (16#5e3d3c25#),
+      M (16#cbf3b94b#), M (16#290f30dd#), M (16#ae3be915#), M (16#bbf215fa#)),
+   LSC.SHA256.Block_Type'(
+      M (16#a362659b#), M (16#7ba390a6#), M (16#fe4ccb96#), M (16#3d7a9efa#),
+      M (16#634edd9a#), M (16#e977235b#), M (16#b061da25#), M (16#871d5ec4#),
+      M (16#96591090#), M (16#03e8d9bd#), M (16#b8b570b2#), M (16#8a55eea2#),
+      M (16#41654ead#), M (16#a305eca9#), M (16#27183dc4#), M (16#0fccbeac#)),
+   LSC.SHA256.Block_Type'(
+      M (16#9d99311c#), M (16#c8cee41e#), M (16#e165b132#), M (16#d0907f42#),
+      M (16#ba829b85#), M (16#6ac8cc7b#), M (16#32c158ed#), M (16#8ae5efbd#),
+      M (16#c8c47c0a#), M (16#11f6e3de#), M (16#ca9425d1#), M (16#d560ff15#),
+      M (16#42724497#), M (16#07ded7a7#), M (16#87721d7c#), M (16#ab2cb568#)),
+   LSC.SHA256.Block_Type'(
+      M (16#29ac3372#), M (16#bbae6449#), M (16#8e48ce3d#), M (16#2f18bca7#),
+      M (16#8b019337#), M (16#dad8763d#), M (16#dcef1b86#), M (16#e8e729c7#),
+      M (16#f4966f48#), M (16#2537e29a#), M (16#6861c3b6#), M (16#1b8ad2a7#),
+      M (16#2d07d0fd#), M (16#db70f339#), others => 0)
+   );
+
+   -- hmac_sha256-hash-2.dat
+   LSC.Test.Run
+     ("HMAC-SHA256-MULTI-2",
+      LSC.HMAC_SHA256.Authenticate (Key, Message5, 448) =
+      LSC.SHA256.SHA256_Hash_Type'(
+      M (16#a3735482#), M (16#3897bec4#), M (16#a017cefc#), M (16#608852a6#),
+      M (16#375aab7d#), M (16#966619d4#), M (16#f2243e00#), M (16#babc4d4c#)));
 
 end HMAC_SHA256_Tests;

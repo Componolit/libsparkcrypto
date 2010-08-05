@@ -131,7 +131,7 @@ package body LSC.HMAC_SHA384 is
       HMAC_Ctx := Context_Init (Key);
 
       -- handle all blocks, but the last.
-      if Message'First > Message'Last
+      if Message'Last > Message'First
       then
          for I in SHA512.Message_Index range Message'First .. Message'Last - 1
          loop
@@ -146,9 +146,9 @@ package body LSC.HMAC_SHA384 is
       --  Block_Length_Type'Last) then we have to pass it to Context_Update and
       --  call Context_Finalize with a length of 0 (on a dummy block)
       --  afterwards.
-      if Last_Length = Block_Length_Type'Last then Context_Update (HMAC_Ctx,
-         Message (Message'Last));
+      if Last_Length = Block_Length_Type'Last then
 
+         Context_Update (HMAC_Ctx, Message (Message'Last));
          -- Message (Message'Last) is unused here, as Length is 0.
          Context_Finalize (HMAC_Ctx, Message (Message'Last), 0);
       else
