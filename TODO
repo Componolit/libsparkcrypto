@@ -9,3 +9,4 @@
 * Add multi-block HMAC test cases for all implementations, add block-sized multi-block tests.
 * Change HMAC Authenticate API to use message size (not size of last block)
 * Enable compiler warnings, make warnings errors
+* Add length parameter to AES.{Ecrypt|Decrypt), i.e. allow handling of parts of the message
