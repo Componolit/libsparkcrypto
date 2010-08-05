@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Debug;
+with LSC.Byteorder64;
 with LSC.SHA512.Tables;
 
 package body LSC.SHA512 is
@@ -39,7 +41,7 @@ package body LSC.SHA512 is
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word64) is
    begin
-      if (Item.LSW + Value) <= Types.Word64'Last
+      if Item.LSW <= Types.Word64'Last - Value
       then
          Item.LSW := Item.LSW + Value;
       else
@@ -364,10 +366,6 @@ package body LSC.SHA512 is
 
       Index  := Block_Index (Length / 64);
       Offset := Natural (63 - Length mod 64);
-
-      Debug.Put ("Terminator offset =");
-      Debug.Print_Natural (Offset);
-      Debug.New_Line;
 
       Block (Index) := Byteorder64.Native_To_BE (Block (Index));
       Block (Index) := Block (Index) xor Types.SHL (1, Offset);

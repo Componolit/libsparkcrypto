@@ -31,14 +31,16 @@
 --  [doc/specs/rfc2286.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.RIPEMD160, LSC.Types, LSC.Ops32, LSC.Debug;
+with LSC.RIPEMD160, LSC.Types;
+
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit LSC.Debug,
---#         LSC.RIPEMD160,
---#         LSC.Ops32,
---#         LSC.Types;
+--# inherit
+--#    LSC.Debug,
+--#    LSC.RIPEMD160,
+--#    LSC.Ops32,
+--#    LSC.Types;
 
 package LSC.HMAC_RIPEMD160 is
 

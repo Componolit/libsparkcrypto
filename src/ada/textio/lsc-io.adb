@@ -27,7 +27,6 @@
 
 with LSC.Types, LSC.IO;
 with Ada.Text_IO.Text_Streams;
-with Unchecked_Conversion;
 
 use type LSC.Types.Word64;
 use type LSC.Types.Word32;

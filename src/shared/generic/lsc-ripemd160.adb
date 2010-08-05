@@ -25,6 +25,9 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Ops32;
+with LSC.Byteorder32;
+with LSC.Debug;
 with LSC.RIPEMD160.Print;
 
 package body LSC.RIPEMD160 is
@@ -39,7 +42,7 @@ package body LSC.RIPEMD160 is
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32) is
    begin
-      if (Item.LSW + Value) <= Types.Word32'Last
+      if Item.LSW  <= Types.Word32'Last - Value
       then
          Item.LSW := Item.LSW + Value;
       else

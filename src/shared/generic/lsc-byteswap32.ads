@@ -25,9 +25,11 @@
 --  License.
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Ops32;
---# inherit LSC.Types,
---#         LSC.Ops32;
+with LSC.Types;
+
+--# inherit
+--#    LSC.Ops32,
+--#    LSC.Types;
 
 package LSC.Byteswap32 is
 

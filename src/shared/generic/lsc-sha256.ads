@@ -32,13 +32,16 @@
 --
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Debug, LSC.Byteorder32;
+with LSC.Types;
+
 use type LSC.Types.Index;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
---# inherit LSC.Types,
---#         LSC.Debug,
---#         LSC.Byteorder32;
+
+--# inherit
+--#    LSC.Types,
+--#    LSC.Debug,
+--#    LSC.Byteorder32;
 
 package LSC.SHA256 is
 

@@ -31,13 +31,14 @@
 --  [doc/specs/rfc4868.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.SHA512, LSC.Types, LSC.Ops64, LSC.Debug;
+with LSC.SHA512, LSC.Types;
 use type LSC.Types.Word64;
 
---# inherit LSC.Debug,
---#         LSC.SHA512,
---#         LSC.Ops64,
---#         LSC.Types;
+--# inherit
+--#    LSC.Debug,
+--#    LSC.SHA512,
+--#    LSC.Ops64,
+--#    LSC.Types;
 
 package LSC.HMAC_SHA384 is
 

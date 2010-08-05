@@ -31,14 +31,15 @@
 --  [doc/specs/rfc4868.txt.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.SHA256, LSC.Types, LSC.Ops32, LSC.Debug;
+with LSC.SHA256, LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit LSC.Debug,
---#         LSC.SHA256,
---#         LSC.Ops32,
---#         LSC.Types;
+--# inherit
+--#    LSC.Debug,
+--#    LSC.SHA256,
+--#    LSC.Ops32,
+--#    LSC.Types;
 
 package LSC.HMAC_SHA256 is
 

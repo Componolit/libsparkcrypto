@@ -32,9 +32,10 @@
 --  Commerce, December 2001
 -------------------------------------------------------------------------------
 
-with LSC.AES, LSC.Ops32;
---# inherit LSC.AES,
---#         LSC.Ops32;
+with LSC.AES;
+--# inherit
+--#    LSC.AES,
+--#    LSC.Ops32;
 
 package LSC.AES.CBC is
 

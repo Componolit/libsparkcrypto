@@ -25,7 +25,11 @@
 --  License.
 -------------------------------------------------------------------------------
 
-with LSC.AES.Tables, LSC.AES.Print;
+with LSC.Debug;
+with LSC.Ops32;
+with LSC.Byteorder32;
+with LSC.AES.Tables;
+with LSC.AES.Print;
 
 package body LSC.AES is
 

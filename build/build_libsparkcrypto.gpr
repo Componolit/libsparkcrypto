@@ -58,7 +58,7 @@ is
    end Builder;
 
    package Compiler is
-      for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections") & Compiler_Switches;
+      for Default_Switches ("Ada") use  Compiler_Switches & ("-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
    end Compiler;
 
 end Build_Libsparkcrypto;

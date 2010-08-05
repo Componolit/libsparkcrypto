@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Ops32;
+
 package body LSC.AES.CBC is
 
    procedure Encrypt (Context    : in     AES.AES_Enc_Context;

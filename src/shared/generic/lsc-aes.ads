@@ -35,13 +35,14 @@
 --  [doc/specs/Rijndael-amended.pdf]
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Debug, LSC.Ops32, LSC.Byteorder32;
+with LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;
---# inherit LSC.Types,
---#         LSC.Debug,
---#         LSC.Ops32,
---#         LSC.Byteorder32;
+--# inherit
+--#    LSC.Types,
+--#    LSC.Debug,
+--#    LSC.Ops32,
+--#    LSC.Byteorder32;
 
 package LSC.AES is
 

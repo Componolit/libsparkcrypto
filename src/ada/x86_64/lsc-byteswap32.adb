@@ -26,7 +26,6 @@
 -------------------------------------------------------------------------------
 
 with System.Machine_Code;
-with Unchecked_Conversion;
 
 package body LSC.Byteswap32 is
 

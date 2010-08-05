@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.IO;
+
 package body LSC.Test is
 
    procedure Suite (Name : String)

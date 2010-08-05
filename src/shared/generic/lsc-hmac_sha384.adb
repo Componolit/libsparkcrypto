@@ -25,6 +25,9 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Ops64;
+with LSC.Debug;
+
 package body LSC.HMAC_SHA384 is
 
    IPad : constant SHA512.Block_Type :=

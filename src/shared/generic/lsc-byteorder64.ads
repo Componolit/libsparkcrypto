@@ -25,10 +25,11 @@
 --  License.
 -------------------------------------------------------------------------------
 
-with LSC.Ops64, LSC.Types, LSC.Byteswap64;
---# inherit LSC.Ops64,
---#         LSC.Types,
---#         LSC.Byteswap64;
+with LSC.Types;
+--# inherit
+--#    LSC.Ops64,
+--#    LSC.Types,
+--#    LSC.Byteswap64;
 
 package LSC.Byteorder64 is
 

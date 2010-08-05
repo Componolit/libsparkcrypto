@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Ops64;
+
 package body LSC.Byteswap64 is
 
    function Swap (Value : Types.Word64) return Types.Word64

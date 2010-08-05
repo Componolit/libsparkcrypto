@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Ops32;
+
 package body LSC.Byteswap32 is
 
    function Swap (Value : Types.Word32) return Types.Word32

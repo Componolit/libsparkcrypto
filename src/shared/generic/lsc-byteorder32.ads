@@ -25,10 +25,12 @@
 --  License.
 -------------------------------------------------------------------------------
 
-with LSC.Ops32, LSC.Types, LSC.Byteswap32;
---# inherit LSC.Ops32,
---#         LSC.Types,
---#         LSC.Byteswap32;
+with LSC.Types;
+
+--# inherit
+--#    LSC.Ops32,
+--#    LSC.Types,
+--#    LSC.Byteswap32;
 
 package LSC.Byteorder32 is
 

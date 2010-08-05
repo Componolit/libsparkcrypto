@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Byteswap32;
+
 package body LSC.Byteorder32 is
 
    function Native_To_BE (Item : Types.Word32) return Types.Word32

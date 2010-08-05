@@ -32,12 +32,15 @@
 --
 -------------------------------------------------------------------------------
 
-with LSC.Types, LSC.Debug, LSC.Byteorder64;
+with LSC.Types;
+
 use type LSC.Types.Index;
 use type LSC.Types.Word64;
---# inherit LSC.Types,
---#         LSC.Debug,
---#         LSC.Byteorder64;
+
+--# inherit
+--#    LSC.Types,
+--#    LSC.Debug,
+--#    LSC.Byteorder64;
 
 package LSC.SHA512 is
 

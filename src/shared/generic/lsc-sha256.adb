@@ -25,6 +25,8 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Debug;
+with LSC.Byteorder32;
 with LSC.SHA256.Tables;
 
 package body LSC.SHA256 is
@@ -39,7 +41,7 @@ package body LSC.SHA256 is
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32) is
    begin
-      if (Item.LSW + Value) <= Types.Word32'Last
+      if Item.LSW <= Types.Word32'Last - Value
       then
          Item.LSW := Item.LSW + Value;
       else
@@ -156,20 +158,6 @@ package body LSC.SHA256 is
       is
          T1, T2 : Types.Word32;
       begin
-
-         if r > 0
-         then
-            Debug.Print_Word32 (Types.Word32 (r - 1));
-            Debug.Put (": ");
-            Debug.Print_Word32 (a0); Debug.Put ("  ");
-            Debug.Print_Word32 (a1); Debug.Put ("  ");
-            Debug.Print_Word32 (a2); Debug.Put ("  ");
-            Debug.Print_Word32 (a3); Debug.Put ("  ");
-            Debug.Print_Word32 (a4); Debug.Put ("  ");
-            Debug.Print_Word32 (a5); Debug.Put ("  ");
-            Debug.Print_Word32 (a6); Debug.Put ("  ");
-            Debug.Print_Word32 (a7); Debug.New_Line;
-         end if;
 
          T1 := a7 + Cap_Sigma_1_256 (a4) + Ch (a4, a5, a6) + Tables.K (r) + Context.W (r);
          T2 := Cap_Sigma_0_256 (a0) + Maj (a0, a1, a2);
@@ -343,10 +331,6 @@ package body LSC.SHA256 is
 
       Index  := Block_Index (Length / 32);
       Offset := Natural (31 - Length mod 32);
-
-      Debug.Put ("Terminator offset =");
-      Debug.Print_Natural (Offset);
-      Debug.New_Line;
 
       Block (Index) := Byteorder32.Native_To_BE (Block (Index));
       Block (Index) := Block (Index) xor Types.SHL32 (1, Offset);

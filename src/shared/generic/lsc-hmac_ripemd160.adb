@@ -25,6 +25,9 @@
 --  License.
 -------------------------------------------------------------------------------
 
+with LSC.Ops32;
+with LSC.Debug;
+
 package body LSC.HMAC_RIPEMD160 is
 
    IPad : constant RIPEMD160.Block_Type :=
