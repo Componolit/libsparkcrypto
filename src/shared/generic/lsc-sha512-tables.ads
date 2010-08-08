@@ -24,6 +24,7 @@
 with LSC.SHA512;
 --# inherit LSC.SHA512;
 
+-- Tables for SHA-512 and SHA-384
 private package LSC.SHA512.Tables is
 
 K : constant SHA512.Schedule_Type := SHA512.Schedule_Type'

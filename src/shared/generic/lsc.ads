@@ -21,6 +21,7 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
+-- Base package of libsparkcrypto
 package LSC is
 
    pragma Pure;

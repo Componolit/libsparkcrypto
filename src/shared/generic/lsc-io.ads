@@ -25,8 +25,10 @@ with LSC.Types;
 use type LSC.Types.Index;
 --# inherit LSC.Types;
 
+-- LSC Input/Output routines.
 package LSC.IO is
 
+   -- Output the string T without line terminator.
    procedure Put (T : String);
    --# derives null from T;
 
