@@ -1,5 +1,5 @@
 OUTPUT_DIR = $(CURDIR)/out
-DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof)
+DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc)
 UNAME_M   := $(shell uname -m)
 
 IO				?= textio
@@ -65,11 +65,29 @@ ifeq ($(NO_TESTS),)
 ALL_GOALS += tests
 endif
 
+# Feature: NO_APIDOC
+ifeq ($(NO_APIDOC),)
+ALL_GOALS += apidoc
+endif
+
 ###############################################################################
 
 all: $(ALL_GOALS)
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
 proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
+
+apidoc: $(OUTPUT_DIR)/specs.lst
+	adabrowse \
+      -f @$< \
+      -w1 \
+      -c build/adabrowse.conf \
+      -o $(OUTPUT_DIR)/doc/ \
+      --all
+	install -m 644 build/style.css $(OUTPUT_DIR)/doc/style.css
+	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
+
+$(OUTPUT_DIR)/specs.lst:
+	find $(CURDIR)/src/shared/generic -name '*.ads' -print > $@
 
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
@@ -149,4 +167,4 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 clean: $(addprefix clean_, $(TESTS))
 	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local build tests proof
+.PHONY: all install install_local build tests proof apidoc
