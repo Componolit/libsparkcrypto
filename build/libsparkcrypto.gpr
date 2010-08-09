@@ -1,6 +1,6 @@
 project Libsparkcrypto
 is
-   for Source_Dirs  use ("sharedinclude", "adainclude");
+   for Source_Dirs  use ("adainclude", "sharedinclude");
    for Library_Dir  use "adalib";
    for Library_Kind use "static";
    for Library_Name use "sparkcrypto";
