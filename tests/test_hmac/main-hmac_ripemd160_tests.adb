@@ -176,7 +176,7 @@ begin
    -- hmac_rmd160-hash-1.dat
    LSC.Test.Run
      ("HMAC-RIPEMD160-MULTI-1",
-      LSC.HMAC_RIPEMD160.Authenticate (Key, Message4, 512) =
+      LSC.HMAC_RIPEMD160.Authenticate (Key, Message4, 2048) =
       LSC.RIPEMD160.Hash_Type'(
          M (16#34c25afc#), M (16#15a81bf8#), M (16#e48c2dce#), M (16#a1063014#), M (16#f49df262#)));
 
@@ -224,7 +224,7 @@ begin
    -- hmac_rmd160-hash-2.dat
    LSC.Test.Run
      ("HMAC-RIPEMD160-MULTI-2",
-      LSC.HMAC_RIPEMD160.Authenticate (Key, Message5, 448) =
+      LSC.HMAC_RIPEMD160.Authenticate (Key, Message5, 2048 + 448) =
       LSC.RIPEMD160.Hash_Type'(
          M (16#8d6bf378#), M (16#22d7812d#), M (16#acc4aa1a#), M (16#86e280a0#), M (16#e43bbd38#)));
 

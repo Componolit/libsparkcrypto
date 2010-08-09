@@ -60,7 +60,7 @@ package LSC.RIPEMD160 is
 
    --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 511 bit,
    --  this makes 2^53 blocks.
-   subtype Message_Index is Types.Word64 range 1 .. 2 ** 53;
+   subtype Message_Index is Types.Word64 range 0 .. 2 ** 53 - 1;
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
    -- Initialize RIPEMD-160 context.

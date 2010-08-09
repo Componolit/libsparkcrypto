@@ -36,14 +36,14 @@ procedure HMAC_SHA512_Tests is
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
 
-   subtype Message5_Index is LSC.Types.Word64 range 1 .. 5;
-   subtype Message5_Type is LSC.SHA512.Message_Type (Message5_Index);
+   subtype Message7_Index is LSC.Types.Word64 range 1 .. 7;
+   subtype Message7_Type is LSC.SHA512.Message_Type (Message7_Index);
 
    subtype Message12_Index is LSC.Types.Word64 range 1 .. 12;
    subtype Message12_Type is LSC.SHA512.Message_Type (Message12_Index);
 
    Message1  : Message1_Type;
-   Message5  : Message5_Type;
+   Message7  : Message7_Type;
    Message12 : Message12_Type;
 
    use type LSC.Types.Word64;
@@ -346,7 +346,7 @@ begin
    --  Compare with hexdump of hash.dat
    LSC.Test.Run
      ("HMAC-SHA512-MULTI-1",
-      LSC.HMAC_SHA512.Authenticate (Key, Message12, 736) =
+      LSC.HMAC_SHA512.Authenticate (Key, Message12, 12_000) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#24b3907ac82497a4#), N (16#d7e0db7c317b93a7#), N (16#f2c35ce153913d86#), N (16#608068d30ce4ef0a#)));
 
@@ -354,7 +354,7 @@ begin
    --  Test Case MULTI-2 --
    ------------------------
 
-   --  Multiple message blocks, not block aligned. This test was generated using
+   --  Multiple message blocks, block aligned. This test was generated using
    --  dd, the genhmac command line tool (based on OpenSSL) and xxd:
    --
    --  $ dd if=/dev/urandom bs=1 count=128 of=HMAC_SHA512-KEY-2.dat
@@ -376,7 +376,7 @@ begin
    );
 
    --  Hexdump of HMAC_SHA512-MESSAGE-2.dat
-   Message5 := Message5_Type'(
+   Message7 := Message7_Type'(
    LSC.SHA512.Block_Type'(
       N (16#18da28d1fd3f10b6#), N (16#547fd81ae9e64dc0#), N (16#1cd015147e8d92e9#), N (16#9ceec40b8279c4df#),
       N (16#69964480f23e6630#), N (16#b735e934879e7264#), N (16#a16f36b520565543#), N (16#0f965fbf99ea62ce#),
@@ -401,13 +401,14 @@ begin
       N (16#7c11d824625f1080#), N (16#b46895271e8547f1#), N (16#440df9c275bc4578#), N (16#979905e940683d18#),
       N (16#87d089c49b91fdfc#), N (16#a31cffc297d3e156#), N (16#d06360c9695a2914#), N (16#aa10cfe1c90ff89e#),
       N (16#9a75f63eed5fdca7#), N (16#a11bee9a01246a17#), N (16#76aba38f962a1cf7#), N (16#e1df2e5834d8b4c5#),
-      N (16#23dcdae23ce5de10#), N (16#a23ea0978a51ea7b#), N (16#76df2b1631741fe4#), N (16#510dc8cc08dcabf2#))
+      N (16#23dcdae23ce5de10#), N (16#a23ea0978a51ea7b#), N (16#76df2b1631741fe4#), N (16#510dc8cc08dcabf2#)),
+   others => LSC.SHA512.Block_Type'(others => 0)
    );
 
    --  Compare with hexdump of HMAC_SHA512-HASH-2.dat
    LSC.Test.Run
      ("HMAC-SHA512-MULTI-2",
-      LSC.HMAC_SHA512.Authenticate (Key, Message5, 1024) =
+      LSC.HMAC_SHA512.Authenticate (Key, Message7, 5120) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#412015d264458463#), N (16#0c23f0685dce9e06#), N (16#d790cd4af47e70b7#), N (16#4809daea24ebdcd4#)));
 
