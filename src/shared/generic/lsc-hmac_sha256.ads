@@ -70,9 +70,9 @@ package LSC.HMAC_SHA256 is
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
    function Authenticate
-      (Key         : SHA256.Block_Type;
-       Message     : SHA256.Message_Type;
-       Last_Length : Block_Length_Type) return Auth_Type;
+      (Key     : SHA256.Block_Type;
+       Message : SHA256.Message_Type;
+       Length  : Types.Word64) return Auth_Type;
 
 private
 
