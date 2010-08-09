@@ -1,8 +1,8 @@
 -nosli
 -vcg
 -warning=../../../warnings.conf
+-config=../../../out/target.cfg
+-index=../../../out/proof/libsparkcrypto.idx
 -brief
--index=spark.idx
 -noreport_file
 -nolistings
-
