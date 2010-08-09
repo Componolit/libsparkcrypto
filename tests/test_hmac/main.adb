@@ -41,6 +41,7 @@ with LSC.SHA256,
 
 use type LSC.Types.Word32_Array_Type;
 use type LSC.Types.Word64_Array_Type;
+use type LSC.Types.Word64;
 
 --# inherit LSC.IO,
 --#         LSC.SHA256,

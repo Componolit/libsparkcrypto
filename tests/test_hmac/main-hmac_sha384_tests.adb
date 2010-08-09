@@ -271,7 +271,7 @@ begin
    --  Hexdump of hmac_sha384-hash-1.dat
    LSC.Test.Run
      ("HMAC-SHA384-MULTI-1",
-      LSC.HMAC_SHA384.Authenticate (Key, Message2, 1024) =
+      LSC.HMAC_SHA384.Authenticate (Key, Message2, 2048) =
       LSC.HMAC_SHA384.Auth_Type'(
          N (16#89869091210b3653#), N (16#21f60d6409b9ab5e#), N (16#fd8eea749f22dce3#)));
 
@@ -307,7 +307,7 @@ begin
    --  Compare with hexdump of hmac_sha384-hash-2.dat
    LSC.Test.Run
      ("HMAC-SHA384-MULTI-2",
-      LSC.HMAC_SHA384.Authenticate (Key, Message3, 448) =
+      LSC.HMAC_SHA384.Authenticate (Key, Message3, 2048 + 448) =
       LSC.HMAC_SHA384.Auth_Type'(
          N (16#144cd21ae50bfb0f#), N (16#ed473b88e7b33470#), N (16#5c59fecda5f978c8#)));
 
