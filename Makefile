@@ -1,5 +1,5 @@
 OUTPUT_DIR = $(CURDIR)/out
-DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc)
+DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc $(OUTPUT_DIR)/tree)
 UNAME_M   := $(shell uname -m)
 
 IO				?= textio
@@ -20,6 +20,7 @@ SPARK_OPTS  = \
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
+TREE_FILES  = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(wildcard src/shared/generic/*.ads))))
 
 ALL_GOALS      = install_local
 INSTALL_DEPS   = install_files
@@ -76,18 +77,19 @@ all: $(ALL_GOALS)
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
 proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 
-apidoc: $(OUTPUT_DIR)/specs.lst
+apidoc: $(OUTPUT_DIR)/tree/tree.lst
 	adabrowse \
+      --all \
+      -T $(OUTPUT_DIR)/tree \
       -f @$< \
       -w1 \
       -c build/adabrowse.conf \
-      -o $(OUTPUT_DIR)/doc/ \
-      --all
+      -o $(OUTPUT_DIR)/doc/
 	install -m 644 build/style.css $(OUTPUT_DIR)/doc/style.css
 	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
 
-$(OUTPUT_DIR)/specs.lst:
-	find $(CURDIR)/src/shared/generic -name '*.ads' -print > $@
+$(OUTPUT_DIR)/tree/tree.lst: $(TREE_FILES)
+	@echo $^ | xargs -n1 > $@
 
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
@@ -139,6 +141,12 @@ install_proof: install_files proof
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
+
+#
+# how to create a tree file
+#
+$(OUTPUT_DIR)/tree/%.adt: $(CURDIR)/src/shared/generic/%.ads
+	(cd $(OUTPUT_DIR)/tree && gcc -c -gnatc -gnatt $^)
 
 #
 # how to build a test
