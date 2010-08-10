@@ -70,6 +70,9 @@ package LSC.HMAC_SHA384 is
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
        Length  : Types.Word64) return Auth_Type;
+   --# pre
+   --#    Message'First + (Length / SHA512.Block_Size) in Message'Range;
+
 private
 
    type Context_Type is record
