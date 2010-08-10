@@ -2,9 +2,6 @@
 * Perform dead path analysis
 * Optimize simplification performance
 * Switch to a reasonable test framework
-* Convert LSC.AES.CBC.{Encrypt|Decrypt} functions
 * Add API documentation
 * Update license to official FSF library exception
-* Fix HMAC-SHA256 implementation
-* Change HMAC Authenticate API to use message size (not size of last block)
-* Add length parameter to AES.{Ecrypt|Decrypt), i.e. allow handling of parts of the message
+* Fix HMAC-SHA256 multi-block test cases

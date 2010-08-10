@@ -27,7 +27,9 @@
 
 package body LSC.Debug is
 
-   procedure Put (T : String) is
+   procedure Put (T : String)
+   is
+      pragma Unreferenced (T);
    begin
       --# accept Flow, 30, T, "Null implementation";
       null;
@@ -35,7 +37,9 @@ package body LSC.Debug is
 
    ----------------------------------------------------------------------------
 
-   procedure Put_Line (T : String) is
+   procedure Put_Line (T : String)
+   is
+      pragma Unreferenced (T);
    begin
       --# accept Flow, 30, T, "Null implementation";
       null;
@@ -50,7 +54,9 @@ package body LSC.Debug is
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Byte (I : in Types.Byte) is
+   procedure Print_Byte (I : in Types.Byte)
+   is
+      pragma Unreferenced (I);
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
@@ -58,7 +64,9 @@ package body LSC.Debug is
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Word32 (I : in Types.Word32) is
+   procedure Print_Word32 (I : in Types.Word32)
+   is
+      pragma Unreferenced (I);
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
@@ -66,7 +74,9 @@ package body LSC.Debug is
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Word64 (I : in Types.Word64) is
+   procedure Print_Word64 (I : in Types.Word64)
+   is
+      pragma Unreferenced (I);
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
@@ -76,6 +86,7 @@ package body LSC.Debug is
 
    procedure Print_Index (I : in Types.Index)
    is
+      pragma Unreferenced (I);
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
@@ -85,6 +96,7 @@ package body LSC.Debug is
 
    procedure Print_Natural (I : in Natural)
    is
+      pragma Unreferenced (I);
    begin
       --# accept Flow, 30, I, "Null implementation";
       null;
@@ -97,6 +109,7 @@ package body LSC.Debug is
                                  Break : in Types.Index;
                                  Newln : in Boolean)
    is
+      pragma Unreferenced (Block, Space, Break, Newln);
    begin
       --# accept Flow, 30, Block, "Null implementation" &
       --#        Flow, 30, Space, "Null implementation" &
@@ -112,6 +125,7 @@ package body LSC.Debug is
                                  Break : in Types.Index;
                                  Newln : in Boolean)
    is
+      pragma Unreferenced (Block, Space, Break, Newln);
    begin
       --# accept Flow, 30, Block, "Null implementation" &
       --#        Flow, 30, Space, "Null implementation" &

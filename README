@@ -97,9 +97,9 @@ Windows XP/cygwin | i686         |  GNAT-GPL 2010, SPARK-GPL 8.1.1
 ------------------------------------------------------------------------------
 Ubuntu 10.04      | x86_64       |  GNAT-GPL 2010 or GCC-4.4.3, SPARK-Pro 9
 ------------------------------------------------------------------------------
-Debian 5          | i686         |  GCC-4.3, SPARK-GPL 8.1.1
+Debian 5          | i686         |  GCC-4.3.2, SPARK-GPL 8.1.1
 ------------------------------------------------------------------------------
-Debian 5          | x86_64       |  GNAT-Pro 6.3.1 or GCC-4.3, SPARK-Pro 9
+Debian 5          | x86_64       |  GNAT-Pro 6.3.1 or GCC-4.3.2, SPARK-Pro 9
 ------------------------------------------------------------------------------
 
 If you were able to build and prove libsparkcrypto on a platform not mentioned
@@ -118,7 +118,7 @@ contributing changes back to the project:
 
 * Make sure no undischarged VCs remain.
 * Make sure the code compiles in both modes MODE=release and MODE=debug.
-* Provide test cases for the parts you implemented.
+* Provide reference to documents and test cases for the parts you implemented.
 * Make sure you successfully ran the test suite ('make test').
 * Try to stay consistent with the current style of the source.
 * If feasible, implement a benchmark for your code.

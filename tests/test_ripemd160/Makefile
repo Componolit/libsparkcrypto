@@ -20,10 +20,19 @@ SPARK_OPTS = \
 		-index=$(OUTPUT_DIR)/global.idx \
       -output_dir=$(OUTPUT_DIR)/proof
 
-all: $(OUTPUT_DIR)/test_ripemd160 $(OUTPUT_DIR)/test_ripemd160.sum
+GOALS = $(OUTPUT_DIR)/test_ripemd160
 
-install: $(OUTPUT_DIR)/test_ripemd160
-	install -D -m 755 $< $(DESTDIR)/test_ripemd160
+ifeq ($(NO_PROOF),)
+GOALS += $(OUTPUT_DIR)/test_ripemd160.sum
+endif
+
+all: $(GOALS)
+
+install: all
+	install -D -m 755 $(OUTPUT_DIR)/test_ripemd160 $(DESTDIR)/test_ripemd160
+ifeq ($(NO_PROOF),)
+	install -D -m 644 $(OUTPUT_DIR)/test_ripemd160.sum $(DESTDIR)/test_ripemd160.sum
+endif
 
 $(OUTPUT_DIR)/test_ripemd160:
 	gnatmake -aP$(LSC_DIR) -o test_ripemd160 -P build.gpr

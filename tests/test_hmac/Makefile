@@ -20,10 +20,19 @@ SPARK_OPTS = \
 		-index=$(OUTPUT_DIR)/global.idx \
       -output_dir=$(OUTPUT_DIR)/proof
 
-all: $(OUTPUT_DIR)/test_hmac $(OUTPUT_DIR)/test_hmac.sum $(OUTPUT_DIR)/genhmac
+GOALS = $(OUTPUT_DIR)/test_hmac
 
-install: $(OUTPUT_DIR)/test_hmac
-	install -D -m 755 $< $(DESTDIR)/test_hmac
+ifeq ($(NO_PROOF),)
+GOALS += $(OUTPUT_DIR)/test_hmac.sum
+endif
+
+all: $(GOALS) $(OUTPUT_DIR)/genhmac
+
+install: all
+	install -D -m 755 $(OUTPUT_DIR)/test_hmac $(DESTDIR)/test_hmac
+ifeq ($(NO_PROOF),)
+	install -D -m 644 $(OUTPUT_DIR)/test_hmac.sum $(DESTDIR)/test_hmac.sum
+endif
 
 $(OUTPUT_DIR)/genhmac:
 	$(CC) -W -Wall -Werror -o $@ genhmac.c -lssl
@@ -52,3 +61,5 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 
 clean:
 	rm -rf $(OUTPUT_DIR)
+
+.PHONY: install all clean

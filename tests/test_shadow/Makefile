@@ -20,10 +20,19 @@ SPARK_OPTS = \
 		-index=$(OUTPUT_DIR)/global.idx \
       -output_dir=$(OUTPUT_DIR)/proof
 
-all: $(OUTPUT_DIR)/test_shadow $(OUTPUT_DIR)/test_shadow.sum
+GOALS = $(OUTPUT_DIR)/test_shadow
 
-install: $(OUTPUT_DIR)/test_shadow
-	install -D -m 755 $< $(DESTDIR)/test_shadow
+ifeq ($(NO_PROOF),)
+GOALS += $(OUTPUT_DIR)/test_shadow.sum
+endif
+
+all: $(GOALS)
+
+install: all
+	install -D -m 755 $(OUTPUT_DIR)/test_shadow $(DESTDIR)/test_shadow
+ifeq ($(NO_PROOF),)
+	install -D -m 644 $(OUTPUT_DIR)/test_shadow.sum $(DESTDIR)/test_shadow.sum
+endif
 
 $(OUTPUT_DIR)/test_shadow:
 	gnatmake -aP$(LSC_DIR) -o test_shadow -P build.gpr
