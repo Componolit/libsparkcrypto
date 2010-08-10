@@ -128,8 +128,6 @@ package body LSC.HMAC_RIPEMD160 is
       Last_Length := Types.Word32 (Length mod RIPEMD160.Block_Size);
       Last_Block  := Message'First + Length / RIPEMD160.Block_Size;
 
-      --# check Last_Block <= Message'Last;
-
       HMAC_Ctx := Context_Init (Key);
 
       -- handle all blocks, but the last.
@@ -137,7 +135,10 @@ package body LSC.HMAC_RIPEMD160 is
       then
          for I in RIPEMD160.Message_Index range Message'First .. Last_Block - 1
          loop
-            --# assert true;
+            --# assert
+            --#    Last_Block = Last_Block% and
+            --#    Last_Block <= Message'Last and
+            --#    I < Last_Block;
             Context_Update (HMAC_Ctx, Message (I));
 
             Debug.Put ("    HMAC_RIPEMD160.Authenticate: round ");

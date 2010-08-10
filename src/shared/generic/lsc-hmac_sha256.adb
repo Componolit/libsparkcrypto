@@ -156,7 +156,10 @@ package body LSC.HMAC_SHA256 is
       then
          for I in SHA256.Message_Index range Message'First .. Last_Block - 1
          loop
-            --# assert true;
+            --# assert
+            --#    Last_Block = Last_Block% and
+            --#    Last_Block <= Message'Last and
+            --#    I < Last_Block;
             Context_Update (HMAC_Ctx, Message (I));
 
             Debug.Put ("    HMAC_SHA256.Authenticate: round ");
