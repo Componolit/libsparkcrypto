@@ -31,6 +31,7 @@ package body LSC.AES.Print is
                           R : AES.Schedule_Index;
                           B : AES.Block_Type)
    is
+      pragma Unreferenced (T, R, B);
    begin
       --# accept Flow, 30, T, "Null implementation" &
       --#        Flow, 30, R, "Null implementation" &

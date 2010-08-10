@@ -180,7 +180,6 @@ package body LSC.SHA512 is
          a3 := a3 + T1;
          a7 := T1 + T2;
       end SHA512_Op;
-      pragma Inline (SHA512_Op);
 
    begin
 

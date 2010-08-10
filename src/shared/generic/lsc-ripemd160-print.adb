@@ -36,6 +36,7 @@ package body LSC.RIPEMD160.Print is
                              X : Types.Word32;
                              S : Natural)
    is
+      pragma Unreferenced (M, A, B, C, D, E, X, S);
    begin
       --# accept Flow, 30, M, "Null implementation" &
       --#        Flow, 30, A, "Null implementation" &

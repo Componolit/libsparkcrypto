@@ -165,7 +165,6 @@ package body LSC.SHA256 is
          a7 := T1 + T2;
 
       end SHA256_Op;
-      pragma Inline (SHA256_Op);
 
    begin
 
