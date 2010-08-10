@@ -33,6 +33,7 @@ a:hover
 table
 {
    border: none;
+   margin-bottom: 10px;
 }
 
 table.title
@@ -67,6 +68,7 @@ td
 
 td.odd
 {
+   margin-top: 20px;
    border: none;
    background: none;
 }
