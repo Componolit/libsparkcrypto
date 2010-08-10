@@ -30,7 +30,8 @@ use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
 --# inherit LSC.IO,
---#         LSC.Byteswap,
+--#         LSC.Byteswap32,
+--#         LSC.Byteswap64,
 --#         LSC.Types,
 --#         LSC.Test;
 
