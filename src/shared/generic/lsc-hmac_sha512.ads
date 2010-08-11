@@ -44,6 +44,7 @@ package LSC.HMAC_SHA512 is
 
    type Context_Type is private;
 
+   Auth_Length : constant := 32;
    subtype Auth_Index is Types.Index range 0 .. 3;
    subtype Auth_Type is Types.Word64_Array_Type (Auth_Index);
 
