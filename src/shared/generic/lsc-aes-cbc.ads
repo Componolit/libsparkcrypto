@@ -49,8 +49,10 @@ package LSC.AES.CBC is
    --# pre
    --#    Plaintext'First = Ciphertext'First and
    --#    Plaintext'Last  = Ciphertext'Last and
-   --#    Plaintext'First + Length in Plaintext'Range and
-   --#    Ciphertext'First + Length in Ciphertext'Range;
+   --#    Plaintext'First + Length - 1 in Plaintext'Range and
+   --#    Plaintext'First + Length - 1 in AES.Message_Index and
+   --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
+   --#    Ciphertext'First + Length - 1 in AES.Message_Index;
 
    procedure Decrypt (Context    : in     AES.AES_Dec_Context;
                       IV         : in     AES.Block_Type;
@@ -62,7 +64,9 @@ package LSC.AES.CBC is
    --# pre
    --#    Plaintext'First = Ciphertext'First and
    --#    Plaintext'Last  = Ciphertext'Last and
-   --#    Plaintext'First + Length in Plaintext'Range and
-   --#    Ciphertext'First + Length in Ciphertext'Range;
+   --#    Plaintext'First + Length - 1 in Plaintext'Range and
+   --#    Plaintext'First + Length - 1 in AES.Message_Index and
+   --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
+   --#    Ciphertext'First + Length - 1 in AES.Message_Index;
 
 end LSC.AES.CBC;
