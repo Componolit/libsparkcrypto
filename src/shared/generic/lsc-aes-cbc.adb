@@ -39,9 +39,16 @@ package body LSC.AES.CBC is
       Next : AES.Block_Type;
    begin
       Next := IV;
-      for I in AES.Message_Index range Ciphertext'First .. Ciphertext'First + Length
-      --# assert true;
+
+      for I in AES.Message_Index range Ciphertext'First .. (Ciphertext'First - 1) + Length
       loop
+
+         --# assert
+         --#    Length = Length% and
+         --#    Plaintext'First = Ciphertext'First and
+         --#    Plaintext'Last = Ciphertext'Last and
+         --#    Ciphertext'First + Length - 1 <= Plaintext'Last and
+         --#    Ciphertext'First + Length - 1 in AES.Message_Index;
 
          Ops32.Block_XOR (Next, Plaintext (I), Temp);
          Next := AES.Encrypt (Context, Temp);
@@ -65,9 +72,16 @@ package body LSC.AES.CBC is
       Next : AES.Block_Type;
    begin
       Next := IV;
-      for I in AES.Message_Index range Plaintext'First .. Plaintext'First + Length
-      --# assert true;
+      for I in AES.Message_Index range Plaintext'First .. (Plaintext'First - 1) + Length
       loop
+
+         --# assert
+         --#    Length = Length% and
+         --#    Plaintext'First = Ciphertext'First and
+         --#    Plaintext'Last = Ciphertext'Last and
+         --#    Plaintext'First + Length - 1 <= Ciphertext'Last and
+         --#    Plaintext'First + Length - 1 in AES.Message_Index;
+
          Temp := AES.Decrypt (Context, Ciphertext (I));
 
          --# accept Flow, 23, Plaintext, "Initialized in complete loop";
