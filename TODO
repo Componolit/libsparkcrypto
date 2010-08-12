@@ -5,3 +5,4 @@
 * Add API documentation
 * Update license to official FSF library exception
 * Fix HMAC-SHA256 multi-block test cases
+* Implement test for AES-CBC
