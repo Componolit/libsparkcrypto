@@ -51,7 +51,7 @@ package body LSC.Test is
       then
          LSC.IO.Put_Line ("OK");
       else
-         LSC.IO.Put_Line ("Failed");
+         LSC.IO.Put_Line (" >>> [ FAILED ] <<< ");
       end if;
    end Run;
 
