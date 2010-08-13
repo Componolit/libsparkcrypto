@@ -20,7 +20,7 @@ SPARK_OPTS  = \
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
-HTML_FILES  = $(addprefix $(OUTPUT_DIR)/doc/,$(notdir $(patsubst %.ads,%.html,$(wildcard src/shared/generic/*.ads))))
+ADT_FILES   = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(wildcard src/shared/generic/*.ads))))
 
 ALL_GOALS      = install_local
 INSTALL_DEPS   = install_files
@@ -77,12 +77,11 @@ all: $(ALL_GOALS)
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
 proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 
-apidoc: $(HTML_FILES)
+apidoc: $(ADT_FILES)
+	echo $^ | xargs -n1 > $(OUTPUT_DIR)/tree.lst
+	adabrowse -T $(OUTPUT_DIR)/tree -f @$(OUTPUT_DIR)/tree.lst -w1 -c build/adabrowse.conf -o $(OUTPUT_DIR)/doc/
 	install -m 644 build/style.css $(OUTPUT_DIR)/doc/style.css
 	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
-
-$(OUTPUT_DIR)/doc/%.html: $(OUTPUT_DIR)/tree/%.adt
-	adabrowse --all -T $(OUTPUT_DIR)/tree -f $< -w1 -c build/adabrowse.conf -o $(OUTPUT_DIR)/doc/
 
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
