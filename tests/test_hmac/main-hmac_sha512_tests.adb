@@ -432,15 +432,42 @@ begin
       N (16#f92a476300000005#), N (16#4242424242424242#), N (16#4242424242424242#), N (16#5ff43fd476a405d4#),
       N (16#d4938bbfaa6b5910#), N (16#232828fe4048276a#), N (16#0f92b99bac0a36e9#), N (16#5e410224a875a63a#),
       N (16#e032760b769970e0#), N (16#334776bf31223842#), N (16#c70c5e58a3ad72ad#), N (16#a007112a8378e6c9#),
+      N (16#64964368933b7cca#), N (16#32080e54cd38e9fd#), N (16#4f863df05078ea29#), others => 0),
+   others => LSC.SHA512.Block_Type'(others => 0)
+   );
+
+   LSC.Test.Run
+     ("HMAC-SHA512-MULTI-3",
+      LSC.HMAC_SHA512.Authenticate (Key, Message11, 16#3c0#) =
+      LSC.HMAC_SHA512.Auth_Type'(
+         N (16#dc3081d890ce1209#), N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#)));
+
+   ------------------------
+   --  Test Case MULTI-4 --
+   ------------------------
+
+   Key := LSC.SHA512.Block_Type'(
+      N (16#f1bcc392d8719db7#), N (16#e2e3203e0ebd53b2#), N (16#147de675accd7087#), N (16#1950385efcda6037#),
+      N (16#d3f6a21d97768626#), N (16#7274ff83def9538a#), N (16#9ccc7d7bfa48f464#), N (16#ec2d522d05e62c8b#),
+      N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#),
+      N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#)
+   );
+
+   Message11 := Message11_Type'(
+   LSC.SHA512.Block_Type'(
+      N (16#f92a476300000005#), N (16#4242424242424242#), N (16#4242424242424242#), N (16#5ff43fd476a405d4#),
+      N (16#d4938bbfaa6b5910#), N (16#232828fe4048276a#), N (16#0f92b99bac0a36e9#), N (16#5e410224a875a63a#),
+      N (16#e032760b769970e0#), N (16#334776bf31223842#), N (16#c70c5e58a3ad72ad#), N (16#a007112a8378e6c9#),
       N (16#64964368933b7cca#), N (16#32080e54cd38e9fd#), N (16#4f863df05078ea29#), N (16#dc3081d890ce1209#)),
    LSC.SHA512.Block_Type'(
       N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#), others => 0),
    others => LSC.SHA512.Block_Type'(others => 0)
    );
 
-   -- Note that we hash only part of the message (leaving out the last 4 64-bit values)!
+   -- Note that we hash only part of the message (leaving out the last 4 64-bit values).
+   -- This should result in the same authentication value as MULTI-3!
    LSC.Test.Run
-     ("HMAC-SHA512-MULTI-3",
+     ("HMAC-SHA512-MULTI-4",
       LSC.HMAC_SHA512.Authenticate (Key, Message11, 16#3c0#) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#dc3081d890ce1209#), N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#)));
