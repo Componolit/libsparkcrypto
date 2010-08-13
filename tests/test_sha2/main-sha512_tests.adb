@@ -72,8 +72,8 @@ begin
       N (16#6c6d6e6f70717273#),
       N (16#6d6e6f7071727374#),
       N (16#6e6f707172737475#),
-      N (16#0000000000000000#),
-      N (16#0000000000000000#));
+      N (16#f423ae49fac82234#),
+      N (16#deadbeefcafe0000#));
    LSC.SHA512.Context_Finalize (SHA512_Ctx2, Message2, 896);
    Hash2 := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx2);
 
