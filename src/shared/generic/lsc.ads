@@ -26,6 +26,7 @@ package LSC is
 
    pragma Pure;
 
+   -- Current version of libsparkcrypto
    Version : constant String := "0.1.0";
 
 end LSC;
