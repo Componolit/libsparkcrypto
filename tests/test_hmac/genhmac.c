@@ -49,16 +49,18 @@ main (int argc, char **argv)
 {
    int fd;
    char *key, *msg;
-   int key_len, msg_len;
+   int key_len, msg_len, length;
    const char *algo, *key_file, *msg_file, *dgst_file;
    const EVP_MD *md = NULL;
 
    unsigned int dgst_len;
    unsigned char dgst[EVP_MAX_MD_SIZE];
 
-   if (argc != 5)
+   length = 0;
+
+   if (argc != 5 && argc != 6)
    {
-      errx (1, "Insufficient arguments: genhmac {sha256|sha384|sha512|rmd160} <key_file> <message_file> <digest_output_file>\n");
+      errx (1, "Insufficient arguments: genhmac {sha256|sha384|sha512|rmd160} <key_file> <message_file> <digest_output_file> [length]\n");
    }
 
    algo      = argv[1];
@@ -80,6 +82,11 @@ main (int argc, char **argv)
    map_file (key_file, &key, &key_len);
    map_file (msg_file, &msg, &msg_len);
 
+   if (argc == 6)
+   {
+      msg_len = atoi (argv[5]);
+   }
+
    HMAC (md,
          key,
          key_len,
@@ -88,7 +95,7 @@ main (int argc, char **argv)
          dgst,
          &dgst_len);
 
-   printf ("DIGEST %s has length %d\n", algo, dgst_len);
+   printf ("message has length %d, DIGEST %s has length %d\n", msg_len, algo, dgst_len);
 
    fd = open (dgst_file, O_CREAT|O_TRUNC|O_RDWR, 0644);
    if (fd == -1)
