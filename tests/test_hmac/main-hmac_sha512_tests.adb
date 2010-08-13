@@ -33,17 +33,21 @@ procedure HMAC_SHA512_Tests is
    Block                            : LSC.SHA512.Block_Type;
    PRF_HMAC_SHA_512                 : LSC.SHA512.SHA512_Hash_Type;
 
-   subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
-   subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
+   subtype Message1_Index is LSC.SHA512.Message_Index range 1 .. 1;
+   subtype Message1_Type  is LSC.SHA512.Message_Type (Message1_Index);
 
-   subtype Message7_Index is LSC.Types.Word64 range 1 .. 7;
-   subtype Message7_Type is LSC.SHA512.Message_Type (Message7_Index);
+   subtype Message7_Index is LSC.SHA512.Message_Index range 1 .. 7;
+   subtype Message7_Type  is LSC.SHA512.Message_Type (Message7_Index);
 
-   subtype Message12_Index is LSC.Types.Word64 range 1 .. 12;
-   subtype Message12_Type is LSC.SHA512.Message_Type (Message12_Index);
+   subtype Message11_Index is LSC.SHA512.Message_Index range 1 .. 11;
+   subtype Message11_Type  is LSC.SHA512.Message_Type (Message11_Index);
+
+   subtype Message12_Index is LSC.SHA512.Message_Index range 1 .. 12;
+   subtype Message12_Type  is LSC.SHA512.Message_Type (Message12_Index);
 
    Message1  : Message1_Type;
    Message7  : Message7_Type;
+   Message11 : Message11_Type;
    Message12 : Message12_Type;
 
    use type LSC.Types.Word64;
@@ -411,5 +415,34 @@ begin
       LSC.HMAC_SHA512.Authenticate (Key, Message7, 5120) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#412015d264458463#), N (16#0c23f0685dce9e06#), N (16#d790cd4af47e70b7#), N (16#4809daea24ebdcd4#)));
+
+   ------------------------
+   --  Test Case MULTI-3 --
+   ------------------------
+
+   Key := LSC.SHA512.Block_Type'(
+      N (16#f1bcc392d8719db7#), N (16#e2e3203e0ebd53b2#), N (16#147de675accd7087#), N (16#1950385efcda6037#),
+      N (16#d3f6a21d97768626#), N (16#7274ff83def9538a#), N (16#9ccc7d7bfa48f464#), N (16#ec2d522d05e62c8b#),
+      N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#),
+      N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#), N (16#0000000000000000#)
+   );
+
+   Message11 := Message11_Type'(
+   LSC.SHA512.Block_Type'(
+      N (16#f92a476300000005#), N (16#4242424242424242#), N (16#4242424242424242#), N (16#5ff43fd476a405d4#),
+      N (16#d4938bbfaa6b5910#), N (16#232828fe4048276a#), N (16#0f92b99bac0a36e9#), N (16#5e410224a875a63a#),
+      N (16#e032760b769970e0#), N (16#334776bf31223842#), N (16#c70c5e58a3ad72ad#), N (16#a007112a8378e6c9#),
+      N (16#64964368933b7cca#), N (16#32080e54cd38e9fd#), N (16#4f863df05078ea29#), N (16#dc3081d890ce1209#)),
+   LSC.SHA512.Block_Type'(
+      N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#), others => 0),
+   others => LSC.SHA512.Block_Type'(others => 0)
+   );
+
+   -- Note that we hash only part of the message (leaving out the last 4 64-bit values)!
+   LSC.Test.Run
+     ("HMAC-SHA512-MULTI-3",
+      LSC.HMAC_SHA512.Authenticate (Key, Message11, 16#3c0#) =
+      LSC.HMAC_SHA512.Auth_Type'(
+         N (16#dc3081d890ce1209#), N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#)));
 
 end HMAC_SHA512_Tests;
