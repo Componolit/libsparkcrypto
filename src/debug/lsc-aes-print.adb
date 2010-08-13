@@ -25,7 +25,7 @@
 --  License.
 -------------------------------------------------------------------------------
 
-with Ada.Text_IO, LSC.Debug, LSC.IO;
+with LSC.Debug;
 
 package body LSC.AES.Print is
 
