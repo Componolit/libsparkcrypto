@@ -38,7 +38,7 @@ begin
 
    --  C.1 SHA-256 Example (One-Block Message)
    SHA256_Ctx1 := LSC.SHA256.SHA256_Context_Init;
-   Message1 := LSC.SHA256.Block_Type'(M (16#61626300#), others => 0);
+   Message1 := LSC.SHA256.Block_Type'(M (16#61626300#), others => 16#fedca987#);
    LSC.SHA256.Context_Finalize (SHA256_Ctx1, Message1, 24);
    Hash1 := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx1);
 
@@ -72,7 +72,7 @@ begin
                             M (16#6d6e6f70#),
                             M (16#6e6f7071#),
                             M (16#0a000000#),
-                            others => 0);
+                            others => 16#deadbeef#);
 
    LSC.SHA256.Context_Finalize (SHA256_Ctx2, Message2, 448);
    Hash2 := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx2);

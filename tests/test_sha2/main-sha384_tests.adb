@@ -38,7 +38,8 @@ begin
 
    --  D.1 SHA-384 Example (One-Block Message)
    SHA512_Ctx1 := LSC.SHA512.SHA384_Context_Init;
-   Message1 := LSC.SHA512.Block_Type'(N (16#6162630000000000#), others => 0);
+   Message1 := LSC.SHA512.Block_Type'(N (16#6162630000000000#),
+                                      others => 16#deadbeefcafebabe#);
    LSC.SHA512.Context_Finalize (SHA512_Ctx1, Message1, 24);
    Hash1 := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx1);
 
