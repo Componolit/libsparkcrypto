@@ -113,13 +113,6 @@ private
    --#                   Value;
    pragma Inline (Add);
 
-   procedure Block_Terminate
-     (Block  : in out Block_Type;
-      Length : in     Block_Length_Type);
-   --# derives Block from *,
-   --#                    Length;
-   pragma Inline (Block_Terminate);
-
    function Ch
      (x    : Types.Word64;
       y    : Types.Word64;

@@ -358,7 +358,14 @@ package body LSC.SHA512 is
    procedure Block_Terminate
      (Block  : in out Block_Type;
       Length : in     Block_Length_Type)
+   --# derives
+   --#    Block from *,
+   --#               Length;
+   --# post
+   --#    (for all I in Block_Index range
+   --#        Block_Index (Length / 64) + 1 .. Block_Index'Last => (Block (I) = 0));
    is
+      pragma Inline (Block_Terminate);
       Index  : Block_Index;
       Offset : Natural;
    begin
@@ -374,11 +381,15 @@ package body LSC.SHA512 is
       if Index < Block_Index'Last
       then
          for I in Block_Index range (Index + 1) .. Block_Index'Last
-            --# assert I in Block_Index;
          loop
             Block (I) := 0;
+            --# assert
+            --#    (for all P in Block_Index range (Index + 1) .. I => (Block (P) = 0)) and
+            --#    Index = Block_Index (Length / 64);
          end loop;
       end if;
+
+      --# check Index + 1 = Block_Index (Length / 64) + 1;
 
    end Block_Terminate;
 
