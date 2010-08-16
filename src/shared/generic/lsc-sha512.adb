@@ -355,6 +355,8 @@ package body LSC.SHA512 is
 
    ----------------------------------------------------------------------------
 
+   -- Terminate a block by setting the bit at (Length + 1) to 1 and all following
+   -- bits to 0.
    procedure Block_Terminate
      (Block  : in out Block_Type;
       Length : in     Block_Length_Type)
@@ -366,17 +368,31 @@ package body LSC.SHA512 is
    --#        Block_Index (Length / 64) + 1 .. Block_Index'Last => (Block (I) = 0));
    is
       pragma Inline (Block_Terminate);
+      Temp   : Types.Word64;
       Index  : Block_Index;
       Offset : Natural;
    begin
 
-      Index  := Block_Index (Length / 64);
+      -- index of partial block
+      Index := Block_Index'First + Block_Index (Length / 64);
+
+      --# check Length = 0    -> Index = Block_Index'First;
+      --# check Length = 63   -> Index = Block_Index'First;
+      --# check Length = 64   -> Index = Block_Index'First + 1;
+      --# check Length = 1023 -> Index = Block_Index'Last;
+
+      -- bit offset within the partial block
       Offset := Natural (63 - Length mod 64);
 
-      Block (Index) := Byteorder64.Native_To_BE (Block (Index));
-      Block (Index) := Block (Index) xor Types.SHL (1, Offset);
-      Block (Index) := Block (Index) and Types.SHL (not 0, Offset);
-      Block (Index) := Byteorder64.BE_To_Native (Block (Index));
+      --# check Length = 0    -> Offset = 63;
+      --# check Length = 63   -> Offset =  0;
+      --# check Length = 64   -> Offset = 63;
+      --# check Length = 1023 -> Offset =  0;
+
+      Temp := Byteorder64.Native_To_BE (Block (Index));
+      Temp := Temp and Types.SHL (not 0, Offset);
+      Temp := Temp  or Types.SHL (1, Offset);
+      Block (Index) := Byteorder64.BE_To_Native (Temp);
 
       if Index < Block_Index'Last
       then
@@ -388,8 +404,6 @@ package body LSC.SHA512 is
             --#    Index = Block_Index (Length / 64);
          end loop;
       end if;
-
-      --# check Index + 1 = Block_Index (Length / 64) + 1;
 
    end Block_Terminate;
 
