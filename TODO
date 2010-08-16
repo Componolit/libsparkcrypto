@@ -7,5 +7,4 @@
 * Fix HMAC-SHA256 multi-block test cases
 * Implement test for AES-CBC
 * Remove private subprogram declarations
-* Fix failing RMD160 test
 * Remove unecessary loop invariants (range of loop variable/True)
