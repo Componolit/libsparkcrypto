@@ -40,7 +40,8 @@ use type LSC.Types.Word64;
 --# inherit
 --#    LSC.Types,
 --#    LSC.Debug,
---#    LSC.Byteorder64;
+--#    LSC.Byteorder64,
+--#    LSC.Pad64;
 
 package LSC.SHA512 is
 
