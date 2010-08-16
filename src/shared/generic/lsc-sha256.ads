@@ -41,7 +41,8 @@ use type LSC.Types.Word64;
 --# inherit
 --#    LSC.Types,
 --#    LSC.Debug,
---#    LSC.Byteorder32;
+--#    LSC.Byteorder32,
+--#    LSC.Pad32;
 
 package LSC.SHA256 is
 
