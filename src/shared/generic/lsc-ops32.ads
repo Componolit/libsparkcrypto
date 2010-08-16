@@ -27,7 +27,8 @@
 
 with LSC.Types;
 use type LSC.Types.Word32;
---# inherit LSC.Types;
+--# inherit
+--#    LSC.Types;
 
 package LSC.Ops32 is
 
