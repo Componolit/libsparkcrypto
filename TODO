@@ -9,3 +9,4 @@
 * Remove private subprogram declarations
 * Fix failing RMD160 test
 * Make block termination generic for unconstrained arrays (Word32/Word64)
+* Remove unecessary loop invariants (range of loop variable/True)
