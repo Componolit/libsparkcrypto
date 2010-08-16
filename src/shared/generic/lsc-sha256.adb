@@ -28,6 +28,7 @@
 with LSC.Debug;
 with LSC.Byteorder32;
 with LSC.SHA256.Tables;
+with LSC.Pad32;
 
 package body LSC.SHA256 is
 
@@ -320,59 +321,6 @@ package body LSC.SHA256 is
 
    ----------------------------------------------------------------------------
 
-   -- Terminate a block by setting the bit at (Length + 1) to 1 and all following
-   -- bits to 0.
-   procedure Block_Terminate
-     (Block  : in out Block_Type;
-      Length : in     Block_Length_Type)
-   --# derives Block from *,
-   --#                    Length;
-   --# post
-   --#    (for all I in Block_Index range
-   --#        Block_Index (Length / 32) + 1 .. Block_Index'Last => (Block (I) = 0));
-   is
-      pragma Inline (Block_Terminate);
-      Temp   : Types.Word32;
-      Index  : Block_Index;
-      Offset : Natural;
-   begin
-
-      -- index of partial block
-      Index  := Block_Index'First + Block_Index (Length / 32);
-
-      --# check Length = 0   -> Index = Block_Index'First;
-      --# check Length = 31  -> Index = Block_Index'First;
-      --# check Length = 32  -> Index = Block_Index'First + 1;
-      --# check Length = 511 -> Index = Block_Index'Last;
-
-      -- bit offset within the partial block
-      Offset := Natural (31 - Length mod 32);
-
-      --# check Length = 0   -> Offset = 31;
-      --# check Length = 31  -> Offset =  0;
-      --# check Length = 32  -> Offset = 31;
-      --# check Length = 511 -> Offset =  0;
-
-      Temp := Byteorder32.Native_To_BE (Block (Index));
-      Temp := Temp and Types.SHL32 (not 0, Offset);
-      Temp := Temp  or Types.SHL32 (1, Offset);
-      Block (Index) := Byteorder32.BE_To_Native (Temp);
-
-      if Index < Block_Index'Last
-      then
-         for I in Block_Index range (Index + 1) .. Block_Index'Last
-         loop
-            Block (I) := 0;
-            --# assert
-            --#    (for all P in Block_Index range (Index + 1) .. I => (Block (P) = 0)) and
-            --#    Index = Block_Index (Length / 32);
-         end loop;
-      end if;
-
-   end Block_Terminate;
-
-   ----------------------------------------------------------------------------
-
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
@@ -389,7 +337,8 @@ package body LSC.SHA256 is
       Add (Context.Length, Length);
 
       --  Set trailing '1' marker and zero out rest of the block.
-      Block_Terminate (Block => Final_Block, Length => Length);
+      Pad32.Block_Terminate (Block  => Final_Block,
+                             Length => Types.Word64 (Length));
 
       --  Terminator and length values won't fit into current block.
       if Length >= 448

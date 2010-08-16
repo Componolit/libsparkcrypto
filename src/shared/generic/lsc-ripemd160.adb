@@ -26,7 +26,7 @@
 -------------------------------------------------------------------------------
 
 with LSC.Ops32;
-with LSC.Byteorder32;
+with LSC.Pad32;
 with LSC.Debug;
 with LSC.RIPEMD160.Print;
 
@@ -593,36 +593,6 @@ package body LSC.RIPEMD160 is
 
    ---------------------------------------------------------------------------
 
-   procedure Block_Terminate
-     (Block  : in out Block_Type;
-      Length : in     Block_Length_Type)
-   is
-      Index       : Block_Index;
-      Offset      : Natural;
-   begin
-
-      Index  := Block_Index (Length / 32);
-      Offset := Natural (31 - Length mod 32);
-
-      Block (Index) := Byteorder32.Native_To_BE (Block (Index));
-      Block (Index) := Block (Index) xor Types.SHL32 (1, Offset);
-      Block (Index) := Block (Index) and Types.SHL32 (not 0, Offset);
-      Block (Index) := Byteorder32.BE_To_Native (Block (Index));
-
-      if Index < Block_Index'Last
-      then
-         for Pos in Block_Index range (Index + 1) .. Block_Index'Last
-            --# assert Pos in Block_Index;
-         loop
-            Block (Pos) := 0;
-         end loop;
-      end if;
-
-
-   end Block_Terminate;
-
-   ---------------------------------------------------------------------------
-
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
@@ -642,7 +612,7 @@ package body LSC.RIPEMD160 is
       Add (Context.Length, Length);
 
       --  Set trailing '1' marker and zero out rest of the block.
-      Block_Terminate (Final_Block, Length);
+      Pad32.Block_Terminate (Final_Block, Types.Word64 (Length));
 
       --  Terminator and length values won't fit into current block.
       if Length > 447

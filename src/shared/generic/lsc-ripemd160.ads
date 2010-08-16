@@ -41,7 +41,7 @@ use type LSC.Types.Index;
 --# inherit
 --#    LSC.Types,
 --#    LSC.Ops32,
---#    LSC.Byteorder32,
+--#    LSC.Pad32,
 --#    LSC.Debug;
 
 package LSC.RIPEMD160 is
@@ -103,12 +103,6 @@ private
                   Value : in     Types.Word32);
    --# derives Item from *,
    --#                   Value;
-
-   procedure Block_Terminate
-     (Block  : in out Block_Type;
-      Length : in     Block_Length_Type);
-   --# derives Block from *,
-   --#                    Length;
 
    procedure Context_Update_Internal
      (Context : in out Context_Type;
