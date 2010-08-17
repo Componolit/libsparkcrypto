@@ -109,6 +109,15 @@ toolchain and the CPU architecture. We would also appreciate your proof summary
 and the results of the 'benchmark' tool (if providing that, please also tell us
 the version of your OpenSSL library).
 
+Using libsparkcrypto
+####################
+
+Examples for using libsparkcrypto can be found in the 'tests' subdirectory.
+
+A user of the library has to provide a shadow for the package 'Interfaces'
+providing a type definition for at least 'Unsigned_8', 'Unsigned_32' and
+'Unsigned_64'.
+
 Extending libsparkcrypto
 ########################
 

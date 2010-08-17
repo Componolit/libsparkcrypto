@@ -19,8 +19,6 @@ SPARK_OPTS  = \
    -output_dir=$(OUTPUT_DIR)/proof
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
-ADA_DIRS    = src/ada/$(ARCH) src/ada/generic
-SPARK_DIRS  = src/spark
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 
 ALL_GOALS      = install_local
@@ -102,7 +100,7 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.idx:
 install: $(INSTALL_DEPS)
 
 install_files: build
-	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sparkinclude $(DESTDIR)/sharedinclude
+	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sharedinclude
 	install -p -m 755 $(OUTPUT_DIR)/build/adalib/libsparkcrypto.a $(DESTDIR)/adalib/libsparkcrypto.a
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
 	install -p -m 644 src/shared/$(ENDIANESS)/*.ad? $(DESTDIR)/sharedinclude/
@@ -112,7 +110,6 @@ install_files: build
 ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
 endif
-	install -p -m 644 src/spark/*.ad? $(DESTDIR)/sparkinclude/
 	install -p -m 444 $(OUTPUT_DIR)/build/adalib/*.ali $(DESTDIR)/adalib/
 ifeq ($(MODE), debug)
 	install -p -m 644 src/debug/*.ad? $(DESTDIR)/adainclude/
@@ -120,7 +117,7 @@ endif
 
 install_proof: install_files proof
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
-	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -dir=$(DESTDIR)/sparkinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
+	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
