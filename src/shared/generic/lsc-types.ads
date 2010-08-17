@@ -24,56 +24,85 @@
 with Interfaces;
 --# inherit Interfaces;
 
+-------------------------------------------------------------------------------
+-- Primitive types and operations
+-------------------------------------------------------------------------------
 package LSC.Types is
 
    pragma Pure;
 
+   -- Base index type
    type Index is range 0 .. 79;
 
+   -- 8-bit word
    subtype Byte is Interfaces.Unsigned_8;
+
+   -- 32-bit word
    subtype Word32 is Interfaces.Unsigned_32;
+
+   -- 64-bit word
    subtype Word64 is Interfaces.Unsigned_64;
 
+   -- Index for 32-bit byte array
+   subtype Byte_Array32_Index is Index range 0 .. 3;
+
+   -- 32-bit byte array
+   type Byte_Array32_Type is array (Byte_Array32_Index) of Byte;
+
+   -- Index for 64-bit byte array
+   subtype Byte_Array64_Index is Index range 0 .. 7;
+
+   -- 64-bit byte array
+   type Byte_Array64_Type is array (Byte_Array64_Index) of Byte;
+
+   -- Unconstrained array of 32-bit words
+   type Word32_Array_Type is array (Index range <>) of Word32;
+
+   -- Unconstrained array of 64-bit words
+   type Word64_Array_Type is array (Index range <>) of Word64;
+
+   -- Left rotate 64-bit @Value@ by @Amount@
    function ROTR (Value : Word64; Amount : Natural) return Word64;
    pragma Inline (ROTR);
 
+   -- Right shift 64-bit @Value@ by @Amount@
    function SHR (Value : Word64; Amount : Natural) return Word64;
    pragma Inline (SHR);
 
+   -- Left shift 64-bit @Value@ by @Amount@
    function SHL (Value : Word64; Amount : Natural) return Word64;
    pragma Inline (SHL);
 
+   -- Right rotate 32-bit @Value@ by @Amount@
    function ROTR32 (Value : Word32; Amount : Natural) return Word32;
    pragma Inline (ROTR32);
 
+   -- Left rotate 32-bit @Value@ by @Amount@
    function ROTL32 (Value : Word32; Amount : Natural) return Word32;
    pragma Inline (ROTL32);
 
+   -- Left shift 32-bit @Value@ by @Amount@
    function SHL32 (Value : Word32; Amount : Natural) return Word32;
    pragma Inline (SHL32);
 
+   -- Right shift 32-bit @Value@ by @Amount@
    function SHR32 (Value : Word32; Amount : Natural) return Word32;
    pragma Inline (SHR32);
 
-   subtype Byte_Array32_Index is Index range 0 .. 3;
-   type Byte_Array32_Type is array (Byte_Array32_Index) of Byte;
-
-   subtype Byte_Array64_Index is Index range 0 .. 7;
-   type Byte_Array64_Type is array (Byte_Array64_Index) of Byte;
-
+   -- Convert 32-bit word to 32-bit byte array
    function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type;
    pragma Inline (Word32_To_Byte_Array32);
 
+   -- Convert 32-bit byte array to 32-bit word
    function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32;
    pragma Inline (Byte_Array32_To_Word32);
 
+   -- Convert 64-bit word to 64-bit byte array
    function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type;
    pragma Inline (Word64_To_Byte_Array64);
 
+   -- Convert 64-bit byte array to 64-bit word
    function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64;
    pragma Inline (Byte_Array64_To_Word64);
-
-   type Word32_Array_Type is array (Index range <>) of Word32;
-   type Word64_Array_Type is array (Index range <>) of Word64;
 
 end LSC.Types;

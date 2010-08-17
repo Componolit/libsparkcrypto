@@ -25,12 +25,21 @@ with LSC.Types;
 use type LSC.Types.Word64;
 --# inherit LSC.Types;
 
+-------------------------------------------------------------------------------
+-- Operations over 64-bit words
+-------------------------------------------------------------------------------
 package LSC.Ops64 is
 
+   -- Perform XOR on two 64-bit words @V0@ and @V1@
    function XOR2 (V0, V1 : Types.Word64) return Types.Word64;
    --# return V0 xor V1;
    pragma Inline (XOR2);
 
+   -- Perform XOR on two arrays of 64-bit words
+   --
+   -- @Left@   - First input array <br>
+   -- @Right@  - Second input array <br>
+   -- @Result@ - Result array <br>
    procedure Block_XOR
      (Left   : in     Types.Word64_Array_Type;
       Right  : in     Types.Word64_Array_Type;
@@ -47,6 +56,7 @@ package LSC.Ops64 is
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
    pragma Inline (Block_XOR);
 
+   -- Convert the eight byte values @Byte0@ .. @Byte7@ to a 64-bit word
    function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;

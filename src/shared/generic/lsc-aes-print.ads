@@ -23,8 +23,12 @@
 
 --# inherit LSC.AES;
 
+-------------------------------------------------------------------------------
+-- Debug operations for AES
+-------------------------------------------------------------------------------
 private package LSC.AES.Print is
 
+   -- Output the AES schedule @B@ prefixed by round number @R@ and string @T@
    procedure Print_Round (T : String;
                           R : AES.Schedule_Index;
                           B : AES.Block_Type);

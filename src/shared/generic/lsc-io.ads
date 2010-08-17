@@ -25,38 +25,55 @@ with LSC.Types;
 use type LSC.Types.Index;
 --# inherit LSC.Types;
 
--- LSC Input/Output routines.
+-------------------------------------------------------------------------------
+-- Input/Output operations
+-------------------------------------------------------------------------------
 package LSC.IO is
 
-   -- Output the string T without line terminator.
+   -- Output string @T@
    procedure Put (T : String);
    --# derives null from T;
 
+   -- Output string @T@ followed by a line terminator
    procedure Put_Line (T : String);
    --# derives null from T;
 
+   -- Start a new line
    procedure New_Line;
    --# derives ;
 
-   function Read_Byte return  Types.Byte;
+   -- Read one byte from input
+   function Read_Byte return Types.Byte;
 
+   -- True if End_Of_Stream is reached
    function End_Of_Stream return Boolean;
 
+   -- Output byte @Item@
    procedure Print_Byte (Item : in Types.Byte);
    --# derives null from Item;
 
+   -- Output 32-bit word @Item@
    procedure Print_Word32 (Item : in Types.Word32);
    --# derives null from Item;
 
+   -- Output 64-bit word @Item@
    procedure Print_Word64 (Item : in Types.Word64);
    --# derives null from Item;
 
+   -- Output index @I@
    procedure Print_Index (I : in Types.Index);
    --# derives null from I;
 
+   -- Output natural number @I@
    procedure Print_Natural (I : in Natural);
    --# derives null from I;
 
+   -- Output @Block@, an array of 32-bit words
+   --
+   -- @Space@ - Number of spaces to separate Word32 values <br>
+   -- @Break@ - Insert a line terminator after @Break@ Word32 values <br>
+   -- @Newln@ - Insert a line terminator after printing all Word32 values <br>
+   --
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
@@ -65,6 +82,12 @@ package LSC.IO is
    --# pre
    --#    Break > 0;
 
+   -- Output @Block@, an array of 64-bit words
+   --
+   -- @Space@ - Number of spaces to separate Word64 values <br>
+   -- @Break@ - Insert a line terminator after @Break@ Word64 values <br>
+   -- @Newln@ - Insert a line terminator after printing all Word64 values <br>
+   --
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;

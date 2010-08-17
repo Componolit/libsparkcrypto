@@ -24,7 +24,9 @@
 with LSC.Types;
 --# inherit LSC.Types;
 
+-------------------------------------------------------------------------------
 -- Debug functions for RIPEMD-160
+-------------------------------------------------------------------------------
 private package LSC.RIPEMD160.Print is
 
    -- Print a RIPEMD-160 schedule

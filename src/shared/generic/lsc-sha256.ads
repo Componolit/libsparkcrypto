@@ -34,36 +34,50 @@ use type LSC.Types.Word64;
 --#    LSC.Pad32;
 
 -------------------------------------------------------------------------------
---  References:
+--  The SHA-256 hash algorithm
 --
---  FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of Standards
---  and Technology, U.S. Department of Commerce, October 2008.
---  [doc/specs/fips180-3_final.pdf]
---
+--  <ul>
+--  <li> FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of
+--  Standards and Technology, U.S. Department of Commerce, October 2008.
+--  [doc/specs/fips180-3_final.pdf] </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.SHA256 is
 
+   -- SHA-256 context
    type Context_Type is private;
 
+   -- Index for SHA-256 block
    subtype Block_Index is Types.Index range 0 .. 15;
+
+   -- SHA-256 block
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
+   -- SHA-256 block size
    Block_Size : constant := 512;
 
+   -- Index for SHA-256 hash
    subtype SHA256_Hash_Index is Types.Index range 0 .. 7;
+
+   -- SHA-256 hash
    subtype SHA256_Hash_Type is Types.Word32_Array_Type (SHA256_Hash_Index);
 
+   -- SHA-256 block length
    subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
-   --  A SHA256 message can be at most 2^64 bit long. As one block has 511 bit,
-   --  this makes 2^53 blocks.
+   -- Index for SHA-256 message
+   --
+   -- A SHA-256 message can be at most 2^64 bit long. As one block has 511 bit,
+   -- this makes 2^53 blocks.
    subtype Message_Index is Types.Word64 range 0 .. 2 ** 53 - 1;
+
+   -- SHA-256 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
-   -- Initialize SHA256 context.
+   -- Initialize SHA-256 context.
    function SHA256_Context_Init return Context_Type;
 
-   -- Update SHA256 context with message block.
+   -- Update SHA-256 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type);
@@ -71,7 +85,8 @@ package LSC.SHA256 is
    --#                      Block;
    pragma Inline (Context_Update);
 
-   -- Finalize SHA256 context with final message block.
+   -- Finalize SHA-256 @Context@ using @Length@ bits of final message block
+   -- @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
@@ -80,7 +95,7 @@ package LSC.SHA256 is
    --#                      Block,
    --#                      Length;
 
-   -- Return SHA256 hash.
+   -- Return SHA-256 hash from @Context@.
    function SHA256_Get_Hash (Context : Context_Type) return SHA256_Hash_Type;
 
 private
@@ -98,47 +113,5 @@ private
       H      : SHA256_Hash_Type;
       W      : Schedule_Type;
    end record;
-
-   function Init_Data_Length return Data_Length;
-
-   procedure Add (Item  : in out Data_Length;
-                  Value : in     Types.Word32);
-   --# derives Item from *,
-   --#                   Value;
-   pragma Inline (Add);
-
-   function Ch
-     (x    : Types.Word32;
-      y    : Types.Word32;
-      z    : Types.Word32)
-      return Types.Word32;
-   --# return (x and y) xor ((not x) and z);
-   pragma Inline (Ch);
-
-   function Maj
-     (x    : Types.Word32;
-      y    : Types.Word32;
-      z    : Types.Word32)
-      return Types.Word32;
-   --# return (x and y) xor (x and z) xor (y and z);
-   pragma Inline (Maj);
-
-   function Cap_Sigma_0_256 (x : Types.Word32) return Types.Word32;
-   pragma Inline (Cap_Sigma_0_256);
-
-   function Cap_Sigma_1_256 (x : Types.Word32) return Types.Word32;
-   pragma Inline (Cap_Sigma_1_256);
-
-   function Sigma_0_256 (x : Types.Word32) return Types.Word32;
-   pragma Inline (Sigma_0_256);
-
-   function Sigma_1_256 (x : Types.Word32) return Types.Word32;
-   pragma Inline (Sigma_1_256);
-
-   procedure Context_Update_Internal
-     (Context : in out Context_Type;
-      Block   : in     Block_Type);
-   --# derives Context from *,
-   --#                      Block;
 
 end LSC.SHA256;

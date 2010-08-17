@@ -33,24 +33,32 @@ use type LSC.Types.Word64;
 --#    LSC.Types;
 
 -------------------------------------------------------------------------------
---  References:
+--  The HMAC-RIPEMD-160 message authentication
 --
---  J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
---  February 1998.
---  [doc/specs/rfc2286.txt.pdf]
+--  <ul>
+--  <li> J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
+--  February 1998. [doc/specs/rfc2286.txt.pdf] </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.HMAC_RIPEMD160 is
 
+   -- HMAC-RIPEMD-160 context
    type Context_Type is private;
 
+   -- Initialize HMAC-RIPEMD-160 context using @Key@.
    function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type;
 
+   -- Update HMAC-RIPEMD-160 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     RIPEMD160.Block_Type);
    --# derives Context from *,
    --#                      Block;
+   pragma Inline (Context_Update);
 
+   -- Finalize HMAC-RIPEMD-160 @Context@ using @Length@ bits of final message
+   -- block @Block@.
+   --
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     RIPEMD160.Block_Type;
@@ -58,9 +66,14 @@ package LSC.HMAC_RIPEMD160 is
    --# derives Context from *,
    --#                      Block,
    --#                      Length;
+   pragma Inline (Context_Finalize);
 
+   -- Get authentication value from @Context@
    function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type;
 
+   -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
+   -- return the authentication value.
+   --
    function Authenticate
       (Key     : RIPEMD160.Block_Type;
        Message : RIPEMD160.Message_Type;
@@ -74,7 +87,5 @@ private
       RIPEMD160_Context : RIPEMD160.Context_Type;
       Key               : RIPEMD160.Block_Type;
    end record;
-
-   function To_Block (Item : RIPEMD160.Hash_Type) return RIPEMD160.Block_Type;
 
 end LSC.HMAC_RIPEMD160;

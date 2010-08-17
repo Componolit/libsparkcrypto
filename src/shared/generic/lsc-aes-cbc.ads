@@ -27,15 +27,19 @@ with LSC.AES;
 --#    LSC.Ops32;
 
 -------------------------------------------------------------------------------
---  References:
+-- The AES-CBC cipher mode
 --
---  Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
+--  <ul>
+--  <li> Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
 --  Methods and Techniques, NIST Special Publication 800-38A, 2001 Edition
 --  National Institute of Standards and Technology, U.S. Department of
---  Commerce, December 2001
+--  Commerce, December 2001 </li>
 -------------------------------------------------------------------------------
 package LSC.AES.CBC is
 
+   -- Encrypt @Length@ elements of the @Plaintext@ array using the AES context
+   -- @Context@ and the initialization vector @IV@. The result is placed into
+   -- @Ciphertext@.
    procedure Encrypt (Context    : in     AES.AES_Enc_Context;
                       IV         : in     AES.Block_Type;
                       Plaintext  : in     AES.Message_Type;
@@ -51,6 +55,9 @@ package LSC.AES.CBC is
    --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
    --#    Ciphertext'First + Length - 1 in AES.Message_Index;
 
+   -- Decrypt @Length@ elements of the @Ciphertext@ array using the AES context
+   -- @Context@ and the initialization vector @IV@. The result is placed into
+   -- @Plaintext@.
    procedure Decrypt (Context    : in     AES.AES_Dec_Context;
                       IV         : in     AES.Block_Type;
                       Ciphertext : in     AES.Message_Type;

@@ -139,22 +139,6 @@ private
       Nr       : Nr_Type;
    end record;
 
-   function Enc_Key_Expansion (Key : Key_Type;
-                               Nk  : Nk_Type;
-                               Nr  : Nr_Type) return Schedule_Type;
-   --# pre
-   --#   Key'Length = Nk and
-   --#   Nk < (Nb * (Nr + 1) - 1);
-
-   function Dec_Key_Expansion (Key : Key_Type;
-                               Nk  : Nk_Type;
-                               Nr  : Nr_Type) return Schedule_Type;
-   --# pre
-   --#   Key'Length = Nk and
-   --#   Nk < (Nb * (Nr + 1) - 1);
-
-   function Rot_Word (Value : Types.Word32) return Types.Word32;
-
    Null_Block : constant Block_Type := Block_Type'(others => 0);
 
 end LSC.AES;

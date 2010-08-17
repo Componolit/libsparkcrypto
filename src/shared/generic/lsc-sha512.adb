@@ -36,7 +36,11 @@ package body LSC.SHA512 is
    ----------------------------------------------------------------------------
 
    procedure Add (Item  : in out Data_Length;
-                  Value : in     Types.Word64) is
+                  Value : in     Types.Word64)
+   --# derives Item from *,
+   --#                   Value;
+   is
+      pragma Inline (Add);
    begin
       if Item.LSW <= Types.Word64'Last - Value
       then
@@ -52,9 +56,11 @@ package body LSC.SHA512 is
    function Ch
      (x    : Types.Word64;
       y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64
+      z    : Types.Word64) return Types.Word64
+   --# return (x and y) xor ((not x) and z);
    is
+      pragma Inline (Ch);
+
       -- This is a workaround for the simplifier, which is not able
       -- to discharge the (not x) expression directly due to a search
       -- depth limit.
@@ -70,16 +76,19 @@ package body LSC.SHA512 is
    function Maj
      (x    : Types.Word64;
       y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64
+      z    : Types.Word64) return Types.Word64
+   --# return (x and y) xor (x and z) xor (y and z);
    is
+      pragma Inline (Maj);
    begin
       return (x and y) xor (x and z) xor (y and z);
    end Maj;
 
    ----------------------------------------------------------------------------
 
-   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64 is
+   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64 
+   is
+      pragma Inline (Cap_Sigma_0_512);
    begin
       return Types.ROTR (x, 28) xor
              Types.ROTR (x, 34) xor
@@ -88,7 +97,9 @@ package body LSC.SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64 is
+   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64
+   is
+      pragma Inline (Cap_Sigma_1_512);
    begin
       return Types.ROTR (x, 14) xor
              Types.ROTR (x, 18) xor
@@ -97,7 +108,9 @@ package body LSC.SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function Sigma_0_512 (x : Types.Word64) return Types.Word64 is
+   function Sigma_0_512 (x : Types.Word64) return Types.Word64
+   is
+      pragma Inline (Sigma_0_512);
    begin
       return Types.ROTR (x, 1) xor
              Types.ROTR (x, 8) xor
@@ -106,7 +119,9 @@ package body LSC.SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function Sigma_1_512 (x : Types.Word64) return Types.Word64 is
+   function Sigma_1_512 (x : Types.Word64) return Types.Word64
+   is
+      pragma Inline (Sigma_1_512);
    begin
       return Types.ROTR (x, 19) xor
              Types.ROTR (x, 61) xor
@@ -152,6 +167,8 @@ package body LSC.SHA512 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
+   --# derives Context from *,
+   --#                      Block;
    is
       a, b, c, d, e, f, g, h : Types.Word64;
 

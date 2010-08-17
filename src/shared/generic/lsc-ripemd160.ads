@@ -32,45 +32,59 @@ use type LSC.Types.Index;
 --#    LSC.Debug;
 
 -------------------------------------------------------------------------------
---  References:
+--  The RIPEMD-160 hash algorithm
 --
---  Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
---  Strengthened Version of RIPEMD, April 1996
---  [doc/specs/sp800-38a.pdf]
---
---  R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992
---  [doc/specs/rfc1320.txt.pdf]
+--  <ul>
+--  <li> Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
+--  Strengthened Version of RIPEMD, April 1996 [doc/specs/sp800-38a.pdf] </li>
+--  <li> R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992
+--  [doc/specs/rfc1320.txt.pdf] </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.RIPEMD160 is
 
+   -- RIPEMD-160 context
    type Context_Type is private;
 
+   -- Index for RIPEMD-160 block
    subtype Block_Index is Types.Index range 0 .. 15;
+
+   -- RIPEMD-160 block
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
+   -- RIPEMD-160 block size
    Block_Size : constant := 512;
 
+   -- Index for RIPEMD-160 hash
    subtype Hash_Index is Types.Index range 0 .. 4;
+
+   -- RIPEMD-160 hash
    subtype Hash_Type is Types.Word32_Array_Type (Hash_Index);
 
+   -- RIPEMD-160 block length
    subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
+   -- Index for RIPEMD-160 message
+   --
    --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 511 bit,
    --  this makes 2^53 blocks.
    subtype Message_Index is Types.Word64 range 0 .. 2 ** 53 - 1;
+
+   -- RIPEMD-160 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
    -- Initialize RIPEMD-160 context.
    function Context_Init return Context_Type;
 
-   -- Update RIPEMD-160 context with message block.
+   -- Update RIPEMD-160 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type);
    --# derives Context from *,
    --#                      Block;
 
-   -- Finalize RIPEMD-160 context with final message block.
+   -- Finalize RIPEMD-160 context using @Length@ bits of final message block
+   -- @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
@@ -79,7 +93,7 @@ package LSC.RIPEMD160 is
    --#                      Block,
    --#                      Length;
 
-   -- Return RIPEMD-160 hash.
+   -- Return RIPEMD-160 hash from Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
 
 private
@@ -93,128 +107,5 @@ private
       Length : Data_Length;
       H      : Hash_Type;
    end record;
-
-   function Init_Data_Length return Data_Length;
-
-   procedure Add (Item  : in out Data_Length;
-                  Value : in     Types.Word32);
-   --# derives Item from *,
-   --#                   Value;
-
-   procedure Context_Update_Internal
-     (Context : in out Context_Type;
-      X       : in     Block_Type);
-   --# derives Context from *,
-   --#                      X;
-
-
-   --  nonlinear functions at bit level
-   function f (x, y, z : Types.Word32) return Types.Word32;
-   function g (x, y, z : Types.Word32) return Types.Word32;
-   function h (x, y, z : Types.Word32) return Types.Word32;
-   function i (x, y, z : Types.Word32) return Types.Word32;
-   function j (x, y, z : Types.Word32) return Types.Word32;
-
-   --  round procedures
-
-   procedure ff (A : in out Types.Word32;
-                 B : in     Types.Word32;
-                 C : in out Types.Word32;
-                 D : in     Types.Word32;
-                 E : in     Types.Word32;
-                 X : in     Types.Word32;
-                 S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure gg (A : in out Types.Word32;
-                 B : in     Types.Word32;
-                 C : in out Types.Word32;
-                 D : in     Types.Word32;
-                 E : in     Types.Word32;
-                 X : in     Types.Word32;
-                 S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure hh (A : in out Types.Word32;
-                 B : in     Types.Word32;
-                 C : in out Types.Word32;
-                 D : in     Types.Word32;
-                 E : in     Types.Word32;
-                 X : in     Types.Word32;
-                 S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure ii (A : in out Types.Word32;
-                 B : in     Types.Word32;
-                 C : in out Types.Word32;
-                 D : in     Types.Word32;
-                 E : in     Types.Word32;
-                 X : in     Types.Word32;
-                 S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure jj (A : in out Types.Word32;
-                 B : in     Types.Word32;
-                 C : in out Types.Word32;
-                 D : in     Types.Word32;
-                 E : in     Types.Word32;
-                 X : in     Types.Word32;
-                 S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure fff (A : in out Types.Word32;
-                  B : in     Types.Word32;
-                  C : in out Types.Word32;
-                  D : in     Types.Word32;
-                  E : in     Types.Word32;
-                  X : in     Types.Word32;
-                  S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure ggg (A : in out Types.Word32;
-                  B : in     Types.Word32;
-                  C : in out Types.Word32;
-                  D : in     Types.Word32;
-                  E : in     Types.Word32;
-                  X : in     Types.Word32;
-                  S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure hhh (A : in out Types.Word32;
-                  B : in     Types.Word32;
-                  C : in out Types.Word32;
-                  D : in     Types.Word32;
-                  E : in     Types.Word32;
-                  X : in     Types.Word32;
-                  S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure iii (A : in out Types.Word32;
-                  B : in     Types.Word32;
-                  C : in out Types.Word32;
-                  D : in     Types.Word32;
-                  E : in     Types.Word32;
-                  X : in     Types.Word32;
-                  S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
-
-   procedure jjj (A : in out Types.Word32;
-                  B : in     Types.Word32;
-                  C : in out Types.Word32;
-                  D : in     Types.Word32;
-                  E : in     Types.Word32;
-                  X : in     Types.Word32;
-                  S : in     Natural);
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
 
 end LSC.RIPEMD160;

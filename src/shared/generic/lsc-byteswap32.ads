@@ -27,8 +27,12 @@ with LSC.Types;
 --#    LSC.Ops32,
 --#    LSC.Types;
 
+-------------------------------------------------------------------------------
+-- Byte swapping for 32-bit words
+-------------------------------------------------------------------------------
 package LSC.Byteswap32 is
 
+   -- Byte-swap @Value@
    function Swap (Value : Types.Word32) return Types.Word32;
    pragma Inline (Swap);
 

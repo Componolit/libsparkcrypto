@@ -23,11 +23,16 @@
 
 --# inherit LSC.IO;
 
+-------------------------------------------------------------------------------
+-- Operations for testing
+-------------------------------------------------------------------------------
 package LSC.Test is
 
+   -- Output the test suite name @Name@
    procedure Suite (Name : String);
    --# derives null from Name;
 
+   -- Output @Result@ of test case with @Message@ prepended
    procedure Run (Message : String;
                   Result  : Boolean);
    --# derives null from Message,

@@ -24,6 +24,9 @@
 with LSC.SHA256;
 --# inherit LSC.SHA256;
 
+-------------------------------------------------------------------------------
+-- Tables for SHA256
+-------------------------------------------------------------------------------
 private package LSC.SHA256.Tables is
 
 K : constant SHA256.Schedule_Type := SHA256.Schedule_Type'
