@@ -1,35 +1,24 @@
 -------------------------------------------------------------------------------
---  This file is part of the sparkcrypto library.
+-- This file is part of the sparkcrypto library.
 --
---  Copyright (C) 2010  Alexander Senier <mail@senier.net>
---  Copyright (C) 2010  secunet Security Networks AG
+-- Copyright (C) 2010  Alexander Senier <mail@senier.net>
+-- Copyright (C) 2010  secunet Security Networks AG
 --
---  This program is free software: you can redistribute it and/or modify it
---  under the terms of the GNU General Public License as published by the Free
---  Software Foundation, either version 3 of the License, or (at your option)
---  any later version.
+-- libsparkcrypto is  free software; you  can redistribute it and/or  modify it
+-- under  terms of  the GNU  General Public  License as  published by  the Free
+-- Software  Foundation;  either version  3,  or  (at  your option)  any  later
+-- version.  libsparkcrypto  is  distributed  in  the  hope  that  it  will  be
+-- useful,  but WITHOUT  ANY WARRANTY;  without  even the  implied warranty  of
+-- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 --
---  This program is distributed in the hope that it will be useful, but WITHOUT
---  ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
---  FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
---  more details.
---  
---  You should have received a copy of the GNU General Public License along
---  with this program.  If not, see <http://www.gnu.org/licenses/>.
---  
---  As a special exception, if other files instantiate generics from this unit,
---  or you link this unit with other files to produce an executable, this unit
---  does not by itself cause the resulting executable to be covered by the GNU
---  General Public License. This exception does not however invalidate any
---  other reasons why the executable file might be covered by the GNU Public
---  License.
--------------------------------------------------------------------------------
---  References:
+-- As a  special exception under  Section 7 of GPL  version 3, you  are granted
+-- additional  permissions  described in  the  GCC  Runtime Library  Exception,
+-- version 3.1, as published by the Free Software Foundation.
 --
---  FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of Standards
---  and Technology, U.S. Department of Commerce, October 2008.
---  [doc/specs/fips180-3_final.pdf]
---
+-- You should  have received  a copy of  the GNU General  Public License  and a
+-- copy  of  the  GCC  Runtime  Library  Exception  along  with  this  program;
+-- see  the  files  COPYING3  and COPYING.RUNTIME  respectively.  If  not,  see
+-- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
 with LSC.Types;
@@ -43,6 +32,14 @@ use type LSC.Types.Word64;
 --#    LSC.Byteorder64,
 --#    LSC.Pad64;
 
+-------------------------------------------------------------------------------
+--  References:
+--
+--  FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of Standards
+--  and Technology, U.S. Department of Commerce, October 2008.
+--  [doc/specs/fips180-3_final.pdf]
+--
+-------------------------------------------------------------------------------
 package LSC.SHA512 is
 
    type Context_Type is private;
