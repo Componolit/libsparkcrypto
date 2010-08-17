@@ -8,3 +8,4 @@
 * Remove private subprogram declarations
 * Remove unecessary loop invariants (range of loop variable/True)
 * Completely initialize messages in encrypt/decrypt
+* Move operations from LSC.Types to LSC.Ops*
