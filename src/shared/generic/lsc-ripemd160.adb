@@ -36,7 +36,10 @@ package body LSC.RIPEMD160 is
    ---------------------------------------------------------------------------
 
    procedure Add (Item  : in out Data_Length;
-                  Value : in     Types.Word32) is
+                  Value : in     Types.Word32)
+   --# derives Item from *,
+   --#                   Value;
+   is
    begin
       if Item.LSW  <= Types.Word32'Last - Value
       then
@@ -153,6 +156,8 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule (" FF/S", A, B, C, D, E, X, S);
@@ -174,6 +179,8 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S);
@@ -193,6 +200,8 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S);
@@ -212,6 +221,8 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule (" II/S", A, B, C, D, E, X, S);
@@ -231,6 +242,8 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S);
@@ -250,6 +263,8 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S);
@@ -269,6 +284,8 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S);
@@ -288,6 +305,8 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S);
@@ -307,6 +326,8 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule ("III/S", A, B, C, D, E, X, S);
@@ -326,6 +347,8 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
+   --# derives A from A, B, C, D, E, X, S &
+   --#         C from C;
    is
    begin
       Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S);
@@ -341,6 +364,8 @@ package body LSC.RIPEMD160 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       X       : in     Block_Type)
+   --# derives Context from *,
+   --#                      X;
    is
        H0,  H1,  H2,  H3,  H4 : Types.Word32;
       HH0, HH1, HH2, HH3, HH4 : Types.Word32;

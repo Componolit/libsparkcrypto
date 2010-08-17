@@ -32,7 +32,10 @@ package body LSC.HMAC_SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function To_Block (Item : SHA512.SHA512_Hash_Type) return SHA512.Block_Type is
+   function To_Block (Item : SHA512.SHA512_Hash_Type) return SHA512.Block_Type
+   --# return Result =>
+   --#     (for all I in SHA512.SHA512_Hash_Index => (Result (I) = Item (I)));
+   is
       Result : SHA512.Block_Type := SHA512.Block_Type'(others => 0);
    begin
       for I in SHA512.SHA512_Hash_Index

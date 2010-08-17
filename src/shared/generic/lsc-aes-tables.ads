@@ -24,6 +24,9 @@
 with LSC.Types;
 --# inherit LSC.Types;
 
+-------------------------------------------------------------------------------
+-- Tables for AES
+-------------------------------------------------------------------------------
 private package LSC.AES.Tables is
 
 type SBox_Type is array (Types.Byte) of Types.Byte;

@@ -1,0 +1,125 @@
+body
+{ margin-left: 5%;
+   margin-right: 5%;
+   padding: 2px;
+}
+
+p
+{
+   text-align: justify;
+}
+
+a
+{
+   text-decoration: none;
+}
+
+a:link
+{
+   color: #222222;
+}
+
+a:visited
+{
+   color: #aaaaaa;
+}
+
+a:hover
+{
+   color: #ffffff;
+   background: #222222;
+}
+
+table
+{
+   border: none;
+   margin-bottom: 10px;
+}
+
+table.title
+{
+   background-color: #81f181;
+   background-image:url(lsc_logo.png);
+   background-position: 100% 0%;
+   background-repeat: no-repeat;
+   border-color: #005e00;
+   border-width: 2px;
+   border-style: outset;
+   padding: 4px;
+}
+
+table.footer
+{
+   text-align: right;
+   background: #81f181;
+   border-color: #005e00;
+   border-width: 2px;
+   border-style: outset;
+   padding: 4px;
+   font-style: italic;
+   font-size: 60%;
+}
+
+td
+{
+   border: none;
+   background: none;
+}
+
+td.odd
+{
+   margin-top: 20px;
+   border: none;
+   background: none;
+}
+
+td.code
+{
+   border-color: #0012ff;
+   background: #b8bdff;
+   border-style: dashed;
+   border-width: 1px;
+   margin-top: 20px;
+   border-top-style: solid;
+   border-top-color: #000000;
+   border-top-width: 3px;
+   padding: 2px;
+   margin: 4px;
+}
+
+td.type
+{
+   border-style dashed;
+   border-width: 1px;
+   background: none;
+}
+
+
+h3.subtitle
+{
+   border-bottom: 1px dashed #111111;
+   border-left: none;
+   border-right: none;
+   background: none;
+}
+
+div
+{
+   font-style: italic;
+   margin-top: 20px;
+}
+
+pre.spark
+{
+   color: #ff0000;
+}
+
+hr
+{
+   border: none;
+}
+
+span.definition
+{
+   color: #000000;
+}

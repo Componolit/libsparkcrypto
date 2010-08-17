@@ -53,6 +53,9 @@ package body LSC.AES is
    function Enc_Key_Expansion (Key : Key_Type;
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type
+   --# pre
+   --#   Key'Length = Nk and
+   --#   Nk < (Nb * (Nr + 1) - 1);
    is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
@@ -172,6 +175,9 @@ package body LSC.AES is
    function Dec_Key_Expansion (Key : Key_Type;
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type
+   --# pre
+   --#   Key'Length = Nk and
+   --#   Nk < (Nb * (Nr + 1) - 1);
    is
       Result : Schedule_Type;
    begin

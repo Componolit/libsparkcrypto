@@ -36,7 +36,11 @@ package body LSC.SHA256 is
    ----------------------------------------------------------------------------
 
    procedure Add (Item  : in out Data_Length;
-                  Value : in     Types.Word32) is
+                  Value : in     Types.Word32)
+   --# derives Item from *,
+   --#                   Value;
+   is
+      pragma Inline (Add);
    begin
       if Item.LSW <= Types.Word32'Last - Value
       then
@@ -54,7 +58,10 @@ package body LSC.SHA256 is
       y    : Types.Word32;
       z    : Types.Word32)
       return Types.Word32
+   --# return (x and y) xor ((not x) and z);
    is
+      pragma Inline (Ch);
+
       -- This is a workaround for the simplifier, which is not able
       -- to discharge the (not x) expression directly due to a search
       -- depth limit.
@@ -72,14 +79,18 @@ package body LSC.SHA256 is
       y    : Types.Word32;
       z    : Types.Word32)
       return Types.Word32
+   --# return (x and y) xor (x and z) xor (y and z);
    is
+      pragma Inline (Maj);
    begin
       return (x and y) xor (x and z) xor (y and z);
    end Maj;
 
    ----------------------------------------------------------------------------
 
-   function Cap_Sigma_0_256 (x : Types.Word32) return Types.Word32 is
+   function Cap_Sigma_0_256 (x : Types.Word32) return Types.Word32
+   is
+      pragma Inline (Cap_Sigma_0_256);
    begin
       return Types.ROTR32 (x,  2) xor
              Types.ROTR32 (x, 13) xor
@@ -88,7 +99,9 @@ package body LSC.SHA256 is
 
    ----------------------------------------------------------------------------
 
-   function Cap_Sigma_1_256 (x : Types.Word32) return Types.Word32 is
+   function Cap_Sigma_1_256 (x : Types.Word32) return Types.Word32
+   is
+      pragma Inline (Cap_Sigma_1_256);
    begin
       return Types.ROTR32 (x,  6) xor
              Types.ROTR32 (x, 11) xor
@@ -97,7 +110,9 @@ package body LSC.SHA256 is
 
    ----------------------------------------------------------------------------
 
-   function Sigma_0_256 (x : Types.Word32) return Types.Word32 is
+   function Sigma_0_256 (x : Types.Word32) return Types.Word32
+   is
+      pragma Inline (Sigma_0_256);
    begin
       return Types.ROTR32 (x,  7) xor
              Types.ROTR32 (x, 18) xor
@@ -106,7 +121,9 @@ package body LSC.SHA256 is
 
    ----------------------------------------------------------------------------
 
-   function Sigma_1_256 (x : Types.Word32) return Types.Word32 is
+   function Sigma_1_256 (x : Types.Word32) return Types.Word32
+   is
+      pragma Inline (Sigma_1_256);
    begin
       return Types.ROTR32 (x, 17) xor
              Types.ROTR32 (x, 19) xor
@@ -135,6 +152,8 @@ package body LSC.SHA256 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
+   --# derives Context from *,
+   --#                      Block;
    is
       a, b, c, d, e, f, g, h : Types.Word32;
 

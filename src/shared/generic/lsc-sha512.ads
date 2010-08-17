@@ -33,40 +33,60 @@ use type LSC.Types.Word64;
 --#    LSC.Pad64;
 
 -------------------------------------------------------------------------------
---  References:
+-- The SHA-512 and SHA-386 hash algorithms
 --
---  FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of Standards
---  and Technology, U.S. Department of Commerce, October 2008.
---  [doc/specs/fips180-3_final.pdf]
---
+-- <ul>
+-- <li> FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of
+-- Standards and Technology, U.S. Department of Commerce, October 2008.
+-- [doc/specs/fips180-3_final.pdf] </li>
+-- </ul>
 -------------------------------------------------------------------------------
 package LSC.SHA512 is
 
+   -- SHA-512 context
    type Context_Type is private;
 
+   -- Index for SHA-512 block
    subtype Block_Index is Types.Index range 0 .. 15;
+
+   -- SHA-512 block
    subtype Block_Type is Types.Word64_Array_Type (Block_Index);
 
+   -- SHA-512 block size
    Block_Size : constant := 1024;
 
+   -- Index for SHA-512 hash
    subtype SHA512_Hash_Index is Types.Index range 0 .. 7;
+
+   -- SHA-512 hash
    subtype SHA512_Hash_Type is Types.Word64_Array_Type (SHA512_Hash_Index);
 
+   -- Index for SHA-384 hash
    subtype SHA384_Hash_Index is Types.Index range 0 .. 5;
+
+   -- SHA-384 hash
    subtype SHA384_Hash_Type is Types.Word64_Array_Type (SHA384_Hash_Index);
 
+   -- SHA-512 block length
    subtype Block_Length_Type is Types.Word64 range 0 .. Block_Size - 1;
 
-   --  A SHA512 hash can be at most 2^128 bit long. As one block has 1024 bit,
-   --  this makes 2^118 blocks. We support a size of 2^64 only!
+   -- Index for SHA-512 message
+   --
+   -- A SHA-512 hash can be at most 2^128 bit long. As one block has 1024 bit,
+   -- this makes 2^118 blocks. <strong> NOTE: We support a size of 2^64 only!
+   -- </strong>
    subtype Message_Index is Types.Word64 range 0 .. 2**64 - 1;
+
+   -- SHA-512 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
-   -- Initialize SHA512 context.
+   -- Initialize SHA-512 context.
    function SHA512_Context_Init return Context_Type;
+
+   -- Initialize SHA-384 context.
    function SHA384_Context_Init return Context_Type;
 
-   -- Update SHA512 context with message block.
+   -- Update SHA-512 @Context@ context with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type);
@@ -74,7 +94,9 @@ package LSC.SHA512 is
    --#                      Block;
    pragma Inline (Context_Update);
 
-   -- Finalize SHA512 context with final message block.
+   -- Finalize SHA-512 context @Context@ using @Length@ bits of final message
+   -- block @Block@.
+   --
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
@@ -83,8 +105,10 @@ package LSC.SHA512 is
    --#                      Block,
    --#                      Length;
 
-   -- Return SHA512 hash.
+   -- Return SHA-512 hash.
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type;
+
+   -- Return SHA-384 hash.
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type;
 
 private
@@ -102,47 +126,5 @@ private
       H      : SHA512_Hash_Type;
       W      : Schedule_Type;
    end record;
-
-   function Init_Data_Length return Data_Length;
-
-   procedure Add (Item  : in out Data_Length;
-                  Value : in     Types.Word64);
-   --# derives Item from *,
-   --#                   Value;
-   pragma Inline (Add);
-
-   function Ch
-     (x    : Types.Word64;
-      y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64;
-   --# return (x and y) xor ((not x) and z);
-   pragma Inline (Ch);
-
-   function Maj
-     (x    : Types.Word64;
-      y    : Types.Word64;
-      z    : Types.Word64)
-      return Types.Word64;
-   --# return (x and y) xor (x and z) xor (y and z);
-   pragma Inline (Maj);
-
-   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64;
-   pragma Inline (Cap_Sigma_0_512);
-
-   function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64;
-   pragma Inline (Cap_Sigma_1_512);
-
-   function Sigma_0_512 (x : Types.Word64) return Types.Word64;
-   pragma Inline (Sigma_0_512);
-
-   function Sigma_1_512 (x : Types.Word64) return Types.Word64;
-   pragma Inline (Sigma_1_512);
-
-   procedure Context_Update_Internal
-     (Context : in out Context_Type;
-      Block   : in     Block_Type);
-   --# derives Context from *,
-   --#                      Block;
 
 end LSC.SHA512;

@@ -26,8 +26,12 @@ with LSC.Types;
 --#    LSC.Types,
 --#    LSC.Ops64;
 
+-------------------------------------------------------------------------------
+-- Byte swapping for 64-bit words
+-------------------------------------------------------------------------------
 package LSC.Byteswap64 is
 
+   -- Byte-swap @Value@
    function Swap (Value : Types.Word64) return Types.Word64;
    pragma Inline (Swap);
 

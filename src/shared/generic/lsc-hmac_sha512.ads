@@ -31,28 +31,40 @@ use type LSC.Types.Word64;
 --#    LSC.Types;
 
 -------------------------------------------------------------------------------
---  References:
+-- The HMAC-SHA-512 message authentication code
 --
---  S. Kelly, Using HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512 with IPsec,
---  RFC 4868, May 2007
---  [doc/specs/rfc4868.txt.pdf]
+-- <ul>
+-- <li> S. Kelly, Using HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512 with
+-- IPsec, RFC 4868, May 2007 [doc/specs/rfc4868.txt.pdf] </li>
+-- </ul>
 -------------------------------------------------------------------------------
 package LSC.HMAC_SHA512 is
 
+   -- HMAC-SHA-512 context
    type Context_Type is private;
 
+   -- Lenth of HMAC-SHA-512 authenticator
    Auth_Length : constant := 32;
+
+   -- Index for HMAC-SHA-512 authenticator
    subtype Auth_Index is Types.Index range 0 .. 3;
+
+   -- HMAC-SHA-512 authenticator
    subtype Auth_Type is Types.Word64_Array_Type (Auth_Index);
 
+   -- Initialize HMAC-SHA-512 context using @Key@.
    function Context_Init (Key : SHA512.Block_Type) return Context_Type;
 
+   -- Update HMAC-SHA-512 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     SHA512.Block_Type);
    --# derives Context from *,
    --#                      Block;
 
+   -- Finalize HMAC-SHA-512 @Context@ using @Length@ bits of final message
+   -- block @Block@.
+   --
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     SHA512.Block_Type;
@@ -61,9 +73,15 @@ package LSC.HMAC_SHA512 is
    --#                      Block,
    --#                      Length;
 
+   -- Get pseudo-random function value from @Context@
    function Get_Prf  (Context : in Context_Type) return SHA512.SHA512_Hash_Type;
+
+   -- Get authentication value from @Context@
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
+   -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
+   -- return the authentication value.
+   --
    function Authenticate
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
@@ -77,9 +95,5 @@ private
       SHA512_Context : SHA512.Context_Type;
       Key            : SHA512.Block_Type;
    end record;
-
-   function To_Block (Item : SHA512.SHA512_Hash_Type) return SHA512.Block_Type;
-   --# return Result =>
-   --#     (for all I in SHA512.SHA512_Hash_Index => (Result (I) = Item (I)));
 
 end LSC.HMAC_SHA512;

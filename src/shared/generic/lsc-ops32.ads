@@ -26,8 +26,13 @@ use type LSC.Types.Word32;
 --# inherit
 --#    LSC.Types;
 
+-------------------------------------------------------------------------------
+-- Operations over 32-bit words
+-------------------------------------------------------------------------------
 package LSC.Ops32 is
 
+   -- Convert the four byte values @Byte0@, @Byte1@, @Byte2@ and @Byte3@ to a
+   -- 32-bit word
    function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
@@ -35,38 +40,52 @@ package LSC.Ops32 is
        Byte3 : Types.Byte) return Types.Word32;
    pragma Inline (Bytes_To_Word);
 
+   -- Return a byte at @Position@ of the 32-bit word @Value@
    function ByteX (Value    : Types.Word32;
                    Position : Types.Byte_Array32_Index) return Types.Byte;
    pragma Inline (ByteX);
 
+   -- Return the first byte of the 32-bit word @Value@
    function Byte0 (Value : Types.Word32) return Types.Byte;
    pragma Inline (Byte0);
 
+   -- Return the second byte of the 32-bit word @Value@
    function Byte1 (Value : Types.Word32) return Types.Byte;
    pragma Inline (Byte1);
 
+   -- Return the third byte of the 32-bit word @Value@
    function Byte2 (Value : Types.Word32) return Types.Byte;
    pragma Inline (Byte2);
 
+   -- Return the fourth byte of the 32-bit word @Value@
    function Byte3 (Value : Types.Word32) return Types.Byte;
    pragma Inline (Byte3);
 
+   -- Perform XOR on two 32-bit words @V0@ and @V1@
    function XOR2 (V0, V1 : Types.Word32) return Types.Word32;
    --# return V0 xor V1;
    pragma Inline (XOR2);
 
+   -- Perform XOR on three 32-bit words @V0@, @V1@ and @V2@
    function XOR3 (V0, V1, V2 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2;
    pragma Inline (XOR3);
 
+   -- Perform XOR on four 32-bit words @V0@, @V1@, @V2@ and @V3@
    function XOR4 (V0, V1, V2, V3 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2 xor V3;
    pragma Inline (XOR4);
 
+   -- Perform XOR on four 32-bit words @V0@, @V1@, @V2@, @V3@ and @V4@
    function XOR5 (V0, V1, V2, V3, V4 : Types.Word32) return Types.Word32;
    --# return V0 xor V1 xor V2 xor V3 xor V4;
    pragma Inline (XOR5);
 
+   -- Perform XOR on two arrays of 32-bit words
+   --
+   -- @Left@   - First input array <br>
+   -- @Right@  - Second input array <br>
+   -- @Result@ - Result array <br>
    procedure Block_XOR
      (Left   : in     Types.Word32_Array_Type;
       Right  : in     Types.Word32_Array_Type;
