@@ -37,7 +37,6 @@ package body LSC.HMAC_SHA256 is
       Result : SHA256.Block_Type;
    begin
       for I in SHA256.Block_Index
-      --# assert true;
       loop
          --# accept Flow, 23, Result, "Initialized in complete loop";
          if I in SHA256.SHA256_Hash_Index

@@ -209,13 +209,11 @@ package body LSC.SHA512 is
 
       --  1. Prepare the message schedule, Context.W(t):
       for t in Schedule_Index range 0 .. 15
-         --# assert t in 0 .. 15;
       loop
          Context.W (t) := Byteorder64.Native_To_BE (Block (t));
       end loop;
 
       for t in Schedule_Index range 16 .. 79
-         --# assert t in 16 .. 79;
       loop
          Context.W (t) := Sigma_1_512 (Context.W (t - 2)) +
                                        Context.W (t - 7) +

@@ -75,7 +75,6 @@ package body LSC.AES is
 
       for I in Key_Index range Key'First .. Key'Last
       loop
-         --# assert I in Schedule_Index;
          Result (I) := Byteorder32.Native_To_BE (Key (I));
       end loop;
 

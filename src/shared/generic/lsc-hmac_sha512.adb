@@ -111,8 +111,6 @@ package body LSC.HMAC_SHA512 is
    begin
       Prf := SHA512.SHA512_Get_Hash (Context.SHA512_Context);
       for Index in Auth_Index
-      --# assert
-      --#    Index in Auth_Index;
       loop
          Result (Index) := Prf (Index);
       end loop;

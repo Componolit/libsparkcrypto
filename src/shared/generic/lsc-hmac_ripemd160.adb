@@ -37,7 +37,6 @@ package body LSC.HMAC_RIPEMD160 is
       Result : RIPEMD160.Block_Type;
    begin
       for I in RIPEMD160.Block_Index
-      --# assert true;
       loop
          --# accept Flow, 23, Result, "Initialized in complete loop";
          if I in RIPEMD160.Hash_Index

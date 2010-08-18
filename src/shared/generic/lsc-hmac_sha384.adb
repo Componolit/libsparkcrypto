@@ -112,8 +112,6 @@ package body LSC.HMAC_SHA384 is
    begin
       Prf := SHA512.SHA384_Get_Hash (Context.SHA384_Context);
       for Index in Auth_Index
-      --# assert
-      --#    Index in Auth_Index;
       loop
          Result (Index) := Prf (Index);
       end loop;

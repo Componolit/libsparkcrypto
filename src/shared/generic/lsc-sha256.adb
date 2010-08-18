@@ -196,13 +196,11 @@ package body LSC.SHA256 is
 
       --  1. Prepare the message schedule, Context.W(t):
       for t in Schedule_Index range 0 .. 15
-         --# assert t in 0 .. 15;
       loop
          Context.W (t) := Byteorder32.Native_To_BE (Block (t));
       end loop;
 
       for t in Schedule_Index range 16 .. 63
-         --# assert t in 16 .. 63;
       loop
          Context.W (t) := Sigma_1_256 (Context.W (t - 2)) +
                                        Context.W (t - 7) +
