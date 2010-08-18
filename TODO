@@ -3,5 +3,4 @@
 * Optimize simplification performance
 * Switch to a reasonable test framework
 * Fix HMAC-SHA256 multi-block test cases
-* Completely initialize messages in encrypt/decrypt
 * Move operations from LSC.Types to LSC.Ops*

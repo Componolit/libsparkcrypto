@@ -36,7 +36,7 @@ package body LSC.AES.CBC is
    begin
       Next := IV;
 
-      for I in AES.Message_Index range Ciphertext'First .. (Ciphertext'First - 1) + Length
+      for I in AES.Message_Index range Ciphertext'First .. Ciphertext'Last
       loop
 
          --# assert
@@ -46,11 +46,20 @@ package body LSC.AES.CBC is
          --#    Ciphertext'First + Length - 1 <= Plaintext'Last and
          --#    Ciphertext'First + Length - 1 in AES.Message_Index;
 
-         Ops32.Block_XOR (Next, Plaintext (I), Temp);
-         Next := AES.Encrypt (Context, Temp);
+         -- FIXME: Why is access to Ciphertext'First OK in a loop statement,
+         --        but not in this if statement?
+         --# accept Flow, 20, Ciphertext, "Accessing Ciphertext'First should be OK";
+         if I <= (Ciphertext'First - 1) + Length
+         then
+            Ops32.Block_XOR (Next, Plaintext (I), Temp);
+            Next := AES.Encrypt (Context, Temp);
 
-         --# accept Flow, 23, Ciphertext, "Initialized in complete loop";
-         Ciphertext (I) := Next;
+            --# accept Flow, 23, Ciphertext, "Initialized in complete loop";
+            Ciphertext (I) := Next;
+         else
+            --# accept Flow, 23, Ciphertext, "Initialized in complete loop";
+            Ciphertext (I) := AES.Null_Block;
+         end if;
       end loop;
 
       --# accept Flow, 602, Ciphertext, Ciphertext, "Initialized in complete loop";
@@ -68,9 +77,9 @@ package body LSC.AES.CBC is
       Next : AES.Block_Type;
    begin
       Next := IV;
-      for I in AES.Message_Index range Plaintext'First .. (Plaintext'First - 1) + Length
-      loop
 
+      for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
+      loop
          --# assert
          --#    Length = Length% and
          --#    Plaintext'First = Ciphertext'First and
@@ -78,11 +87,20 @@ package body LSC.AES.CBC is
          --#    Plaintext'First + Length - 1 <= Ciphertext'Last and
          --#    Plaintext'First + Length - 1 in AES.Message_Index;
 
-         Temp := AES.Decrypt (Context, Ciphertext (I));
+         -- FIXME: Why is access to Ciphertext'First OK in a loop statement,
+         --        but not in this if statement?
+         --# accept Flow, 20, Plaintext, "Accessing Plaintext'First should be OK";
+         if I <= (Plaintext'First - 1) + Length
+         then
+            Temp := AES.Decrypt (Context, Ciphertext (I));
 
-         --# accept Flow, 23, Plaintext, "Initialized in complete loop";
-         Ops32.Block_XOR (Temp, Next, Plaintext (I));
-         Next := Ciphertext (I);
+            --# accept Flow, 23, Plaintext, "Initialized in complete loop";
+            Ops32.Block_XOR (Temp, Next, Plaintext (I));
+            Next := Ciphertext (I);
+         else
+            --# accept Flow, 23, Plaintext, "Initialized in complete loop";
+            Plaintext (I) := AES.Null_Block;
+         end if;
       end loop;
 
       --# accept Flow, 602, Plaintext, Plaintext, "Initialized in complete loop";
