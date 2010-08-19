@@ -95,12 +95,18 @@ td.type
 }
 
 
+h2
+{
+   text-shadow: #888 2px 2px 1px;
+}
+
 h3.subtitle
 {
    border-bottom: 1px dashed #111111;
    border-left: none;
    border-right: none;
    background: none;
+   text-shadow: #888 2px 2px 1px;
 }
 
 div
