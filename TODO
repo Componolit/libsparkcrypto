@@ -2,5 +2,4 @@
 * Perform dead path analysis
 * Optimize simplification performance
 * Switch to a reasonable test framework
-* Fix HMAC-SHA256 multi-block test cases
 * Move operations from LSC.Types to LSC.Ops*

@@ -369,9 +369,8 @@ begin
    LSC.Test.Run
      ("HMAC-SHA256-MULTI-1",
       LSC.HMAC_SHA256.Authenticate (Key, Message4, 2048) =
-      LSC.SHA256.SHA256_Hash_Type'(
-      M (16#15667870#), M (16#c4957c0f#), M (16#46de0f26#), M (16#c19804ae#),
-      M (16#d1169bdf#), M (16#fd8beeb3#), M (16#c5e04706#), M (16#a59f3094#)));
+      LSC.HMAC_SHA256.Auth_Type'(
+      M (16#15667870#), M (16#c4957c0f#), M (16#46de0f26#), M (16#c19804ae#)));
 
    ------------------------
    --  Test Case MULTI-2 --
@@ -418,8 +417,7 @@ begin
    LSC.Test.Run
      ("HMAC-SHA256-MULTI-2",
       LSC.HMAC_SHA256.Authenticate (Key, Message5, 2048 + 448) =
-      LSC.SHA256.SHA256_Hash_Type'(
-      M (16#a3735482#), M (16#3897bec4#), M (16#a017cefc#), M (16#608852a6#),
-      M (16#375aab7d#), M (16#966619d4#), M (16#f2243e00#), M (16#babc4d4c#)));
+      LSC.HMAC_SHA256.Auth_Type'(
+      M (16#a3735482#), M (16#3897bec4#), M (16#a017cefc#), M (16#608852a6#)));
 
 end HMAC_SHA256_Tests;
