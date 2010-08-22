@@ -98,7 +98,7 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
 	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
-	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5)
+	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum)
 	pogs -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
