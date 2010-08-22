@@ -2,3 +2,4 @@
 * Perform dead path analysis
 * Optimize simplification performance
 * Switch to a reasonable test framework
+* Implement generic copy operation for types based on Word*_Array_Type
