@@ -16,7 +16,9 @@ SPARK_OPTS  = \
    -vcg \
    -config=$(TARGET_CFG) \
    -warn=warnings.conf \
-   -output_dir=$(OUTPUT_DIR)/proof
+   -output_dir=$(OUTPUT_DIR)/proof \
+   -casing=si \
+   -noswitch
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
@@ -160,9 +162,10 @@ $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 
 #
 # how to generate the target configuration file
+# (We have to change *_ORDER_FIRST, as casing checks will fail otherwise)
 #
 $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
-	$< > $@
+	$< | sed -e 's/LOW_ORDER_FIRST/Low_Order_First/g' -e 's/HIGH_ORDER_FIRST/High_Order_First/g' > $@
 
 clean: $(addprefix clean_, $(TESTS))
 	@rm -rf $(OUTPUT_DIR)

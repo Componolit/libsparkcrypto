@@ -245,7 +245,7 @@ package body LSC.SHA512 is
       SHA512_Op ( 5, d, e, f, g, h, a, b, c);
       SHA512_Op ( 6, c, d, e, f, g, h, a, b);
       SHA512_Op ( 7, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op ( 8, a, b, c, d, e, f, g, h);
       SHA512_Op ( 9, h, a, b, c, d, e, f, g);
@@ -255,7 +255,7 @@ package body LSC.SHA512 is
       SHA512_Op (13, d, e, f, g, h, a, b, c);
       SHA512_Op (14, c, d, e, f, g, h, a, b);
       SHA512_Op (15, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (16, a, b, c, d, e, f, g, h);
       SHA512_Op (17, h, a, b, c, d, e, f, g);
@@ -265,7 +265,7 @@ package body LSC.SHA512 is
       SHA512_Op (21, d, e, f, g, h, a, b, c);
       SHA512_Op (22, c, d, e, f, g, h, a, b);
       SHA512_Op (23, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (24, a, b, c, d, e, f, g, h);
       SHA512_Op (25, h, a, b, c, d, e, f, g);
@@ -275,7 +275,7 @@ package body LSC.SHA512 is
       SHA512_Op (29, d, e, f, g, h, a, b, c);
       SHA512_Op (30, c, d, e, f, g, h, a, b);
       SHA512_Op (31, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (32, a, b, c, d, e, f, g, h);
       SHA512_Op (33, h, a, b, c, d, e, f, g);
@@ -285,7 +285,7 @@ package body LSC.SHA512 is
       SHA512_Op (37, d, e, f, g, h, a, b, c);
       SHA512_Op (38, c, d, e, f, g, h, a, b);
       SHA512_Op (39, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (40, a, b, c, d, e, f, g, h);
       SHA512_Op (41, h, a, b, c, d, e, f, g);
@@ -295,7 +295,7 @@ package body LSC.SHA512 is
       SHA512_Op (45, d, e, f, g, h, a, b, c);
       SHA512_Op (46, c, d, e, f, g, h, a, b);
       SHA512_Op (47, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (48, a, b, c, d, e, f, g, h);
       SHA512_Op (49, h, a, b, c, d, e, f, g);
@@ -305,7 +305,7 @@ package body LSC.SHA512 is
       SHA512_Op (53, d, e, f, g, h, a, b, c);
       SHA512_Op (54, c, d, e, f, g, h, a, b);
       SHA512_Op (55, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (56, a, b, c, d, e, f, g, h);
       SHA512_Op (57, h, a, b, c, d, e, f, g);
@@ -315,7 +315,7 @@ package body LSC.SHA512 is
       SHA512_Op (61, d, e, f, g, h, a, b, c);
       SHA512_Op (62, c, d, e, f, g, h, a, b);
       SHA512_Op (63, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (64, a, b, c, d, e, f, g, h);
       SHA512_Op (65, h, a, b, c, d, e, f, g);
@@ -325,7 +325,7 @@ package body LSC.SHA512 is
       SHA512_Op (69, d, e, f, g, h, a, b, c);
       SHA512_Op (70, c, d, e, f, g, h, a, b);
       SHA512_Op (71, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       SHA512_Op (72, a, b, c, d, e, f, g, h);
       SHA512_Op (73, h, a, b, c, d, e, f, g);
@@ -335,7 +335,7 @@ package body LSC.SHA512 is
       SHA512_Op (77, d, e, f, g, h, a, b, c);
       SHA512_Op (78, c, d, e, f, g, h, a, b);
       SHA512_Op (79, b, c, d, e, f, g, h, a);
-      --# assert true;
+      --# assert True;
 
       -- 4. Compute the i-th intermediate hash value H-i:
       Context.H :=

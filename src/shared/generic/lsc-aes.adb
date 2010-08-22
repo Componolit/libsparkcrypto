@@ -92,8 +92,6 @@ package body LSC.AES is
       for I in Schedule_Index range Nk .. Nb * (Nr + 1) - 1
       loop
 
-         --# assert I in Schedule_Index;
-
          --  DEBUG OUTPUT  --------
          Debug.Put ("| ");       --
          Debug.Print_Index (I);  --
