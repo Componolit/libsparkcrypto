@@ -33,26 +33,6 @@ package body LSC.HMAC_RIPEMD160 is
 
    ----------------------------------------------------------------------------
 
-   function To_Block (Item : RIPEMD160.Hash_Type) return RIPEMD160.Block_Type is
-      Result : RIPEMD160.Block_Type;
-   begin
-      for I in RIPEMD160.Block_Index
-      loop
-         --# accept Flow, 23, Result, "Initialized in complete loop";
-         if I in RIPEMD160.Hash_Index
-         then
-            Result (I) := Item (I);
-         else
-            Result (I) := 0;
-         end if;
-      end loop;
-
-      --# accept Flow, 602, Result, "Initialized in complete loop";
-      return Result;
-   end To_Block;
-
-   ----------------------------------------------------------------------------
-
    function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type is
       Result : Context_Type;
       Temp   : RIPEMD160.Block_Type;
@@ -94,7 +74,9 @@ package body LSC.HMAC_RIPEMD160 is
       Context.RIPEMD160_Context := RIPEMD160.Context_Init;
       Ops32.Block_XOR (OPad, Context.Key, Temp);
       RIPEMD160.Context_Update (Context.RIPEMD160_Context, Temp);
-      RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, To_Block (Hash), 160);
+      Temp := RIPEMD160.Block_Type'(others => 0);
+      Ops32.Block_Copy (Hash, Temp);
+      RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Temp, 160);
    end Context_Finalize;
 
    ----------------------------------------------------------------------------

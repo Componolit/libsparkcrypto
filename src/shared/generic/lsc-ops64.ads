@@ -68,4 +68,19 @@ package LSC.Ops64 is
        Byte7 : Types.Byte) return Types.Word64;
    pragma Inline (Bytes_To_Word);
 
+   -- Copy all elements of @Source@ to @Dest@. Should @Source@ be shorter than
+   -- @Dest@, remaining elements stay unchanged.
+   procedure Block_Copy
+      (Source : in     Types.Word64_Array_Type;
+       Dest   : in out Types.Word64_Array_Type);
+   --# derives
+   --#   Dest from *, Source;
+   --# pre
+   --#   Source'First  = Dest'First and
+   --#   Source'Last  <= Dest'Last;
+   --# post
+   --#   (for all P in Types.Index range Source'First .. Source'Last =>
+   --#       (Dest (P) = Source (P)));
+   pragma Inline (Block_Copy);
+
 end LSC.Ops64;

@@ -33,26 +33,6 @@ package body LSC.HMAC_SHA256 is
 
    ----------------------------------------------------------------------------
 
-   function To_Block (Item : SHA256.SHA256_Hash_Type) return SHA256.Block_Type is
-      Result : SHA256.Block_Type;
-   begin
-      for I in SHA256.Block_Index
-      loop
-         --# accept Flow, 23, Result, "Initialized in complete loop";
-         if I in SHA256.SHA256_Hash_Index
-         then
-            Result (I) := Item (I);
-         else
-            Result (I) := 0;
-         end if;
-      end loop;
-
-      --# accept Flow, 602, Result, "Initialized in complete loop";
-      return Result;
-   end To_Block;
-
-   ----------------------------------------------------------------------------
-
    function Context_Init (Key : SHA256.Block_Type) return Context_Type is
       Result : Context_Type;
       Temp   : SHA256.Block_Type;
@@ -94,7 +74,9 @@ package body LSC.HMAC_SHA256 is
       Context.SHA256_Context := SHA256.SHA256_Context_Init;
       Ops32.Block_XOR (OPad, Context.Key, Temp);
       SHA256.Context_Update (Context.SHA256_Context, Temp);
-      SHA256.Context_Finalize (Context.SHA256_Context, To_Block (Hash), 256);
+      Temp := SHA256.Block_Type'(others => 0);
+      Ops32.Block_Copy (Hash, Temp);
+      SHA256.Context_Finalize (Context.SHA256_Context, Temp, 256);
    end Context_Finalize;
 
    ----------------------------------------------------------------------------

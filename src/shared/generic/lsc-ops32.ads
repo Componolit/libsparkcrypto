@@ -23,6 +23,7 @@
 
 with LSC.Types;
 use type LSC.Types.Word32;
+use type LSC.Types.Index;
 --# inherit
 --#    LSC.Types;
 
@@ -101,5 +102,20 @@ package LSC.Ops32 is
    --#   (for all I in Types.Index range Left'First .. Left'Last =>
    --#        (Result (I) = XOR2 (Left (I), Right (I))));
    pragma Inline (Block_XOR);
+
+   -- Copy all elements of @Source@ to @Dest@. Should @Source@ be shorter than
+   -- @Dest@, remaining elements stay unchanged.
+   procedure Block_Copy
+      (Source : in     Types.Word32_Array_Type;
+       Dest   : in out Types.Word32_Array_Type);
+   --# derives
+   --#   Dest from *, Source;
+   --# pre
+   --#   Source'First  = Dest'First and
+   --#   Source'Last  <= Dest'Last;
+   --# post
+   --#   (for all P in Types.Index range Source'First .. Source'Last =>
+   --#       (Dest (P) = Source (P)));
+   pragma Inline (Block_Copy);
 
 end LSC.Ops32;

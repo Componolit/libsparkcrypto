@@ -33,26 +33,6 @@ package body LSC.HMAC_SHA384 is
 
    ----------------------------------------------------------------------------
 
-   function To_Block (Item : SHA512.SHA384_Hash_Type) return SHA512.Block_Type
-   --# return Result =>
-   --#     (for all I in SHA512.SHA384_Hash_Index => (Result (I) = Item (I)));
-   is
-      Result : SHA512.Block_Type := SHA512.Block_Type'(others => 0);
-   begin
-      for I in SHA512.SHA384_Hash_Index
-      loop
-         Result (I) := Item (I);
-         --# assert
-         --#    (I in SHA512.SHA384_Hash_Index) and
-         --#    (I in SHA512.Block_Index) and
-         --#    (for all Pos in SHA512.SHA384_Hash_Index range SHA512.SHA384_Hash_Index'First .. I =>
-         --#         (Result (Pos) = Item (Pos)));
-      end loop;
-      return Result;
-   end To_Block;
-
-   ----------------------------------------------------------------------------
-
    function Context_Init (Key : SHA512.Block_Type) return Context_Type is
       Result : Context_Type;
       Temp   : SHA512.Block_Type;
@@ -94,7 +74,9 @@ package body LSC.HMAC_SHA384 is
       Context.SHA384_Context := SHA512.SHA384_Context_Init;
       Ops64.Block_XOR (OPad, Context.Key, Temp);
       SHA512.Context_Update (Context.SHA384_Context, Temp);
-      SHA512.Context_Finalize (Context.SHA384_Context, To_Block (Hash), 384);
+      Temp := SHA512.Block_Type'(others => 0);
+      Ops64.Block_Copy (Hash, Temp);
+      SHA512.Context_Finalize (Context.SHA384_Context, Temp, 384);
    end Context_Finalize;
 
    ----------------------------------------------------------------------------

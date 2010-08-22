@@ -133,4 +133,25 @@ package body LSC.Ops32 is
       --# accept Flow, 602, Result, Result, "Initialized in complete loop";
    end Block_XOR;
 
+   ----------------------------------------------------------------------------
+
+   procedure Block_Copy
+     (Source : in     Types.Word32_Array_Type;
+      Dest   : in out Types.Word32_Array_Type)
+   is
+   begin
+
+      for I in Types.Index range Source'First .. Source'Last
+      loop
+         --# check I in Source'Range;
+
+         Dest (I) := Source (I);
+
+         --# assert
+         --#    (for all P in Types.Index range Source'First .. I =>
+         --#        (Dest (P) = Source (P)));
+      end loop;
+
+   end Block_Copy;
+
 end LSC.Ops32;
