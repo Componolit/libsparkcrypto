@@ -54,8 +54,7 @@ package body LSC.AES is
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type
    --# pre
-   --#   Key'Length = Nk and
-   --#   Nk < (Nb * (Nr + 1) - 1);
+   --#   Key'Length = Nk;
    is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
@@ -68,6 +67,8 @@ package body LSC.AES is
       loop
          Result (I) := Byteorder32.Native_To_BE (Key (I));
       end loop;
+
+      --# assert True;
 
       pragma Debug (LSC.AES.Print.Header (Result));
 
@@ -142,6 +143,8 @@ package body LSC.AES is
 
       Result := Enc_Key_Expansion (Key, Nk, Nr);
 
+      --# assert True;
+
       for Round in Schedule_Index range 1 .. Nr - 1
       loop
 
@@ -153,6 +156,8 @@ package body LSC.AES is
                         Tables.U3 (Ops32.Byte2 (Result (Nb * Round))),
                         Tables.U4 (Ops32.Byte3 (Result (Nb * Round))));
       end loop;
+
+      --# assert True;
 
       for Round in Schedule_Index range 1 .. Nr - 1
       loop
@@ -167,6 +172,8 @@ package body LSC.AES is
 
       end loop;
 
+      --# assert True;
+
       for Round in Schedule_Index range 1 .. Nr - 1
       loop
 
@@ -179,6 +186,8 @@ package body LSC.AES is
                         Tables.U4 (Ops32.Byte3 (Result (Nb * Round + 2))));
       end loop;
 
+      --# assert True;
+
       for Round in Schedule_Index range 1 .. Nr - 1
       loop
 
@@ -190,6 +199,8 @@ package body LSC.AES is
                         Tables.U3 (Ops32.Byte2 (Result (Nb * Round + 3))),
                         Tables.U4 (Ops32.Byte3 (Result (Nb * Round + 3))));
       end loop;
+
+      --# assert True;
 
       pragma Debug (LSC.AES.Print.Footer (Result));
       return Result;
@@ -210,14 +221,22 @@ package body LSC.AES is
       C0 := Byteorder32.Native_To_BE (Plaintext (0)) xor
             Context.Schedule (0);
 
+      --# assert True;
+
       C1 := Byteorder32.Native_To_BE (Plaintext (1)) xor
             Context.Schedule (1);
+
+      --# assert True;
 
       C2 := Byteorder32.Native_To_BE (Plaintext (2)) xor
             Context.Schedule (2);
 
+      --# assert True;
+
       C3 := Byteorder32.Native_To_BE (Plaintext (3)) xor
             Context.Schedule (3);
+
+      --# assert True;
 
       for Round in Schedule_Index range 1 .. Context.Nr - 1
       --# assert
@@ -281,6 +300,8 @@ package body LSC.AES is
                Tables.S (Ops32.Byte3 (C3))) xor
             Context.Schedule (Nb * Context.Nr);
 
+      --# assert True;
+
       A1 := Ops32.Bytes_To_Word
               (Tables.S (Ops32.Byte0 (C1)),
                Tables.S (Ops32.Byte1 (C2)),
@@ -288,12 +309,16 @@ package body LSC.AES is
                Tables.S (Ops32.Byte3 (C0))) xor
             Context.Schedule (Nb * Context.Nr + 1);
 
+      --# assert True;
+
       A2 := Ops32.Bytes_To_Word
               (Tables.S (Ops32.Byte0 (C2)),
                Tables.S (Ops32.Byte1 (C3)),
                Tables.S (Ops32.Byte2 (C0)),
                Tables.S (Ops32.Byte3 (C1))) xor
             Context.Schedule (Nb * Context.Nr + 2);
+
+      --# assert True;
 
       A3 := Ops32.Bytes_To_Word
               (Tables.S (Ops32.Byte0 (C3)),
@@ -303,6 +328,8 @@ package body LSC.AES is
             Context.Schedule (Nb * Context.Nr + 3);
 
       pragma Debug (Print.Print_Round ("output", Context.Nr, Block_Type'(A0, A1, A2, A3)));
+
+      --# assert True;
 
       return Block_Type'(Byteorder32.BE_To_Native (A0),
                          Byteorder32.BE_To_Native (A1),
@@ -402,11 +429,17 @@ package body LSC.AES is
       C0 := Byteorder32.Native_To_BE (Ciphertext (0)) xor
             Context.Schedule (Nb * Context.Nr);
 
+      --# assert True;
+
       C1 := Byteorder32.Native_To_BE (Ciphertext (1)) xor
             Context.Schedule (Nb * Context.Nr + 1);
 
+      --# assert True;
+
       C2 := Byteorder32.Native_To_BE (Ciphertext (2)) xor
             Context.Schedule (Nb * Context.Nr + 2);
+
+      --# assert True;
 
       C3 := Byteorder32.Native_To_BE (Ciphertext (3)) xor
             Context.Schedule (Nb * Context.Nr + 3);
@@ -463,12 +496,16 @@ package body LSC.AES is
                Tables.Si (Ops32.Byte3 (C1))) xor
             Context.Schedule (0);
 
+      --# assert True;
+
       A1 := Ops32.Bytes_To_Word
               (Tables.Si (Ops32.Byte0 (C1)),
                Tables.Si (Ops32.Byte1 (C0)),
                Tables.Si (Ops32.Byte2 (C3)),
                Tables.Si (Ops32.Byte3 (C2))) xor
             Context.Schedule (1);
+
+      --# assert True;
 
       A2 := Ops32.Bytes_To_Word
               (Tables.Si (Ops32.Byte0 (C2)),
@@ -477,12 +514,16 @@ package body LSC.AES is
                Tables.Si (Ops32.Byte3 (C3))) xor
             Context.Schedule (2);
 
+      --# assert True;
+
       A3 := Ops32.Bytes_To_Word
               (Tables.Si (Ops32.Byte0 (C3)),
                Tables.Si (Ops32.Byte1 (C2)),
                Tables.Si (Ops32.Byte2 (C1)),
                Tables.Si (Ops32.Byte3 (C0))) xor
             Context.Schedule (3);
+
+      --# assert True;
 
       pragma Debug (Print.Print_Round ("ioutpt", 0, Block_Type'(A0, A1, A2, A3)));
 
