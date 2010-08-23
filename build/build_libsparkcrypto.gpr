@@ -16,13 +16,6 @@ is
 
    Src         := "../src/";
 
-   Source_Dirs :=
-      (Src & "ada/" & IO,
-       Src & "ada/" & Arch,
-       Src & "ada/generic",
-       Src & "shared/" & Endianess,
-       Src & "shared/generic");
-
    Compiler_Switches := ();
    Builder_Switches := ();
 
@@ -33,14 +26,19 @@ is
 
    for Object_Dir use "../out/build";
 
+   for Source_Dirs use
+      (Src & "ada/" & IO,
+       Src & "ada/" & Arch,
+       Src & "ada/generic",
+       Src & "shared/" & Endianess,
+       Src & "shared/generic");
+
    case Mode is
       when "release" =>
          Compiler_Switches := ("-O" & Optimization, "-gnatN", "-Winline", "-gnatp");
-         for Source_Dirs use Source_Dirs;
 
       when "debug" =>
-         Compiler_Switches := ("-O0");
-         for Source_Dirs use (Src & "debug") & Source_Dirs;
+         Compiler_Switches := ("-O0", "-gnata");
 
    end case;
 

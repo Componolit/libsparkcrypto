@@ -125,9 +125,6 @@ ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
 endif
 	install -p -m 444 $(OUTPUT_DIR)/build/adalib/*.ali $(DESTDIR)/adalib/
-ifeq ($(MODE), debug)
-	install -p -m 644 src/debug/*.ad? $(DESTDIR)/adainclude/
-endif
 
 install_proof: install_files proof
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum

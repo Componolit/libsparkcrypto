@@ -21,7 +21,9 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
-package body LSC.RIPEMD160.Print is
+with LSC.Types;
+
+package LSC.RIPEMD160.Print is
 
    procedure Print_Schedule (M : String;
                              A : Types.Word32;
@@ -30,19 +32,6 @@ package body LSC.RIPEMD160.Print is
                              D : Types.Word32;
                              E : Types.Word32;
                              X : Types.Word32;
-                             S : Natural)
-   is
-      pragma Unreferenced (M, A, B, C, D, E, X, S);
-   begin
-      --# accept Flow, 30, M, "Null implementation" &
-      --#        Flow, 30, A, "Null implementation" &
-      --#        Flow, 30, B, "Null implementation" &
-      --#        Flow, 30, C, "Null implementation" &
-      --#        Flow, 30, D, "Null implementation" &
-      --#        Flow, 30, E, "Null implementation" &
-      --#        Flow, 30, X, "Null implementation" &
-      --#        Flow, 30, S, "Null implementation";
-      null;
-   end Print_Schedule;
+                             S : Natural);
 
 end LSC.RIPEMD160.Print;

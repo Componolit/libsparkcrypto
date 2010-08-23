@@ -62,15 +62,6 @@ package body LSC.AES is
       Sub_Temp : Types.Word32;
       Result   : Schedule_Type := Schedule_Type'(others => 0);
 
-      procedure Put_Row (I : Types.Word32)
-      --# derives null from I;
-      is
-      begin
-         Debug.Put (" ");
-         Debug.Print_Word32 (I);
-         Debug.Put (" |");
-      end Put_Row;
-
    begin
 
       for I in Key_Index range Key'First .. Key'Last
@@ -78,33 +69,18 @@ package body LSC.AES is
          Result (I) := Byteorder32.Native_To_BE (Key (I));
       end loop;
 
-      --  DEBUG OUTPUT  -----------------------------------------------------------------------------------------
-      Debug.Put_Line ("Initial schedule:");                                                                    --
-      Debug.Print_Word32_Array (Result, 1, 4, True);                                                           --
-      Debug.New_Line;                                                                                          --
-      Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
-      Debug.Put_Line ("|  i  |          |  After   |  After   |          |After XOR |          |  w[i] =  |"); --
-      Debug.Put_Line ("|(dec)|   temp   |RotWord() |SubWord() |Rcon[i/Nk]|with Rcon | w[i-Nk]  | temp XOR |"); --
-      Debug.Put_Line ("|     |          |          |          |          |          |          |  w[i-Nk] |"); --
-      Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
-      -----------------------------------------------------------------------------------------------------------
+      pragma Debug (LSC.AES.Print.Header (Result));
 
       for I in Schedule_Index range Nk .. Nb * (Nr + 1) - 1
       loop
 
-         --# assert True;
+         pragma Debug (LSC.AES.Print.Index (I));
 
-         --  DEBUG OUTPUT  --------
-         Debug.Put ("| ");       --
-         Debug.Print_Index (I);  --
-         Debug.Put (" |");       --
-         --------------------------
+         --# assert True;
 
          Temp := Result (I - 1);
 
-         --  DEBUG OUTPUT  -
-         Put_Row (Temp);  --
-         -------------------
+         pragma Debug (LSC.AES.Print.Row (Temp));
 
          if I mod Nk = 0
          then
@@ -116,55 +92,38 @@ package body LSC.AES is
             Sub_Temp := Sub_Word (Rot_Temp);
             Temp     := Ops32.XOR2 (Sub_Temp, Tables.Rcon (I/Nk));
 
-            --  DEBUG OUTPUT  -------------------
-            Put_Row (Rot_Temp);                --
-            Put_Row (Sub_Temp);                --
-            Put_Row (Tables.Rcon (I/Nk));      --
-            Put_Row (Temp);                    --
-            -------------------------------------
+            pragma Debug (LSC.AES.Print.Row (Rot_Temp));
+            pragma Debug (LSC.AES.Print.Row (Sub_Temp));
+            pragma Debug (LSC.AES.Print.Row (Tables.Rcon (I/Nk)));
+            pragma Debug (LSC.AES.Print.Row (Temp));
 
          elsif Nk > 6 and I mod Nk = Nb
          then
 
             --# assert Nk > 0 and I mod Nk = Nb;
 
-            --  DEBUG OUTPUT  ---------------
-            Debug.Put ("          |"); --
-            ---------------------------------
+            pragma Debug (LSC.AES.Print.Empty (1));
 
             Temp := Sub_Word (Temp);
 
-            --  DEBUG OUTPUT  -----------------------
-            Put_Row (Temp);                        --
-            Debug.Put ("          |          |");  --
-            -----------------------------------------
+            pragma Debug (LSC.AES.Print.Row (Temp));
+            pragma Debug (LSC.AES.Print.Empty (2));
          else
-            --  DEBUG OUTPUT  ---------------------------------------------
-            Debug.Put ("          |          |          |          |");  --
-            ---------------------------------------------------------------
+            pragma Debug (LSC.AES.Print.Empty (4));
+            null;
          end if;
 
          --# assert I - Nk in Schedule_Index and
          --#        I in Schedule_Index;
          Result (I) := Ops32.XOR2 (Result (I - Nk), Temp);
 
-         --  DEBUG OUTPUT  ------------
-         Put_Row (Result (I - Nk));  --
-         Put_Row (Result (I));       --
-         Debug.New_Line;             --
-         ------------------------------
+         pragma Debug (LSC.AES.Print.Row (Result (I - Nk)));
+         pragma Debug (LSC.AES.Print.Row (Result (I)));
+         pragma Debug (LSC.Debug.New_Line);
 
       end loop;
 
-      --  DEBUG OUTPUT  -----------------------------------------------------------------------------------------
-      Debug.Put_Line (" -----+----------+----------+----------+----------+----------+----------+---------- "); --
-      -----------------------------------------------------------------------------------------------------------
-
-      --  DEBUG OUTPUT  -------------------------------
-      Debug.Put_Line ("Final schedule:");            --
-      Debug.Print_Word32_Array (Result, 1, 4, True); --
-      -------------------------------------------------
-
+      pragma Debug (LSC.AES.Print.Footer (Result));
       return Result;
 
    end Enc_Key_Expansion;
@@ -232,11 +191,7 @@ package body LSC.AES is
                         Tables.U4 (Ops32.Byte3 (Result (Nb * Round + 3))));
       end loop;
 
-      --  DEBUG OUTPUT  --------------------------------
-      Debug.Put_Line ("Inverse schedule:");           --
-      Debug.Print_Word32_Array (Result, 1, 4, True);  --
-      --------------------------------------------------
-
+      pragma Debug (LSC.AES.Print.Footer (Result));
       return Result;
 
    end Dec_Key_Expansion;
@@ -250,13 +205,7 @@ package body LSC.AES is
       C0, C1, C2, C3 : Types.Word32;
    begin
 
-      --  DEBUG  -----------------------------------------------------
-      Debug.Put ("PLAINTEXT:   ");                                  --
-      Debug.Print_Word32_Array (Plaintext, 1, 8, True);             --
-      Debug.New_Line;                                               --
-      Debug.New_Line;                                               --
-      Print.Print_Round ("input ", Schedule_Index'(0), Plaintext);  --
-      ----------------------------------------------------------------
+      pragma Debug (AES.Print.Block ("PLAINTEXT:   ", "input ", Plaintext, Schedule_Index'(0)));
 
       C0 := Byteorder32.Native_To_BE (Plaintext (0)) xor
             Context.Schedule (0);
@@ -278,10 +227,7 @@ package body LSC.AES is
       --#    Nb * Round + 3 <= Schedule_Index'Last;
       loop
 
-         --  DEBUG  -----------------------------------------
-         Print.Print_Round ("start ", Round,               --
-                            Block_Type'(C0, C1, C2, C3));  --
-         ----------------------------------------------------
+         pragma Debug (Print.Print_Round ("start ", Round, Block_Type'(C0, C1, C2, C3)));
 
          A0 := Ops32.XOR5 (Tables.T1 (Ops32.Byte0 (C0)),
                          Tables.T2 (Ops32.Byte1 (C1)),
@@ -326,10 +272,7 @@ package body LSC.AES is
 
       --# assert True;
 
-      --  DEBUG  -----------------------------------------
-      Print.Print_Round ("start ", Context.Nr,          --
-                         Block_Type'(C0, C1, C2, C3));  --
-      ----------------------------------------------------
+      pragma Debug (Print.Print_Round ("start ", Context.Nr, Block_Type'(C0, C1, C2, C3)));
 
       A0 := Ops32.Bytes_To_Word
               (Tables.S (Ops32.Byte0 (C0)),
@@ -359,10 +302,7 @@ package body LSC.AES is
                Tables.S (Ops32.Byte3 (C2))) xor
             Context.Schedule (Nb * Context.Nr + 3);
 
-      --  DEBUG  -----------------------------------------
-      Print.Print_Round ("output", Context.Nr,          --
-                         Block_Type'(A0, A1, A2, A3));  --
-      ----------------------------------------------------
+      pragma Debug (Print.Print_Round ("output", Context.Nr, Block_Type'(A0, A1, A2, A3)));
 
       return Block_Type'(Byteorder32.BE_To_Native (A0),
                          Byteorder32.BE_To_Native (A1),
@@ -457,12 +397,7 @@ package body LSC.AES is
       C0, C1, C2, C3 : Types.Word32;
    begin
 
-      --  DEBUG  ---------------------------------------------------------------
-      Debug.Put ("CIPHERTEXT:  ");                                            --
-      Debug.Print_Word32_Array (Ciphertext, 1, 8, True);                      --
-      Debug.New_Line;                                                         --
-      Print.Print_Round ("iinput", Schedule_Index'(Context.Nr), Ciphertext);  --
-      --------------------------------------------------------------------------
+      pragma Debug (AES.Print.Block ("CIPHERTEXT:  ", "iinput", Ciphertext, Schedule_Index'(Context.Nr)));
 
       C0 := Byteorder32.Native_To_BE (Ciphertext (0)) xor
             Context.Schedule (Nb * Context.Nr);
@@ -484,10 +419,7 @@ package body LSC.AES is
       --#    Nb * Round + 3 <= Schedule_Index'Last;
       loop
 
-         --  DEBUG  -----------------------------------------
-         Print.Print_Round ("istart", Round,               --
-                            Block_Type'(C0, C1, C2, C3));  --
-         ----------------------------------------------------
+         pragma Debug (Print.Print_Round ("istart", Round, Block_Type'(C0, C1, C2, C3)));
 
          A0 := Ops32.XOR5 (Tables.T5 (Ops32.Byte0 (C0)),
                            Tables.T6 (Ops32.Byte1 (C3)),
@@ -522,10 +454,7 @@ package body LSC.AES is
 
       --# assert True;
 
-      --  DEBUG  -----------------------------------------
-      Print.Print_Round ("istart", 0,                   --
-                         Block_Type'(C0, C1, C2, C3));  --
-      ----------------------------------------------------
+      pragma Debug (Print.Print_Round ("istart", 0, Block_Type'(C0, C1, C2, C3)));
 
       A0 := Ops32.Bytes_To_Word
               (Tables.Si (Ops32.Byte0 (C0)),
@@ -555,10 +484,7 @@ package body LSC.AES is
                Tables.Si (Ops32.Byte3 (C0))) xor
             Context.Schedule (3);
 
-      --  DEBUG  -----------------------------------------
-      Print.Print_Round ("ioutpt", 0,                   --
-                         Block_Type'(A0, A1, A2, A3));  --
-      ----------------------------------------------------
+      pragma Debug (Print.Print_Round ("ioutpt", 0, Block_Type'(A0, A1, A2, A3)));
 
       return Block_Type'(Byteorder32.BE_To_Native (A0),
                          Byteorder32.BE_To_Native (A1),

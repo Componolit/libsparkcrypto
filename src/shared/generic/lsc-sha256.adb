@@ -184,11 +184,11 @@ package body LSC.SHA256 is
 
    begin
 
-      Debug.Put_Line ("BLOCK UPDATE:");
+      pragma Debug (Debug.Put_Line ("BLOCK UPDATE:"));
 
       -- Print out initial state of H
-      Debug.Put_Line ("SHA-256 initial hash values:");
-      Debug.Print_Word32_Array (Context.H, 2, Types.Index'Last, True);
+      pragma Debug (Debug.Put_Line ("SHA-256 initial hash values:"));
+      pragma Debug (Debug.Print_Word32_Array (Context.H, 2, Types.Index'Last, True));
 
       -------------------------------------------
       --  Section 6.3.2 SHA-256 Hash Computations
@@ -208,8 +208,8 @@ package body LSC.SHA256 is
                                        Context.W (t - 16);
       end loop;
 
-      Debug.Put_Line ("Message block:");
-      Debug.Print_Word32_Array (Context.W, 2, 8, True);
+      pragma Debug (Debug.Put_Line ("Message block:"));
+      pragma Debug (Debug.Print_Word32_Array (Context.W, 2, 8, True));
 
       -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
       --    h with the (i-1)st hash value:
@@ -316,8 +316,8 @@ package body LSC.SHA256 is
          6 => g + Context.H (6),
          7 => h + Context.H (7));
 
-      Debug.Put_Line ("SHA-256 final hash values:");
-      Debug.Print_Word32_Array (Context.H, 2, Types.Index'Last, True);
+      pragma Debug (Debug.Put_Line ("SHA-256 final hash values:"));
+      pragma Debug (Debug.Print_Word32_Array (Context.H, 2, Types.Index'Last, True));
 
    end Context_Update_Internal;
 
@@ -342,7 +342,7 @@ package body LSC.SHA256 is
       Final_Block : Block_Type;
    begin
 
-      Debug.Put_Line ("FINAL BLOCK:");
+      pragma Debug (Debug.Put_Line ("FINAL BLOCK:"));
 
       Final_Block := Block;
 

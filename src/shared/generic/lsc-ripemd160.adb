@@ -160,14 +160,22 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule (" FF/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule (" FF/S", A, B, C, D, E, X, S));
       A := A + f (B, C, D) + X;
-      Debug.Put ("       "); Debug.Print_Word32 (A); Debug.Put (" ");
+
+      pragma Debug (Debug.Put ("       "));
+      pragma Debug (Debug.Print_Word32 (A));
+      pragma Debug (Debug.Put (" "));
+
       A := Types.ROTL32 (A, S) + E;
-      Debug.Print_Word32 (A); Debug.New_Line;
+
+      pragma Debug (Debug.Print_Word32 (A));
+      pragma Debug (Debug.New_Line);
+
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule (" FF/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+
+      pragma Debug (Print.Print_Schedule (" FF/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end ff;
 
    ---------------------------------------------------------------------------
@@ -183,12 +191,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S));
       A := A + g (B, C, D) + X + 16#5a82_7999#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule (" GG/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule (" GG/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end gg;
 
    ---------------------------------------------------------------------------
@@ -204,12 +212,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S));
       A := A + h (B, C, D) + X + 16#6ed9_eba1#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule (" HH/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule (" HH/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end hh;
 
    ---------------------------------------------------------------------------
@@ -225,12 +233,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule (" II/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule (" II/S", A, B, C, D, E, X, S));
       A := A + i (B, C, D) + X + 16#8f1b_bcdc#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule (" II/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule (" II/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end ii;
 
    ---------------------------------------------------------------------------
@@ -246,12 +254,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S));
       A := A + j (B, C, D) + X + 16#a953_fd4e#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule (" JJ/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule (" JJ/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end jj;
 
    ---------------------------------------------------------------------------
@@ -267,12 +275,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S));
       A := A + f (B, C, D) + X;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule ("FFF/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule ("FFF/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end fff;
 
    ---------------------------------------------------------------------------
@@ -288,12 +296,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S));
       A := A + g (B, C, D) + X + 16#7a6d_76e9#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule ("GGG/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule ("GGG/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end ggg;
 
    ---------------------------------------------------------------------------
@@ -309,12 +317,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S));
       A := A + h (B, C, D) + X + 16#6d70_3ef3#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule ("HHH/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule ("HHH/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end hhh;
 
    ---------------------------------------------------------------------------
@@ -330,12 +338,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule ("III/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule ("III/S", A, B, C, D, E, X, S));
       A := A + i (B, C, D) + X + 16#5c4d_d124#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule ("III/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule ("III/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end iii;
 
    ---------------------------------------------------------------------------
@@ -351,12 +359,12 @@ package body LSC.RIPEMD160 is
    --#         C from C;
    is
    begin
-      Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S);
+      pragma Debug (Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S));
       A := A + j (B, C, D) + X + 16#50a2_8be6#;
       A := Types.ROTL32 (A, S) + E;
       C := Types.ROTL32 (C, 10);
-      Print.Print_Schedule ("JJJ/E", A, B, C, D, E, X, S);
-      Debug.New_Line;
+      pragma Debug (Print.Print_Schedule ("JJJ/E", A, B, C, D, E, X, S));
+      pragma Debug (Debug.New_Line);
    end jjj;
 
    ---------------------------------------------------------------------------
@@ -372,8 +380,8 @@ package body LSC.RIPEMD160 is
    begin
 
       -- DEBUG -------------------------------------------------------------
-      Debug.Put ("Context_Update_Internal:");                                     --
-      Debug.Print_Word32_Array (X, 1, Types.Index'Last, True);  --
+      pragma Debug (Debug.Put ("Context_Update_Internal:"));                                     --
+      pragma Debug (Debug.Print_Word32_Array (X, 1, Types.Index'Last, True));  --
       ----------------------------------------------------------------------
 
        H0 := Context.H (0);
@@ -624,10 +632,8 @@ package body LSC.RIPEMD160 is
 
       Final_Block := Block;
 
-      -- DEBUG -------------------------------------------------------------
-      Debug.Put ("Finalize start: ");                                     --
-      Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True);  --
-      ----------------------------------------------------------------------
+      pragma Debug (Debug.Put ("Finalize start: "));                                     --
+      pragma Debug (Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True));  --
 
       --  Add length of last block to data length.
       Add (Context.Length, Length);
@@ -646,10 +652,8 @@ package body LSC.RIPEMD160 is
       Final_Block (Block_Type'Last - 1) := Context.Length.LSW;
       Final_Block (Block_Type'Last)     := Context.Length.MSW;
 
-      -- DEBUG -------------------------------------------------------------
-      Debug.Put ("Finalize end:   ");                                     --
-      Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True);  --
-      ----------------------------------------------------------------------
+      pragma Debug (Debug.Put ("Finalize end:   "));                                     --
+      pragma Debug (Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True));  --
 
       --  Update final block
       Context_Update_Internal (Context, Final_Block);
@@ -660,8 +664,8 @@ package body LSC.RIPEMD160 is
 
    function Get_Hash (Context : Context_Type) return Hash_Type is
    begin
-      Debug.Put_Line ("HASH:");
-      Debug.Print_Word32_Array (Context.H, 1, Types.Index'Last, True);
+      pragma Debug (Debug.Put_Line ("HASH:"));
+      pragma Debug (Debug.Print_Word32_Array (Context.H, 1, Types.Index'Last, True));
       return Context.H;
    end Get_Hash;
 
