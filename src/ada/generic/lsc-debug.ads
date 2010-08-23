@@ -21,113 +21,52 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
-package body LSC.Debug is
+with LSC.Types, LSC.IO;
+use type LSC.Types.Word64;
 
-   procedure Put (T : String)
-   is
-      pragma Unreferenced (T);
-   begin
-      --# accept Flow, 30, T, "Null implementation";
-      null;
-   end Put;
+package LSC.Debug is
+
+   procedure Put (T : String) renames LSC.IO.Put;
 
    ----------------------------------------------------------------------------
 
-   procedure Put_Line (T : String)
-   is
-      pragma Unreferenced (T);
-   begin
-      --# accept Flow, 30, T, "Null implementation";
-      null;
-   end Put_Line;
+   procedure Put_Line (T : String) renames LSC.IO.Put_Line;
 
    ----------------------------------------------------------------------------
 
-   procedure New_Line is
-   begin
-      null;
-   end New_Line;
+   procedure New_Line renames LSC.IO.New_Line;
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Byte (I : in Types.Byte)
-   is
-      pragma Unreferenced (I);
-   begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Print_Byte;
+   procedure Print_Byte (I : in LSC.Types.Byte) renames LSC.IO.Print_Byte;
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Word32 (I : in Types.Word32)
-   is
-      pragma Unreferenced (I);
-   begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Print_Word32;
+   procedure Print_Word32 (I : in LSC.Types.Word32) renames LSC.IO.Print_Word32;
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Word64 (I : in Types.Word64)
-   is
-      pragma Unreferenced (I);
-   begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Print_Word64;
+   procedure Print_Word64 (I : in LSC.Types.Word64) renames LSC.IO.Print_Word64;
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Index (I : in Types.Index)
-   is
-      pragma Unreferenced (I);
-   begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Print_Index;
+   procedure Print_Index (I : in Types.Index) renames LSC.IO.Print_Index;
 
    ----------------------------------------------------------------------------
 
-   procedure Print_Natural (I : in Natural)
-   is
-      pragma Unreferenced (I);
-   begin
-      --# accept Flow, 30, I, "Null implementation";
-      null;
-   end Print_Natural;
+   procedure Print_Natural (I : in Natural) renames LSC.IO.Print_Natural;
 
    ----------------------------------------------------------------------------
 
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
-                                 Newln : in Boolean)
-   is
-      pragma Unreferenced (Block, Space, Break, Newln);
-   begin
-      --# accept Flow, 30, Block, "Null implementation" &
-      --#        Flow, 30, Space, "Null implementation" &
-      --#        Flow, 30, Break, "Null implementation" &
-      --#        Flow, 30, Newln, "Null implementation";
-      null;
-   end Print_Word32_Array;
+                                 Newln : in Boolean) renames LSC.IO.Print_Word32_Array;
 
    ----------------------------------------------------------------------------
 
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
-                                 Newln : in Boolean)
-   is
-      pragma Unreferenced (Block, Space, Break, Newln);
-   begin
-      --# accept Flow, 30, Block, "Null implementation" &
-      --#        Flow, 30, Space, "Null implementation" &
-      --#        Flow, 30, Break, "Null implementation" &
-      --#        Flow, 30, Newln, "Null implementation";
-      null;
-   end Print_Word64_Array;
-
+                                 Newln : in Boolean) renames LSC.IO.Print_Word64_Array;
 end LSC.Debug;

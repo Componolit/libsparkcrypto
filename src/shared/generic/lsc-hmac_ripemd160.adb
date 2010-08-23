@@ -37,7 +37,7 @@ package body LSC.HMAC_RIPEMD160 is
       Result : Context_Type;
       Temp   : RIPEMD160.Block_Type;
    begin
-      Debug.Put_Line ("HMAC.RIPEMD160.Context_Init:");
+      pragma Debug (Debug.Put_Line ("HMAC.RIPEMD160.Context_Init:"));
 
       Result.Key            := Key;
       Result.RIPEMD160_Context := RIPEMD160.Context_Init;
@@ -53,7 +53,7 @@ package body LSC.HMAC_RIPEMD160 is
       Block   : in RIPEMD160.Block_Type)
    is
    begin
-      Debug.Put_Line ("HMAC.RIPEMD160.Context_Update:");
+      pragma Debug (Debug.Put_Line ("HMAC.RIPEMD160.Context_Update:"));
       RIPEMD160.Context_Update (Context.RIPEMD160_Context, Block);
    end Context_Update;
 
@@ -67,7 +67,7 @@ package body LSC.HMAC_RIPEMD160 is
       Hash : RIPEMD160.Hash_Type;
       Temp : RIPEMD160.Block_Type;
    begin
-      Debug.Put_Line ("HMAC.RIPEMD160.Context_Finalize:");
+      pragma Debug (Debug.Put_Line ("HMAC.RIPEMD160.Context_Finalize:"));
       RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Block, Length);
       Hash := RIPEMD160.Get_Hash (Context.RIPEMD160_Context);
 
@@ -99,8 +99,8 @@ package body LSC.HMAC_RIPEMD160 is
       Last_Block  : RIPEMD160.Message_Index;
    begin
 
-      Debug.New_Line;
-      Debug.Put_Line (">>> HMAC_RIPEMD160.Authenticate start.");
+      pragma Debug (Debug.New_Line);
+      pragma Debug (Debug.Put_Line (">>> HMAC_RIPEMD160.Authenticate start."));
 
       Last_Length := Types.Word32 (Length mod RIPEMD160.Block_Size);
       Last_Block  := Message'First + Length / RIPEMD160.Block_Size;
@@ -118,25 +118,25 @@ package body LSC.HMAC_RIPEMD160 is
             --#    I < Last_Block;
             Context_Update (HMAC_Ctx, Message (I));
 
-            Debug.Put ("    HMAC_RIPEMD160.Authenticate: round ");
-            Debug.Print_Word64 (I);
-            Debug.Put_Line (".");
+            pragma Debug (Debug.Put ("    HMAC_RIPEMD160.Authenticate: round "));
+            pragma Debug (Debug.Print_Word64 (I));
+            pragma Debug (Debug.Put_Line ("."));
          end loop;
       end if;
 
       if Last_Length = 0
       then
-         Debug.Put_Line ("    HMAC_RIPEMD160.Authenticate: Empty last block");
+         pragma Debug (Debug.Put_Line ("    HMAC_RIPEMD160.Authenticate: Empty last block"));
          Context_Finalize (HMAC_Ctx, Dummy, 0);
       else
-         Debug.Put ("    HMAC_RIPEMD160.Authenticate: Partial last block of length ");
-         Debug.Print_Word32 (Last_Length);
-         Debug.Put_Line (".");
+         pragma Debug (Debug.Put ("    HMAC_RIPEMD160.Authenticate: Partial last block of length "));
+         pragma Debug (Debug.Print_Word32 (Last_Length));
+         pragma Debug (Debug.Put_Line ("."));
          Context_Finalize (HMAC_Ctx, Message (Last_Block), Last_Length);
       end if;
 
-      Debug.Put_Line (">>> HMAC_RIPEMD160.Authenticate end.");
-      Debug.New_Line;
+      pragma Debug (Debug.Put_Line (">>> HMAC_RIPEMD160.Authenticate end."));
+      pragma Debug (Debug.New_Line);
 
       return Get_Auth (HMAC_Ctx);
    end Authenticate;

@@ -21,24 +21,14 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
---# inherit LSC.Types;
-
 -------------------------------------------------------------------------------
--- Debug functions for RIPEMD-160
+-- Debug package
+--
+-- Debug is done through Debug pragmas. As the compiler has to with the debug
+-- package to make it available to this pragma, this is an empty package which
+-- makes the SPARK Examiner accept the respective with clause. Debug functions,
+-- however, cannot (and should not) be use from within SPARK.
 -------------------------------------------------------------------------------
-private package LSC.RIPEMD160.Print is
-
-   -- Print a RIPEMD-160 schedule
-   procedure Print_Schedule (M : String;
-                             A : Types.Word32;
-                             B : Types.Word32;
-                             C : Types.Word32;
-                             D : Types.Word32;
-                             E : Types.Word32;
-                             X : Types.Word32;
-                             S : Natural);
-   --# derives null from M, A, B, C, D, E, X, S;
-   pragma Inline (Print_Schedule);
-
+private package LSC.RIPEMD160.Print
+is
 end LSC.RIPEMD160.Print;

@@ -21,80 +21,14 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
---# inherit LSC.Types;
-
 -------------------------------------------------------------------------------
--- Debug operations for printing text and basic types
+-- Debug package
+--
+-- Debug is done through Debug pragmas. As the compiler has to with the debug
+-- package to make it available to this pragma, this is an empty package which
+-- makes the SPARK Examiner accept the respective with clause. Debug functions,
+-- however, cannot (and should not) be use from within SPARK.
 -------------------------------------------------------------------------------
-package LSC.Debug is
-
-   -- Output string @T@
-   procedure Put (T : String);
-   --# derives null from T;
-   pragma Inline (Put);
-
-   -- Output the string @T@ followed by a line terminator
-   procedure Put_Line (T : String);
-   --# derives null from T;
-   pragma Inline (Put_Line);
-
-   -- Start a new line
-   procedure New_Line;
-   --# derives ;
-   pragma Inline (New_Line);
-
-   -- Output byte @I@
-   procedure Print_Byte (I : in Types.Byte);
-   --# derives null from I;
-   pragma Inline (Print_Byte);
-
-   -- Output 32-bit word @I@
-   procedure Print_Word32 (I : in Types.Word32);
-   --# derives null from I;
-   pragma Inline (Print_Word32);
-
-   -- Output the 64-bit word @I@
-   procedure Print_Word64 (I : in Types.Word64);
-   --# derives null from I;
-   pragma Inline (Print_Word64);
-
-   -- Output index @I@
-   procedure Print_Index (I : in Types.Index);
-   --# derives null from I;
-   pragma Inline (Print_Index);
-
-   -- Output natural number @I@
-   procedure Print_Natural (I : in Natural);
-   --# derives null from I;
-   pragma Inline (Print_Natural);
-
-   -- Output @Block@, an array of 32-bit words
-   --
-   -- @Space@ - Number of spaces to separate Word32 values <br>
-   -- @Break@ - Insert a line terminator after @Break@ Word32 values <br>
-   -- @Newln@ - Insert a line terminator after printing all Word32 values <br>
-   --
-   procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
-                                 Space : in Natural;
-                                 Break : in Types.Index;
-                                 Newln : in Boolean);
-   --# derives null from Block, Space, Break, Newln;
-   pragma Inline (Print_Word32_Array);
-
-   -- Output @Block@, an array of 64-bit words
-   --
-   -- @Space@ - Number of spaces to separate Word64 values <br>
-   -- @Break@ - Insert a line terminator after @Break@ Word64 values <br>
-   -- @Newln@ - Insert a line terminator after printing all Word64 values <br>
-   --
-   procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
-                                 Space : in Natural;
-                                 Break : in Types.Index;
-                                 Newln : in Boolean);
-   --# derives null from Block, Space, Break, Newln;
-   --# pre
-   --#    Break > 0;
-   pragma Inline (Print_Word64_Array);
-
+package LSC.Debug
+is
 end LSC.Debug;

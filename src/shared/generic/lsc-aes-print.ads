@@ -21,18 +21,14 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
---# inherit LSC.AES;
-
 -------------------------------------------------------------------------------
--- Debug operations for AES
+-- AES Debug package
+--
+-- Debug is done through Debug pragmas. As the compiler has to with the debug
+-- package to make it available to this pragma, this is an empty package which
+-- makes the SPARK Examiner accept the respective with clause. Debug functions,
+-- however, cannot (and should not) be use from within SPARK.
 -------------------------------------------------------------------------------
-private package LSC.AES.Print is
-
-   -- Output the AES schedule @B@ prefixed by round number @R@ and string @T@
-   procedure Print_Round (T : String;
-                          R : AES.Schedule_Index;
-                          B : AES.Block_Type);
-   --# derives null from T, R, B;
-   pragma Inline (Print_Round);
-
+private package LSC.AES.Print
+is
 end LSC.AES.Print;

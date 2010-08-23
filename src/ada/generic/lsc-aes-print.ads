@@ -21,18 +21,31 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
-package body LSC.AES.Print is
+with LSC.Types;
+with LSC.AES;
+
+private package LSC.AES.Print is
 
    procedure Print_Round (T : String;
-                          R : AES.Schedule_Index;
-                          B : AES.Block_Type)
-   is
-      pragma Unreferenced (T, R, B);
-   begin
-      --# accept Flow, 30, T, "Null implementation" &
-      --#        Flow, 30, R, "Null implementation" &
-      --#        Flow, 30, B, "Null implementation";
-      null;
-   end Print_Round;
+                          R : LSC.AES.Schedule_Index;
+                          B : LSC.AES.Block_Type);
+
+   procedure Block
+      (Header : String;
+       Line   : String;
+       Block  : LSC.AES.Block_Type;
+       Index  : LSC.AES.Schedule_Index);
+
+   procedure Header
+      (Initial_Schedule : Types.Word32_Array_Type);
+
+   procedure Footer
+      (Final_Schedule : Types.Word32_Array_Type);
+
+   procedure Index (I : Types.Index);
+
+   procedure Row (I : Types.Word32);
+
+   procedure Empty (N : Positive);
 
 end LSC.AES.Print;

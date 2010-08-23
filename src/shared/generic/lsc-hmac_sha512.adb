@@ -36,7 +36,7 @@ package body LSC.HMAC_SHA512 is
       Result : Context_Type;
       Temp   : SHA512.Block_Type;
    begin
-      Debug.Put_Line ("HMAC.SHA512.Context_Init:");
+      pragma Debug (Debug.Put_Line ("HMAC.SHA512.Context_Init:"));
 
       Result.Key            := Key;
       Result.SHA512_Context := SHA512.SHA512_Context_Init;
@@ -52,7 +52,7 @@ package body LSC.HMAC_SHA512 is
       Block   : in SHA512.Block_Type)
    is
    begin
-      Debug.Put_Line ("HMAC.SHA512.Context_Update:");
+      pragma Debug (Debug.Put_Line ("HMAC.SHA512.Context_Update:"));
       SHA512.Context_Update (Context.SHA512_Context, Block);
    end Context_Update;
 
@@ -66,7 +66,7 @@ package body LSC.HMAC_SHA512 is
       Hash : SHA512.SHA512_Hash_Type;
       Temp : SHA512.Block_Type;
    begin
-      Debug.Put_Line ("HMAC.SHA512.Context_Finalize:");
+      pragma Debug (Debug.Put_Line ("HMAC.SHA512.Context_Finalize:"));
       SHA512.Context_Finalize (Context.SHA512_Context, Block, Length);
       Hash := SHA512.SHA512_Get_Hash (Context.SHA512_Context);
 
@@ -112,8 +112,8 @@ package body LSC.HMAC_SHA512 is
       Last_Block  : SHA512.Message_Index;
    begin
 
-      Debug.New_Line;
-      Debug.Put_Line (">>> HMAC_SHA512.Authenticate start.");
+      pragma Debug (Debug.New_Line);
+      pragma Debug (Debug.Put_Line (">>> HMAC_SHA512.Authenticate start."));
 
       Last_Length := Length mod SHA512.Block_Size;
       Last_Block  := Message'First + Length / SHA512.Block_Size;
@@ -131,25 +131,25 @@ package body LSC.HMAC_SHA512 is
             --#    I < Last_Block;
             Context_Update (HMAC_Ctx, Message (I));
 
-            Debug.Put ("    HMAC_SHA512.Authenticate: round ");
-            Debug.Print_Word64 (I);
-            Debug.Put_Line (".");
+            pragma Debug (Debug.Put ("    HMAC_SHA512.Authenticate: round "));
+            pragma Debug (Debug.Print_Word64 (I));
+            pragma Debug (Debug.Put_Line ("."));
          end loop;
       end if;
 
       if Last_Length = 0
       then
-         Debug.Put_Line ("    HMAC_SHA512.Authenticate: Empty last block");
+         pragma Debug (Debug.Put_Line ("    HMAC_SHA512.Authenticate: Empty last block"));
          Context_Finalize (HMAC_Ctx, Dummy, 0);
       else
-         Debug.Put ("    HMAC_SHA512.Authenticate: Partial last block of length ");
-         Debug.Print_Word64 (Last_Length);
-         Debug.Put_Line (".");
+         pragma Debug (Debug.Put ("    HMAC_SHA512.Authenticate: Partial last block of length "));
+         pragma Debug (Debug.Print_Word64 (Last_Length));
+         pragma Debug (Debug.Put_Line ("."));
          Context_Finalize (HMAC_Ctx, Message (Last_Block), Last_Length);
       end if;
 
-      Debug.Put_Line (">>> HMAC_SHA512.Authenticate end.");
-      Debug.New_Line;
+      pragma Debug (Debug.Put_Line (">>> HMAC_SHA512.Authenticate end."));
+      pragma Debug (Debug.New_Line);
 
       return Get_Auth (HMAC_Ctx);
    end Authenticate;
