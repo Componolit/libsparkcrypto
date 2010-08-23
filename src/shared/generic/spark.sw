@@ -7,3 +7,4 @@
 -noreport_file
 -nolistings
 -casing=si
+-debug=i
