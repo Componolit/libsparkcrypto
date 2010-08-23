@@ -3,6 +3,7 @@
 -warning=../../../warnings.conf
 -config=../../../out/target.cfg
 -index=../../../out/proof/libsparkcrypto.idx
--brief
+-brief=fullpath
 -noreport_file
 -nolistings
+-casing=si
