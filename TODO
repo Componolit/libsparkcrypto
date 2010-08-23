@@ -1,4 +1,5 @@
 * Test on a big-endian machine.
-* Perform dead path analysis
 * Optimize simplification performance
 * Switch to a reasonable test framework
+* Perform dead path analysis
+* Implement HMAC benchmarks
