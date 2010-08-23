@@ -12,7 +12,8 @@ TARGET_CFG	?= $(OUTPUT_DIR)/target.cfg
 OPT       	?= 3
 
 SPARK_OPTS  = \
-   -brief \
+   -brief=fullpath \
+   -debug=i \
    -vcg \
    -config=$(TARGET_CFG) \
    -warn=warnings.conf \
