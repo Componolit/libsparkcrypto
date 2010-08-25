@@ -29,6 +29,9 @@ with LSC.AES;
 with LSC.Test;
 with LSC.IO;
 with LSC.HMAC_SHA256;
+with LSC.HMAC_SHA384;
+with LSC.HMAC_SHA512;
+with LSC.HMAC_RIPEMD160;
 with OpenSSL;
 
 with Ada.Text_IO; use Ada.Text_IO;
@@ -71,6 +74,9 @@ is
    procedure Test_SHA512 is separate;
    procedure Test_RIPEMD160 is separate;
    procedure Test_HMAC_SHA256 is separate;
+   procedure Test_HMAC_SHA384 is separate;
+   procedure Test_HMAC_SHA512 is separate;
+   procedure Test_HMAC_RMD160 is separate;
 
 begin
 
@@ -88,5 +94,8 @@ begin
    Test_SHA512;
    Test_RIPEMD160;
    Test_HMAC_SHA256;
+   Test_HMAC_SHA384;
+   Test_HMAC_SHA512;
+   Test_HMAC_RMD160;
 
 end Main;
