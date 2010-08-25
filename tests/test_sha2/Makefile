@@ -45,7 +45,7 @@ $(OUTPUT_DIR)/test_sha2.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/global.idx $
 	@echo
 
 $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf:
-	sparkmake -nometa -duplicates_are_errors -index=$(OUTPUT_DIR)/spark.idx -meta=$(OUTPUT_DIR)/spark.smf
+	sparkmake -nometa -duplicates_are_errors -index=$(OUTPUT_DIR)/spark.idx
 
 $(OUTPUT_DIR)/global.idx: $(OUTPUT_DIR)/spark.idx
 	@cat $(LSC_DIR)/libsparkcrypto.idx $< > $@

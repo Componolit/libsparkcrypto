@@ -7,7 +7,7 @@ is
    for Main use ("main.adb");
 
    package Linker is
-      for Default_Switches ("Ada") use ("--gcsections");
+      for Default_Switches ("Ada") use ("--gc-sections");
    end Linker;
 
    package Compiler is
