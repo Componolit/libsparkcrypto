@@ -27,6 +27,9 @@ with LSC.SHA512;
 with LSC.RIPEMD160;
 with LSC.AES;
 with LSC.HMAC_SHA256;
+with LSC.HMAC_SHA384;
+with LSC.HMAC_SHA512;
+with LSC.HMAC_RIPEMD160;
 with Interfaces.C;
 
 use type LSC.Types.Word32;
@@ -49,6 +52,8 @@ package OpenSSL is
    type AES_Enc_Context_Type is private;
    type AES_Dec_Context_Type is private;
 
+   ----------------------------------------------------------------------------
+
    -- AES
    function Create_AES128_Enc_Context (Key : LSC.AES.AES128_Key_Type) return AES_Enc_Context_Type;
    function Create_AES192_Enc_Context (Key : LSC.AES.AES192_Key_Type) return AES_Enc_Context_Type;
@@ -66,6 +71,8 @@ package OpenSSL is
                      Ciphertext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
    pragma Inline (Decrypt);
 
+   ----------------------------------------------------------------------------
+
    -- SHA-256
    procedure SHA256_Context_Init (Context : in out SHA256_Context_Type);
 
@@ -78,6 +85,8 @@ package OpenSSL is
    pragma Inline (SHA256_Context_Update, SHA256_Context_Finalize);
 
    function SHA256_Get_Hash (Context : in SHA256_Context_Type) return LSC.SHA256.SHA256_Hash_Type;
+
+   ----------------------------------------------------------------------------
 
    -- SHA-384
    procedure SHA384_Context_Init (Context : in out SHA384_Context_Type);
@@ -92,6 +101,8 @@ package OpenSSL is
 
    function SHA384_Get_Hash (Context : in SHA384_Context_Type) return LSC.SHA512.SHA384_Hash_Type;
 
+   ----------------------------------------------------------------------------
+
    -- SHA-512
    procedure SHA512_Context_Init (Context : in out SHA512_Context_Type);
 
@@ -104,6 +115,8 @@ package OpenSSL is
    pragma Inline (SHA512_Context_Update, SHA512_Context_Finalize);
 
    function SHA512_Get_Hash (Context : in SHA512_Context_Type) return LSC.SHA512.SHA512_Hash_Type;
+
+   ----------------------------------------------------------------------------
 
    -- RIPEMD-160
    procedure RIPEMD160_Context_Init (Context : in out RIPEMD160_Context_Type);
@@ -118,6 +131,8 @@ package OpenSSL is
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
 
+   ----------------------------------------------------------------------------
+
    -- HMAC_SHA256
 
    subtype SHA256_Message_Type is LSC.SHA256.Message_Type (LSC.Types.Word64 range 1 .. 100);
@@ -127,6 +142,40 @@ package OpenSSL is
        Message : SHA256_Message_Type;
        Length  : LSC.Types.Word64) return LSC.HMAC_SHA256.Auth_Type;
    pragma Inline (Authenticate_SHA256);
+
+   ----------------------------------------------------------------------------
+
+   subtype SHA512_Message_Type is LSC.SHA512.Message_Type (LSC.Types.Word64 range 1 .. 100);
+
+   -- HMAC_SHA384
+
+   function Authenticate_SHA384
+      (Key     : LSC.SHA512.Block_Type;
+       Message : SHA512_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.HMAC_SHA384.Auth_Type;
+   pragma Inline (Authenticate_SHA384);
+
+   ----------------------------------------------------------------------------
+
+   -- HMAC_SHA512
+
+   function Authenticate_SHA512
+      (Key     : LSC.SHA512.Block_Type;
+       Message : SHA512_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.HMAC_SHA512.Auth_Type;
+   pragma Inline (Authenticate_SHA512);
+
+   ----------------------------------------------------------------------------
+
+   -- HMAC_RMD160
+
+   subtype RMD160_Message_Type is LSC.RIPEMD160.Message_Type (LSC.Types.Word64 range 1 .. 100);
+
+   function Authenticate_RMD160
+      (Key     : LSC.RIPEMD160.Block_Type;
+       Message : RMD160_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.RIPEMD160.Hash_Type;
+   pragma Inline (Authenticate_RMD160);
 
 private
 
@@ -149,6 +198,8 @@ private
    type C_Context_Ptr is access all C_Context_Type;
    pragma Convention (C, C_Context_Ptr);
 
+   ----------------------------------------------------------------------------
+
    --  SHA-256 C binding
    procedure C_SHA256_Init (Context : C_Context_Ptr);
    pragma Import (C, C_SHA256_Init, "SHA256_Init");
@@ -161,6 +212,8 @@ private
    procedure C_SHA256_Final (MD      : SHA256_Hash_Type_Ptr;
                              Context : C_Context_Ptr);
    pragma Import (C, C_SHA256_Final, "SHA256_Final");
+
+   ----------------------------------------------------------------------------
 
    --  SHA-384 C binding
    procedure C_SHA384_Init (Context : C_Context_Ptr);
@@ -175,6 +228,8 @@ private
                              Context : C_Context_Ptr);
    pragma Import (C, C_SHA384_Final, "SHA384_Final");
 
+   ----------------------------------------------------------------------------
+
    --  SHA-512 C binding
    procedure C_SHA512_Init (Context : C_Context_Ptr);
    pragma Import (C, C_SHA512_Init, "SHA512_Init");
@@ -187,6 +242,8 @@ private
    procedure C_SHA512_Final (MD      : SHA512_Hash_Type_Ptr;
                              Context : C_Context_Ptr);
    pragma Import (C, C_SHA512_Final, "SHA512_Final");
+
+   ----------------------------------------------------------------------------
 
    --  RIPEMD C binding
    type RIPEMD160_Block_Type_Ptr is access all LSC.RIPEMD160.Block_Type;
@@ -206,6 +263,8 @@ private
    procedure C_RIPEMD160_Final (MD      : RIPEMD160_Hash_Type_Ptr;
                                 Context : C_Context_Ptr);
    pragma Import (C, C_RIPEMD160_Final, "RIPEMD160_Final");
+
+   ----------------------------------------------------------------------------
 
    --  AES C binding
    type Key_Ptr is access all LSC.AES.AES256_Key_Type;
@@ -233,6 +292,8 @@ private
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_decrypt, "AES_decrypt");
 
+   ----------------------------------------------------------------------------
+
    --  libglue/HMAC_SHA256 C binding
    type HMAC_SHA256_Key_Ptr is access all LSC.SHA256.Block_Type;
    pragma Convention (C, HMAC_SHA256_Key_Ptr);
@@ -249,6 +310,60 @@ private
        Length  : LSC.Types.Word64;
        Digest  : HMAC_SHA256_Auth_Ptr);
    pragma Import (C, C_Authenticate_SHA256, "Authenticate_SHA256");
+
+   ----------------------------------------------------------------------------
+
+   type HMAC_SHA512_Key_Ptr is access all LSC.SHA512.Block_Type;
+   pragma Convention (C, HMAC_SHA512_Key_Ptr);
+
+   type HMAC_SHA512_Msg_Ptr is access all SHA512_Message_Type;
+   pragma Convention (C, HMAC_SHA512_Msg_Ptr);
+
+   --  libglue/HMAC_SHA384 C binding
+
+   type HMAC_SHA384_Auth_Ptr is access all LSC.HMAC_SHA384.Auth_Type;
+   pragma Convention (C, HMAC_SHA384_Auth_Ptr);
+
+   procedure C_Authenticate_SHA384
+      (Key     : HMAC_SHA512_Key_Ptr;
+       Message : HMAC_SHA512_Msg_Ptr;
+       Length  : LSC.Types.Word64;
+       Digest  : HMAC_SHA384_Auth_Ptr);
+   pragma Import (C, C_Authenticate_SHA384, "Authenticate_SHA384");
+
+   ----------------------------------------------------------------------------
+
+   --  libglue/HMAC_SHA512 C binding
+   type HMAC_SHA512_Auth_Ptr is access all LSC.HMAC_SHA512.Auth_Type;
+   pragma Convention (C, HMAC_SHA512_Auth_Ptr);
+
+   procedure C_Authenticate_SHA512
+      (Key     : HMAC_SHA512_Key_Ptr;
+       Message : HMAC_SHA512_Msg_Ptr;
+       Length  : LSC.Types.Word64;
+       Digest  : HMAC_SHA512_Auth_Ptr);
+   pragma Import (C, C_Authenticate_SHA512, "Authenticate_SHA512");
+
+   ----------------------------------------------------------------------------
+
+   --  libglue/HMAC_RMD160 C binding
+   type HMAC_RMD160_Key_Ptr is access all LSC.RIPEMD160.Block_Type;
+   pragma Convention (C, HMAC_RMD160_Key_Ptr);
+
+   type HMAC_RMD160_Msg_Ptr is access all RMD160_Message_Type;
+   pragma Convention (C, HMAC_RMD160_Msg_Ptr);
+
+   type HMAC_RMD160_Auth_Ptr is access all LSC.RIPEMD160.Hash_Type;
+   pragma Convention (C, HMAC_RMD160_Auth_Ptr);
+
+   procedure C_Authenticate_RMD160
+      (Key     : HMAC_RMD160_Key_Ptr;
+       Message : HMAC_RMD160_Msg_Ptr;
+       Length  : LSC.Types.Word64;
+       Digest  : HMAC_RMD160_Auth_Ptr);
+   pragma Import (C, C_Authenticate_RMD160, "Authenticate_RMD160");
+
+   ----------------------------------------------------------------------------
 
    type AES_Enc_Context_Type is
    record

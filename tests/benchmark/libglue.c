@@ -84,3 +84,33 @@ Authenticate_SHA256
 {
    Authenticate_Generic (EVP_sha256(), Key, 64, Message, Message_Length / 8, Digest, 16);
 }
+
+void
+Authenticate_SHA384
+   (char               *Key,
+    unsigned char      *Message,
+    unsigned long long  Message_Length,
+    unsigned char      *Digest)
+{
+   Authenticate_Generic (EVP_sha384(), Key, 128, Message, Message_Length / 8, Digest, 24);
+}
+
+void
+Authenticate_SHA512
+   (char               *Key,
+    unsigned char      *Message,
+    unsigned long long  Message_Length,
+    unsigned char      *Digest)
+{
+   Authenticate_Generic (EVP_sha512(), Key, 128, Message, Message_Length / 8, Digest, 32);
+}
+
+void
+Authenticate_RMD160
+   (char               *Key,
+    unsigned char      *Message,
+    unsigned long long  Message_Length,
+    unsigned char      *Digest)
+{
+   Authenticate_Generic (EVP_ripemd160(), Key, 64, Message, Message_Length / 8, Digest, 10);
+}

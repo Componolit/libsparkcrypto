@@ -333,4 +333,55 @@ package body OpenSSL is
       return Temp_Digest;
    end Authenticate_SHA256;
 
+   ----------------------------------------------------------------------------
+
+   function Authenticate_SHA384
+      (Key     : LSC.SHA512.Block_Type;
+       Message : SHA512_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.HMAC_SHA384.Auth_Type
+   is
+      Temp_Digest : LSC.HMAC_SHA384.Auth_Type;
+   begin
+      C_Authenticate_SHA384
+        (Key'Unrestricted_Access,
+         Message'Unrestricted_Access,
+         Length,
+         Temp_Digest'Unrestricted_Access);
+      return Temp_Digest;
+   end Authenticate_SHA384;
+
+   ----------------------------------------------------------------------------
+
+   function Authenticate_SHA512
+      (Key     : LSC.SHA512.Block_Type;
+       Message : SHA512_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.HMAC_SHA512.Auth_Type
+   is
+      Temp_Digest : LSC.HMAC_SHA512.Auth_Type;
+   begin
+      C_Authenticate_SHA512
+        (Key'Unrestricted_Access,
+         Message'Unrestricted_Access,
+         Length,
+         Temp_Digest'Unrestricted_Access);
+      return Temp_Digest;
+   end Authenticate_SHA512;
+
+   ----------------------------------------------------------------------------
+
+   function Authenticate_RMD160
+      (Key     : LSC.RIPEMD160.Block_Type;
+       Message : RMD160_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.RIPEMD160.Hash_Type
+   is
+      Temp_Digest : LSC.RIPEMD160.Hash_Type;
+   begin
+      C_Authenticate_RMD160
+        (Key'Unrestricted_Access,
+         Message'Unrestricted_Access,
+         Length,
+         Temp_Digest'Unrestricted_Access);
+      return Temp_Digest;
+   end Authenticate_RMD160;
+
 end OpenSSL;
