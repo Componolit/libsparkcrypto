@@ -62,7 +62,8 @@ To build and prove libsparkcrypto, the following tools are required:
 * GCC
 * SPARK 9 (SPARK-Pro or SPARK-GPL)
 * GNU make, version >= 3.81
-* OpenSSL (if buiding the benchmark, tested with 0.9.8g)
+* OpenSSL (for buiding the benchmark, tested with 0.9.8g)
+* AdaBrowse (for building the documentation, tested with 4.0.3)
 
 The primary development environments of libsparkcrypto are Debian 5 (x86_64)
 and Ubuntu 10.04 (x86_64). Though the source and project files are system
