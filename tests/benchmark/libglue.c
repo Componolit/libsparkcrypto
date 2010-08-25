@@ -23,7 +23,7 @@
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 
-static void
+static inline void
 Authenticate_Generic
    (const EVP_MD  *Message_Digest,
     char          *Key,
@@ -31,6 +31,24 @@ Authenticate_Generic
     unsigned char *Message,
     int            Message_Length,
     unsigned char *Digest,
+#ifndef DEBUG
+   __attribute__((__unused__))
+#endif
+    unsigned int   Expected_Length);
+
+ __attribute__((always_inline))
+
+static inline void
+Authenticate_Generic
+   (const EVP_MD  *Message_Digest,
+    char          *Key,
+    int            Key_Length,
+    unsigned char *Message,
+    int            Message_Length,
+    unsigned char *Digest,
+#ifndef DEBUG
+   __attribute__((__unused__))
+#endif
     unsigned int   Expected_Length)
 {
    unsigned int Length;
@@ -48,11 +66,13 @@ Authenticate_Generic
          Digest,
          &Length);
 
+#ifdef DEBUG
    if (Length != 2 * Expected_Length)
    {
       errx (1, "Algorithm as unexpected digest length (expected: %u, reported: %u)",
             Expected_Length, Length);
    }
+#endif
 };
 
 void
