@@ -1,5 +1,5 @@
 OUTPUT_DIR ?= $(CURDIR)/out
-CFLAGS = -W -Wall -Werror
+CFLAGS = -W -Wall -Werror -O3
 
 ifneq ($(MAKECMDGOALS),clean)
 ifeq ($(LSC_DIR),)
@@ -15,7 +15,7 @@ install: $(OUTPUT_DIR)/benchmark
 	install -D -m 755 $< $(DESTDIR)/benchmark
 
 $(OUTPUT_DIR)/benchmark: libglue.a
-	gnatmake -aP$(LSC_DIR) -o benchmark -P build.gpr
+	gnatmake -O3 -aP$(LSC_DIR) -o benchmark -P build.gpr
 
 %.a: %.o
 	ar cru $@ $^
