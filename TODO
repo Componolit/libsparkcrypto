@@ -1,3 +1,2 @@
 * Test on a big-endian machine.
 * Switch to a reasonable test framework
-* Implement HMAC benchmarks
