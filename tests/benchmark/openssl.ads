@@ -26,6 +26,7 @@ with LSC.SHA256;
 with LSC.SHA512;
 with LSC.RIPEMD160;
 with LSC.AES;
+with LSC.HMAC_SHA256;
 with Interfaces.C;
 
 use type LSC.Types.Word32;
@@ -38,6 +39,8 @@ use type LSC.Types.Word64;
 --  benchmarking LSC - do not use it for anything but that. You've been warned!
 -------------------------------------------------------------------------------
 package OpenSSL is
+
+   pragma Linker_Options ("-lglue");
 
    type SHA256_Context_Type is private;
    type SHA384_Context_Type is private;
@@ -114,6 +117,16 @@ package OpenSSL is
    pragma Inline (RIPEMD160_Context_Update, RIPEMD160_Context_Finalize);
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
+
+   -- HMAC_SHA256
+
+   subtype SHA256_Message_Type is LSC.SHA256.Message_Type (LSC.Types.Word64 range 1 .. 100);
+
+   function Authenticate_SHA256
+      (Key     : LSC.SHA256.Block_Type;
+       Message : SHA256_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.HMAC_SHA256.Auth_Type;
+   pragma Inline (Authenticate_SHA256);
 
 private
 
@@ -219,6 +232,23 @@ private
                             Out_Block : Block_Ptr;
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_decrypt, "AES_decrypt");
+
+   --  libglue/HMAC_SHA256 C binding
+   type HMAC_SHA256_Key_Ptr is access all LSC.SHA256.Block_Type;
+   pragma Convention (C, HMAC_SHA256_Key_Ptr);
+
+   type HMAC_SHA256_Msg_Ptr is access all SHA256_Message_Type;
+   pragma Convention (C, HMAC_SHA256_Msg_Ptr);
+
+   type HMAC_SHA256_Auth_Ptr is access all LSC.HMAC_SHA256.Auth_Type;
+   pragma Convention (C, HMAC_SHA256_Auth_Ptr);
+
+   procedure C_Authenticate_SHA256
+      (Key     : HMAC_SHA256_Key_Ptr;
+       Message : HMAC_SHA256_Msg_Ptr;
+       Length  : LSC.Types.Word64;
+       Digest  : HMAC_SHA256_Auth_Ptr);
+   pragma Import (C, C_Authenticate_SHA256, "Authenticate_SHA256");
 
    type AES_Enc_Context_Type is
    record

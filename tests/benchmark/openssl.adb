@@ -315,4 +315,22 @@ package body OpenSSL is
    begin
       return Context.Hash;
    end RIPEMD160_Get_Hash;
+
+   ----------------------------------------------------------------------------
+
+   function Authenticate_SHA256
+      (Key     : LSC.SHA256.Block_Type;
+       Message : SHA256_Message_Type;
+       Length  : LSC.Types.Word64) return LSC.HMAC_SHA256.Auth_Type
+   is
+      Temp_Digest : LSC.HMAC_SHA256.Auth_Type;
+   begin
+      C_Authenticate_SHA256
+        (Key'Unrestricted_Access,
+         Message'Unrestricted_Access,
+         Length,
+         Temp_Digest'Unrestricted_Access);
+      return Temp_Digest;
+   end Authenticate_SHA256;
+
 end OpenSSL;
