@@ -16,7 +16,7 @@ SPARK_OPTS  = \
    -debug=i \
    -vcg \
    -config=$(TARGET_CFG) \
-   -warn=warnings.conf \
+   -warn=build/warnings.conf \
    -output_dir=$(OUTPUT_DIR)/proof \
    -casing=si \
    -noswitch
