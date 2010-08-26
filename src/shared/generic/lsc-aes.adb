@@ -31,9 +31,10 @@ package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Sub_Word (Value : Types.Word32) return Types.Word32 is
+   function Sub_Word (Value : Types.Word32) return Types.Word32
+   is
       Temp : Types.Byte_Array32_Type;
-    begin
+   begin
       Temp := Types.Word32_To_Byte_Array32 (Value);
       return Ops32.Bytes_To_Word (Byte0 => Tables.S (Temp (3)),
                                   Byte1 => Tables.S (Temp (2)),
@@ -43,7 +44,8 @@ package body LSC.AES is
 
    ----------------------------------------------------------------------------
 
-   function Rot_Word (Value : Types.Word32) return Types.Word32 is
+   function Rot_Word (Value : Types.Word32) return Types.Word32
+   is
    begin
       return Types.ROTL32 (Value, 8);
    end Rot_Word;
