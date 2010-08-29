@@ -1,187 +1,221 @@
+==============================================================
+libsparkcrypto - A cryptographic library implemented in SPARK.
+==============================================================
 
-    libsparkcrypto -- A cryptographic library implemented in SPARK.
-
-                   Alexander Senier <mail@senier.net>
-
-
+:Authors: Alexander Senier
+:License: GPL version 3+ and GCC Runtime Library Exception
 
 The libsparkcrypto library implements a number of symmetric cryptographic
 algorithms in the SPARK programming language.
 
+=================================
 Copyright, Warranty and Licensing
-#################################
+=================================
 
-!Copyright (C) 2010  Alexander Senier <mail@senier.net>
-!Copyright (C) 2010  secunet Security Networks AG
+Copyright (C) 2010  Alexander Senier <mail@senier.net>,
+Copyright (C) 2010  secunet Security Networks AG
 
-! libsparkcrypto is  free software; you  can redistribute it and/or  modify it
-! under  terms of  the GNU  General Public  License as  published by  the Free
-! Software  Foundation;  either version  3,  or  (at  your option)  any  later
-! version.  libsparkcrypto  is  distributed  in  the  hope  that  it  will  be
-! useful,  but WITHOUT  ANY WARRANTY;  without  even the  implied warranty  of
-! MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-!
-! As a  special exception under  Section 7 of GPL  version 3, you  are granted
-! additional  permissions  described in  the  GCC  Runtime Library  Exception,
-! version 3.1, as published by the Free Software Foundation.
-!
-! You should  have received  a copy of  the GNU General  Public License  and a
-! copy  of  the  GCC  Runtime  Library  Exception  along  with  this  program;
-! see  the  files  COPYING3  and COPYING.RUNTIME  respectively.  If  not,  see
-! <http://www.gnu.org/licenses/>.
+libsparkcrypto is  free software; you  can redistribute it and/or  modify it
+under  terms of  the GNU  General Public  License as  published by  the Free
+Software  Foundation;  either version  3,  or  (at  your option)  any  later
+version.  libsparkcrypto  is  distributed  in  the  hope  that  it  will  be
+useful,  but WITHOUT  ANY WARRANTY;  without  even the  implied warranty  of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+As a  special exception under  Section 7 of GPL  version 3, you  are granted
+additional  permissions  described in  the  GCC  Runtime Library  Exception,
+version 3.1, as published by the Free Software Foundation.
+
+You should  have received  a copy of  the GNU General  Public License  and a
+copy  of  the  GCC  Runtime  Library  Exception  along  with  this  program;
+see  the  files  COPYING3  and COPYING.RUNTIME  respectively.  If  not,  see
+<http://www.gnu.org/licenses/>.
+
+========
 Features
-########
+========
 
 Version 0.1 of libsparkcrypto implements the following symmetric cryptographic
 algorithms and modes:
 
-# AES-128, AES-192, AES-256
-# AES-CBC (all supported AES modes)
-# SHA-256, SHA-384, SHA-512
-# HMAC-SHA-256, HMAC-SHA-384, HMAC-SHA-512
-# PRF-HMAC-SHA-256, PRF-HMAC-SHA-384, PRF-HMAC-SHA-512
-# RIPEMD-160
-# HMAC-RIPEMD-160
+- AES-128, AES-192, AES-256
+- AES-CBC (all supported AES modes)
+- SHA-256, SHA-384, SHA-512
+- HMAC-SHA-256, HMAC-SHA-384, HMAC-SHA-512
+- PRF-HMAC-SHA-256, PRF-HMAC-SHA-384, PRF-HMAC-SHA-512
+- RIPEMD-160
+- HMAC-RIPEMD-160
 
+============
+Availability
+============
+
+Release version
+---------------
+
+The current release version of libsparkcrypto is available at
+http://senier.net/libsparkcrypto/libsparkcrypto-0.1.tgz
+
+Development version
+-------------------
+
+The current development version of libsparkcrypto is available through its GIT
+[1]_ repository: git://git.codelabs.ch/spark-crypto.
+
+A browsable version of the repository is available here:
+http://git.codelabs.ch/?p=spark-crypto.git
+
+=======================
 Building and installing
-#######################
-
-Known issues
-=============
-
-* GNAT Pro 6.3.1 (and maybe other versions) is known to cause trouble if
-  optimization is set to -O3. It will generate invalid code for all  HMAC
-  implementations, all respective test cases will fail.
+=======================
 
 Required tools
-==============
+--------------
 
 To build and prove libsparkcrypto, the following tools are required:
 
-* GCC
-* SPARK 9 (SPARK-Pro or SPARK-GPL)
-* GNU make, version >= 3.81
-* OpenSSL (for buiding the benchmark, tested with 0.9.8g)
-* AdaBrowse (for building the documentation, tested with 4.0.3)
+- GCC or GNAT Pro
+- SPARK 9 (SPARK Pro or SPARK GPL)
+- GNU make, version >= 3.81
+- OpenSSL (for buiding the benchmark, tested with 0.9.8g)
+- AdaBrowse (for building the API documentation, tested with 4.0.3)
+- Docutils (for building the documentation, tested with 0.6)
 
 The primary development environments of libsparkcrypto are Debian 5 (x86_64)
 and Ubuntu 10.04 (x86_64). Though the source and project files are system
 independent, the Makefiles assume a UNIXish system (cygwin seems to work).
-Tools like 'mkdir', 'uname', 'tail' and 'install' must be present in the
-systems search path.
+Tools like ``mkdir``, ``uname``, ``tail`` and ``install`` must be present in
+the systems search path.
 
-If the 'make' variable 'SPARK8' is set, all SPARK 9 specific options will be
-disabled which allows use of SPARK-GPL 8.1.1. Be warned, however, that VCs will
-remain undischarged when using SPARK 8 and that features like dead path
+If the ``make`` variable ``SPARK8`` is set, all SPARK 9 specific options will
+be disabled which allows use of SPARK-GPL 8.1.1. Be warned, however, that VCs
+will remain undischarged when using SPARK 8 and that features like dead path
 analysis are not available.
 
 Build process
-=============
+-------------
 
-To build libsparkcrypto, change to the source directory and type:
+To build libsparkcrypto, change to the source directory and type::
 
-! # make
+$ make
 
-You can install the library to <destination>, by typing:
+You can install the library to <destination>, by typing::
 
-! # make DESTDIR=<destination> install
+$ make DESTDIR=<destination> install
 
 Supported systems
-=================
+-----------------
 
 libsparkcrypto was successfully built and tested on the following systems:
 
-operating system  | architecture |  toolchain
-------------------------------------------------------------------------------
-Windows XP/cygwin | i686         |  GNAT-GPL 2010, SPARK-GPL 8.1.1
-------------------------------------------------------------------------------
-Ubuntu 10.04      | x86_64       |  GNAT-GPL 2010 or GCC-4.4.3, SPARK-Pro 9
-------------------------------------------------------------------------------
-Debian 5          | i686         |  GCC-4.3.2, SPARK-GPL 8.1.1
-------------------------------------------------------------------------------
-Debian 5          | x86_64       |  GNAT-Pro 6.3.1 or GCC-4.3.2, SPARK-Pro 9
-------------------------------------------------------------------------------
++------------------+--------------+-------------------------------------------+
+|operating system  | architecture |  toolchain                                |
++==================+==============+===========================================+
+|Windows XP/cygwin | i686         |  GNAT-GPL 2010, SPARK-GPL 8.1.1           |
++------------------+--------------+-------------------------------------------+
+|Ubuntu 10.04      | x86_64       |  GNAT-GPL 2010 or GCC-4.4.3, SPARK-Pro 9  |
++------------------+--------------+-------------------------------------------+
+|Debian 5          | i686         |  GCC-4.3.2, SPARK-GPL 8.1.1               |
++------------------+--------------+-------------------------------------------+
+|Debian 5          | x86_64       |  GNAT-Pro 6.3.1 or GCC-4.3.2, SPARK-Pro 9 |
++------------------+--------------+-------------------------------------------+
 
 If you were able to build and prove libsparkcrypto on a platform not mentioned
-here, please send mail to <mail@senier.net> for inclusion to this list. Please
-provide information about type and version of your operation system, the
-toolchain and the CPU architecture. We would also appreciate your proof summary
-and the results of the 'benchmark' tool (if providing that, please also tell us
-the version of your OpenSSL library).
+here, please send mail to Alexander Senier <mail@senier.net> for inclusion to
+this list. Please provide information about type and version of your operation
+system, the toolchain and the CPU architecture. We would also appreciate your
+proof summary and the results of the ``benchmark`` tool (if providing that,
+please also tell us the version of your OpenSSL library).
 
+Known issues
+------------
+
+- GNAT Pro 6.3.1 (and maybe other versions) is known to cause trouble if
+  optimization is set to -O3. It will generate invalid code for all  HMAC
+  implementations, all respective test cases will fail.
+
+====================
 Using libsparkcrypto
-####################
+====================
 
-Examples for using libsparkcrypto can be found in the 'tests' subdirectory.
+Examples for using libsparkcrypto can be found in the ``tests`` subdirectory.
 
-A user of the library has to provide a shadow for the package 'Interfaces'
-providing a type definition for at least 'Unsigned_8', 'Unsigned_32' and
-'Unsigned_64'.
+A user of the library has to provide a shadow for the package ``Interfaces``
+providing a type definition for at least ``Unsigned_8``, ``Unsigned_32`` and
+``Unsigned_64``.
 
+========================
 Extending libsparkcrypto
-########################
+========================
 
 You are welcome to extend libsparkcrypto according to the terms of the Modified
 GNU GPL license referenced above. Please obey the following rules when
 contributing changes back to the project:
 
-* Make sure no undischarged VCs remain.
-* Make sure the code compiles in both modes MODE=release and MODE=debug.
-* Provide reference to documents and test cases for the parts you implemented.
-* Make sure you successfully ran the test suite ('make test').
-* Try to stay consistent with the current style of the source.
-* If feasible, implement a benchmark for your code.
+- Make sure no undischarged VCs remain.
+- Make sure the code compiles in both modes MODE=release and MODE=debug.
+- Provide reference to documents and test cases for the parts you implemented.
+- Make sure you successfully ran the test suite (``make test``).
+- Try to stay consistent with the current style of the source.
+- If feasible, implement a benchmark for your code.
 
 The Directory structure of libsparkcrypto is as follows:
 
-directory    | content
-------------------------------------------------------------------------------
-'src/shared' | sources analyzed by SPARK Examiner and used by Ada compiler
-------------------------------------------------------------------------------
-'src/spark'  | sources only analyzed by SPARK Examiner
-------------------------------------------------------------------------------
-'src/ada'    | sources only used by Ada compiler
++---------------+-------------------------------------------------------------+
+|directory      | content                                                     |
++===============+=============================================================+
+|``src/shared`` | sources analyzed by SPARK Examiner and used by Ada compiler |
++---------------+-------------------------------------------------------------+
+|``src/spark``  | sources only analyzed by SPARK Examiner                     |
++---------------+-------------------------------------------------------------+
+|``src/ada``    | sources only used by Ada compiler                           |
++---------------+-------------------------------------------------------------+
 
-The directories 'src/ada' and 'src/shared' have a sub-directory 'generic',
+The directories ``src/ada`` and ``src/shared`` have a sub-directory ``generic``,
 which contains platform independent code. Furthermore, there are
-feature-specific directories like 'little_endian' and architecture-specific
-directories like 'x86_64' which are included to proof and build steps as
+feature-specific directories like ``little_endian`` and architecture-specific
+directories like ``x86_64`` which are included to proof and build steps as
 configured.
 
-Configuration is performed automatically by the top-level 'Makefile' and can be
-altered by passing the following variables to 'make':
+Configuration is performed automatically by the top-level ``Makefile`` and can be
+altered by passing the following variables to ``make``:
 
-variable     | description
-------------------------------------------------------------------------------
-'ARCH'       | CPU architecture as reported by 'uname -m'.
-------------------------------------------------------------------------------
-'MODE'       | Build mode ('release' or 'debug').
-------------------------------------------------------------------------------
-'OPT'        | Optimization level to use ('s', '0', '1', '2' or '3').
-------------------------------------------------------------------------------
-'RUNTIME'    | Runtime to build for ('native' or 'zfp').
-------------------------------------------------------------------------------
-'TESTS'      | List of tests to build and run (see Makefile for tests implemented).
-------------------------------------------------------------------------------
-'NO_TESTS'   | Disable tests step.
-------------------------------------------------------------------------------
-'NO_PROOF'   | Disable proof step.
-------------------------------------------------------------------------------
-'NO_APIDOC'  | Disable generation of API documentation.
-------------------------------------------------------------------------------
-'SPARK8'     | Enable SPARK 8 support.
-------------------------------------------------------------------------------
-'TARGET_CFG' | Target system configuration.
-------------------------------------------------------------------------------
-'SPARK_DIR'  | Base directory of the SPARK installation.
-------------------------------------------------------------------------------
-'DESTDIR'    | Installation base directory.
++--------------+----------------------------------------------------------------------+
+|variable      | description                                                          |
++==============+======================================================================+
+|``ARCH``      | CPU architecture as reported by ``uname -m``.                        |
++--------------+----------------------------------------------------------------------+
+|``MODE``      | Build mode (``release`` or ``debug``).                               |
++--------------+----------------------------------------------------------------------+
+|``OPT``       | Optimization level to use (``s``, ``0``, ``1``, ``2`` or ``3``).     |
++--------------+----------------------------------------------------------------------+
+|``RUNTIME``   | Runtime to build for (``native`` or ``zfp``).                        |
++--------------+----------------------------------------------------------------------+
+|``TESTS``     | List of tests to build and run (see Makefile for tests implemented). |
++--------------+----------------------------------------------------------------------+
+|``NO_TESTS``  | Disable tests step.                                                  |
++--------------+----------------------------------------------------------------------+
+|``NO_PROOF``  | Disable proof step.                                                  |
++--------------+----------------------------------------------------------------------+
+|``NO_APIDOC`` | Disable generation of API documentation.                             |
++--------------+----------------------------------------------------------------------+
+|``SPARK8``    | Enable SPARK 8 support.                                              |
++--------------+----------------------------------------------------------------------+
+|``TARGET_CFG``| Target system configuration.                                         |
++--------------+----------------------------------------------------------------------+
+|``SPARK_DIR`` | Base directory of the SPARK installation.                            |
++--------------+----------------------------------------------------------------------+
+|``DESTDIR``   | Installation base directory.                                         |
++--------------+----------------------------------------------------------------------+
 
-Document preparation
-####################
+=======
+Credits
+=======
 
-This document has a layout that allows easy conversion to LaTeX, HTML and man
-pages using 'gosh'. The tool and its documentation is available from Norman
-Feskes website: [http://os.inf.tu-dresden.de/~nf2/files/GOSH/]. When changing
-this document, please keep the format compatible.
+- Thanks to Adrian-Ken Rüegsegger and Reto Bürki for hosting the project's GIT
+  repository.
+
+- Thanks to Adacore and Altran Praxis for review, comments and support with
+  many tricky problems.
+
+.. [1] GIT - the fast version control system, http://git-scm.com

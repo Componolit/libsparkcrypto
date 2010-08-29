@@ -86,6 +86,9 @@ apidoc: $(ADT_FILES)
 	install -m 644 doc/libsparkcrypto.css $(OUTPUT_DIR)/doc/libsparkcrypto.css
 	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
 
+doc: apidoc
+	rst2html --stylesheet=doc/libsparkcrypto.css README > $(OUTPUT_DIR)/doc/index.html
+
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
 
