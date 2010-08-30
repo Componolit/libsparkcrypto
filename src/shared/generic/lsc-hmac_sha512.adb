@@ -26,9 +26,9 @@ with LSC.Debug, LSC.Ops64;
 package body LSC.HMAC_SHA512 is
 
    IPad : constant SHA512.Block_Type :=
-      SHA512.Block_Type'(others => 16#36363636_36363636#);
+      SHA512.Block_Type'(SHA512.Block_Index => 16#36363636_36363636#);
    OPad : constant SHA512.Block_Type :=
-      SHA512.Block_Type'(others => 16#5C5C5C5C_5C5C5C5C#);
+      SHA512.Block_Type'(SHA512.Block_Index => 16#5C5C5C5C_5C5C5C5C#);
 
    ----------------------------------------------------------------------------
 
@@ -73,7 +73,7 @@ package body LSC.HMAC_SHA512 is
       Context.SHA512_Context := SHA512.SHA512_Context_Init;
       Ops64.Block_XOR (OPad, Context.Key, Temp);
       SHA512.Context_Update (Context.SHA512_Context, Temp);
-      Temp := SHA512.Block_Type'(others => 0);
+      Temp := SHA512.Null_Block;
       Ops64.Block_Copy (Hash, Temp);
       SHA512.Context_Finalize (Context.SHA512_Context, Temp, 512);
    end Context_Finalize;
@@ -88,7 +88,7 @@ package body LSC.HMAC_SHA512 is
    ----------------------------------------------------------------------------
 
    function Get_Auth (Context : in Context_Type) return Auth_Type is
-      Result : Auth_Type := Auth_Type'(others => 0);
+      Result : Auth_Type := Null_Auth;
       Prf    : SHA512.SHA512_Hash_Type;
    begin
       Prf := SHA512.SHA512_Get_Hash (Context.SHA512_Context);
@@ -107,7 +107,7 @@ package body LSC.HMAC_SHA512 is
        Length  : Types.Word64) return Auth_Type
    is
       HMAC_Ctx    : Context_Type;
-      Dummy       : constant SHA512.Block_Type := SHA512.Block_Type'(others => 0);
+      Dummy       : constant SHA512.Block_Type := SHA512.Null_Block;
       Last_Length : SHA512.Block_Length_Type;
       Last_Block  : SHA512.Message_Index;
    begin

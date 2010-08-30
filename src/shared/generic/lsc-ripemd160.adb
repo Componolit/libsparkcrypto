@@ -645,7 +645,7 @@ package body LSC.RIPEMD160 is
       if Length > 447
       then
          Context_Update_Internal (Context, Final_Block);
-         Final_Block := Block_Type'(others => 0);
+         Final_Block := Null_Block;
       end if;
 
       --  Set length in final block.

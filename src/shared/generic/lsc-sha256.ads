@@ -98,6 +98,12 @@ package LSC.SHA256 is
    -- Return SHA-256 hash from @Context@.
    function SHA256_Get_Hash (Context : Context_Type) return SHA256_Hash_Type;
 
+   -- Empty block
+   Null_Block : constant Block_Type;
+
+   -- Empty Hash
+   SHA256_Null_Hash : constant SHA256_Hash_Type;
+
 private
 
    type Data_Length is record
@@ -108,10 +114,19 @@ private
    subtype Schedule_Index is Types.Index range 0 .. 63;
    subtype Schedule_Type is Types.Word32_Array_Type (Schedule_Index);
 
+   Null_Schedule : constant Schedule_Type :=
+      Schedule_Type'(Schedule_Index => 0);
+
    type Context_Type is record
       Length : Data_Length;
       H      : SHA256_Hash_Type;
       W      : Schedule_Type;
    end record;
+
+   Null_Block : constant Block_Type :=
+      Block_Type'(Block_Index => 0);
+
+   SHA256_Null_Hash : constant SHA256_Hash_Type :=
+      SHA256_Hash_Type'(SHA256_Hash_Index => 0);
 
 end LSC.SHA256;

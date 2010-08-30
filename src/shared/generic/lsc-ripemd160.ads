@@ -93,8 +93,14 @@ package LSC.RIPEMD160 is
    --#                      Block,
    --#                      Length;
 
-   -- Return RIPEMD-160 hash from Context@.
+   -- Return RIPEMD-160 hash from @Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
+
+   -- Empty block
+   Null_Block : constant Block_Type;
+
+   -- Empty hash
+   Null_Hash : constant Hash_Type;
 
 private
 
@@ -107,5 +113,8 @@ private
       Length : Data_Length;
       H      : Hash_Type;
    end record;
+
+   Null_Block : constant Block_Type := Block_Type'(Block_Index => 0);
+   Null_Hash : constant Hash_Type := Hash_Type'(Hash_Index => 0);
 
 end LSC.RIPEMD160;

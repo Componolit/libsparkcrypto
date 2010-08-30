@@ -142,7 +142,7 @@ package body LSC.SHA512 is
                                      5 => 16#9b05688c2b3e6c1f#,
                                      6 => 16#1f83d9abfb41bd6b#,
                                      7 => 16#5be0cd19137e2179#),
-         W      => Schedule_Type'(others => 0));
+         W      => Null_Schedule);
    end SHA512_Context_Init;
 
    ----------------------------------------------------------------------------
@@ -159,7 +159,7 @@ package body LSC.SHA512 is
                                      5 => 16#8eb44a8768581511#,
                                      6 => 16#db0c2e0d64f98fa7#,
                                      7 => 16#47b5481dbefa4fa4#),
-         W      => Schedule_Type'(others => 0));
+         W      => Null_Schedule);
    end SHA384_Context_Init;
 
    ----------------------------------------------------------------------------
@@ -388,11 +388,8 @@ package body LSC.SHA512 is
       --  Terminator and length values won't fit into current block.
       if Length >= 896
       then
-
          Context_Update_Internal (Context => Context, Block => Final_Block);
-
-         Final_Block := Block_Type'(others => 0);
-
+         Final_Block := Null_Block;
       end if;
 
       --  Set length in final block.

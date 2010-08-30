@@ -117,12 +117,24 @@ package LSC.AES is
    --  Empty AES block
    Null_Block : constant Block_Type;
 
+   --  Empty AES-128 key
+   Null_AES128_Key : constant AES128_Key_Type;
+
+   --  Empty AES-192 key
+   Null_AES192_Key : constant AES192_Key_Type;
+
+   --  Empty AES-256 key
+   Null_AES256_Key : constant AES256_Key_Type;
+
 private
 
    Nb : constant Types.Index :=  4;
 
    subtype Schedule_Index is Types.Index range 0 .. 15 * Nb - 1;
    subtype Schedule_Type is Types.Word32_Array_Type (Schedule_Index);
+
+   Null_Schedule : constant Schedule_Type :=
+      Schedule_Type'(Schedule_Index => 0);
 
    subtype Nr_Type is Types.Index range 10 .. 14;
    subtype Nk_Type is Types.Index range  4 ..  8;
@@ -139,6 +151,16 @@ private
       Nr       : Nr_Type;
    end record;
 
-   Null_Block : constant Block_Type := Block_Type'(others => 0);
+   Null_Block : constant Block_Type :=
+      Block_Type'(Block_Index => 0);
+
+   Null_AES128_Key : constant AES128_Key_Type :=
+      AES128_Key_Type'(AES128_Key_Index => 0);
+
+   Null_AES192_Key : constant AES192_Key_Type :=
+      AES192_Key_Type'(AES192_Key_Index => 0);
+
+   Null_AES256_Key : constant AES256_Key_Type :=
+      AES256_Key_Type'(AES256_Key_Index => 0);
 
 end LSC.AES;
