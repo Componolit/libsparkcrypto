@@ -19,7 +19,9 @@ SPARK_OPTS  = \
    -warn=build/warnings.conf \
    -output_dir=$(OUTPUT_DIR)/proof \
    -casing=si \
-   -noswitch
+   -noswitch \
+   -dpc \
+   -nosli
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
@@ -31,11 +33,6 @@ INSTALL_DEPS   = install_files
 # SPARK_DIR must be set
 ifeq ($(SPARK_DIR),)
 $(error SPARK_DIR is not set - set it to the base directory of your SPARK installation)
-endif
-
-# Feature: SPARK8
-ifeq ($(SPARK8),)
-SPARK_OPTS += -dpc -nosli
 endif
 
 # Feature: ARCH

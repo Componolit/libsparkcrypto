@@ -87,11 +87,6 @@ independent, the Makefiles assume a UNIXish system (cygwin seems to work).
 Tools like ``mkdir``, ``uname``, ``tail`` and ``install`` must be present in
 the systems search path.
 
-If the ``make`` variable ``SPARK8`` is set, all SPARK 9 specific options will
-be disabled which allows use of SPARK-GPL 8.1.1. Be warned, however, that VCs
-will remain undischarged when using SPARK 8 and that features like dead path
-analysis are not available.
-
 Build process
 -------------
 
@@ -198,8 +193,6 @@ altered by passing the following variables to ``make``:
 |``NO_PROOF``  | Disable proof step.                                                  |
 +--------------+----------------------------------------------------------------------+
 |``NO_APIDOC`` | Disable generation of API documentation.                             |
-+--------------+----------------------------------------------------------------------+
-|``SPARK8``    | Enable SPARK 8 support.                                              |
 +--------------+----------------------------------------------------------------------+
 |``TARGET_CFG``| Target system configuration.                                         |
 +--------------+----------------------------------------------------------------------+
