@@ -2,14 +2,15 @@ OUTPUT_DIR = $(CURDIR)/out
 DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc $(OUTPUT_DIR)/tree)
 UNAME_M   := $(shell uname -m)
 
-IO				?= textio
-ARCH     	?= $(UNAME_M)
-MODE     	?= release
-RUNTIME  	?= native
-TESTS    	?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
-DESTDIR  	?= /usr/local
-TARGET_CFG	?= $(OUTPUT_DIR)/target.cfg
-OPT       	?= 3
+IO          ?= textio
+ARCH        ?= $(UNAME_M)
+MODE        ?= release
+RUNTIME     ?= native
+TESTS       ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+DESTDIR     ?= /usr/local
+TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
+OPT         ?= 3
+VERSION     ?= 0.1.0
 
 SPARK_OPTS  = \
    -brief=fullpath \
@@ -82,6 +83,9 @@ apidoc: $(ADT_FILES)
 	adabrowse -T $(OUTPUT_DIR)/tree -f @$(OUTPUT_DIR)/tree.lst -w1 -c doc/adabrowse.conf -o $(OUTPUT_DIR)/doc/
 	install -m 644 doc/libsparkcrypto.css $(OUTPUT_DIR)/doc/libsparkcrypto.css
 	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
+
+$(OUTPUT_DIR)/libsparkcrypto-$(VERSION).tar:
+	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ --output $@ $(VERSION)
 
 doc: apidoc
 	rst2html --stylesheet=doc/libsparkcrypto.css README > $(OUTPUT_DIR)/doc/index.html
