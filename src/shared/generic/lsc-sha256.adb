@@ -144,7 +144,7 @@ package body LSC.SHA256 is
                                      5 => 16#9b05688c#,
                                      6 => 16#1f83d9ab#,
                                      7 => 16#5be0cd19#),
-         W      => Schedule_Type'(others => 0));
+         W      => Null_Schedule);
    end SHA256_Context_Init;
 
    ----------------------------------------------------------------------------
@@ -356,11 +356,8 @@ package body LSC.SHA256 is
       --  Terminator and length values won't fit into current block.
       if Length >= 448
       then
-
          Context_Update_Internal (Context => Context, Block => Final_Block);
-
-         Final_Block := Block_Type'(others => 0);
-
+         Final_Block := Null_Block;
       end if;
 
       --  Set length in final block.

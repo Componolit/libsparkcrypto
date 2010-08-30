@@ -89,11 +89,17 @@ package LSC.HMAC_SHA512 is
    --# pre
    --#    Message'First + (Length / SHA512.Block_Size) in Message'Range;
 
+   -- Empty authenticator
+   Null_Auth : constant Auth_Type;
+
 private
 
    type Context_Type is record
       SHA512_Context : SHA512.Context_Type;
       Key            : SHA512.Block_Type;
    end record;
+
+   Null_Auth : constant Auth_Type :=
+      Auth_Type'(Auth_Index => 0);
 
 end LSC.HMAC_SHA512;

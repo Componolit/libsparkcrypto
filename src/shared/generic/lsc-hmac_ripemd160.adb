@@ -27,9 +27,9 @@ with LSC.Debug;
 package body LSC.HMAC_RIPEMD160 is
 
    IPad : constant RIPEMD160.Block_Type :=
-      RIPEMD160.Block_Type'(others => 16#36363636#);
+      RIPEMD160.Block_Type'(RIPEMD160.Block_Index => 16#36363636#);
    OPad : constant RIPEMD160.Block_Type :=
-      RIPEMD160.Block_Type'(others => 16#5C5C5C5C#);
+      RIPEMD160.Block_Type'(RIPEMD160.Block_Index => 16#5C5C5C5C#);
 
    ----------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ package body LSC.HMAC_RIPEMD160 is
       Context.RIPEMD160_Context := RIPEMD160.Context_Init;
       Ops32.Block_XOR (OPad, Context.Key, Temp);
       RIPEMD160.Context_Update (Context.RIPEMD160_Context, Temp);
-      Temp := RIPEMD160.Block_Type'(others => 0);
+      Temp := RIPEMD160.Null_Block;
       Ops32.Block_Copy (Hash, Temp);
       RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Temp, 160);
    end Context_Finalize;
@@ -94,7 +94,7 @@ package body LSC.HMAC_RIPEMD160 is
        Length  : Types.Word64) return RIPEMD160.Hash_Type
    is
       HMAC_Ctx    : Context_Type;
-      Dummy       : constant RIPEMD160.Block_Type := RIPEMD160.Block_Type'(others => 0);
+      Dummy       : constant RIPEMD160.Block_Type := RIPEMD160.Null_Block;
       Last_Length : RIPEMD160.Block_Length_Type;
       Last_Block  : RIPEMD160.Message_Index;
    begin

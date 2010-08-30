@@ -111,6 +111,15 @@ package LSC.SHA512 is
    -- Return SHA-384 hash.
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type;
 
+   -- Empty block
+   Null_Block : constant Block_Type;
+
+   -- Empty SHA-384 hash
+   Null_SHA384_Hash : constant SHA384_Hash_Type;
+
+   -- Empty SHA-512 hash
+   Null_SHA512_Hash : constant SHA512_Hash_Type;
+
 private
 
    type Data_Length is record
@@ -121,10 +130,21 @@ private
    subtype Schedule_Index is Types.Index range 0 .. 79;
    subtype Schedule_Type is Types.Word64_Array_Type (Schedule_Index);
 
+   Null_Schedule : constant Schedule_Type := Schedule_Type'(Schedule_Index => 0);
+
    type Context_Type is record
       Length : Data_Length;
       H      : SHA512_Hash_Type;
       W      : Schedule_Type;
    end record;
+
+   Null_Block       : constant Block_Type :=
+      Block_Type'(Block_Index => 0);
+
+   Null_SHA384_Hash : constant SHA384_Hash_Type :=
+      SHA384_Hash_Type'(SHA384_Hash_Index => 0);
+
+   Null_SHA512_Hash : constant SHA512_Hash_Type :=
+      SHA512_Hash_Type'(SHA512_Hash_Index => 0);
 
 end LSC.SHA512;

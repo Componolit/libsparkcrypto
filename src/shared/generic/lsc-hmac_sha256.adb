@@ -27,9 +27,9 @@ with LSC.Ops32;
 package body LSC.HMAC_SHA256 is
 
    IPad : constant SHA256.Block_Type :=
-      SHA256.Block_Type'(others => 16#36363636#);
+      SHA256.Block_Type'(SHA256.Block_Index => 16#36363636#);
    OPad : constant SHA256.Block_Type :=
-      SHA256.Block_Type'(others => 16#5C5C5C5C#);
+      SHA256.Block_Type'(SHA256.Block_Index => 16#5C5C5C5C#);
 
    ----------------------------------------------------------------------------
 
@@ -74,7 +74,7 @@ package body LSC.HMAC_SHA256 is
       Context.SHA256_Context := SHA256.SHA256_Context_Init;
       Ops32.Block_XOR (OPad, Context.Key, Temp);
       SHA256.Context_Update (Context.SHA256_Context, Temp);
-      Temp := SHA256.Block_Type'(others => 0);
+      Temp := SHA256.Null_Block;
       Ops32.Block_Copy (Hash, Temp);
       SHA256.Context_Finalize (Context.SHA256_Context, Temp, 256);
    end Context_Finalize;
@@ -115,7 +115,7 @@ package body LSC.HMAC_SHA256 is
        Length  : Types.Word64) return Auth_Type
    is
       HMAC_Ctx    : Context_Type;
-      Dummy       : constant SHA256.Block_Type := SHA256.Block_Type'(others => 0);
+      Dummy       : constant SHA256.Block_Type := SHA256.Null_Block;
       Last_Length : SHA256.Block_Length_Type;
       Last_Block  : SHA256.Message_Index;
    begin

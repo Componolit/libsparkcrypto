@@ -61,8 +61,7 @@ package body LSC.AES is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
       Sub_Temp : Types.Word32;
-      Result   : Schedule_Type := Schedule_Type'(others => 0);
-
+      Result   : Schedule_Type := Null_Schedule;
    begin
 
       for I in Key_Index range Key'First .. Key'Last
