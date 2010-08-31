@@ -2,17 +2,13 @@
 libsparkcrypto - A cryptographic library implemented in SPARK.
 ==============================================================
 
-:Authors: Alexander Senier
-:License: GPL version 3+ and GCC Runtime Library Exception
-
 The libsparkcrypto library implements a number of symmetric cryptographic
-algorithms in the SPARK programming language.
+algorithms in the SPARK [1]_ programming language.
 
-=================================
 Copyright, Warranty and Licensing
 =================================
 
-Copyright (C) 2010  Alexander Senier <mail@senier.net>,
+Copyright (C) 2010  Alexander Senier <mail@senier.net>
 Copyright (C) 2010  secunet Security Networks AG
 
 libsparkcrypto is  free software; you  can redistribute it and/or  modify it
@@ -31,7 +27,6 @@ copy  of  the  GCC  Runtime  Library  Exception  along  with  this  program;
 see  the  files  COPYING3  and COPYING.RUNTIME  respectively.  If  not,  see
 <http://www.gnu.org/licenses/>.
 
-========
 Features
 ========
 
@@ -46,26 +41,24 @@ algorithms and modes:
 - RIPEMD-160
 - HMAC-RIPEMD-160
 
-============
-Availability
-============
+Download
+========
 
 Release version
 ---------------
 
 The current release version of libsparkcrypto is available at
-http://senier.net/libsparkcrypto/libsparkcrypto-0.1.tgz
+http://senier.net/libsparkcrypto/libsparkcrypto-0.1.0.tar.gz
 
 Development version
 -------------------
 
 The current development version of libsparkcrypto is available through its GIT
-[1]_ repository: git://git.codelabs.ch/spark-crypto.
+[2]_ repository: git://git.codelabs.ch/spark-crypto.
 
 A browsable version of the repository is available here:
 http://git.codelabs.ch/?p=spark-crypto.git
 
-=======================
 Building and installing
 =======================
 
@@ -129,7 +122,6 @@ Known issues
   optimization is set to -O3. It will generate invalid code for all  HMAC
   implementations, all respective test cases will fail.
 
-====================
 Using libsparkcrypto
 ====================
 
@@ -139,7 +131,6 @@ A user of the library has to provide a shadow for the package ``Interfaces``
 providing a type definition for at least ``Unsigned_8``, ``Unsigned_32`` and
 ``Unsigned_64``.
 
-========================
 Extending libsparkcrypto
 ========================
 
@@ -201,7 +192,6 @@ altered by passing the following variables to ``make``:
 |``DESTDIR``   | Installation base directory.                                         |
 +--------------+----------------------------------------------------------------------+
 
-=======
 Credits
 =======
 
@@ -211,4 +201,5 @@ Credits
 - Thanks to Adacore and Altran Praxis for review, comments and support with
   many tricky problems.
 
-.. [1] GIT - the fast version control system, http://git-scm.com
+.. [1] SPARK - http://www.altran-praxis.com/spark.aspx
+.. [2] GIT - the fast version control system, http://git-scm.com
