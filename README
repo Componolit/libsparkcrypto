@@ -2,8 +2,8 @@
 libsparkcrypto - A cryptographic library implemented in SPARK.
 ==============================================================
 
-The libsparkcrypto library implements a number of symmetric cryptographic
-algorithms in the SPARK [1]_ programming language.
+The libsparkcrypto library implements symmetric cryptographic algorithms in the
+SPARK [1]_ programming language.
 
 Copyright, Warranty and Licensing
 =================================
@@ -30,7 +30,7 @@ see  the  files  COPYING3  and COPYING.RUNTIME  respectively.  If  not,  see
 Features
 ========
 
-Version 0.1 of libsparkcrypto implements the following symmetric cryptographic
+Version 0.1.0 of libsparkcrypto implements the following symmetric cryptographic
 algorithms and modes:
 
 - AES-128, AES-192, AES-256
