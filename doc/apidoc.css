@@ -4,6 +4,20 @@ body
    font:             86% Verdana,Tahoma,Arial,sans-serif;
    line-height:      1.4em;
    text-align:       justify;
+
+   background-color: #ffffff;
+
+   margin-top:        1%;
+   margin-left:      10%;
+   margin-right:     10%;
+   margin-bottom:     5%;
+
+   padding:          2%;
+
+   border-width:     2px;
+   border-style:     solid;
+   border-color:     #a0a0a0;
+
    min-width:        350px;
 }
 
@@ -27,23 +41,7 @@ a img
    border:           none;
 }
 
-div.document
-{
-   background-color: #ffffff;
-
-   margin-top:     1%;
-   margin-left:   10%;
-   margin-right:  10%;
-   margin-bottom:  5%;
-
-   padding:       2%;
-
-   border-width: 2px;
-   border-style: solid;
-   border-color: #a0a0a0;
-}
-
-h1, h3.subtitle
+h3.subtitle
 {
    display:          block;
    margin:           20px 0 16px 0;
@@ -56,6 +54,38 @@ h1, h3.subtitle
    background-color: inherit;
    text-align:       left;
    border-bottom:    1px solid #d1d1d1;
+}
+
+table
+{
+   border:           none;
+   margin-bottom:    10px;
+}
+
+hr
+{
+   border:           none;
+}
+
+h2
+{
+   color:               white;
+   font-size:           1.7em;
+   text-shadow:         #505050 2px 2px 1px;
+}
+
+table.title
+{
+   background-image:    url(lsc_logo.png);
+   background-position: 98% 78%;
+   background-repeat:   no-repeat;
+   background-color:    #215797;
+   padding:             20px;
+   height:              80px;
+   margin:              0;
+   border-width:        2px;
+   border-style:        solid;
+   border-color:        #a0a0a0;
 }
 
 table.footer
@@ -74,45 +104,34 @@ table.footer
    text-shadow:         #505050 2px 2px 1px;
 }
 
-h2
+td
 {
-   color:            #505050;
-   font-size:        1.4em;
-   font-weight:      normal;
-   letter-spacing:   -1px;
+   border: none;
+   background: none;
 }
 
-table.docutils, td, th.head
+td.odd
 {
-   border:           none;
+   margin-top: 20px;
+   border: none;
+   background: none;
 }
 
-table.footnote
+td.code, td.definition
 {
-   padding:          0px;
+   margin-top:       20px;
+   border-top:       1px solid #d1d1d1;
+   padding:          4px;
 }
 
-hr
+td.type
 {
-   border:           none;
+   border-style dashed;
+   border-width: 1px;
+   background: none;
 }
 
-h1.title, table.title
+pre.spark
 {
-   color:               white;
-   font-size:           1.7em;
-   background-image:    url(lsc_logo.png);
-   background-position: 98% 78%;
-   background-repeat:   no-repeat;
-   background-color:    #215797;
-   padding:             20px;
-   height:              80px;
-   margin:              0;
-
-   border-width:        2px;
-   border-style:        solid;
-   border-color:        #a0a0a0;
-
-   text-shadow:         #505050 2px 2px 1px;
+   color: #81f181;
 }
-

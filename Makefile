@@ -82,6 +82,7 @@ apidoc: $(ADT_FILES)
 	echo $^ | xargs -n1 > $(OUTPUT_DIR)/tree.lst
 	adabrowse -T $(OUTPUT_DIR)/tree -f @$(OUTPUT_DIR)/tree.lst -w1 -c doc/adabrowse.conf -o $(OUTPUT_DIR)/doc/
 	install -m 644 doc/libsparkcrypto.css $(OUTPUT_DIR)/doc/libsparkcrypto.css
+	install -m 644 doc/apidoc.css $(OUTPUT_DIR)/doc/apidoc.css
 	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
 
 $(OUTPUT_DIR)/libsparkcrypto-$(VERSION).tar:
