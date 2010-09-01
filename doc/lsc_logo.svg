@@ -9,8 +9,8 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="230"
-   height="80"
+   width="210.6725"
+   height="57.468559"
    id="svg2818"
    version="1.1"
    inkscape:version="0.47 r22583"
@@ -36,8 +36,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.2364942"
-     inkscape:cx="129.70485"
-     inkscape:cy="-28.442124"
+     inkscape:cx="94.901213"
+     inkscape:cy="-18.462455"
      inkscape:current-layer="layer1"
      id="namedview2822"
      showgrid="false"
@@ -50,7 +50,7 @@
      inkscape:window-maximized="1">
     <sodipodi:guide
        orientation="0,1"
-       position="200.87193,4.4700337"
+       position="258.73752,-14.165263"
        id="guide3723" />
   </sodipodi:namedview>
   <metadata
@@ -61,7 +61,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -69,48 +69,32 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-144.31116,-234.85)">
-    <g
-       id="g3804"
-       transform="translate(1.4278061,-2.678984)">
-      <text
-         id="text2829"
-         y="308.40665"
-         x="153.73499"
-         style="font-size:40px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#000000;fill-opacity:1;stroke:none;font-family:Impact;-inkscape-font-specification:Impact Bold"
-         xml:space="preserve"><tspan
-           style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:DejaVu Serif;-inkscape-font-specification:DejaVu Serif"
-           y="308.40665"
-           x="153.73499"
-           id="tspan2831"
-           sodipodi:role="line">lib<tspan
-   id="tspan2833"
-   style="font-size:20px;font-weight:bold;-inkscape-font-specification:DejaVu Serif Bold">sparkcrypto</tspan></tspan></text>
-      <g
-         transform="translate(12.91859,0.0077209)"
-         id="g3619">
-        <rect
-           style="fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:1.25;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-           id="rect2835"
-           width="42.988682"
-           height="40.371979"
-           x="304.92328"
-           y="267.84531"
-           ry="8.5992775" />
-        <rect
-           style="fill:none;stroke:#000000;stroke-width:6.25;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-           id="rect3609"
-           width="26.56488"
-           height="30.630939"
-           x="313.13519"
-           y="245.32524"
-           ry="8.5992775" />
-      </g>
-      <path
-         sodipodi:nodetypes="cccccccccccccccc"
-         id="path3766"
-         d="m 299.05169,244.63936 -1.31689,20.63447 -32.97399,-15.89663 28.84426,23.92297 -34.05794,9.15879 34.65169,1.42534 -12.92585,6.17804 28.05541,-0.44713 0,-0.0312 0.0937,0.0312 2.875,0 c 0.22526,0 0.40625,-0.18099 0.40625,-0.40625 l 0,-34.89223 -4.75473,10.29595 -3.53142,-6.11234 -5.36549,-13.86098 z"
-         style="fill:#000000;stroke:none" />
-    </g>
+     transform="translate(-145.80235,-270.04391)">
+    <text
+       xml:space="preserve"
+       style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="134.10939"
+       y="325.82297"
+       id="text2829"
+       transform="matrix(0.99672595,-0.08085403,0.08085403,0.99672595,0,0)"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2831"
+         x="134.10939"
+         y="325.82297"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans"><tspan
+           style="font-size:20px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Sans;-inkscape-font-specification:Sans Bold"
+           id="tspan2833"><tspan
+   style="font-weight:normal;-inkscape-font-specification:Sans"
+   id="tspan2821">lib</tspan>SPARKCRYPTO</tspan></tspan></text>
+    <rect
+       style="fill:none;stroke:#000000;stroke-width:3.54330707;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       id="rect2821"
+       width="205.50252"
+       height="38.225922"
+       x="123.40768"
+       y="298.99258"
+       ry="5.1049404"
+       transform="matrix(0.99672595,-0.08085403,0.08085403,0.99672595,0,0)" />
   </g>
 </svg>
