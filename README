@@ -2,8 +2,16 @@
 libsparkcrypto - A cryptographic library implemented in SPARK.
 ==============================================================
 
-The libsparkcrypto library implements symmetric cryptographic algorithms in the
-SPARK [1]_ programming language.
+libsparkcrypto is a formally verified implementation of several widely used
+symmetric cryptographic algorithms using the SPARK programming language and
+toolset [1]_.  For the complete library proofs of the absence of run-time
+errors like type range violations, division by zero and numerical overflows are
+available. Some of its subprograms include proofs of partial correctness.
+
+The distribution contains test cases for all implemented algorithms and a
+benchmark to compare its performance with the OpenSSL library [2]_. The
+achieved speed has been found to be very close to the optimized C and Assembler
+implementations of OpenSSL.
 
 Copyright, Warranty and Licensing
 =================================
@@ -50,13 +58,16 @@ Release version
 The current release version of libsparkcrypto is available at
 http://senier.net/libsparkcrypto/libsparkcrypto-0.1.0.tar.gz
 
+An API documentation of the current release version can be found at
+http://senier.net/libsparkcrypto/lsc.html
+
 Development version
 -------------------
 
 The current development version of libsparkcrypto is available through its GIT
-[2]_ repository: git://git.codelabs.ch/spark-crypto.git
+[3]_ repository: git://git.codelabs.ch/spark-crypto.git
 
-A browsable version of the repository is available here:
+A browsable version of the repository is also available here:
 http://git.codelabs.ch/?p=spark-crypto.git
 
 Building and installing
@@ -70,12 +81,12 @@ To build and prove libsparkcrypto, the following tools are required:
 - GCC or GNAT Pro
 - SPARK 9 (SPARK Pro or SPARK GPL)
 - GNU make, version >= 3.81
-- OpenSSL (for buiding the benchmark, tested with 0.9.8g)
+- OpenSSL (for building the benchmark, tested with 0.9.8g)
 - AdaBrowse (for building the API documentation, tested with 4.0.3)
 - Docutils (for building the documentation, tested with 0.6)
 
 The primary development environments of libsparkcrypto are Debian 5 (x86_64)
-and Ubuntu 10.04 (x86_64). Though the source and project files are system
+and Ubuntu 10.04 (x86_64). Though the source and project files should be system
 independent, the Makefiles assume a UNIXish system (cygwin seems to work).
 Tools like ``mkdir``, ``uname``, ``tail`` and ``install`` must be present in
 the systems search path.
@@ -108,9 +119,9 @@ libsparkcrypto was successfully built and tested on the following systems:
 |Debian 5          | x86_64       |  GNAT-Pro 6.3.1 or GCC-4.3.2, SPARK-Pro 9 |
 +------------------+--------------+-------------------------------------------+
 
-If you were able to build and prove libsparkcrypto on a platform not mentioned
-here, please send mail to Alexander Senier <mail@senier.net> for inclusion to
-this list. Please provide information about type and version of your operation
+If you were able to build and verify libsparkcrypto on a platform not listed
+here, please send mail to Alexander Senier <mail@senier.net> for inclusion into
+that list. Please provide information about type and version of your operation
 system, the toolchain and the CPU architecture. We would also appreciate your
 proof summary and the results of the ``benchmark`` tool (if providing that,
 please also tell us the version of your OpenSSL library).
@@ -121,6 +132,8 @@ Known issues
 - GNAT Pro 6.3.1 (and maybe other versions) is known to cause trouble if
   optimization is set to -O3. It will generate invalid code for all  HMAC
   implementations, all respective test cases will fail.
+
+Please send bug reports and comments to Alexander Senier <mail@senier.net>.
 
 Using libsparkcrypto
 ====================
@@ -144,6 +157,7 @@ contributing changes back to the project:
 - Make sure you successfully ran the test suite (``make test``).
 - Try to stay consistent with the current style of the source.
 - If feasible, implement a benchmark for your code.
+- Create your patches using git-format-patch.
 
 The Directory structure of libsparkcrypto is as follows:
 
@@ -201,5 +215,8 @@ Credits
 - Thanks to Adacore and Altran Praxis for review, comments and support with
   many tricky problems.
 
+
+
 .. [1] SPARK - http://www.altran-praxis.com/spark.aspx
-.. [2] GIT - the fast version control system, http://git-scm.com
+.. [2] OpenSSL: The Open Source toolkit for SSL/TLS - http://www.openssl.org
+.. [3] GIT - the fast version control system, http://git-scm.com
