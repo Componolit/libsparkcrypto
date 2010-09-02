@@ -10,7 +10,9 @@ TESTS       ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 OPT         ?= 3
+
 VERSION     ?= 0.1.0
+TAG         ?= v$(VERSION)
 
 SPARK_OPTS  = \
    -brief=fullpath \
@@ -85,8 +87,10 @@ apidoc: $(ADT_FILES)
 	install -m 644 doc/apidoc.css $(OUTPUT_DIR)/doc/apidoc.css
 	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
 
-$(OUTPUT_DIR)/libsparkcrypto-$(VERSION).tar:
-	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ --output $@ $(VERSION)
+archive: $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz
+
+$(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
+	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ $(TAG) | gzip -c > $@
 
 doc: apidoc
 	rst2html --stylesheet=doc/libsparkcrypto.css README > $(OUTPUT_DIR)/doc/index.html
@@ -173,4 +177,4 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 clean: $(addprefix clean_, $(TESTS))
 	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local build tests proof apidoc
+.PHONY: all install install_local build tests proof apidoc archive
