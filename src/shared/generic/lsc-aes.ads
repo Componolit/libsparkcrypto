@@ -31,16 +31,21 @@ use type LSC.Types.Index;
 --#    LSC.Byteorder32;
 
 -------------------------------------------------------------------------------
---  The AES algorithm
+-- The AES algorithm
 --
---  <ul>
---  <li> FIPS PUB 197, Advanced Encryption Standard (AES),<br> National Institute of
---  Standards and Technology, U.S. Department of Commerce, November 2001.
---  [doc/specs/fips-197.pdf] </li>
+-- <ul>
+-- <li>
+-- <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">
+-- FIPS PUB 197, Advanced Encryption Standard (AES), National Institute of
+-- Standards and Technology, U.S. Department of Commerce, November 2001. </a>
+-- </li>
 --
---  <li> Joan Daemen and Vincent Rijmen, AES submission document on Rijndael,<br>
---  Version 2, September 1999. [doc/specs/Rijndael-amended.pdf] </li>
---  </ul>
+-- <li>
+-- <a href="http://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf">
+-- Joan Daemen and Vincent Rijmen, AES submission document on Rijndael,
+-- Version 2, September 1999.</a>
+-- </li>
+-- </ul>
 -------------------------------------------------------------------------------
 package LSC.AES is
 

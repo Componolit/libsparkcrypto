@@ -29,11 +29,15 @@ with LSC.AES;
 -------------------------------------------------------------------------------
 -- The AES-CBC cipher mode
 --
---  <ul>
---  <li> Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
---  Methods and Techniques, NIST Special Publication 800-38A, 2001 Edition
---  National Institute of Standards and Technology, U.S. Department of
---  Commerce, December 2001 </li>
+-- <ul>
+-- <li>
+-- <a href="http://csrc.nist.gov/publications/nistpubs/800-38a/sp800-38a.pdf">
+-- Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
+-- Methods and Techniques, NIST Special Publication 800-38A, 2001 Edition
+-- National Institute of Standards and Technology, U.S. Department of
+-- Commerce, December 2001 </a>
+-- </li>
+-- </ul>
 -------------------------------------------------------------------------------
 package LSC.AES.CBC is
 

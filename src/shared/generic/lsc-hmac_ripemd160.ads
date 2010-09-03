@@ -33,12 +33,15 @@ use type LSC.Types.Word64;
 --#    LSC.Types;
 
 -------------------------------------------------------------------------------
---  The HMAC-RIPEMD-160 message authentication
+-- The HMAC-RIPEMD-160 message authentication
 --
---  <ul>
---  <li> J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
---  February 1998. [doc/specs/rfc2286.txt.pdf] </li>
---  </ul>
+-- <ul>
+-- <li>
+-- <a href="http://www.faqs.org/rfcs/rfc2286.html">
+-- J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
+-- February 1998. </a>
+-- </li>
+-- </ul>
 -------------------------------------------------------------------------------
 package LSC.HMAC_RIPEMD160 is
 

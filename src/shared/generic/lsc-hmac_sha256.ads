@@ -35,8 +35,11 @@ use type LSC.Types.Word64;
 -- The HMAC-SHA-256 message authentication code
 --
 -- <ul>
--- <li> S. Kelly, Using HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512 with
--- IPsec, RFC 4868, May 2007 [doc/specs/rfc4868.txt.pdf] </li>
+-- <li>
+-- <a href="http://www.faqs.org/rfcs/rfc4868.html">
+-- S. Kelly, Using HMAC-SHA-256, HMAC-SHA-384, and HMAC-SHA-512 with
+-- IPsec, RFC 4868, May 2007 </a>
+-- </li>
 -- </ul>
 -------------------------------------------------------------------------------
 package LSC.HMAC_SHA256 is

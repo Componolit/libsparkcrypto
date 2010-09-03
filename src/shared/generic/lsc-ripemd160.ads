@@ -32,14 +32,20 @@ use type LSC.Types.Index;
 --#    LSC.Debug;
 
 -------------------------------------------------------------------------------
---  The RIPEMD-160 hash algorithm
+-- The RIPEMD-160 hash algorithm
 --
---  <ul>
---  <li> Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
---  Strengthened Version of RIPEMD, April 1996 [doc/specs/sp800-38a.pdf] </li>
---  <li> R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992
---  [doc/specs/rfc1320.txt.pdf] </li>
---  </ul>
+-- <ul>
+-- <li>
+-- <a href="http://homes.esat.kuleuven.be/~cosicart/pdf/AB-9601/AB-9601.pdf">
+-- Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
+-- Strengthened Version of RIPEMD, April 1996 </a>
+-- </li>
+--
+-- <li>
+-- <a href="http://www.faqs.org/rfcs/rfc1320.html">
+-- R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992 </a>
+-- </li>
+-- </ul>
 -------------------------------------------------------------------------------
 package LSC.RIPEMD160 is
 

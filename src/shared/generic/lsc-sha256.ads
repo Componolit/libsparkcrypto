@@ -37,9 +37,11 @@ use type LSC.Types.Word64;
 --  The SHA-256 hash algorithm
 --
 --  <ul>
---  <li> FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of
---  Standards and Technology, U.S. Department of Commerce, October 2008.
---  [doc/specs/fips180-3_final.pdf] </li>
+--  <li>
+--  <a href="http://csrc.nist.gov/publications/fips/fips180-3/fips180-3_final.pdf">
+--  FIPS PUB 180-3, Secure Hash Standard (SHS), National Institute of Standards
+--  and Technology, U.S. Department of Commerce, October 2008. </a>
+--  </li>
 --  </ul>
 -------------------------------------------------------------------------------
 package LSC.SHA256 is
