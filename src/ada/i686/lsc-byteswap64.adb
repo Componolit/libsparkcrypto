@@ -21,7 +21,6 @@
 -- <http://www.gnu.org/licenses/>.
 -------------------------------------------------------------------------------
 
-with System.Machine_Code;
 with Unchecked_Conversion;
 with LSC.Byteswap32;
 
@@ -38,7 +37,7 @@ package body LSC.Byteswap64 is
       function To_Word64 is new Unchecked_Conversion (W32A, Types.Word64);
       function To_W32A   is new Unchecked_Conversion (Types.Word64, W32A);
 
-      Temp : W32A := To_W32A (Value);
+      Temp : constant W32A := To_W32A (Value);
    begin
       return To_Word64 (W32A'(MSB => LSC.Byteswap32.Swap (Temp.LSB),
                               LSB => LSC.Byteswap32.Swap (Temp.MSB)));
