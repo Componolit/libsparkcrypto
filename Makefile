@@ -2,14 +2,11 @@ OUTPUT_DIR = $(CURDIR)/out
 DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc $(OUTPUT_DIR)/tree)
 UNAME_M   := $(shell uname -m)
 
-IO          ?= textio
 ARCH        ?= $(UNAME_M)
-MODE        ?= release
 RUNTIME     ?= native
 TESTS       ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
-OPT         ?= 3
 
 VERSION     ?= 0.1.0
 TAG         ?= v$(VERSION)
@@ -85,6 +82,36 @@ endif
 
 ###############################################################################
 
+#
+# set gnatmake options
+#
+
+ifneq ($(ARCH),)
+GNATMAKE_OPTS += -Xarch=$(ARCH)
+endif
+
+ifneq ($(ENDIANESS),)
+GNATMAKE_OPTS += -Xendianess=$(ENDIANESS)
+endif
+
+ifneq ($(MODE),)
+GNATMAKE_OPTS += -Xmode=$(MODE)
+endif
+
+ifneq ($(IO),)
+GNATMAKE_OPTS += -Xio=$(IO)
+endif
+
+ifneq ($(RUNTIME),)
+GNATMAKE_OPTS += -Xruntime=$(RUNTIME)
+endif
+
+ifneq ($(OPT),)
+GNATMAKE_OPTS += -Xopt=$(OPT)
+endif
+
+###############################################################################
+
 all: $(ALL_GOALS)
 build: $(OUTPUT_DIR)/build/libsparkcrypto.a
 proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
@@ -108,14 +135,7 @@ tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
 
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
-	gnatmake \
-		-Xarch=$(ARCH) \
-		-Xendianess=$(ENDIANESS) \
-		-Xmode=$(MODE) \
-		-Xio=$(IO) \
-		-Xruntime=$(RUNTIME) \
-		-Xopt=$(OPT) \
-		-p -P build/build_libsparkcrypto
+	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
 	spark -index=$< $(SPARK_OPTS) -dictionary_file=$(OUTPUT_DIR)/proof/libsparkcrypto.dict @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
