@@ -12,9 +12,9 @@ is
    Endianess 	 : Endianess_Type := external ("endianess", "little_endian");
    IO        	 : IO_Type := external ("io", "textio");
    Runtime   	 : Runtime_Type := external ("runtime", "native");
-   Optimization : Optimization_Type := external ("opt", "3");
 
    Src         := "../src/";
+   Default_Opt := "2";
 
    Compiler_Switches := ();
    Builder_Switches := ();
@@ -57,9 +57,11 @@ is
    case Mode is
       when "release" =>
          Compiler_Switches := ("-gnatN", "-gnatn", "-Winline", "-gnatp");
+         Default_Opt := "2";
 
       when "debug" =>
          Compiler_Switches := ("-gnata");
+         Default_Opt := "0";
 
    end case;
 
@@ -75,6 +77,8 @@ is
    package Builder is
       for Default_Switches ("Ada") use Builder_Switches;
    end Builder;
+
+   Optimization : Optimization_Type := external ("opt", Default_Opt);
 
    package Compiler is
       for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches &
