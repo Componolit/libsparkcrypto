@@ -14,7 +14,7 @@ is
    Runtime   	 : Runtime_Type := external ("runtime", "native");
 
    Src         := "../src/";
-   Default_Opt := "2";
+   Default_Opt := "undefined";
 
    Compiler_Switches := ();
    Builder_Switches := ();
@@ -57,7 +57,7 @@ is
    case Mode is
       when "release" =>
          Compiler_Switches := ("-gnatN", "-gnatn", "-Winline", "-gnatp");
-         Default_Opt := "2";
+         Default_Opt := "3";
 
       when "debug" =>
          Compiler_Switches := ("-gnata");
