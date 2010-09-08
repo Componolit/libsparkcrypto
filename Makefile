@@ -43,6 +43,9 @@ ifeq      ($(ARCH),x86_64)
    ENDIANESS = little_endian
 else ifeq ($(ARCH),i686)
    ENDIANESS = little_endian
+# just used to test whether the generic big endian code compiles!
+else ifeq ($(ARCH),generic_be)
+   ENDIANESS = big_endian
 else
    $(error Unsupported architecture: $(ARCH))
 endif
