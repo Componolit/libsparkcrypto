@@ -35,10 +35,10 @@ is
 
    case Mode is
       when "release" =>
-         Compiler_Switches := ("-O" & Optimization, "-gnatN", "-Winline", "-gnatp");
+         Compiler_Switches := ("-gnatN", "-Winline", "-gnatp");
 
       when "debug" =>
-         Compiler_Switches := ("-O0", "-gnata");
+         Compiler_Switches := ("-gnata");
 
    end case;
 
@@ -56,7 +56,7 @@ is
    end Builder;
 
    package Compiler is
-      for Default_Switches ("Ada") use  Compiler_Switches & ("-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
+      for Default_Switches ("Ada") use  Compiler_Switches & ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
    end Compiler;
 
 end Build_Libsparkcrypto;
