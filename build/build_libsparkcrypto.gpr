@@ -35,7 +35,7 @@ is
 
    case Mode is
       when "release" =>
-         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp");
+         Compiler_Switches := ("-gnatN", "-gnatn", "-Winline", "-gnatp");
 
       when "debug" =>
          Compiler_Switches := ("-gnata");
