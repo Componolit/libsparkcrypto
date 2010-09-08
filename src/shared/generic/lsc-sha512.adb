@@ -42,8 +42,7 @@ package body LSC.SHA512 is
    is
       pragma Inline (Add);
    begin
-      if Item.LSW <= Types.Word64'Last - Value
-      then
+      if Item.LSW <= Types.Word64'Last - Value then
          Item.LSW := Item.LSW + Value;
       else
          Item.MSW := Item.MSW + 1;
@@ -86,7 +85,7 @@ package body LSC.SHA512 is
 
    ----------------------------------------------------------------------------
 
-   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64 
+   function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64
    is
       pragma Inline (Cap_Sigma_0_512);
    begin
@@ -237,18 +236,18 @@ package body LSC.SHA512 is
 
       -- 3. For t = 0 to 79:
 
-      SHA512_Op ( 0, a, b, c, d, e, f, g, h);
-      SHA512_Op ( 1, h, a, b, c, d, e, f, g);
-      SHA512_Op ( 2, g, h, a, b, c, d, e, f);
-      SHA512_Op ( 3, f, g, h, a, b, c, d, e);
-      SHA512_Op ( 4, e, f, g, h, a, b, c, d);
-      SHA512_Op ( 5, d, e, f, g, h, a, b, c);
-      SHA512_Op ( 6, c, d, e, f, g, h, a, b);
-      SHA512_Op ( 7, b, c, d, e, f, g, h, a);
+      SHA512_Op  (0, a, b, c, d, e, f, g, h);
+      SHA512_Op  (1, h, a, b, c, d, e, f, g);
+      SHA512_Op  (2, g, h, a, b, c, d, e, f);
+      SHA512_Op  (3, f, g, h, a, b, c, d, e);
+      SHA512_Op  (4, e, f, g, h, a, b, c, d);
+      SHA512_Op  (5, d, e, f, g, h, a, b, c);
+      SHA512_Op  (6, c, d, e, f, g, h, a, b);
+      SHA512_Op  (7, b, c, d, e, f, g, h, a);
       --# assert True;
 
-      SHA512_Op ( 8, a, b, c, d, e, f, g, h);
-      SHA512_Op ( 9, h, a, b, c, d, e, f, g);
+      SHA512_Op  (8, a, b, c, d, e, f, g, h);
+      SHA512_Op  (9, h, a, b, c, d, e, f, g);
       SHA512_Op (10, g, h, a, b, c, d, e, f);
       SHA512_Op (11, f, g, h, a, b, c, d, e);
       SHA512_Op (12, e, f, g, h, a, b, c, d);
@@ -386,8 +385,7 @@ package body LSC.SHA512 is
       Pad64.Block_Terminate (Block => Final_Block, Length => Length);
 
       --  Terminator and length values won't fit into current block.
-      if Length >= 896
-      then
+      if Length >= 896 then
          Context_Update_Internal (Context => Context, Block => Final_Block);
          Final_Block := Null_Block;
       end if;

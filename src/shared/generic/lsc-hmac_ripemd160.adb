@@ -108,8 +108,7 @@ package body LSC.HMAC_RIPEMD160 is
       HMAC_Ctx := Context_Init (Key);
 
       -- handle all blocks, but the last.
-      if Last_Block > Message'First
-      then
+      if Last_Block > Message'First then
          for I in RIPEMD160.Message_Index range Message'First .. Last_Block - 1
          loop
             --# assert
@@ -124,8 +123,7 @@ package body LSC.HMAC_RIPEMD160 is
          end loop;
       end if;
 
-      if Last_Length = 0
-      then
+      if Last_Length = 0 then
          pragma Debug (Debug.Put_Line ("    HMAC_RIPEMD160.Authenticate: Empty last block"));
          Context_Finalize (HMAC_Ctx, Dummy, 0);
       else

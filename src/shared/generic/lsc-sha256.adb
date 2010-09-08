@@ -42,8 +42,7 @@ package body LSC.SHA256 is
    is
       pragma Inline (Add);
    begin
-      if Item.LSW <= Types.Word32'Last - Value
-      then
+      if Item.LSW <= Types.Word32'Last - Value then
          Item.LSW := Item.LSW + Value;
       else
          Item.MSW := Item.MSW + 1;
@@ -224,18 +223,18 @@ package body LSC.SHA256 is
 
       -- 3. For t = 0 to 63:
 
-      SHA256_Op ( 0, a, b, c, d, e, f, g, h);
-      SHA256_Op ( 1, h, a, b, c, d, e, f, g);
-      SHA256_Op ( 2, g, h, a, b, c, d, e, f);
-      SHA256_Op ( 3, f, g, h, a, b, c, d, e);
-      SHA256_Op ( 4, e, f, g, h, a, b, c, d);
-      SHA256_Op ( 5, d, e, f, g, h, a, b, c);
-      SHA256_Op ( 6, c, d, e, f, g, h, a, b);
-      SHA256_Op ( 7, b, c, d, e, f, g, h, a);
+      SHA256_Op (0, a, b, c, d, e, f, g, h);
+      SHA256_Op (1, h, a, b, c, d, e, f, g);
+      SHA256_Op (2, g, h, a, b, c, d, e, f);
+      SHA256_Op (3, f, g, h, a, b, c, d, e);
+      SHA256_Op (4, e, f, g, h, a, b, c, d);
+      SHA256_Op (5, d, e, f, g, h, a, b, c);
+      SHA256_Op (6, c, d, e, f, g, h, a, b);
+      SHA256_Op (7, b, c, d, e, f, g, h, a);
       --# assert True;
 
-      SHA256_Op ( 8, a, b, c, d, e, f, g, h);
-      SHA256_Op ( 9, h, a, b, c, d, e, f, g);
+      SHA256_Op  (8, a, b, c, d, e, f, g, h);
+      SHA256_Op  (9, h, a, b, c, d, e, f, g);
       SHA256_Op (10, g, h, a, b, c, d, e, f);
       SHA256_Op (11, f, g, h, a, b, c, d, e);
       SHA256_Op (12, e, f, g, h, a, b, c, d);
@@ -354,8 +353,7 @@ package body LSC.SHA256 is
                              Length => Types.Word64 (Length));
 
       --  Terminator and length values won't fit into current block.
-      if Length >= 448
-      then
+      if Length >= 448 then
          Context_Update_Internal (Context => Context, Block => Final_Block);
          Final_Block := Null_Block;
       end if;

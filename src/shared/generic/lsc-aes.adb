@@ -84,23 +84,21 @@ package body LSC.AES is
 
          pragma Debug (LSC.AES.Print.Row (Temp));
 
-         if I mod Nk = 0
-         then
+         if I mod Nk = 0 then
 
             --# assert I mod Nk = 0 and
             --#        I/Nk in Tables.Rcon_Index;
 
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);
-            Temp     := Ops32.XOR2 (Sub_Temp, Tables.Rcon (I/Nk));
+            Temp     := Ops32.XOR2 (Sub_Temp, Tables.Rcon (I / Nk));
 
             pragma Debug (LSC.AES.Print.Row (Rot_Temp));
             pragma Debug (LSC.AES.Print.Row (Sub_Temp));
-            pragma Debug (LSC.AES.Print.Row (Tables.Rcon (I/Nk)));
+            pragma Debug (LSC.AES.Print.Row (Tables.Rcon (I / Nk)));
             pragma Debug (LSC.AES.Print.Row (Temp));
 
-         elsif Nk > 6 and I mod Nk = Nb
-         then
+         elsif Nk > 6 and I mod Nk = Nb then
 
             --# assert Nk > 0 and I mod Nk = Nb;
 

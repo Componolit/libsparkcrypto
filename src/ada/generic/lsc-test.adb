@@ -43,8 +43,7 @@ package body LSC.Test is
       LSC.IO.Put ("   ");
       LSC.IO.Put (Message);
       LSC.IO.Put (": ");
-      if Result
-      then
+      if Result then
          LSC.IO.Put_Line ("OK");
       else
          LSC.IO.Put_Line (" >>> [ FAILED ] <<< ");

@@ -173,7 +173,7 @@ package body LSC.IO is
    is
       package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);
    begin
-       SIIO.Put (Item => I, Width => 3);
+      SIIO.Put (Item => I, Width => 3);
    end Print_Index;
 
    ----------------------------------------------------------------------------
@@ -206,16 +206,14 @@ package body LSC.IO is
          end loop;
 
          -- intermediate new line
-         if I mod Break = Break - 1
-         then
+         if I mod Break = Break - 1 then
             IO.New_Line;
          end if;
 
       end loop;
 
       -- final new line
-      if Newln
-      then
+      if Newln then
          IO.New_Line;
       end if;
 
@@ -242,16 +240,14 @@ package body LSC.IO is
          end loop;
 
          -- intermediate new line
-         if I mod Break = Break - 1
-         then
+         if I mod Break = Break - 1 then
             IO.New_Line;
          end if;
 
       end loop;
 
       -- final new line
-      if Newln
-      then
+      if Newln then
          IO.New_Line;
       end if;
 

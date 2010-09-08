@@ -56,8 +56,7 @@ package body LSC.Pad32 is
       Temp := Temp  or Types.SHL32 (1, Offset);
       Block (Index) := Byteorder32.BE_To_Native (Temp);
 
-      if Index < Block'Last
-      then
+      if Index < Block'Last then
          for I in Types.Index range (Index + 1) .. Block'Last
          loop
             Block (I) := 0;

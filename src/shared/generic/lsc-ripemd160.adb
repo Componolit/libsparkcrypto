@@ -41,8 +41,7 @@ package body LSC.RIPEMD160 is
    --#                   Value;
    is
    begin
-      if Item.LSW  <= Types.Word32'Last - Value
-      then
+      if Item.LSW  <= Types.Word32'Last - Value then
          Item.LSW := Item.LSW + Value;
       else
          Item.MSW := Item.MSW + 1;
@@ -375,7 +374,7 @@ package body LSC.RIPEMD160 is
    --# derives Context from *,
    --#                      X;
    is
-       H0,  H1,  H2,  H3,  H4 : Types.Word32;
+      H0,  H1,  H2,  H3,  H4 : Types.Word32;
       HH0, HH1, HH2, HH3, HH4 : Types.Word32;
    begin
 
@@ -384,11 +383,11 @@ package body LSC.RIPEMD160 is
       pragma Debug (Debug.Print_Word32_Array (X, 1, Types.Index'Last, True));  --
       ----------------------------------------------------------------------
 
-       H0 := Context.H (0);
-       H1 := Context.H (1);
-       H2 := Context.H (2);
-       H3 := Context.H (3);
-       H4 := Context.H (4);
+      H0  := Context.H (0);
+      H1  := Context.H (1);
+      H2  := Context.H (2);
+      H3  := Context.H (3);
+      H4  := Context.H (4);
 
       HH0 := Context.H (0);
       HH1 := Context.H (1);
@@ -399,16 +398,16 @@ package body LSC.RIPEMD160 is
       --  Round 1
       --# assert True;
 
-      ff (H0, H1, H2, H3, H4, X ( 0), 11);
-      ff (H4, H0, H1, H2, H3, X ( 1), 14);
-      ff (H3, H4, H0, H1, H2, X ( 2), 15);
-      ff (H2, H3, H4, H0, H1, X ( 3), 12);
-      ff (H1, H2, H3, H4, H0, X ( 4),  5);
-      ff (H0, H1, H2, H3, H4, X ( 5),  8);
-      ff (H4, H0, H1, H2, H3, X ( 6),  7);
-      ff (H3, H4, H0, H1, H2, X ( 7),  9);
-      ff (H2, H3, H4, H0, H1, X ( 8), 11);
-      ff (H1, H2, H3, H4, H0, X ( 9), 13);
+      ff (H0, H1, H2, H3, H4, X  (0), 11);
+      ff (H4, H0, H1, H2, H3, X  (1), 14);
+      ff (H3, H4, H0, H1, H2, X  (2), 15);
+      ff (H2, H3, H4, H0, H1, X  (3), 12);
+      ff (H1, H2, H3, H4, H0, X  (4),  5);
+      ff (H0, H1, H2, H3, H4, X  (5),  8);
+      ff (H4, H0, H1, H2, H3, X  (6),  7);
+      ff (H3, H4, H0, H1, H2, X  (7),  9);
+      ff (H2, H3, H4, H0, H1, X  (8), 11);
+      ff (H1, H2, H3, H4, H0, X  (9), 13);
       ff (H0, H1, H2, H3, H4, X (10), 14);
       ff (H4, H0, H1, H2, H3, X (11), 15);
       ff (H3, H4, H0, H1, H2, X (12),  6);
@@ -419,161 +418,160 @@ package body LSC.RIPEMD160 is
       --  Round 2
       --# assert True;
 
-
-      gg (H4, H0, H1, H2, H3, X ( 7),  7);
-      gg (H3, H4, H0, H1, H2, X ( 4),  6);
+      gg (H4, H0, H1, H2, H3, X  (7),  7);
+      gg (H3, H4, H0, H1, H2, X  (4),  6);
       gg (H2, H3, H4, H0, H1, X (13),  8);
-      gg (H1, H2, H3, H4, H0, X ( 1), 13);
+      gg (H1, H2, H3, H4, H0, X  (1), 13);
       gg (H0, H1, H2, H3, H4, X (10), 11);
-      gg (H4, H0, H1, H2, H3, X ( 6),  9);
+      gg (H4, H0, H1, H2, H3, X  (6),  9);
       gg (H3, H4, H0, H1, H2, X (15),  7);
-      gg (H2, H3, H4, H0, H1, X ( 3), 15);
+      gg (H2, H3, H4, H0, H1, X  (3), 15);
       gg (H1, H2, H3, H4, H0, X (12),  7);
-      gg (H0, H1, H2, H3, H4, X ( 0), 12);
-      gg (H4, H0, H1, H2, H3, X ( 9), 15);
-      gg (H3, H4, H0, H1, H2, X ( 5),  9);
-      gg (H2, H3, H4, H0, H1, X ( 2), 11);
+      gg (H0, H1, H2, H3, H4, X  (0), 12);
+      gg (H4, H0, H1, H2, H3, X  (9), 15);
+      gg (H3, H4, H0, H1, H2, X  (5),  9);
+      gg (H2, H3, H4, H0, H1, X  (2), 11);
       gg (H1, H2, H3, H4, H0, X (14),  7);
       gg (H0, H1, H2, H3, H4, X (11), 13);
-      gg (H4, H0, H1, H2, H3, X ( 8), 12);
+      gg (H4, H0, H1, H2, H3, X  (8), 12);
 
       --  Round 3
       --# assert True;
 
-      hh (H3, H4, H0, H1, H2, X ( 3), 11);
+      hh (H3, H4, H0, H1, H2, X  (3), 11);
       hh (H2, H3, H4, H0, H1, X (10), 13);
       hh (H1, H2, H3, H4, H0, X (14),  6);
-      hh (H0, H1, H2, H3, H4, X ( 4),  7);
-      hh (H4, H0, H1, H2, H3, X ( 9), 14);
+      hh (H0, H1, H2, H3, H4, X  (4),  7);
+      hh (H4, H0, H1, H2, H3, X  (9), 14);
       hh (H3, H4, H0, H1, H2, X (15),  9);
-      hh (H2, H3, H4, H0, H1, X ( 8), 13);
-      hh (H1, H2, H3, H4, H0, X ( 1), 15);
-      hh (H0, H1, H2, H3, H4, X ( 2), 14);
-      hh (H4, H0, H1, H2, H3, X ( 7),  8);
-      hh (H3, H4, H0, H1, H2, X ( 0), 13);
-      hh (H2, H3, H4, H0, H1, X ( 6),  6);
+      hh (H2, H3, H4, H0, H1, X  (8), 13);
+      hh (H1, H2, H3, H4, H0, X  (1), 15);
+      hh (H0, H1, H2, H3, H4, X  (2), 14);
+      hh (H4, H0, H1, H2, H3, X  (7),  8);
+      hh (H3, H4, H0, H1, H2, X  (0), 13);
+      hh (H2, H3, H4, H0, H1, X  (6),  6);
       hh (H1, H2, H3, H4, H0, X (13),  5);
       hh (H0, H1, H2, H3, H4, X (11), 12);
-      hh (H4, H0, H1, H2, H3, X ( 5),  7);
+      hh (H4, H0, H1, H2, H3, X  (5),  7);
       hh (H3, H4, H0, H1, H2, X (12),  5);
 
       --  Round 4
       --# assert True;
 
-      ii (H2, H3, H4, H0, H1, X ( 1), 11);
-      ii (H1, H2, H3, H4, H0, X ( 9), 12);
+      ii (H2, H3, H4, H0, H1, X  (1), 11);
+      ii (H1, H2, H3, H4, H0, X  (9), 12);
       ii (H0, H1, H2, H3, H4, X (11), 14);
       ii (H4, H0, H1, H2, H3, X (10), 15);
-      ii (H3, H4, H0, H1, H2, X ( 0), 14);
-      ii (H2, H3, H4, H0, H1, X ( 8), 15);
+      ii (H3, H4, H0, H1, H2, X  (0), 14);
+      ii (H2, H3, H4, H0, H1, X  (8), 15);
       ii (H1, H2, H3, H4, H0, X (12),  9);
-      ii (H0, H1, H2, H3, H4, X ( 4),  8);
+      ii (H0, H1, H2, H3, H4, X  (4),  8);
       ii (H4, H0, H1, H2, H3, X (13),  9);
-      ii (H3, H4, H0, H1, H2, X ( 3), 14);
-      ii (H2, H3, H4, H0, H1, X ( 7),  5);
+      ii (H3, H4, H0, H1, H2, X  (3), 14);
+      ii (H2, H3, H4, H0, H1, X  (7),  5);
       ii (H1, H2, H3, H4, H0, X (15),  6);
       ii (H0, H1, H2, H3, H4, X (14),  8);
-      ii (H4, H0, H1, H2, H3, X ( 5),  6);
-      ii (H3, H4, H0, H1, H2, X ( 6),  5);
-      ii (H2, H3, H4, H0, H1, X ( 2), 12);
+      ii (H4, H0, H1, H2, H3, X  (5),  6);
+      ii (H3, H4, H0, H1, H2, X  (6),  5);
+      ii (H2, H3, H4, H0, H1, X  (2), 12);
 
       --  Round 5
       --# assert True;
 
-      jj (H1, H2, H3, H4, H0, X ( 4),  9);
-      jj (H0, H1, H2, H3, H4, X ( 0), 15);
-      jj (H4, H0, H1, H2, H3, X ( 5),  5);
-      jj (H3, H4, H0, H1, H2, X ( 9), 11);
-      jj (H2, H3, H4, H0, H1, X ( 7),  6);
+      jj (H1, H2, H3, H4, H0, X  (4),  9);
+      jj (H0, H1, H2, H3, H4, X  (0), 15);
+      jj (H4, H0, H1, H2, H3, X  (5),  5);
+      jj (H3, H4, H0, H1, H2, X  (9), 11);
+      jj (H2, H3, H4, H0, H1, X  (7),  6);
       jj (H1, H2, H3, H4, H0, X (12),  8);
-      jj (H0, H1, H2, H3, H4, X ( 2), 13);
+      jj (H0, H1, H2, H3, H4, X  (2), 13);
       jj (H4, H0, H1, H2, H3, X (10), 12);
       jj (H3, H4, H0, H1, H2, X (14),  5);
-      jj (H2, H3, H4, H0, H1, X ( 1), 12);
-      jj (H1, H2, H3, H4, H0, X ( 3), 13);
-      jj (H0, H1, H2, H3, H4, X ( 8), 14);
+      jj (H2, H3, H4, H0, H1, X  (1), 12);
+      jj (H1, H2, H3, H4, H0, X  (3), 13);
+      jj (H0, H1, H2, H3, H4, X  (8), 14);
       jj (H4, H0, H1, H2, H3, X (11), 11);
-      jj (H3, H4, H0, H1, H2, X ( 6),  8);
+      jj (H3, H4, H0, H1, H2, X  (6),  8);
       jj (H2, H3, H4, H0, H1, X (15),  5);
       jj (H1, H2, H3, H4, H0, X (13),  6);
 
       --  Parallel round 1
       --# assert True;
 
-      jjj (HH0, HH1, HH2, HH3, HH4, X ( 5),  8);
+      jjj (HH0, HH1, HH2, HH3, HH4, X  (5),  8);
       jjj (HH4, HH0, HH1, HH2, HH3, X (14),  9);
-      jjj (HH3, HH4, HH0, HH1, HH2, X ( 7),  9);
-      jjj (HH2, HH3, HH4, HH0, HH1, X ( 0), 11);
-      jjj (HH1, HH2, HH3, HH4, HH0, X ( 9), 13);
-      jjj (HH0, HH1, HH2, HH3, HH4, X ( 2), 15);
+      jjj (HH3, HH4, HH0, HH1, HH2, X  (7),  9);
+      jjj (HH2, HH3, HH4, HH0, HH1, X  (0), 11);
+      jjj (HH1, HH2, HH3, HH4, HH0, X  (9), 13);
+      jjj (HH0, HH1, HH2, HH3, HH4, X  (2), 15);
       jjj (HH4, HH0, HH1, HH2, HH3, X (11), 15);
-      jjj (HH3, HH4, HH0, HH1, HH2, X ( 4),  5);
+      jjj (HH3, HH4, HH0, HH1, HH2, X  (4),  5);
       jjj (HH2, HH3, HH4, HH0, HH1, X (13),  7);
-      jjj (HH1, HH2, HH3, HH4, HH0, X ( 6),  7);
+      jjj (HH1, HH2, HH3, HH4, HH0, X  (6),  7);
       jjj (HH0, HH1, HH2, HH3, HH4, X (15),  8);
-      jjj (HH4, HH0, HH1, HH2, HH3, X ( 8), 11);
-      jjj (HH3, HH4, HH0, HH1, HH2, X ( 1), 14);
+      jjj (HH4, HH0, HH1, HH2, HH3, X  (8), 11);
+      jjj (HH3, HH4, HH0, HH1, HH2, X  (1), 14);
       jjj (HH2, HH3, HH4, HH0, HH1, X (10), 14);
-      jjj (HH1, HH2, HH3, HH4, HH0, X ( 3), 12);
+      jjj (HH1, HH2, HH3, HH4, HH0, X  (3), 12);
       jjj (HH0, HH1, HH2, HH3, HH4, X (12),  6);
 
       --  Parallel round 2
       --# assert True;
 
-      iii (HH4, HH0, HH1, HH2, HH3, X ( 6),  9);
+      iii (HH4, HH0, HH1, HH2, HH3, X  (6),  9);
       iii (HH3, HH4, HH0, HH1, HH2, X (11), 13);
-      iii (HH2, HH3, HH4, HH0, HH1, X ( 3), 15);
-      iii (HH1, HH2, HH3, HH4, HH0, X ( 7),  7);
-      iii (HH0, HH1, HH2, HH3, HH4, X ( 0), 12);
+      iii (HH2, HH3, HH4, HH0, HH1, X  (3), 15);
+      iii (HH1, HH2, HH3, HH4, HH0, X  (7),  7);
+      iii (HH0, HH1, HH2, HH3, HH4, X  (0), 12);
       iii (HH4, HH0, HH1, HH2, HH3, X (13),  8);
-      iii (HH3, HH4, HH0, HH1, HH2, X ( 5),  9);
+      iii (HH3, HH4, HH0, HH1, HH2, X  (5),  9);
       iii (HH2, HH3, HH4, HH0, HH1, X (10), 11);
       iii (HH1, HH2, HH3, HH4, HH0, X (14),  7);
       iii (HH0, HH1, HH2, HH3, HH4, X (15),  7);
-      iii (HH4, HH0, HH1, HH2, HH3, X ( 8), 12);
+      iii (HH4, HH0, HH1, HH2, HH3, X  (8), 12);
       iii (HH3, HH4, HH0, HH1, HH2, X (12),  7);
-      iii (HH2, HH3, HH4, HH0, HH1, X ( 4),  6);
-      iii (HH1, HH2, HH3, HH4, HH0, X ( 9), 15);
-      iii (HH0, HH1, HH2, HH3, HH4, X ( 1), 13);
-      iii (HH4, HH0, HH1, HH2, HH3, X ( 2), 11);
+      iii (HH2, HH3, HH4, HH0, HH1, X  (4),  6);
+      iii (HH1, HH2, HH3, HH4, HH0, X  (9), 15);
+      iii (HH0, HH1, HH2, HH3, HH4, X  (1), 13);
+      iii (HH4, HH0, HH1, HH2, HH3, X  (2), 11);
 
       --  Parallel round 3
       --# assert True;
 
       hhh (HH3, HH4, HH0, HH1, HH2, X (15),  9);
-      hhh (HH2, HH3, HH4, HH0, HH1, X ( 5),  7);
-      hhh (HH1, HH2, HH3, HH4, HH0, X ( 1), 15);
-      hhh (HH0, HH1, HH2, HH3, HH4, X ( 3), 11);
-      hhh (HH4, HH0, HH1, HH2, HH3, X ( 7),  8);
+      hhh (HH2, HH3, HH4, HH0, HH1, X  (5),  7);
+      hhh (HH1, HH2, HH3, HH4, HH0, X  (1), 15);
+      hhh (HH0, HH1, HH2, HH3, HH4, X  (3), 11);
+      hhh (HH4, HH0, HH1, HH2, HH3, X  (7),  8);
       hhh (HH3, HH4, HH0, HH1, HH2, X (14),  6);
-      hhh (HH2, HH3, HH4, HH0, HH1, X ( 6),  6);
-      hhh (HH1, HH2, HH3, HH4, HH0, X ( 9), 14);
+      hhh (HH2, HH3, HH4, HH0, HH1, X  (6),  6);
+      hhh (HH1, HH2, HH3, HH4, HH0, X  (9), 14);
       hhh (HH0, HH1, HH2, HH3, HH4, X (11), 12);
-      hhh (HH4, HH0, HH1, HH2, HH3, X ( 8), 13);
+      hhh (HH4, HH0, HH1, HH2, HH3, X  (8), 13);
       hhh (HH3, HH4, HH0, HH1, HH2, X (12),  5);
-      hhh (HH2, HH3, HH4, HH0, HH1, X ( 2), 14);
+      hhh (HH2, HH3, HH4, HH0, HH1, X  (2), 14);
       hhh (HH1, HH2, HH3, HH4, HH0, X (10), 13);
-      hhh (HH0, HH1, HH2, HH3, HH4, X ( 0), 13);
-      hhh (HH4, HH0, HH1, HH2, HH3, X ( 4),  7);
+      hhh (HH0, HH1, HH2, HH3, HH4, X  (0), 13);
+      hhh (HH4, HH0, HH1, HH2, HH3, X  (4),  7);
       hhh (HH3, HH4, HH0, HH1, HH2, X (13),  5);
 
       --  Parallel round 4
       --# assert True;
 
-      ggg (HH2, HH3, HH4, HH0, HH1, X ( 8), 15);
-      ggg (HH1, HH2, HH3, HH4, HH0, X ( 6),  5);
-      ggg (HH0, HH1, HH2, HH3, HH4, X ( 4),  8);
-      ggg (HH4, HH0, HH1, HH2, HH3, X ( 1), 11);
-      ggg (HH3, HH4, HH0, HH1, HH2, X ( 3), 14);
+      ggg (HH2, HH3, HH4, HH0, HH1, X  (8), 15);
+      ggg (HH1, HH2, HH3, HH4, HH0, X  (6),  5);
+      ggg (HH0, HH1, HH2, HH3, HH4, X  (4),  8);
+      ggg (HH4, HH0, HH1, HH2, HH3, X  (1), 11);
+      ggg (HH3, HH4, HH0, HH1, HH2, X  (3), 14);
       ggg (HH2, HH3, HH4, HH0, HH1, X (11), 14);
       ggg (HH1, HH2, HH3, HH4, HH0, X (15),  6);
-      ggg (HH0, HH1, HH2, HH3, HH4, X ( 0), 14);
-      ggg (HH4, HH0, HH1, HH2, HH3, X ( 5),  6);
+      ggg (HH0, HH1, HH2, HH3, HH4, X  (0), 14);
+      ggg (HH4, HH0, HH1, HH2, HH3, X  (5),  6);
       ggg (HH3, HH4, HH0, HH1, HH2, X (12),  9);
-      ggg (HH2, HH3, HH4, HH0, HH1, X ( 2), 12);
+      ggg (HH2, HH3, HH4, HH0, HH1, X  (2), 12);
       ggg (HH1, HH2, HH3, HH4, HH0, X (13),  9);
-      ggg (HH0, HH1, HH2, HH3, HH4, X ( 9), 12);
-      ggg (HH4, HH0, HH1, HH2, HH3, X ( 7),  5);
+      ggg (HH0, HH1, HH2, HH3, HH4, X  (9), 12);
+      ggg (HH4, HH0, HH1, HH2, HH3, X  (7),  5);
       ggg (HH3, HH4, HH0, HH1, HH2, X (10), 15);
       ggg (HH2, HH3, HH4, HH0, HH1, X (14),  8);
 
@@ -583,18 +581,18 @@ package body LSC.RIPEMD160 is
       fff (HH1, HH2, HH3, HH4, HH0, X (12),  8);
       fff (HH0, HH1, HH2, HH3, HH4, X (15),  5);
       fff (HH4, HH0, HH1, HH2, HH3, X (10), 12);
-      fff (HH3, HH4, HH0, HH1, HH2, X ( 4),  9);
-      fff (HH2, HH3, HH4, HH0, HH1, X ( 1), 12);
-      fff (HH1, HH2, HH3, HH4, HH0, X ( 5),  5);
-      fff (HH0, HH1, HH2, HH3, HH4, X ( 8), 14);
-      fff (HH4, HH0, HH1, HH2, HH3, X ( 7),  6);
-      fff (HH3, HH4, HH0, HH1, HH2, X ( 6),  8);
-      fff (HH2, HH3, HH4, HH0, HH1, X ( 2), 13);
+      fff (HH3, HH4, HH0, HH1, HH2, X  (4),  9);
+      fff (HH2, HH3, HH4, HH0, HH1, X  (1), 12);
+      fff (HH1, HH2, HH3, HH4, HH0, X  (5),  5);
+      fff (HH0, HH1, HH2, HH3, HH4, X  (8), 14);
+      fff (HH4, HH0, HH1, HH2, HH3, X  (7),  6);
+      fff (HH3, HH4, HH0, HH1, HH2, X  (6),  8);
+      fff (HH2, HH3, HH4, HH0, HH1, X  (2), 13);
       fff (HH1, HH2, HH3, HH4, HH0, X (13),  6);
       fff (HH0, HH1, HH2, HH3, HH4, X (14),  5);
-      fff (HH4, HH0, HH1, HH2, HH3, X ( 0), 15);
-      fff (HH3, HH4, HH0, HH1, HH2, X ( 3), 13);
-      fff (HH2, HH3, HH4, HH0, HH1, X ( 9), 11);
+      fff (HH4, HH0, HH1, HH2, HH3, X  (0), 15);
+      fff (HH3, HH4, HH0, HH1, HH2, X  (3), 13);
+      fff (HH2, HH3, HH4, HH0, HH1, X  (9), 11);
       fff (HH1, HH2, HH3, HH4, HH0, X (11), 11);
 
       --  Combine results.
@@ -642,8 +640,7 @@ package body LSC.RIPEMD160 is
       Pad32.Block_Terminate (Final_Block, Types.Word64 (Length));
 
       --  Terminator and length values won't fit into current block.
-      if Length > 447
-      then
+      if Length > 447 then
          Context_Update_Internal (Context, Final_Block);
          Final_Block := Null_Block;
       end if;

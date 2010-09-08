@@ -19,6 +19,27 @@ is
    Compiler_Switches := ();
    Builder_Switches := ();
 
+   Style_Switches :=
+   ("-gnaty" &
+      "3" & -- indentation
+      "a" & -- attribute casing
+      "A" & -- array attribute indexes
+      "b" & -- no blanks at line end
+      "e" & -- end/exit labels
+      "f" & -- no form feeds/vertical tabs
+      "h" & -- no horizontal tabs
+      "i" & -- if-then layout
+      "k" & -- keyword casing
+      "l" & -- layout
+      "n" & -- casing of standard identifiers
+      "p" & -- pragma casing
+      "r" & -- identifier casing
+      "S" & -- lines after THEN or ELSE
+      "t" & -- token separation rules
+      "u" & -- no unecessary blank lines
+      "x"   -- no extra parenthesis around conditionals
+   );
+
    for Library_Name     use "sparkcrypto";
    for Library_Kind     use "static";
    for Library_Dir      use "../out/build/adalib";
@@ -56,7 +77,8 @@ is
    end Builder;
 
    package Compiler is
-      for Default_Switches ("Ada") use  Compiler_Switches & ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
+      for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches &
+         ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
    end Compiler;
 
 end Build_Libsparkcrypto;

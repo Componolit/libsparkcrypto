@@ -49,8 +49,7 @@ package body LSC.AES.CBC is
          -- FIXME: Why is access to Ciphertext'First OK in a loop statement,
          --        but not in this if statement?
          --# accept Flow, 20, Ciphertext, "Accessing Ciphertext'First should be OK";
-         if I <= (Ciphertext'First - 1) + Length
-         then
+         if I <= (Ciphertext'First - 1) + Length then
             Ops32.Block_XOR (Next, Plaintext (I), Temp);
             Next := AES.Encrypt (Context, Temp);
 
@@ -90,8 +89,7 @@ package body LSC.AES.CBC is
          -- FIXME: Why is access to Ciphertext'First OK in a loop statement,
          --        but not in this if statement?
          --# accept Flow, 20, Plaintext, "Accessing Plaintext'First should be OK";
-         if I <= (Plaintext'First - 1) + Length
-         then
+         if I <= (Plaintext'First - 1) + Length then
             Temp := AES.Decrypt (Context, Ciphertext (I));
 
             --# accept Flow, 23, Plaintext, "Initialized in complete loop";
