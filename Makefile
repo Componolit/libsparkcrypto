@@ -26,6 +26,12 @@ SPARK_OPTS  = \
    -dpc \
    -nosli
 
+RST2HTML_OPTS = \
+   --generator \
+   --date \
+   --time \
+   --stylesheet=doc/libsparkcrypto.css
+
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 ADT_FILES   = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(wildcard src/shared/generic/*.ads))))
@@ -96,7 +102,7 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ $(TAG) | gzip -c > $@
 
 doc: apidoc
-	rst2html --stylesheet=doc/libsparkcrypto.css README > $(OUTPUT_DIR)/doc/index.html
+	rst2html $(RST2HTML_OPTS) README $(OUTPUT_DIR)/doc/index.html
 
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
