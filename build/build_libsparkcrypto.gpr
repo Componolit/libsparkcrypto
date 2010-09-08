@@ -1,8 +1,8 @@
 project Build_Libsparkcrypto
 is
    type Mode_Type      		is ("debug", "release");
-   type Arch_Type      		is ("x86_64", "i686");
-   type Endianess_Type 		is ("little_endian", "bit_endian");
+   type Arch_Type      		is ("x86_64", "i686", "generic_be");
+   type Endianess_Type 		is ("little_endian", "big_endian");
    type IO_Type        		is ("textio", "nullio");
    type Runtime_Type   		is ("native", "zfp");
    type Optimization_Type	is ("s", "0", "1", "2", "3");
