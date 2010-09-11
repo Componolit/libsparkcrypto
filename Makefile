@@ -130,6 +130,7 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 
 doc: apidoc
 	rst2html $(RST2HTML_OPTS) README $(OUTPUT_DIR)/doc/index.html
+	rst2html $(RST2HTML_OPTS) CHANGES $(OUTPUT_DIR)/doc/changes.html
 
 tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
 	(for t in $^; do $$t; done)
