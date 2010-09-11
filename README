@@ -52,7 +52,7 @@ libsparkcrypto is released under the simplified BSD license::
 Features
 ========
 
-Version 0.1.0 of libsparkcrypto implements the following symmetric cryptographic
+Version 0.1.1 of libsparkcrypto implements the following symmetric cryptographic
 algorithms and modes:
 
 - AES-128, AES-192, AES-256
@@ -72,7 +72,7 @@ Release version
 ---------------
 
 The current release version of libsparkcrypto is available at
-http://senier.net/libsparkcrypto/libsparkcrypto-0.1.0.tgz
+http://senier.net/libsparkcrypto/libsparkcrypto-0.1.1.tgz
 
 An API documentation of the current release version can be found at
 http://senier.net/libsparkcrypto/lsc.html

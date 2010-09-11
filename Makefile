@@ -8,7 +8,7 @@ TESTS       ?= test_aes test_hmac test_ripemd160 test_sha2 test_shadow benchmark
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 
-VERSION     ?= 0.1.0
+VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
 
 SPARK_OPTS  = \
