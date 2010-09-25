@@ -32,21 +32,30 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.AES, LSC.IO, LSC.Test, LSC.Byteorder32, LSC.Types, LSC.AES.CBC;
+with LSC.AES, LSC.IO, LSC.Byteorder32, LSC.Types, LSC.AES.CBC;
+with SPARKUnit;
 use type LSC.AES.Block_Type;
 use type LSC.AES.Message_Type;
 
---# inherit LSC.IO,
---#         LSC.AES,
---#         LSC.Test,
---#         LSC.Byteorder32,
---#         LSC.Types,
---#         LSC.AES.CBC;
+--# inherit
+--#    LSC.IO,
+--#    LSC.AES,
+--#    LSC.Byteorder32,
+--#    LSC.Types,
+--#    LSC.AES.CBC,
+--#    SPARKUnit,
+--#    SPARK_IO;
 
 --# main_program;
 procedure Main
-   --# derives ;
+--# global in out SPARK_IO.Outputs;
+--# derives SPARK_IO.Outputs from *;
 is
+   subtype Harness_Index is Natural range 1 .. 100;
+   subtype Harness_Type is SPARKUnit.Harness_Type (Harness_Index);
+
+   Harness        : Harness_Type;
+
    function N (Item : LSC.Types.Word32) return LSC.Types.Word32
    is
    begin
@@ -54,16 +63,20 @@ is
    end N;
 
    procedure AES_Tests
-   --# derives ;
+   --# global Harness;
+   --# derives Harness from Harness;
    is separate;
 
    procedure AES_CBC_Tests
-   --# derives ;
+   --# global Harness;
+   --# derives Harness from Harness;
    is separate;
 
 begin
 
+   SPARKUnit.Create_Harness (Harness, "libsparkcrypto tests");
    AES_Tests;
    AES_CBC_Tests;
+   SPARKUnit.Text_Report (Harness);
 
 end Main;

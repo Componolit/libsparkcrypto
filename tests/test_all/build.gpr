@@ -1,4 +1,5 @@
 with "libsparkcrypto";
+with "SPARKUnit";
 
 project Build
 is
@@ -12,6 +13,7 @@ is
 
    package Compiler is
       for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN", "-fomit-frame-pointer", "-gnatp", "-gnatwe");
+      for Switches ("spark_io.ads") use ("-gnatwa", "-gnatwe", "-gnat95", "-gnatwY", "-gnatwC");
    end Compiler;
 
 end Build;

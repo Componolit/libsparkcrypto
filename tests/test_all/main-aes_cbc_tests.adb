@@ -38,6 +38,7 @@ is
    subtype Msg_Index is Natural range 1 .. 10;
    subtype Msg_Type is LSC.AES.Message_Type (Msg_Index);
 
+   AES_CBC_Suite         : SPARKUnit.Index_Type;
    Plaintext, Ciphertext : Msg_Type;
    Result                : Msg_Type := Msg_Type'(others => LSC.AES.Block_Type'(others => 0));
    Key128                : LSC.AES.AES128_Key_Type;
@@ -70,6 +71,8 @@ is
 
 begin
 
+   SPARKUnit.Create_Suite (Harness, "AES-CBC tests", AES_CBC_Suite);
+
    Plaintext := Msg_Type'
       (LSC.AES.Block_Type'(N (16#6bc1bee2#), N (16#2e409f96#), N (16#e93d7e11#), N (16#7393172a#)),
        LSC.AES.Block_Type'(N (16#ae2d8a57#), N (16#1e03ac9c#), N (16#9eb76fac#), N (16#45af8e51#)),
@@ -96,12 +99,18 @@ begin
    --  Encryption
    Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
    LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, 4, Result);
-   LSC.Test.Run ("F.2.1 CBC-AES128.Encrypt", Equal (Result, Ciphertext, 4));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_CBC_Suite,
+       "F.2.1 CBC-AES128.Encrypt", Equal (Result, Ciphertext, 4));
 
    --  Decryption
    Dec_Context := LSC.AES.Create_AES128_Dec_Context (Key128);
    LSC.AES.CBC.Decrypt (Dec_Context, IV, Ciphertext, 4, Result);
-   LSC.Test.Run ("F.2.2 CBC-AES128.Decrypt", Equal (Result, Plaintext, 4));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_CBC_Suite,
+       "F.2.2 CBC-AES128.Decrypt", Equal (Result, Plaintext, 4));
 
    --------------
    -- AES192 test
@@ -121,12 +130,18 @@ begin
    --  Encryption
    Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
    LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, 4, Result);
-   LSC.Test.Run ("F.2.3 CBC-AES192.Encrypt", Equal (Result, Ciphertext, 4));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_CBC_Suite,
+       "F.2.3 CBC-AES192.Encrypt", Equal (Result, Ciphertext, 4));
 
    --  Decryption
    Dec_Context := LSC.AES.Create_AES192_Dec_Context (Key192);
    LSC.AES.CBC.Decrypt (Dec_Context, IV, Ciphertext, 4, Result);
-   LSC.Test.Run ("F.2.4 CBC-AES192.Decrypt", Equal (Result, Plaintext, 4));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_CBC_Suite,
+       "F.2.4 CBC-AES192.Decrypt", Equal (Result, Plaintext, 4));
 
    --------------
    -- AES256 test
@@ -146,11 +161,17 @@ begin
    --  Encryption
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);
    LSC.AES.CBC.Encrypt (Enc_Context, IV, Plaintext, 4, Result);
-   LSC.Test.Run ("F.2.5 CBC-AES256.Encrypt", Equal (Result, Ciphertext, 4));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_CBC_Suite,
+       "F.2.5 CBC-AES256.Encrypt", Equal (Result, Ciphertext, 4));
 
    --  Decryption
    Dec_Context := LSC.AES.Create_AES256_Dec_Context (Key256);
    LSC.AES.CBC.Decrypt (Dec_Context, IV, Ciphertext, 4, Result);
-   LSC.Test.Run ("F.2.6 CBC-AES256.Decrypt", Equal (Result, Plaintext, 4));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_CBC_Suite,
+       "F.2.6 CBC-AES256.Decrypt", Equal (Result, Plaintext, 4));
 
 end AES_CBC_Tests;

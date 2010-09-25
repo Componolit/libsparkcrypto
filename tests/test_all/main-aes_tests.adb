@@ -35,6 +35,7 @@
 separate (Main)
 procedure AES_Tests
 is
+   AES_Suite                                 : SPARKUnit.Index_Type;
    Plaintext, Ciphertext                     : LSC.AES.Block_Type;
    Key128                                    : LSC.AES.AES128_Key_Type;
    Key192                                    : LSC.AES.AES192_Key_Type;
@@ -44,7 +45,7 @@ is
 
 begin
 
-   LSC.Test.Suite ("AES tests");
+   SPARKUnit.Create_Suite (Harness, "AES tests", AES_Suite);
 
    --------------
    -- AES128 test
@@ -70,13 +71,19 @@ begin
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
-   LSC.Test.Run ("C.1 AES-128 (Nk=4, Nr=10), Encryption",
-                 Ciphertext = LSC.AES.Encrypt (Enc_Context, Plaintext));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_Suite,
+       "C.1 AES-128 (Nk=4, Nr=10), Encryption",
+       Ciphertext = LSC.AES.Encrypt (Enc_Context, Plaintext));
 
    -- Decryption
    Dec_Context := LSC.AES.Create_AES128_Dec_Context (Key128);
-   LSC.Test.Run ("C.1 AES-128 (Nk=4, Nr=10), Decryption",
-                 Plaintext = LSC.AES.Decrypt (Dec_Context, Ciphertext));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_Suite,
+       "C.1 AES-128 (Nk=4, Nr=10), Decryption",
+       Plaintext = LSC.AES.Decrypt (Dec_Context, Ciphertext));
 
    --------------
    -- AES192 test
@@ -102,13 +109,19 @@ begin
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
-   LSC.Test.Run ("C.2 AES-192 (Nk=6, Nr=12), Encryption",
-                 Ciphertext = LSC.AES.Encrypt (Enc_Context, Plaintext));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_Suite,
+       "C.2 AES-192 (Nk=6, Nr=12), Encryption",
+       Ciphertext = LSC.AES.Encrypt (Enc_Context, Plaintext));
 
    --  Decryption
    Dec_Context := LSC.AES.Create_AES192_Dec_Context (Key192);
-   LSC.Test.Run ("C.2 AES-192 (Nk=6, Nr=12), Decryption",
-                 Plaintext = LSC.AES.Decrypt (Dec_Context, Ciphertext));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_Suite,
+       "C.2 AES-192 (Nk=6, Nr=12), Decryption",
+       Plaintext = LSC.AES.Decrypt (Dec_Context, Ciphertext));
 
    --------------
    -- AES256 test
@@ -134,12 +147,18 @@ begin
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);
-   LSC.Test.Run ("C.3 AES-256 (Nk=8, Nr=14), Encryption",
-                 Ciphertext = LSC.AES.Encrypt (Enc_Context, Plaintext));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_Suite,
+       "C.3 AES-256 (Nk=8, Nr=14), Encryption",
+       Ciphertext = LSC.AES.Encrypt (Enc_Context, Plaintext));
 
    --  Decryption
    Dec_Context := LSC.AES.Create_AES256_Dec_Context (Key256);
-   LSC.Test.Run ("C.3 AES-256 (Nk=8, Nr=14), Decryption",
-                 Plaintext = LSC.AES.Decrypt (Dec_Context, Ciphertext));
+   SPARKUnit.Create_Test
+      (Harness,
+       AES_Suite,
+       "C.3 AES-256 (Nk=8, Nr=14), Decryption",
+       Plaintext = LSC.AES.Decrypt (Dec_Context, Ciphertext));
 
 end AES_Tests;
