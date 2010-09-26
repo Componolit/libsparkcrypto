@@ -35,10 +35,11 @@
 separate (Main)
 procedure HMAC_SHA384_Tests is
 
-   HMAC_Ctx                         : LSC.HMAC_SHA384.Context_Type;
-   Key                              : LSC.SHA512.Block_Type;
-   Block                            : LSC.SHA512.Block_Type;
-   PRF_HMAC_SHA_384                 : LSC.SHA512.SHA384_Hash_Type;
+   HMAC_Ctx          : LSC.HMAC_SHA384.Context_Type;
+   Key               : LSC.SHA512.Block_Type;
+   Block             : LSC.SHA512.Block_Type;
+   PRF_HMAC_SHA_384  : LSC.SHA512.SHA384_Hash_Type;
+   HMAC_SHA384_Suite : SPARKUnit.Index_Type;
 
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
@@ -55,7 +56,7 @@ procedure HMAC_SHA384_Tests is
 
 begin
 
-   LSC.Test.Suite ("HMAC-SHA384 tests");
+   SPARKUnit.Create_Suite (Harness, "HMAC-SHA384 tests", HMAC_SHA384_Suite);
 
    --  SHA384 PRF Test Vectors (RFC 4868, 2.7.1.)
 
@@ -75,8 +76,10 @@ begin
    LSC.HMAC_SHA384.Context_Finalize (HMAC_Ctx, Block, 64);
    PRF_HMAC_SHA_384 := LSC.HMAC_SHA384.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA384-PRF-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-PRF-1",
       PRF_HMAC_SHA_384 =
       LSC.SHA512.SHA384_Hash_Type'
          (N (16#afd03944d8489562#), N (16#6b0825f4ab46907f#),
@@ -102,8 +105,10 @@ begin
    LSC.HMAC_SHA384.Context_Finalize (HMAC_Ctx, Block, 224);
    PRF_HMAC_SHA_384 := LSC.HMAC_SHA384.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA384-PRF-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-PRF-2",
       PRF_HMAC_SHA_384 =
       LSC.SHA512.SHA384_Hash_Type'
       (N (16#af45d2e376484031#), N (16#617f78d2b58a6b1b#), N (16#9c7ef464f5a01b47#),
@@ -128,8 +133,10 @@ begin
    LSC.HMAC_SHA384.Context_Finalize (HMAC_Ctx, Block, 400);
    PRF_HMAC_SHA_384 := LSC.HMAC_SHA384.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA384-PRF-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-PRF-3",
       PRF_HMAC_SHA_384 =
       LSC.SHA512.SHA384_Hash_Type'
       (N (16#88062608d3e6ad8a#), N (16#0aa2ace014c8a86f#), N (16#0aa635d947ac9feb#),
@@ -154,8 +161,10 @@ begin
    LSC.HMAC_SHA384.Context_Finalize (HMAC_Ctx, Block, 400);
    PRF_HMAC_SHA_384 := LSC.HMAC_SHA384.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA384-PRF-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-PRF-4",
       PRF_HMAC_SHA_384 =
       LSC.SHA512.SHA384_Hash_Type'
       (N (16#3e8a69b7783c2585#), N (16#1933ab6290af6ca7#), N (16#7a9981480850009c#),
@@ -175,8 +184,10 @@ begin
    Message1 := Message1_Type'(1 => LSC.SHA512.Block_Type'
       (N (16#4869205468657265#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA384-AUTH-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-AUTH-1",
       LSC.HMAC_SHA384.Authenticate (Key, Message1, 64) =
       LSC.HMAC_SHA384.Auth_Type'
       (N (16#b6a8d5636f5c6a72#), N (16#24f9977dcf7ee6c7#), N (16#fb6d0c48cbdee973#)));
@@ -200,8 +211,10 @@ begin
       (N (16#7768617420646f20#), N (16#79612077616e7420#), N (16#666f72206e6f7468#),
        N (16#696e673f00000000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA384-AUTH-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-AUTH-2",
       LSC.HMAC_SHA384.Authenticate (Key, Message1, 224) =
       LSC.HMAC_SHA384.Auth_Type'
       (N (16#2c7353974f1842fd#), N (16#66d53c452ca42122#), N (16#b28c0b594cfb184d#)));
@@ -222,8 +235,10 @@ begin
        N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
        N (16#dddd000000000000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA384-AUTH-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-AUTH-3",
       LSC.HMAC_SHA384.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA384.Auth_Type'
       (N (16#809f439be0027432#), N (16#1d4a538652164b53#), N (16#554a508184a0c316#)));
@@ -243,8 +258,10 @@ begin
        N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
        N (16#cdcd000000000000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA384-AUTH-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-AUTH-4",
       LSC.HMAC_SHA384.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA384.Auth_Type'
       (N (16#5b540085c6e63580#), N (16#96532b2493609ed1#), N (16#cb298f774f87bb5c#)));
@@ -276,8 +293,10 @@ begin
    );
 
    --  Hexdump of hmac_sha384-hash-1.dat
-   LSC.Test.Run
-     ("HMAC-SHA384-MULTI-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-MULTI-1",
       LSC.HMAC_SHA384.Authenticate (Key, Message2, 2048) =
       LSC.HMAC_SHA384.Auth_Type'(
          N (16#89869091210b3653#), N (16#21f60d6409b9ab5e#), N (16#fd8eea749f22dce3#)));
@@ -312,8 +331,10 @@ begin
    );
 
    --  Compare with hexdump of hmac_sha384-hash-2.dat
-   LSC.Test.Run
-     ("HMAC-SHA384-MULTI-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA384_Suite,
+      "HMAC-SHA384-MULTI-2",
       LSC.HMAC_SHA384.Authenticate (Key, Message3, 2048 + 448) =
       LSC.HMAC_SHA384.Auth_Type'(
          N (16#144cd21ae50bfb0f#), N (16#ed473b88e7b33470#), N (16#5c59fecda5f978c8#)));

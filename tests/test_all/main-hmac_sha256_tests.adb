@@ -35,10 +35,11 @@
 separate (Main)
 procedure HMAC_SHA256_Tests is
 
-   HMAC_Ctx                         : LSC.HMAC_SHA256.Context_Type;
-   Key                              : LSC.SHA256.Block_Type;
-   Block                            : LSC.SHA256.Block_Type;
-   PRF_HMAC_SHA_256                 : LSC.SHA256.SHA256_Hash_Type;
+   HMAC_Ctx          : LSC.HMAC_SHA256.Context_Type;
+   Key               : LSC.SHA256.Block_Type;
+   Block             : LSC.SHA256.Block_Type;
+   PRF_HMAC_SHA_256  : LSC.SHA256.SHA256_Hash_Type;
+   HMAC_SHA256_Suite : SPARKUnit.Index_Type;
 
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.SHA256.Message_Type (Message1_Index);
@@ -55,7 +56,7 @@ procedure HMAC_SHA256_Tests is
 
 begin
 
-   LSC.Test.Suite ("HMAC-SHA256 tests");
+   SPARKUnit.Create_Suite (Harness, "HMAC-SHA256 tests", HMAC_SHA256_Suite);
 
    --  SHA256 PRF Test Vectors (RFC 4868, 2.7.1.)
 
@@ -76,8 +77,10 @@ begin
    LSC.HMAC_SHA256.Context_Finalize (HMAC_Ctx, Block, 64);
    PRF_HMAC_SHA_256 := LSC.HMAC_SHA256.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA256-PRF-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-PRF-1",
       PRF_HMAC_SHA_256 =
       LSC.SHA256.SHA256_Hash_Type'
          (M (16#b0344c61#),
@@ -107,8 +110,10 @@ begin
    LSC.HMAC_SHA256.Context_Finalize (HMAC_Ctx, Block, 224);
    PRF_HMAC_SHA_256 := LSC.HMAC_SHA256.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA256-PRF-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-PRF-2",
       PRF_HMAC_SHA_256 =
       LSC.SHA256.SHA256_Hash_Type'(M (16#5bdcc146#),
                                    M (16#bf60754e#),
@@ -140,8 +145,10 @@ begin
    LSC.HMAC_SHA256.Context_Finalize (HMAC_Ctx, Block, 400);
    PRF_HMAC_SHA_256 := LSC.HMAC_SHA256.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA256-PRF-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-PRF-3",
       PRF_HMAC_SHA_256 =
       LSC.SHA256.SHA256_Hash_Type'(M (16#773ea91e#),
                                    M (16#36800e46#),
@@ -185,8 +192,10 @@ begin
    LSC.HMAC_SHA256.Context_Finalize (HMAC_Ctx, Block, 400);
    PRF_HMAC_SHA_256 := LSC.HMAC_SHA256.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA256-PRF-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-PRF-4",
       PRF_HMAC_SHA_256 =
       LSC.SHA256.SHA256_Hash_Type'(M (16#82558a38#),
                                    M (16#9a443c0e#),
@@ -216,8 +225,10 @@ begin
    Message1 := Message1_Type'(1 => LSC.SHA256.Block_Type'
       (M (16#48692054#), M (16#68657265#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA256-AUTH-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-AUTH-1",
       LSC.HMAC_SHA256.Authenticate (Key, Message1, 64) =
       LSC.HMAC_SHA256.Auth_Type'(M (16#198a607e#),
                                  M (16#b44bfbc6#),
@@ -252,8 +263,10 @@ begin
                                    M (16#696e673f#),
                                    others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA256-AUTH-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-AUTH-2",
       LSC.HMAC_SHA256.Authenticate (Key, Message1, 224) =
       LSC.HMAC_SHA256.Auth_Type'(M (16#167f9285#),
                                  M (16#88c5cc2e#),
@@ -292,8 +305,10 @@ begin
                                    M (16#dddd0000#),
                                    others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA256-AUTH-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-AUTH-3",
       LSC.HMAC_SHA256.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA256.Auth_Type'(M (16#cdcb1220#),
                                  M (16#d1ecccea#),
@@ -332,8 +347,10 @@ begin
                                    M (16#cdcd0000#),
                                    others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA256-AUTH-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-AUTH-4",
       LSC.HMAC_SHA256.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA256.Auth_Type'(M (16#372efcf9#),
                                  M (16#b40b35c2#),
@@ -377,8 +394,10 @@ begin
       );
 
    -- hmac_sha256-hash-1.dat
-   LSC.Test.Run
-     ("HMAC-SHA256-MULTI-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-MULTI-1",
       LSC.HMAC_SHA256.Authenticate (Key, Message4, 2048) =
       LSC.HMAC_SHA256.Auth_Type'(
       M (16#15667870#), M (16#c4957c0f#), M (16#46de0f26#), M (16#c19804ae#)));
@@ -425,8 +444,10 @@ begin
    );
 
    -- hmac_sha256-hash-2.dat
-   LSC.Test.Run
-     ("HMAC-SHA256-MULTI-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA256_Suite,
+      "HMAC-SHA256-MULTI-2",
       LSC.HMAC_SHA256.Authenticate (Key, Message5, 2048 + 448) =
       LSC.HMAC_SHA256.Auth_Type'(
       M (16#a3735482#), M (16#3897bec4#), M (16#a017cefc#), M (16#608852a6#)));

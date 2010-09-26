@@ -39,7 +39,7 @@ ifeq ($(NO_PROOF),)
 GOALS += $(OUTPUT_DIR)/test_all.sum
 endif
 
-all: $(GOALS)
+all: $(GOALS) $(OUTPUT_DIR)/genhmac
 
 install: all
 	install -D -m 755 $(OUTPUT_DIR)/test_all $(DESTDIR)/test_all
@@ -65,6 +65,9 @@ $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 
 $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 	@$< > $@
+
+$(OUTPUT_DIR)/genhmac:
+	$(CC) -W -Wall -Werror -o $@ genhmac.c -lssl
 
 clean:
 	rm -rf $(OUTPUT_DIR)

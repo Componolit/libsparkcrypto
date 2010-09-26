@@ -55,19 +55,19 @@ begin
 
    --# accept Flow, 10, Key128, "Only debug output needed";
    Key128 := LSC.AES.AES128_Key_Type'
-      (N (16#2b7e1516#), N (16#28aed2a6#), N (16#abf71588#), N (16#09cf4f3c#));
+      (M (16#2b7e1516#), M (16#28aed2a6#), M (16#abf71588#), M (16#09cf4f3c#));
 
    --# accept Flow, 10, "Only debug output needed";
    Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
 
    Key128 := LSC.AES.AES128_Key_Type'
-      (N (16#00010203#), N (16#04050607#), N (16#08090a0b#), N (16#0c0d0e0f#));
+      (M (16#00010203#), M (16#04050607#), M (16#08090a0b#), M (16#0c0d0e0f#));
 
    Plaintext := LSC.AES.Block_Type'
-      (N (16#00112233#), N (16#44556677#), N (16#8899aabb#), N (16#ccddeeff#));
+      (M (16#00112233#), M (16#44556677#), M (16#8899aabb#), M (16#ccddeeff#));
 
    Ciphertext := LSC.AES.Block_Type'
-      (N (16#69c4e0d8#), N (16#6a7b0430#), N (16#d8cdb780#), N (16#70b4c55a#));
+      (M (16#69c4e0d8#), M (16#6a7b0430#), M (16#d8cdb780#), M (16#70b4c55a#));
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES128_Enc_Context (Key128);
@@ -91,21 +91,21 @@ begin
 
    --# accept Flow, 10, Key192, "Only debug output needed";
    Key192 := LSC.AES.AES192_Key_Type'
-      (N (16#8e73b0f7#), N (16#da0e6452#), N (16#c810f32b#),
-       N (16#809079e5#), N (16#62f8ead2#), N (16#522c6b7b#));
+      (M (16#8e73b0f7#), M (16#da0e6452#), M (16#c810f32b#),
+       M (16#809079e5#), M (16#62f8ead2#), M (16#522c6b7b#));
 
    --# accept Flow, 10, "Only debug output needed";
    Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
 
    Key192 := LSC.AES.AES192_Key_Type'
-      (N (16#00010203#), N (16#04050607#), N (16#08090a0b#),
-       N (16#0c0d0e0f#), N (16#10111213#), N (16#14151617#));
+      (M (16#00010203#), M (16#04050607#), M (16#08090a0b#),
+       M (16#0c0d0e0f#), M (16#10111213#), M (16#14151617#));
 
    Plaintext := LSC.AES.Block_Type'
-      (N (16#00112233#), N (16#44556677#), N (16#8899aabb#), N (16#ccddeeff#));
+      (M (16#00112233#), M (16#44556677#), M (16#8899aabb#), M (16#ccddeeff#));
 
    Ciphertext := LSC.AES.Block_Type'
-      (N (16#dda97ca4#), N (16#864cdfe0#), N (16#6eaf70a0#), N (16#ec0d7191#));
+      (M (16#dda97ca4#), M (16#864cdfe0#), M (16#6eaf70a0#), M (16#ec0d7191#));
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES192_Enc_Context (Key192);
@@ -129,21 +129,21 @@ begin
 
    --# accept Flow, 10, Key256, "Only debug output needed";
    Key256 := LSC.AES.AES256_Key_Type'
-      (N (16#603deb10#), N (16#15ca71be#), N (16#2b73aef0#), N (16#857d7781#),
-       N (16#1f352c07#), N (16#3b6108d7#), N (16#2d9810a3#), N (16#0914dff4#));
+      (M (16#603deb10#), M (16#15ca71be#), M (16#2b73aef0#), M (16#857d7781#),
+       M (16#1f352c07#), M (16#3b6108d7#), M (16#2d9810a3#), M (16#0914dff4#));
 
    --# accept Flow, 10, "Only debug output needed";
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);
 
    Key256 := LSC.AES.AES256_Key_Type'
-      (N (16#00010203#), N (16#04050607#), N (16#08090a0b#), N (16#0c0d0e0f#),
-       N (16#10111213#), N (16#14151617#), N (16#18191a1b#), N (16#1c1d1e1f#));
+      (M (16#00010203#), M (16#04050607#), M (16#08090a0b#), M (16#0c0d0e0f#),
+       M (16#10111213#), M (16#14151617#), M (16#18191a1b#), M (16#1c1d1e1f#));
 
    Plaintext := LSC.AES.Block_Type'
-      (N (16#00112233#), N (16#44556677#), N (16#8899aabb#), N (16#ccddeeff#));
+      (M (16#00112233#), M (16#44556677#), M (16#8899aabb#), M (16#ccddeeff#));
 
    Ciphertext := LSC.AES.Block_Type'
-      (N (16#8ea2b7ca#), N (16#516745bf#), N (16#eafc4990#), N (16#4b496089#));
+      (M (16#8ea2b7ca#), M (16#516745bf#), M (16#eafc4990#), M (16#4b496089#));
 
    --  Encryption
    Enc_Context := LSC.AES.Create_AES256_Enc_Context (Key256);

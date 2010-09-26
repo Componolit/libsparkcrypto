@@ -34,12 +34,13 @@
 
 separate (Main)
 procedure SHA384_Tests is
+   SHA384_Suite                           : SPARKUnit.Index_Type;
    SHA512_Ctx1, SHA512_Ctx2, SHA512_Ctx3  : LSC.SHA512.Context_Type;
-   Hash1, Hash2, Hash3              : LSC.SHA512.SHA384_Hash_Type;
-   Message1, Message2, Message3     : LSC.SHA512.Block_Type;
+   Hash1, Hash2, Hash3                    : LSC.SHA512.SHA384_Hash_Type;
+   Message1, Message2, Message3           : LSC.SHA512.Block_Type;
 begin
 
-   LSC.Test.Suite ("SHA384 tests");
+   SPARKUnit.Create_Suite (Harness, "SHA-384 tests", SHA384_Suite);
 
    --  FIPS 180-2, Appendix C: SHA-384 Examples
 
@@ -50,8 +51,10 @@ begin
    LSC.SHA512.Context_Finalize (SHA512_Ctx1, Message1, 24);
    Hash1 := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx1);
 
-   LSC.Test.Run
-     ("SHA-384 Example (One-Block Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA384_Suite,
+      "SHA-384 Example (One-Block Message)",
       Hash1 =
       LSC.SHA512.SHA384_Hash_Type'(N (16#cb00753f45a35e8b#),
                                    N (16#b5a03d699ac65007#),
@@ -83,8 +86,10 @@ begin
    LSC.SHA512.Context_Finalize (SHA512_Ctx2, Message2, 896);
    Hash2 := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx2);
 
-   LSC.Test.Run
-     ("SHA-384 Example (Multi-Block Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA384_Suite,
+      "SHA-384 Example (Multi-Block Message)",
       Hash2 =
       LSC.SHA512.SHA384_Hash_Type'(N (16#09330c33f71147e8#),
                                    N (16#3d192fc782cd1b47#),
@@ -105,8 +110,10 @@ begin
    LSC.SHA512.Context_Finalize (SHA512_Ctx3, Message3, 512);
    Hash3 := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx3);
 
-   LSC.Test.Run
-     ("SHA-384 Example (Long Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA384_Suite,
+      "SHA-384 Example (Long Message)",
       Hash3 =
       LSC.SHA512.SHA384_Hash_Type'(N (16#9d0e1809716474cb#),
                                    N (16#086e834e310a4a1c#),

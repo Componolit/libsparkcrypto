@@ -35,7 +35,8 @@
 separate (Main)
 procedure HMAC_RIPEMD160_Tests is
 
-   Key         : LSC.RIPEMD160.Block_Type;
+   Key                  : LSC.RIPEMD160.Block_Type;
+   HMAC_RIPEMD160_Suite : SPARKUnit.Index_Type;
 
    subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
    subtype Message1_Type is LSC.RIPEMD160.Message_Type (Message1_Index);
@@ -52,7 +53,7 @@ procedure HMAC_RIPEMD160_Tests is
 
 begin
 
-   LSC.Test.Suite ("HMAC-RIPEMD160 tests");
+   SPARKUnit.Create_Suite (Harness, "HMAC-RIPEMD160 tests", HMAC_RIPEMD160_Suite);
 
    --  RIPEMD160 Test Vectors (RFC 2286, 2.)
 
@@ -68,8 +69,10 @@ begin
    Message1 := Message1_Type'(1 => LSC.RIPEMD160.Block_Type'
       (M (16#48692054#), M (16#68657265#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-RIPEMD160-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_RIPEMD160_Suite,
+      "HMAC-RIPEMD160-1",
       LSC.HMAC_RIPEMD160.Authenticate (Key, Message1, 64) =
       LSC.RIPEMD160.Hash_Type'
       (M (16#24cb4bd6#), M (16#7d20fc1a#), M (16#5d2ed773#),
@@ -89,8 +92,10 @@ begin
       (M (16#77686174#), M (16#20646f20#), M (16#79612077#), M (16#616e7420#),
        M (16#666f7220#), M (16#6e6f7468#), M (16#696e673f#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-RIPEMD160-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_RIPEMD160_Suite,
+      "HMAC-RIPEMD160-2",
       LSC.HMAC_RIPEMD160.Authenticate (Key, Message1, 224) =
       LSC.RIPEMD160.Hash_Type'
                (M (16#dda6c021#), M (16#3a485a9e#), M (16#24f47420#),
@@ -113,8 +118,10 @@ begin
        M (16#dddddddd#), M (16#dddddddd#), M (16#dddddddd#),
        M (16#dddd0000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-RIPEMD160-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_RIPEMD160_Suite,
+      "HMAC-RIPEMD160-3",
       LSC.HMAC_RIPEMD160.Authenticate (Key, Message1, 400) =
       LSC.RIPEMD160.Hash_Type'
       (M (16#b0b10536#), M (16#0de75996#), M (16#0ab4f352#),
@@ -137,8 +144,10 @@ begin
        M (16#cdcdcdcd#), M (16#cdcdcdcd#), M (16#cdcdcdcd#),
        M (16#cdcd0000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-RIPEMD160-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_RIPEMD160_Suite,
+      "HMAC-RIPEMD160-4",
       LSC.HMAC_RIPEMD160.Authenticate (Key, Message1, 400) =
       LSC.RIPEMD160.Hash_Type'
       (M (16#d5ca862f#), M (16#4d21d5e6#), M (16#10e18b4c#),
@@ -181,8 +190,10 @@ begin
       );
 
    -- hmac_rmd160-hash-1.dat
-   LSC.Test.Run
-     ("HMAC-RIPEMD160-MULTI-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_RIPEMD160_Suite,
+      "HMAC-RIPEMD160-MULTI-1",
       LSC.HMAC_RIPEMD160.Authenticate (Key, Message4, 2048) =
       LSC.RIPEMD160.Hash_Type'(
          M (16#34c25afc#), M (16#15a81bf8#), M (16#e48c2dce#), M (16#a1063014#), M (16#f49df262#)));
@@ -229,8 +240,10 @@ begin
       );
 
    -- hmac_rmd160-hash-2.dat
-   LSC.Test.Run
-     ("HMAC-RIPEMD160-MULTI-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_RIPEMD160_Suite,
+      "HMAC-RIPEMD160-MULTI-2",
       LSC.HMAC_RIPEMD160.Authenticate (Key, Message5, 2048 + 448) =
       LSC.RIPEMD160.Hash_Type'(
          M (16#8d6bf378#), M (16#22d7812d#), M (16#acc4aa1a#), M (16#86e280a0#), M (16#e43bbd38#)));

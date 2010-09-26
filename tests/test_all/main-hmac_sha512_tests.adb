@@ -35,10 +35,11 @@
 separate (Main)
 procedure HMAC_SHA512_Tests is
 
-   HMAC_Ctx                         : LSC.HMAC_SHA512.Context_Type;
-   Key                              : LSC.SHA512.Block_Type;
-   Block                            : LSC.SHA512.Block_Type;
-   PRF_HMAC_SHA_512                 : LSC.SHA512.SHA512_Hash_Type;
+   HMAC_Ctx          : LSC.HMAC_SHA512.Context_Type;
+   Key               : LSC.SHA512.Block_Type;
+   Block             : LSC.SHA512.Block_Type;
+   PRF_HMAC_SHA_512  : LSC.SHA512.SHA512_Hash_Type;
+   HMAC_SHA512_Suite : SPARKUnit.Index_Type;
 
    subtype Message1_Index is LSC.SHA512.Message_Index range 1 .. 1;
    subtype Message1_Type  is LSC.SHA512.Message_Type (Message1_Index);
@@ -61,7 +62,8 @@ procedure HMAC_SHA512_Tests is
 
 begin
 
-   LSC.Test.Suite ("HMAC-SHA512 tests");
+   SPARKUnit.Create_Suite (Harness, "HMAC-SHA512 tests", HMAC_SHA512_Suite);
+
 
    --  SHA512 PRF Test Vectors (RFC 4868, 2.7.1.)
 
@@ -81,8 +83,10 @@ begin
    LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 64);
    PRF_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA512-PRF-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-PRF-1",
       PRF_HMAC_SHA_512 =
       LSC.SHA512.SHA512_Hash_Type'
          (N (16#87aa7cdea5ef619d#), N (16#4ff0b4241a1d6cb0#), N (16#2379f4e2ce4ec278#),
@@ -107,8 +111,10 @@ begin
    LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 224);
    PRF_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA512-PRF-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-PRF-2",
       PRF_HMAC_SHA_512 =
       LSC.SHA512.SHA512_Hash_Type'
          (N (16#164b7a7bfcf819e2#), N (16#e395fbe73b56e0a3#), N (16#87bd64222e831fd6#),
@@ -134,8 +140,10 @@ begin
    LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
    PRF_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA512-PRF-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-PRF-3",
       PRF_HMAC_SHA_512 =
       LSC.SHA512.SHA512_Hash_Type'
          (N (16#fa73b0089d56a284#), N (16#efb0f0756c890be9#), N (16#b1b5dbdd8ee81a36#),
@@ -161,8 +169,10 @@ begin
    LSC.HMAC_SHA512.Context_Finalize (HMAC_Ctx, Block, 400);
    PRF_HMAC_SHA_512 := LSC.HMAC_SHA512.Get_Prf (HMAC_Ctx);
 
-   LSC.Test.Run
-     ("HMAC-SHA512-PRF-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-PRF-4",
       PRF_HMAC_SHA_512 =
       LSC.SHA512.SHA512_Hash_Type'
          (N (16#b0ba465637458c69#), N (16#90e5a8c5f61d4af7#), N (16#e576d97ff94b872d#),
@@ -182,8 +192,10 @@ begin
    -- "Hi There"
    Message1 := Message1_Type'(1 => LSC.SHA512.Block_Type'(N (16#4869205468657265#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA512-AUTH-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-AUTH-1",
       LSC.HMAC_SHA512.Authenticate (Key, Message1, 64) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#637edc6e01dce7e6#), N (16#742a99451aae82df#), N (16#23da3e92439e590e#),
@@ -208,8 +220,10 @@ begin
       (N (16#7768617420646f20#), N (16#79612077616e7420#), N (16#666f72206e6f7468#),
        N (16#696e673f00000000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA512-AUTH-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-AUTH-2",
       LSC.HMAC_SHA512.Authenticate (Key, Message1, 224) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#cb370917ae8a7ce2#), N (16#8cfd1d8f4705d614#), N (16#1c173b2a9362c15d#),
@@ -231,8 +245,10 @@ begin
           N (16#dddddddddddddddd#), N (16#dddddddddddddddd#), N (16#dddddddddddddddd#),
           N (16#dddd000000000000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA512-AUTH-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-AUTH-3",
       LSC.HMAC_SHA512.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#2ee7acd783624ca9#), N (16#398710f3ee05ae41#), N (16#b9f9b0510c87e49e#),
@@ -259,8 +275,10 @@ begin
        N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#), N (16#cdcdcdcdcdcdcdcd#),
        N (16#cdcd000000000000#), others => 0));
 
-   LSC.Test.Run
-     ("HMAC-SHA512-AUTH-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-AUTH-4",
       LSC.HMAC_SHA512.Authenticate (Key, Message1, 400) =
       LSC.HMAC_SHA512.Auth_Type'
          (N (16#5e6688e5a3daec82#), N (16#6ca32eaea224eff5#), N (16#e700628947470e13#),
@@ -355,8 +373,10 @@ begin
    );
 
    --  Compare with hexdump of hash.dat
-   LSC.Test.Run
-     ("HMAC-SHA512-MULTI-1",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-MULTI-1",
       LSC.HMAC_SHA512.Authenticate (Key, Message12, 12_000) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#24b3907ac82497a4#), N (16#d7e0db7c317b93a7#), N (16#f2c35ce153913d86#), N (16#608068d30ce4ef0a#)));
@@ -417,8 +437,10 @@ begin
    );
 
    --  Compare with hexdump of HMAC_SHA512-HASH-2.dat
-   LSC.Test.Run
-     ("HMAC-SHA512-MULTI-2",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-MULTI-2",
       LSC.HMAC_SHA512.Authenticate (Key, Message7, 5120) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#412015d264458463#), N (16#0c23f0685dce9e06#), N (16#d790cd4af47e70b7#), N (16#4809daea24ebdcd4#)));
@@ -443,8 +465,10 @@ begin
    others => LSC.SHA512.Block_Type'(others => 0)
    );
 
-   LSC.Test.Run
-     ("HMAC-SHA512-MULTI-3",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-MULTI-3",
       LSC.HMAC_SHA512.Authenticate (Key, Message11, 16#3c0#) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#dc3081d890ce1209#), N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#)));
@@ -473,8 +497,10 @@ begin
 
    -- Note that we hash only part of the message (leaving out the last 4 64-bit values).
    -- This should result in the same authentication value as MULTI-3!
-   LSC.Test.Run
-     ("HMAC-SHA512-MULTI-4",
+   SPARKUnit.Create_Test
+     (Harness,
+      HMAC_SHA512_Suite,
+      "HMAC-SHA512-MULTI-4",
       LSC.HMAC_SHA512.Authenticate (Key, Message11, 16#3c0#) =
       LSC.HMAC_SHA512.Auth_Type'(
          N (16#dc3081d890ce1209#), N (16#ca7c0618f35c7da8#), N (16#6ca43d462ce7a92e#), N (16#157e2b8865381a6f#)));

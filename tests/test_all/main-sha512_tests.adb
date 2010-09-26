@@ -34,12 +34,13 @@
 
 separate (Main)
 procedure SHA512_Tests is
+   SHA512_Suite                           : SPARKUnit.Index_Type;
    SHA512_Ctx1, SHA512_Ctx2, SHA512_Ctx3  : LSC.SHA512.Context_Type;
-   Hash1, Hash2, Hash3              : LSC.SHA512.SHA512_Hash_Type;
-   Message1, Message2, Message3     : LSC.SHA512.Block_Type;
+   Hash1, Hash2, Hash3                    : LSC.SHA512.SHA512_Hash_Type;
+   Message1, Message2, Message3           : LSC.SHA512.Block_Type;
 begin
 
-   LSC.Test.Suite ("SHA512 tests");
+   SPARKUnit.Create_Suite (Harness, "SHA-512 tests", SHA512_Suite);
 
    --  FIPS 180-2, Appendix C: SHA-512 Examples
 
@@ -50,8 +51,10 @@ begin
    LSC.SHA512.Context_Finalize (SHA512_Ctx1, Message1, 24);
    Hash1 := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx1);
 
-   LSC.Test.Run
-     ("SHA-512 Example (One-Block Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA512_Suite,
+      "SHA-512 Example (One-Block Message)",
       Hash1 =
       LSC.SHA512.SHA512_Hash_Type'(N (16#ddaf35a193617aba#),
                                    N (16#cc417349ae204131#),
@@ -85,8 +88,10 @@ begin
    LSC.SHA512.Context_Finalize (SHA512_Ctx2, Message2, 896);
    Hash2 := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx2);
 
-   LSC.Test.Run
-     ("SHA-512 Example (Multi-Block Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA512_Suite,
+      "SHA-512 Example (Multi-Block Message)",
       Hash2 =
       LSC.SHA512.SHA512_Hash_Type'(N (16#8e959b75dae313da#),
                                    N (16#8cf4f72814fc143f#),
@@ -109,8 +114,10 @@ begin
    LSC.SHA512.Context_Finalize (SHA512_Ctx3, Message3, 512);
    Hash3 := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx3);
 
-   LSC.Test.Run
-     ("SHA-512 Example (Long Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA512_Suite,
+      "SHA-512 Example (Long Message)",
       Hash3 =
       LSC.SHA512.SHA512_Hash_Type'(N (16#e718483d0ce76964#),
                                    N (16#4e2e42c7bc15b463#),

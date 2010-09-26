@@ -32,10 +32,24 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package Interfaces is
+separate (Main)
+procedure Shadow_Tests
+is
+   Shadow_Suite : SPARKUnit.Index_Type;
+begin
 
-   type Unsigned_8 is mod 2 ** 8;
-   type Unsigned_32 is mod 2 ** 32;
-   type Unsigned_64 is mod 2 ** 64;
+   SPARKUnit.Create_Suite (Harness, "Shadow tests", Shadow_Suite);
 
-end Interfaces;
+   SPARKUnit.Create_Test
+      (Harness,
+       Shadow_Suite,
+       "Byte swap (32-bit)",
+       LSC.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#);
+
+   SPARKUnit.Create_Test
+      (Harness,
+       Shadow_Suite,
+       "Byte swap (64-bit)",
+       LSC.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#);
+
+end Shadow_Tests;

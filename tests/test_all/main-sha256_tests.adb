@@ -34,12 +34,13 @@
 
 separate (Main)
 procedure SHA256_Tests is
+   SHA256_Suite                           : SPARKUnit.Index_Type;
    SHA256_Ctx1, SHA256_Ctx2, SHA256_Ctx3  : LSC.SHA256.Context_Type;
    Hash1, Hash2, Hash3                    : LSC.SHA256.SHA256_Hash_Type;
    Message1, Message2, Message3           : LSC.SHA256.Block_Type;
 begin
 
-   LSC.Test.Suite ("SHA256 tests");
+   SPARKUnit.Create_Suite (Harness, "SHA-256 tests", SHA256_Suite);
 
    --  FIPS 180-2, Appendix C: SHA-256 Examples
 
@@ -49,8 +50,10 @@ begin
    LSC.SHA256.Context_Finalize (SHA256_Ctx1, Message1, 24);
    Hash1 := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx1);
 
-   LSC.Test.Run
-     ("SHA-256 Example (One-Block Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA256_Suite,
+      "SHA-256 Example (One-Block Message)",
       Hash1 =
       LSC.SHA256.SHA256_Hash_Type'(M (16#ba7816bf#),
                                    M (16#8f01cfea#),
@@ -84,8 +87,10 @@ begin
    LSC.SHA256.Context_Finalize (SHA256_Ctx2, Message2, 448);
    Hash2 := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx2);
 
-   LSC.Test.Run
-     ("SHA-256 Example (Multi-Block Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA256_Suite,
+      "SHA-256 Example (Multi-Block Message)",
       Hash2 =
       LSC.SHA256.SHA256_Hash_Type'(M (16#248d6a61#),
                                    M (16#d20638b8#),
@@ -108,8 +113,10 @@ begin
    LSC.SHA256.Context_Finalize (SHA256_Ctx3, Message3, 0);
    Hash3 := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx3);
 
-   LSC.Test.Run
-     ("SHA-256 Example (Long Message)",
+   SPARKUnit.Create_Test
+     (Harness,
+      SHA256_Suite,
+      "SHA-256 Example (Long Message)",
       Hash3 =
       LSC.SHA256.SHA256_Hash_Type'(M (16#cdc76e5c#),
                                    M (16#9914fb92#),

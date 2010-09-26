@@ -4,7 +4,7 @@ UNAME_M   := $(shell uname -m)
 
 ARCH        ?= $(UNAME_M)
 RUNTIME     ?= native
-TESTS       ?= test_all test_hmac test_ripemd160 test_sha2 test_shadow benchmark
+TESTS       ?= test_all benchmark
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 
