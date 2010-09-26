@@ -37,7 +37,6 @@ with LSC.SHA512;
 with LSC.RIPEMD160;
 with LSC.Types;
 with LSC.AES;
-with LSC.Test;
 with LSC.IO;
 with LSC.HMAC_SHA256;
 with LSC.HMAC_SHA384;
