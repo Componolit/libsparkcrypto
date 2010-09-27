@@ -41,6 +41,7 @@ is
    Key128                  : LSC.AES.AES128_Key_Type;
    Context1                : OpenSSL.AES_Enc_Context_Type;
    Context2                : LSC.AES.AES_Enc_Context;
+   M                       : SPARKUnit.Measurement_Type;
 begin
 
    Plain := Message_Type'
@@ -55,7 +56,7 @@ begin
                                        16#0f0e0d0c#);
 
    Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
-   S1 := Clock;
+   SPARKUnit.Reference_Start (M);
    for k in 1 .. 20
    loop
       for I in Message_Type'Range
@@ -63,10 +64,10 @@ begin
          Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
       end loop;
    end loop;
-   D1 := Clock - S1;
+   SPARKUnit.Reference_Stop (M);
 
    Context2 := LSC.AES.Create_AES128_Enc_Context (Key128);
-   S2 := Clock;
+   SPARKUnit.Measurement_Start (M);
    for k in 1 .. 20
    loop
       for I in Message_Type'Range
@@ -74,7 +75,7 @@ begin
          Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
       end loop;
    end loop;
-   D2 := Clock - S2;
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("AES-128_ENC", Cipher1 = Cipher2, D1, D2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-128_ENC", M, Cipher1 = Cipher2);
 end;

@@ -1,10 +1,9 @@
 OUTPUT_DIR = $(CURDIR)/out
-DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc $(OUTPUT_DIR)/tree)
+DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc $(OUTPUT_DIR)/tree $(OUTPUT_DIR)/tests)
 UNAME_M   := $(shell uname -m)
 
 ARCH        ?= $(UNAME_M)
 RUNTIME     ?= native
-TESTS       ?= test_all benchmark
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 
@@ -57,8 +56,6 @@ endif
 ifeq      ($(RUNTIME),native)
    IO		= textio
 else ifeq ($(RUNTIME),zfp)
-	# Tests and Text_IO are unsupported for zfp
-   TESTS =
    IO    = nullio
 else
    $(error Unsupported runtime: $(RUNTIME))
@@ -132,8 +129,13 @@ doc: apidoc
 	rst2html $(RST2HTML_OPTS) README $(OUTPUT_DIR)/doc/index.html
 	rst2html $(RST2HTML_OPTS) CHANGES $(OUTPUT_DIR)/doc/changes.html
 
-tests: $(addprefix $(OUTPUT_DIR)/tests/, $(TESTS))
-	(for t in $^; do $$t; done)
+tests: $(OUTPUT_DIR)/tests/tests
+	$<
+
+$(OUTPUT_DIR)/tests/tests: install_local
+	make -C tests \
+      LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \
+      OUTPUT_DIR=$(OUTPUT_DIR)/tests
 
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
@@ -180,18 +182,6 @@ $(OUTPUT_DIR)/tree/%.adt: $(CURDIR)/src/shared/generic/%.ads
 	(cd $(OUTPUT_DIR)/tree && gcc -c -gnatc -gnatt $^)
 
 #
-# how to build a test
-#
-$(OUTPUT_DIR)/tests/%: install_local
-	$(MAKE) -C tests/$(@F) DESTDIR=$(OUTPUT_DIR)/tests LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto install
-
-#
-# how to clean a test
-#
-clean_%:
-	@make -s -C tests/$(*F) clean
-
-#
 # how to build the target configuration generator
 #
 $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
@@ -204,7 +194,7 @@ $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 	$< | sed -e 's/LOW_ORDER_FIRST/Low_Order_First/g' -e 's/HIGH_ORDER_FIRST/High_Order_First/g' > $@
 
-clean: $(addprefix clean_, $(TESTS))
+clean:
 	@rm -rf $(OUTPUT_DIR)
 
 .PHONY: all install install_local build tests proof apidoc archive

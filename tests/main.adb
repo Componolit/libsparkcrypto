@@ -48,6 +48,7 @@ with LSC.HMAC_SHA512;
 with LSC.HMAC_SHA384;
 with LSC.HMAC_RIPEMD160;
 with SPARKUnit;
+with OpenSSL;
 
 use type LSC.AES.Block_Type;
 use type LSC.AES.Message_Type;
@@ -80,7 +81,8 @@ is
    subtype Harness_Index is Natural range 1 .. 100;
    subtype Harness_Type is SPARKUnit.Harness_Type (Harness_Index);
 
-   Harness        : Harness_Type;
+   Harness     : Harness_Type;
+   Benchmarks  : SPARKUnit.Index_Type;
 
    function N (Item : LSC.Types.Word64) return LSC.Types.Word64
    is
@@ -149,9 +151,80 @@ is
    --# derives Harness from Harness;
    is separate;
 
+   procedure Test_AES128_Decrypt
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_AES128_Encrypt
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_AES192_Encrypt
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_AES256_Encrypt
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_AES192_Decrypt
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_AES256_Decrypt
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_SHA256
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_SHA384
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_SHA512
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_RIPEMD160
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_HMAC_SHA256
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_HMAC_SHA384
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_HMAC_SHA512
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
+   procedure Test_HMAC_RMD160
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
 begin
 
    SPARKUnit.Create_Harness (Harness, "libsparkcrypto tests");
+   SPARKUnit.Create_Suite (Harness, "Benchmarks", Benchmarks);
 
    AES_Tests;
    AES_CBC_Tests;
@@ -164,6 +237,20 @@ begin
    HMAC_RIPEMD160_Tests;
    RIPEMD160_Tests;
    Shadow_Tests;
+   Test_AES128_Decrypt;
+   Test_AES128_Encrypt;
+   Test_AES192_Encrypt;
+   Test_AES256_Encrypt;
+   Test_AES192_Decrypt;
+   Test_AES256_Decrypt;
+   Test_SHA256;
+   Test_SHA384;
+   Test_SHA512;
+   Test_RIPEMD160;
+   Test_HMAC_SHA256;
+   Test_HMAC_SHA384;
+   Test_HMAC_SHA512;
+   Test_HMAC_RMD160;
 
    SPARKUnit.Text_Report (Harness);
 

@@ -33,35 +33,32 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_SHA512
+procedure Test_HMAC_SHA384
 is
-   Block1, Block2  : LSC.SHA512.Block_Type;
-   SHA512_Context1 : OpenSSL.SHA512_Context_Type;
-   SHA512_Context2 : LSC.SHA512.Context_Type;
-   H1, H2          : LSC.SHA512.SHA512_Hash_Type;
+   Message : OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
+      (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
+
+   Key : LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
+      (others => 16#c0de_affe_cafe_babe#);
+
+   H1 : LSC.HMAC_SHA384.Auth_Type;
+   H2 : LSC.HMAC_SHA384.Auth_Type;
+   M  : SPARKUnit.Measurement_Type;
 begin
-   Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
-   Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
 
-   S1 := Clock;
-   for I in 1 .. 500000
+   SPARKUnit.Reference_Start (M);
+   for I in 1 .. 50000
    loop
-      OpenSSL.SHA512_Context_Init (SHA512_Context1);
-      OpenSSL.SHA512_Context_Update (SHA512_Context1, Block1);
-      OpenSSL.SHA512_Context_Finalize (SHA512_Context1, Block2, 56);
+      H1 := OpenSSL.Authenticate_SHA384 (Key, Message, 10000);
    end loop;
-   H1 := OpenSSL.SHA512_Get_Hash (SHA512_Context1);
-   D1 := Clock - S1;
+   SPARKUnit.Reference_Stop (M);
 
-   S2 := Clock;
-   for I in 1 .. 500000
+   SPARKUnit.Measurement_Start (M);
+   for I in 1 .. 50000
    loop
-      SHA512_Context2 := LSC.SHA512.SHA512_Context_Init;
-      LSC.SHA512.Context_Update (SHA512_Context2, Block1);
-      LSC.SHA512.Context_Finalize (SHA512_Context2, Block2, 56);
+      H2 := LSC.HMAC_SHA384.Authenticate (Key, Message, 10000);
    end loop;
-   H2 := LSC.SHA512.SHA512_Get_Hash (SHA512_Context2);
-   D2 := Clock - S2;
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("     SHA512", H1 = H2, D1, D2);
-end Test_SHA512;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_SHA384", M, H1 = H2);
+end Test_HMAC_SHA384;

@@ -33,35 +33,51 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_RIPEMD160
+procedure Test_AES192_Decrypt
 is
-   Block1, Block2     : LSC.RIPEMD160.Block_Type;
-   RIPEMD160_Context1 : OpenSSL.RIPEMD160_Context_Type;
-   RIPEMD160_Context2 : LSC.RIPEMD160.Context_Type;
-   H1, H2             : LSC.RIPEMD160.Hash_Type;
+   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
+
+   Plain1, Plain2, Cipher  : Message_Type;
+   Key192                  : LSC.AES.AES192_Key_Type;
+   Context1                : OpenSSL.AES_Dec_Context_Type;
+   Context2                : LSC.AES.AES_Dec_Context;
+   M                       : SPARKUnit.Measurement_Type;
 begin
-   Block1  := LSC.RIPEMD160.Block_Type'(others => 16#cafebabe#);
-   Block2  := LSC.RIPEMD160.Block_Type'(others => 16#00636261#);
 
-   S1 := Clock;
-   for I in 1 .. 200000
+   Cipher := Message_Type'
+      (others => LSC.AES.Block_Type'(16#33221100#,
+                                     16#77665544#,
+                                     16#bbaa9988#,
+                                     16#ffeeddcc#));
+
+   Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+                                       16#07060504#,
+                                       16#13121110#,
+                                       16#17161514#,
+                                       16#1b1a1918#,
+                                       16#1f1e1d1c#);
+
+   Context1 := OpenSSL.Create_AES192_Dec_Context (Key192);
+   SPARKUnit.Reference_Start (M);
+   for k in 1 .. 20
    loop
-      OpenSSL.RIPEMD160_Context_Init (RIPEMD160_Context1);
-      OpenSSL.RIPEMD160_Context_Update (RIPEMD160_Context1, Block1);
-      OpenSSL.RIPEMD160_Context_Finalize (RIPEMD160_Context1, Block2, 56);
+      for I in Message_Type'Range
+      loop
+         Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+      end loop;
    end loop;
-   H1 := OpenSSL.RIPEMD160_Get_Hash (RIPEMD160_Context1);
-   D1 := Clock - S1;
+   SPARKUnit.Reference_Stop (M);
 
-   S2 := Clock;
-   for I in 1 .. 200000
+   Context2 := LSC.AES.Create_AES192_Dec_Context (Key192);
+   SPARKUnit.Measurement_Start (M);
+   for k in 1 .. 20
    loop
-      RIPEMD160_Context2 := LSC.RIPEMD160.Context_Init;
-      LSC.RIPEMD160.Context_Update (RIPEMD160_Context2, Block1);
-      LSC.RIPEMD160.Context_Finalize (RIPEMD160_Context2, Block2, 56);
+      for I in Message_Type'Range
+      loop
+         Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+      end loop;
    end loop;
-   H2 := LSC.RIPEMD160.Get_Hash (RIPEMD160_Context2);
-   D2 := Clock - S2;
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("  RIPEMD160", H1 = H2, D1, D2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-192_DEC", M, Plain1 = Plain2);
 end;

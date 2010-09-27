@@ -33,52 +33,32 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_AES256_Encrypt
+procedure Test_HMAC_RMD160
 is
-   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
+   Message : OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
+      (others => LSC.RIPEMD160.Block_Type'(others => 16#dead_beef#));
 
-   Plain, Cipher1, Cipher2 : Message_Type;
-   Key256                  : LSC.AES.AES256_Key_Type;
-   Context1                : OpenSSL.AES_Enc_Context_Type;
-   Context2                : LSC.AES.AES_Enc_Context;
+   Key : LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
+      (others => 16#c0deaffe#);
+
+   H1 : LSC.RIPEMD160.Hash_Type;
+   H2 : LSC.RIPEMD160.Hash_Type;
+   M  : SPARKUnit.Measurement_Type;
 begin
 
-   Plain := Message_Type'
-      (others => LSC.AES.Block_Type'(16#33221100#,
-                                     16#77665544#,
-                                     16#bbaa9988#,
-                                     16#ffeeddcc#));
-
-   Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
-                                       16#07060504#,
-                                       16#0b0a0908#,
-                                       16#0f0e0d0c#,
-                                       16#13121110#,
-                                       16#17161514#,
-                                       16#1b1a1918#,
-                                       16#1f1e1d1c#);
-
-   Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
-   S1 := Clock;
-   for k in 1 .. 20
+   SPARKUnit.Reference_Start (M);
+   for I in 1 .. 50000
    loop
-      for I in Message_Type'Range
-      loop
-         Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
-      end loop;
+      H1 := OpenSSL.Authenticate_RMD160 (Key, Message, 10000);
    end loop;
-   D1 := Clock - S1;
+   SPARKUnit.Reference_Stop (M);
 
-   Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
-   S2 := Clock;
-   for k in 1 .. 20
+   SPARKUnit.Measurement_Start (M);
+   for I in 1 .. 50000
    loop
-      for I in Message_Type'Range
-      loop
-         Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
-      end loop;
+      H2 := LSC.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
    end loop;
-   D2 := Clock - S2;
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("AES-256_ENC", Cipher1 = Cipher2, D1, D2);
-end;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_RMD160", M, H1 = H2);
+end Test_HMAC_RMD160;

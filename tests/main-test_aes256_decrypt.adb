@@ -33,31 +33,53 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_HMAC_SHA384
+procedure Test_AES256_Decrypt
 is
-   Message : OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
-      (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
+   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
 
-   Key : LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
-      (others => 16#c0de_affe_cafe_babe#);
-
-   H1 : LSC.HMAC_SHA384.Auth_Type;
-   H2 : LSC.HMAC_SHA384.Auth_Type;
+   Plain1, Plain2, Cipher  : Message_Type;
+   Key256                  : LSC.AES.AES256_Key_Type;
+   Context1                : OpenSSL.AES_Dec_Context_Type;
+   Context2                : LSC.AES.AES_Dec_Context;
+   M                       : SPARKUnit.Measurement_Type;
 begin
 
-   S1 := Clock;
-   for I in 1 .. 50000
-   loop
-      H1 := OpenSSL.Authenticate_SHA384 (Key, Message, 10000);
-   end loop;
-   D1 := Clock - S1;
+   Cipher := Message_Type'
+      (others => LSC.AES.Block_Type'(16#33221100#,
+                                     16#77665544#,
+                                     16#bbaa9988#,
+                                     16#ffeeddcc#));
 
-   S2 := Clock;
-   for I in 1 .. 50000
-   loop
-      H2 := LSC.HMAC_SHA384.Authenticate (Key, Message, 10000);
-   end loop;
-   D2 := Clock - S2;
+   Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+                                       16#07060504#,
+                                       16#0b0a0908#,
+                                       16#0f0e0d0c#,
+                                       16#13121110#,
+                                       16#17161514#,
+                                       16#1b1a1918#,
+                                       16#1f1e1d1c#);
 
-   Result ("HMAC_SHA384", H1 = H2, D1, D2);
-end Test_HMAC_SHA384;
+   Context1 := OpenSSL.Create_AES256_Dec_Context (Key256);
+   SPARKUnit.Reference_Start (M);
+   for k in 1 .. 20
+   loop
+      for I in Message_Type'Range
+      loop
+         Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+      end loop;
+   end loop;
+   SPARKUnit.Reference_Stop (M);
+
+   Context2 := LSC.AES.Create_AES256_Dec_Context (Key256);
+   SPARKUnit.Measurement_Start (M);
+   for k in 1 .. 20
+   loop
+      for I in Message_Type'Range
+      loop
+         Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+      end loop;
+   end loop;
+   SPARKUnit.Measurement_Stop (M);
+
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_DEC", M, Plain1 = Plain2);
+end;

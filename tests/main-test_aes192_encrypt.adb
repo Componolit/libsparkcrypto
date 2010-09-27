@@ -33,31 +33,51 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_HMAC_SHA256
+procedure Test_AES192_Encrypt
 is
-   Message : OpenSSL.SHA256_Message_Type := OpenSSL.SHA256_Message_Type'
-      (others => LSC.SHA256.Block_Type'(others => 16#dead_beef#));
+   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
 
-   Key : LSC.SHA256.Block_Type := LSC.SHA256.Block_Type'
-      (others => 16#c0deaffe#);
-
-   H1 : LSC.HMAC_SHA256.Auth_Type;
-   H2 : LSC.HMAC_SHA256.Auth_Type;
+   Plain, Cipher1, Cipher2 : Message_Type;
+   Key192                  : LSC.AES.AES192_Key_Type;
+   Context1                : OpenSSL.AES_Enc_Context_Type;
+   Context2                : LSC.AES.AES_Enc_Context;
+   M                       : SPARKUnit.Measurement_Type;
 begin
 
-   S1 := Clock;
-   for I in 1 .. 50000
-   loop
-      H1 := OpenSSL.Authenticate_SHA256 (Key, Message, 10000);
-   end loop;
-   D1 := Clock - S1;
+   Plain := Message_Type'
+      (others => LSC.AES.Block_Type'(16#33221100#,
+                                     16#77665544#,
+                                     16#bbaa9988#,
+                                     16#ffeeddcc#));
 
-   S2 := Clock;
-   for I in 1 .. 50000
-   loop
-      H2 := LSC.HMAC_SHA256.Authenticate (Key, Message, 10000);
-   end loop;
-   D2 := Clock - S2;
+   Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+                                       16#07060504#,
+                                       16#07060504#,
+                                       16#0b0a0908#,
+                                       16#0b0a0908#,
+                                       16#0f0e0d0c#);
 
-   Result ("HMAC_SHA256", H1 = H2, D1, D2);
-end Test_HMAC_SHA256;
+   Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
+   SPARKUnit.Reference_Start (M);
+   for k in 1 .. 20
+   loop
+      for I in Message_Type'Range
+      loop
+         Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+      end loop;
+   end loop;
+   SPARKUnit.Reference_Stop (M);
+
+   Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
+   SPARKUnit.Measurement_Start (M);
+   for k in 1 .. 20
+   loop
+      for I in Message_Type'Range
+      loop
+         Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+      end loop;
+   end loop;
+   SPARKUnit.Measurement_Stop (M);
+
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-192_ENC", M, Cipher1 = Cipher2);
+end;

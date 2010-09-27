@@ -33,35 +33,49 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_SHA256
+procedure Test_AES128_Decrypt
 is
-   Block1, Block2  : LSC.SHA256.Block_Type;
-   SHA256_Context1 : OpenSSL.SHA256_Context_Type;
-   SHA256_Context2 : LSC.SHA256.Context_Type;
-   H1, H2          : LSC.SHA256.SHA256_Hash_Type;
+   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
+
+   Plain1, Plain2, Cipher  : Message_Type;
+   Key128                  : LSC.AES.AES128_Key_Type;
+   Context1                : OpenSSL.AES_Dec_Context_Type;
+   Context2                : LSC.AES.AES_Dec_Context;
+   M                       : SPARKUnit.Measurement_Type;
 begin
-   Block1  := LSC.SHA256.Block_Type'(others => 16#cafebabe#);
-   Block2  := LSC.SHA256.Block_Type'(others => 16#00636261#);
 
-   S1 := Clock;
-   for I in 1 .. 500000
+   Cipher := Message_Type'
+      (others => LSC.AES.Block_Type'(16#33221100#,
+                                     16#77665544#,
+                                     16#bbaa9988#,
+                                     16#ffeeddcc#));
+
+   Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+                                       16#07060504#,
+                                       16#0b0a0908#,
+                                       16#1f1e1d1c#);
+
+   Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
+   SPARKUnit.Reference_Start (M);
+   for k in 1 .. 20
    loop
-      OpenSSL.SHA256_Context_Init (SHA256_Context1);
-      OpenSSL.SHA256_Context_Update (SHA256_Context1, Block1);
-      OpenSSL.SHA256_Context_Finalize (SHA256_Context1, Block2, 56);
+      for I in Message_Type'Range
+      loop
+         Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+      end loop;
    end loop;
-   H1 := OpenSSL.SHA256_Get_Hash (SHA256_Context1);
-   D1 := Clock - S1;
+   SPARKUnit.Reference_Stop (M);
 
-   S2 := Clock;
-   for I in 1 .. 500000
+   Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
+   SPARKUnit.Measurement_Start (M);
+   for k in 1 .. 20
    loop
-      SHA256_Context2 := LSC.SHA256.SHA256_Context_Init;
-      LSC.SHA256.Context_Update (SHA256_Context2, Block1);
-      LSC.SHA256.Context_Finalize (SHA256_Context2, Block2, 56);
+      for I in Message_Type'Range
+      loop
+         Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+      end loop;
    end loop;
-   H2 := LSC.SHA256.SHA256_Get_Hash (SHA256_Context2);
-   D2 := Clock - S2;
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("     SHA256", H1 = H2, D1, D2);
-end Test_SHA256;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-128_DEC", M, Plain1 = Plain2);
+end;

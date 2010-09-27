@@ -33,31 +33,36 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_HMAC_RMD160
+procedure Test_SHA384
 is
-   Message : OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
-      (others => LSC.RIPEMD160.Block_Type'(others => 16#dead_beef#));
-
-   Key : LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
-      (others => 16#c0deaffe#);
-
-   H1 : LSC.RIPEMD160.Hash_Type;
-   H2 : LSC.RIPEMD160.Hash_Type;
+   Block1, Block2  : LSC.SHA512.Block_Type;
+   SHA384_Context1 : OpenSSL.SHA384_Context_Type;
+   SHA384_Context2 : LSC.SHA512.Context_Type;
+   H1, H2          : LSC.SHA512.SHA384_Hash_Type;
+   M               : SPARKUnit.Measurement_Type;
 begin
+   Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
+   Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
 
-   S1 := Clock;
-   for I in 1 .. 50000
+   SPARKUnit.Reference_Start (M);
+   for I in 1 .. 500000
    loop
-      H1 := OpenSSL.Authenticate_RMD160 (Key, Message, 10000);
+      OpenSSL.SHA384_Context_Init (SHA384_Context1);
+      OpenSSL.SHA384_Context_Update (SHA384_Context1, Block1);
+      OpenSSL.SHA384_Context_Finalize (SHA384_Context1, Block2, 56);
    end loop;
-   D1 := Clock - S1;
+   H1 := OpenSSL.SHA384_Get_Hash (SHA384_Context1);
+   SPARKUnit.Reference_Stop (M);
 
-   S2 := Clock;
-   for I in 1 .. 50000
+   SPARKUnit.Measurement_Start (M);
+   for I in 1 .. 500000
    loop
-      H2 := LSC.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
+      SHA384_Context2 := LSC.SHA512.SHA384_Context_Init;
+      LSC.SHA512.Context_Update (SHA384_Context2, Block1);
+      LSC.SHA512.Context_Finalize (SHA384_Context2, Block2, 56);
    end loop;
-   D2 := Clock - S2;
+   H2 := LSC.SHA512.SHA384_Get_Hash (SHA384_Context2);
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("HMAC_RMD160", H1 = H2, D1, D2);
-end Test_HMAC_RMD160;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA384", M, H1 = H2);
+end Test_SHA384;

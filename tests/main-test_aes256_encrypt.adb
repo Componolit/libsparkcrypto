@@ -32,80 +32,54 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.SHA256;
-with LSC.SHA512;
-with LSC.RIPEMD160;
-with LSC.Types;
-with LSC.AES;
-with LSC.IO;
-with LSC.HMAC_SHA256;
-with LSC.HMAC_SHA384;
-with LSC.HMAC_SHA512;
-with LSC.HMAC_RIPEMD160;
-with OpenSSL;
-
-with Ada.Text_IO; use Ada.Text_IO;
-with Ada.Real_Time; use Ada.Real_Time;
-
-use type LSC.Types.Word32_Array_Type;
-use type LSC.Types.Word64_Array_Type;
-
-procedure Main
+separate (Main)
+procedure Test_AES256_Encrypt
 is
-   S1, S2  : Time;
-   D1, D2  : Time_Span;
+   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
 
-   procedure Result
-      (Message   : String;
-       Result    : Boolean;
-       Duration1 : Time_Span;
-       Duration2 : Time_Span)
-   is
-      Percent : Integer;
-   begin
-      Put (Message & ": ");
-      if Result
-      then
-         Percent := (Time_Span (100 * Duration1) / Duration2);
-         Put_Line (Percent'Img & " %");
-      else
-         Put_Line ("FAILED");
-      end if;
-   end Result;
-
-   procedure Test_AES128_Encrypt is separate;
-   procedure Test_AES192_Encrypt is separate;
-   procedure Test_AES256_Encrypt is separate;
-   procedure Test_AES128_Decrypt is separate;
-   procedure Test_AES192_Decrypt is separate;
-   procedure Test_AES256_Decrypt is separate;
-   procedure Test_SHA256 is separate;
-   procedure Test_SHA384 is separate;
-   procedure Test_SHA512 is separate;
-   procedure Test_RIPEMD160 is separate;
-   procedure Test_HMAC_SHA256 is separate;
-   procedure Test_HMAC_SHA384 is separate;
-   procedure Test_HMAC_SHA512 is separate;
-   procedure Test_HMAC_RMD160 is separate;
-
+   Plain, Cipher1, Cipher2 : Message_Type;
+   Key256                  : LSC.AES.AES256_Key_Type;
+   Context1                : OpenSSL.AES_Enc_Context_Type;
+   Context2                : LSC.AES.AES_Enc_Context;
+   M                       : SPARKUnit.Measurement_Type;
 begin
 
-   New_Line;
-   Put_Line ("libsparkcrypto benchmarks:");
+   Plain := Message_Type'
+      (others => LSC.AES.Block_Type'(16#33221100#,
+                                     16#77665544#,
+                                     16#bbaa9988#,
+                                     16#ffeeddcc#));
 
-   Test_AES128_Encrypt;
-   Test_AES192_Encrypt;
-   Test_AES256_Encrypt;
-   Test_AES128_Decrypt;
-   Test_AES192_Decrypt;
-   Test_AES256_Decrypt;
-   Test_SHA256;
-   Test_SHA384;
-   Test_SHA512;
-   Test_RIPEMD160;
-   Test_HMAC_SHA256;
-   Test_HMAC_SHA384;
-   Test_HMAC_SHA512;
-   Test_HMAC_RMD160;
+   Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+                                       16#07060504#,
+                                       16#0b0a0908#,
+                                       16#0f0e0d0c#,
+                                       16#13121110#,
+                                       16#17161514#,
+                                       16#1b1a1918#,
+                                       16#1f1e1d1c#);
 
-end Main;
+   Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
+   SPARKUnit.Reference_Start (M);
+   for k in 1 .. 20
+   loop
+      for I in Message_Type'Range
+      loop
+         Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+      end loop;
+   end loop;
+   SPARKUnit.Reference_Stop (M);
+
+   Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
+   SPARKUnit.Measurement_Start (M);
+   for k in 1 .. 20
+   loop
+      for I in Message_Type'Range
+      loop
+         Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+      end loop;
+   end loop;
+   SPARKUnit.Measurement_Stop (M);
+
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_ENC", M, Cipher1 = Cipher2);
+end;

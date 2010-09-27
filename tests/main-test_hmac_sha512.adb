@@ -43,21 +43,22 @@ is
 
    H1 : LSC.HMAC_SHA512.Auth_Type;
    H2 : LSC.HMAC_SHA512.Auth_Type;
+   M  : SPARKUnit.Measurement_Type;
 begin
 
-   S1 := Clock;
+   SPARKUnit.Reference_Start (M);
    for I in 1 .. 50000
    loop
       H1 := OpenSSL.Authenticate_SHA512 (Key, Message, 10000);
    end loop;
-   D1 := Clock - S1;
+   SPARKUnit.Reference_Stop (M);
 
-   S2 := Clock;
+   SPARKUnit.Measurement_Start (M);
    for I in 1 .. 50000
    loop
       H2 := LSC.HMAC_SHA512.Authenticate (Key, Message, 10000);
    end loop;
-   D2 := Clock - S2;
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("HMAC_SHA512", H1 = H2, D1, D2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_SHA512", M, H1 = H2);
 end Test_HMAC_SHA512;

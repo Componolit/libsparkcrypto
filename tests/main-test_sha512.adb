@@ -33,35 +33,36 @@
 -------------------------------------------------------------------------------
 
 separate (Main)
-procedure Test_SHA384
+procedure Test_SHA512
 is
    Block1, Block2  : LSC.SHA512.Block_Type;
-   SHA384_Context1 : OpenSSL.SHA384_Context_Type;
-   SHA384_Context2 : LSC.SHA512.Context_Type;
-   H1, H2          : LSC.SHA512.SHA384_Hash_Type;
+   SHA512_Context1 : OpenSSL.SHA512_Context_Type;
+   SHA512_Context2 : LSC.SHA512.Context_Type;
+   H1, H2          : LSC.SHA512.SHA512_Hash_Type;
+   M               : SPARKUnit.Measurement_Type;
 begin
    Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
    Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
 
-   S1 := Clock;
+   SPARKUnit.Reference_Start (M);
    for I in 1 .. 500000
    loop
-      OpenSSL.SHA384_Context_Init (SHA384_Context1);
-      OpenSSL.SHA384_Context_Update (SHA384_Context1, Block1);
-      OpenSSL.SHA384_Context_Finalize (SHA384_Context1, Block2, 56);
+      OpenSSL.SHA512_Context_Init (SHA512_Context1);
+      OpenSSL.SHA512_Context_Update (SHA512_Context1, Block1);
+      OpenSSL.SHA512_Context_Finalize (SHA512_Context1, Block2, 56);
    end loop;
-   H1 := OpenSSL.SHA384_Get_Hash (SHA384_Context1);
-   D1 := Clock - S1;
+   H1 := OpenSSL.SHA512_Get_Hash (SHA512_Context1);
+   SPARKUnit.Reference_Stop (M);
 
-   S2 := Clock;
+   SPARKUnit.Measurement_Start (M);
    for I in 1 .. 500000
    loop
-      SHA384_Context2 := LSC.SHA512.SHA384_Context_Init;
-      LSC.SHA512.Context_Update (SHA384_Context2, Block1);
-      LSC.SHA512.Context_Finalize (SHA384_Context2, Block2, 56);
+      SHA512_Context2 := LSC.SHA512.SHA512_Context_Init;
+      LSC.SHA512.Context_Update (SHA512_Context2, Block1);
+      LSC.SHA512.Context_Finalize (SHA512_Context2, Block2, 56);
    end loop;
-   H2 := LSC.SHA512.SHA384_Get_Hash (SHA384_Context2);
-   D2 := Clock - S2;
+   H2 := LSC.SHA512.SHA512_Get_Hash (SHA512_Context2);
+   SPARKUnit.Measurement_Stop (M);
 
-   Result ("     SHA384", H1 = H2, D1, D2);
-end Test_SHA384;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA512", M, H1 = H2);
+end Test_SHA512;

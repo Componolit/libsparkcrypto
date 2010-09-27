@@ -33,27 +33,32 @@ SPARKMAKE_OPTS = \
    -dir=$(LSC_DIR)/sharedinclude \
    -dir=$(SPARKUNIT_DIR)
 
-GOALS = $(OUTPUT_DIR)/test_all
+GOALS = $(OUTPUT_DIR)/tests
 
 ifeq ($(NO_PROOF),)
-GOALS += $(OUTPUT_DIR)/test_all.sum
+GOALS += $(OUTPUT_DIR)/tests.sum
 endif
 
 all: $(GOALS) $(OUTPUT_DIR)/genhmac
 
+$(OUTPUT_DIR)/tests: $(OUTPUT_DIR)/libglue.a
+
+$(OUTPUT_DIR)/%.a: %.o
+	ar cru $@ $^
+
 install: all
-	install -D -m 755 $(OUTPUT_DIR)/test_all $(DESTDIR)/test_all
+	install -D -m 755 $(OUTPUT_DIR)/tests $(DESTDIR)/tests
 ifeq ($(NO_PROOF),)
-	install -D -m 644 $(OUTPUT_DIR)/test_all.sum $(DESTDIR)/test_all.sum
+	install -D -m 644 $(OUTPUT_DIR)/tests.sum $(DESTDIR)/tests.sum
 endif
 
-$(OUTPUT_DIR)/test_all:
-	gnatmake -aP$(LSC_DIR) -aP$(SPARKUNIT_DIR) -o test_all -P build.gpr
+$(OUTPUT_DIR)/tests:
+	gnatmake -aP$(LSC_DIR) -aP$(SPARKUNIT_DIR) -L$(OUTPUT_DIR) -D$(OUTPUT_DIR)/build -o $@ -P build.gpr
 
-$(OUTPUT_DIR)/test_all.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf
+$(OUTPUT_DIR)/tests.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf
 	spark -config=$< $(SPARK_OPTS) main.adb
 	(cd $(OUTPUT_DIR) && sparksimp -t -p=5)
-	pogs -o=$@
+	pogs -i=$(OUTPUT_DIR) -o=tests.sum
 	@tail -n14 $@ | head -n13
 	@echo
 
@@ -68,6 +73,3 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 
 $(OUTPUT_DIR)/genhmac:
 	$(CC) -W -Wall -Werror -o $@ genhmac.c -lssl
-
-clean:
-	rm -rf $(OUTPUT_DIR)
