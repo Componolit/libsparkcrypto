@@ -130,7 +130,8 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 
 doc: apidoc
 	rst2html $(RST2HTML_OPTS) README $(OUTPUT_DIR)/doc/index.html
-	rst2html $(RST2HTML_OPTS) CHANGES $(OUTPUT_DIR)/doc/changes.html
+	rst2html $(RST2HTML_OPTS) CHANGES $(OUTPUT_DIR)/doc/CHANGES.html
+	rst2html $(RST2HTML_OPTS) TODO $(OUTPUT_DIR)/doc/TODO.html
 
 tests: $(OUTPUT_DIR)/tests/tests
 	$<

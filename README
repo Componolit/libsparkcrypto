@@ -63,7 +63,8 @@ algorithms and modes:
 - RIPEMD-160
 - HMAC-RIPEMD-160
 
-The list of changes in libsparkcrypto is available in the CHANGES_ file.
+The list of changes in libsparkcrypto is available in the CHANGES_ file and the
+list of planned enhancements in the TODO_ file.
 
 Download
 ========
@@ -234,4 +235,5 @@ Credits
 .. [1] SPARK - http://www.altran-praxis.com/spark.aspx
 .. [2] OpenSSL: The Open Source toolkit for SSL/TLS - http://www.openssl.org
 .. [3] GIT - the fast version control system, http://git-scm.com
-.. _CHANGES: changes.html
+.. _CHANGES: CHANGES.html
+.. _TODO: TODO.html
