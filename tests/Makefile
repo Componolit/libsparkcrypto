@@ -58,7 +58,7 @@ $(OUTPUT_DIR)/tests:
 $(OUTPUT_DIR)/tests.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf
 	spark -config=$< $(SPARK_OPTS) main.adb
 	(cd $(OUTPUT_DIR) && sparksimp -t -p=5)
-	pogs -i=$(OUTPUT_DIR) -o=tests.sum
+	pogs -d=$(OUTPUT_DIR) -o=tests.sum
 	@tail -n14 $@ | head -n13
 	@echo
 
