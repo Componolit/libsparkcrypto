@@ -1,5 +1,30 @@
-==============================
-Work to be done libsparkcrypto
-==============================
+=================================
+Work to be done in libsparkcrypto
+=================================
 
+Next
+====
+
+* Integrate big number library
+* Implement EC(G)DSA
+
+High priority
+=============
+
+* SHA-1
+* 3DES
+* Elgamal
+* DSA
+
+Medium priority
+===============
+
+* CAST-128
+
+Low priority
+============
+
+* Blowfish-128
+* Twofish-256
+* RSA
 * Test on a big-endian machine.
