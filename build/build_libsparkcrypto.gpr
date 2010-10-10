@@ -56,7 +56,7 @@ is
 
    case Mode is
       when "release" =>
-         Compiler_Switches := ("-gnatN", "-gnatn", "-Winline", "-gnatp");
+         Compiler_Switches := ("-gnatN", "-gnatn", "-Winline", "-gnatp", "-funroll-loops");
          Default_Opt := "3";
 
       when "debug" =>
