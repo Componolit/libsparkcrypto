@@ -78,7 +78,7 @@ procedure Main
 --# global in out SPARK_IO.Outputs;
 --# derives SPARK_IO.Outputs from *;
 is
-   subtype Harness_Index is Natural range 1 .. 100;
+   subtype Harness_Index is Natural range 1 .. 1000;
    subtype Harness_Type is SPARKUnit.Harness_Type (Harness_Index);
 
    Harness     : Harness_Type;
