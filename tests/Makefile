@@ -41,8 +41,6 @@ endif
 
 all: $(GOALS) $(OUTPUT_DIR)/genhmac
 
-$(OUTPUT_DIR)/tests: $(OUTPUT_DIR)/libglue.a
-
 $(OUTPUT_DIR)/%.a: %.o
 	ar cru $@ $^
 
@@ -52,7 +50,7 @@ ifeq ($(NO_PROOF),)
 	install -D -m 644 $(OUTPUT_DIR)/tests.sum $(DESTDIR)/tests.sum
 endif
 
-$(OUTPUT_DIR)/tests:
+$(OUTPUT_DIR)/tests: $(OUTPUT_DIR)/libglue.a *.ad?
 	gnatmake -aP$(LSC_DIR) -aP$(SPARKUNIT_DIR) -L$(OUTPUT_DIR) -D$(OUTPUT_DIR)/build -o $@ -P build.gpr
 
 $(OUTPUT_DIR)/tests.sum: $(OUTPUT_DIR)/target.cfg $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.idx $(OUTPUT_DIR)/spark.smf
