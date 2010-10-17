@@ -1,7 +1,7 @@
 -nosli
 -vcg
 -dpc
--warning=../../../warnings.conf
+-warning=../../../build/warnings.conf
 -config=../../../out/target.cfg
 -index=../../../out/proof/libsparkcrypto.idx
 -brief=fullpath
