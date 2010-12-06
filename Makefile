@@ -145,7 +145,7 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
-	spark -index=$< $(SPARK_OPTS) -dictionary_file=$(OUTPUT_DIR)/proof/libsparkcrypto.dict @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
+	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum)
 	pogs -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
