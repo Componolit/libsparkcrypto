@@ -14,7 +14,7 @@ is
    Runtime   	 : Runtime_Type := external ("runtime", "native");
 
    Src         := "../src/";
-   Default_Opt := "undefined";
+   Default_Opt := "1";
 
    Compiler_Switches := ();
    Builder_Switches := ();
