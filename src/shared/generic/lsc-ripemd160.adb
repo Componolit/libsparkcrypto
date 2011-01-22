@@ -390,8 +390,8 @@ package body LSC.RIPEMD160 is
    begin
 
       -- DEBUG -------------------------------------------------------------
-      pragma Debug (Debug.Put ("Context_Update_Internal:"));                                     --
-      pragma Debug (Debug.Print_Word32_Array (X, 1, Types.Index'Last, True));  --
+      pragma Debug (Debug.Put ("Context_Update_Internal:"));
+      pragma Debug (Debug.Print_Word32_Array (X, 1, Types.Index'Last, True));
       ----------------------------------------------------------------------
 
       H0  := Context.H (0);
@@ -641,8 +641,8 @@ package body LSC.RIPEMD160 is
 
       Final_Block := Block;
 
-      pragma Debug (Debug.Put ("Finalize start: "));                                     --
-      pragma Debug (Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True));  --
+      pragma Debug (Debug.Put ("Finalize start: "));
+      pragma Debug (Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True));
 
       --  Add length of last block to data length.
       Add (Context.Length, Length);
@@ -660,8 +660,8 @@ package body LSC.RIPEMD160 is
       Final_Block (Block_Type'Last - 1) := Context.Length.LSW;
       Final_Block (Block_Type'Last)     := Context.Length.MSW;
 
-      pragma Debug (Debug.Put ("Finalize end:   "));                                     --
-      pragma Debug (Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True));  --
+      pragma Debug (Debug.Put ("Finalize end:   "));
+      pragma Debug (Debug.Print_Word32_Array (Final_Block, 1, Types.Index'Last, True));
 
       --  Update final block
       Context_Update_Internal (Context, Final_Block);
