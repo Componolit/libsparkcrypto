@@ -44,6 +44,7 @@ with LSC.SHA1;
 with LSC.SHA256;
 with LSC.SHA512;
 with LSC.RIPEMD160;
+with LSC.HMAC_SHA1;
 with LSC.HMAC_SHA256;
 with LSC.HMAC_SHA512;
 with LSC.HMAC_SHA384;
@@ -68,6 +69,7 @@ use type LSC.Types.Word64;
 --#    LSC.Types,
 --#    LSC.AES.CBC,
 --#    LSC.RIPEMD160,
+--#    LSC.HMAC_SHA1,
 --#    LSC.HMAC_SHA256,
 --#    LSC.HMAC_SHA512,
 --#    LSC.HMAC_SHA384,
@@ -124,6 +126,11 @@ is
    is separate;
 
    procedure SHA512_Tests
+   --# global Harness;
+   --# derives Harness from Harness;
+   is separate;
+
+   procedure HMAC_SHA1_Tests
    --# global Harness;
    --# derives Harness from Harness;
    is separate;
@@ -239,6 +246,7 @@ begin
    SHA256_Tests;
    SHA384_Tests;
    SHA512_Tests;
+   HMAC_SHA1_Tests;
    HMAC_SHA256_Tests;
    HMAC_SHA384_Tests;
    HMAC_SHA512_Tests;
