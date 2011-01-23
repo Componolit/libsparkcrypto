@@ -40,6 +40,7 @@ with LSC.Byteswap32;
 with LSC.Byteswap64;
 with LSC.Types;
 with LSC.AES.CBC;
+with LSC.SHA1;
 with LSC.SHA256;
 with LSC.SHA512;
 with LSC.RIPEMD160;
@@ -59,6 +60,7 @@ use type LSC.Types.Word64;
 --# inherit
 --#    LSC.IO,
 --#    LSC.AES,
+--#    LSC.SHA1,
 --#    LSC.SHA256,
 --#    LSC.SHA512,
 --#    LSC.Byteorder32,
@@ -102,6 +104,11 @@ is
    is separate;
 
    procedure AES_CBC_Tests
+   --# global Harness;
+   --# derives Harness from Harness;
+   is separate;
+
+   procedure SHA1_Tests
    --# global Harness;
    --# derives Harness from Harness;
    is separate;
@@ -228,6 +235,7 @@ begin
 
    AES_Tests;
    AES_CBC_Tests;
+   SHA1_Tests;
    SHA256_Tests;
    SHA384_Tests;
    SHA512_Tests;
