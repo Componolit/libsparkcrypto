@@ -376,6 +376,23 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
+   function Authenticate_SHA1
+     (Key     : LSC.SHA1.Block_Type;
+      Message : SHA1_Message_Type;
+      Length  : LSC.Types.Word64) return LSC.SHA1.Hash_Type
+   is
+      Temp_Digest : LSC.SHA1.Hash_Type;
+   begin
+      C_Authenticate_SHA1
+        (Key'Unrestricted_Access,
+         Message'Unrestricted_Access,
+         Length,
+         Temp_Digest'Unrestricted_Access);
+      return Temp_Digest;
+   end Authenticate_SHA1;
+
+   ----------------------------------------------------------------------------
+
    function Authenticate_SHA256
       (Key     : LSC.SHA256.Block_Type;
        Message : SHA256_Message_Type;

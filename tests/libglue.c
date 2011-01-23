@@ -89,6 +89,16 @@ Authenticate_Generic
 };
 
 void
+Authenticate_SHA1
+   (char               *Key,
+    unsigned char      *Message,
+    unsigned long long  Message_Length,
+    unsigned char      *Digest)
+{
+   Authenticate_Generic (EVP_sha1(), Key, 64, Message, Message_Length / 8, Digest, 10);
+}
+
+void
 Authenticate_SHA256
    (char               *Key,
     unsigned char      *Message,

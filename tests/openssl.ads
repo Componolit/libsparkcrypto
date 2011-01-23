@@ -161,6 +161,18 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
+   -- HMAC_SHA1
+
+   subtype SHA1_Message_Type is LSC.SHA1.Message_Type (LSC.Types.Word64 range 1 .. 100);
+
+   function Authenticate_SHA1
+     (Key     : LSC.SHA1.Block_Type;
+      Message : SHA1_Message_Type;
+      Length  : LSC.Types.Word64) return LSC.SHA1.Hash_Type;
+   pragma Inline (Authenticate_SHA1);
+
+   ----------------------------------------------------------------------------
+
    -- HMAC_SHA256
 
    subtype SHA256_Message_Type is LSC.SHA256.Message_Type (LSC.Types.Word64 range 1 .. 100);
@@ -340,6 +352,25 @@ private
                             Out_Block : Block_Ptr;
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_decrypt, "AES_decrypt");
+
+   ----------------------------------------------------------------------------
+
+   --  libglue/HMAC_SHA1 C binding
+   type HMAC_SHA1_Key_Ptr is access all LSC.SHA1.Block_Type;
+   pragma Convention (C, HMAC_SHA1_Key_Ptr);
+
+   type HMAC_SHA1_Msg_Ptr is access all SHA1_Message_Type;
+   pragma Convention (C, HMAC_SHA1_Msg_Ptr);
+
+   type HMAC_SHA1_Auth_Ptr is access all LSC.SHA1.Hash_Type;
+   pragma Convention (C, HMAC_SHA1_Auth_Ptr);
+
+   procedure C_Authenticate_SHA1
+     (Key     : HMAC_SHA1_Key_Ptr;
+      Message : HMAC_SHA1_Msg_Ptr;
+      Length  : LSC.Types.Word64;
+      Digest  : HMAC_SHA1_Auth_Ptr);
+   pragma Import (C, C_Authenticate_SHA1, "Authenticate_SHA1");
 
    ----------------------------------------------------------------------------
 
