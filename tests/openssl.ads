@@ -33,6 +33,7 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
+with LSC.SHA1;
 with LSC.SHA256;
 with LSC.SHA512;
 with LSC.RIPEMD160;
@@ -56,6 +57,7 @@ package OpenSSL is
 
    pragma Linker_Options ("-lglue");
 
+   type SHA1_Context_Type is private;
    type SHA256_Context_Type is private;
    type SHA384_Context_Type is private;
    type SHA512_Context_Type is private;
@@ -81,6 +83,21 @@ package OpenSSL is
    function Decrypt (Context    : AES_Dec_Context_Type;
                      Ciphertext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
    pragma Inline (Decrypt);
+
+   ----------------------------------------------------------------------------
+
+   -- SHA-1
+   procedure SHA1_Context_Init (Context : in out SHA1_Context_Type);
+
+   procedure SHA1_Context_Update (Context : in out SHA1_Context_Type;
+                                  Block   : in     LSC.SHA1.Block_Type);
+
+   procedure SHA1_Context_Finalize (Context : in out SHA1_Context_Type;
+                                    Block   : in     LSC.SHA1.Block_Type;
+                                    Length  : in     LSC.SHA1.Block_Length_Type);
+   pragma Inline (SHA1_Context_Update, SHA1_Context_Finalize);
+
+   function SHA1_Get_Hash (Context : in SHA1_Context_Type) return LSC.SHA1.Hash_Type;
 
    ----------------------------------------------------------------------------
 
@@ -198,16 +215,37 @@ private
    type SHA256_Block_Type_Ptr is access all LSC.SHA256.Block_Type;
    pragma Convention (C, SHA256_Block_Type_Ptr);
 
+   type SHA1_Block_Type_Ptr is access all LSC.SHA1.Block_Type;
+   pragma Convention (C, SHA1_Block_Type_Ptr);
+
    type SHA512_Hash_Type_Ptr is access all LSC.SHA512.SHA512_Hash_Type;
    pragma Convention (C, SHA512_Hash_Type_Ptr);
 
    type SHA256_Hash_Type_Ptr is access all LSC.SHA256.SHA256_Hash_Type;
    pragma Convention (C, SHA256_Hash_Type_Ptr);
 
+   type SHA1_Hash_Type_Ptr is access all LSC.SHA1.Hash_Type;
+   pragma Convention (C, SHA1_Hash_Type_Ptr);
+
    type C_Context_Type is array (1 .. 512) of Character;
    pragma Convention (C, C_Context_Type);
    type C_Context_Ptr is access all C_Context_Type;
    pragma Convention (C, C_Context_Ptr);
+
+   ----------------------------------------------------------------------------
+
+   --  SHA-1 C binding
+   procedure C_SHA1_Init (Context : C_Context_Ptr);
+   pragma Import (C, C_SHA1_Init, "SHA1_Init");
+
+   procedure C_SHA1_Update (Context : C_Context_Ptr;
+                            Data    : SHA1_Block_Type_Ptr;
+                            Length  : Interfaces.C.Size_t);
+   pragma Import (C, C_SHA1_Update, "SHA1_Update");
+
+   procedure C_SHA1_Final (MD      : SHA1_Hash_Type_Ptr;
+                           Context : C_Context_Ptr);
+   pragma Import (C, C_SHA1_Final, "SHA1_Final");
 
    ----------------------------------------------------------------------------
 
@@ -384,6 +422,12 @@ private
    type AES_Dec_Context_Type is
    record
       C_Context : C_Context_Type;
+   end record;
+
+   type SHA1_Context_Type is
+   record
+      C_Context : C_Context_Type;
+      Hash      : LSC.SHA1.Hash_Type;
    end record;
 
    type SHA256_Context_Type is

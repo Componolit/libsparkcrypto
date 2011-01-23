@@ -144,6 +144,53 @@ package body OpenSSL is
    end Decrypt;
 
    ----------------------------------------------------------------------------
+   -- SHA-1
+   ----------------------------------------------------------------------------
+
+   procedure SHA1_Context_Init (Context : in out SHA1_Context_Type)
+   is
+   begin
+      OpenSSL.C_SHA1_Init (Context.C_Context'Unrestricted_Access);
+   end SHA1_Context_Init;
+
+   ----------------------------------------------------------------------------
+
+   procedure SHA1_Context_Update
+     (Context : in out SHA1_Context_Type;
+      Block   : in     LSC.SHA1.Block_Type)
+   is
+   begin
+      OpenSSL.C_SHA1_Update (Context.C_Context'Unrestricted_Access,
+                             Block'Unrestricted_Access,
+                             64);
+   end SHA1_Context_Update;
+
+   ----------------------------------------------------------------------------
+
+   procedure SHA1_Context_Finalize
+     (Context : in out SHA1_Context_Type;
+      Block   : in     LSC.SHA1.Block_Type;
+      Length  : in     LSC.SHA1.Block_Length_Type)
+   is
+   begin
+      OpenSSL.C_SHA1_Update (Context.C_Context'Unrestricted_Access,
+                             Block'Unrestricted_Access,
+                             Interfaces.C.size_t (Length / 8));
+      OpenSSL.C_SHA1_Final (Context.Hash'Unrestricted_Access,
+                            Context.C_Context'Unrestricted_Access);
+   end SHA1_Context_Finalize;
+
+   ----------------------------------------------------------------------------
+
+   function SHA1_Get_Hash
+     (Context : in SHA1_Context_Type)
+      return LSC.SHA1.Hash_Type
+   is
+   begin
+      return Context.Hash;
+   end SHA1_Get_Hash;
+
+   ----------------------------------------------------------------------------
    -- SHA-256
    ----------------------------------------------------------------------------
 
