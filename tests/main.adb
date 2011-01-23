@@ -220,6 +220,11 @@ is
    --# derives Harness from Harness, Benchmarks;
    is separate;
 
+   procedure Test_HMAC_SHA1
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
    procedure Test_HMAC_SHA256
    --# global Harness, Benchmarks;
    --# derives Harness from Harness, Benchmarks;
@@ -269,6 +274,7 @@ begin
    Test_SHA384;
    Test_SHA512;
    Test_RIPEMD160;
+   Test_HMAC_SHA1;
    Test_HMAC_SHA256;
    Test_HMAC_SHA384;
    Test_HMAC_SHA512;
