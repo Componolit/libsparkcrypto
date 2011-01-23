@@ -195,6 +195,11 @@ is
    --# derives Harness from Harness, Benchmarks;
    is separate;
 
+   procedure Test_SHA1
+   --# global Harness, Benchmarks;
+   --# derives Harness from Harness, Benchmarks;
+   is separate;
+
    procedure Test_SHA256
    --# global Harness, Benchmarks;
    --# derives Harness from Harness, Benchmarks;
@@ -259,6 +264,7 @@ begin
    Test_AES256_Encrypt;
    Test_AES192_Decrypt;
    Test_AES256_Decrypt;
+   Test_SHA1;
    Test_SHA256;
    Test_SHA384;
    Test_SHA512;
