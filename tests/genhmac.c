@@ -94,7 +94,7 @@ main (int argc, char **argv)
 
    if (argc != 5 && argc != 6)
    {
-      errx (1, "Insufficient arguments: genhmac {sha256|sha384|sha512|rmd160} <key_file> <message_file> <digest_output_file> [length]\n");
+      errx (1, "Insufficient arguments: genhmac {sha1|sha256|sha384|sha512|rmd160} <key_file> <message_file> <digest_output_file> [length]\n");
    }
 
    algo      = argv[1];
@@ -103,6 +103,8 @@ main (int argc, char **argv)
    dgst_file = argv[4];
 
    /* select algorithm */
+   if (0 == strcmp (algo, "sha1")) md = EVP_sha1();
+      else
    if (0 == strcmp (algo, "sha256")) md = EVP_sha256();
       else
    if (0 == strcmp (algo, "sha384")) md = EVP_sha384();
