@@ -118,8 +118,8 @@ is
       for I in reverse Natural range A_First .. A_Last
         --# assert
         --#   Num_Of_Big_Int (A, I + 1, A_Last - I) =
-        --#   Num_Of_Big_Int (B, I + 1, A_Last - I) and
-        --#   not Result;
+        --#   Num_Of_Big_Int (B, B_First + (I - A_First) + 1, A_Last - I) and
+        --#   not Result and A_First% = A_First;
       loop
          J := B_First + (I - A_First);
 
