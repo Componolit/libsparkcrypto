@@ -39,6 +39,35 @@ proof -
       power_add setsum_right_distrib add_ac mult_ac)
 qed
 
+lemma num_of_lint_upper:
+  assumes A: "\<forall>j\<in>{l..<l+i}. A j < b" and "0 \<le> b"
+  shows "num_of_lint b A l i < b ^ nat i"
+proof (cases "0 \<le> i")
+  case True
+  then show ?thesis using A
+  proof (induct rule: int_ge_induct)
+    case base
+    show ?case by simp
+  next
+    case (step i)
+    then have "A (l + i) \<le> b - 1" by simp
+    moreover from `0 \<le> b` have "0 \<le> b ^ nat i" by simp
+    ultimately have "b ^ nat i * A (l + i) \<le> b ^ nat i * (b - 1)"
+      by (rule mult_left_mono)
+    with `0 \<le> i` have "b ^ nat i * A (l + i) \<le> b ^ nat (i + 1) - b ^ nat i"
+      by (simp add: nat_add_distrib sign_simps)
+    moreover from step have "num_of_lint b A l i < b ^ nat i"
+      by simp
+    ultimately show ?case using `0 \<le> i` by simp
+  qed
+next
+  case False then show ?thesis by (simp add: num_of_lint_def)
+qed
+
+lemma num_of_lint_lower:
+  "0 \<le> b \<Longrightarrow> \<forall>j\<in>{l..<l+i}. 0 \<le> A j \<Longrightarrow> 0 \<le> num_of_lint b A l i"
+  by (simp add: mult_nonneg_nonneg setsum_nonneg num_of_lint_def)
+
 lemma num_of_lint_update [simp]:
   "l + i \<le> j \<Longrightarrow> num_of_lint b (A(j := x)) l i = num_of_lint b A l i"
   by (simp add: num_of_lint_def)
