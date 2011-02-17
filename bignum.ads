@@ -78,7 +78,8 @@ is
    --#   M_Last in M'Range and
    --#   M_First <= M_Last and
    --#   R_First in R'Range and
-   --#   R_First + (M_Last - M_First) in R'Range;
+   --#   R_First + (M_Last - M_First) in R'Range and
+   --#   1 < Num_Of_Big_Int (M, M_First, M_Last - M_First + 1);
    --# post
    --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
    --#   2 ** (32 * 2 * (M_Last - M_First + 1)) mod
