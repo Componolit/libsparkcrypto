@@ -151,15 +151,27 @@ is
 
       R (R_First) := 1;
 
-      for I in Natural range 1 .. (2 * ((M_Last - M_First) + 1))
+      for I in Natural range M_First .. M_Last
+        --# assert
+        --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
+        --#   2 ** (32 * 2 * (I - M_First)) mod
+        --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
+        --#   R_Last = R_First + (M_Last - M_First);
       loop
-         Double_Inplace (R, R_First, R_Last, Carry);
-         if Carry or else Less (M, M_First, M_Last, R, R_First) then
-            --# accept Flow, 10, Carry, "Carry not needed here";
-            Sub_Inplace (R, R_First, R_Last, M, M_First, Carry);
-         end if;
+         for J in Natural range 0 .. 63
+           --# assert
+           --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
+           --#   2 ** (32 * 2 * (I - M_First) + J) mod
+           --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
+           --#   R_Last = R_First + (M_Last - M_First);
+         loop
+            Double_Inplace (R, R_First, R_Last, Carry);
+            if Carry or else not Less (R, R_First, R_Last, M, M_First) then
+               --# accept Flow, 10, Carry, "Carry not needed here";
+               Sub_Inplace (R, R_First, R_Last, M, M_First, Carry);
+            end if;
+         end loop;
       end loop;
-
    end Size_Square_Mod;
 
 end Bignum;
