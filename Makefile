@@ -22,13 +22,24 @@ SIV_FILES = \
 PRV_FILES = \
   $(OUTPUT_DIR)/bignum/double_inplace.prv
 
+ISABELLE_FILES = \
+  ROOT.ML \
+  Facts.thy \
+  Bignum.thy \
+  Initialize.thy \
+  Word_Of_Boolean.thy \
+  Double_Inplace.thy \
+  Sub_Inplace.thy \
+  Less.thy \
+  Size_Square_Mod.thy
+
 all: $(OUTPUT_DIR)/bignum.sum
 
 $(SIV_FILES): $(OUTPUT_DIR)/target.cfg $(SPARK_FILES)
 	spark $(SPARK_OPTS) -config=$< $(SPARK_FILES)
 	sparksimp
 
-$(PRV_FILES): $(SIV_FILES)
+$(PRV_FILES): $(SIV_FILES) $(ISABELLE_FILES)
 	cd ..; OUTPUT_DIR=$(OUTPUT_DIR) isabelle usedir HOL-SPARK spark-bignum
 
 $(OUTPUT_DIR)/bignum.sum: $(PRV_FILES)
