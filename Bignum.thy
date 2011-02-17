@@ -1,5 +1,5 @@
 theory Bignum
-imports SPARK
+imports SPARK Facts
 begin
 
 primrec num_of_bool :: "bool \<Rightarrow> int"
@@ -68,9 +68,40 @@ lemma num_of_lint_lower:
   "0 \<le> b \<Longrightarrow> \<forall>j\<in>{l..<l+i}. 0 \<le> A j \<Longrightarrow> 0 \<le> num_of_lint b A l i"
   by (simp add: mult_nonneg_nonneg setsum_nonneg num_of_lint_def)
 
-lemma num_of_lint_update [simp]:
+lemma num_of_lint_all0:
+  assumes "\<forall>j\<in>{0..<i}. A (l + j) = 0"
+  shows "num_of_lint b A l i = 0"
+  using assms
+  by (simp add: num_of_lint_def)
+
+lemma num_of_lint_update_neutral [simp]:
   "l + i \<le> j \<Longrightarrow> num_of_lint b (A(j := x)) l i = num_of_lint b A l i"
   by (simp add: num_of_lint_def)
+
+lemma num_of_lint_update_neutral' [simp]:
+  "j < l \<Longrightarrow> num_of_lint b (A(j := x)) l i = num_of_lint b A l i"
+  by (simp add: num_of_lint_def)
+
+lemma num_of_lint_update [simp]:
+  assumes "l \<le> j" and "j < l + i"
+  shows "num_of_lint b (A(j := x)) l i =
+    num_of_lint b A l i + b ^ nat (j - l) * (x - A j)"
+proof -
+  let ?i = "j - l + 1 + (i - (j - l) - 1)"
+  have "num_of_lint b (A(j := x)) l i = num_of_lint b (A(j := x)) l ?i"
+    by simp
+  also from assms
+  have "\<dots> = num_of_lint b A l (j - l) +
+    b ^ nat (j - l) *
+      (x + b * num_of_lint b A (j + 1) (i - (j - l) - 1))"
+    by (simp only: num_of_lint_sum)
+      (simp add: ring_distribs nat_add_distrib)
+  also from assms
+  have "\<dots> = num_of_lint b A l ?i + b ^ nat (j - l) * (x - A j)"
+    by (simp only: num_of_lint_sum)
+      (simp add: ring_distribs nat_add_distrib)
+  finally show ?thesis by simp
+qed
 
 abbreviation Base :: int where
   "Base \<equiv> 4294967296"
