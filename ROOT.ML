@@ -4,4 +4,5 @@ use_thys
    "Double_Inplace",
    "Sub_Inplace",
    "Less",
-   "Size_Square_Mod"];
+   "Size_Square_Mod",
+   "Word_Inverse"];

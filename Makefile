@@ -31,7 +31,8 @@ ISABELLE_FILES = \
   Double_Inplace.thy \
   Sub_Inplace.thy \
   Less.thy \
-  Size_Square_Mod.thy
+  Size_Square_Mod.thy \
+  Word_Inverse.thy
 
 all: $(OUTPUT_DIR)/bignum.sum
 
