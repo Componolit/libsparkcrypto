@@ -85,4 +85,8 @@ is
    --#   2 ** (32 * 2 * (M_Last - M_First + 1)) mod
    --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1);
 
+   function Word_Inverse (M : Types.Word32) return Types.Word32;
+   --# pre M mod 2 = 1;
+   --# return Inv => 1 + Inv * M = 0;
+
 end Bignum;

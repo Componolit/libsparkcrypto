@@ -3,6 +3,8 @@ with Types;
 package body Bignum
 is
 
+   --# function GCD (A, B: Integer) return Integer;
+
    procedure Initialize
       (A       :    out Big_Int;
        A_First : in     Natural;
@@ -173,5 +175,33 @@ is
          end loop;
       end loop;
    end Size_Square_Mod;
+
+   ----------------------------------------------------------------------------
+
+   function Word_Inverse (M : Types.Word32) return Types.Word32
+   is
+      A, B, Quot, New_B, P, Q, New_Q : Types.Word32;
+   begin
+      A := M;
+      B := (0 - M) mod M;
+      P := 1;
+      Q := (0 - ((0 - M) / M)) - 1;
+
+      while B /= 0
+        --# assert
+        --#   A = P * M and B = Q * M and
+        --#   GCD (Integer (A), Integer (B)) = 1;
+      loop
+         Quot := A / B;
+         New_B := A mod B;
+         A := B;
+         B := New_B;
+         New_Q := P - Quot * Q;
+         P := Q;
+         Q := New_Q;
+      end loop;
+
+      return 0 - P;
+   end Word_Inverse;
 
 end Bignum;
