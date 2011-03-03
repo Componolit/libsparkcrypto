@@ -19,20 +19,8 @@ proof -
   then have "(x * 2 - m) mod m = x * 2 - m"
     by (rule mod_pos_pos_trivial)
   also from `0 \<le> x * 2 - m` `x * 2 - m < m` `m < r`
-  have "\<dots> = (x * 2 - m) mod r"
+  have "\<dots> = ((x * 2) mod r - m) mod r"
     by (simp add: mod_pos_pos_trivial)
-  also from
-    zdiff_zmod_left [of "x * 2 - r", symmetric]
-    zdiff_zmod_left [of "x * 2", symmetric]
-    zdiff_zmod_right [of _ r, symmetric]
-  have "\<dots> = (x * 2 - r - m) mod r"
-    by simp
-  also from `r \<le> x * 2` `x < m` `m < r`
-  have "0 \<le> x * 2 - r" "x * 2 - r < r" by simp_all
-  then have "x * 2 - r = (x * 2 - r) mod r"
-    by (rule mod_pos_pos_trivial [symmetric])
-  also have "(x * 2 - r) mod r = (x * 2) mod r"
-    by simp
   finally show ?thesis .
 qed
 
