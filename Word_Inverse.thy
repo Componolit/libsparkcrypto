@@ -1,14 +1,6 @@
 theory Word_Inverse
-imports Bignum GCD
+imports Bignum
 begin
-
-lemma odd_coprime:
-  assumes "(m::int) mod 2 = 1"
-  shows "coprime m (2 ^ n)"
-proof (rule coprime_exp_int)
-  from assms gcd_red_int [of m 2]
-  show "coprime m 2" by simp
-qed
 
 lemma div_minus_self:
   assumes "(b::int) \<noteq> 0"
