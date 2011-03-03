@@ -8,10 +8,14 @@ use type Types.Word64;
 package Bignum
 is
 
+   Base : constant := 2 ** 32;
+
    type Big_Int is array (Natural range <>) of Types.Word32;
 
-   --# function Num_Of_Big_Int (A: Big_Int; F, L: Natural) return Integer;
-   --# function Num_Of_Boolean (B: Boolean) return Integer;
+   --# function Num_Of_Big_Int (A: Big_Int; F, L: Natural)
+   --#   return Universal_Integer;
+   --# function Num_Of_Boolean (B: Boolean) return Universal_Integer;
+   --# function Inverse (M, A: Universal_Integer) return Universal_Integer;
 
    procedure Double_Inplace
      (A       : in out Big_Int;
@@ -107,8 +111,43 @@ is
    --#   B_First + (A_Last - A_First - 1) in B'Range;
    --# post
    --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) +
-   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First) * Integer (C) =
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First) *
+   --#   Universal_Integer (C) =
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
    --#   2 ** (32 * (A_Last - A_First + 1)) * Num_Of_Boolean (Carry);
+
+   procedure Mont_Mult
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural;
+      M_Inv   : in     Types.Word32);
+   --# derives
+   --#   A from
+   --#   A_First, A_Last, B, B_First, C, C_First, M, M_First, M_Inv;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First < A_Last and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   C_First in C'Range and
+   --#   C_First + (A_Last - A_First) in C'Range and
+   --#   M_First in M'Range and
+   --#   M_First + (A_Last - A_First) in M'Range and
+   --#   1 < Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+   --#   1 + M_Inv * M (M_First) = 0;
+   --# post
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) *
+   --#    Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
+   --#    Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
+   --#      Base) ** (A_Last - A_First + 1)) mod
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
 
 end Bignum;
