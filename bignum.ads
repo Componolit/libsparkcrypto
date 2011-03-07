@@ -129,4 +129,68 @@ is
    --#      Base) ** (A_Last - A_First + 1)) mod
    --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
 
+   procedure Mont_Exp
+     (A          :    out Big_Int;
+      A_First    : in     Natural;
+      A_Last     : in     Natural;
+      X          : in     Big_Int;
+      X_First    : in     Natural;
+      E          : in     Big_Int;
+      E_First    : in     Natural;
+      E_Last     : in     Natural;
+      M          : in     Big_Int;
+      M_First    : in     Natural;
+      Aux1       :    out Big_Int;
+      Aux1_First : in     Natural;
+      Aux2       :    out Big_Int;
+      Aux2_First : in     Natural;
+      Aux3       :    out Big_Int;
+      Aux3_First : in     Natural;
+      R          : in     Big_Int;
+      R_First    : in     Natural;
+      M_Inv      : in     Types.Word32);
+   --# derives
+   --#   A from
+   --#   A_First, A_Last, X, X_First, E, E_First, E_Last,
+   --#   M, M_First, Aux1_First, Aux2_First, Aux3_First,
+   --#   R, R_First, M_Inv &
+   --#   Aux1 from
+   --#   A_First, A_Last, Aux1_First &
+   --#   Aux2 from
+   --#   A_First, A_Last, Aux2_First,
+   --#   X, X_First, R, R_First, M, M_First, M_Inv &
+   --#   Aux3 from
+   --#   A_First, A_Last, X, X_First, E, E_First, E_Last,
+   --#   M, M_First, Aux1_First, Aux2_First, Aux3_First,
+   --#   R, R_First, M_Inv;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First < A_Last and
+   --#   X_First in X'Range and
+   --#   X_First + (A_Last - A_First) in X'Range and
+   --#   E_First in E'Range and
+   --#   E_Last in E'Range and
+   --#   E_First <= E_Last and
+   --#   M_First in M'Range and
+   --#   M_First + (A_Last - A_First) in M'Range and
+   --#   Aux1_First in Aux1'Range and
+   --#   Aux1_First + (A_Last - A_First) in Aux1'Range and
+   --#   Aux2_First in Aux2'Range and
+   --#   Aux2_First + (A_Last - A_First) in Aux2'Range and
+   --#   Aux3_First in Aux3'Range and
+   --#   Aux3_First + (A_Last - A_First) in Aux3'Range and
+   --#   R_First in R'Range and
+   --#   R_First + (A_Last - A_First) in R'Range and
+   --#   Num_Of_Big_Int (R, R_First, A_Last - A_First + 1) =
+   --#   Base ** (2 * (A_Last - A_First + 1)) mod
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+   --#   1 < Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+   --#   1 + M_Inv * M (M_First) = 0;
+   --# post
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+   --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) mod
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+
 end Bignum;

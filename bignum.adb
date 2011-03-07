@@ -6,9 +6,9 @@ is
    --# function GCD (A, B: Universal_Integer) return Universal_Integer;
 
    procedure Initialize
-      (A       :    out Big_Int;
-       A_First : in     Natural;
-       A_Last  : in     Natural)
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural)
    --# derives
    --#   A from A_First, A_Last;
    --# pre
@@ -28,6 +28,38 @@ is
       end loop;
       --# accept Flow, 602, A, A, "OK";
    end Initialize;
+
+   ----------------------------------------------------------------------------
+
+   procedure Copy
+     (A       : in     Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       :    out Big_Int;
+      B_First : in Natural)
+     --# derives
+     --#   B from A, A_First, A_Last, B_First;
+     --# pre
+     --#   A_First in A'Range and
+     --#   A_Last in A'Range and
+     --#   A_First <= A_Last and
+     --#   B_First in B'Range and
+     --#   B_First + (A_Last - A_First) in B'Range;
+     --# post
+     --#   (for all K in Natural range A_First .. A_Last =>
+     --#      (A (K) = B (K)));
+   is
+   begin
+      for I in Natural range A_First .. A_Last
+        --# assert
+        --#   (for all K in Natural range A_First .. I - 1 =>
+        --#      (A (K) = B (K)));
+      loop
+         --# accept Flow, 23, B, "Copied between A_First and A_Last";
+         B (B_First + (I - A_First)) := A (I);
+      end loop;
+      --# accept Flow, 602, B, B, "OK";
+   end Copy;
 
    ----------------------------------------------------------------------------
 
@@ -398,5 +430,98 @@ is
          Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
       end if;
    end Mont_Mult;
+
+   ----------------------------------------------------------------------------
+
+   procedure Mont_Exp
+     (A          :    out Big_Int;
+      A_First    : in     Natural;
+      A_Last     : in     Natural;
+      X          : in     Big_Int;
+      X_First    : in     Natural;
+      E          : in     Big_Int;
+      E_First    : in     Natural;
+      E_Last     : in     Natural;
+      M          : in     Big_Int;
+      M_First    : in     Natural;
+      Aux1       :    out Big_Int;
+      Aux1_First : in     Natural;
+      Aux2       :    out Big_Int;
+      Aux2_First : in     Natural;
+      Aux3       :    out Big_Int;
+      Aux3_First : in     Natural;
+      R          : in     Big_Int;
+      R_First    : in     Natural;
+      M_Inv      : in     Types.Word32)
+   is
+   begin
+      Initialize (Aux1, Aux1_First, Aux1_First + (A_Last - A_First));
+      Aux1 (Aux1_First) := 1;
+
+      Mont_Mult
+        (Aux3, Aux3_First, Aux3_First + (A_Last - A_First),
+         R, R_First, Aux1, Aux1_First,
+         M, M_First, M_Inv);
+
+      Mont_Mult
+        (Aux2, Aux2_First, Aux2_First + (A_Last - A_First),
+         X, X_First, R, R_First,
+         M, M_First, M_Inv);
+
+      for I in reverse Natural range E_First .. E_Last
+        --# assert
+        --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
+        --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+        --#   Base ** (A_Last - A_First + 1) mod
+        --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+        --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
+        --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+        --#   Num_Of_Big_Int (E, I + 1, I - E_Last) mod
+        --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+      loop
+         for J in reverse Natural range 0 .. 31
+           --# assert
+           --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
+           --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+           --#   Base ** (A_Last - A_First + 1) mod
+           --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+           --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
+           --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+           --#   (Num_Of_Big_Int (E, I + 1, I - E_Last) * 2 ** (31 - J) +
+           --#    Universal_Integer (E (I)) / 2 ** (J + 1)) mod
+           --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+         loop
+            Mont_Mult
+              (A, A_First, A_Last,
+               Aux3, Aux3_First, Aux3, Aux3_First,
+               M, M_First, M_Inv);
+
+            if (E (I) and 2 ** J) /= 0 then
+               Mont_Mult
+                 (Aux3, Aux3_First, Aux3_First + (A_Last - A_First),
+                  A, A_First, Aux2, Aux2_First,
+                  M, M_First, M_Inv);
+            else
+               Copy (A, A_First, A_Last, Aux3, Aux3_First);
+            end if;
+
+            --# assert
+            --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
+            --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+            --#   Base ** (A_Last - A_First + 1) mod
+            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+            --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
+            --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+            --#   (Num_Of_Big_Int (E, I + 1, I - E_Last) * 2 ** (31 - (J - 1)) +
+            --#    Universal_Integer (E (I)) / 2 ** ((J - 1) + 1)) mod
+            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+         end loop;
+      end loop;
+
+      Mont_Mult
+        (A, A_First, A_Last,
+         Aux3, Aux3_First, Aux1, Aux1_First,
+         M, M_First, M_Inv);
+   end Mont_Exp;
 
 end Bignum;
