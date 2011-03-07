@@ -46,9 +46,8 @@ proof -
   moreover from H2 H36 have "a_init loop__1__i = a loop__1__i" by simp
   ultimately show ?C1
     using H1 H3 H8 H11 H15 H21 H28 H30 H33
-    by (simp only: pow_simp_Base)
-      (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods
-         sub_carry [of _ Base] div_mod_eq ring_distribs)
+    by (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods
+      sub_carry [of _ Base] div_mod_eq ring_distribs)
 next
   from H2 `loop__1__i < a_last`
   show ?C2 by simp
@@ -75,9 +74,8 @@ proof -
   moreover from H2 have "a_init a_last = a a_last" by simp
   ultimately show ?thesis
     using H1 H3 H8 H11 H15 H22 H29 H31 H34
-    by (simp only: pow_simp_Base)
-      (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods
-         sub_carry [of _ Base] div_mod_eq ring_distribs)
+    by (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods
+      sub_carry [of _ Base] div_mod_eq ring_distribs)
 qed
 
 spark_end

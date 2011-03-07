@@ -73,8 +73,7 @@ proof -
   have "a_init loop__1__i = a loop__1__i" by simp
   ultimately show ?C1
     using `a_first \<le> loop__1__i` H1 H15 H18
-    by (simp only: pow_simp_Base)
-      (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods div_mod_eq ring_distribs)
+    by (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods div_mod_eq ring_distribs)
 next
   from H2 `loop__1__i < a_last`
   show ?C2 by simp
@@ -91,8 +90,7 @@ proof -
   have "a_init a_last = a a_last" by simp
   ultimately show ?thesis
     using `a_first \<le> a_last` H1 H22 H25
-    by (simp only: pow_simp_Base)
-      (simp add: nat_add_distrib pull_mods div_mod_eq ring_distribs)
+    by (simp add: nat_add_distrib pull_mods div_mod_eq ring_distribs)
 qed
 
 spark_end

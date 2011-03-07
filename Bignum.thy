@@ -198,11 +198,6 @@ abbreviation Base :: int where
 
 lemmas [simp] = zle_diff1_eq [of _ Base, simplified]
 
-lemma pow_simp: "0 \<le> b \<Longrightarrow> (a::int) ^ nat (b * c) = (a ^ nat b) ^ nat c"
-  by (simp add: nat_mult_distrib zpower_zpower)
-
-lemmas pow_simp_Base = pow_simp [of 32 2, simplified]
-
 abbreviation
   "num_of_big_int \<equiv> num_of_lint Base"
 

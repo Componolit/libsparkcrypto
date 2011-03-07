@@ -326,7 +326,7 @@ proof -
   let ?a_4 = "num_of_big_int a__4 a_first (a_last - a_first + 1)"
   let ?m = "num_of_big_int m m_first (a_last - a_first + 1)"
   let ?R = "Base ^ nat (a_last - a_first + 1)"
-  note sub = [[fact "?a - ?m = _", simplified pow_simp_Base]]
+  note sub = [[fact "?a - ?m = _"]]
   note invariant1 = [[fact "(?a + _) mod ?m = _"]]
   note invariant2 = [[fact "?a + _ < _"]]
 
