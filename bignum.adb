@@ -313,6 +313,20 @@ is
             C (C_First + (I - A_First)), Y,
             Carry1, Carry2);
          A (I) := Temp;
+
+         --# assert
+         --#   Num_Of_Big_Int (A~, A_First + 1, (I + 1) - A_First) +
+         --#   Num_Of_Big_int (B, B_First, (I + 1) - A_First) *
+         --#   Universal_Integer (X) +
+         --#   Num_Of_Big_int (C, C_First, (I + 1) - A_First) *
+         --#   Universal_Integer (Y) +
+         --#   Universal_Integer (Carry1~) +
+         --#   Base * Universal_Integer (Carry2~) =
+         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+         --#   Base ** ((I + 1) - A_First) * (Universal_Integer (Carry1) +
+         --#     Base * Universal_Integer (Carry2)) and
+         --#   (for all K in Natural range I + 1 .. A_Last + 1 =>
+         --#      (A (K) = A~ (K)));
       end loop;
    end Add_Mult_Mult;
 
