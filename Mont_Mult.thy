@@ -94,15 +94,38 @@ proof -
     by (simp add: ring_distribs mult_ac)
 qed
 
+lemma mod_cong: "a = b \<Longrightarrow> a mod m = b mod m"
+  by simp
+
+lemma div_cong: "a = b \<Longrightarrow> a div m = b div m"
+  by simp
+
 spark_open "out/bignum/mont_mult.siv"
 
 spark_vc procedure_mont_mult_5
   using `\<forall>k. a_first \<le> k \<and> k \<le> a_last \<longrightarrow> a__1 k = 0`
-  by (simp add: num_of_lint_all0)
+    `1 < num_of_big_int m m_first (a_last - a_first + 1)`
+  by (simp_all add: num_of_lint_all0)
 
-spark_vc procedure_mont_mult_6
+spark_vc procedure_mont_mult_9
+  using [[fact "bounds _ _ _ _ b"]]
+    `b__index__subtype__1__first \<le> b_first`
+    `b_first + (a_last - a_first) \<le> b__index__subtype__1__last`
+    `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
+    `b__index__subtype__1__last \<le> 2147483647`
+  by simp_all
+
+spark_vc procedure_mont_mult_13
+  using `m_first + (a_last - a_first) \<le> m__index__subtype__1__last`
+    `m__index__subtype__1__last \<le> 2147483647`
+    `c_first + (a_last - a_first) \<le> c__index__subtype__1__last`
+    `c__index__subtype__1__last \<le> 2147483647`
+    `a_first < a_last`
+  by simp_all
+
+spark_vc procedure_mont_mult_18
 proof -
-  let "?l = ?r" = ?thesis
+  let "?l mod _ = _" = ?C1
   let ?R = "Base ^ nat (a_last - a_first)"
   let ?R' = "Base ^ nat (a_last - a_first + 1)"
   let ?a = "num_of_big_int a a_first (a_last - a_first + 1)"
@@ -207,11 +230,10 @@ proof -
     by (simp add: inv_div)
 
   from `carry2__3 \<le> 1` `a_first < a_last` word_of_boolean
-  have "?l =
-    (num_of_big_int a__3 a_first (a_last - a_first) +
-     ?R * ((a_msw + carry1__3) mod Base) +
-     Base * ?R * ((carry2__3 + num_of_bool
-       ((a_msw + carry1__3) mod Base < carry1__3)) mod Base)) mod ?m"
+  have "?l = num_of_big_int a__3 a_first (a_last - a_first) +
+    ?R * ((a_msw + carry1__3) mod Base) +
+    Base * ?R * ((carry2__3 + num_of_bool
+      ((a_msw + carry1__3) mod Base < carry1__3)) mod Base)"
     by (simp add: nat_add_distrib)
   also from `carry2__3 \<le> 1` num_of_bool_le1
   have "carry2__3 +
@@ -223,15 +245,15 @@ proof -
       num_of_bool ((a_msw + carry1__3) mod Base < carry1__3)) mod Base =
     carry2__3 + (a_msw + carry1__3) div Base"
     by (simp add: num_of_bool_ge0 mod_pos_pos_trivial add_carry)
-  also have "(num_of_big_int a__3 a_first (a_last - a_first) +
+  also have "num_of_big_int a__3 a_first (a_last - a_first) +
     ?R * ((a_msw + carry1__3) mod Base) +
-    Base * ?R * (carry2__3 + (a_msw + carry1__3) div Base)) mod ?m =
-    (num_of_big_int a__3 a_first (a_last - a_first) +
-     ?R * ((a_msw + carry1__3) mod Base +
-       Base * carry2__3 + Base * ((a_msw + carry1__3) div Base))) mod ?m"
+    Base * ?R * (carry2__3 + (a_msw + carry1__3) div Base) =
+    num_of_big_int a__3 a_first (a_last - a_first) +
+    ?R * ((a_msw + carry1__3) mod Base +
+      Base * carry2__3 + Base * ((a_msw + carry1__3) div Base))"
     by (simp only: ring_distribs add_ac mult_ac)
-  also have "\<dots> = (num_of_big_int a__3 a_first (a_last - a_first) +
-    ?R * (carry1__3 + Base * carry2__3) + ?R * a_msw) mod ?m"
+  also have "\<dots> = num_of_big_int a__3 a_first (a_last - a_first) +
+    ?R * (carry1__3 + Base * carry2__3) + ?R * a_msw"
     by (simp add: ring_distribs add_ac)
   also note add_mult_mult [symmetric]
   also from `a_first < a_last` a c m
@@ -243,7 +265,7 @@ proof -
       (carry1__2 + Base * carry2__2) + ?R * a_msw"
     by (simp only: num_of_lint_div)
       (subst `a__2 = a(a_first := a__2 a_first)`, simp)
-  also from single_add_mult_mult [THEN arg_cong, of "\<lambda>x. x div Base"]
+  also from single_add_mult_mult [THEN div_cong, of Base]
     `0 \<le> a__2 a_first` `a__2 a_first < Base`
   have "carry1__2 + Base * carry2__2 =
     (a a_first + ?bi * c c_first + m m_first * ?u) div Base"
@@ -255,14 +277,13 @@ proof -
   also from `a_first < a_last`
   have "(?a + ?bi * ?c + ?u * ?m) div Base + ?R * a_msw = ?a' div Base"
     by (simp add: nat_add_distrib mult_assoc)
+  finally have "?l = ?a' div Base" .
+  then have "?l mod ?m = ?a' div Base mod ?m" by (rule mod_cong)
   also note a_div
   also have "(?a' * minv ?m Base) mod ?m =
     (((?a + ?R' * a_msw) mod ?m +
-      ?bi * ?c + ?u * ?m) mod ?m * minv ?m Base) mod ?m"
-    by (simp add: add_ac)
-  also have "\<dots> = (((?a + ?R' * a_msw) mod ?m +
       ?bi * ?c) * minv ?m Base) mod ?m"
-    by simp
+    by (simp add: add_ac)
   also note invariant
   also from `a_first \<le> loop__1__i`
   have "(((?b * ?c * minv ?m Base ^ nat (loop__1__i - a_first)) mod ?m +
@@ -274,26 +295,97 @@ proof -
   have "?b * ?c + Base ^ nat (loop__1__i - a_first) * ?bi * ?c =
     ?b' * ?c"
     by (simp add: nat_add_distrib ring_distribs)
-  finally show ?thesis by (simp only: diff_add_eq [symmetric])
+  finally show ?C1 by (simp only: diff_add_eq [symmetric])
+
+  from c_in_range
+    `c__index__subtype__1__first \<le> c_first`
+    `c_first + (a_last - a_first) \<le> c__index__subtype__1__last`
+  have "0 \<le> ?c" by (simp_all add: num_of_lint_lower)
+  with `?bi < Base` `?c < ?m`
+  have "?bi * ?c \<le> (Base - 1) * (?m - 1)"
+    by - (rule mult_mono, simp_all)
+  moreover from m_in_range
+    `m__index__subtype__1__first \<le> m_first`
+    `m_first + (a_last - a_first) \<le> m__index__subtype__1__last`
+  have "0 \<le> ?m" by (simp_all add: num_of_lint_lower)
+  then have "?u * ?m \<le> (Base - 1) * ?m"
+    by (simp_all add: mult_right_mono)
+  ultimately have "?a' \<le> 2 * Base * ?m - Base - 1"
+    using `?a + ?R' * a_msw < 2 * ?m - 1`
+    by simp
+  then have "?a' div Base \<le> (2 * Base * ?m - Base - 1) div Base"
+    by simp
+  also have "\<dots> < 2 * ?m - 1" by simp
+  also note `?l = ?a' div Base` [symmetric]
+  finally show ?C2 .
 qed
 
-spark_vc procedure_mont_mult_9
-  using [[fact "bounds _ _ _ _ b"]]
-    `b__index__subtype__1__first \<le> b_first`
-    `b_first + (a_last - a_first) \<le> b__index__subtype__1__last`
-    `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
-    `b__index__subtype__1__last \<le> 2147483647`
-  by simp_all
-
-spark_vc procedure_mont_mult_13
-  using `m_first + (a_last - a_first) \<le> m__index__subtype__1__last`
-    `m__index__subtype__1__last \<le> 2147483647`
-    `c_first + (a_last - a_first) \<le> c__index__subtype__1__last`
-    `c__index__subtype__1__last \<le> 2147483647`
-    `a_first < a_last`
-  by simp_all
-
 spark_vc procedure_mont_mult_25
+proof -
+  let ?a = "num_of_big_int a a_first (a_last - a_first + 1)"
+  let ?a_4 = "num_of_big_int a__4 a_first (a_last - a_first + 1)"
+  let ?m = "num_of_big_int m m_first (a_last - a_first + 1)"
+  let ?R = "Base ^ nat (a_last - a_first + 1)"
+  note sub = [[fact "?a - ?m = _", simplified pow_simp_Base]]
+  note invariant1 = [[fact "(?a + _) mod ?m = _"]]
+  note invariant2 = [[fact "?a + _ < _"]]
+
+  from [[fact "bounds _ _ _ _ a"]]
+    `a__index__subtype__1__first \<le> a_first`
+    `a_last \<le> a__index__subtype__1__last`
+  have a_bounds: "0 \<le> ?a"
+    by (simp_all add: num_of_lint_lower)
+  from [[fact "bounds _ _ _ _ a__4"]]
+    `a__index__subtype__1__first \<le> a_first`
+    `a_last \<le> a__index__subtype__1__last`
+  have a4_bounds: "0 \<le> ?a_4" "?a_4 < ?R"
+    by (simp_all add: num_of_lint_lower num_of_lint_upper)
+  from [[fact "bounds _ _ _ _ m"]]
+    `m__index__subtype__1__first \<le> m_first`
+    `m_first + (a_last - a_first) \<le> m__index__subtype__1__last`
+  have m_bounds: "0 \<le> ?m" "?m < ?R"
+    by (simp_all add: num_of_lint_lower num_of_lint_upper)
+
+  show ?thesis
+  proof (cases "a_msw = 0")
+    case True
+    with `a_msw \<noteq> 0 \<or> \<not> less a a_first a_last m m_first`
+      [[fact "\<not> a_msw \<noteq> 0 \<longrightarrow> less _ _ _ _ _ = _"]]
+    have "?m \<le> ?a" by simp
+    moreover from True invariant2 have "?a - ?m < ?m" by simp
+    ultimately have "?a_4 = (?a - ?m) mod ?m"
+      using sub [THEN mod_cong, of ?R] a4_bounds m_bounds
+      by (simp add: mod_pos_pos_trivial)
+    with True invariant1 show ?thesis
+      by (simp add: diff_add_eq)
+  next
+    case False
+    from sub [THEN mod_cong, of ?R] a4_bounds
+    have "?a_4 = (?a + ?R * a_msw - ?m) mod ?R"
+      by (simp add: mod_pos_pos_trivial)
+    also from False `0 \<le> a_msw` have "1 \<le> a_msw" by simp
+    then have "?R * 1 \<le> ?R * a_msw" by (rule mult_left_mono) simp
+    with invariant2 a_bounds m_bounds
+    have "(?a + ?R * a_msw - ?m) mod ?R = (?a + ?R * a_msw - ?m) mod ?m"
+      by (simp add: mod_pos_pos_trivial del: zmod_zsub_self)
+    finally show ?thesis using invariant1
+      by (simp add: diff_add_eq)
+  qed
+qed
+
+spark_vc procedure_mont_mult_26
+proof -
+  let ?a = "num_of_big_int a a_first (a_last - a_first + 1)"
+  let ?m = "num_of_big_int m m_first (a_last - a_first + 1)"
+
+  from [[fact "bounds _ _ _ _ a"]]
+    `a__index__subtype__1__first \<le> a_first`
+    `a_last \<le> a__index__subtype__1__last`
+  have a_bounds: "0 \<le> ?a"
+    by (simp_all add: num_of_lint_lower)
+  with [[fact "?a mod ?m = _"]] `?a < ?m`
+  show ?thesis by (simp add: mod_pos_pos_trivial diff_add_eq)
+qed
 
 spark_end
 
