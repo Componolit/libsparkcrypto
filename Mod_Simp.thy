@@ -36,24 +36,33 @@ lemma power_mod_cong:
    a ^ k mod m = a' ^ k mod m"
   by (simp add: mod_power_eq [of a] mod_power_eq [of a'])
 
+lemma mod_self_cong:
+  "(m::'a::semiring_div) mod m = 0 mod m"
+    by simp
+
 simproc_setup pull_mod ("a mod b") = {*
 let
 
-fun has_mod rng m (Const (@{const_name mod}, _) $ _ $ m') = m aconv m'
-  | has_mod rng m (Const (@{const_name plus}, _) $ t $ u) =
-      has_mod rng m t orelse has_mod rng m u
-  | has_mod rng m (Const (@{const_name minus}, _) $ t $ u) =
-      rng andalso (has_mod rng m t orelse has_mod rng m u)
-  | has_mod rng m (Const (@{const_name times}, _) $ t $ u) =
-      has_mod rng m t orelse has_mod rng m u
-  | has_mod rng m (Const (@{const_name power}, _) $ t $ u) =
-      has_mod rng m t
-  | has_mod rng m (Const (@{const_name uminus}, _) $ t) =
-      rng andalso has_mod rng m t
-  | has_mod _ _ _ = false;
+fun has_mod rng m s =
+  m aconv s orelse (case s of
+      Const (@{const_name mod}, _) $ _ $ m' => m aconv m'
+    | Const (@{const_name plus}, _) $ t $ u =>
+        has_mod rng m t orelse has_mod rng m u
+    | Const (@{const_name minus}, _) $ t $ u =>
+        rng andalso (has_mod rng m t orelse has_mod rng m u)
+    | Const (@{const_name times}, _) $ t $ u =>
+        has_mod rng m t orelse has_mod rng m u
+    | Const (@{const_name power}, _) $ t $ u =>
+        has_mod rng m t
+    | Const (@{const_name uminus}, _) $ t =>
+        rng andalso has_mod rng m t
+    | _ => false);
 
 fun pull_mod rng cmod cm ct =
-  if has_mod rng (term_of cm) (term_of ct) then
+  if term_of cm aconv term_of ct then
+    Drule.instantiate' [SOME (ctyp_of_term ct)] [SOME ct]
+      @{thm mod_self_cong}
+  else if has_mod rng (term_of cm) (term_of ct) then
     case term_of ct of
       Const (@{const_name mod}, _) $ _ $ _ =>
         let val (cx, cm) = Thm.dest_binop ct
@@ -61,24 +70,24 @@ fun pull_mod rng cmod cm ct =
           @{thm mod_mod_trivial}
         end
     | Const (@{const_name plus}, _) $ _ $ _ =>
-        let val (ctl, ctr) = Thm.dest_binop ct
+        let val (cl, cr) = Thm.dest_binop ct
         in @{thm plus_mod_cong} OF
-          [pull_mod rng cmod cm ctl, pull_mod rng cmod cm ctr]
+          [pull_mod rng cmod cm cl, pull_mod rng cmod cm cr]
         end
     | Const (@{const_name minus}, _) $ _ $ _ =>
-        let val (ctl, ctr) = Thm.dest_binop ct
+        let val (cl, cr) = Thm.dest_binop ct
         in @{thm diff_mod_cong} OF
-          [pull_mod rng cmod cm ctl, pull_mod rng cmod cm ctr]
+          [pull_mod rng cmod cm cl, pull_mod rng cmod cm cr]
         end
     | Const (@{const_name times}, _) $ _ $ _ =>
-        let val (ctl, ctr) = Thm.dest_binop ct
+        let val (cl, cr) = Thm.dest_binop ct
         in @{thm mult_mod_cong} OF
-          [pull_mod rng cmod cm ctl, pull_mod rng cmod cm ctr]
+          [pull_mod rng cmod cm cl, pull_mod rng cmod cm cr]
         end
     | Const (@{const_name power}, _) $ _ $ _ =>
-        let val (ctl, ctr) = Thm.dest_binop ct
-        in Drule.instantiate' [] [NONE, NONE, NONE, SOME ctr]
-          @{thm power_mod_cong} OF [pull_mod rng cmod cm ctl]
+        let val (cl, cr) = Thm.dest_binop ct
+        in Drule.instantiate' [] [NONE, NONE, NONE, SOME cr]
+          @{thm power_mod_cong} OF [pull_mod rng cmod cm cl]
         end
     | Const (@{const_name uminus}, _) $ _ =>
         let val cu = Thm.dest_arg ct
@@ -104,6 +113,9 @@ fun pull_mod_proc _ ss ct = (case term_of ct of
 in pull_mod_proc end;
 *}
 
+
+(*** Examples ***)
+
 lemma "(((a::int) + b) + (c mod m + d)) mod m = ((a + b) + (c + d)) mod m"
   by simp
 
@@ -117,6 +129,9 @@ lemma "(((a::nat) + b mod m) + (c mod m - d)) mod m = ((a + b) + (c mod m - d)) 
   by simp
 
 lemma "(a::int) * ((b * (c mod m)) ^ k) mod m = a * ((b * c) ^ k) mod m"
+  by simp
+
+lemma "(((a::int) + b mod m) + (c mod m + d * m)) mod m = ((a + b) + c) mod m"
   by simp
 
 end
