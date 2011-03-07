@@ -186,7 +186,7 @@ is
 
    function Word_Inverse (M : Types.Word32) return Types.Word32
    is
-      A, B, Quot, New_B, P, Q, New_Q : Types.Word32;
+      A, B, Quot, Temp, P, Q : Types.Word32;
    begin
       A := M;
       B := (0 - M) mod M;
@@ -199,12 +199,12 @@ is
         --#   GCD (Universal_Integer (A), Universal_Integer (B)) = 1;
       loop
          Quot := A / B;
-         New_B := A mod B;
+         Temp := A mod B;
          A := B;
-         B := New_B;
-         New_Q := P - Quot * Q;
+         B := Temp;
+         Temp := P - Quot * Q;
          P := Q;
-         Q := New_Q;
+         Q := Temp;
       end loop;
 
       return 0 - P;
