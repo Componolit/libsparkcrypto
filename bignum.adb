@@ -377,7 +377,10 @@ is
         --#    Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
         --#    Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
         --#      Base) ** (I - A_First)) mod
-        --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+        --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+        --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+        --#   Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW) <
+        --#   2 * Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) - 1;
       loop
          Carry1 := 0;
          Carry2 := 0;
@@ -391,6 +394,19 @@ is
             BI, U, Carry1, Carry2);
          A (A_Last) := A_MSW + Carry1;
          A_MSW := Carry2 + Word_Of_Boolean (A (A_Last) < Carry1);
+
+         --# assert
+         --#   (Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+         --#    Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW)) mod
+         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) =
+         --#   (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) *
+         --#    Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
+         --#    Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
+         --#      Base) ** ((I + 1) - A_First)) mod
+         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+         --#   Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW) <
+         --#   2 * Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) - 1;
       end loop;
 
       if A_MSW /= 0 or else
