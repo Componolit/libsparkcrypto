@@ -140,6 +140,8 @@ is
    --#   C_First + (A_Last - A_First) in C'Range and
    --#   M_First in M'Range and
    --#   M_First + (A_Last - A_First) in M'Range and
+   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) <
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
    --#   1 < Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
    --#   1 + M_Inv * M (M_First) = 0;
    --# post
