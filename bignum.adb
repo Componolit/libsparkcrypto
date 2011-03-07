@@ -61,7 +61,7 @@ is
         --# assert
         --#   Num_Of_Big_Int (A~, A_First, I - A_First) * 2 =
         --#   Num_Of_Big_Int (A, A_First, I - A_First) +
-        --#   2 ** (32 * (I - A_First)) * Num_Of_Boolean (Carry) and
+        --#   Base ** (I - A_First) * Num_Of_Boolean (Carry) and
         --#   (for all K in Natural range I .. A_Last =>
         --#      (A (K) = A~ (K)));
       loop
@@ -91,7 +91,7 @@ is
         --#   Num_Of_Big_Int (A~, A_First, I - A_First) -
         --#   Num_Of_Big_Int (B, B_First, I - A_First) =
         --#   Num_Of_Big_Int (A, A_First, I - A_First) -
-        --#   2 ** (32 * (I - A_First)) * Num_Of_Boolean (Carry) and
+        --#   Base ** (I - A_First) * Num_Of_Boolean (Carry) and
         --#   (for all K in Natural range I .. A_Last =>
         --#      (A (K) = A~ (K)));
       loop
@@ -156,14 +156,14 @@ is
       for I in Natural range M_First .. M_Last
         --# assert
         --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-        --#   2 ** (32 * 2 * (I - M_First)) mod
+        --#   Base ** (2 * (I - M_First)) mod
         --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
         --#   R_Last = R_First + (M_Last - M_First);
       loop
          for J in Natural range 0 .. 63
            --# assert
            --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-           --#   2 ** (32 * 2 * (I - M_First) + J) mod
+           --#   Base ** (2 * (I - M_First)) * 2 ** J mod
            --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
            --#   R_Last = R_First + (M_Last - M_First);
          loop
@@ -172,6 +172,12 @@ is
                --# accept Flow, 10, Carry, "Carry not needed here";
                Sub_Inplace (R, R_First, R_Last, M, M_First, Carry);
             end if;
+
+            --# assert
+            --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
+            --#   Base ** (2 * (I - M_First)) * 2 ** (J + 1) mod
+            --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
+            --#   R_Last = R_First + (M_Last - M_First);
          end loop;
       end loop;
    end Size_Square_Mod;

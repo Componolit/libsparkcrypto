@@ -30,7 +30,7 @@ is
    --# post
    --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) * 2 =
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-   --#   2 ** (32 * (A_Last - A_First + 1)) * Num_Of_Boolean (Carry);
+   --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
    procedure Sub_Inplace
      (A       : in out Big_Int;
@@ -50,7 +50,7 @@ is
    --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) -
    --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) =
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
-   --#   2 ** (32 * (A_Last - A_First + 1)) * Num_Of_Boolean (Carry);
+   --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
    function Less
      (A       : Big_Int;
@@ -86,7 +86,7 @@ is
    --#   1 < Num_Of_Big_Int (M, M_First, M_Last - M_First + 1);
    --# post
    --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-   --#   2 ** (32 * 2 * (M_Last - M_First + 1)) mod
+   --#   Base ** (2 * (M_Last - M_First + 1)) mod
    --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1);
 
    function Word_Inverse (M : Types.Word32) return Types.Word32;
