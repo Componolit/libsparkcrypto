@@ -7,4 +7,5 @@ use_thys
    "Size_Square_Mod",
    "Word_Inverse",
    "Single_Add_Mult_Mult",
-   "Add_Mult_Mult"];
+   "Add_Mult_Mult",
+   "Mont_Mult"];
