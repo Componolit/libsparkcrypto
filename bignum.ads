@@ -93,29 +93,6 @@ is
    --# pre M mod 2 = 1;
    --# return Inv => 1 + Inv * M = 0;
 
-   procedure Add_Mult_Inplace
-     (A       : in out Big_Int;
-      A_First : in     Natural;
-      A_Last  : in     Natural;
-      B       : in     Big_Int;
-      B_First : in     Natural;
-      C       : in     Types.Word32;
-      Carry   :    out Boolean);
-   --# derives
-   --#   A, Carry from A, A_First, A_Last, B, B_First, C;
-   --# pre
-   --#   A_First in A'Range and
-   --#   A_Last in A'Range and
-   --#   A_First < A_Last and
-   --#   B_First in B'Range and
-   --#   B_First + (A_Last - A_First - 1) in B'Range;
-   --# post
-   --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) +
-   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First) *
-   --#   Universal_Integer (C) =
-   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-   --#   2 ** (32 * (A_Last - A_First + 1)) * Num_Of_Boolean (Carry);
-
    procedure Mont_Mult
      (A       :    out Big_Int;
       A_First : in     Natural;

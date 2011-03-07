@@ -206,44 +206,6 @@ is
 
    ----------------------------------------------------------------------------
 
-   procedure Add_Mult_Inplace
-     (A       : in out Big_Int;
-      A_First : in     Natural;
-      A_Last  : in     Natural;
-      B       : in     Big_Int;
-      B_First : in     Natural;
-      C       : in     Types.Word32;
-      Carry   :    out Boolean)
-   is
-      Temp   : Types.Word64;
-      Carry2 : Types.Word32;
-   begin
-      Carry2 := 0;
-
-      for I in Natural range A_First .. A_Last - 1
-        --# assert
-        --#   Num_Of_Big_Int (A~, A_First, I - A_First) +
-        --#   Num_Of_Big_Int (B, B_First, I - A_First) *
-        --#   Universal_Integer (C) =
-        --#   Num_Of_Big_Int (A, A_First, I - A_First) +
-        --#   2 ** (32 * (I - A_First)) * Universal_Integer (Carry2) and
-        --#   (for all K in Natural range I .. A_Last =>
-        --#      (A (K) = A~ (K)));
-      loop
-         Temp := Types.Word64 (A (I)) +
-           Types.Word64 (B (B_First + (I - A_First))) * Types.Word64 (C) +
-           Types.Word64 (Carry2);
-
-         A (I) := Types.Word32 (Temp and Types.Word64 (Types.Word32'Last));
-         Carry2 := Types.Word32 (Types.SHR (Temp, 32));
-      end loop;
-
-      A (A_Last) := A (A_Last) + Carry2;
-      Carry := A (A_Last) < Carry2;
-   end Add_Mult_Inplace;
-
-   ----------------------------------------------------------------------------
-
    procedure Single_Add_Mult_Mult
      (A       : in out Types.Word32;
       V       : in     Types.Word32;
