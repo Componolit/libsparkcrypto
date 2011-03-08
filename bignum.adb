@@ -9,17 +9,16 @@ is
      (A       :    out Big_Int;
       A_First : in     Natural;
       A_Last  : in     Natural)
-   --# derives
-   --#   A from A_First, A_Last;
-   --# pre
-   --#   A_First in A'Range and
-   --#   A_Last in A'Range and
-   --#   A_First <= A_Last;
-   --# post
-   --#   (for all K in Natural range A_First .. A_Last => (A (K) = 0));
+     --# derives
+     --#   A from A_First, A_Last;
+     --# pre
+     --#   A_First in A'Range and
+     --#   A_Last in A'Range and
+     --#   A_First <= A_Last;
+     --# post
+     --#   (for all K in Natural range A_First .. A_Last => (A (K) = 0));
    is
    begin
-
       for I in Natural range A_First .. A_Last
         --# assert (for all K in Natural range A_First .. I - 1 => (A (K) = 0));
       loop
@@ -488,7 +487,8 @@ is
            --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
            --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
            --#   (Num_Of_Big_Int (E, I + 1, I - E_Last) * 2 ** (31 - J) +
-           --#    Universal_Integer (E (I)) / 2 ** (J + 1)) mod
+           --#    Universal_Integer (E (I)) / 2 ** (J + 1)) *
+           --#   Base ** (A_Last - A_First + 1) mod
            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
          loop
             Mont_Mult
@@ -513,7 +513,8 @@ is
             --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
             --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
             --#   (Num_Of_Big_Int (E, I + 1, I - E_Last) * 2 ** (31 - (J - 1)) +
-            --#    Universal_Integer (E (I)) / 2 ** ((J - 1) + 1)) mod
+            --#    Universal_Integer (E (I)) / 2 ** ((J - 1) + 1)) *
+            --#   Base ** (A_Last - A_First + 1) mod
             --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
          end loop;
       end loop;
