@@ -46,13 +46,13 @@ is
      --#   B_First + (A_Last - A_First) in B'Range;
      --# post
      --#   (for all K in Natural range A_First .. A_Last =>
-     --#      (A (K) = B (K)));
+     --#      (A (K) = B (B_First + (K - A_First))));
    is
    begin
       for I in Natural range A_First .. A_Last
         --# assert
         --#   (for all K in Natural range A_First .. I - 1 =>
-        --#      (A (K) = B (K)));
+        --#      (A (K) = B (B_First + (K - A_First))));
       loop
          --# accept Flow, 23, B, "Copied between A_First and A_Last";
          B (B_First + (I - A_First)) := A (I);
@@ -471,22 +471,25 @@ is
         --# assert
         --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
         --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+        --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
         --#   Base ** (A_Last - A_First + 1) mod
         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
         --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
         --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
-        --#   Num_Of_Big_Int (E, I + 1, I - E_Last) mod
+        --#   Num_Of_Big_Int (E, I + 1, E_Last - I) *
+        --#   Base ** (A_Last - A_First + 1) mod
         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
       loop
          for J in reverse Natural range 0 .. 31
            --# assert
            --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
            --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+           --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
            --#   Base ** (A_Last - A_First + 1) mod
            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
            --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
            --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
-           --#   (Num_Of_Big_Int (E, I + 1, I - E_Last) * 2 ** (31 - J) +
+           --#   (Num_Of_Big_Int (E, I + 1, E_Last - I) * 2 ** (31 - J) +
            --#    Universal_Integer (E (I)) / 2 ** (J + 1)) *
            --#   Base ** (A_Last - A_First + 1) mod
            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
@@ -508,11 +511,12 @@ is
             --# assert
             --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
             --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+            --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
             --#   Base ** (A_Last - A_First + 1) mod
             --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
             --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
             --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
-            --#   (Num_Of_Big_Int (E, I + 1, I - E_Last) * 2 ** (31 - (J - 1)) +
+            --#   (Num_Of_Big_Int (E, I + 1, E_Last - I) * 2 ** (31 - (J - 1)) +
             --#    Universal_Integer (E (I)) / 2 ** ((J - 1) + 1)) *
             --#   Base ** (A_Last - A_First + 1) mod
             --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
