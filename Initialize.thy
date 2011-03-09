@@ -2,7 +2,7 @@ theory Initialize
 imports Bignum
 begin
 
-spark_open "out/bignum/initialize.siv"
+spark_open "$VCG_DIR/initialize.siv"
 
 spark_vc procedure_initialize_4
   using H1

@@ -69,7 +69,7 @@ $(SIV_FILES): $(OUTPUT_DIR)/target.cfg $(SPARK_FILES)
 	sparksimp -p=4
 
 $(PRV_FILES): $(SIV_FILES) $(ISABELLE_FILES)
-	cd ..; OUTPUT_DIR=$(OUTPUT_DIR) isabelle usedir HOL-SPARK spark-bignum
+	cd ..; VCG_DIR=$(OUTPUT_DIR)/bignum isabelle usedir HOL-SPARK spark-bignum
 
 $(OUTPUT_DIR)/bignum.sum: $(PRV_FILES)
 	pogs -d=$(OUTPUT_DIR) -o=bignum.sum
