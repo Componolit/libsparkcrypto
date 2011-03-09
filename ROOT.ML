@@ -1,5 +1,6 @@
 use_thys
   ["Initialize",
+   "Copy",
    "Word_Of_Boolean",
    "Double_Inplace",
    "Sub_Inplace",
@@ -8,4 +9,5 @@ use_thys
    "Word_Inverse",
    "Single_Add_Mult_Mult",
    "Add_Mult_Mult",
-   "Mont_Mult"];
+   "Mont_Mult",
+   "Mont_Exp"];

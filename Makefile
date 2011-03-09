@@ -18,6 +18,7 @@ SPARK_FILES = \
 
 SIV_FILES = \
   $(OUTPUT_DIR)/bignum/initialize.siv \
+  $(OUTPUT_DIR)/bignum/copy.siv \
   $(OUTPUT_DIR)/bignum/word_of_boolean.siv \
   $(OUTPUT_DIR)/bignum/double_inplace.siv \
   $(OUTPUT_DIR)/bignum/sub_inplace.siv \
@@ -26,10 +27,12 @@ SIV_FILES = \
   $(OUTPUT_DIR)/bignum/word_inverse.siv \
   $(OUTPUT_DIR)/bignum/single_add_mult_mult.siv \
   $(OUTPUT_DIR)/bignum/add_mult_mult.siv \
-  $(OUTPUT_DIR)/bignum/mont_mult.siv
+  $(OUTPUT_DIR)/bignum/mont_mult.siv \
+  $(OUTPUT_DIR)/bignum/mont_exp.siv
 
 PRV_FILES = \
   $(OUTPUT_DIR)/bignum/initialize.prv \
+  $(OUTPUT_DIR)/bignum/copy.prv \
   $(OUTPUT_DIR)/bignum/word_of_boolean.prv \
   $(OUTPUT_DIR)/bignum/double_inplace.prv \
   $(OUTPUT_DIR)/bignum/sub_inplace.prv \
@@ -38,7 +41,8 @@ PRV_FILES = \
   $(OUTPUT_DIR)/bignum/word_inverse.prv \
   $(OUTPUT_DIR)/bignum/single_add_mult_mult.prv \
   $(OUTPUT_DIR)/bignum/add_mult_mult.prv \
-  $(OUTPUT_DIR)/bignum/mont_mult.prv
+  $(OUTPUT_DIR)/bignum/mont_mult.prv \
+  $(OUTPUT_DIR)/bignum/mont_exp.prv
 
 ISABELLE_FILES = \
   ROOT.ML \
@@ -46,6 +50,7 @@ ISABELLE_FILES = \
   Mod_Simp.thy \
   Bignum.thy \
   Initialize.thy \
+  Copy.thy \
   Word_Of_Boolean.thy \
   Double_Inplace.thy \
   Sub_Inplace.thy \
@@ -54,7 +59,8 @@ ISABELLE_FILES = \
   Word_Inverse.thy \
   Single_Add_Mult_Mult.thy \
   Add_Mult_Mult.thy \
-  Mont_Mult.thy
+  Mont_Mult.thy \
+  Mont_Exp.thy
 
 all: $(OUTPUT_DIR)/bignum.sum
 
