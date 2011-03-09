@@ -45,22 +45,22 @@ PRV_FILES = \
   $(OUTPUT_DIR)/bignum/mont_exp.prv
 
 ISABELLE_FILES = \
-  ROOT.ML \
-  Facts.thy \
-  Mod_Simp.thy \
-  Bignum.thy \
-  Initialize.thy \
-  Copy.thy \
-  Word_Of_Boolean.thy \
-  Double_Inplace.thy \
-  Sub_Inplace.thy \
-  Less.thy \
-  Size_Square_Mod.thy \
-  Word_Inverse.thy \
-  Single_Add_Mult_Mult.thy \
-  Add_Mult_Mult.thy \
-  Mont_Mult.thy \
-  Mont_Exp.thy
+  theories/ROOT.ML \
+  theories/Facts.thy \
+  theories/Mod_Simp.thy \
+  theories/Bignum.thy \
+  theories/Initialize.thy \
+  theories/Copy.thy \
+  theories/Word_Of_Boolean.thy \
+  theories/Double_Inplace.thy \
+  theories/Sub_Inplace.thy \
+  theories/Less.thy \
+  theories/Size_Square_Mod.thy \
+  theories/Word_Inverse.thy \
+  theories/Single_Add_Mult_Mult.thy \
+  theories/Add_Mult_Mult.thy \
+  theories/Mont_Mult.thy \
+  theories/Mont_Exp.thy
 
 all: $(OUTPUT_DIR)/bignum.sum
 
@@ -69,7 +69,7 @@ $(SIV_FILES): $(OUTPUT_DIR)/target.cfg $(SPARK_FILES)
 	sparksimp -p=4
 
 $(PRV_FILES): $(SIV_FILES) $(ISABELLE_FILES)
-	cd ..; VCG_DIR=$(OUTPUT_DIR)/bignum isabelle usedir HOL-SPARK spark-bignum
+	VCG_DIR=$(OUTPUT_DIR)/bignum isabelle usedir -s spark-bignum HOL-SPARK theories
 
 $(OUTPUT_DIR)/bignum.sum: $(PRV_FILES)
 	pogs -d=$(OUTPUT_DIR) -o=bignum.sum
