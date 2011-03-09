@@ -2,30 +2,6 @@ theory Double_Inplace
 imports Bignum
 begin
 
-lemma Bit_mult2: "2 * i = i BIT 0"
-  by (simp add: Bit_def)
-
-lemma AND_div_mod: "((x::int) AND 2 ^ n = 0) = (x div 2 ^ n mod 2 = 0)"
-proof (induct n arbitrary: x)
-  case 0
-  from AND_mod [of _ 1]
-  show ?case by simp
-next
-  case (Suc n)
-  show ?case
-  proof (cases x rule: bin_exhaust)
-    case (1 y b)
-    then have "(x AND 2 ^ Suc n = 0) = (y AND 2 ^ n = 0)"
-      by (simp add: Bit_mult2 del: BIT_B0_eq_Bit0)
-        (simp add: Bit0_def [of "y AND 2 ^ n"])
-    moreover have "bitval b div 2 = (0::int)"
-      by (cases b) simp_all
-    ultimately show ?thesis using Suc 1
-      by (simp add: zdiv_zmult2_eq
-        zdiv_zadd1_eq [of "2 * y" "bitval b" 2])
-  qed
-qed
-
 lemma num_of_bool_mod2: "num_of_bool (x mod 2 \<noteq> 0) = x mod 2"
   by (simp split: num_of_bool_split) arith
 
