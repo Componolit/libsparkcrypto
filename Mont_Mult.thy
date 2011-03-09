@@ -221,11 +221,9 @@ proof -
   finally have "?a' mod Base = 0"
     using `a_first < a_last`
     by (simp add: nat_add_distrib)
-  moreover from inv_imp_odd [of 32, simplified, OF m_inv] `a_first < a_last`
-  have "?m mod 2 = 1" by (simp add: num_of_lint_mod_dvd del: num_of_lint_sum)
-  then have "coprime ?m Base" by (rule odd_coprime [of _ 32, simplified])
-  with `1 < ?m` have Base_inv: "Base * minv ?m Base mod ?m = 1"
-    by (simp add: minv_is_inverse gcd_commute_int)
+  moreover from `a_first < a_last` `1 < ?m`
+  have Base_inv: "Base * minv ?m Base mod ?m = 1"
+    by (simp only: lint_inv_mod [of m_inv m _ 32, simplified, OF m_inv])
   ultimately have a_div: "?a' div Base mod ?m = ?a' * minv ?m Base mod ?m"
     by (simp add: inv_div)
 
