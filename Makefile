@@ -62,7 +62,7 @@ ISABELLE_FILES = \
   theories/Mont_Mult.thy \
   theories/Mont_Exp.thy
 
-all: $(OUTPUT_DIR)/bignum.sum
+all: $(OUTPUT_DIR)/bignum.sum $(OUTPUT_DIR)/test_bignum
 
 $(SIV_FILES): $(OUTPUT_DIR)/target.cfg $(SPARK_FILES)
 	spark $(SPARK_OPTS) -config=$< $(SPARK_FILES)
@@ -81,8 +81,8 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
 	gnatmake -D$(OUTPUT_DIR) -o $@ $^
 
-$(OUTPUT_DIR)/test: test.adb types.adb $(SPARK_FILES)
-	gnatmake -gnata -O2 -D $(OUTPUT_DIR) -o $(OUTPUT_DIR)/test test
+$(OUTPUT_DIR)/test_bignum: test_bignum.adb types.adb debug.ads debug.adb $(SPARK_FILES)
+	gnatmake -gnata -O2 -D $(OUTPUT_DIR) -o $(OUTPUT_DIR)/test_bignum test_bignum
 
 clean:
 	rm -rf $(OUTPUT_DIR)
