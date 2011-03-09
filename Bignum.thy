@@ -2,6 +2,8 @@ theory Bignum
 imports SPARK Facts GCD Mod_Simp
 begin
 
+subsection {* Coercing booleans to integers *}
+
 primrec num_of_bool :: "bool \<Rightarrow> int"
 where
   "num_of_bool False = 0"
@@ -15,6 +17,9 @@ lemma num_of_bool_ge0: "0 \<le> num_of_bool b"
 
 lemma num_of_bool_le1: "num_of_bool b \<le> 1"
   by (simp split add: num_of_bool_split)
+
+
+subsection {* Big numbers *}
 
 definition num_of_lint :: "int \<Rightarrow> (int \<Rightarrow> int) \<Rightarrow> int \<Rightarrow> int \<Rightarrow> int" where
   "num_of_lint b A l i = (\<Sum>j=0..<i. b ^ nat j * A (l + j))"
@@ -135,6 +140,14 @@ proof -
   with `m dvd b` show ?thesis by (simp add: dvd_eq_mod_eq_0)
 qed
 
+lemma num_of_lint_ext:
+  "\<forall>j\<in>{l..<l+i}. A j = B (m + (j - l)) \<Longrightarrow>
+   num_of_lint b A l i = num_of_lint b B m i"
+  by (simp add: num_of_lint_def)
+
+
+subsection {* Number theory *}
+
 lemma odd_coprime:
   assumes "(m::int) mod 2 = 1"
   shows "coprime m (2 ^ n)"
@@ -192,6 +205,50 @@ proof -
     by (simp add: mod_mult_right_eq [symmetric]) (simp add: mult_assoc)
   with `(n * n') mod m = 1` show ?thesis by simp
 qed
+
+lemma lint_inv_mod:
+  assumes m_inv: "(1 + m_inv * m l) mod 2 ^ n = 0"
+  and "0 < n" "1 \<le> i" "1 < num_of_lint (2 ^ n) m l i"
+  shows "2 ^ n * minv (num_of_lint (2 ^ n) m l i) (2 ^ n) mod
+    num_of_lint (2 ^ n) m l i = 1"
+    (is "?B * _ mod ?m = 1")
+proof -
+  from inv_imp_odd [OF `0 < n` m_inv] `1 \<le> i` `0 < n`
+  have "?m mod 2 = 1" by (simp add: num_of_lint_mod_dvd del: num_of_lint_sum)
+  then have "coprime ?m ?B" by (rule odd_coprime)
+  with `1 < ?m` show ?thesis
+    by (simp add: minv_is_inverse gcd_commute_int)
+qed
+
+
+subsection {* Bit vectors *}
+
+lemma Bit_mult2: "2 * i = i BIT 0"
+  by (simp add: Bit_def)
+
+lemma AND_div_mod: "((x::int) AND 2 ^ n = 0) = (x div 2 ^ n mod 2 = 0)"
+proof (induct n arbitrary: x)
+  case 0
+  from AND_mod [of _ 1]
+  show ?case by simp
+next
+  case (Suc n)
+  show ?case
+  proof (cases x rule: bin_exhaust)
+    case (1 y b)
+    then have "(x AND 2 ^ Suc n = 0) = (y AND 2 ^ n = 0)"
+      by (simp add: Bit_mult2 del: BIT_B0_eq_Bit0)
+        (simp add: Bit0_def [of "y AND 2 ^ n"])
+    moreover have "bitval b div 2 = (0::int)"
+      by (cases b) simp_all
+    ultimately show ?thesis using Suc 1
+      by (simp add: zdiv_zmult2_eq
+        zdiv_zadd1_eq [of "2 * y" "bitval b" 2])
+  qed
+qed
+
+
+subsection {* Proof function setup *}
 
 abbreviation Base :: int where
   "Base \<equiv> 4294967296"
