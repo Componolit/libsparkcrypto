@@ -38,36 +38,34 @@ proof -
   finally show ?thesis .
 qed
 
-spark_vc procedure_double_inplace_4
+spark_vc procedure_double_inplace_8
 proof -
-  from H3 H6 H7 H9 H21 have "0 \<le> a loop__1__i" "a loop__1__i \<le> Base - 1"
+  from [[fact "bounds _ _ _ _ a"]]
+    `a__index__subtype__1__first \<le> loop__1__i`
+    `loop__1__i \<le> a__index__subtype__1__last`
+  have "0 \<le> a loop__1__i" "a loop__1__i \<le> Base - 1"
     by simp_all
   then have "num_of_bool (a loop__1__i AND 2147483648 \<noteq> 0) =
     (a loop__1__i * 2 + num_of_bool carry) div (2 * 2147483648)"
     by (rule double_inplace_carry)
-  moreover from H2 `loop__1__i < a_last`
+  moreover from `\<forall>k. loop__1__i \<le> k \<and> k \<le> a_last \<longrightarrow> a k = a_init k`
+    `loop__1__i \<le> a_last`
   have "a_init loop__1__i = a loop__1__i" by simp
   ultimately show ?C1
-    using `a_first \<le> loop__1__i` H1 H15 H18
-    by (simp add: diff_add_eq [symmetric] nat_add_distrib pull_mods div_mod_eq ring_distribs)
+    using `a_first \<le> loop__1__i`
+      [[fact "num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _"]]
+      [[fact "types__shl32 _ _ = _"]]
+      `word_of_boolean carry = num_of_bool carry`
+    by (simp add: diff_add_eq [symmetric] nat_add_distrib div_mod_eq ring_distribs)
 next
-  from H2 `loop__1__i < a_last`
+  from `\<forall>k. loop__1__i \<le> k \<and> k \<le> a_last \<longrightarrow> a k = a_init k`
+    `loop__1__i \<le> a_last`
   show ?C2 by simp
 qed
 
-spark_vc procedure_double_inplace_9
-proof -
-  from H3 H11 H16 have "0 \<le> a a_last" "a a_last \<le> Base - 1"
-    by simp_all
-  then have "num_of_bool (a a_last AND 2147483648 \<noteq> 0) =
-    (a a_last * 2 + num_of_bool carry) div (2 * 2147483648)"
-    by (rule double_inplace_carry)
-  moreover from H2
-  have "a_init a_last = a a_last" by simp
-  ultimately show ?thesis
-    using `a_first \<le> a_last` H1 H22 H25
-    by (simp add: nat_add_distrib pull_mods div_mod_eq ring_distribs)
-qed
+spark_vc procedure_double_inplace_10
+  using [[fact "num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _"]]
+  by (simp add: diff_add_eq)
 
 spark_end
 
