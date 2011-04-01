@@ -99,6 +99,13 @@ is
          New_Carry := (A (I) and 2 ** 31) /= 0;
          A (I) := Types.SHL32 (A (I), 1) + Word_Of_Boolean (Carry);
          Carry := New_Carry;
+
+         --# assert
+         --#   Num_Of_Big_Int (A~, A_First, (I + 1) - A_First) * 2 =
+         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
+         --#   (for all K in Natural range I + 1 .. A_Last =>
+         --#      (A (K) = A~ (K)));
       end loop;
    end Double_Inplace;
 
@@ -130,6 +137,14 @@ is
          New_Carry := A (I) < B (J) or else (A (I) = B (J) and then Carry);
          A (I) := (A (I) - B (J)) - Word_Of_Boolean (Carry);
          Carry := New_Carry;
+
+         --# assert
+         --#   Num_Of_Big_Int (A~, A_First, (I + 1) - A_First) -
+         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) =
+         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
+         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
+         --#   (for all K in Natural range I + 1 .. A_Last =>
+         --#      (A (K) = A~ (K)));
       end loop;
    end Sub_Inplace;
 
