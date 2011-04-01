@@ -189,8 +189,7 @@ proof -
     by (simp add: bezw_aux [symmetric] mult_commute)
   then have "(x * fst ?b + snd ?b * m) mod m = 1 mod m" by simp
   with `1 < m` show "x * (fst ?b mod m) mod m = 1"
-    by (simp add: mod_add_eq [of "x * fst ?b" "snd ?b * m"]
-      mod_mult_right_eq [symmetric] mod_pos_pos_trivial)
+    by (simp add: mod_pos_pos_trivial)
 qed
 
 lemma inv_div:
