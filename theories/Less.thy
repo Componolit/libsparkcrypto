@@ -9,7 +9,9 @@ spark_vc function_less_3
 
 spark_vc function_less_4
 proof -
-  from H1 H31 `loop__1__i \<le> a_last`
+  from `loop__1__i \<le> a_last`
+    [[fact " num_of_big_int a _ _ =  num_of_big_int b _ _"]]
+    `b (b_first + (loop__1__i - a_first)) = a loop__1__i`
   have "num_of_big_int a loop__1__i (1 + (a_last - loop__1__i)) =
     num_of_big_int b (b_first + (loop__1__i - a_first)) (1 + (a_last - loop__1__i))"
     by simp
@@ -17,11 +19,14 @@ proof -
 qed
 
 spark_vc function_less_5
-  using H17 H37 `loop__1__i \<le> a_last`
+  using `b_first + (a_last - a_first) \<le> b__index__subtype__1__last`
+    `b__index__subtype__1__last \<le> 2147483647` `loop__1__i \<le> a_last`
   by simp
 
 spark_vc function_less_6
-  using H14 H17 `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
+  using `b__index__subtype__1__first \<le> b_first`
+    `b_first + (a_last - a_first) \<le> b__index__subtype__1__last`
+    `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
   by simp_all
 
 lemma msw_less:
@@ -46,13 +51,22 @@ proof -
   let ?a = "num_of_big_int a loop__1__i ?l"
   let ?b = "num_of_big_int b (b_first + ?l') ?l"
   let ?c = "Base ^ nat ?l'"
-  from H2 H10 H31 have "0 \<le> ?a'"
+  note a_in_range = [[fact "bounds _ _ _ _ a"]]
+    `a__index__subtype__1__first \<le> a_first`
+    `loop__1__i \<le> a__index__subtype__1__last`
+  note b_in_range = [[fact "bounds _ _ _ _ b"]]
+    `b__index__subtype__1__first \<le> b_first`
+    `b_first + (loop__1__i - a_first) \<le> b__index__subtype__1__last`
+  from a_in_range have "0 \<le> ?a'"
     by (simp add: num_of_lint_lower)
-  moreover from H2 H10 H31 have "?a' < ?c"
+  moreover from a_in_range have "?a' < ?c"
     by (simp add: num_of_lint_upper)
-  moreover from H7 H14 H29 have "0 \<le> ?b'"
+  moreover from b_in_range have "0 \<le> ?b'"
     by (simp add: num_of_lint_lower)
-  moreover from H1 H32 `loop__1__i \<le> a_last`
+  moreover from
+    [[fact "num_of_big_int a _ _ = num_of_big_int b _ _"]]
+    `a loop__1__i < b (b_first + (loop__1__i - a_first))`
+    `loop__1__i \<le> a_last`
   have "?a < ?b" by simp
   ultimately have "?a' + ?c * ?a < ?b' + ?c * ?b"
     by (rule msw_less)
@@ -72,13 +86,22 @@ proof -
   let ?a = "num_of_big_int a loop__1__i ?l"
   let ?b = "num_of_big_int b (b_first + ?l') ?l"
   let ?c = "Base ^ nat ?l'"
-  from H7 H14 H29 have "0 \<le> ?b'"
+  note a_in_range = [[fact "bounds _ _ _ _ a"]]
+    `a__index__subtype__1__first \<le> a_first`
+    `loop__1__i \<le> a__index__subtype__1__last`
+  note b_in_range = [[fact "bounds _ _ _ _ b"]]
+    `b__index__subtype__1__first \<le> b_first`
+    `b_first + (loop__1__i - a_first) \<le> b__index__subtype__1__last`
+  from b_in_range have "0 \<le> ?b'"
     by (simp add: num_of_lint_lower)
-  moreover from H7 H14 H29 have "?b' < ?c"
+  moreover from b_in_range have "?b' < ?c"
     by (simp add: num_of_lint_upper)
-  moreover from H2 H10 H31 have "0 \<le> ?a'"
+  moreover from a_in_range have "0 \<le> ?a'"
     by (simp add: num_of_lint_lower)
-  moreover from H1 H32 `loop__1__i \<le> a_last`
+  moreover from
+    [[fact "num_of_big_int a _ _ = num_of_big_int b _ _"]]
+    `b (b_first + (loop__1__i - a_first)) < a loop__1__i`
+    `loop__1__i \<le> a_last`
   have "?b < ?a" by simp
   ultimately have "?b' + ?c * ?b < ?a' + ?c * ?a"
     by (rule msw_less)
@@ -91,7 +114,8 @@ qed
 
 spark_vc function_less_11
 proof -
-  from H1 H30 `a_first \<le> a_last`
+  from [[fact "num_of_big_int a _ _ = num_of_big_int b _ _"]]
+    `b b_first = a a_first` `a_first \<le> a_last`
   have "num_of_big_int a a_first (1 + (a_last - a_first)) =
     num_of_big_int b b_first (1 + (a_last - a_first))"
     by simp
