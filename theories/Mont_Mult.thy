@@ -128,12 +128,13 @@ proof -
   let "?l mod _ = _" = ?C1
   let ?R = "Base ^ nat (a_last - a_first)"
   let ?R' = "Base ^ nat (a_last - a_first + 1)"
+  let ?j = "loop__1__i - a_first"
   let ?a = "num_of_big_int a a_first (a_last - a_first + 1)"
-  let ?b = "num_of_big_int b b_first (loop__1__i - a_first)"
-  let ?b' = "num_of_big_int b b_first (loop__1__i - a_first + 1)"
+  let ?b = "num_of_big_int b b_first ?j"
+  let ?b' = "num_of_big_int b b_first (?j + 1)"
   let ?c = "num_of_big_int c c_first (a_last - a_first + 1)"
   let ?m = "num_of_big_int m m_first (a_last - a_first + 1)"
-  let ?bi = "b (b_first + (loop__1__i - a_first))"
+  let ?bi = "b (b_first + ?j)"
   let ?u = "(a a_first + ?bi * c c_first) * m_inv mod Base"
   let ?a' = "?a + ?bi * ?c + ?u * ?m + ?R' * a_msw"
   note single_add_mult_mult = [[fact "_ = a__2 a_first + _"]]
@@ -149,8 +150,8 @@ proof -
   note m_inv = `(1 + m_inv * m m_first mod Base) mod Base = 0` [simplified]
 
   from b_in_range
-    `b__index__subtype__1__first \<le> b_first + (loop__1__i - a_first)`
-    `b_first + (loop__1__i - a_first) \<le> b__index__subtype__1__last`
+    `b__index__subtype__1__first \<le> b_first + ?j`
+    `b_first + ?j \<le> b__index__subtype__1__last`
   have bi_bounds: "0 \<le> ?bi" "?bi < Base"
     by simp_all
   from a_in_range
@@ -284,13 +285,13 @@ proof -
     by (simp add: add_ac)
   also note invariant
   also from `a_first \<le> loop__1__i`
-  have "(((?b * ?c * minv ?m Base ^ nat (loop__1__i - a_first)) mod ?m +
-      ?bi * ?c) * minv ?m Base) mod ?m =
-   ((?b * ?c + Base ^ nat (loop__1__i - a_first) * ?bi * ?c) *
-    minv ?m Base ^ nat (loop__1__i - a_first + 1)) mod ?m"
+  have "(?b * ?c * minv ?m Base ^ nat ?j mod ?m +
+     ?bi * ?c) * minv ?m Base mod ?m =
+    (?b * ?c + Base ^ nat ?j * ?bi * ?c) *
+    minv ?m Base ^ nat (?j + 1) mod ?m"
     by (simp add: nat_add_distrib inv_sum_eq [OF Base_inv]) (simp add: mult_ac)
   also from `a_first \<le> loop__1__i`
-  have "?b * ?c + Base ^ nat (loop__1__i - a_first) * ?bi * ?c =
+  have "?b * ?c + Base ^ nat ?j * ?bi * ?c =
     ?b' * ?c"
     by (simp add: nat_add_distrib ring_distribs)
   finally show ?C1 by (simp only: diff_add_eq [symmetric])
