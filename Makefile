@@ -79,7 +79,7 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 	$(OUTPUT_DIR)/confgen > $@
 
 $(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
-	gnatmake -D$(OUTPUT_DIR) -o $@ $^
+	gnatmake -D $(OUTPUT_DIR) -o $@ $^
 
 $(OUTPUT_DIR)/test_bignum: test_bignum.adb types.adb debug.ads debug.adb $(SPARK_FILES)
 	gnatmake -gnata -O2 -D $(OUTPUT_DIR) -o $(OUTPUT_DIR)/test_bignum test_bignum
