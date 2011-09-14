@@ -113,6 +113,13 @@ package LSC.RIPEMD160 is
    -- Return RIPEMD-160 hash from @Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
 
+   -- Compute hash value of @Length@ bits of @Message@.
+   function Hash
+      (Message : Message_Type;
+       Length  : Types.Word64) return Hash_Type;
+   --# pre
+   --#    Message'First + (Length / Block_Size) in Message'Range;
+
    -- Empty block
    Null_Block : constant Block_Type;
 

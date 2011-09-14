@@ -7,6 +7,8 @@ Next
 
 * Integrate big number library
 * Implement EC(G)DSA
+* Provide functions for computing unkeyed hash values of messages
+  for algorithms other than RIPEMD-160
 
 High priority
 =============
