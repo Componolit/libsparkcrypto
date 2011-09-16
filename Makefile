@@ -63,8 +63,13 @@ endif
 
 # Feature: NO_PROOF
 ifeq ($(NO_PROOF),)
-ALL_GOALS += proof
-INSTALL_DEPS += install_proof
+   ALL_GOALS += proof
+   INSTALL_DEPS += install_proof
+   ifeq ($(NO_ISABELLE),)
+      ifeq ($(ISABELLE_DIR),)
+      $(error ISABELLE_DIR is not set - set it to the base directory of your Isabelle installation)
+      endif
+   endif
 endif
 
 # Feature: NO_TESTS
@@ -147,6 +152,9 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
 	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum)
+ifeq ($(NO_ISABELLE),)
+	(cd src && VCG_DIR=$(OUTPUT_DIR)/proof $(ISABELLE_DIR)/bin/isabelle usedir -d false -M 5 -s libsparkcrypto HOL-SPARK theories)
+endif
 	pogs -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo

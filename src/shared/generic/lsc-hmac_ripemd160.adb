@@ -107,7 +107,7 @@ package body LSC.HMAC_RIPEMD160 is
       HMAC_Ctx    : Context_Type;
       Dummy       : constant RIPEMD160.Block_Type := RIPEMD160.Null_Block;
       Last_Length : RIPEMD160.Block_Length_Type;
-      Last_Block  : RIPEMD160.Message_Index;
+      Last_Block  : Types.Word64;
    begin
 
       pragma Debug (Debug.New_Line);
@@ -124,7 +124,8 @@ package body LSC.HMAC_RIPEMD160 is
          loop
             --# assert
             --#    Last_Block = Last_Block% and
-            --#    Last_Block <= Message'Last and
+            --#    Last_Block - 1 <= Message'Last and
+            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
             --#    I < Last_Block;
             Context_Update (HMAC_Ctx, Message (I));
 

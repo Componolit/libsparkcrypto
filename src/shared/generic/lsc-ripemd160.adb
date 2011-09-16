@@ -686,7 +686,7 @@ package body LSC.RIPEMD160 is
       Ctx         : Context_Type;
       Dummy       : constant Block_Type := Null_Block;
       Last_Length : Block_Length_Type;
-      Last_Block  : Message_Index;
+      Last_Block  : Types.Word64;
    begin
       Last_Length := Types.Word32 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
@@ -699,7 +699,8 @@ package body LSC.RIPEMD160 is
          loop
             --# assert
             --#    Last_Block = Last_Block% and
-            --#    Last_Block <= Message'Last and
+            --#    Last_Block - 1 <= Message'Last and
+            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
             --#    K < Last_Block;
             Context_Update (Ctx, Message (K));
          end loop;

@@ -93,7 +93,7 @@ package LSC.HMAC_RIPEMD160 is
        Message : RIPEMD160.Message_Type;
        Length  : Types.Word64) return RIPEMD160.Hash_Type;
    --# pre
-   --#    Message'First + (Length / RIPEMD160.Block_Size) in Message'Range;
+   --#    Length <= Message'Length * Types.Word64 (RIPEMD160.Block_Size);
 
 private
 

@@ -118,7 +118,7 @@ package LSC.RIPEMD160 is
       (Message : Message_Type;
        Length  : Types.Word64) return Hash_Type;
    --# pre
-   --#    Message'First + (Length / Block_Size) in Message'Range;
+   --#    Length <= Message'Length * Types.Word64 (Block_Size);
 
    -- Empty block
    Null_Block : constant Block_Type;
