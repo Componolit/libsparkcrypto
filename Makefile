@@ -78,8 +78,10 @@ endif
 # Feature: NO_TESTS
 ifeq ($(NO_TESTS),)
 ALL_GOALS += tests
-ifeq ($(SPARKUNIT_DIR),)
-$(error SPARKUNIT_DIR is not set - set it to the base directory of your SPARKUnit installation)
+ifneq ($(MAKECMDGOALS),clean)
+   ifeq ($(SPARKUNIT_DIR),)
+   $(error SPARKUNIT_DIR is not set - set it to the base directory of your SPARKUnit installation)
+   endif
 endif
 endif
 
