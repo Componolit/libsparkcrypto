@@ -19,7 +19,6 @@ SPARK_OPTS  = \
    -output_dir=$(OUTPUT_DIR)/proof \
    -casing=si \
    -noswitch \
-   -dpc \
    -nosli
 
 RST2HTML_OPTS = \
