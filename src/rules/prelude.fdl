@@ -1,0 +1,38 @@
+          {*******************************************************}
+                              {FDL Declarations}
+
+                {Prelude for standard functions}
+          {*******************************************************}
+
+
+                       {DATE : 1-JUN-2009}
+
+
+title procedure any;
+
+  function character__pos(integer) : integer;
+  function character__val(integer) : integer;
+
+  function bit__or(integer, integer) : integer;
+  function bit__and(integer, integer) : integer;
+  function bit__xor(integer, integer) : integer;
+  function bit__not(integer, integer) : integer;
+
+  function int___times(integer, integer) : integer;
+  function int___div(integer, integer) : integer;
+  function int___mod(integer, integer) : integer;
+  function int___rem(integer, integer) : integer;
+  function real___div(real, real) : real;
+  function real___times(real, real) : real;
+  function real___plus(real, real) : real;
+  function real___minus(real, real) : real;
+  function real___uminus(real) : real;
+  function int___to_real(integer) : real;
+
+  function int___abs(integer) : integer;
+  function real___abs(real) : real;
+  function int___exp(integer, integer) : integer;
+  function real___exp(real, integer) : real;
+  function int___odd(integer) : boolean;
+
+end;
