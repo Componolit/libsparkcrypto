@@ -194,7 +194,10 @@ install_spark: install_files $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
-install_isabelle: isabelle
+install_isabelle: $(OUTPUT_DIR)/proof/HOL-SPARK-libsparkcrypto.gz
+
+$(OUTPUT_DIR)/proof/HOL-SPARK-libsparkcrypto.gz: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
+	install -p -m 644 -D $< $@
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
@@ -221,4 +224,5 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 clean:
 	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local build tests proof apidoc archive spark isabelle
+.PHONY: all install install_local install_files install_spark install_isabelle
+.PHONY: build tests proof apidoc archive spark isabelle
