@@ -60,14 +60,18 @@ else
    $(error Unsupported runtime: $(RUNTIME))
 endif
 
-# Feature: NO_PROOF
-ifeq ($(NO_PROOF),)
-   ALL_GOALS += proof
-   INSTALL_DEPS += install_proof
+# Feature: NO_SPARK
+ifeq ($(NO_SPARK),)
+   ALL_GOALS += spark
+   REPORT_DEPS += spark
+   INSTALL_DEPS += install_spark
+
+   # Feature: NO_ISABELLE
    ifeq ($(NO_ISABELLE),)
-      ifeq ($(ISABELLE_DIR),)
-      $(error ISABELLE_DIR is not set - set it to the base directory of your Isabelle installation)
-      endif
+      ALL_GOALS += isabelle
+      REPORT_DEPS += isabelle
+      INSTALL_DEPS += install_isabelle
+      $(eval $(shell isabelle getenv ISABELLE_OUTPUT))
    endif
 endif
 
@@ -117,8 +121,10 @@ endif
 ###############################################################################
 
 all: $(ALL_GOALS)
-build: $(OUTPUT_DIR)/build/libsparkcrypto.a
-proof: $(OUTPUT_DIR)/proof/libsparkcrypto.sum
+
+build:    $(OUTPUT_DIR)/build/libsparkcrypto.a
+spark:    $(OUTPUT_DIR)/proof/libsparkcrypto.rep
+isabelle: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
 
 apidoc: $(ADT_FILES)
 	echo $^ | xargs -n1 > $(OUTPUT_DIR)/tree.lst
@@ -148,15 +154,18 @@ $(OUTPUT_DIR)/tests/tests: install_local
 $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
 
-$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
-	spark -index=$< $(SPARK_OPTS) @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
+$(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
+	spark -index=$< $(SPARK_OPTS) -report_file=$@.tmp @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum)
-ifeq ($(NO_ISABELLE),)
-	(cd src && VCG_DIR=$(OUTPUT_DIR)/proof $(ISABELLE_DIR)/bin/isabelle usedir -d false -M 5 -s libsparkcrypto HOL-SPARK theories)
-endif
+	mv $@.tmp $@
+
+$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(REPORT_DEPS)
 	pogs -d=$(OUTPUT_DIR)/proof -o=$@
 	@tail -n14 $@ | head -n13
 	@echo
+
+$(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
+	(cd src && VCG_DIR=$(OUTPUT_DIR)/proof isabelle usedir -d false -M 5 -s libsparkcrypto HOL-SPARK theories)
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.smf:
 	find $(CURDIR)/src/shared/generic -name '*.adb' -print > $@
@@ -179,9 +188,11 @@ ifneq ($(strip $(ARCH_FILES)),)
 endif
 	install -p -m 444 $(OUTPUT_DIR)/build/adalib/*.ali $(DESTDIR)/adalib/
 
-install_proof: install_files proof
+install_spark: install_files $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
+
+install_isabelle: isabelle
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
@@ -208,4 +219,4 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 clean:
 	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local build tests proof apidoc archive
+.PHONY: all install install_local build tests proof apidoc archive spark isabelle
