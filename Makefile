@@ -181,10 +181,11 @@ install_files: build
 	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sharedinclude
 	install -p -m 755 $(OUTPUT_DIR)/build/adalib/libsparkcrypto.a $(DESTDIR)/adalib/libsparkcrypto.a
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
-	install -p -m 644 src/shared/$(ENDIANESS)/*.ad? $(DESTDIR)/sharedinclude/
-	install -p -m 644 src/shared/generic/*.ad? $(DESTDIR)/sharedinclude/
+	install -p -m 644 src/shared/generic/*.ads $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/
 	install -p -m 644 src/ada/$(IO)/*.ad? $(DESTDIR)/adainclude/
+	install -p -m 644 src/shared/$(ENDIANESS)/*.adb $(DESTDIR)/adainclude/
+	install -p -m 644 src/shared/generic/*.adb $(DESTDIR)/adainclude/
 ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
 endif
