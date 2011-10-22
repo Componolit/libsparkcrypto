@@ -1,0 +1,69 @@
+/* Rules for div, mod and rem in .rls file format 
+
+X div Y is rational value X/Y rounded towards zero to the nearest integer
+
+X mod Y, X int___rem Y are characterised to have the same behaviour 
+
+*/
+
+rule_family divmod:
+  X * Y requires [ X:i, Y:i ] &
+  X mod Y requires [ X:i, Y:i ] &
+  X div Y requires [ X:i, Y:i ] &
+  X <= Y requires [ X:i, Y:i ] &
+  X < Y requires [ X:i, Y:i ] &
+  X >= Y requires [ X:i, Y:i ] &
+  X > Y requires [ X:i, Y:i ].
+
+divmod(1):   0 <= X mod Y  may_be_deduced_from [0 < Y] .  
+divmod(2):   X mod Y < Y   may_be_deduced_from [0 < Y] .  
+divmod(3):   X mod Y <= 0  may_be_deduced_from [Y < 0] .  
+divmod(4):   Y < X mod Y   may_be_deduced_from [Y < 0] .  
+
+/* X/Y - 1 < X div Y <= X/Y  if X >= 0, Y > 0 */
+
+divmod(5):   X - Y < Y * (X div Y)  may_be_deduced_from [0 <= X, 0 < Y] .  
+divmod(6):   Y * (X div Y) <= X     may_be_deduced_from [0 <= X, 0 < Y] .  
+
+/* X/Y  <= X div Y < X/Y + 1   if X <= 0, Y > 0 */
+
+divmod(7):   X <= Y * (X div Y)     may_be_deduced_from [X <= 0, 0 < Y] .  
+divmod(8):   Y * (X div Y) < X + Y  may_be_deduced_from [X <= 0, 0 < Y] .  
+
+/* X/Y  <= X div Y < X/Y + 1  if X >= 0, Y < 0 */
+
+divmod(9):   X >= Y * (X div Y)     may_be_deduced_from [0 <= X, Y < 0] .  
+divmod(10):   Y * (X div Y) > X + Y  may_be_deduced_from [0 <= X, Y < 0] .  
+
+/* X/Y - 1 < X div Y <= X/Y  if X <= 0, Y < 0 */
+
+divmod(11):   X - Y > Y * (X div Y)     may_be_deduced_from [X <= 0, Y < 0] .  
+divmod(12):  Y * (X div Y) >= X         may_be_deduced_from [X <= 0, Y < 0] .  
+
+
+divmod(13):  Y * (X div Y) + int___rem(X,Y) = X may_be_deduced .
+
+
+divmod(14):  X mod Y = 0 may_be_deduced_from 
+   [int___rem(X,Y) = 0] .
+
+divmod(15):  X mod Y = int___rem(X,Y) may_be_deduced_from 
+   [0 <= X, 0 < Y] .
+
+divmod(16):  X mod Y = int___rem(X,Y) + Y may_be_deduced_from 
+   [X <= 0, 0 < Y, int___rem(X,Y) <> 0] .
+
+divmod(17):  X mod Y = int___rem(X,Y) + Y may_be_deduced_from 
+   [0 <= X, Y < 0, int___rem(X,Y) <> 0] .
+
+divmod(18):  X mod Y = int___rem(X,Y) may_be_deduced_from 
+   [X <= 0, Y < 0] .
+
+/* divmod(20) Is deducible by Z3, but its performance is much better
+with this explicit. */
+
+divmod(20):  X mod Y = X may_be_deduced_from 
+   [0 <= X, X < Y] .
+
+
+/* End of File */

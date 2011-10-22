@@ -1,0 +1,78 @@
+/* 
+VCT Prelude rules 
+=================
+
+Rules give properties or definitions for standard FDL functions.
+
+Variable typing convention: X,Y,Z : int.   U,V,W : real 
+*/
+
+rule_family prelude: .
+
+/* bit operator rules, drawn from bitwise.rul */
+
+/*** Simplification of bitwise operators ***/
+bitwise(1):      bit__and(X,X)         may_be_replaced_by X if [ 0 <= X ].
+bitwise(2):      bit__or(X,X)          may_be_replaced_by X if [ 0 <= X ].
+bitwise(3):      bit__xor(X,X)         may_be_replaced_by 0 if [ 0 <= X ].
+
+/*** Properties of zero ***/
+bitwise(11):     bit__and(X,0)        may_be_replaced_by    0    if [ 0 <= X ].
+bitwise(12):     bit__or(X,0)         may_be_replaced_by    X    if [ 0 <= X ].
+bitwise(13):     bit__xor(X,0)        may_be_replaced_by    X    if [ 0 <= X ].
+
+/*** Lower bounds ***/
+bitwise(51):    0 <= bit__and(X,Y)    may_be_deduced_from  [ 0 <= X, 0 <= Y ].
+bitwise(52):    0 <= bit__or(X,Y)     may_be_deduced_from  [ 0 <= X, 0 <= Y ].
+bitwise(53):    0 <= bit__xor(X,Y)    may_be_deduced_from  [ 0 <= X, 0 <= Y ].
+bitwise(54):    X <= bit__or(X,Y)     may_be_deduced_from  [ 0 <= X, 0 <= Y ].
+bitwise(55):    Y <= bit__or(X,Y)     may_be_deduced_from  [ 0 <= X, 0 <= Y ].
+bitwise(56):    X - Y <= bit__xor(X, Y) may_be_deduced_from [ 0 <= X, 0 <= Y ].
+bitwise(57):    Y - X <= bit__xor(X, Y) may_be_deduced_from [ 0 <= X, 0 <= Y ].
+
+/*** Upper bounds ***/
+bitwise(61):  bit__and(X,Y) <= X       may_be_deduced_from [ 0 <= X, 0 <= Y ].
+bitwise(62):  bit__and(X,Y) <= Y       may_be_deduced_from [ 0 <= X, 0 <= Y ].
+bitwise(63):  bit__or(X,Y)  <= X + Y   may_be_deduced_from [ 0 <= X, 0 <= Y ].
+bitwise(64):  bit__xor(X,Y) <= X + Y   may_be_deduced_from [ 0 <= X, 0 <= Y ].
+
+/*
+bitwise rules 66 & 67 are likely not to be instantiated with the default
+Victor options.  To make use of them, add the option 
+
+  -ground-eval-exp=false
+
+after the std_options and make sure there are instances of the arith(3?) rules
+below for the values of N of interest.  These arith rules help with triggering
+instantiation of these bitwise rules.
+*/
+bitwise(66):  bit__or(X,Y)  <= 2**N - 1  may_be_deduced_from 
+                                         [ 0 <= X, 0 <= Y, 0 <= N,
+                                           X <= 2**N - 1, Y <= 2**N - 1].
+bitwise(67):  bit__xor(X,Y) <= 2**N - 1  may_be_deduced_from 
+                                         [ 0 <= X, 0 <= Y, 0 <= N,
+                                           X <= 2**N - 1, Y <= 2**N - 1].
+
+/*** Comparison ***/
+bitwise(81):     bit__and(X,Y) <= bit__or(X,Y) may_be_deduced_from
+                                                      [ 0 <= X, 0 <= Y].
+bitwise(82):     bit__xor(X,Y) <= bit__or(X,Y) may_be_deduced_from
+                                                      [ 0 <= X, 0 <= Y].
+
+
+arith(10): int___abs(X) may_be_replaced_by X      if [X >= 0].
+arith(11): int___abs(X) may_be_replaced_by - X    if [X < 0].
+arith(12): real___abs(U) may_be_replaced_by U     if [U >= 0].
+arith(13): real___abs(U) may_be_replaced_by - U   if [U < 0].
+
+arith(20): int___odd(X) may_be_replaced_by int___abs(X) mod 2 = 1.
+
+/* Cases of abstract exponentiation, useful for instantiating bitwise
+rules 66 & 67.  See above. */
+
+arith(30): 2**8 may_be_replaced_by 256.
+arith(31): 2**16 may_be_replaced_by 65536.
+arith(32): 2**32 may_be_replaced_by 4294967296.
+arith(33): 2**64 may_be_replaced_by 18446744073709551616.
+
+

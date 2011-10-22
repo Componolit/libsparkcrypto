@@ -6,6 +6,7 @@ ARCH        ?= $(UNAME_M)
 RUNTIME     ?= native
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
+ATP         ?= sparksimp
 
 VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
@@ -26,6 +27,55 @@ RST2HTML_OPTS = \
    --date \
    --time \
    --stylesheet=doc/libsparkcrypto.css
+
+VCT_OPTS = \
+   -fuse-concls \
+   -decls=src/rules/prelude.fdl \
+   -rules=src/rules/divmod.rul \
+   -rules=src/rules/prelude.rul \
+   -unique-working-files \
+   -elim-enums \
+   -ground-eval-exp \
+   -abstract-exp \
+   -abstract-divmod \
+   -gstime \
+   -utick \
+   -gtick \
+   -longtick \
+   -echo-final-stats \
+   -level=warning \
+   -ulimit-timeout=10
+
+SMTLIB_OPTS = \
+   -bit-type \
+   -bit-type-bool-eq-to-iff \
+   -refine-types \
+   -refine-int-subrange-type \
+   -abstract-arrays-records-late \
+   -elim-array-constructors \
+   -add-array-select-box-update-axioms \
+   -abstract-array-box-updates \
+   -add-array-select-update-axioms \
+   -abstract-array-select-updates \
+   -abstract-array-types \
+   -abstract-record-types \
+   -abstract-bit-ops \
+   -abstract-bit-valued-eqs \
+   -abstract-bit-valued-int-le \
+   -elim-bit-type-and-consts \
+   -abstract-reals \
+   -lift-quants \
+   -strip-quantifier-patterns \
+   -elim-type-aliases \
+   -interface-mode=smtlib \
+   -smtlib-hyps-as-assums \
+   -refine-bit-type-as-int-subtype \
+   -refine-bit-eq-equiv \
+   -abstract-arrays-records-late \
+   -elim-record-constructors \
+   -add-record-select-update-axioms \
+   -abstract-record-selects-updates \
+   -logic=AUFNIRA
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
@@ -58,6 +108,16 @@ else ifeq ($(RUNTIME),zfp)
    IO    = nullio
 else
    $(error Unsupported runtime: $(RUNTIME))
+endif
+
+# Feature: ATP
+ifeq ($(ATP),sparksimp)
+   REPORT_DEPS += $(OUTPUT_DIR)/proof/sparksimp.log
+else ifeq ($(ATP),cvc3)
+   REPORT_DEPS += $(OUTPUT_DIR)/proof/cvc3.vlg
+else ifeq ($(ATP),none)
+else
+   $(error Unsupported ATP: $(ATP))
 endif
 
 # Feature: NO_SPARK
@@ -157,8 +217,17 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
-	spark -index=$< $(SPARK_OPTS) -report_file=$@.tmp @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
-	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum)
+	spark -index=$< $(SPARK_OPTS) -report_file=$@ @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
+
+$(OUTPUT_DIR)/proof/sparksimp.log: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
+	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum) > $@.tmp
+	mv $@.tmp $@
+
+$(OUTPUT_DIR)/proof/cvc3.vct $(OUTPUT_DIR)/proof/cvc3.vlg $(OUTPUT_DIR)/proof/cvc3.vlm: $(OUTPUT_DIR)/proof/libsparkcrypto.lis
+	vct $(VCT_OPTS) $(SMTLIB_OPTS) -prover-command='cvc3 -lang smt -timeout 10' -units=$< -report=$(OUTPUT_DIR)/proof/cvc3
+
+$(OUTPUT_DIR)/proof/libsparkcrypto.lis: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
+	find $(OUTPUT_DIR)/proof -name '*.fdl' | sed -r 's/\.\/|\.fdl//g' > $@.tmp
 	mv $@.tmp $@
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(REPORT_DEPS)
@@ -166,7 +235,7 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(REPORT_DEPS)
 	@tail -n14 $@ | head -n13
 	@echo
 
-$(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
+$(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz: $(OUTPUT_DIR)/proof/sparksimp.log
 	(cd src && VCG_DIR=$(OUTPUT_DIR)/proof isabelle usedir -d false -M 5 -s libsparkcrypto HOL-SPARK theories)
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.smf:
@@ -195,7 +264,10 @@ install_spark: install_files $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
 	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
 
-install_isabelle: isabelle
+install_isabelle: $(OUTPUT_DIR)/proof/HOL-SPARK-libsparkcrypto.gz
+
+$(OUTPUT_DIR)/proof/HOL-SPARK-libsparkcrypto.gz: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
+	install -p -m 644 -D $< $@
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
@@ -222,4 +294,5 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 clean:
 	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local build tests proof apidoc archive spark isabelle
+.PHONY: all install install_local install_files install_spark install_isabelle
+.PHONY: build tests proof apidoc archive spark isabelle
