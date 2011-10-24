@@ -25,7 +25,7 @@ spark_vc function_word_inverse_2
 
 spark_vc function_word_inverse_5
 proof -
-  note m_upper = [[fact "m \<le> _"]]
+  note m_upper = `m \<le> _`
   have "(- m) mod Base = (Base - m) mod Base"
     by (simp add: zdiff_zmod_left [of Base, symmetric])
   with `0 < m` m_upper

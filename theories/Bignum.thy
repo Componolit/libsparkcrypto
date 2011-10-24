@@ -1,5 +1,5 @@
 theory Bignum
-imports SPARK Facts GCD Mod_Simp
+imports SPARK GCD Mod_Simp
 begin
 
 subsection {* Coercing booleans to integers *}
@@ -248,6 +248,9 @@ qed
 
 
 subsection {* Proof function setup *}
+
+abbreviation (parse) bounds :: "int \<Rightarrow> int \<Rightarrow> ('a::ord) \<Rightarrow> 'a \<Rightarrow> (int \<Rightarrow> 'a) \<Rightarrow> bool" where
+  "bounds k l x y a \<equiv> \<forall>i. k \<le> i \<and> i \<le> l \<longrightarrow> x \<le> a i \<and> a i \<le> y"
 
 abbreviation Base :: int where
   "Base \<equiv> 4294967296"

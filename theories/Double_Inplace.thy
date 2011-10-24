@@ -40,7 +40,7 @@ qed
 
 spark_vc procedure_double_inplace_8
 proof -
-  from [[fact "bounds _ _ _ _ a"]]
+  from `bounds _ _ _ _ a`
     `a__index__subtype__1__first \<le> loop__1__i`
     `loop__1__i \<le> a__index__subtype__1__last`
   have "0 \<le> a loop__1__i" "a loop__1__i \<le> Base - 1"
@@ -53,8 +53,8 @@ proof -
   have "a_init loop__1__i = a loop__1__i" by simp
   ultimately show ?C1
     using `a_first \<le> loop__1__i`
-      [[fact "num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _"]]
-      [[fact "types__shl32 _ _ = _"]]
+      `num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _`
+      `types__shl32 _ _ = _`
       `word_of_boolean carry = num_of_bool carry`
     by (simp add: diff_add_eq [symmetric] nat_add_distrib div_mod_eq ring_distribs)
 next
@@ -64,7 +64,7 @@ next
 qed
 
 spark_vc procedure_double_inplace_10
-  using [[fact "num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _"]]
+  using `num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _`
   by (simp add: diff_add_eq)
 
 spark_end

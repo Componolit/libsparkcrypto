@@ -9,11 +9,11 @@ spark_vc procedure_add_mult_mult_3
 
 spark_vc procedure_add_mult_mult_6
   using
-    [[fact "bounds _ _ _ _ c"]]
+    `bounds _ _ _ _ c`
     `c_first + (a_last - a_first) \<le> c__index__subtype__1__last`
     `c__index__subtype__1__first \<le> c_first`
     `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
-    [[fact "bounds _ _ _ _ b"]]
+    `bounds _ _ _ _ b`
     `b_first + (a_last - a_first) \<le> b__index__subtype__1__last`
     `b__index__subtype__1__first \<le> b_first`
     `c__index__subtype__1__last \<le> 2147483647`
@@ -22,10 +22,10 @@ spark_vc procedure_add_mult_mult_6
 
 spark_vc procedure_add_mult_mult_9
 proof -
-  note inv = [[fact "num_of_big_int a_init _ _ + num_of_big_int b _ _ * x +
-    num_of_big_int c _ _ * y + carry1_init + Base * carry2_init = _"]]
+  note inv = `num_of_big_int a_init _ _ + num_of_big_int b _ _ * x +
+    num_of_big_int c _ _ * y + carry1_init + Base * carry2_init = _`
   note single =
-    [[fact "a _ + b _ * x + c _ * y + carry1 + Base * carry2 = _"]]
+    `a _ + b _ * x + c _ * y + carry1 + Base * carry2 = _`
   from `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
     `\<forall>k. loop__1__i \<le> k \<and> k \<le> a_last + 1 \<longrightarrow> a k = a_init k`
   have "num_of_big_int a_init (a_first + 1) (loop__1__i + 1 - a_first) +
@@ -65,7 +65,7 @@ next
 qed
 
 spark_vc procedure_add_mult_mult_11
-  using [[fact "num_of_big_int a_init _ _ + _ + _ + _ + _ = _"]]
+  using `num_of_big_int a_init _ _ + _ + _ + _ + _ = _`
   by (simp add: diff_add_eq)
 
 spark_end

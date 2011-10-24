@@ -10,7 +10,7 @@ spark_vc function_less_3
 spark_vc function_less_4
 proof -
   from `loop__1__i \<le> a_last`
-    [[fact " num_of_big_int a _ _ =  num_of_big_int b _ _"]]
+    `num_of_big_int a _ _ =  num_of_big_int b _ _`
     `b (b_first + (loop__1__i - a_first)) = a loop__1__i`
   have "num_of_big_int a loop__1__i (1 + (a_last - loop__1__i)) =
     num_of_big_int b (b_first + (loop__1__i - a_first)) (1 + (a_last - loop__1__i))"
@@ -51,10 +51,10 @@ proof -
   let ?a = "num_of_big_int a loop__1__i ?l"
   let ?b = "num_of_big_int b (b_first + ?l') ?l"
   let ?c = "Base ^ nat ?l'"
-  note a_in_range = [[fact "bounds _ _ _ _ a"]]
+  note a_in_range = `bounds _ _ _ _ a`
     `a__index__subtype__1__first \<le> a_first`
     `loop__1__i \<le> a__index__subtype__1__last`
-  note b_in_range = [[fact "bounds _ _ _ _ b"]]
+  note b_in_range = `bounds _ _ _ _ b`
     `b__index__subtype__1__first \<le> b_first`
     `b_first + (loop__1__i - a_first) \<le> b__index__subtype__1__last`
   from a_in_range have "0 \<le> ?a'"
@@ -64,7 +64,7 @@ proof -
   moreover from b_in_range have "0 \<le> ?b'"
     by (simp add: num_of_lint_lower)
   moreover from
-    [[fact "num_of_big_int a _ _ = num_of_big_int b _ _"]]
+    `num_of_big_int a _ _ = num_of_big_int b _ _`
     `a loop__1__i < b (b_first + (loop__1__i - a_first))`
     `loop__1__i \<le> a_last`
   have "?a < ?b" by simp
@@ -86,10 +86,10 @@ proof -
   let ?a = "num_of_big_int a loop__1__i ?l"
   let ?b = "num_of_big_int b (b_first + ?l') ?l"
   let ?c = "Base ^ nat ?l'"
-  note a_in_range = [[fact "bounds _ _ _ _ a"]]
+  note a_in_range = `bounds _ _ _ _ a`
     `a__index__subtype__1__first \<le> a_first`
     `loop__1__i \<le> a__index__subtype__1__last`
-  note b_in_range = [[fact "bounds _ _ _ _ b"]]
+  note b_in_range = `bounds _ _ _ _ b`
     `b__index__subtype__1__first \<le> b_first`
     `b_first + (loop__1__i - a_first) \<le> b__index__subtype__1__last`
   from b_in_range have "0 \<le> ?b'"
@@ -99,7 +99,7 @@ proof -
   moreover from a_in_range have "0 \<le> ?a'"
     by (simp add: num_of_lint_lower)
   moreover from
-    [[fact "num_of_big_int a _ _ = num_of_big_int b _ _"]]
+    `num_of_big_int a _ _ = num_of_big_int b _ _`
     `b (b_first + (loop__1__i - a_first)) < a loop__1__i`
     `loop__1__i \<le> a_last`
   have "?b < ?a" by simp
@@ -114,7 +114,7 @@ qed
 
 spark_vc function_less_11
 proof -
-  from [[fact "num_of_big_int a _ _ = num_of_big_int b _ _"]]
+  from `num_of_big_int a _ _ = num_of_big_int b _ _`
     `b b_first = a a_first` `a_first \<le> a_last`
   have "num_of_big_int a a_first (1 + (a_last - a_first)) =
     num_of_big_int b b_first (1 + (a_last - a_first))"

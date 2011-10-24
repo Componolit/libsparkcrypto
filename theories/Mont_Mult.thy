@@ -108,7 +108,7 @@ spark_vc procedure_mont_mult_5
   by (simp_all add: num_of_lint_all0)
 
 spark_vc procedure_mont_mult_9
-  using [[fact "bounds _ _ _ _ b"]]
+  using `bounds _ _ _ _ b`
     `b__index__subtype__1__first \<le> b_first`
     `b_first + (a_last - a_first) \<le> b__index__subtype__1__last`
     `a_first \<le> loop__1__i` `loop__1__i \<le> a_last`
@@ -137,16 +137,16 @@ proof -
   let ?bi = "b (b_first + ?j)"
   let ?u = "(a a_first + ?bi * c c_first) * m_inv mod Base"
   let ?a' = "?a + ?bi * ?c + ?u * ?m + ?R' * a_msw"
-  note single_add_mult_mult = [[fact "_ = a__2 a_first + _"]]
-  note add_mult_mult = [[fact "_ = num_of_big_int a__3 _ _ + _", simplified]]
-  note word_of_boolean = [[fact "word_of_boolean _ = _"]]
-  note invariant = [[fact "(?a + _) mod _ = _"]]
-  note a_in_range = [[fact "bounds _ _ _ _ a"]]
-  note b_in_range = [[fact "bounds _ _ _ _ b"]]
-  note c_in_range = [[fact "bounds _ _ _ _ c"]]
-  note m_in_range = [[fact "bounds _ _ _ _ m"]]
-  note a2_in_range = [[fact "bounds _ _ _ _ a__2"]]
-  note a3_in_range = [[fact "bounds _ _ _ _ a__3"]]
+  note single_add_mult_mult = `_ = a__2 a_first + _`
+  note add_mult_mult = `_ = num_of_big_int a__3 _ _ + _` [simplified]
+  note word_of_boolean = `word_of_boolean _ = _`
+  note invariant = `(?a + _) mod _ = _`
+  note a_in_range = `bounds _ _ _ _ a`
+  note b_in_range = `bounds _ _ _ _ b`
+  note c_in_range = `bounds _ _ _ _ c`
+  note m_in_range = `bounds _ _ _ _ m`
+  note a2_in_range = `bounds _ _ _ _ a__2`
+  note a3_in_range = `bounds _ _ _ _ a__3`
   note m_inv = `(1 + m_inv * m m_first mod Base) mod Base = 0` [simplified]
 
   from b_in_range
@@ -171,7 +171,7 @@ proof -
     `a__index__subtype__1__first \<le> a_first`
     `a_last \<le> a__index__subtype__1__last` `a_first < a_last`
   have "0 \<le> a__2 a_first" and "a__2 a_first < Base" by simp_all
-  moreover note `0 \<le> carry1__2` [[fact "carry1__2 \<le> _", simplified]]
+  moreover note `0 \<le> carry1__2` `carry1__2 \<le> _` [simplified]
     `0 \<le> carry2__2`
   ultimately have "carry2__2 \<le> 1"
     by (rule hcarry_le1 [where n=1 and lcarry=0 and hcarry=0, simplified,
@@ -196,7 +196,7 @@ proof -
   have "0 \<le> num_of_big_int m (m_first + 1) (a_last - a_first)"
     and "num_of_big_int m (m_first + 1) (a_last - a_first) < ?R"
     by (simp_all add: num_of_lint_lower num_of_lint_upper)
-  moreover note `0 \<le> carry1__2` [[fact "carry1__2 \<le> _", simplified]]
+  moreover note `0 \<le> carry1__2` `carry1__2 \<le> _` [simplified]
     `0 \<le> carry2__2` `carry2__2 \<le> 1`
   moreover from a3_in_range
     `a__index__subtype__1__first \<le> a_first`
@@ -204,7 +204,7 @@ proof -
   have "0 \<le> num_of_big_int a__3 a_first (a_last - a_first)"
     and "num_of_big_int a__3 a_first (a_last - a_first) < ?R"
     by (simp_all add: num_of_lint_lower num_of_lint_upper)
-  moreover note `0 \<le> carry1__3` [[fact "carry1__3 \<le> _", simplified]]
+  moreover note `0 \<le> carry1__3` `carry1__3 \<le> _` [simplified]
     `0 \<le> carry2__3`
   ultimately have "carry2__3 \<le> 1"
     by (rule hcarry_le1 [OF add_mult_mult, simplified])
@@ -239,7 +239,7 @@ proof -
     num_of_bool ((a_msw + carry1__3) mod Base < carry1__3) \<le> 1 + 1"
     by (rule add_mono)
   with `0 \<le> carry2__3` `0 \<le> a_msw` `0 \<le> carry1__3`
-    [[fact "a_msw \<le> _"]] [[fact "carry1__3 \<le> _"]]
+    `a_msw \<le> _` `carry1__3 \<le> _`
   have "(carry2__3 +
       num_of_bool ((a_msw + carry1__3) mod Base < carry1__3)) mod Base =
     carry2__3 + (a_msw + carry1__3) div Base"
@@ -325,21 +325,21 @@ proof -
   let ?a_4 = "num_of_big_int a__4 a_first (a_last - a_first + 1)"
   let ?m = "num_of_big_int m m_first (a_last - a_first + 1)"
   let ?R = "Base ^ nat (a_last - a_first + 1)"
-  note sub = [[fact "?a - ?m = _"]]
-  note invariant1 = [[fact "(?a + _) mod ?m = _"]]
-  note invariant2 = [[fact "?a + _ < _"]]
+  note sub = `?a - ?m = _`
+  note invariant1 = `(?a + _) mod ?m = _`
+  note invariant2 = `?a + _ < _`
 
-  from [[fact "bounds _ _ _ _ a"]]
+  from `bounds _ _ _ _ a`
     `a__index__subtype__1__first \<le> a_first`
     `a_last \<le> a__index__subtype__1__last`
   have a_bounds: "0 \<le> ?a"
     by (simp_all add: num_of_lint_lower)
-  from [[fact "bounds _ _ _ _ a__4"]]
+  from `bounds _ _ _ _ a__4`
     `a__index__subtype__1__first \<le> a_first`
     `a_last \<le> a__index__subtype__1__last`
   have a4_bounds: "0 \<le> ?a_4" "?a_4 < ?R"
     by (simp_all add: num_of_lint_lower num_of_lint_upper)
-  from [[fact "bounds _ _ _ _ m"]]
+  from `bounds _ _ _ _ m`
     `m__index__subtype__1__first \<le> m_first`
     `m_first + (a_last - a_first) \<le> m__index__subtype__1__last`
   have m_bounds: "0 \<le> ?m" "?m < ?R"
@@ -349,7 +349,7 @@ proof -
   proof (cases "a_msw = 0")
     case True
     with `a_msw \<noteq> 0 \<or> \<not> less a a_first a_last m m_first`
-      [[fact "\<not> a_msw \<noteq> 0 \<longrightarrow> less _ _ _ _ _ = _"]]
+      `\<not> a_msw \<noteq> 0 \<longrightarrow> less _ _ _ _ _ = _`
     have "?m \<le> ?a" by simp
     moreover from True invariant2 have "?a - ?m < ?m" by simp
     ultimately have "?a_4 = (?a - ?m) mod ?m"
@@ -377,12 +377,12 @@ proof -
   let ?a = "num_of_big_int a a_first (a_last - a_first + 1)"
   let ?m = "num_of_big_int m m_first (a_last - a_first + 1)"
 
-  from [[fact "bounds _ _ _ _ a"]]
+  from `bounds _ _ _ _ a`
     `a__index__subtype__1__first \<le> a_first`
     `a_last \<le> a__index__subtype__1__last`
   have a_bounds: "0 \<le> ?a"
     by (simp_all add: num_of_lint_lower)
-  with [[fact "?a mod ?m = _"]] `?a < ?m`
+  with `?a mod ?m = _` `?a < ?m`
   show ?thesis by (simp add: mod_pos_pos_trivial diff_add_eq)
 qed
 

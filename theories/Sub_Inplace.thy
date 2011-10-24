@@ -59,8 +59,8 @@ proof -
     `loop__1__i \<le> a_last`
   have "a_init loop__1__i = a loop__1__i" by simp
   ultimately show ?C1
-    using [[fact "num_of_big_int a_init _ _ - num_of_big_int b _ _ = _ - _"]]
-      [[fact "bounds _ _ _ _ a"]] [[fact "bounds _ _ _ _ b"]]
+    using `num_of_big_int a_init _ _ - num_of_big_int b _ _ = _ - _`
+      `bounds _ _ _ _ a` `bounds _ _ _ _ b`
       `a__index__subtype__1__first \<le> a_first`
       `b__index__subtype__1__first \<le> b_first`
       `a_first \<le> loop__1__i`
@@ -76,7 +76,7 @@ next
 qed
 
 spark_vc procedure_sub_inplace_11
-  using [[fact "num_of_big_int a_init _ _ - num_of_big_int b _ _ = _ - _"]]
+  using `num_of_big_int a_init _ _ - num_of_big_int b _ _ = _ - _`
   by (simp add: diff_add_eq)
 
 spark_end

@@ -41,7 +41,7 @@ proof -
 qed
 
 spark_vc procedure_size_square_mod_8
-  using [[fact "num_of_big_int r _ _ = _"]] `m_first \<le> loop__1__i`
+  using `num_of_big_int r _ _ = _` `m_first \<le> loop__1__i`
   by (simp add: diff_add_eq [symmetric] nat_add_distrib mult_ac)
 
 spark_vc procedure_size_square_mod_14
@@ -64,17 +64,17 @@ proof -
   let ?m = "num_of_big_int m m_first ?l"
   note r_first_lower = `r__index__subtype__1__first \<le> r_first`
   note r_last_upper = `r_first + (m_last - m_first) \<le> r__index__subtype__1__last`
-  note r2_r3 = [[fact "num_of_big_int r__2 _ _ - _ = _"]]
-  note r3_in_range = [[fact "bounds _ _ _ _ r__3"]]
-  note r = [[fact "num_of_big_int r _ _ = _"]]
+  note r2_r3 = `num_of_big_int r__2 _ _ - _ = _`
+  note r3_in_range = `bounds _ _ _ _ r__3`
+  note r = `num_of_big_int r _ _ = _`
   note m_ge_1 = `1 < num_of_big_int m m_first ?l`
-  note m_in_range = [[fact "bounds _ _ _ _ m"]]
+  note m_in_range = `bounds _ _ _ _ m`
   note m_first_lower = `m__index__subtype__1__first \<le> m_first`
   note m_last_upper = `m_last \<le> m__index__subtype__1__last`
-  note r_in_range = [[fact "bounds _ _ _ _ r"]]
-  note r_r2 = [[fact "num_of_big_int r _ _ * 2 = _"]]
-  note r2_in_range = [[fact "bounds _ _ _ _ r__2"]]
-  note less = [[fact "_ \<longrightarrow> less r__2 _ _ m _ = _"]]
+  note r_in_range = `bounds _ _ _ _ r`
+  note r_r2 = `num_of_big_int r _ _ * 2 = _`
+  note r2_in_range = `bounds _ _ _ _ r__2`
+  note less = `_ \<longrightarrow> less r__2 _ _ m _ = _`
   note carry_or_not_less =
     `carry__2 \<or> \<not> less r__2 r_first (r_first + (m_last - m_first)) m m_first`
 
@@ -121,10 +121,10 @@ proof -
   let ?m = "num_of_big_int m m_first ?l"
   note r_first_lower = `r__index__subtype__1__first \<le> r_first`
   note r_last_upper = `r_first + (m_last - m_first) \<le> r__index__subtype__1__last`
-  note r = [[fact "num_of_big_int r _ _ = _"]]
-  note r_r2 = [[fact "num_of_big_int r _ _ * 2 = _"]]
-  note r2_in_range = [[fact "bounds _ _ _ _ r__2"]]
-  note less = [[fact "num_of_big_int r__2 _ _ < num_of_big_int m _ _"]]
+  note r = `num_of_big_int r _ _ = _`
+  note r_r2 = `num_of_big_int r _ _ * 2 = _`
+  note r2_in_range = `bounds _ _ _ _ r__2`
+  note less = `num_of_big_int r__2 _ _ < num_of_big_int m _ _`
 
   from r_r2 less r2_in_range r_first_lower r_last_upper
   have "num_of_big_int r__2 r_first ?l = (?r * 2) mod ?m"
@@ -134,7 +134,7 @@ proof -
 qed
 
 spark_vc procedure_size_square_mod_20
-  using [[fact "num_of_big_int r _ _ = _"]] `m_first \<le> m_last`
+  using `num_of_big_int r _ _ = _` `m_first \<le> m_last`
   by (simp add: nat_add_distrib mult_ac)
 
 spark_end

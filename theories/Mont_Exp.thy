@@ -48,7 +48,7 @@ proof -
   have Base_inv: "Base * minv ?m Base mod ?m = 1"
     by (simp only: lint_inv_mod [of m_inv m _ 32, simplified, OF m_inv])
 
-  from [[fact "?r = _"]]
+  from `?r = _`
   have "?r * minv ?m Base ^ nat ?L mod ?m =
     (?R * (Base * minv ?m Base mod ?m) ^ nat ?L) mod ?m"
     by (simp only: nat_mult_distrib power_mult power_mult_distrib
@@ -57,13 +57,13 @@ proof -
   then have R: "?r * minv ?m Base ^ nat ?L mod ?m = ?R mod ?m"
     by (simp add: Base_inv)
 
-  from [[fact "num_of_big_int aux2__3 _ _ = _"]]
+  from `num_of_big_int aux2__3 _ _ = _`
   have "num_of_big_int aux2__3 aux2_first ?L =
     ?x * (?r * minv ?m Base ^ nat ?L mod ?m) mod ?m"
     by (simp add: mult_assoc)
   with R show ?C2 by simp
 
-  from [[fact "num_of_big_int aux3__2 _ _ = _"]] one R
+  from `num_of_big_int aux3__2 _ _ = _` one R
   show ?C3 by simp
 qed
 
@@ -71,25 +71,25 @@ spark_vc procedure_mont_exp_9
 proof -
   have e: "e_last - (loop__1__i - 1) = 1 + (e_last - loop__1__i)"
     by simp
-  from [[fact "num_of_big_int aux3 _ _ = _"]] `loop__1__i \<le> e_last`
+  from `num_of_big_int aux3 _ _ = _` `loop__1__i \<le> e_last`
   show ?thesis
     by (simp add: e add_ac mult_ac)
 qed
 
 spark_vc procedure_mont_exp_12
 proof -
-  from [[fact "bounds _ _ _ _ e"]]
+  from `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> e_first`
     `e_last \<le> e__index__subtype__1__last`
     `e_first \<le> loop__1__i` `loop__1__i \<le> e_last`
   have "0 \<le> e loop__1__i" "e loop__1__i < Base" by simp_all
-  with [[fact "num_of_big_int aux3 _ _ = _"]]
+  with `num_of_big_int aux3 _ _ = _`
   show ?thesis
     by (simp add: sdiv_pos_pos div_pos_pos_trivial)
 qed
 
 spark_vc procedure_mont_exp_16
-  using [[fact "num_of_big_int aux2 _ _ = _"]]
+  using `num_of_big_int aux2 _ _ = _`
     `1 < num_of_big_int m m_first (a_last - a_first + 1)`
   by (simp add: sign_simps)
 
@@ -107,11 +107,11 @@ proof -
     by (simp only: lint_inv_mod [of m_inv m _ 32, simplified, OF m_inv])
 
   from
-    [[fact "num_of_big_int aux3__5 _ _ = _"]]
-    [[fact "num_of_big_int a__4 _ _ = _"]]
-    [[fact "num_of_big_int aux3 _ _ = _"]]
-    [[fact "num_of_big_int aux2 _ _ = _"]]
-    [[fact "bounds _ _ _ _ e"]]
+    `num_of_big_int aux3__5 _ _ = _`
+    `num_of_big_int a__4 _ _ = _`
+    `num_of_big_int aux3 _ _ = _`
+    `num_of_big_int aux2 _ _ = _`
+    `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> loop__1__i`
     `loop__1__i \<le> e__index__subtype__1__last`
   have "num_of_big_int aux3__5 aux3_first ?L =
@@ -120,7 +120,7 @@ proof -
     ?x * ?R mod ?m"
     by (simp only: nat_mult_distrib [of 2, simplified, simplified mult_commute])
       (simp add: mont_mult_eq [OF Base_inv] sdiv_pos_pos power_mult power2_eq_square)
-  also from [[fact "bounds _ _ _ _ e"]]
+  also from `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> loop__1__i`
     `loop__1__i \<le> e_last`
     `e_last \<le> e__index__subtype__1__last`
@@ -143,7 +143,7 @@ proof -
     e loop__1__i div 2 ^ nat loop__2__j mod 2"
     by (simp add: AND_div_mod)
   finally show ?thesis
-    using [[fact "bounds _ _ _ _ e"]]
+    using `bounds _ _ _ _ e`
       `e__index__subtype__1__first \<le> loop__1__i`
       `loop__1__i \<le> e__index__subtype__1__last`
     by (simp add: sdiv_pos_pos add_commute)
@@ -168,10 +168,10 @@ proof -
     num_of_big_int a__4 a_first (a_last - a_first + 1)"
     by (simp add: num_of_lint_def)
   also from
-    [[fact "num_of_big_int a__4 _ _ = _"]]
-    [[fact "num_of_big_int aux3 _ _ = _"]]
-    [[fact "num_of_big_int aux2 _ _ = _"]]
-    [[fact "bounds _ _ _ _ e"]]
+    `num_of_big_int a__4 _ _ = _`
+    `num_of_big_int aux3 _ _ = _`
+    `num_of_big_int aux2 _ _ = _`
+    `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> loop__1__i`
     `loop__1__i \<le> e__index__subtype__1__last`
   have "\<dots> =
@@ -193,7 +193,7 @@ proof -
     e loop__1__i div 2 ^ nat loop__2__j mod 2"
     by (simp add: AND_div_mod)
   finally show ?thesis
-    using [[fact "bounds _ _ _ _ e"]]
+    using `bounds _ _ _ _ e`
       `e__index__subtype__1__first \<le> loop__1__i`
       `loop__1__i \<le> e__index__subtype__1__last`
     by (simp add: sdiv_pos_pos add_commute)
@@ -211,9 +211,9 @@ proof -
     by (simp only: lint_inv_mod [of m_inv m _ 32, simplified, OF m_inv])
 
   from
-    [[fact "num_of_big_int a__7 _ _ = _"]]
-    [[fact "num_of_big_int aux3 _ _ = _"]]
-    [[fact "num_of_big_int aux1 _ _ = _"]]
+    `num_of_big_int a__7 _ _ = _`
+    `num_of_big_int aux3 _ _ = _`
+    `num_of_big_int aux1 _ _ = _`
     `e_first \<le> e_last`
   have "num_of_big_int a__7 a_first ?L =
     ?x ^ nat (num_of_big_int e e_first (1 + (e_last - e_first))) *
