@@ -3,6 +3,7 @@ use_thys
    "Copy",
    "Word_Of_Boolean",
    "Double_Inplace",
+   "Add_Inplace",
    "Sub_Inplace",
    "Less",
    "Size_Square_Mod",

@@ -111,6 +111,43 @@ is
 
    ----------------------------------------------------------------------------
 
+   procedure Add_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      Carry   :    out Boolean)
+   is
+      H : Types.Word32;
+   begin
+      Carry := False;
+
+      for I in Natural range A_First .. A_Last
+        --# assert
+        --#   Num_Of_Big_Int (A~, A_First, I - A_First) +
+        --#   Num_Of_Big_Int (B, B_First, I - A_First) =
+        --#   Num_Of_Big_Int (A, A_First, I - A_First) +
+        --#   Base ** (I - A_First) * Num_Of_Boolean (Carry) and
+        --#   (for all K in Natural range I .. A_Last =>
+        --#      (A (K) = A~ (K)));
+      loop
+         H := A (I) + B (B_First + (I - A_First)) + Word_Of_Boolean (Carry);
+         Carry := H < A (I) or (H = A (I) and Carry);
+         A (I) := H;
+
+         --# assert
+         --#   Num_Of_Big_Int (A~, A_First, (I + 1) - A_First) +
+         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) =
+         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
+         --#   (for all K in Natural range I + 1 .. A_Last =>
+         --#      (A (K) = A~ (K)));
+      end loop;
+   end Add_Inplace;
+
+   ----------------------------------------------------------------------------
+
    procedure Sub_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;

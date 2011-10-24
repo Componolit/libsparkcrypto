@@ -32,6 +32,26 @@ is
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
    --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
+   procedure Add_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      Carry   :    out Boolean);
+   --# derives A, Carry from A, A_First, A_Last, B, B_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   A_First <= A_Last;
+   --# post
+   --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) +
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+   --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
+
    procedure Sub_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;

@@ -21,6 +21,7 @@ SIV_FILES = \
   $(OUTPUT_DIR)/bignum/copy.siv \
   $(OUTPUT_DIR)/bignum/word_of_boolean.siv \
   $(OUTPUT_DIR)/bignum/double_inplace.siv \
+  $(OUTPUT_DIR)/bignum/add_inplace.siv \
   $(OUTPUT_DIR)/bignum/sub_inplace.siv \
   $(OUTPUT_DIR)/bignum/less.siv \
   $(OUTPUT_DIR)/bignum/size_square_mod.siv \
@@ -35,6 +36,7 @@ PRV_FILES = \
   $(OUTPUT_DIR)/bignum/copy.prv \
   $(OUTPUT_DIR)/bignum/word_of_boolean.prv \
   $(OUTPUT_DIR)/bignum/double_inplace.prv \
+  $(OUTPUT_DIR)/bignum/add_inplace.prv \
   $(OUTPUT_DIR)/bignum/sub_inplace.prv \
   $(OUTPUT_DIR)/bignum/less.prv \
   $(OUTPUT_DIR)/bignum/size_square_mod.prv \
@@ -52,6 +54,7 @@ ISABELLE_FILES = \
   theories/Copy.thy \
   theories/Word_Of_Boolean.thy \
   theories/Double_Inplace.thy \
+  theories/Add_Inplace.thy \
   theories/Sub_Inplace.thy \
   theories/Less.thy \
   theories/Size_Square_Mod.thy \
