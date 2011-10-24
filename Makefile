@@ -46,7 +46,6 @@ PRV_FILES = \
 
 ISABELLE_FILES = \
   theories/ROOT.ML \
-  theories/Facts.thy \
   theories/Mod_Simp.thy \
   theories/Bignum.thy \
   theories/Initialize.thy \
