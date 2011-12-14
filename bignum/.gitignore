@@ -1,0 +1,6 @@
+*.sli
+*.ali
+*.o
+*.lst
+*~
+out
