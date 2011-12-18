@@ -2,7 +2,7 @@ theory Word_Of_Boolean
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/word_of_boolean.siv"
+spark_open "$VCG_DIR/lsc_/bignum/word_of_boolean.siv"
 
 spark_vc function_word_of_boolean_3
   by simp

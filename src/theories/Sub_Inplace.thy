@@ -9,7 +9,7 @@ proof -
   then show ?thesis by simp
 qed
 
-spark_open "$VCG_DIR/sub_inplace.siv"
+spark_open "$VCG_DIR/lsc_/bignum/sub_inplace.siv"
 
 spark_vc procedure_sub_inplace_3
   by simp

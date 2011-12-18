@@ -1,11 +1,11 @@
-with Types;
+with LSC.Types;
 
-use type Types.Word32;
-use type Types.Word64;
+use type LSC.Types.Word32;
+use type LSC.Types.Word64;
 
---# inherit Types;
+--# inherit LSC.Types;
 
-package Bignum
+package LSC.Bignum
 is
 
    Base : constant := 2 ** 32;
@@ -213,4 +213,4 @@ is
    --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) mod
    --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
 
-end Bignum;
+end LSC.Bignum;

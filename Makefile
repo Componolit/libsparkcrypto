@@ -220,7 +220,7 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $
 	spark -index=$< $(SPARK_OPTS) -report_file=$@ @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
 
 $(OUTPUT_DIR)/proof/sparksimp.log: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
-	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5 -sargs -norenum) > $@.tmp
+	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5) > $@.tmp
 	mv $@.tmp $@
 
 $(OUTPUT_DIR)/proof/cvc3.vct $(OUTPUT_DIR)/proof/cvc3.vlg $(OUTPUT_DIR)/proof/cvc3.vlm: $(OUTPUT_DIR)/proof/libsparkcrypto.lis

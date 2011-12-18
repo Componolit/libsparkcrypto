@@ -12,7 +12,7 @@ proof -
   then show ?thesis by simp
 qed
 
-spark_open "$VCG_DIR/double_inplace.siv"
+spark_open "$VCG_DIR/lsc_/bignum/double_inplace.siv"
 
 spark_vc procedure_double_inplace_3
   by simp
@@ -54,7 +54,7 @@ proof -
   ultimately show ?C1
     using `a_first \<le> loop__1__i`
       `num_of_big_int a_init _ _ * 2 = num_of_big_int a _ _ + _`
-      `types__shl32 _ _ = _`
+      `lsc__types__shl32 _ _ = _`
       `word_of_boolean carry = num_of_bool carry`
     by (simp add: diff_add_eq [symmetric] nat_add_distrib div_mod_eq ring_distribs)
 next

@@ -32,9 +32,9 @@ proof -
      18446744073709551616`
     `message__index__subtype__1__first \<le> message__index__subtype__1__last`
     `0 \<le> length`
-  show ?C2
+  show ?C1
     by (simp add: sdiv_pos_pos mod_pos_pos_trivial)
-  show ?C3
+  show ?C2
   proof
     assume "length mod 512 \<noteq> 0"
     with `0 \<le> length`

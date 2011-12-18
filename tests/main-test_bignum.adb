@@ -1,14 +1,11 @@
-with Bignum;
-with Types;
-with Debug;
-
+separate (Main)
 procedure Test_Bignum
 is
    subtype Mod_Range is Natural range 0 .. 63;
    subtype Pub_Exp_Range is Natural range 0 .. 0;
 
-   subtype LInt is Bignum.Big_Int (Mod_Range);
-   subtype SInt is Bignum.Big_Int (Pub_Exp_Range);
+   subtype LInt is LSC.Bignum.Big_Int (Mod_Range);
+   subtype SInt is LSC.Bignum.Big_Int (Pub_Exp_Range);
 
    Modulus : constant LInt := LInt'
      (16#e3855b7b#, 16#695e1d0c#, 16#2f3a389f#, 16#e4e8cfbc#, 16#366c3c0b#,
@@ -42,45 +39,36 @@ is
       16#2bd57be9#, 16#ffd21ce0#, 16#bccc6401#, 16#e2d6c019#, 16#c98b2771#,
       16#4d4cde01#, 16#d507d875#, 16#886bab53#, 16#7cac4629#);
 
-   Aux1, Aux2, Aux3, Orig, Result, R : LInt;
-   M_Inv : Types.Word32;
+   Aux1, Aux2, Aux3, Plain1, Plain2, Cipher, R : LInt;
+   M_Inv        : LSC.Types.Word32;
+   Bignum_Suite : SPARKUnit.Index_Type;
 begin
-   pragma Debug (Debug.Message ("Precomputing R^2 mod m ..."));
+   SPARKUnit.Create_Suite (Harness, "Bignum tests", Bignum_Suite);
 
-   Bignum.Size_Square_Mod
+   -- Precompute R^2 mod m
+   LSC.Bignum.Size_Square_Mod
      (M       => Modulus,
       M_First => Modulus'First,
       M_Last  => Modulus'Last,
       R       => R,
       R_First => R'First);
 
-   pragma Debug (Debug.Message ("... done."));
-   pragma Debug (Debug.Message (""));
+   -- Precomputing inverse
+   M_Inv := LSC.Bignum.Word_Inverse (Modulus (Modulus'First));
 
-   pragma Debug (Debug.Message ("Precomputing inverse ..."));
-
-   M_Inv := Bignum.Word_Inverse (Modulus (Modulus'First));
-
-   pragma Debug (Debug.Message ("... done."));
-   pragma Debug (Debug.Message (""));
-
+   -- create original data
    for I in Natural range Modulus'Range
    loop
-      Orig (I) := Types.Word32 (I);
+      Plain1 (I) := LSC.Types.Word32 (I);
    end loop;
 
-   pragma Debug (Debug.Message ("Original data:"));
-   pragma Debug (Debug.Put_Big_Int (Orig, 5));
-   pragma Debug (Debug.Message (""));
-
-   pragma Debug (Debug.Message ("Encrypting ..."));
-
-   Bignum.Mont_Exp
-     (A          => Result,
-      A_First    => Result'First,
-      A_Last     => Result'Last,
-      X          => Orig,
-      X_First    => Orig'First,
+   -- Encrypt
+   LSC.Bignum.Mont_Exp
+     (A          => Cipher,
+      A_First    => Cipher'First,
+      A_Last     => Cipher'Last,
+      X          => Plain1,
+      X_First    => Plain1'First,
       E          => Pub_Exp,
       E_First    => Pub_Exp'First,
       E_Last     => Pub_Exp'Last,
@@ -96,26 +84,13 @@ begin
       R_First    => R'First,
       M_Inv      => M_Inv);
 
-   pragma Debug (Debug.Message ("... done."));
-   pragma Debug (Debug.Message (""));
-
-   pragma Debug (Debug.Message ("Encrypted data:"));
-   pragma Debug (Debug.Put_Big_Int (Result, 5));
-   pragma Debug (Debug.Message (""));
-
-   for I in Natural range Modulus'Range
-   loop
-      Orig (I) := Result (I);
-   end loop;
-
-   pragma Debug (Debug.Message ("Decrypting ..."));
-
-   Bignum.Mont_Exp
-     (A          => Result,
-      A_First    => Result'First,
-      A_Last     => Result'Last,
-      X          => Orig,
-      X_First    => Orig'First,
+   -- Decrypting
+   LSC.Bignum.Mont_Exp
+     (A          => Plain2,
+      A_First    => Plain2'First,
+      A_Last     => Plain2'Last,
+      X          => Cipher,
+      X_First    => Cipher'First,
       E          => Priv_Exp,
       E_First    => Priv_Exp'First,
       E_Last     => Priv_Exp'Last,
@@ -131,10 +106,10 @@ begin
       R_First    => R'First,
       M_Inv      => M_Inv);
 
-   pragma Debug (Debug.Message ("... done."));
-   pragma Debug (Debug.Message (""));
+   SPARKUnit.Create_Test
+     (Harness,
+      Bignum_Suite,
+      "Encrypt/Decrypt",
+      Plain1 = Plain2);
 
-   pragma Debug (Debug.Message ("Decrypted data:"));
-   pragma Debug (Debug.Put_Big_Int (Result, 5));
-   pragma Debug (Debug.Message (""));
 end Test_Bignum;

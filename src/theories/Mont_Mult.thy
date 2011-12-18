@@ -100,7 +100,7 @@ lemma mod_cong: "a = b \<Longrightarrow> a mod m = b mod m"
 lemma div_cong: "a = b \<Longrightarrow> a div m = b div m"
   by simp
 
-spark_open "$VCG_DIR/mont_mult.siv"
+spark_open "$VCG_DIR/lsc_/bignum/mont_mult.siv"
 
 spark_vc procedure_mont_mult_5
   using `\<forall>k. a_first \<le> k \<and> k \<le> a_last \<longrightarrow> a__1 k = 0`

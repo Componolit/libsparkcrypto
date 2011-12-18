@@ -2,7 +2,7 @@ theory Size_Square_Mod
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/size_square_mod.siv"
+spark_open "$VCG_DIR/lsc_/bignum/size_square_mod.siv"
 
 spark_vc procedure_size_square_mod_6
   using `m_first \<le> m_last` H10 H21

@@ -12,7 +12,7 @@ proof -
   with `B * B_inv mod m = 1` show ?thesis by simp
 qed
 
-spark_open "$VCG_DIR/mont_exp.siv"
+spark_open "$VCG_DIR/lsc_/bignum/mont_exp.siv"
 
 spark_vc procedure_mont_exp_3
   using

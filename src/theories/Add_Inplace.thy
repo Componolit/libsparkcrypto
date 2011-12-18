@@ -12,7 +12,7 @@ proof -
   finally show ?thesis .
 qed
 
-spark_open "$VCG_DIR/add_inplace.siv"
+spark_open "$VCG_DIR/lsc_/bignum/add_inplace.siv"
 
 spark_vc procedure_add_inplace_3
   by simp
