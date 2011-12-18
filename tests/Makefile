@@ -70,4 +70,4 @@ $(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
 	@$< > $@
 
 $(OUTPUT_DIR)/genhmac:
-	$(CC) -W -Wall -Werror -o $@ genhmac.c -lssl
+	$(CC) -W -Wall -Werror -o $@ genhmac.c -lcrypto
