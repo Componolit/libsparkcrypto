@@ -13,7 +13,6 @@ TAG         ?= v$(VERSION)
 
 SPARK_OPTS  = \
    -brief=fullpath \
-   -debug=i \
    -vcg \
    -config=$(TARGET_CFG) \
    -warn=build/warnings.conf \
@@ -217,7 +216,8 @@ $(OUTPUT_DIR)/build/libsparkcrypto.a:
 	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
-	spark -index=$< $(SPARK_OPTS) -report_file=$@ @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
+	spark -index=$< $(SPARK_OPTS) -report_file=$@.tmp @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
+	mv $@.tmp $@
 
 $(OUTPUT_DIR)/proof/sparksimp.log: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
 	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5) > $@.tmp
