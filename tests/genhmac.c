@@ -83,14 +83,12 @@ main (int argc, char **argv)
 {
    int fd;
    char *key, *msg;
-   int key_len, msg_len, length;
+   int key_len, msg_len;
    const char *algo, *key_file, *msg_file, *dgst_file;
    const EVP_MD *md = NULL;
 
    unsigned int dgst_len;
    unsigned char dgst[EVP_MAX_MD_SIZE];
-
-   length = 0;
 
    if (argc != 5 && argc != 6)
    {
