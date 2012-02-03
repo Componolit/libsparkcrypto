@@ -17,6 +17,37 @@ is
    --# function Num_Of_Boolean (B: Boolean) return Universal_Integer;
    --# function Inverse (M, A: Universal_Integer) return Universal_Integer;
 
+   procedure Initialize
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural);
+   --# derives
+   --#   A from A_First, A_Last;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First <= A_Last;
+   --# post
+   --#   (for all K in Natural range A_First .. A_Last => (A (K) = 0));
+
+   procedure Copy
+     (A       : in     Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       :    out Big_Int;
+      B_First : in     Natural);
+   --# derives
+   --#   B from A, A_First, A_Last, B_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First <= A_Last and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range;
+   --# post
+   --#   (for all K in Natural range A_First .. A_Last =>
+   --#      (A (K) = B (B_First + (K - A_First))));
+
    procedure Double_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;
@@ -52,6 +83,31 @@ is
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
    --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
+   procedure Add
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      Carry   :    out Boolean);
+   --# derives
+   --#   A, Carry from A_First, A_Last, B, B_First, C, C_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   C_First in C'Range and
+   --#   C_First + (A_Last - A_First) in C'Range and
+   --#   A_First <= A_Last;
+   --# post
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) +
+   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+   --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
+
    procedure Sub_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;
@@ -71,6 +127,171 @@ is
    --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) =
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
    --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
+
+   procedure Sub
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      Carry   :    out Boolean);
+   --# derives
+   --#   A, Carry from A_First, A_Last, B, B_First, C, C_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   C_First in C'Range and
+   --#   C_First + (A_Last - A_First) in C'Range and
+   --#   A_First <= A_Last;
+   --# post
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) -
+   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
+   --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
+
+   procedure Mod_Add_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural);
+   --# derives A from A, A_First, A_Last, B, B_First, M, M_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   M_First in M'Range and
+   --#   M_First + (A_Last - A_First) in M'Range and
+   --#   A_First <= A_Last and
+   --#   (Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) <=
+   --#    Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) or
+   --#    Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <=
+   --#    Num_Of_Big_Int (M, M_First, A_Last - A_First + 1));
+   --# post
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) +
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) -
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) *
+   --#   Num_Of_Boolean
+   --#     (Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) +
+   --#      Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) >=
+   --#      Base ** (A_Last - A_First + 1));
+
+   procedure Mod_Add
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural);
+   --# derives
+   --#   A from A_First, A_Last, B, B_First, C, C_First, M, M_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   C_First in C'Range and
+   --#   C_First + (A_Last - A_First) in C'Range and
+   --#   M_First in M'Range and
+   --#   M_First + (A_Last - A_First) in M'Range and
+   --#   A_First <= A_Last and
+   --#   (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <=
+   --#    Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) or
+   --#    Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) <=
+   --#    Num_Of_Big_Int (M, M_First, A_Last - A_First + 1));
+   --# post
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) +
+   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) -
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) *
+   --#   Num_Of_Boolean
+   --#     (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) +
+   --#      Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) >=
+   --#      Base ** (A_Last - A_First + 1));
+
+   procedure Mod_Sub_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural);
+   --# derives A from A, A_First, A_Last, B, B_First, M, M_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   M_First in M'Range and
+   --#   M_First + (A_Last - A_First) in M'Range and
+   --#   A_First <= A_Last and
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <=
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+   --# post
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) -
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) +
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) *
+   --#   Num_Of_Boolean
+   --#     (Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) <
+   --#      Num_Of_Big_Int (B, B_First, A_Last - A_First + 1));
+
+   procedure Mod_Sub
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural);
+   --# derives
+   --#   A from A_First, A_Last, B, B_First, C, C_First, M, M_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   C_First in C'Range and
+   --#   C_First + (A_Last - A_First) in C'Range and
+   --#   M_First in M'Range and
+   --#   M_First + (A_Last - A_First) in M'Range and
+   --#   A_First <= A_Last and
+   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) <=
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+   --# post
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) -
+   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) +
+   --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) *
+   --#   Num_Of_Boolean
+   --#     (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <
+   --#      Num_Of_Big_Int (C, C_First, A_Last - A_First + 1));
+
+   function Is_Zero
+     (A       : Big_Int;
+      A_First : Natural;
+      A_Last  : Natural)
+     return Boolean;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First <= A_Last;
+   --# return
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) = 0;
 
    function Less
      (A       : Big_Int;

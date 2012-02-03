@@ -7,14 +7,6 @@ is
      (A       :    out Big_Int;
       A_First : in     Natural;
       A_Last  : in     Natural)
-   --# derives
-   --#   A from A_First, A_Last;
-   --# pre
-   --#   A_First in A'Range and
-   --#   A_Last in A'Range and
-   --#   A_First <= A_Last;
-   --# post
-   --#   (for all K in Natural range A_First .. A_Last => (A (K) = 0));
    is
    begin
       for I in Natural range A_First .. A_Last
@@ -33,18 +25,7 @@ is
       A_First : in     Natural;
       A_Last  : in     Natural;
       B       :    out Big_Int;
-      B_First : in Natural)
-   --# derives
-   --#   B from A, A_First, A_Last, B_First;
-   --# pre
-   --#   A_First in A'Range and
-   --#   A_Last in A'Range and
-   --#   A_First <= A_Last and
-   --#   B_First in B'Range and
-   --#   B_First + (A_Last - A_First) in B'Range;
-   --# post
-   --#   (for all K in Natural range A_First .. A_Last =>
-   --#      (A (K) = B (B_First + (K - A_First))));
+      B_First : in     Natural)
    is
    begin
       for I in Natural range A_First .. A_Last
@@ -146,6 +127,46 @@ is
 
    ----------------------------------------------------------------------------
 
+   procedure Add
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      Carry   :    out Boolean)
+   is
+      J : Natural;
+      H : Types.Word32;
+   begin
+      Carry := False;
+
+      for I in Natural range A_First .. A_Last
+      --# assert
+      --#   Num_Of_Big_Int (B, B_First, I - A_First) +
+      --#   Num_Of_Big_Int (C, C_First, I - A_First) =
+      --#   Num_Of_Big_Int (A, A_First, I - A_First) +
+      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry);
+      loop
+         J := I - A_First;
+         H := B (B_First + J) + C (C_First + J) + Word_Of_Boolean (Carry);
+         Carry := H < B (B_First + J) or (H = B (B_First + J) and Carry);
+         --# accept Flow, 23, A, "Initialized between A_First and A_Last";
+         A (I) := H;
+         --# end accept;
+
+         --# assert
+         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) +
+         --#   Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
+         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry);
+      end loop;
+      --# accept Flow, 602, A, A, "OK";
+   end Add;
+
+   ----------------------------------------------------------------------------
+
    procedure Sub_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;
@@ -182,6 +203,161 @@ is
          --#      (A (K) = A~ (K)));
       end loop;
    end Sub_Inplace;
+
+   ----------------------------------------------------------------------------
+
+   procedure Sub
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      Carry   :    out Boolean)
+   is
+      J         : Natural;
+      New_Carry : Boolean;
+   begin
+      Carry := False;
+
+      for I in Natural range A_First .. A_Last
+      --# assert
+      --#   Num_Of_Big_Int (B, B_First, I - A_First) -
+      --#   Num_Of_Big_Int (C, C_First, I - A_First) =
+      --#   Num_Of_Big_Int (A, A_First, I - A_First) -
+      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry);
+      loop
+         J := I - A_First;
+         New_Carry := B (B_First + J) < C (C_First + J) or else
+           (B (B_First + J) = C (C_First + J) and then Carry);
+         --# accept Flow, 23, A, "Initialized between A_First and A_Last";
+         A (I) := (B (B_First + J) - C (C_First + J)) - Word_Of_Boolean (Carry);
+         --# end accept;
+         Carry := New_Carry;
+
+         --# assert
+         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) -
+         --#   Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
+         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
+         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry);
+      end loop;
+      --# accept Flow, 602, A, A, "OK";
+   end Sub;
+
+   ----------------------------------------------------------------------------
+
+   procedure Mod_Add_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural)
+   is
+      Carry : Boolean;
+   begin
+      Add_Inplace (A, A_First, A_Last, B, B_First, Carry);
+
+      if Carry then
+         --# accept Flow, 10, Carry, "Carry not needed here";
+         Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
+      end if;
+   end Mod_Add_Inplace;
+
+   ----------------------------------------------------------------------------
+
+   procedure Mod_Add
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural)
+   is
+      Carry : Boolean;
+   begin
+      Add (A, A_First, A_Last, B, B_First, C, C_First, Carry);
+
+      if Carry then
+         --# accept Flow, 10, Carry, "Carry not needed here";
+         Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
+      end if;
+   end Mod_Add;
+
+   ----------------------------------------------------------------------------
+
+   procedure Mod_Sub_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural)
+   is
+      Carry : Boolean;
+   begin
+      Sub_Inplace (A, A_First, A_Last, B, B_First, Carry);
+
+      if Carry then
+         --# accept Flow, 10, Carry, "Carry not needed here";
+         Add_Inplace (A, A_First, A_Last, M, M_First, Carry);
+      end if;
+   end Mod_Sub_Inplace;
+
+   ----------------------------------------------------------------------------
+
+   procedure Mod_Sub
+     (A       :    out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      M       : in     Big_Int;
+      M_First : in     Natural)
+   is
+      Carry : Boolean;
+   begin
+      Sub (A, A_First, A_Last, B, B_First, C, C_First, Carry);
+
+      if Carry then
+         --# accept Flow, 10, Carry, "Carry not needed here";
+         Add_Inplace (A, A_First, A_Last, M, M_First, Carry);
+      end if;
+   end Mod_Sub;
+
+   ----------------------------------------------------------------------------
+
+   function Is_Zero
+     (A       : Big_Int;
+      A_First : Natural;
+      A_Last  : Natural)
+     return Boolean
+   is
+      Result : Boolean;
+   begin
+      Result := True;
+
+      for I in Natural range A_First .. A_Last
+      --# assert
+      --#   (Result <-> (Num_Of_Big_Int (A, A_First, I - A_First) = 0)) and
+      --#   A_Last% = A_Last;
+      loop
+         if A (I) /= 0 then
+            Result := False;
+            exit;
+         end if;
+      end loop;
+
+      return Result;
+   end Is_Zero;
 
    ----------------------------------------------------------------------------
 
