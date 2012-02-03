@@ -261,8 +261,8 @@ abbreviation
   "num_of_big_int \<equiv> num_of_lint Base"
 
 spark_proof_functions
-  num_of_big_int = num_of_big_int
-  num_of_boolean = num_of_bool
-  inverse = minv
+  lsc__bignum__num_of_big_int = num_of_big_int
+  lsc__bignum__num_of_boolean = num_of_bool
+  lsc__bignum__inverse = minv
 
 end
