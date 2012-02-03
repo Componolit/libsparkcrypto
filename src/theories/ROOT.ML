@@ -5,12 +5,15 @@ use_thys
    "Copy",
    "Word_Of_Boolean",
    "Double_Inplace",
-   "Add_Inplace",
-   "Sub_Inplace",
+   "Add",
+   "Sub",
+   "Is_Zero",
    "Less",
    "Size_Square_Mod",
    "Word_Inverse",
    "Single_Add_Mult_Mult",
    "Add_Mult_Mult",
    "Mont_Mult",
-   "Mont_Exp"];
+   "Mont_Exp",
+   "Point_Add",
+   "Point_Mult"];
