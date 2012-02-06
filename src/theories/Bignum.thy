@@ -145,6 +145,50 @@ lemma num_of_lint_ext:
    num_of_lint b A l i = num_of_lint b B m i"
   by (simp add: num_of_lint_def)
 
+lemma num_of_lint_equals_iff:
+  assumes "\<forall>j\<in>{l..<l+i}. 0 \<le> A j \<and> A j < b"
+  and "\<forall>j\<in>{m..<m+i}. 0 \<le> B j \<and> B j < b"
+  and "0 < b"
+  shows "(num_of_lint b A l i = num_of_lint b B m i) =
+    (\<forall>j\<in>{l..<l+i}. A j = B (m + (j - l)))"
+proof
+  assume eq: "num_of_lint b A l i = num_of_lint b B m i"
+  show "\<forall>j\<in>{l..<l + i}. A j = B (m + (j - l))"
+  proof
+    fix j
+    assume "j \<in> {l..<l + i}"
+    then have j: "l \<le> j" "j < l + i"
+      by simp_all
+    have "num_of_lint b A l (j - l + 1 + (i - j + l - 1)) =
+      num_of_lint b A l i"
+      by simp
+    also note eq
+    also have "num_of_lint b B m i =
+      num_of_lint b B m (j - l + 1 + (i - j + l - 1))"
+      by simp
+    finally have "num_of_lint b A l (j - l) + b ^ nat (j - l) * A j +
+      b ^ nat (j - l + 1) * num_of_lint b A (j + 1) (i - j + l - 1) =
+      num_of_lint b B m (j - l) + b ^ nat (j - l) * B (m + (j - l)) +
+      b ^ nat (j - l + 1) *
+      num_of_lint b B (m + (j - l + 1)) (i - j + l - 1)"
+      (is "?x + ?y + ?z = ?x' + ?y' + ?z'" is "?l = ?r")
+      using j
+      by (simp only: num_of_lint_sum num_of_lint_1) simp
+    then have "?l div b ^ nat (j - l) mod b = ?r div b ^ nat (j - l) mod b"
+      by simp
+    then show "A j = B (m + (j - l))" using j assms
+      apply (simp add:
+        zdiv_zadd1_eq [of "?x + ?y" ?z] zdiv_zadd1_eq [of ?x ?y]
+        zdiv_zadd1_eq [of "?x' + ?y'" ?z'] zdiv_zadd1_eq [of ?x' ?y'])
+      by (simp add: nat_add_distrib mod_pos_pos_trivial div_pos_pos_trivial
+        num_of_lint_lower num_of_lint_upper)
+  qed
+next
+  assume "\<forall>j\<in>{l..<l + i}. A j = B (m + (j - l))"
+  then show "num_of_lint b A l i = num_of_lint b B m i"
+    by (rule num_of_lint_ext)
+qed
+
 
 subsection {* Number theory *}
 
