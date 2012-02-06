@@ -363,6 +363,36 @@ is
 
    ----------------------------------------------------------------------------
 
+   function Equal
+     (A       : Big_Int;
+      A_First : Natural;
+      A_Last  : Natural;
+      B       : Big_Int;
+      B_First : Natural)
+     return Boolean
+   is
+      Result : Boolean;
+   begin
+      Result := True;
+
+      for I in Natural range A_First .. A_Last
+      --# assert
+      --#   (Result <->
+      --#    (for all J in Natural range A_First .. I - 1 =>
+      --#       (A (J) = B (B_First + (J - A_First))))) and
+      --#   A_Last% = A_Last;
+      loop
+         if A (I) /= B (B_First + (I - A_First)) then
+            Result := False;
+            exit;
+         end if;
+      end loop;
+
+      return Result;
+   end Equal;
+
+   ----------------------------------------------------------------------------
+
    function Less
      (A       : Big_Int;
       A_First : Natural;

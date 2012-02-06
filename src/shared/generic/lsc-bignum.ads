@@ -293,6 +293,23 @@ is
    --# return
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) = 0;
 
+   function Equal
+     (A       : Big_Int;
+      A_First : Natural;
+      A_Last  : Natural;
+      B       : Big_Int;
+      B_First : Natural)
+     return Boolean;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range and
+   --#   A_First <= A_Last;
+   --# return
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
+   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1);
+
    function Less
      (A       : Big_Int;
       A_First : Natural;
