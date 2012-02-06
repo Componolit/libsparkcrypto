@@ -347,7 +347,9 @@ is
 
       for I in Natural range A_First .. A_Last
       --# assert
-      --#   (Result <-> (Num_Of_Big_Int (A, A_First, I - A_First) = 0)) and
+      --#   (Result <->
+      --#    (for all J in Natural range A_First .. I - 1 =>
+      --#       (A (J) = 0))) and
       --#   A_Last% = A_Last;
       loop
          if A (I) /= 0 then
