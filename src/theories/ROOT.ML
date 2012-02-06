@@ -8,6 +8,7 @@ use_thys
    "Add",
    "Sub",
    "Is_Zero",
+   "Equal",
    "Less",
    "Size_Square_Mod",
    "Word_Inverse",
