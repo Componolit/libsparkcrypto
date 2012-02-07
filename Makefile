@@ -19,7 +19,8 @@ SPARK_OPTS  = \
    -output_dir=$(OUTPUT_DIR)/proof \
    -casing=si \
    -noswitch \
-   -nosli
+   -nosli \
+   -rules=lazy
 
 RST2HTML_OPTS = \
    --generator \
