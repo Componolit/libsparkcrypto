@@ -18,4 +18,4 @@ use_thys
    "Mont_Exp",
    "Point_Add",
    "Point_Mult",
-   "EC_Signature_Verify"];
+   "EC_Signature"];
