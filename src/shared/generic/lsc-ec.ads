@@ -232,10 +232,6 @@ is
       M_Inv : Types.Word32)
      return Boolean;
    --# pre
-   --#   Bignum.Num_Of_Big_Int (X, X'First, X'Length) <
-   --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-   --#   Bignum.Num_Of_Big_Int (Y, Y'First, Y'Length) <
-   --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
    --#   Bignum.Num_Of_Big_Int (A, A'First, A'Length) <
    --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
    --#   Bignum.Num_Of_Big_Int (B, B'First, B'Length) <
