@@ -484,4 +484,50 @@ is
          M, M'First, M_Inv);
    end Make_Affine;
 
+   ----------------------------------------------------------------------------
+
+   function On_Curve
+     (X     : Coord;
+      Y     : Coord;
+      A     : Coord;
+      B     : Coord;
+      R     : Coord;
+      M     : Coord;
+      M_Inv : Types.Word32)
+     return Boolean
+   is
+      H1, H2, H3, H4 : Coord;
+   begin
+      Bignum.Mont_Mult
+        (H3, H3'First, H3'Last, Y, Y'First, R, R'First,
+         M, M'First, M_Inv);
+
+      Bignum.Mont_Mult
+        (H1, H1'First, H1'Last, H3, H3'First, H3, H3'First,
+         M, M'First, M_Inv);
+
+      Bignum.Mont_Mult
+        (H2, H2'First, H2'Last, X, X'First, R, R'First,
+         M, M'First, M_Inv);
+
+      Bignum.Mont_Mult
+        (H3, H3'First, H3'Last, H2, H2'First, H2, H2'First,
+         M, M'First, M_Inv);
+
+      Bignum.Mod_Add_Inplace
+        (H3, H3'First, H3'Last, A, A'First, M, M'First);
+
+      Bignum.Mont_Mult
+        (H4, H4'First, H4'Last, H3, H3'First, H2, H2'First,
+         M, M'First, M_Inv);
+
+      Bignum.Mod_Sub_Inplace
+        (H1, H1'First, H1'Last, H4, H4'First, M, M'First);
+
+      Bignum.Mod_Sub_Inplace
+        (H1, H1'First, H1'Last, B, B'First, M, M'First);
+
+      return Bignum.Is_Zero (H1, H1'First, H1'Last);
+   end On_Curve;
+
 end LSC.EC;
