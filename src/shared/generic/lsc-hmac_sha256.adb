@@ -70,16 +70,13 @@ package body LSC.HMAC_SHA256 is
 
    ----------------------------------------------------------------------------
 
-   procedure Context_Finalize
-     (Context : in out Context_Type;
-      Block   : in     SHA256.Block_Type;
-      Length  : in     SHA256.Block_Length_Type)
+   procedure Context_Finalize_Outer
+     (Context : in out Context_Type)
+   --# derives Context from Context;
    is
       Hash : SHA256.SHA256_Hash_Type;
       Temp : SHA256.Block_Type;
    begin
-      pragma Debug (Debug.Put_Line ("HMAC.SHA256.Context_Finalize:"));
-      SHA256.Context_Finalize (Context.SHA256_Context, Block, Length);
       Hash := SHA256.SHA256_Get_Hash (Context.SHA256_Context);
 
       Context.SHA256_Context := SHA256.SHA256_Context_Init;
@@ -88,6 +85,19 @@ package body LSC.HMAC_SHA256 is
       Temp := SHA256.Null_Block;
       Ops32.Block_Copy (Hash, Temp);
       SHA256.Context_Finalize (Context.SHA256_Context, Temp, 256);
+   end Context_Finalize_Outer;
+
+   ----------------------------------------------------------------------------
+
+   procedure Context_Finalize
+     (Context : in out Context_Type;
+      Block   : in     SHA256.Block_Type;
+      Length  : in     SHA256.Block_Length_Type)
+   is
+   begin
+      pragma Debug (Debug.Put_Line ("HMAC.SHA256.Context_Finalize:"));
+      SHA256.Context_Finalize (Context.SHA256_Context, Block, Length);
+      Context_Finalize_Outer (Context);
    end Context_Finalize;
 
    ----------------------------------------------------------------------------
@@ -120,55 +130,42 @@ package body LSC.HMAC_SHA256 is
 
    ----------------------------------------------------------------------------
 
+   function Keyed_Hash
+      (Key     : SHA256.Block_Type;
+       Message : SHA256.Message_Type;
+       Length  : Types.Word64) return Context_Type
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * SHA256.Block_Size;
+   is
+      HMAC_Ctx : Context_Type;
+   begin
+      HMAC_Ctx := Context_Init (Key);
+      SHA256.Hash_Context (Message, Length, HMAC_Ctx.SHA256_Context);
+      Context_Finalize_Outer (HMAC_Ctx);
+
+      return HMAC_Ctx;
+   end Keyed_Hash;
+
+   ----------------------------------------------------------------------------
+
+   function Pseudorandom
+      (Key     : SHA256.Block_Type;
+       Message : SHA256.Message_Type;
+       Length  : Types.Word64) return SHA256.SHA256_Hash_Type
+   is
+   begin
+      return Get_Prf (Keyed_Hash (Key, Message, Length));
+   end Pseudorandom;
+
+   ----------------------------------------------------------------------------
+
    function Authenticate
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
        Length  : Types.Word64) return Auth_Type
    is
-      HMAC_Ctx    : Context_Type;
-      Dummy       : constant SHA256.Block_Type := SHA256.Null_Block;
-      Last_Length : SHA256.Block_Length_Type;
-      Last_Block  : SHA256.Message_Index;
    begin
-
-      pragma Debug (Debug.New_Line);
-      pragma Debug (Debug.Put_Line (">>> HMAC_SHA256.Authenticate start."));
-
-      Last_Length := Types.Word32 (Length mod SHA256.Block_Size);
-      Last_Block  := Message'First + Length / SHA256.Block_Size;
-
-      HMAC_Ctx := Context_Init (Key);
-
-      -- handle all blocks, but the last.
-      if Last_Block > Message'First then
-         for I in SHA256.Message_Index range Message'First .. Last_Block - 1
-         loop
-            --# assert
-            --#    Last_Block = Last_Block% and
-            --#    Last_Block <= Message'Last and
-            --#    I < Last_Block;
-            Context_Update (HMAC_Ctx, Message (I));
-
-            pragma Debug (Debug.Put ("    HMAC_SHA256.Authenticate: round "));
-            pragma Debug (Debug.Print_Word64 (I));
-            pragma Debug (Debug.Put_Line ("."));
-         end loop;
-      end if;
-
-      if Last_Length = 0 then
-         pragma Debug (Debug.Put_Line ("    HMAC_SHA256.Authenticate: Empty last block"));
-         Context_Finalize (HMAC_Ctx, Dummy, 0);
-      else
-         pragma Debug (Debug.Put ("    HMAC_SHA256.Authenticate: Partial last block of length "));
-         pragma Debug (Debug.Print_Word32 (Last_Length));
-         pragma Debug (Debug.Put_Line ("."));
-         Context_Finalize (HMAC_Ctx, Message (Last_Block), Last_Length);
-      end if;
-
-      pragma Debug (Debug.Put_Line (">>> HMAC_SHA256.Authenticate end."));
-      pragma Debug (Debug.New_Line);
-
-      return Get_Auth (HMAC_Ctx);
+      return Get_Auth (Keyed_Hash (Key, Message, Length));
    end Authenticate;
 
 end LSC.HMAC_SHA256;

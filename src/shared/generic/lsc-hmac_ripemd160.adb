@@ -70,16 +70,13 @@ package body LSC.HMAC_RIPEMD160 is
 
    ----------------------------------------------------------------------------
 
-   procedure Context_Finalize
-     (Context : in out Context_Type;
-      Block   : in     RIPEMD160.Block_Type;
-      Length  : in     RIPEMD160.Block_Length_Type)
+   procedure Context_Finalize_Outer
+     (Context : in out Context_Type)
+   --# derives Context from Context;
    is
       Hash : RIPEMD160.Hash_Type;
       Temp : RIPEMD160.Block_Type;
    begin
-      pragma Debug (Debug.Put_Line ("HMAC.RIPEMD160.Context_Finalize:"));
-      RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Block, Length);
       Hash := RIPEMD160.Get_Hash (Context.RIPEMD160_Context);
 
       Context.RIPEMD160_Context := RIPEMD160.Context_Init;
@@ -88,6 +85,19 @@ package body LSC.HMAC_RIPEMD160 is
       Temp := RIPEMD160.Null_Block;
       Ops32.Block_Copy (Hash, Temp);
       RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Temp, 160);
+   end Context_Finalize_Outer;
+
+   ----------------------------------------------------------------------------
+
+   procedure Context_Finalize
+     (Context : in out Context_Type;
+      Block   : in     RIPEMD160.Block_Type;
+      Length  : in     RIPEMD160.Block_Length_Type)
+   is
+   begin
+      pragma Debug (Debug.Put_Line ("HMAC.RIPEMD160.Context_Finalize:"));
+      RIPEMD160.Context_Finalize (Context.RIPEMD160_Context, Block, Length);
+      Context_Finalize_Outer (Context);
    end Context_Finalize;
 
    ----------------------------------------------------------------------------
@@ -104,49 +114,11 @@ package body LSC.HMAC_RIPEMD160 is
        Message : RIPEMD160.Message_Type;
        Length  : Types.Word64) return RIPEMD160.Hash_Type
    is
-      HMAC_Ctx    : Context_Type;
-      Dummy       : constant RIPEMD160.Block_Type := RIPEMD160.Null_Block;
-      Last_Length : RIPEMD160.Block_Length_Type;
-      Last_Block  : Types.Word64;
+      HMAC_Ctx : Context_Type;
    begin
-
-      pragma Debug (Debug.New_Line);
-      pragma Debug (Debug.Put_Line (">>> HMAC_RIPEMD160.Authenticate start."));
-
-      Last_Length := Types.Word32 (Length mod RIPEMD160.Block_Size);
-      Last_Block  := Message'First + Length / RIPEMD160.Block_Size;
-
       HMAC_Ctx := Context_Init (Key);
-
-      -- handle all blocks, but the last.
-      if Last_Block > Message'First then
-         for I in RIPEMD160.Message_Index range Message'First .. Last_Block - 1
-         loop
-            --# assert
-            --#    Last_Block = Last_Block% and
-            --#    Last_Block - 1 <= Message'Last and
-            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
-            --#    I < Last_Block;
-            Context_Update (HMAC_Ctx, Message (I));
-
-            pragma Debug (Debug.Put ("    HMAC_RIPEMD160.Authenticate: round "));
-            pragma Debug (Debug.Print_Word64 (I));
-            pragma Debug (Debug.Put_Line ("."));
-         end loop;
-      end if;
-
-      if Last_Length = 0 then
-         pragma Debug (Debug.Put_Line ("    HMAC_RIPEMD160.Authenticate: Empty last block"));
-         Context_Finalize (HMAC_Ctx, Dummy, 0);
-      else
-         pragma Debug (Debug.Put ("    HMAC_RIPEMD160.Authenticate: Partial last block of length "));
-         pragma Debug (Debug.Print_Word32 (Last_Length));
-         pragma Debug (Debug.Put_Line ("."));
-         Context_Finalize (HMAC_Ctx, Message (Last_Block), Last_Length);
-      end if;
-
-      pragma Debug (Debug.Put_Line (">>> HMAC_RIPEMD160.Authenticate end."));
-      pragma Debug (Debug.New_Line);
+      RIPEMD160.Hash_Context (Message, Length, HMAC_Ctx.RIPEMD160_Context);
+      Context_Finalize_Outer (HMAC_Ctx);
 
       return Get_Auth (HMAC_Ctx);
    end Authenticate;

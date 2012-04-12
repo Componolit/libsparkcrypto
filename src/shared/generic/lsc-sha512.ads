@@ -87,8 +87,9 @@ package LSC.SHA512 is
    --
    -- A SHA-512 hash can be at most 2^128 bit long. As one block has 1024 bit,
    -- this makes 2^118 blocks. <strong> NOTE: We support a size of 2^64 only!
+   -- (i.e. 2^54 blocks)
    -- </strong>
-   subtype Message_Index is Types.Word64 range 0 .. 2**64 - 1;
+   subtype Message_Index is Types.Word64 range 0 .. 2 ** 54 - 1;
 
    -- SHA-512 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
@@ -123,6 +124,28 @@ package LSC.SHA512 is
 
    -- Return SHA-384 hash.
    function SHA384_Get_Hash (Context : Context_Type) return SHA384_Hash_Type;
+
+   procedure Hash_Context
+      (Message : in     Message_Type;
+       Length  : in     Types.Word64;
+       Ctx     : in out Context_Type);
+   --# derives Ctx from Ctx, Message, Length;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+
+   -- Compute SHA-512 hash value of @Length@ bits of @Message@.
+   function SHA512_Hash
+      (Message : Message_Type;
+       Length  : Types.Word64) return SHA512_Hash_Type;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+
+   -- Compute SHA-384 hash value of @Length@ bits of @Message@.
+   function SHA384_Hash
+      (Message : Message_Type;
+       Length  : Types.Word64) return SHA384_Hash_Type;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
 
    -- Empty block
    Null_Block : constant Block_Type;

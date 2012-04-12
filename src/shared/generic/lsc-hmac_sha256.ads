@@ -91,6 +91,15 @@ package LSC.HMAC_SHA256 is
    -- Get authentication value from @Context@
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
+   -- Compute hash value of @Length@ bits of @Message@ using @Key@.
+   --
+   function Pseudorandom
+      (Key     : SHA256.Block_Type;
+       Message : SHA256.Message_Type;
+       Length  : Types.Word64) return SHA256.SHA256_Hash_Type;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * SHA256.Block_Size;
+
    -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
    -- return the authentication value.
    --
@@ -99,7 +108,7 @@ package LSC.HMAC_SHA256 is
        Message : SHA256.Message_Type;
        Length  : Types.Word64) return Auth_Type;
    --# pre
-   --#    Message'First + (Length / SHA256.Block_Size) in Message'Range;
+   --#    Universal_Integer (Length) <= Message'Length * SHA256.Block_Size;
 
 private
 

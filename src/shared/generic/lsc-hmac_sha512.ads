@@ -93,6 +93,15 @@ package LSC.HMAC_SHA512 is
    -- Get authentication value from @Context@
    function Get_Auth (Context : in Context_Type) return Auth_Type;
 
+   -- Compute hash value of @Length@ bits of @Message@ using @Key@.
+   --
+   function Pseudorandom
+      (Key     : SHA512.Block_Type;
+       Message : SHA512.Message_Type;
+       Length  : Types.Word64) return SHA512.SHA512_Hash_Type;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * SHA512.Block_Size;
+
    -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
    -- return the authentication value.
    --
@@ -101,7 +110,7 @@ package LSC.HMAC_SHA512 is
        Message : SHA512.Message_Type;
        Length  : Types.Word64) return Auth_Type;
    --# pre
-   --#    Message'First + (Length / SHA512.Block_Size) in Message'Range;
+   --#    Universal_Integer (Length) <= Message'Length * SHA512.Block_Size;
 
    -- Empty authenticator
    Null_Auth : constant Auth_Type;

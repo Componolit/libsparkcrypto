@@ -679,19 +679,17 @@ package body LSC.RIPEMD160 is
 
    ---------------------------------------------------------------------------
 
-   function Hash
-      (Message : Message_Type;
-       Length  : Types.Word64) return Hash_Type
+   procedure Hash_Context
+      (Message : in     Message_Type;
+       Length  : in     Types.Word64;
+       Ctx     : in out Context_Type)
    is
-      Ctx         : Context_Type;
       Dummy       : constant Block_Type := Null_Block;
       Last_Length : Block_Length_Type;
       Last_Block  : Types.Word64;
    begin
       Last_Length := Types.Word32 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
-
-      Ctx := Context_Init;
 
       -- handle all blocks, but the last.
       if Last_Block > Message'First then
@@ -711,6 +709,18 @@ package body LSC.RIPEMD160 is
       else
          Context_Finalize (Ctx, Message (Last_Block), Last_Length);
       end if;
+   end Hash_Context;
+
+   ---------------------------------------------------------------------------
+
+   function Hash
+      (Message : Message_Type;
+       Length  : Types.Word64) return Hash_Type
+   is
+      Ctx : Context_Type;
+   begin
+      Ctx := Context_Init;
+      Hash_Context (Message, Length, Ctx);
 
       return Get_Hash (Ctx);
    end Hash;

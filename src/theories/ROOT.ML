@@ -1,6 +1,8 @@
 use_thys
-  ["LSC_RIPEMD160_Hash",
-   "LSC_HMAC_RIPEMD160_Authenticate",
+  ["RIPEMD160_Hash_Context",
+   "SHA1_Hash_Context",
+   "SHA256_Hash_Context",
+   "SHA512_Hash_Context",
    "Initialize",
    "Copy",
    "Word_Of_Boolean",

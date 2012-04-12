@@ -70,16 +70,13 @@ package body LSC.HMAC_SHA1 is
 
    ----------------------------------------------------------------------------
 
-   procedure Context_Finalize
-     (Context : in out Context_Type;
-      Block   : in     SHA1.Block_Type;
-      Length  : in     SHA1.Block_Length_Type)
+   procedure Context_Finalize_Outer
+     (Context : in out Context_Type)
+   --# derives Context from Context;
    is
       Hash : SHA1.Hash_Type;
       Temp : SHA1.Block_Type;
    begin
-      pragma Debug (Debug.Put_Line ("HMAC.SHA1.Context_Finalize:"));
-      SHA1.Context_Finalize (Context.SHA1_Context, Block, Length);
       Hash := SHA1.Get_Hash (Context.SHA1_Context);
 
       Context.SHA1_Context := SHA1.Context_Init;
@@ -88,6 +85,19 @@ package body LSC.HMAC_SHA1 is
       Temp := SHA1.Null_Block;
       Ops32.Block_Copy (Hash, Temp);
       SHA1.Context_Finalize (Context.SHA1_Context, Temp, 160);
+   end Context_Finalize_Outer;
+
+   ----------------------------------------------------------------------------
+
+   procedure Context_Finalize
+     (Context : in out Context_Type;
+      Block   : in     SHA1.Block_Type;
+      Length  : in     SHA1.Block_Length_Type)
+   is
+   begin
+      pragma Debug (Debug.Put_Line ("HMAC.SHA1.Context_Finalize:"));
+      SHA1.Context_Finalize (Context.SHA1_Context, Block, Length);
+      Context_Finalize_Outer (Context);
    end Context_Finalize;
 
    ----------------------------------------------------------------------------
@@ -105,48 +115,11 @@ package body LSC.HMAC_SHA1 is
        Message : SHA1.Message_Type;
        Length  : Types.Word64) return SHA1.Hash_Type
    is
-      HMAC_Ctx    : Context_Type;
-      Dummy       : constant SHA1.Block_Type := SHA1.Null_Block;
-      Last_Length : SHA1.Block_Length_Type;
-      Last_Block  : SHA1.Message_Index;
+      HMAC_Ctx : Context_Type;
    begin
-
-      pragma Debug (Debug.New_Line);
-      pragma Debug (Debug.Put_Line (">>> HMAC_SHA1.Authenticate start."));
-
-      Last_Length := Types.Word32 (Length mod SHA1.Block_Size);
-      Last_Block  := Message'First + Length / SHA1.Block_Size;
-
       HMAC_Ctx := Context_Init (Key);
-
-      -- handle all blocks, but the last.
-      if Last_Block > Message'First then
-         for I in SHA1.Message_Index range Message'First .. Last_Block - 1
-         loop
-            --# assert
-            --#    Last_Block = Last_Block% and
-            --#    Last_Block <= Message'Last and
-            --#    I < Last_Block;
-            Context_Update (HMAC_Ctx, Message (I));
-
-            pragma Debug (Debug.Put ("    HMAC_SHA1.Authenticate: round "));
-            pragma Debug (Debug.Print_Word64 (I));
-            pragma Debug (Debug.Put_Line ("."));
-         end loop;
-      end if;
-
-      if Last_Length = 0 then
-         pragma Debug (Debug.Put_Line ("    HMAC_SHA1.Authenticate: Empty last block"));
-         Context_Finalize (HMAC_Ctx, Dummy, 0);
-      else
-         pragma Debug (Debug.Put ("    HMAC_SHA1.Authenticate: Partial last block of length "));
-         pragma Debug (Debug.Print_Word32 (Last_Length));
-         pragma Debug (Debug.Put_Line ("."));
-         Context_Finalize (HMAC_Ctx, Message (Last_Block), Last_Length);
-      end if;
-
-      pragma Debug (Debug.Put_Line (">>> HMAC_SHA1.Authenticate end."));
-      pragma Debug (Debug.New_Line);
+      SHA1.Hash_Context (Message, Length, HMAC_Ctx.SHA1_Context);
+      Context_Finalize_Outer (HMAC_Ctx);
 
       return Get_Auth (HMAC_Ctx);
    end Authenticate;

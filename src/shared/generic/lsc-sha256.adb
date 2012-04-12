@@ -391,4 +391,52 @@ package body LSC.SHA256 is
                                7 => Byteorder32.BE_To_Native (Context.H (7)));
    end SHA256_Get_Hash;
 
+   ----------------------------------------------------------------------------
+
+   procedure Hash_Context
+      (Message : in     Message_Type;
+       Length  : in     Types.Word64;
+       Ctx     : in out Context_Type)
+   is
+      Dummy       : constant Block_Type := Null_Block;
+      Last_Length : Block_Length_Type;
+      Last_Block  : Types.Word64;
+   begin
+      Last_Length := Types.Word32 (Length mod Block_Size);
+      Last_Block  := Message'First + Length / Block_Size;
+
+      -- handle all blocks, but the last.
+      if Last_Block > Message'First then
+         for I in Message_Index range Message'First .. Last_Block - 1
+         loop
+            --# assert
+            --#    Last_Block = Last_Block% and
+            --#    Last_Block - 1 <= Message'Last and
+            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
+            --#    I < Last_Block;
+            Context_Update (Ctx, Message (I));
+         end loop;
+      end if;
+
+      if Last_Length = 0 then
+         Context_Finalize (Ctx, Dummy, 0);
+      else
+         Context_Finalize (Ctx, Message (Last_Block), Last_Length);
+      end if;
+   end Hash_Context;
+
+   ----------------------------------------------------------------------------
+
+   function Hash
+      (Message : Message_Type;
+       Length  : Types.Word64) return SHA256_Hash_Type
+   is
+      Ctx : Context_Type;
+   begin
+      Ctx := SHA256_Context_Init;
+      Hash_Context (Message, Length, Ctx);
+
+      return SHA256_Get_Hash (Ctx);
+   end Hash;
+
 end LSC.SHA256;

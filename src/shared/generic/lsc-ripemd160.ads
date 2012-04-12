@@ -83,9 +83,9 @@ package LSC.RIPEMD160 is
 
    -- Index for RIPEMD-160 message
    --
-   --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 511 bit,
-   --  this makes 2^53 blocks.
-   subtype Message_Index is Types.Word64 range 0 .. 2 ** 53 - 1;
+   --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 512 bit,
+   --  this makes 2^55 blocks.
+   subtype Message_Index is Types.Word64 range 0 .. 2 ** 55 - 1;
 
    -- RIPEMD-160 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
@@ -113,12 +113,20 @@ package LSC.RIPEMD160 is
    -- Return RIPEMD-160 hash from @Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
 
+   procedure Hash_Context
+      (Message : in     Message_Type;
+       Length  : in     Types.Word64;
+       Ctx     : in out Context_Type);
+   --# derives Ctx from Ctx, Message, Length;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+
    -- Compute hash value of @Length@ bits of @Message@.
    function Hash
       (Message : Message_Type;
        Length  : Types.Word64) return Hash_Type;
    --# pre
-   --#    Length <= Message'Length * Types.Word64 (Block_Size);
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
 
    -- Empty block
    Null_Block : constant Block_Type;

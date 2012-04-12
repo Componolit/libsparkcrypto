@@ -90,7 +90,7 @@ package LSC.HMAC_SHA1 is
        Message : SHA1.Message_Type;
        Length  : Types.Word64) return SHA1.Hash_Type;
    --# pre
-   --#    Message'First + (Length / SHA1.Block_Size) in Message'Range;
+   --#    Universal_Integer (Length) <= Message'Length * SHA1.Block_Size;
 
 private
 

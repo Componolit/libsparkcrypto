@@ -80,9 +80,9 @@ package LSC.SHA256 is
 
    -- Index for SHA-256 message
    --
-   -- A SHA-256 message can be at most 2^64 bit long. As one block has 511 bit,
-   -- this makes 2^53 blocks.
-   subtype Message_Index is Types.Word64 range 0 .. 2 ** 53 - 1;
+   -- A SHA-256 message can be at most 2^64 bit long. As one block has 512 bit,
+   -- this makes 2^55 blocks.
+   subtype Message_Index is Types.Word64 range 0 .. 2 ** 55 - 1;
 
    -- SHA-256 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
@@ -110,6 +110,21 @@ package LSC.SHA256 is
 
    -- Return SHA-256 hash from @Context@.
    function SHA256_Get_Hash (Context : Context_Type) return SHA256_Hash_Type;
+
+   procedure Hash_Context
+      (Message : in     Message_Type;
+       Length  : in     Types.Word64;
+       Ctx     : in out Context_Type);
+   --# derives Ctx from Ctx, Message, Length;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+
+   -- Compute hash value of @Length@ bits of @Message@.
+   function Hash
+      (Message : Message_Type;
+       Length  : Types.Word64) return SHA256_Hash_Type;
+   --# pre
+   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
 
    -- Empty block
    Null_Block : constant Block_Type;
