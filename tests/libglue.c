@@ -35,6 +35,9 @@
 #include <err.h>
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
+#include <openssl/crypto.h>
+#include <openssl/bn.h>
+#include <openssl/rsa.h>
 
 static inline void
 Authenticate_Generic
@@ -137,3 +140,70 @@ Authenticate_RMD160
 {
    Authenticate_Generic (EVP_ripemd160(), Key, 64, Message, Message_Length / 8, Digest, 10);
 }
+
+void c_rsa_public_encrypt
+   (unsigned char       *N,
+    unsigned long long   N_Length,
+    unsigned char       *E,
+    unsigned long long   E_Length,
+    const unsigned char *P,
+    unsigned char       *C,
+    unsigned long long  *Result)
+{
+   int rv = -1;
+   RSA *key = RSA_new ();
+   key->n = BN_bin2bn(N, N_Length, key->n);
+   key->e = BN_bin2bn(E, E_Length, key->e);
+
+   rv = RSA_public_encrypt ((int)N_Length, P, C, key, RSA_NO_PADDING);
+   if (rv == -1)
+   {
+       printf ("enc failed!\n");
+       *Result = 1;
+       return;
+   }
+
+   if (rv != N_Length)
+   {
+       printf ("wrong length (%ld vs. %ld)!\n", rv, N_Length);
+       *Result = 2;
+       return;
+   }
+ 
+   *Result = 0;
+};
+
+void c_rsa_private_decrypt
+   (unsigned char       *N,
+    unsigned long long   N_Length,
+    unsigned char       *D,
+    unsigned long long   D_Length,
+    const unsigned char *C,
+    unsigned char       *P,
+    unsigned long long  *Result)
+{
+   int rv = -1;
+   RSA *key = RSA_new ();
+   key->n = BN_bin2bn(N, N_Length, key->n);
+   key->d = BN_bin2bn(D, D_Length, key->d);
+
+   // FIXME: Why is RSA_FLAG_NO_BLINDING needed?
+   key->flags = (key->flags | RSA_FLAG_NO_BLINDING);
+
+   rv = RSA_private_decrypt ((int)N_Length, C, P, key, RSA_NO_PADDING);
+   if (rv == -1)
+   {
+       printf ("dec failed!\n");
+       *Result = 1;
+       return;
+   }
+
+   if (rv != N_Length)
+   {
+       printf ("wrong length (%ld vs. %ld)!\n", rv, N_Length);
+       *Result = 2;
+       return;
+   }
+ 
+   *Result = 0;
+};

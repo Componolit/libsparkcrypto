@@ -147,7 +147,7 @@ package body OpenSSL is
    -- SHA-1
    ----------------------------------------------------------------------------
 
-   procedure SHA1_Context_Init (Context : in out SHA1_Context_Type)
+   procedure SHA1_Context_Init (Context :    out SHA1_Context_Type)
    is
    begin
       OpenSSL.C_SHA1_Init (Context.C_Context'Unrestricted_Access);
@@ -194,7 +194,7 @@ package body OpenSSL is
    -- SHA-256
    ----------------------------------------------------------------------------
 
-   procedure SHA256_Context_Init (Context : in out SHA256_Context_Type)
+   procedure SHA256_Context_Init (Context :    out SHA256_Context_Type)
    is
    begin
       OpenSSL.C_SHA256_Init (Context.C_Context'Unrestricted_Access);
@@ -240,7 +240,7 @@ package body OpenSSL is
    -- SHA-384
    ----------------------------------------------------------------------------
 
-   procedure SHA384_Context_Init (Context : in out SHA384_Context_Type)
+   procedure SHA384_Context_Init (Context :    out SHA384_Context_Type)
    is
    begin
       OpenSSL.C_SHA384_Init (Context.C_Context'Unrestricted_Access);
@@ -286,7 +286,7 @@ package body OpenSSL is
    -- SHA-512
    ----------------------------------------------------------------------------
 
-   procedure SHA512_Context_Init (Context : in out SHA512_Context_Type)
+   procedure SHA512_Context_Init (Context :    out SHA512_Context_Type)
    is
    begin
       OpenSSL.C_SHA512_Init (Context.C_Context'Unrestricted_Access);
@@ -332,7 +332,7 @@ package body OpenSSL is
    -- RIPEMD-160
    ----------------------------------------------------------------------------
 
-   procedure RIPEMD160_Context_Init (Context : in out RIPEMD160_Context_Type)
+   procedure RIPEMD160_Context_Init (Context :    out RIPEMD160_Context_Type)
    is
    begin
       OpenSSL.C_RIPEMD160_Init (Context.C_Context'Unrestricted_Access);
@@ -458,5 +458,49 @@ package body OpenSSL is
          Temp_Digest'Unrestricted_Access);
       return Temp_Digest;
    end Authenticate_RMD160;
+
+   ----------------------------------------------------------------------------
+
+   procedure RSA_Public_Encrypt
+     (M       : in     LSC.Bignum.Big_Int;
+      E       : in     LSC.Bignum.Big_Int;
+      P       : in     LSC.Bignum.Big_Int;
+      C       :    out LSC.Bignum.Big_Int;
+      Success :    out Boolean)
+   is
+      Result : LSC.Types.Word64;
+   begin
+      C_RSA_Public_Encrypt
+        (M        => M'Address,
+         M_Length => LSC.Types.Word64 (4 * M'Length),
+         E        => E'Address,
+         E_Length => LSC.Types.Word64 (4 * E'Length),
+         P        => P'Address,
+         C        => C'Address,
+         Result   => Result'Address);
+      Success := Result = 0;
+   end RSA_Public_Encrypt;
+
+   ----------------------------------------------------------------------------
+
+   procedure RSA_Private_Decrypt
+     (M       : in     LSC.Bignum.Big_Int;
+      D       : in     LSC.Bignum.Big_Int;
+      C       : in     LSC.Bignum.Big_Int;
+      P       :    out LSC.Bignum.Big_Int;
+      Success :    out Boolean)
+   is
+      Result : LSC.Types.Word64;
+   begin
+      C_RSA_Private_Decrypt
+        (M        => M'Address,
+         M_Length => LSC.Types.Word64 (4 * M'Length),
+         D        => D'Address,
+         D_Length => LSC.Types.Word64 (4 * D'Length),
+         C        => C'Address,
+         P        => P'Address,
+         Result   => Result'Address);
+      Success := Result = 0;
+   end RSA_Private_Decrypt;
 
 end OpenSSL;
