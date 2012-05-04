@@ -37,7 +37,9 @@ with LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit LSC.Types;
+--# inherit
+--#   LSC.Types,
+--#   LSC.Byteorder32;
 
 package LSC.Bignum
 is
@@ -81,6 +83,21 @@ is
    --# post
    --#   (for all K in Natural range A_First .. A_Last =>
    --#      (A (K) = B (B_First + (K - A_First))));
+
+   procedure Native_To_BE
+     (A       : in     Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       :    out Big_Int;
+      B_First : in     Natural);
+   --# derives
+   --#   B from A, A_First, A_Last, B_First;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First <= A_Last and
+   --#   B_First in B'Range and
+   --#   B_First + (A_Last - A_First) in B'Range;
 
    procedure Double_Inplace
      (A       : in out Big_Int;

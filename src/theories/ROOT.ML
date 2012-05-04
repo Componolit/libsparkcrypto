@@ -5,6 +5,7 @@ use_thys
    "SHA512_Hash_Context",
    "Initialize",
    "Copy",
+   "Native_To_BE",
    "Word_Of_Boolean",
    "Double_Inplace",
    "Add",

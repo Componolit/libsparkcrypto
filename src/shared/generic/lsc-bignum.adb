@@ -32,6 +32,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with LSC.Byteorder32;
+
 package body LSC.Bignum
 is
 
@@ -72,6 +74,25 @@ is
       end loop;
       --# accept Flow, 602, B, B, "OK";
    end Copy;
+
+   ----------------------------------------------------------------------------
+
+   procedure Native_To_BE
+     (A       : in     Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       :    out Big_Int;
+      B_First : in     Natural)
+   is
+   begin
+      for I in Natural range A_First .. A_Last
+      --# assert True;
+      loop
+         --# accept Flow, 23, B, "Copied between A_First and A_Last";
+         B (B_First + (A_Last - I)) := Byteorder32.Native_To_BE (A (I));
+      end loop;
+      --# accept Flow, 602, B, B, "OK";
+   end Native_To_BE;
 
    ----------------------------------------------------------------------------
 
