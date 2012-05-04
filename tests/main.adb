@@ -50,7 +50,8 @@ with LSC.HMAC_SHA512;
 with LSC.HMAC_SHA384;
 with LSC.HMAC_RIPEMD160;
 with LSC.Bignum;
-with LSC.EC.Signature;
+with LSC.EC;
+with LSC.EC_Signature;
 with SPARKUnit;
 with OpenSSL;
 
@@ -80,7 +81,8 @@ use type LSC.Types.Word64;
 --#    LSC.HMAC_SHA384,
 --#    LSC.HMAC_RIPEMD160,
 --#    LSC.Bignum,
---#    LSC.EC.Signature,
+--#    LSC.EC,
+--#    LSC.EC_Signature,
 --#    SPARKUnit,
 --#    OpenSSL,
 --#    SPARK_IO;

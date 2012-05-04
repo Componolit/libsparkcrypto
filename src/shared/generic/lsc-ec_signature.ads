@@ -33,13 +33,14 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
+with LSC.EC;
 
 --# inherit
 --#   LSC.Types,
 --#   LSC.Bignum,
 --#   LSC.EC;
 
-package LSC.EC.Signature
+package LSC.EC_Signature
 is
 
    type Signature_Type is (ECDSA, ECGDSA);
@@ -133,4 +134,4 @@ is
    --#   Bignum.Base ** (2 * RN'Length) mod
    --#   Bignum.Num_Of_Big_Int (N, N'First, N'Length);
 
-end LSC.EC.Signature;
+end LSC.EC_Signature;

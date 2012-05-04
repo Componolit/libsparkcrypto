@@ -34,7 +34,7 @@
 
 with LSC.Bignum;
 
-package body LSC.EC.Signature
+package body LSC.EC_Signature
 is
 
    procedure Extract
@@ -249,4 +249,4 @@ is
       return Result;
    end Verify;
 
-end LSC.EC.Signature;
+end LSC.EC_Signature;

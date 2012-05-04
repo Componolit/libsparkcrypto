@@ -204,7 +204,7 @@ is
    end Test_ECDH;
 
    function Test_Sign
-     (T   : LSC.EC.Signature.Signature_Type;
+     (T   : LSC.EC_Signature.Signature_Type;
       Bad : Boolean)
      return Boolean
      --# global RP, AM, RQ, P_Inv, Q_Inv;
@@ -239,7 +239,7 @@ is
 
    begin
       case T is
-         when LSC.EC.Signature.ECGDSA =>
+         when LSC.EC_Signature.ECGDSA =>
             LSC.EC.Invert (Priv, H, RQ, Q, Q_Inv);
             LSC.Bignum.Mont_Mult
               (Inv_Priv, Inv_Priv'First, Inv_Priv'Last,
@@ -260,7 +260,7 @@ is
                M        => P,
                M_Inv    => P_Inv);
 
-         when LSC.EC.Signature.ECDSA =>
+         when LSC.EC_Signature.ECDSA =>
             LSC.EC.Point_Mult
               (X1       => Base_X,
                Y1       => Base_Y,
@@ -278,7 +278,7 @@ is
 
       LSC.EC.Make_Affine (X, Y, Z, PubX, PubY, RP, P, P_Inv);
 
-      LSC.EC.Signature.Sign
+      LSC.EC_Signature.Sign
         (Sign1   => Sign1,
          Sign2   => Sign2,
          Hash    => Hash,
@@ -303,7 +303,7 @@ is
       end if;
 
       return Success and then
-        (LSC.EC.Signature.Verify
+        (LSC.EC_Signature.Verify
            (Sign1 => Sign1,
             Sign2 => Sign2,
             Hash  => Hash,
@@ -342,23 +342,23 @@ begin
      (Harness,
       EC_Suite,
       "Good ECDSA signature",
-      Test_Sign (LSC.EC.Signature.ECDSA, False));
+      Test_Sign (LSC.EC_Signature.ECDSA, False));
 
    SPARKUnit.Create_Test
      (Harness,
       EC_Suite,
       "Bad ECDSA signature",
-      Test_Sign (LSC.EC.Signature.ECDSA, True));
+      Test_Sign (LSC.EC_Signature.ECDSA, True));
 
    SPARKUnit.Create_Test
      (Harness,
       EC_Suite,
       "Good ECGDSA signature",
-      Test_Sign (LSC.EC.Signature.ECGDSA, False));
+      Test_Sign (LSC.EC_Signature.ECGDSA, False));
 
    SPARKUnit.Create_Test
      (Harness,
       EC_Suite,
       "Bad ECGDSA signature",
-      Test_Sign (LSC.EC.Signature.ECGDSA, True));
+      Test_Sign (LSC.EC_Signature.ECGDSA, True));
 end EC_Tests;

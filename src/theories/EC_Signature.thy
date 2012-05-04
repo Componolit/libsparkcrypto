@@ -2,7 +2,7 @@ theory EC_Signature
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/ec_/signature/extract.siv" (lsc__ec__signature)
+spark_open "$VCG_DIR/lsc_/ec_signature/extract.siv" (lsc__ec_signature)
 
 spark_vc procedure_extract_3
   using `1 < num_of_big_int n _ _`
@@ -11,7 +11,7 @@ spark_vc procedure_extract_3
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/ec_/signature/sign.siv" (lsc__ec__signature)
+spark_open "$VCG_DIR/lsc_/ec_signature/sign.siv" (lsc__ec_signature)
 
 spark_vc procedure_sign_1
   using `1 < num_of_big_int m _ _`
@@ -40,7 +40,7 @@ spark_vc procedure_sign_17
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/ec_/signature/verify.siv" (lsc__ec__signature)
+spark_open "$VCG_DIR/lsc_/ec_signature/verify.siv" (lsc__ec_signature)
 
 spark_vc function_verify_11
   using `1 < num_of_big_int m _ _`
