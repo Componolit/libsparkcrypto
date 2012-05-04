@@ -50,6 +50,7 @@ with LSC.HMAC_SHA512;
 with LSC.HMAC_SHA384;
 with LSC.HMAC_RIPEMD160;
 with LSC.Bignum;
+with LSC.EC.Signature;
 with SPARKUnit;
 with OpenSSL;
 
@@ -68,6 +69,8 @@ use type LSC.Types.Word64;
 --#    LSC.SHA512,
 --#    LSC.Byteorder32,
 --#    LSC.Byteorder64,
+--#    LSC.Byteswap32,
+--#    LSC.Byteswap64,
 --#    LSC.Types,
 --#    LSC.AES.CBC,
 --#    LSC.RIPEMD160,
@@ -77,7 +80,9 @@ use type LSC.Types.Word64;
 --#    LSC.HMAC_SHA384,
 --#    LSC.HMAC_RIPEMD160,
 --#    LSC.Bignum,
+--#    LSC.EC.Signature,
 --#    SPARKUnit,
+--#    OpenSSL,
 --#    SPARK_IO;
 
 --# main_program;
@@ -253,6 +258,11 @@ is
    --# derives Harness from Harness, Benchmarks;
    is separate;
 
+   procedure EC_Tests
+   --# global Harness;
+   --# derives Harness from Harness;
+   is separate;
+
 begin
 
    SPARKUnit.Create_Harness (Harness, "libsparkcrypto tests");
@@ -288,6 +298,7 @@ begin
    Test_HMAC_SHA512;
    Test_HMAC_RMD160;
    Test_Bignum;
+   EC_Tests;
 
    SPARKUnit.Text_Report (Harness);
 
