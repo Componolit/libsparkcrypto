@@ -39,30 +39,32 @@ is
    SHA256_Context1 : OpenSSL.SHA256_Context_Type;
    SHA256_Context2 : LSC.SHA256.Context_Type;
    H1, H2          : LSC.SHA256.SHA256_Hash_Type;
-   M               : SPARKUnit.Measurement_Type;
+   Measurement     : SPARKUnit.Measurement_Type;
 begin
    Block1  := LSC.SHA256.Block_Type'(others => 16#cafebabe#);
    Block2  := LSC.SHA256.Block_Type'(others => 16#00636261#);
 
-   SPARKUnit.Reference_Start (M);
-   for I in 1 .. 500000
+   SPARKUnit.Reference_Start (Measurement);
+   for I in Natural range 1 .. 500000
+     --# assert True;
    loop
       OpenSSL.SHA256_Context_Init (SHA256_Context1);
       OpenSSL.SHA256_Context_Update (SHA256_Context1, Block1);
       OpenSSL.SHA256_Context_Finalize (SHA256_Context1, Block2, 56);
    end loop;
    H1 := OpenSSL.SHA256_Get_Hash (SHA256_Context1);
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
-   SPARKUnit.Measurement_Start (M);
-   for I in 1 .. 500000
+   SPARKUnit.Measurement_Start (Measurement);
+   for I in Natural range 1 .. 500000
+     --# assert True;
    loop
       SHA256_Context2 := LSC.SHA256.SHA256_Context_Init;
       LSC.SHA256.Context_Update (SHA256_Context2, Block1);
       LSC.SHA256.Context_Finalize (SHA256_Context2, Block2, 56);
    end loop;
    H2 := LSC.SHA256.SHA256_Get_Hash (SHA256_Context2);
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA256", M, H1 = H2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA256", Measurement, H1 = H2);
 end Test_SHA256;

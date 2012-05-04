@@ -35,30 +35,32 @@
 separate (Main)
 procedure Test_HMAC_RMD160
 is
-   Message : OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
+   Message : constant OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
       (others => LSC.RIPEMD160.Block_Type'(others => 16#dead_beef#));
 
-   Key : LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
+   Key : constant LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
       (others => 16#c0deaffe#);
 
    H1 : LSC.RIPEMD160.Hash_Type;
    H2 : LSC.RIPEMD160.Hash_Type;
-   M  : SPARKUnit.Measurement_Type;
+   Measurement : SPARKUnit.Measurement_Type;
 begin
 
-   SPARKUnit.Reference_Start (M);
-   for I in 1 .. 50000
+   SPARKUnit.Reference_Start (Measurement);
+   for I in Natural range 1 .. 50000
+     --# assert True;
    loop
       H1 := OpenSSL.Authenticate_RMD160 (Key, Message, 10000);
    end loop;
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
-   SPARKUnit.Measurement_Start (M);
-   for I in 1 .. 50000
+   SPARKUnit.Measurement_Start (Measurement);
+   for I in Natural range 1 .. 50000
+     --# assert True;
    loop
       H2 := LSC.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
    end loop;
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_RMD160", M, H1 = H2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_RMD160", Measurement, H1 = H2);
 end Test_HMAC_RMD160;

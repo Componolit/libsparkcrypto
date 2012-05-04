@@ -39,30 +39,32 @@ is
    RIPEMD160_Context1 : OpenSSL.RIPEMD160_Context_Type;
    RIPEMD160_Context2 : LSC.RIPEMD160.Context_Type;
    H1, H2             : LSC.RIPEMD160.Hash_Type;
-   M                  : SPARKUnit.Measurement_Type;
+   Measurement        : SPARKUnit.Measurement_Type;
 begin
    Block1  := LSC.RIPEMD160.Block_Type'(others => 16#cafebabe#);
    Block2  := LSC.RIPEMD160.Block_Type'(others => 16#00636261#);
 
-   SPARKUnit.Reference_Start (M);
-   for I in 1 .. 200000
+   SPARKUnit.Reference_Start (Measurement);
+   for I in Natural range 1 .. 200000
+     --# assert True;
    loop
       OpenSSL.RIPEMD160_Context_Init (RIPEMD160_Context1);
       OpenSSL.RIPEMD160_Context_Update (RIPEMD160_Context1, Block1);
       OpenSSL.RIPEMD160_Context_Finalize (RIPEMD160_Context1, Block2, 56);
    end loop;
    H1 := OpenSSL.RIPEMD160_Get_Hash (RIPEMD160_Context1);
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
-   SPARKUnit.Measurement_Start (M);
-   for I in 1 .. 200000
+   SPARKUnit.Measurement_Start (Measurement);
+   for I in Natural range 1 .. 200000
+     --# assert True;
    loop
       RIPEMD160_Context2 := LSC.RIPEMD160.Context_Init;
       LSC.RIPEMD160.Context_Update (RIPEMD160_Context2, Block1);
       LSC.RIPEMD160.Context_Finalize (RIPEMD160_Context2, Block2, 56);
    end loop;
    H2 := LSC.RIPEMD160.Get_Hash (RIPEMD160_Context2);
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "RIPEMD160", M, H1 = H2);
-end;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "RIPEMD160", Measurement, H1 = H2);
+end Test_RIPEMD160;

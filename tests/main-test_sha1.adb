@@ -38,30 +38,32 @@ is
    SHA1_Context1  : OpenSSL.SHA1_Context_Type;
    SHA1_Context2  : LSC.SHA1.Context_Type;
    H1, H2         : LSC.SHA1.Hash_Type;
-   M              : SPARKUnit.Measurement_Type;
+   Measurement    : SPARKUnit.Measurement_Type;
 begin
    Block1 := LSC.SHA1.Block_Type'(others => 16#cafebabe#);
    Block2 := LSC.SHA1.Block_Type'(others => 16#00636261#);
 
-   SPARKUnit.Reference_Start (M);
-   for I in 1 .. 500000
+   SPARKUnit.Reference_Start (Measurement);
+   for I in Natural range 1 .. 500000
+     --# assert True;
    loop
       OpenSSL.SHA1_Context_Init (SHA1_Context1);
       OpenSSL.SHA1_Context_Update (SHA1_Context1, Block1);
       OpenSSL.SHA1_Context_Finalize (SHA1_Context1, Block2, 56);
    end loop;
    H1 := OpenSSL.SHA1_Get_Hash (SHA1_Context1);
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
-   SPARKUnit.Measurement_Start (M);
-   for I in 1 .. 500000
+   SPARKUnit.Measurement_Start (Measurement);
+   for I in Natural range 1 .. 500000
+     --# assert True;
    loop
       SHA1_Context2 := LSC.SHA1.Context_Init;
       LSC.SHA1.Context_Update (SHA1_Context2, Block1);
       LSC.SHA1.Context_Finalize (SHA1_Context2, Block2, 56);
    end loop;
    H2 := LSC.SHA1.Get_Hash (SHA1_Context2);
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA1", M, H1 = H2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA1", Measurement, H1 = H2);
 end Test_SHA1;

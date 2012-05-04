@@ -35,30 +35,32 @@
 separate (Main)
 procedure Test_HMAC_SHA384
 is
-   Message : OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
+   Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
       (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
 
-   Key : LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
+   Key : constant LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
       (others => 16#c0de_affe_cafe_babe#);
 
    H1 : LSC.HMAC_SHA384.Auth_Type;
    H2 : LSC.HMAC_SHA384.Auth_Type;
-   M  : SPARKUnit.Measurement_Type;
+   Measurement : SPARKUnit.Measurement_Type;
 begin
 
-   SPARKUnit.Reference_Start (M);
-   for I in 1 .. 50000
+   SPARKUnit.Reference_Start (Measurement);
+   for I in Natural range 1 .. 50000
+     --# assert True;
    loop
       H1 := OpenSSL.Authenticate_SHA384 (Key, Message, 10000);
    end loop;
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
-   SPARKUnit.Measurement_Start (M);
-   for I in 1 .. 50000
+   SPARKUnit.Measurement_Start (Measurement);
+   for I in Natural range 1 .. 50000
+     --# assert True;
    loop
       H2 := LSC.HMAC_SHA384.Authenticate (Key, Message, 10000);
    end loop;
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_SHA384", M, H1 = H2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_SHA384", Measurement, H1 = H2);
 end Test_HMAC_SHA384;

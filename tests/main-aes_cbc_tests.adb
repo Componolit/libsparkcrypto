@@ -40,7 +40,7 @@ is
 
    AES_CBC_Suite         : SPARKUnit.Index_Type;
    Plaintext, Ciphertext : Msg_Type;
-   Result                : Msg_Type := Msg_Type'(others => LSC.AES.Block_Type'(others => 0));
+   Result                : Msg_Type;
    Key128                : LSC.AES.AES128_Key_Type;
    Key192                : LSC.AES.AES192_Key_Type;
    Key256                : LSC.AES.AES256_Key_Type;
@@ -53,12 +53,13 @@ is
        Right  : Msg_Type;
        Length : Msg_Index) return Boolean
    --# pre
-   --#    Left'First + Length in Msg_Index &
+   --#    Left'First + Length in Msg_Index and
    --#    Right'First + Length in Msg_Index;
    is
       Result : Boolean := True;
    begin
       for I in Msg_Index range Left'First .. Length
+        --# assert True;
       loop
          if Left (I) /= Right (I)
          then

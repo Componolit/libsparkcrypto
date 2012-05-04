@@ -35,13 +35,14 @@
 separate (Main)
 procedure Test_AES256_Encrypt
 is
-   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
+   subtype Message_Index is Natural range 1 .. 100000;
+   type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
 
    Plain, Cipher1, Cipher2 : Message_Type;
    Key256                  : LSC.AES.AES256_Key_Type;
    Context1                : OpenSSL.AES_Enc_Context_Type;
    Context2                : LSC.AES.AES_Enc_Context;
-   M                       : SPARKUnit.Measurement_Type;
+   Measurement             : SPARKUnit.Measurement_Type;
 begin
 
    Plain := Message_Type'
@@ -60,26 +61,37 @@ begin
                                        16#1f1e1d1c#);
 
    Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
-   SPARKUnit.Reference_Start (M);
-   for k in 1 .. 20
+   SPARKUnit.Reference_Start (Measurement);
+   for k in Natural range 1 .. 20
+     --# assert True;
    loop
-      for I in Message_Type'Range
+      for I in Message_Index
+        --# assert True;
       loop
+         --# accept Flow, 23, Cipher1, "completely initialized in loop";
          Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+         --# end accept;
       end loop;
    end loop;
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
    Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
-   SPARKUnit.Measurement_Start (M);
-   for k in 1 .. 20
+   SPARKUnit.Measurement_Start (Measurement);
+   for k in Natural range 1 .. 20
+     --# assert True;
    loop
-      for I in Message_Type'Range
+      for I in Message_Index
+        --# assert True;
       loop
+         --# accept Flow, 23, Cipher2, "completely initialized in loop";
          Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+         --# end accept;
       end loop;
    end loop;
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_ENC", M, Cipher1 = Cipher2);
-end;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_ENC", Measurement, Cipher1 = Cipher2);
+
+   --# accept Flow, 602, Harness, Cipher1, "completely initialized in loop" &
+   --#        Flow, 602, Harness, Cipher2, "completely initialized in loop";
+end Test_AES256_Encrypt;

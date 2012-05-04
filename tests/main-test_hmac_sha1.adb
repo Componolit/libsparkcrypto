@@ -34,29 +34,31 @@
 separate (Main)
 procedure Test_HMAC_SHA1
 is
-   Message : OpenSSL.SHA1_Message_Type := OpenSSL.SHA1_Message_Type'
+   Message : constant OpenSSL.SHA1_Message_Type := OpenSSL.SHA1_Message_Type'
      (others => LSC.SHA1.Block_Type'(others => 16#dead_beef#));
 
-   Key     : LSC.SHA1.Block_Type := LSC.SHA1.Block_Type'(others => 16#c0deaffe#);
+   Key     : constant LSC.SHA1.Block_Type := LSC.SHA1.Block_Type'(others => 16#c0deaffe#);
 
    H1      : LSC.SHA1.Hash_Type;
    H2      : LSC.SHA1.Hash_Type;
-   M       : SPARKUnit.Measurement_Type;
+   Measurement : SPARKUnit.Measurement_Type;
 begin
 
-   SPARKUnit.Reference_Start (M);
-   for I in 1 .. 50000
+   SPARKUnit.Reference_Start (Measurement);
+   for I in Natural range 1 .. 50000
+     --# assert True;
    loop
       H1 := OpenSSL.Authenticate_SHA1 (Key, Message, 10000);
    end loop;
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
-   SPARKUnit.Measurement_Start (M);
-   for I in 1 .. 50000
+   SPARKUnit.Measurement_Start (Measurement);
+   for I in Natural range 1 .. 50000
+     --# assert True;
    loop
       H2 := LSC.HMAC_SHA1.Authenticate (Key, Message, 10000);
    end loop;
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_SHA1", M, H1 = H2);
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_SHA1", Measurement, H1 = H2);
 end Test_HMAC_SHA1;

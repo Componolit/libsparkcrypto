@@ -35,13 +35,14 @@
 separate (Main)
 procedure Test_AES128_Decrypt
 is
-   type Message_Type is array (1 .. 100000) of LSC.AES.Block_Type;
+   subtype Message_Index is Natural range 1 .. 100000;
+   type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
 
    Plain1, Plain2, Cipher  : Message_Type;
    Key128                  : LSC.AES.AES128_Key_Type;
    Context1                : OpenSSL.AES_Dec_Context_Type;
    Context2                : LSC.AES.AES_Dec_Context;
-   M                       : SPARKUnit.Measurement_Type;
+   Measurement             : SPARKUnit.Measurement_Type;
 begin
 
    Cipher := Message_Type'
@@ -56,26 +57,37 @@ begin
                                        16#1f1e1d1c#);
 
    Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
-   SPARKUnit.Reference_Start (M);
-   for k in 1 .. 20
+   SPARKUnit.Reference_Start (Measurement);
+   for k in Natural range 1 .. 20
+     --# assert True;
    loop
-      for I in Message_Type'Range
+      for I in Message_Index
+        --# assert True;
       loop
+         --# accept Flow, 23, Plain1, "completely initialized in loop";
          Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+         --# end accept;
       end loop;
    end loop;
-   SPARKUnit.Reference_Stop (M);
+   SPARKUnit.Reference_Stop (Measurement);
 
    Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
-   SPARKUnit.Measurement_Start (M);
-   for k in 1 .. 20
+   SPARKUnit.Measurement_Start (Measurement);
+   for k in Natural range 1 .. 20
+     --# assert True;
    loop
-      for I in Message_Type'Range
+      for I in Message_Index
+        --# assert True;
       loop
+         --# accept Flow, 23, Plain2, "completely initialized in loop";
          Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+         --# end accept;
       end loop;
    end loop;
-   SPARKUnit.Measurement_Stop (M);
+   SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-128_DEC", M, Plain1 = Plain2);
-end;
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-128_DEC", Measurement, Plain1 = Plain2);
+
+   --# accept Flow, 602, Harness, Plain1, "completely initialized in loop" &
+   --#        Flow, 602, Harness, Plain2, "completely initialized in loop";
+end Test_AES128_Decrypt;
