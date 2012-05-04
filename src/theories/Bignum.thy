@@ -50,6 +50,11 @@ proof -
       power_add setsum_right_distrib add_ac mult_ac)
 qed
 
+lemma num_of_lint_expand:
+  "0 < i \<Longrightarrow> num_of_lint b A l i = A l + b * num_of_lint b A (l + 1) (i - 1)"
+  using num_of_lint_sum [of 1 "i - 1"]
+  by simp
+
 lemma num_of_lint_upper:
   assumes A: "\<forall>j\<in>{l..<l+i}. A j < b" and "0 \<le> b"
   shows "num_of_lint b A l i < b ^ nat i"
