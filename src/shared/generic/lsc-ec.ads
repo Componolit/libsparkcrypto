@@ -237,6 +237,11 @@ is
    --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
    --#   1 < Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
    --#   1 + M_Inv * M (M'First) = 0;
+   --# post
+   --#   Bignum.Num_Of_Big_Int (X2, X2'First, X2'Length) <
+   --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
+   --#   Bignum.Num_Of_Big_Int (Y2, Y2'First, Y2'Length) <
+   --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
 
    procedure Invert
      (A     : in     Coord;
