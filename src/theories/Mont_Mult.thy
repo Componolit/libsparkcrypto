@@ -75,7 +75,7 @@ proof -
     by (simp add: add_commute [of "- 1"] del: arith_simps)
   also from `1 < B` have "\<dots> = 1"
     by (simp add: zdiv_zminus1_eq_if div_pos_pos_trivial
-      mod_pos_pos_trivial del: arith_simps) simp
+      mod_pos_pos_trivial del: arith_simps)
   finally show ?thesis using `1 < B` `0 \<le> lcarry'` `lcarry' < B`
     by (simp add: div_pos_pos_trivial)
 qed
@@ -327,7 +327,7 @@ proof -
   let ?R = "Base ^ nat (a_last - a_first + 1)"
   note sub = `?a - ?m = _`
   note invariant1 = `(?a + _) mod ?m = _`
-  note invariant2 = `?a + _ < _`
+  note invariant2 = `?a + ?R * a_msw < 2 * ?m - 1`
 
   from `bounds _ _ _ _ a`
     `a__index__subtype__1__first \<le> a_first`
@@ -363,7 +363,8 @@ proof -
     have "?a_4 = (?a + ?R * a_msw - ?m) mod ?R"
       by (simp add: mod_pos_pos_trivial)
     also from False `0 \<le> a_msw` have "1 \<le> a_msw" by simp
-    then have "?R * 1 \<le> ?R * a_msw" by (rule mult_left_mono) simp
+    with `?m < ?R` have "?m * 1 < ?R * a_msw" using `0 \<le> ?m`
+      by (rule mult_less_le_imp_less) simp_all
     with invariant2 a_bounds m_bounds
     have "(?a + ?R * a_msw - ?m) mod ?R = (?a + ?R * a_msw - ?m) mod ?m"
       by (simp add: mod_pos_pos_trivial del: zmod_zsub_self)

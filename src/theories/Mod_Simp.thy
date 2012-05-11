@@ -100,7 +100,7 @@ fun pull_mod rng cmod cm ct =
 fun pull_mod_proc _ ss ct = (case term_of ct of
     Const (@{const_name mod}, Type (_, [T, _])) $ u $ m =>
       let val rng = Sign.of_sort
-        (ProofContext.theory_of (Simplifier.the_context ss))
+        (Proof_Context.theory_of (Simplifier.the_context ss))
         (T, @{sort ring})
       in
         if has_mod rng m u then

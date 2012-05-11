@@ -285,8 +285,7 @@ next
   proof (cases x rule: bin_exhaust)
     case (1 y b)
     then have "(x AND 2 ^ Suc n = 0) = (y AND 2 ^ n = 0)"
-      by (simp add: Bit_mult2 del: BIT_B0_eq_Bit0)
-        (simp add: Bit0_def [of "y AND 2 ^ n"])
+      by (simp add: Bit_mult2) (simp add: Bit_B0)
     moreover have "bitval b div 2 = (0::int)"
       by (cases b) simp_all
     ultimately show ?thesis using Suc 1
