@@ -37,39 +37,54 @@ procedure EC_Tests
 is
    EC_Suite : SPARKUnit.Index_Type;
 
-   -- brainpoolP320r1 curve, see RFC 5639
+   subtype Coord_Index is Natural range 0 .. 16;
+   subtype Coord is LSC.Bignum.Big_Int (Coord_Index);
 
-   P : constant LSC.EC.Coord := LSC.EC.Coord'
-     (16#F1B32E27#, 16#FCD412B1#, 16#7893EC28#, 16#4F92B9EC#, 16#F6F40DEF#,
-      16#F98FCFA6#, 16#D201E065#, 16#E13C785E#, 16#36BC4FB7#, 16#D35E4720#);
+   -- 521-bit elliptic curve, see RFC 4753 / 4754
+
+   P : constant Coord := Coord'
+     (16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#000001FF#);
    --# for P declare Rule;
 
-   A : constant LSC.EC.Coord := LSC.EC.Coord'
-     (16#7D860EB4#, 16#92F375A9#, 16#85FFA9F4#, 16#66190EB0#, 16#F5EB79DA#,
-      16#A2A73513#, 16#6D3F3BB8#, 16#83CCEBD4#, 16#8FBAB0F8#, 16#3EE30B56#);
+   A : constant Coord := Coord'
+     (16#FFFFFFFC#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#000001FF#);
    --# for A declare Rule;
 
-   B : constant LSC.EC.Coord := LSC.EC.Coord'
-     (16#8FB1F1A6#, 16#6F5EB4AC#, 16#88453981#, 16#CC31DCCD#, 16#9554B49A#,
-      16#E13F4134#, 16#40688A6F#, 16#D3AD1986#, 16#9DFDBC42#, 16#52088394#);
+   B : constant Coord := Coord'
+     (16#6B503F00#, 16#EF451FD4#, 16#3D2C34F1#, 16#3573DF88#, 16#3BB1BF07#,
+      16#1652C0BD#, 16#EC7E937B#, 16#56193951#, 16#8EF109E1#, 16#B8B48991#,
+      16#99B315F3#, 16#A2DA725B#, 16#B68540EE#, 16#929A21A0#, 16#8E1C9A1F#,
+      16#953EB961#, 16#00000051#);
    --# for B declare Rule;
 
-   Base_X : constant LSC.EC.Coord := LSC.EC.Coord'
-     (16#39E20611#, 16#10AF8D0D#, 16#10A599C7#, 16#E7871E2A#, 16#0A087EB6#,
-      16#F20137D1#, 16#8EE5BFE6#, 16#5289BCC4#, 16#FB53D8B8#, 16#43BD7E9A#);
+   Base_X : constant Coord := Coord'
+     (16#C2E5BD66#, 16#F97E7E31#, 16#856A429B#, 16#3348B3C1#, 16#A2FFA8DE#,
+      16#FE1DC127#, 16#EFE75928#, 16#A14B5E77#, 16#6B4D3DBA#, 16#F828AF60#,
+      16#053FB521#, 16#9C648139#, 16#2395B442#, 16#9E3ECB66#, 16#0404E9CD#,
+      16#858E06B7#, 16#000000C6#);
    --# for Base_X declare Rule;
 
-   Base_Y : constant LSC.EC.Coord := LSC.EC.Coord'
-     (16#692E8EE1#, 16#D35245D1#, 16#AAAC6AC7#, 16#A9C77877#, 16#117182EA#,
-      16#0743FFED#, 16#7F77275E#, 16#AB409324#, 16#45EC1CC8#, 16#14FDD055#);
+   Base_Y : constant Coord := Coord'
+     (16#9FD16650#, 16#88BE9476#, 16#A272C240#, 16#353C7086#, 16#3FAD0761#,
+      16#C550B901#, 16#5EF42640#, 16#97EE7299#, 16#273E662C#, 16#17AFBD17#,
+      16#579B4468#, 16#98F54449#, 16#2C7D1BD9#, 16#5C8A5FB4#, 16#9A3BC004#,
+      16#39296A78#, 16#00000118#);
    --# for Base_Y declare Rule;
 
-   Q : constant LSC.EC.Coord := LSC.EC.Coord'
-     (16#44C59311#, 16#8691555B#, 16#EE8658E9#, 16#2D482EC7#, 16#B68F12A3#,
-      16#F98FCFA5#, 16#D201E065#, 16#E13C785E#, 16#36BC4FB7#, 16#D35E4720#);
+   Q : constant Coord := Coord'
+     (16#91386409#, 16#BB6FB71E#, 16#899C47AE#, 16#3BB5C9B8#, 16#F709A5D0#,
+      16#7FCC0148#, 16#BF2F966B#, 16#51868783#, 16#FFFFFFFA#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#000001FF#);
    --# for Q declare Rule;
 
-   RP, AM, BM, RQ : LSC.EC.Coord;
+   RP, AM, BM, RQ : Coord;
 
    P_Inv, Q_Inv : LSC.Types.Word32;
 
@@ -106,6 +121,8 @@ is
          P, P'First, P_Inv);
    end Precompute_Values;
 
+   -- See RFC 4753 (section 8.3) for test values
+
    function Test_ECDH return Boolean
      --# global RP, AM, P_Inv;
      --# pre
@@ -116,92 +133,160 @@ is
      --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
      --#   1 + P_Inv * P (P'First) = 0;
    is
-      Priv : constant LSC.EC.Coord := LSC.EC.Coord'
-        (16#A5D0E7B7#, 16#AD14B697#, 16#8EF3F5F4#, 16#4BEA7AF1#, 16#E772756D#,
-         16#EAD256BE#, 16#5F344272#, 16#751B292C#, 16#26EF6D7A#, 16#2A246489#);
+      Priv : constant Coord := Coord'
+        (16#382D4A52#, 16#68C27A57#, 16#B072462F#, 16#7B2639BA#, 16#9777F595#,
+         16#71D937BA#, 16#C2952C67#, 16#85A30FE1#, 16#72A095AA#, 16#CE476081#,
+         16#57B5393D#, 16#3C61ACAB#, 16#ACCCA512#, 16#B3EF411A#, 16#89F4DABD#,
+         16#ADE9319A#, 16#00000037#);
 
-      Priv_Other : constant LSC.EC.Coord := LSC.EC.Coord'
-        (16#F070603C#, 16#AFCD48B7#, 16#F0AE9E9D#, 16#7A7301D8#, 16#BE35942D#,
-         16#59BF3301#, 16#3666553B#, 16#A18BF603#, 16#04E60104#, 16#0E584D8A#);
+      Priv_Other : constant Coord := Coord'
+        (16#51685EB9#, 16#311F5CB1#, 16#A4A4EFFC#, 16#CCA7458A#, 16#E4C2F869#,
+         16#BF2A3163#, 16#3757A3BD#, 16#7D600B34#, 16#201E9C67#, 16#3F078380#,
+         16#0F97BCCC#, 16#E30FDC78#, 16#7CDFA16B#, 16#DD0E872E#, 16#AF43793F#,
+         16#BA99A847#, 16#00000145#);
 
-      Pub_X, Pub_Y, Pub_Other_X, Pub_Other_Y : LSC.EC.Coord;
-      Shared_X, Shared_Y, Shared_Other_X, Shared_Other_Y : LSC.EC.Coord;
+      Shared_Expected_X : constant Coord := Coord'
+        (16#19F3DDEA#, 16#E417996D#, 16#3151F2BE#, 16#15A3A8CC#, 16#0C06B3C7#,
+         16#78685981#, 16#AA240A34#, 16#7E73CA4B#, 16#9B04D142#, 16#E5E6B2D7#,
+         16#07F97894#, 16#086FA644#, 16#7C4521CB#, 16#DB8E7C78#, 16#6956BC8E#,
+         16#4C7D79AE#, 16#00000114#);
 
-      X, Y, Z : LSC.EC.Coord;
+      Shared_Expected_Y : constant Coord := Coord'
+        (16#9BAFFA43#, 16#8569D6C9#, 16#E0BDD1F8#, 16#E8DA1B38#, 16#0C3EB622#,
+         16#E5B3A8E5#, 16#EDB1E13C#, 16#3C63EA05#, 16#ADAA9FFC#, 16#5D1B5242#,
+         16#18D078E0#, 16#CFE59CDA#, 16#1C1674E5#, 16#17D853EF#, 16#B2947AC0#,
+         16#01E6B17D#, 16#000001B9#);
+
+      Pub_X, Pub_Y, Pub_Other_X, Pub_Other_Y : Coord;
+      Shared_X, Shared_Y, Shared_Other_X, Shared_Other_Y : Coord;
+
+      X, Y, Z : Coord;
 
    begin
       -- Compute public values from secrets
 
       LSC.EC.Point_Mult
         (X1       => Base_X,
+         X1_First => Base_X'First,
+         X1_Last  => Base_X'Last,
          Y1       => Base_Y,
+         Y1_First => Base_Y'First,
          Z1       => LSC.EC.One,
+         Z1_First => LSC.EC.One'First,
          E        => Priv,
          E_First  => Priv'First,
          E_Last   => Priv'Last,
          X2       => X,
+         X2_First => X'First,
          Y2       => Y,
+         Y2_First => Y'First,
          Z2       => Z,
+         Z2_First => Z'First,
          A        => AM,
+         A_First  => AM'First,
          M        => P,
+         M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine (X, Y, Z, Pub_X, Pub_Y, RP, P, P_Inv);
+      LSC.EC.Make_Affine
+        (X, X'First, X'Last, Y, Y'First, Z, Z'First,
+         Pub_X, Pub_X'First, Pub_Y, Pub_Y'First,
+         RP, RP'First, P, P'First, P_Inv);
 
       LSC.EC.Point_Mult
         (X1       => Base_X,
+         X1_First => Base_X'First,
+         X1_Last  => Base_X'Last,
          Y1       => Base_Y,
+         Y1_First => Base_Y'First,
          Z1       => LSC.EC.One,
+         Z1_First => LSC.EC.One'First,
          E        => Priv_Other,
          E_First  => Priv_Other'First,
          E_Last   => Priv_Other'Last,
          X2       => X,
+         X2_First => X'First,
          Y2       => Y,
+         Y2_First => Y'First,
          Z2       => Z,
+         Z2_First => Z'First,
          A        => AM,
+         A_First  => AM'First,
          M        => P,
+         M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine (X, Y, Z, Pub_Other_X, Pub_Other_Y, RP, P, P_Inv);
+      LSC.EC.Make_Affine
+        (X, X'First, X'Last, Y, Y'First, Z, Z'First,
+         Pub_Other_X, Pub_Other_X'First, Pub_Other_Y, Pub_Other_Y'First,
+         RP, RP'First, P, P'First, P_Inv);
 
       -- Now compute shared secret
 
       LSC.EC.Point_Mult
         (X1       => Pub_Other_X,
+         X1_First => Pub_Other_X'First,
+         X1_Last  => Pub_Other_X'Last,
          Y1       => Pub_Other_Y,
+         Y1_First => Pub_Other_Y'First,
          Z1       => LSC.EC.One,
+         Z1_First => LSC.EC.One'First,
          E        => Priv,
          E_First  => Priv'First,
          E_Last   => Priv'Last,
          X2       => X,
+         X2_First => X'First,
          Y2       => Y,
+         Y2_First => Y'First,
          Z2       => Z,
+         Z2_First => Z'First,
          A        => AM,
+         A_First  => AM'First,
          M        => P,
+         M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine (X, Y, Z, Shared_X, Shared_Y, RP, P, P_Inv);
+      LSC.EC.Make_Affine
+        (X, X'First, X'Last, Y, Y'First, Z, Z'First,
+         Shared_X, Shared_X'First, Shared_Y, Shared_Y'First,
+         RP, RP'First, P, P'First, P_Inv);
 
       LSC.EC.Point_Mult
         (X1       => Pub_X,
+         X1_First => Pub_X'First,
+         X1_Last  => Pub_X'Last,
          Y1       => Pub_Y,
+         Y1_First => Pub_Y'First,
          Z1       => LSC.EC.One,
+         Z1_First => LSC.EC.One'First,
          E        => Priv_Other,
          E_First  => Priv_Other'First,
          E_Last   => Priv_Other'Last,
          X2       => X,
+         X2_First => X'First,
          Y2       => Y,
+         Y2_First => Y'First,
          Z2       => Z,
+         Z2_First => Z'First,
          A        => AM,
+         A_First  => AM'First,
          M        => P,
+         M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine (X, Y, Z, Shared_Other_X, Shared_Other_Y, RP, P, P_Inv);
+      LSC.EC.Make_Affine
+        (X, X'First, X'Last, Y, Y'First, Z, Z'First,
+         Shared_Other_X, Shared_Other_X'First, Shared_Other_Y, Shared_Other_Y'First,
+         RP, RP'First, P, P'First, P_Inv);
 
       -- Check if shared secrets are equal
 
-      return Shared_X = Shared_Other_X and then Shared_Y = Shared_Other_Y;
+      return
+        Shared_X = Shared_Other_X and then Shared_Y = Shared_Other_Y and then
+        Shared_X = Shared_Expected_X and then Shared_Y = Shared_Expected_Y;
    end Test_ECDH;
+
+   -- See RFC 4754 (section 8.3) for test values
 
    function Test_Sign
      (T   : LSC.EC_Signature.Signature_Type;
@@ -220,27 +305,49 @@ is
      --#   1 + P_Inv * P (P'First) = 0 and
      --#   1 + Q_Inv * Q (Q'First) = 0;
    is
-      Hash : constant LSC.EC.Coord := LSC.EC.Coord'
-        (16#23242526#, 16#1F202122#, 16#1B1C1D1E#, 16#1718191A#, 16#13141516#,
-         16#0F101112#, 16#0B0C0D0E#, 16#0708090A#, 16#03040506#, 16#00000102#);
+      Hash : constant Coord := Coord'
+        (16#A54CA49F#, 16#2A9AC94F#, 16#643CE80E#, 16#454D4423#, 16#A3FEEBBD#,
+         16#36BA3C23#, 16#274FC1A8#, 16#2192992A#, 16#4B55D39A#, 16#0A9EEEE6#,
+         16#89A97EA2#, 16#12E6FA4E#, 16#AE204131#, 16#CC417349#, 16#93617ABA#,
+         16#DDAF35A1#, 16#00000000#);
       --# for Hash declare Rule;
 
-      Priv : constant LSC.EC.Coord := LSC.EC.Coord'
-        (16#DEADBEEF#, 16#CAFEBABE#, 16#AFFEAFFE#, 16#F000B000#, 16#AFFEAFFE#,
-         16#CAFEBABE#, 16#DEADBEEF#, 16#BAFBAFBA#, 16#BABBABBA#, 16#A0000000#);
+      Priv : constant Coord := Coord'
+        (16#8B375FA1#, 16#C5B153B4#, 16#0C5D5481#, 16#62E95C7E#, 16#0FFAD6F0#,
+         16#ADF78B57#, 16#7FF9D704#, 16#7779060A#, 16#84912059#, 16#209D7DF5#,
+         16#34BDF8C1#, 16#13C17BFD#, 16#5112A3D8#, 16#0EAD4549#, 16#51DCAB0A#,
+         16#FDA34094#, 16#00000065#);
 
-      Rand : constant LSC.EC.Coord := LSC.EC.Coord'
-        (16#2A903BE9#, 16#DDF3DBCF#, 16#97B066DD#, 16#3EFDEF2F#, 16#DE51A1B0#,
-         16#9CAF863D#, 16#C8B5C5E7#, 16#B1D0426A#, 16#6624EF2C#, 16#77277D9B#);
+      Rand : constant Coord := Coord'
+        (16#1B956C2F#, 16#0B1B7F0C#, 16#C3378A54#, 16#BD7382CF#, 16#42F9B4A4#,
+         16#825FF24F#, 16#6497B1EF#, 16#78F9DE6B#, 16#46F93737#, 16#42B8B62F#,
+         16#7A9B2443#, 16#96F55619#, 16#933D7340#, 16#4D7E4359#, 16#9F5A4134#,
+         16#C2B30541#, 16#000000C1#);
 
-      Inv_Priv, PubX, PubY, Sign1, Sign2, X, Y, Z, H : LSC.EC.Coord;
+      -- RFC 4754 only specifies expected results for ECDSA
+
+      Sign1_Expected : constant Coord := Coord'
+        (16#20552251#, 16#ACEE5443#, 16#D9362CAE#, 16#0ED7DBB8#, 16#4A927888#,
+         16#D93CF879#, 16#0B22C269#, 16#2F281A7E#, 16#4339B19F#, 16#B68E2E6F#,
+         16#8FC6AAAA#, 16#34FDE831#, 16#30539885#, 16#7DD5341D#, 16#92D0DCA5#,
+         16#FD3836AF#, 16#00000154#);
+
+      Sign2_Expected : constant Coord := Coord'
+        (16#66472660#, 16#C68D62F8#, 16#51AE01AA#, 16#9E70AAC8#, 16#9534FA50#,
+         16#BF2F3D23#, 16#D1CF9BCC#, 16#67101F67#, 16#2DF49753#, 16#8C10C836#,
+         16#96EC926C#, 16#521E87A6#, 16#03FF9CDD#, 16#05A9A1BB#, 16#90D1CEB6#,
+         16#05A70302#, 16#00000177#);
+
+      Inv_Priv, PubX, PubY, Sign1, Sign2, X, Y, Z, H : Coord;
 
       Success : Boolean;
 
    begin
       case T is
          when LSC.EC_Signature.ECGDSA =>
-            LSC.EC.Invert (Priv, H, RQ, Q, Q_Inv);
+            LSC.EC.Invert
+              (Priv, Priv'First, Priv'Last, H, H'First,
+               RQ, RQ'First, Q, Q'First, Q_Inv);
             LSC.Bignum.Mont_Mult
               (Inv_Priv, Inv_Priv'First, Inv_Priv'Last,
                H, H'First, LSC.EC.One, LSC.EC.One'First,
@@ -248,53 +355,87 @@ is
 
             LSC.EC.Point_Mult
               (X1       => Base_X,
+               X1_First => Base_X'First,
+               X1_Last  => Base_X'Last,
                Y1       => Base_Y,
+               Y1_First => Base_Y'First,
                Z1       => LSC.EC.One,
+               Z1_First => LSC.EC.One'First,
                E        => Inv_Priv,
                E_First  => Inv_Priv'First,
                E_Last   => Inv_Priv'Last,
                X2       => X,
+               X2_First => X'First,
                Y2       => Y,
+               Y2_First => Y'First,
                Z2       => Z,
+               Z2_First => Z'First,
                A        => AM,
+               A_First  => AM'First,
                M        => P,
+               M_First  => P'First,
                M_Inv    => P_Inv);
 
          when LSC.EC_Signature.ECDSA =>
             LSC.EC.Point_Mult
               (X1       => Base_X,
+               X1_First => Base_X'First,
+               X1_Last  => Base_X'Last,
                Y1       => Base_Y,
+               Y1_First => Base_Y'First,
                Z1       => LSC.EC.One,
+               Z1_First => LSC.EC.One'First,
                E        => Priv,
                E_First  => Priv'First,
                E_Last   => Priv'Last,
                X2       => X,
+               X2_First => X'First,
                Y2       => Y,
+               Y2_First => Y'First,
                Z2       => Z,
+               Z2_First => Z'First,
                A        => AM,
+               A_First  => AM'First,
                M        => P,
+               M_First  => P'First,
                M_Inv    => P_Inv);
       end case;
 
-      LSC.EC.Make_Affine (X, Y, Z, PubX, PubY, RP, P, P_Inv);
+      LSC.EC.Make_Affine
+        (X, X'First, X'Last, Y, Y'First, Z, Z'First,
+         PubX, PubX'First, PubY, PubY'First,
+         RP, RP'First, P, P'First, P_Inv);
 
       LSC.EC_Signature.Sign
-        (Sign1   => Sign1,
-         Sign2   => Sign2,
-         Hash    => Hash,
-         Rand    => Rand,
-         T       => T,
-         Priv    => Priv,
-         BX      => Base_X,
-         BY      => Base_Y,
-         A       => AM,
-         M       => P,
-         M_Inv   => P_Inv,
-         RM      => RP,
-         N       => Q,
-         N_Inv   => Q_Inv,
-         RN      => RQ,
-         Success => Success);
+        (Sign1       => Sign1,
+         Sign1_First => Sign1'First,
+         Sign1_Last  => Sign1'Last,
+         Sign2       => Sign2,
+         Sign2_First => Sign2'First,
+         Hash        => Hash,
+         Hash_First  => Hash'First,
+         Rand        => Rand,
+         Rand_First  => Rand'First,
+         T           => T,
+         Priv        => Priv,
+         Priv_First  => Priv'First,
+         BX          => Base_X,
+         BX_First    => Base_X'First,
+         BY          => Base_Y,
+         BY_First    => Base_Y'First,
+         A           => AM,
+         A_First     => AM'First,
+         M           => P,
+         M_First     => P'First,
+         M_Inv       => P_Inv,
+         RM          => RP,
+         RM_First    => RP'First,
+         N           => Q,
+         N_First     => Q'First,
+         N_Inv       => Q_Inv,
+         RN          => RQ,
+         RN_First    => RQ'First,
+         Success     => Success);
 
       -- Check if signature manipulation is detected
 
@@ -302,23 +443,39 @@ is
          Sign1 (5) := 12345;
       end if;
 
-      return Success and then
+      return
+        Success and then
+        (Bad or else T = LSC.EC_Signature.ECGDSA or else
+           (Sign1 = Sign1_Expected and then Sign2 = Sign2_Expected)) and then
         (LSC.EC_Signature.Verify
-           (Sign1 => Sign1,
-            Sign2 => Sign2,
-            Hash  => Hash,
-            T     => T,
-            PubX  => PubX,
-            PubY  => PubY,
-            BX    => Base_X,
-            BY    => Base_Y,
-            A     => AM,
-            M     => P,
-            M_Inv => P_Inv,
-            RM    => RP,
-            N     => Q,
-            N_Inv => Q_Inv,
-            RN    => RQ) xor Bad);
+           (Sign1       => Sign1,
+            Sign1_First => Sign1'First,
+            Sign1_Last  => Sign1'Last,
+            Sign2       => Sign2,
+            Sign2_First => Sign2'First,
+            Hash        => Hash,
+            Hash_First  => Hash'First,
+            T           => T,
+            PubX        => PubX,
+            PubX_First  => PubX'First,
+            PubY        => PubY,
+            PubY_First  => PubY'First,
+            BX          => Base_X,
+            BX_First    => Base_X'First,
+            BY          => Base_Y,
+            BY_First    => Base_Y'First,
+            A           => AM,
+            A_First     => AM'First,
+            M           => P,
+            M_First     => P'First,
+            M_Inv       => P_Inv,
+            RM          => RP,
+            RM_First    => RP'First,
+            N           => Q,
+            N_First     => Q'First,
+            N_Inv       => Q_Inv,
+            RN          => RQ,
+            RN_First    => RQ'First) xor Bad);
    end Test_Sign;
 
 begin
@@ -330,7 +487,9 @@ begin
      (Harness,
       EC_Suite,
       "Check if base point is on curve",
-      LSC.EC.On_Curve (Base_X, Base_Y, AM, BM, RP, P, P_Inv));
+      LSC.EC.On_Curve
+        (Base_X, Base_X'First, Base_X'Last, Base_Y, Base_Y'First,
+         AM, AM'First, BM, BM'First, RP, RP'First, P, P'First, P_Inv));
 
    SPARKUnit.Create_Test
      (Harness,

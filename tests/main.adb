@@ -59,6 +59,7 @@ use type LSC.AES.Block_Type;
 use type LSC.AES.Message_Type;
 use type LSC.SHA512.SHA512_Hash_Type;
 use type LSC.Bignum.Big_Int;
+use type LSC.EC_Signature.Signature_Type;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
