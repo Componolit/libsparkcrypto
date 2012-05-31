@@ -36,234 +36,263 @@ package body LSC.EC
 is
 
    procedure Point_Double
-     (X1       : in     Coord;
-      Y1       : in     Coord;
-      Z1       : in     Coord;
-      X2       :    out Coord;
-      Y2       :    out Coord;
-      Z2       :    out Coord;
-      A        : in     Coord;
-      M        : in     Coord;
+     (X1       : in     Bignum.Big_Int;
+      X1_First : in     Natural;
+      X1_Last  : in     Natural;
+      Y1       : in     Bignum.Big_Int;
+      Y1_First : in     Natural;
+      Z1       : in     Bignum.Big_Int;
+      Z1_First : in     Natural;
+      X2       :    out Bignum.Big_Int;
+      X2_First : in     Natural;
+      Y2       :    out Bignum.Big_Int;
+      Y2_First : in     Natural;
+      Z2       :    out Bignum.Big_Int;
+      Z2_First : in     Natural;
+      A        : in     Bignum.Big_Int;
+      A_First  : in     Natural;
+      M        : in     Bignum.Big_Int;
+      M_First  : in     Natural;
       M_Inv    : in     Types.Word32)
    is
+      L : Natural;
       H1, H2, H3, H4, H5, H6 : Coord;
    begin
-      if Bignum.Is_Zero (Z1, Z1'First, Z1'Last) then
-         Bignum.Initialize (X2, X2'First, X2'Last);
-         Bignum.Initialize (Y2, Y2'First, Y2'Last);
-         Bignum.Initialize (Z2, Z2'First, Z2'Last);
+      L := X1_Last - X1_First;
+
+      if Bignum.Is_Zero (Z1, Z1_First, Z1_First + L) then
+         Bignum.Initialize (X2, X2_First, X2_First + L);
+         Bignum.Initialize (Y2, Y2_First, Y2_First + L);
+         Bignum.Initialize (Z2, Z2_First, Z2_First + L);
 
       else
          Bignum.Mod_Add
-           (H1, H1'First, H1'Last, Y1, Y1'First, Y1, Y1'First,
-            M, M'First);
+           (H1, H1'First, H1'First + L, Y1, Y1_First, Y1, Y1_First,
+            M, M_First);
 
          Bignum.Mont_Mult
-           (H2, H2'First, H2'Last, H1, H1'First, Z1, Z1'First,
-            M, M'First, M_Inv);
+           (H2, H2'First, H2'First + L, H1, H1'First, Z1, Z1_First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Add
-           (H3, H3'First, H3'Last, X1, X1'First, X1, X1'First,
-            M, M'First);
+           (H3, H3'First, H3'First + L, X1, X1_First, X1, X1_First,
+            M, M_First);
 
          Bignum.Mod_Add_Inplace
-           (H3, H3'First, H3'Last, X1, X1'First, M, M'First);
+           (H3, H3'First, H3'First + L, X1, X1_First, M, M_First);
 
          Bignum.Mont_Mult
-           (H1, H1'First, H1'Last, H3, H3'First, X1, X1'First,
-            M, M'First, M_Inv);
+           (H1, H1'First, H1'First + L, H3, H3'First, X1, X1_First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (H4, H4'First, H4'Last, A, A'First, Z1, Z1'First,
-            M, M'First, M_Inv);
+           (H4, H4'First, H4'First + L, A, A_First, Z1, Z1_First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (H3, H3'First, H3'Last, H4, H4'First, Z1, Z1'First,
-            M, M'First, M_Inv);
+           (H3, H3'First, H3'First + L, H4, H4'First, Z1, Z1_First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Add_Inplace
-           (H1, H1'First, H1'Last, H3, H3'First, M, M'First);
+           (H1, H1'First, H1'First + L, H3, H3'First, M, M_First);
 
          Bignum.Mod_Sub_Inplace
-           (H1, H1'First, H1'Last, M, M'First, M, M'First);
+           (H1, H1'First, H1'First + L, M, M_First, M, M_First);
 
          Bignum.Mont_Mult
-           (H4, H4'First, H4'Last, Y1, Y1'First, H2, H2'First,
-            M, M'First, M_Inv);
+           (H4, H4'First, H4'First + L, Y1, Y1_First, H2, H2'First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Add
-           (H6, H6'First, H6'Last, X1, X1'First, X1, X1'First,
-            M, M'First);
+           (H6, H6'First, H6'First + L, X1, X1_First, X1, X1_First,
+            M, M_First);
 
          Bignum.Mont_Mult
-           (H5, H5'First, H5'Last, H6, H6'First, H4, H4'First,
-            M, M'First, M_Inv);
+           (H5, H5'First, H5'First + L, H6, H6'First, H4, H4'First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (H6, H6'First, H6'Last, H1, H1'First, H1, H1'First,
-            M, M'First, M_Inv);
+           (H6, H6'First, H6'First + L, H1, H1'First, H1, H1'First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Sub_Inplace
-           (H6, H6'First, H6'Last, H5, H5'First, M, M'First);
+           (H6, H6'First, H6'First + L, H5, H5'First, M, M_First);
 
          Bignum.Mod_Sub_Inplace
-           (H6, H6'First, H6'Last, H5, H5'First, M, M'First);
+           (H6, H6'First, H6'First + L, H5, H5'First, M, M_First);
 
          Bignum.Mont_Mult
-           (X2, X2'First, H3'Last, H6, H6'First, H2, H2'First,
-            M, M'First, M_Inv);
+           (X2, X2_First, X2_First + L, H6, H6'First, H2, H2'First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Sub
-           (H3, H3'First, H3'Last, H5, H5'First, H6, H6'First,
-            M, M'First);
+           (H3, H3'First, H3'First + L, H5, H5'First, H6, H6'First,
+            M, M_First);
 
          Bignum.Mont_Mult
-           (Y2, Y2'First, Y2'Last, H3, H3'First, H1, H1'First,
-            M, M'First, M_Inv);
+           (Y2, Y2_First, Y2_First + L, H3, H3'First, H1, H1'First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Add
-           (H3, H3'First, H3'Last, H4, H4'First, H4, H4'First,
-            M, M'First);
+           (H3, H3'First, H3'First + L, H4, H4'First, H4, H4'First,
+            M, M_First);
 
          Bignum.Mont_Mult
-           (H1, H1'First, H1'Last, H3, H3'First, H4, H4'First,
-            M, M'First, M_Inv);
+           (H1, H1'First, H1'First + L, H3, H3'First, H4, H4'First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Sub_Inplace
-           (Y2, Y2'First, Y2'Last, H1, H1'First, M, M'First);
+           (Y2, Y2_First, Y2_First + L, H1, H1'First, M, M_First);
 
          Bignum.Mont_Mult
-           (H3, H3'First, H3'Last, H2, H2'First, H2, H2'First,
-            M, M'First, M_Inv);
+           (H3, H3'First, H3'First + L, H2, H2'First, H2, H2'First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (Z2, Z2'First, Z2'Last, H3, H3'First, H2, H2'First,
-            M, M'First, M_Inv);
+           (Z2, Z2_First, Z2_First + L, H3, H3'First, H2, H2'First,
+            M, M_First, M_Inv);
       end if;
-
    end Point_Double;
 
    ----------------------------------------------------------------------------
 
    procedure Point_Add
-     (X1       : in     Coord;
-      Y1       : in     Coord;
-      Z1       : in     Coord;
-      X2       : in     Coord;
-      Y2       : in     Coord;
-      Z2       : in     Coord;
-      X3       :    out Coord;
-      Y3       :    out Coord;
-      Z3       :    out Coord;
-      A        : in     Coord;
-      M        : in     Coord;
+     (X1       : in     Bignum.Big_Int;
+      X1_First : in     Natural;
+      X1_Last  : in     Natural;
+      Y1       : in     Bignum.Big_Int;
+      Y1_First : in     Natural;
+      Z1       : in     Bignum.Big_Int;
+      Z1_First : in     Natural;
+      X2       : in     Bignum.Big_Int;
+      X2_First : in     Natural;
+      Y2       : in     Bignum.Big_Int;
+      Y2_First : in     Natural;
+      Z2       : in     Bignum.Big_Int;
+      Z2_First : in     Natural;
+      X3       :    out Bignum.Big_Int;
+      X3_First : in     Natural;
+      Y3       :    out Bignum.Big_Int;
+      Y3_First : in     Natural;
+      Z3       :    out Bignum.Big_Int;
+      Z3_First : in     Natural;
+      A        : in     Bignum.Big_Int;
+      A_First  : in     Natural;
+      M        : in     Bignum.Big_Int;
+      M_First  : in     Natural;
       M_Inv    : in     Types.Word32)
    is
-      H1, H2, H3, H4, H5, H6, H7, H8 : Coord;
+      L : Natural;
+      H1, H2, H3, H4, H5, H6, H7, H8, H9 : Coord;
    begin
-      if Bignum.Is_Zero (Z1, Z1'First, Z1'Last) then
-         Bignum.Copy (X2, X2'First, X2'Last, X3, X3'First);
-         Bignum.Copy (Y2, Y2'First, Y2'Last, Y3, Y3'First);
-         Bignum.Copy (Z2, Z2'First, Z2'Last, Z3, Z3'First);
+      L := X1_Last - X1_First;
 
-      elsif Bignum.Is_Zero (Z2, Z2'First, Z2'Last) then
-         Bignum.Copy (X1, X1'First, X1'Last, X3, X3'First);
-         Bignum.Copy (Y1, Y1'First, Y1'Last, Y3, Y3'First);
-         Bignum.Copy (Z1, Z1'First, Z1'Last, Z3, Z3'First);
+      if Bignum.Is_Zero (Z1, Z1_First, Z1_First + L) then
+         Bignum.Copy (X2, X2_First, X2_First + L, X3, X3_First);
+         Bignum.Copy (Y2, Y2_First, Y2_First + L, Y3, Y3_First);
+         Bignum.Copy (Z2, Z2_First, Z2_First + L, Z3, Z3_First);
+
+      elsif Bignum.Is_Zero (Z2, Z2_First, Z2_First + L) then
+         Bignum.Copy (X1, X1_First, X1_Last, X3, X3_First);
+         Bignum.Copy (Y1, Y1_First, Y1_First + L, Y3, Y3_First);
+         Bignum.Copy (Z1, Z1_First, Z1_First + L, Z3, Z3_First);
 
       else
          Bignum.Mont_Mult
-           (H1, H1'First, H1'Last, X2, X2'First, Z1, Z1'First,
-            M, M'First, M_Inv);
+           (H1, H1'First, H1'First + L, X2, X2_First, Z1, Z1_First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (H2, H2'First, H2'Last, X1, X1'First, Z2, Z2'First,
-            M, M'First, M_Inv);
+           (H2, H2'First, H2'First + L, X1, X1_First, Z2, Z2_First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (H3, H3'First, H3'Last, Y2, Y2'First, Z1, Z1'First,
-            M, M'First, M_Inv);
+           (H3, H3'First, H3'First + L, Y2, Y2_First, Z1, Z1_First,
+            M, M_First, M_Inv);
 
          Bignum.Mont_Mult
-           (H4, H4'First, H4'Last, Y1, Y1'First, Z2, Z2'First,
-            M, M'First, M_Inv);
+           (H4, H4'First, H4'First + L, Y1, Y1_First, Z2, Z2_First,
+            M, M_First, M_Inv);
 
          Bignum.Mod_Sub
-           (H5, H5'First, H5'Last, H1, H1'First, H2, H2'First,
-            M, M'First);
+           (H5, H5'First, H5'First + L, H1, H1'First, H2, H2'First,
+            M, M_First);
 
          Bignum.Mod_Sub
-           (H6, H6'First, H6'Last, H3, H3'First, H4, H4'First,
-            M, M'First);
+           (H6, H6'First, H6'First + L, H3, H3'First, H4, H4'First,
+            M, M_First);
 
-         if Bignum.Is_Zero (H5, H5'First, H5'Last) then
-            if Bignum.Is_Zero (H6, H6'First, H6'Last) then
-               Point_Double (X1, Y1, Z1, X3, Y3, Z3, A, M, M_Inv);
+         if Bignum.Is_Zero (H5, H5'First, H5'First + L) then
+            if Bignum.Is_Zero (H6, H6'First, H6'First + L) then
+               Point_Double
+                 (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+                  X3, X3_First, Y3, Y3_First, Z3, Z3_First,
+                  A, A_First, M, M_First, M_Inv);
 
             else
-               Bignum.Initialize (X3, X3'First, X3'Last);
-               Bignum.Initialize (Y3, Y3'First, Y3'Last);
-               Bignum.Initialize (Z3, Z3'First, Z3'Last);
+               Bignum.Initialize (X3, X3_First, X3_First + L);
+               Bignum.Initialize (Y3, Y3_First, Y3_First + L);
+               Bignum.Initialize (Z3, Z3_First, Z3_First + L);
             end if;
 
          else
             Bignum.Mont_Mult
-              (H7, H7'First, H7'Last, Z1, Z1'First, Z2, Z2'First,
-               M, M'First, M_Inv);
+              (H7, H7'First, H7'First + L, Z1, Z1_First, Z2, Z2_First,
+               M, M_First, M_Inv);
 
             Bignum.Mod_Add
-              (H8, H8'First, H8'Last, H1, H1'First, H2, H2'First,
-               M, M'First);
+              (H8, H8'First, H8'First + L, H1, H1'First, H2, H2'First,
+               M, M_First);
 
             Bignum.Mont_Mult
-              (H3, H3'First, H3'Last, H5, H5'First, H5, H5'First,
-               M, M'First, M_Inv);
+              (H3, H3'First, H3'First + L, H5, H5'First, H5, H5'First,
+               M, M_First, M_Inv);
 
             Bignum.Mont_Mult
-              (H1, H1'First, H1'Last, H2, H2'First, H3, H3'First,
-               M, M'First, M_Inv);
+              (H1, H1'First, H1'First + L, H2, H2'First, H3, H3'First,
+               M, M_First, M_Inv);
 
             Bignum.Mont_Mult
-              (H2, H2'First, H2'Last, H8, H8'First, H3, H3'First,
-               M, M'First, M_Inv);
+              (H2, H2'First, H2'First + L, H8, H8'First, H3, H3'First,
+               M, M_First, M_Inv);
 
             Bignum.Mont_Mult
-              (H8, H8'First, H8'Last, H3, H3'First, H5, H5'First,
-               M, M'First, M_Inv);
+              (H8, H8'First, H8'First + L, H3, H3'First, H5, H5'First,
+               M, M_First, M_Inv);
 
             Bignum.Mont_Mult
-              (X3, X3'First, X3'Last, H6, H6'First, H6, H6'First,
-               M, M'First, M_Inv);
+              (H9, H9'First, H9'First + L, H6, H6'First, H6, H6'First,
+               M, M_First, M_Inv);
 
             Bignum.Mont_Mult
-              (H3, H3'First, H3'Last, X3, X3'First, H7, H7'First,
-               M, M'First, M_Inv);
+              (H3, H3'First, H3'First + L, H9, H9'First, H7, H7'First,
+               M, M_First, M_Inv);
 
             Bignum.Mod_Sub_Inplace
-              (H3, H3'First, H3'Last, H2, H2'First, M, M'First);
+              (H3, H3'First, H3'First + L, H2, H2'First, M, M_First);
 
             Bignum.Mont_Mult
-              (X3, X3'First, X3'Last, H5, H5'First, H3, H3'First,
-               M, M'First, M_Inv);
+              (X3, X3_First, X3_First + L, H5, H5'First, H3, H3'First,
+               M, M_First, M_Inv);
 
             Bignum.Mod_Sub_Inplace
-              (H1, H1'First, H1'Last, H3, H3'First, M, M'First);
+              (H1, H1'First, H1'First + L, H3, H3'First, M, M_First);
 
             Bignum.Mont_Mult
-              (H2, H2'First, H2'Last, H1, H1'First, H6, H6'First,
-               M, M'First, M_Inv);
+              (H2, H2'First, H2'First + L, H1, H1'First, H6, H6'First,
+               M, M_First, M_Inv);
 
             Bignum.Mont_Mult
-              (H1, H1'First, H1'Last, H8, H8'First, H4, H4'First,
-               M, M'First, M_Inv);
+              (H1, H1'First, H1'First + L, H8, H8'First, H4, H4'First,
+               M, M_First, M_Inv);
 
             Bignum.Mod_Sub
-              (Y3, Y3'First, Y3'Last, H2, H2'First, H1, H1'First,
-               M, M'First);
+              (Y3, Y3_First, Y3_First + L, H2, H2'First, H1, H1'First,
+               M, M_First);
 
             Bignum.Mont_Mult
-              (Z3, Z3'First, Z3'Last, H8, H8'First, H7, H7'First,
-               M, M'First, M_Inv);
+              (Z3, Z3_First, Z3_First + L, H8, H8'First, H7, H7'First,
+               M, M_First, M_Inv);
          end if;
       end if;
    end Point_Add;
@@ -271,64 +300,82 @@ is
    ----------------------------------------------------------------------------
 
    procedure Point_Mult
-     (X1       : in     Coord;
-      Y1       : in     Coord;
-      Z1       : in     Coord;
+     (X1       : in     Bignum.Big_Int;
+      X1_First : in     Natural;
+      X1_Last  : in     Natural;
+      Y1       : in     Bignum.Big_Int;
+      Y1_First : in     Natural;
+      Z1       : in     Bignum.Big_Int;
+      Z1_First : in     Natural;
       E        : in     Bignum.Big_Int;
       E_First  : in     Natural;
       E_Last   : in     Natural;
-      X2       :    out Coord;
-      Y2       :    out Coord;
-      Z2       :    out Coord;
-      A        : in     Coord;
-      M        : in     Coord;
+      X2       :    out Bignum.Big_Int;
+      X2_First : in     Natural;
+      Y2       :    out Bignum.Big_Int;
+      Y2_First : in     Natural;
+      Z2       :    out Bignum.Big_Int;
+      Z2_First : in     Natural;
+      A        : in     Bignum.Big_Int;
+      A_First  : in     Natural;
+      M        : in     Bignum.Big_Int;
+      M_First  : in     Natural;
       M_Inv    : in     Types.Word32)
    is
+      L : Natural;
       X3, Y3, Z3 : Coord;
    begin
-      Bignum.Initialize (X2, X2'First, X2'Last);
-      Bignum.Initialize (Y2, Y2'First, Y2'Last);
-      Bignum.Initialize (Z2, Z2'First, Z2'Last);
+      L := X1_Last - X1_First;
+
+      Bignum.Initialize (X2, X2_First, X2_First + L);
+      Bignum.Initialize (Y2, Y2_First, Y2_First + L);
+      Bignum.Initialize (Z2, Z2_First, Z2_First + L);
 
       for I in reverse Natural range E_First .. E_Last
       --# assert
-      --#   Bignum.Num_Of_Big_Int (X2, X2'First, X2'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (Y2, Y2'First, Y2'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (Z2, Z2'First, Z2'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
+      --#   L = X1_Last - X1_First and
+      --#   Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
       loop
          for J in reverse Natural range 0 .. 31
          --# assert
-         --#   Bignum.Num_Of_Big_Int (X2, X2'First, X2'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (Y2, Y2'First, Y2'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (Z2, Z2'First, Z2'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
+         --#   L = X1_Last - X1_First and
+         --#   Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
          loop
-            Point_Double (X2, Y2, Z2, X3, Y3, Z3, A, M, M_Inv);
+            Point_Double
+              (X2, X2_First, X2_First + L, Y2, Y2_First, Z2, Z2_First,
+               X3, X3'First, Y3, Y3'First, Z3, Z3'First,
+               A, A_First, M, M_First, M_Inv);
 
             if (E (I) and 2 ** J) /= 0 then
                Point_Add
-                 (X1 => X3, Y1 => Y3, Z1 => Z3,
-                  X2 => X1, Y2 => Y1, Z2 => Z1,
-                  X3 => X2, Y3 => Y2, Z3 => Z2,
-                  A => A, M => M, M_Inv => M_Inv);
+                 (X3, X3'First, X3'First + L, Y3, Y3'First, Z3, Z3'First,
+                  X1, X1_First, Y1, Y1_First, Z1, Z1_First,
+                  X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+                  A, A_First, M, M_First, M_Inv);
             else
-               Bignum.Copy (X3, X3'First, X3'Last, X2, X2'First);
-               Bignum.Copy (Y3, Y3'First, Y3'Last, Y2, Y2'First);
-               Bignum.Copy (Z3, Z3'First, Z3'Last, Z2, Z2'First);
+               Bignum.Copy (X3, X3'First, X3'First + L, X2, X2_First);
+               Bignum.Copy (Y3, Y3'First, Y3'First + L, Y2, Y2_First);
+               Bignum.Copy (Z3, Z3'First, Z3'First + L, Z2, Z2_First);
             end if;
 
             --# assert
-            --#   Bignum.Num_Of_Big_Int (X2, X2'First, X2'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (Y2, Y2'First, Y2'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (Z2, Z2'First, Z2'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
+            --#   L = X1_Last - X1_First and
+            --#   Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
          end loop;
       end loop;
    end Point_Mult;
@@ -336,107 +383,128 @@ is
    ----------------------------------------------------------------------------
 
    procedure Two_Point_Mult
-     (X1       : in     Coord;
-      Y1       : in     Coord;
-      Z1       : in     Coord;
+     (X1       : in     Bignum.Big_Int;
+      X1_First : in     Natural;
+      X1_Last  : in     Natural;
+      Y1       : in     Bignum.Big_Int;
+      Y1_First : in     Natural;
+      Z1       : in     Bignum.Big_Int;
+      Z1_First : in     Natural;
       E1       : in     Bignum.Big_Int;
       E1_First : in     Natural;
       E1_Last  : in     Natural;
-      X2       : in     Coord;
-      Y2       : in     Coord;
-      Z2       : in     Coord;
+      X2       : in     Bignum.Big_Int;
+      X2_First : in     Natural;
+      Y2       : in     Bignum.Big_Int;
+      Y2_First : in     Natural;
+      Z2       : in     Bignum.Big_Int;
+      Z2_First : in     Natural;
       E2       : in     Bignum.Big_Int;
       E2_First : in     Natural;
-      X3       :    out Coord;
-      Y3       :    out Coord;
-      Z3       :    out Coord;
-      A        : in     Coord;
-      M        : in     Coord;
+      X3       :    out Bignum.Big_Int;
+      X3_First : in     Natural;
+      Y3       :    out Bignum.Big_Int;
+      Y3_First : in     Natural;
+      Z3       :    out Bignum.Big_Int;
+      Z3_First : in     Natural;
+      A        : in     Bignum.Big_Int;
+      A_First  : in     Natural;
+      M        : in     Bignum.Big_Int;
+      M_First  : in     Natural;
       M_Inv    : in     Types.Word32)
    is
+      L : Natural;
       X4, Y4, Z4, X5, Y5, Z5 : Coord;
    begin
-      Point_Add
-        (X1 => X1, Y1 => Y1, Z1 => Z1,
-         X2 => X2, Y2 => Y2, Z2 => Z2,
-         X3 => X5, Y3 => Y5, Z3 => Z5,
-         A => A, M => M, M_Inv => M_Inv);
+      L := X1_Last - X1_First;
 
-      Bignum.Initialize (X3, X3'First, X3'Last);
-      Bignum.Initialize (Y3, Y3'First, Y3'Last);
-      Bignum.Initialize (Z3, Z3'First, Z3'Last);
+      Point_Add
+        (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+         X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+         X5, X5'First, Y5, Y5'First, Z5, Z5'First,
+         A, A_First, M, M_First, M_Inv);
+
+      Bignum.Initialize (X3, X3_First, X3_First + L);
+      Bignum.Initialize (Y3, Y3_First, Y3_First + L);
+      Bignum.Initialize (Z3, Z3_First, Z3_First + L);
 
       for I in reverse Natural range E1_First .. E1_Last
       --# assert
-      --#   Bignum.Num_Of_Big_Int (X3, X3'First, X3'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (Y3, Y3'First, Y3'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (Z3, Z3'First, Z3'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (X5, X5'First, X5'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, Y5'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-      --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, Z5'Length) <
-      --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
+      --#   L = X1_Last - X1_First and
+      --#   Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
+      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
       loop
          for J in reverse Natural range 0 .. 31
          --# assert
-         --#   Bignum.Num_Of_Big_Int (X3, X3'First, X3'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (Y3, Y3'First, Y3'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (Z3, Z3'First, Z3'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (X5, X5'First, X5'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, Y5'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-         --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, Z5'Length) <
-         --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
+         --#   L = X1_Last - X1_First and
+         --#   Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
+         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
          loop
-            Point_Double (X3, Y3, Z3, X4, Y4, Z4, A, M, M_Inv);
+            Point_Double
+              (X3, X3_First, X3_First + L, Y3, Y3_First, Z3, Z3_First,
+               X4, X4'First, Y4, Y4'First, Z4, Z4'First,
+               A, A_First, M, M_First, M_Inv);
 
             if (E1 (I) and 2 ** J) /= 0 then
                if (E2 (E2_First + (I - E1_First)) and 2 ** J) /= 0 then
                   Point_Add
-                    (X1 => X4, Y1 => Y4, Z1 => Z4,
-                     X2 => X5, Y2 => Y5, Z2 => Z5,
-                     X3 => X3, Y3 => Y3, Z3 => Z3,
-                     A => A, M => M, M_Inv => M_Inv);
+                    (X4, X4'First, X4'First + L, Y4, Y4'First, Z4, Z4'First,
+                     X5, X5'First, Y5, Y5'First, Z5, Z5'First,
+                     X3, X3_First, Y3, Y3_First, Z3, Z3_First,
+                     A, A_First, M, M_First, M_Inv);
                else
                   Point_Add
-                    (X1 => X4, Y1 => Y4, Z1 => Z4,
-                     X2 => X1, Y2 => Y1, Z2 => Z1,
-                     X3 => X3, Y3 => Y3, Z3 => Z3,
-                     A => A, M => M, M_Inv => M_Inv);
+                    (X4, X4'First, X4'First + L, Y4, Y4'First, Z4, Z4'First,
+                     X1, X1_First, Y1, Y1_First, Z1, Z1_First,
+                     X3, X3_First, Y3, Y3_First, Z3, Z3_First,
+                     A, A_First, M, M_First, M_Inv);
                end if;
             elsif (E2 (E2_First + (I - E1_First)) and 2 ** J) /= 0 then
                Point_Add
-                 (X1 => X4, Y1 => Y4, Z1 => Z4,
-                  X2 => X2, Y2 => Y2, Z2 => Z2,
-                  X3 => X3, Y3 => Y3, Z3 => Z3,
-                  A => A, M => M, M_Inv => M_Inv);
+                 (X4, X4'First, X4'First + L, Y4, Y4'First, Z4, Z4'First,
+                  X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+                  X3, X3_First, Y3, Y3_First, Z3, Z3_First,
+                  A, A_First, M, M_First, M_Inv);
             else
-               Bignum.Copy (X4, X4'First, X4'Last, X3, X3'First);
-               Bignum.Copy (Y4, Y4'First, Y4'Last, Y3, Y3'First);
-               Bignum.Copy (Z4, Z4'First, Z4'Last, Z3, Z3'First);
+               Bignum.Copy (X4, X4'First, X4'First + L, X3, X3_First);
+               Bignum.Copy (Y4, Y4'First, Y4'First + L, Y3, Y3_First);
+               Bignum.Copy (Z4, Z4'First, Z4'First + L, Z3, Z3_First);
             end if;
 
             --# assert
-            --#   Bignum.Num_Of_Big_Int (X3, X3'First, X3'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (Y3, Y3'First, Y3'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (Z3, Z3'First, Z3'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (X5, X5'First, X5'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, Y5'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length) and
-            --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, Z5'Length) <
-            --#   Bignum.Num_Of_Big_Int (M, M'First, M'Length);
+            --#   L = X1_Last - X1_First and
+            --#   Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
+            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
          end loop;
       end loop;
    end Two_Point_Mult;
@@ -444,18 +512,26 @@ is
    ----------------------------------------------------------------------------
 
    procedure Invert
-     (A     : in     Coord;
-      B     :    out Coord;
-      R     : in     Coord;
-      M     : in     Coord;
-      M_Inv : in     Types.Word32)
+     (A       : in     Bignum.Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       :    out Bignum.Big_Int;
+      B_First : in     Natural;
+      R       : in     Bignum.Big_Int;
+      R_First : in     Natural;
+      M       : in     Bignum.Big_Int;
+      M_First : in     Natural;
+      M_Inv   : in     Types.Word32)
    is
+      L : Natural;
       Two : constant Coord := Coord'(2, others => 0);
       E, H1, H2, H3, H4 : Coord;
       Carry : Boolean;
    begin
+      L := A_Last - A_First;
+
       --# accept Flow, 10, Carry, "Carry not needed here";
-      Bignum.Sub (E, E'First, E'Last, M, M'First, Two, Two'First, Carry);
+      Bignum.Sub (E, E'First, E'First + L, M, M_First, Two, Two'First, Carry);
       --# end accept;
 
       --# accept Flow, 10, H1, "auxiliary variable" &
@@ -464,14 +540,14 @@ is
       Bignum.Mont_Exp
         (A          => H4,
          A_First    => H4'First,
-         A_Last     => H4'Last,
+         A_Last     => H4'First + L,
          X          => A,
-         X_First    => A'First,
+         X_First    => A_First,
          E          => E,
          E_First    => E'First,
-         E_Last     => E'Last,
+         E_Last     => E'First + L,
          M          => M,
-         M_First    => M'First,
+         M_First    => M_First,
          Aux1       => H1,
          Aux1_First => H1'First,
          Aux2       => H2,
@@ -479,13 +555,13 @@ is
          Aux3       => H3,
          Aux3_First => H3'First,
          R          => R,
-         R_First    => R'First,
+         R_First    => R_First,
          M_Inv      => M_Inv);
       --# end accept;
 
       Bignum.Mont_Mult
-        (B, B'First, B'Last, H4, H4'First, R, R'First,
-         M, M'First, M_Inv);
+        (B, B_First, B_First + L, H4, H4'First, R, R_First,
+         M, M_First, M_Inv);
 
       --# accept Flow, 33, Carry, "Carry not needed here" &
       --#        Flow, 33, H1, "auxiliary variable" &
@@ -496,72 +572,95 @@ is
    ----------------------------------------------------------------------------
 
    procedure Make_Affine
-     (X1      : in     Coord;
-      Y1      : in     Coord;
-      Z1      : in     Coord;
-      X2      :    out Coord;
-      Y2      :    out Coord;
-      R       : in     Coord;
-      M       : in     Coord;
-      M_Inv   : in     Types.Word32)
+     (X1       : in     Bignum.Big_Int;
+      X1_First : in     Natural;
+      X1_Last  : in     Natural;
+      Y1       : in     Bignum.Big_Int;
+      Y1_First : in     Natural;
+      Z1       : in     Bignum.Big_Int;
+      Z1_First : in     Natural;
+      X2       :    out Bignum.Big_Int;
+      X2_First : in     Natural;
+      Y2       :    out Bignum.Big_Int;
+      Y2_First : in     Natural;
+      R        : in     Bignum.Big_Int;
+      R_First  : in     Natural;
+      M        : in     Bignum.Big_Int;
+      M_First  : in     Natural;
+      M_Inv    : in     Types.Word32)
    is
+      L : Natural;
       H : Coord;
    begin
-      Invert (Z1, H, R, M, M_Inv);
+      L := X1_Last - X1_First;
+
+      Invert
+        (Z1, Z1_First, Z1_First + L, H, H'First,
+         R, R_First, M, M_First, M_Inv);
 
       Bignum.Mont_Mult
-        (X2, X2'First, X2'Last, X1, X1'First, H, H'First,
-         M, M'First, M_Inv);
+        (X2, X2_First, X2_First + L, X1, X1_First, H, H'First,
+         M, M_First, M_Inv);
 
       Bignum.Mont_Mult
-        (Y2, Y2'First, Y2'Last, Y1, Y1'First, H, H'First,
-         M, M'First, M_Inv);
+        (Y2, Y2_First, Y2_First + L, Y1, Y1_First, H, H'First,
+         M, M_First, M_Inv);
    end Make_Affine;
 
    ----------------------------------------------------------------------------
 
    function On_Curve
-     (X     : Coord;
-      Y     : Coord;
-      A     : Coord;
-      B     : Coord;
-      R     : Coord;
-      M     : Coord;
+     (X       : Bignum.Big_Int;
+      X_First : Natural;
+      X_Last  : Natural;
+      Y       : Bignum.Big_Int;
+      Y_First : Natural;
+      A       : Bignum.Big_Int;
+      A_First : Natural;
+      B       : Bignum.Big_Int;
+      B_First : Natural;
+      R       : Bignum.Big_Int;
+      R_First : Natural;
+      M       : Bignum.Big_Int;
+      M_First : Natural;
       M_Inv : Types.Word32)
      return Boolean
    is
+      L : Natural;
       H1, H2, H3, H4 : Coord;
    begin
-      Bignum.Mont_Mult
-        (H3, H3'First, H3'Last, Y, Y'First, R, R'First,
-         M, M'First, M_Inv);
+      L := X_Last - X_First;
 
       Bignum.Mont_Mult
-        (H1, H1'First, H1'Last, H3, H3'First, H3, H3'First,
-         M, M'First, M_Inv);
+        (H3, H3'First, H3'First + L, Y, Y_First, R, R_First,
+         M, M_First, M_Inv);
 
       Bignum.Mont_Mult
-        (H2, H2'First, H2'Last, X, X'First, R, R'First,
-         M, M'First, M_Inv);
+        (H1, H1'First, H1'First + L, H3, H3'First, H3, H3'First,
+         M, M_First, M_Inv);
 
       Bignum.Mont_Mult
-        (H3, H3'First, H3'Last, H2, H2'First, H2, H2'First,
-         M, M'First, M_Inv);
+        (H2, H2'First, H2'First + L, X, X_First, R, R_First,
+         M, M_First, M_Inv);
+
+      Bignum.Mont_Mult
+        (H3, H3'First, H3'First + L, H2, H2'First, H2, H2'First,
+         M, M_First, M_Inv);
 
       Bignum.Mod_Add_Inplace
-        (H3, H3'First, H3'Last, A, A'First, M, M'First);
+        (H3, H3'First, H3'First + L, A, A_First, M, M_First);
 
       Bignum.Mont_Mult
-        (H4, H4'First, H4'Last, H3, H3'First, H2, H2'First,
-         M, M'First, M_Inv);
+        (H4, H4'First, H4'First + L, H3, H3'First, H2, H2'First,
+         M, M_First, M_Inv);
 
       Bignum.Mod_Sub_Inplace
-        (H1, H1'First, H1'Last, H4, H4'First, M, M'First);
+        (H1, H1'First, H1'First + L, H4, H4'First, M, M_First);
 
       Bignum.Mod_Sub_Inplace
-        (H1, H1'First, H1'Last, B, B'First, M, M'First);
+        (H1, H1'First, H1'First + L, B, B_First, M, M_First);
 
-      return Bignum.Is_Zero (H1, H1'First, H1'Last);
+      return Bignum.Is_Zero (H1, H1'First, H1'First + L);
    end On_Curve;
 
 end LSC.EC;

@@ -21,4 +21,5 @@ use_thys
    "Mont_Exp",
    "Point_Add",
    "Point_Mult",
+   "Make_Affine",
    "EC_Signature"];
