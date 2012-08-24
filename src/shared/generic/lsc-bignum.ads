@@ -114,6 +114,21 @@ is
    --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
    --#   Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
+   procedure SHR_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      K       : in     Natural);
+   --# derives A from A, A_First, A_Last, K;
+   --# pre
+   --#   A_First in A'Range and
+   --#   A_Last in A'Range and
+   --#   A_First <= A_Last and
+   --#   K <= 32;
+   --# post
+   --#   Num_Of_Big_Int (A~, A_First, A_Last - A_First + 1) / 2 ** K =
+   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1);
+
    procedure Add_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;

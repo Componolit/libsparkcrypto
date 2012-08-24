@@ -145,6 +145,39 @@ is
 
    ----------------------------------------------------------------------------
 
+   procedure SHR_Inplace
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      K       : in     Natural)
+   is
+      H1, H2 : Types.Word32;
+   begin
+      H1 := 0;
+
+      for I in reverse Natural range A_First .. A_Last
+      --# assert
+      --#   Num_Of_Big_Int (A~, I + 1, A_Last - I) =
+      --#   Num_Of_Big_Int (A, I + 1, A_Last - I) * 2 ** K +
+      --#   Universal_Integer (H1) mod 2 ** K and
+      --#   (for all J in Natural range A_First .. I =>
+      --#      (A (J) = A~ (J)));
+      loop
+         H2 := A (I);
+         A (I) := Types.SHR32 (A (I), K) + Types.SHL32 (H1, 32 - K);
+         H1 := H2;
+
+      --# assert
+      --#   Num_Of_Big_Int (A~, (I - 1) + 1, A_Last - (I - 1)) =
+      --#   Num_Of_Big_Int (A, (I - 1) + 1, A_Last - (I - 1)) * 2 ** K +
+      --#   Universal_Integer (H1) mod 2 ** K and
+      --#   (for all J in Natural range A_First .. I - 1 =>
+      --#      (A (J) = A~ (J)));
+      end loop;
+   end SHR_Inplace;
+
+   ----------------------------------------------------------------------------
+
    procedure Add_Inplace
      (A       : in out Big_Int;
       A_First : in     Natural;
