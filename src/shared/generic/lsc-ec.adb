@@ -663,4 +663,97 @@ is
       return Bignum.Is_Zero (H1, H1'First, H1'First + L);
    end On_Curve;
 
+   ----------------------------------------------------------------------------
+
+   procedure Uncompress_Point
+     (X       : in     Bignum.Big_Int;
+      X_First : in     Natural;
+      X_Last  : in     Natural;
+      Even    : in     Boolean;
+      A       : in     Bignum.Big_Int;
+      A_First : in     Natural;
+      B       : in     Bignum.Big_Int;
+      B_First : in     Natural;
+      R       : in     Bignum.Big_Int;
+      R_First : in     Natural;
+      M       : in     Bignum.Big_Int;
+      M_First : in     Natural;
+      M_Inv   : in     Types.Word32;
+      Y       :    out Bignum.Big_Int;
+      Y_First : in     Natural;
+      Success :    out Boolean)
+   is
+      L : Natural;
+      H1, H2, H3, H4, H5, H6 : Coord;
+      Carry : Boolean;
+   begin
+      L := X_Last - X_First;
+
+      Bignum.Mont_Mult
+        (H1, H1'First, H1'First + L, X, X_First, R, R_First,
+         M, M_First, M_Inv);
+
+      Bignum.Mont_Mult
+        (H2, H2'First, H2'First + L, H1, H1'First, H1, H1'First,
+         M, M_First, M_Inv);
+
+      Bignum.Mod_Add_Inplace
+        (H2, H2'First, H2'First + L, A, A_First, M, M_First);
+
+      Bignum.Mont_Mult
+        (H3, H3'First, H3'First + L, H2, H2'First, H1, H1'First,
+         M, M_First, M_Inv);
+
+      Bignum.Mod_Add_Inplace
+        (H3, H3'First, H3'First + L, B, B_First, M, M_First);
+
+      Bignum.Mont_Mult
+        (H1, H1'First, H1'First + L, H3, H3'First, One, One'First,
+         M, M_First, M_Inv);
+
+      --# accept Flow, 10, Carry, "not needed here";
+      Bignum.Add
+        (H2, H2'First, H2'First + L, M, M_First, One, One'First, Carry);
+      --# end accept;
+
+      Bignum.SHR_Inplace (H2, H2'First, H2'First + L, 2);
+
+      --# accept Flow, 10, H4, "auxiliary variable" &
+      --#        Flow, 10, H5, "auxiliary variable" &
+      --#        Flow, 10, H6, "auxiliary variable";
+      Bignum.Mont_Exp
+        (H3, H3'First, H3'First + L,
+         H1, H1'First, H2, H2'First, H2'First + L,
+         M, M_First,
+         H4, H4'First, H5, H5'First, H6, H6'First,
+         R, R_First, M_Inv);
+      --# end accept;
+
+      if
+        Bignum.Is_Zero (H3, H3'First, H3'First + L) or else
+        (H3 (H3'First) mod 2 = 0) = Even
+      then
+         Bignum.Copy (H3, H3'First, H3'First + L, Y, Y_First);
+      else
+         --# accept Flow, 10, Carry, "not needed here";
+         Bignum.Sub (Y, Y_First, Y_First + L, M, M_First, H3, H3'First, Carry);
+         --# end accept;
+      end if;
+
+      Bignum.Mont_Mult
+        (H2, H2'First, H2'First + L, Y, Y_First, R, R_First,
+         M, M_First, M_Inv);
+
+      Bignum.Mont_Mult
+        (H3, H3'First, H3'First + L, Y, Y_First, H2, H2'First,
+         M, M_First, M_Inv);
+
+      Success := Bignum.Equal (H1, H1'First, H1'First + L, H3, H3'First);
+
+      --# accept Flow, 33, Carry, "not needed here" &
+      --#        Flow, 33, H4, "auxiliary variable" &
+      --#        Flow, 33, H5, "auxiliary variable" &
+      --#        Flow, 33, H6, "auxiliary variable";
+   end Uncompress_Point;
+
 end LSC.EC;

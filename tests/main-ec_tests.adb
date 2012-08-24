@@ -478,6 +478,42 @@ is
             RN_First    => RQ'First) xor Bad);
    end Test_Sign;
 
+   function Test_Uncompress_Point return Boolean
+     --# global AM, BM, RP, P_Inv;
+     --# pre
+     --#   LSC.Bignum.Num_Of_Big_Int (RP, RP'First, P'Last - P'First + 1) =
+     --#   LSC.Bignum.Base ** (2 * (P'Last - P'First + 1)) mod
+     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
+     --#   LSC.Bignum.Num_Of_Big_Int (AM, AM'First, P'Last - P'First + 1) <
+     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
+     --#   LSC.Bignum.Num_Of_Big_Int (BM, BM'First, P'Last - P'First + 1) <
+     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
+     --#   1 + P_Inv * P (P'First) = 0;
+   is
+      Y : Coord;
+      Success : Boolean;
+   begin
+      LSC.EC.Uncompress_Point
+        (X       => Base_X,
+         X_First => Base_X'First,
+         X_Last  => Base_X'Last,
+         Even    => True,
+         A       => AM,
+         A_First => AM'First,
+         B       => BM,
+         B_First => BM'First,
+         R       => RP,
+         R_First => RP'First,
+         M       => P,
+         M_First => P'First,
+         M_Inv   => P_Inv,
+         Y       => Y,
+         Y_First => Y'First,
+         Success => Success);
+
+      return Success and then Y = Base_Y;
+   end Test_Uncompress_Point;
+
 begin
    SPARKUnit.Create_Suite (Harness, "EC tests", EC_Suite);
 
@@ -520,4 +556,10 @@ begin
       EC_Suite,
       "Bad ECGDSA signature",
       Test_Sign (LSC.EC_Signature.ECGDSA, True));
+
+   SPARKUnit.Create_Test
+     (Harness,
+      EC_Suite,
+      "Uncompress point",
+      Test_Uncompress_Point);
 end EC_Tests;

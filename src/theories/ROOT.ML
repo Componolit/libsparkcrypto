@@ -8,6 +8,7 @@ use_thys
    "Native_To_BE",
    "Word_Of_Boolean",
    "Double_Inplace",
+   "SHR_Inplace",
    "Add",
    "Sub",
    "Is_Zero",
@@ -22,4 +23,5 @@ use_thys
    "Point_Add",
    "Point_Mult",
    "Make_Affine",
+   "Uncompress_Point",
    "EC_Signature"];

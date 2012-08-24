@@ -53,4 +53,12 @@ spark_vc function_test_sign_8
 
 spark_end
 
+
+spark_open "$VCG_DIR/main/ec_tests/test_uncompress_point.siv"
+
+spark_vc function_test_uncompress_point_1
+  by (simp del: num_of_lint_update add: num_of_lint_expand)
+
+spark_end
+
 end

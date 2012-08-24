@@ -494,4 +494,53 @@ is
    --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
    --#   1 + M_Inv * M (M_First) = 0;
 
+   procedure Uncompress_Point
+     (X       : in     Bignum.Big_Int;
+      X_First : in     Natural;
+      X_Last  : in     Natural;
+      Even    : in     Boolean;
+      A       : in     Bignum.Big_Int;
+      A_First : in     Natural;
+      B       : in     Bignum.Big_Int;
+      B_First : in     Natural;
+      R       : in     Bignum.Big_Int;
+      R_First : in     Natural;
+      M       : in     Bignum.Big_Int;
+      M_First : in     Natural;
+      M_Inv   : in     Types.Word32;
+      Y       :    out Bignum.Big_Int;
+      Y_First : in     Natural;
+      Success :    out Boolean);
+   --# derives
+   --#   Y, Success from
+   --#   X, X_First, X_Last, Even, A, A_First, B, B_First,
+   --#   R, R_First, M, M_First, M_Inv, Y_First;
+   --# pre
+   --#   X_First in X'Range and
+   --#   X_Last in X'Range and
+   --#   X_First < X_Last and
+   --#   X_Last - X_First < Max_Coord_Length and
+   --#   Y_First in Y'Range and
+   --#   Y_First + (X_Last - X_First) in Y'Range and
+   --#   A_First in A'Range and
+   --#   A_First + (X_Last - X_First) in A'Range and
+   --#   B_First in B'Range and
+   --#   B_First + (X_Last - X_First) in B'Range and
+   --#   R_First in R'Range and
+   --#   R_First + (X_Last - X_First) in R'Range and
+   --#   M_First in M'Range and
+   --#   M_First + (X_Last - X_First) in M'Range and
+   --#   Bignum.Num_Of_Big_Int (A, A_First, X_Last - X_First + 1) <
+   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+   --#   Bignum.Num_Of_Big_Int (B, B_First, X_Last - X_First + 1) <
+   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+   --#   Bignum.Num_Of_Big_Int (R, R_First, X_Last - X_First + 1) =
+   --#   Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
+   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+   --#   1 + M_Inv * M (M_First) = 0;
+   --# post
+   --#   Bignum.Num_Of_Big_Int (Y, Y_First, X_Last - X_First + 1) <
+   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1);
+
 end LSC.EC;
