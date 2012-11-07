@@ -114,8 +114,6 @@ is
    --#   N_First + (Sign1_Last - Sign1_First) in N'Range and
    --#   RN_First in RN'Range and
    --#   RN_First + (Sign1_Last - Sign1_First) in RN'Range and
-   --#   Bignum.Num_Of_Big_Int (Hash, Hash_First, Sign1_Last - Sign1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1) and
    --#   Bignum.Num_Of_Big_Int (BX, BX_First, Sign1_Last - Sign1_First + 1) <
    --#   Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
    --#   Bignum.Num_Of_Big_Int (BY, BY_First, Sign1_Last - Sign1_First + 1) <

@@ -151,9 +151,17 @@ is
       Success     :    out Boolean)
    is
       L : Natural;
-      X, Y, Z, PrivR, H1, H2 : EC.Coord;
+      X, Y, Z, PrivR, H1, H2, H3 : EC.Coord;
    begin
       L := Sign1_Last - Sign1_First;
+
+      Bignum.Mont_Mult
+        (H1, H1'First, H1'First + L, Hash, Hash_First, EC.One, EC.One'First,
+         N, N_First, N_Inv);
+
+      Bignum.Mont_Mult
+        (H3, H3'First, H3'First + L, H1, H1'First, RN, RN_First,
+         N, N_First, N_Inv);
 
       --# accept Flow, 10, Y, "Y not needed here";
       EC.Point_Mult
@@ -196,7 +204,7 @@ is
                N, N_First, N_Inv);
 
             Bignum.Mod_Add_Inplace
-              (H1, H1'First, H1'First + L, Hash, Hash_First, N, N_First);
+              (H1, H1'First, H1'First + L, H3, H3'First, N, N_First);
 
             EC.Invert
               (Rand, Rand_First, Rand_First + L, H2, H2'First,
@@ -216,7 +224,7 @@ is
                N, N_First, N_Inv);
 
             Bignum.Mod_Sub_Inplace
-              (H2, H2'First, H2'First + L, Hash, Hash_First, N, N_First);
+              (H2, H2'First, H2'First + L, H3, H3'First, N, N_First);
 
             Bignum.Mont_Mult
               (Sign2, Sign2_First, Sign2_First + L, H2, H2'First, PrivR, PrivR'First,

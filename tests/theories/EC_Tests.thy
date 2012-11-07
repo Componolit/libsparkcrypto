@@ -45,11 +45,8 @@ spark_vc function_test_sign_3
 spark_vc function_test_sign_4
   by (simp_all del: num_of_lint_update add: num_of_lint_expand)
 
-spark_vc function_test_sign_7
-  by (simp del: num_of_lint_update add: num_of_lint_expand)
-
 spark_vc function_test_sign_8
-  by (simp_all del: num_of_lint_update add: num_of_lint_expand)
+  by (simp del: num_of_lint_update add: num_of_lint_expand)
 
 spark_end
 

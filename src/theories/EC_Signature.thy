@@ -35,39 +35,45 @@ spark_open "$VCG_DIR/lsc_/ec_signature/sign.siv" (lsc__ec_signature)
 
 spark_vc procedure_sign_2
   using
+    `1 < num_of_big_int n _ _`
+    `sign1_first < sign1_last`
+  by (simp add: num_of_lint_all0)
+
+spark_vc procedure_sign_4
+  using
     `1 < num_of_big_int m _ _`
     `sign1_first < sign1_last`
   by (simp add: num_of_lint_all0)
 
-spark_vc procedure_sign_7
+spark_vc procedure_sign_9
   using `num_of_big_int rn _ _ = _`
   by simp
 
-spark_vc procedure_sign_12
+spark_vc procedure_sign_14
   using
-    `num_of_big_int privr__3 _ _ = _`
+    `num_of_big_int privr__5 _ _ = _`
     `1 < num_of_big_int n _ _`
   by (simp add: sign_simps)
 
-spark_vc procedure_sign_17
+spark_vc procedure_sign_19
   using
-    `lsc__bignum__is_zero sign1__2 _ _ = _`
-    `bounds _ _ _ _ sign1__2`
-    `num_of_big_int sign1__2 _ _ < num_of_big_int n _ _`
-    `_ \<longrightarrow> lsc__bignum__is_zero sign2__7 _ _ = _`
-    `num_of_big_int sign2__7 _ _ = _`
+    `lsc__bignum__is_zero sign1__4 _ _ = _`
+    `bounds _ _ _ _ sign1__4`
+    `num_of_big_int sign1__4 _ _ < num_of_big_int n _ _`
+    `_ \<longrightarrow> lsc__bignum__is_zero sign2__9 _ _ = _`
+    `num_of_big_int sign2__9 _ _ = _`
     `1 < num_of_big_int n _ _`
     `sign1__index__subtype__1__first \<le> sign1_first`
     `sign1_last \<le> sign1__index__subtype__1__last`
   by (simp add: num_of_lint_lower less_le [of 0] cong add: conj_cong)
 
-spark_vc procedure_sign_18
+spark_vc procedure_sign_20
   using
-    `lsc__bignum__is_zero sign1__2 _ _ = _`
-    `bounds _ _ _ _ sign1__2`
-    `num_of_big_int sign1__2 _ _ < num_of_big_int n _ _`
-    `_ \<longrightarrow> lsc__bignum__is_zero sign2__11 _ _ = _`
-    `num_of_big_int sign2__11 _ _ = _`
+    `lsc__bignum__is_zero sign1__4 _ _ = _`
+    `bounds _ _ _ _ sign1__4`
+    `num_of_big_int sign1__4 _ _ < num_of_big_int n _ _`
+    `_ \<longrightarrow> lsc__bignum__is_zero sign2__13 _ _ = _`
+    `num_of_big_int sign2__13 _ _ = _`
     `1 < num_of_big_int n _ _`
     `sign1__index__subtype__1__first \<le> sign1_first`
     `sign1_last \<le> sign1__index__subtype__1__last`
