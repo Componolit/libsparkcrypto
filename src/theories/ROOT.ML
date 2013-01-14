@@ -1,5 +1,6 @@
 use_thys
-  ["RIPEMD160_Hash_Context",
+  ["Block_XOR",
+   "RIPEMD160_Hash_Context",
    "SHA1_Hash_Context",
    "SHA256_Hash_Context",
    "SHA512_Hash_Context",
