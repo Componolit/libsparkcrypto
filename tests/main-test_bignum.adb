@@ -35,13 +35,17 @@
 separate (Main)
 procedure Test_Bignum
 is
+   Window_Size : constant := 5;
+
    subtype Mod_Range_Small is Natural range 0 .. 63;
    subtype Mod_Range is Natural range 0 .. 127;
    subtype Pub_Exp_Range is Natural range 0 .. 0;
+   subtype Window_Aux_Range is Natural range 0 .. 128 * (2 ** Window_Size) - 1;
 
    subtype LInt_Small is LSC.Bignum.Big_Int (Mod_Range_Small);
    subtype LInt is LSC.Bignum.Big_Int (Mod_Range);
    subtype SInt is LSC.Bignum.Big_Int (Pub_Exp_Range);
+   subtype Window_Aux is LSC.Bignum.Big_Int (Window_Aux_Range);
 
    Pub_Exp : constant SInt := SInt'(0 => 16#00010001#);
 
@@ -138,6 +142,7 @@ is
       16#46526c31#, 16#0e4752a9#, 16#9b036fe1#);
 
    Aux1, Aux2, Aux3, R : LInt;
+   Aux4 : Window_Aux;
    M_Inv : LSC.Types.Word32;
 
    Plain1_Small, OpenSSL_Plain1_Small : LInt_Small;
@@ -225,10 +230,11 @@ begin
 
    --# accept Flow, 10, Aux1, "auxiliary variable" &
    --#        Flow, 10, Aux2, "auxiliary variable" &
-   --#        Flow, 10, Aux3, "auxiliary variable";
+   --#        Flow, 10, Aux3, "auxiliary variable" &
+   --#        Flow, 10, Aux4, "auxiliary variable";
 
    -- Encrypt
-   LSC.Bignum.Mont_Exp
+   LSC.Bignum.Mont_Exp_Window
      (A          => Cipher1_Small,
       A_First    => Cipher1_Small'First,
       A_Last     => Cipher1_Small'Last,
@@ -239,18 +245,21 @@ begin
       E_Last     => Pub_Exp'Last,
       M          => Modulus_Small,
       M_First    => Modulus_Small'First,
+      K          => Window_Size,
       Aux1       => Aux1,
       Aux1_First => Aux1'First,
       Aux2       => Aux2,
       Aux2_First => Aux2'First,
       Aux3       => Aux3,
       Aux3_First => Aux3'First,
+      Aux4       => Aux4,
+      Aux4_First => Aux4'First,
       R          => R,
       R_First    => R'First,
       M_Inv      => M_Inv);
 
    -- Decrypt
-   LSC.Bignum.Mont_Exp
+   LSC.Bignum.Mont_Exp_Window
      (A          => Plain2_Small,
       A_First    => Plain2_Small'First,
       A_Last     => Plain2_Small'Last,
@@ -261,12 +270,15 @@ begin
       E_Last     => Priv_Exp_Small'Last,
       M          => Modulus_Small,
       M_First    => Modulus_Small'First,
+      K          => Window_Size,
       Aux1       => Aux1,
       Aux1_First => Aux1'First,
       Aux2       => Aux2,
       Aux2_First => Aux2'First,
       Aux3       => Aux3,
       Aux3_First => Aux3'First,
+      Aux4       => Aux4,
+      Aux4_First => Aux4'First,
       R          => R,
       R_First    => R'First,
       M_Inv      => M_Inv);
@@ -348,10 +360,11 @@ begin
 
    --# accept Flow, 10, Aux1, "auxiliary variable" &
    --#        Flow, 10, Aux2, "auxiliary variable" &
-   --#        Flow, 10, Aux3, "auxiliary variable";
+   --#        Flow, 10, Aux3, "auxiliary variable" &
+   --#        Flow, 10, Aux4, "auxiliary variable";
 
    -- Encrypt
-   LSC.Bignum.Mont_Exp
+   LSC.Bignum.Mont_Exp_Window
      (A          => Cipher1,
       A_First    => Cipher1'First,
       A_Last     => Cipher1'Last,
@@ -362,18 +375,21 @@ begin
       E_Last     => Pub_Exp'Last,
       M          => Modulus,
       M_First    => Modulus'First,
+      K          => Window_Size,
       Aux1       => Aux1,
       Aux1_First => Aux1'First,
       Aux2       => Aux2,
       Aux2_First => Aux2'First,
       Aux3       => Aux3,
       Aux3_First => Aux3'First,
+      Aux4       => Aux4,
+      Aux4_First => Aux4'First,
       R          => R,
       R_First    => R'First,
       M_Inv      => M_Inv);
 
    -- Decrypt
-   LSC.Bignum.Mont_Exp
+   LSC.Bignum.Mont_Exp_Window
      (A          => Plain2,
       A_First    => Plain2'First,
       A_Last     => Plain2'Last,
@@ -384,12 +400,15 @@ begin
       E_Last     => Priv_Exp'Last,
       M          => Modulus,
       M_First    => Modulus'First,
+      K          => Window_Size,
       Aux1       => Aux1,
       Aux1_First => Aux1'First,
       Aux2       => Aux2,
       Aux2_First => Aux2'First,
       Aux3       => Aux3,
       Aux3_First => Aux3'First,
+      Aux4       => Aux4,
+      Aux4_First => Aux4'First,
       R          => R,
       R_First    => R'First,
       M_Inv      => M_Inv);
@@ -409,5 +428,6 @@ begin
    --#        Flow, 602, Harness, Plain1, "completely initialized in loop" &
    --#        Flow, 33, Aux1, "auxiliary variable" &
    --#        Flow, 33, Aux2, "auxiliary variable" &
-   --#        Flow, 33, Aux3, "auxiliary variable";
+   --#        Flow, 33, Aux3, "auxiliary variable" &
+   --#        Flow, 33, Aux4, "auxiliary variable";
 end Test_Bignum;
