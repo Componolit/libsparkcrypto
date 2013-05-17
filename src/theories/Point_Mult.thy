@@ -16,19 +16,28 @@ spark_vc procedure_point_mult_21
 proof -
   let "num_of_big_int _ _ ?k < _" = ?C1
 
-  from `\<forall>k. _ \<longrightarrow> x3__4 _ = x2__6 _`
+  from
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> x2__6 _ = x3__4 _) \<and> _`
+    `x2__index__subtype__1__first \<le> x2_first`
+    `x2_first + (x1_last - x1_first) \<le> x2__index__subtype__1__last`
   have "num_of_big_int x2__6 x2_first ?k = num_of_big_int x3__4 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int x3__4 _ _ < num_of_big_int m _ _`
   show ?C1 by (simp add: add_commute)
 
-  from `\<forall>k. _ \<longrightarrow> y3__4 _ = y2__7 _`
+  from
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y2__7 _ = y3__4 _) \<and> _`
+    `y2__index__subtype__1__first \<le> y2_first`
+    `y2_first + (x1_last - x1_first) \<le> y2__index__subtype__1__last`
   have "num_of_big_int y2__7 y2_first ?k = num_of_big_int y3__4 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int y3__4 _ _ < num_of_big_int m _ _`
   show ?C2 by (simp add: add_commute)
 
-  from `\<forall>k. _ \<longrightarrow> z3__4 _ = z2__8 _`
+  from
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z2__8 _ = z3__4 _) \<and> _`
+    `z2__index__subtype__1__first \<le> z2_first`
+    `z2_first + (x1_last - x1_first) \<le> z2__index__subtype__1__last`
   have "num_of_big_int z2__8 z2_first ?k = num_of_big_int z3__4 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int z3__4 _ _ < num_of_big_int m _ _`
@@ -70,19 +79,28 @@ spark_vc procedure_two_point_mult_28
 proof -
   let "num_of_big_int _ _ ?k < _" = ?C1
 
-  from `\<forall>k. _ \<longrightarrow> x4__5 _ = x3__9 _`
+  from
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> x3__9 _ = x4__5 _) \<and> _`
+    `x3__index__subtype__1__first \<le> x3_first`
+    `x3_first + (x1_last - x1_first) \<le> x3__index__subtype__1__last`
   have "num_of_big_int x3__9 x3_first ?k = num_of_big_int x4__5 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int x4__5 _ _ < num_of_big_int m _ _`
   show ?C1 by (simp add: add_commute)
 
-  from `\<forall>k. _ \<longrightarrow> y4__5 _ = y3__10 _`
+  from
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y3__10 _ = y4__5 _) \<and> _`
+    `y3__index__subtype__1__first \<le> y3_first`
+    `y3_first + (x1_last - x1_first) \<le> y3__index__subtype__1__last`
   have "num_of_big_int y3__10 y3_first ?k = num_of_big_int y4__5 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int y4__5 _ _ < num_of_big_int m _ _`
   show ?C2 by (simp add: add_commute)
 
-  from `\<forall>k. _ \<longrightarrow> z4__5 _ = z3__11 _`
+  from
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z3__11 _ = z4__5 _) \<and> _`
+    `z3__index__subtype__1__first \<le> z3_first`
+    `z3_first + (x1_last - x1_first) \<le> z3__index__subtype__1__last`
   have "num_of_big_int z3__11 z3_first ?k = num_of_big_int z4__5 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int z4__5 _ _ < num_of_big_int m _ _`

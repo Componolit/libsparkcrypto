@@ -188,11 +188,17 @@ is
       L := X1_Last - X1_First;
 
       if Bignum.Is_Zero (Z1, Z1_First, Z1_First + L) then
+         Bignum.Initialize (X3, X3_First, X3_First + L);
+         Bignum.Initialize (Y3, Y3_First, Y3_First + L);
+         Bignum.Initialize (Z3, Z3_First, Z3_First + L);
          Bignum.Copy (X2, X2_First, X2_First + L, X3, X3_First);
          Bignum.Copy (Y2, Y2_First, Y2_First + L, Y3, Y3_First);
          Bignum.Copy (Z2, Z2_First, Z2_First + L, Z3, Z3_First);
 
       elsif Bignum.Is_Zero (Z2, Z2_First, Z2_First + L) then
+         Bignum.Initialize (X3, X3_First, X3_First + L);
+         Bignum.Initialize (Y3, Y3_First, Y3_First + L);
+         Bignum.Initialize (Z3, Z3_First, Z3_First + L);
          Bignum.Copy (X1, X1_First, X1_Last, X3, X3_First);
          Bignum.Copy (Y1, Y1_First, Y1_First + L, Y3, Y3_First);
          Bignum.Copy (Z1, Z1_First, Z1_First + L, Z3, Z3_First);
@@ -733,6 +739,7 @@ is
         Bignum.Is_Zero (H3, H3'First, H3'First + L) or else
         (H3 (H3'First) mod 2 = 0) = Even
       then
+         Bignum.Initialize (Y, Y_First, Y_First + L);
          Bignum.Copy (H3, H3'First, H3'First + L, Y, Y_First);
       else
          --# accept Flow, 10, Carry, "not needed here";

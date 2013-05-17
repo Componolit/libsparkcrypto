@@ -149,7 +149,7 @@ proof -
     by (simp add: sdiv_pos_pos add_commute)
 qed
 
-spark_vc procedure_mont_exp_19 
+spark_vc procedure_mont_exp_19
 proof -
   let ?L = "a_last - a_first + 1"
   let ?m = "num_of_big_int m m_first ?L"
@@ -162,8 +162,14 @@ proof -
   have Base_inv: "Base * minv ?m Base mod ?m = 1"
     by (simp only: lint_inv_mod [of m_inv m _ 32, simplified, OF m_inv])
 
-  from `\<forall>k. a_first \<le> k \<and> k \<le> a_last \<longrightarrow>
-    a__4 k = aux3__6 (aux3_first + (k - a_first))`
+  from
+    `\<forall>k. aux3__index__subtype__1__first \<le> k \<and> k \<le> aux3__index__subtype__1__last \<longrightarrow>
+       (aux3_first \<le> k \<and> k \<le> aux3_first + a_last - a_first \<longrightarrow>
+          aux3__6 k = a__4 (a_first + k - aux3_first)) \<and>
+       (k < aux3_first \<or> aux3_first + a_last - a_first < k \<longrightarrow>
+          aux3__6 k = aux3 k)`
+    `aux3__index__subtype__1__first \<le> aux3_first`
+    `aux3_first + (a_last - a_first) \<le> aux3__index__subtype__1__last`
   have "num_of_big_int aux3__6 aux3_first (a_last - a_first + 1) =
     num_of_big_int a__4 a_first (a_last - a_first + 1)"
     by (simp add: num_of_lint_def)

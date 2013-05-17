@@ -4,9 +4,7 @@ begin
 
 spark_open "$VCG_DIR/lsc_/bignum/copy.siv"
 
-spark_vc procedure_copy_4
-  using `\<forall>k. a_first \<le> k \<and> k \<le> loop__1__i - 1 \<longrightarrow>
-    a k = b (b_first + (k - a_first))`
+spark_vc procedure_copy_3
   by simp
 
 spark_vc procedure_copy_5
@@ -17,9 +15,14 @@ spark_vc procedure_copy_5
     `b__index__subtype__1__last \<le> 2147483647`
   by simp_all
 
-spark_vc procedure_copy_7
-  using `\<forall>k. a_first \<le> k \<and> k \<le> a_last - 1 \<longrightarrow>
-    a k = b (b_first + (k - a_first))`
+spark_vc procedure_copy_6
+  using
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> _) \<and> (_ \<longrightarrow> _)`
+    `a_first \<le> loop__1__i`
+  by auto
+
+spark_vc procedure_copy_8
+  using `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> _) \<and> (_ \<longrightarrow> _)`
   by simp
 
 spark_end

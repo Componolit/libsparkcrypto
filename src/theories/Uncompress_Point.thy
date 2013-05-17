@@ -10,15 +10,17 @@ spark_vc procedure_uncompress_point_7
     `1 < num_of_big_int m m_first (x_last - x_first + 1)`
   by (simp add: num_of_lint_all0)
 
-spark_vc procedure_uncompress_point_21
+spark_vc procedure_uncompress_point_22
   using
-    `\<forall>k. 0 \<le> k \<and> k \<le> x_last - x_first \<longrightarrow> h3__9 k = y__10 (y_first + k)`
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y__11 _ = h3__9 _) \<and> _`
+    `y__index__subtype__1__first \<le> y_first`
+    `y_first + (x_last - x_first) \<le> y__index__subtype__1__last`
     `num_of_big_int h3__9 _ _ = _`
     `1 < num_of_big_int m m_first (x_last - x_first + 1)`
-    num_of_lint_ext [of y_first _ y__10 h3__9 0]
+    num_of_lint_ext [of y_first _ y__11 h3__9 0]
   by simp
 
-spark_vc procedure_uncompress_point_22
+spark_vc procedure_uncompress_point_23
 proof -
   from
     `num_of_big_int h3__9 0 (x_last - x_first + 1) = _`
@@ -27,10 +29,10 @@ proof -
     num_of_big_int m m_first (x_last - x_first + 1)"
     by simp
   moreover from
-    `bounds _ _ _ _ y__11`
+    `bounds _ _ _ _ y__12`
     `y__index__subtype__1__first \<le> y_first`
     `y_first + (x_last - x_first) \<le> y__index__subtype__1__last`
-  have "num_of_big_int y__11 y_first (x_last - x_first + 1) <
+  have "num_of_big_int y__12 y_first (x_last - x_first + 1) <
     Base ^ nat (x_last - x_first + 1)"
     by (simp add: num_of_lint_upper)
   moreover from
@@ -43,7 +45,7 @@ proof -
       `num_of_big_int m _ _ - num_of_big_int h3__9 _ _ = _`
       `num_of_big_int h3__9 _ _ = _`
       `num_of_big_int h3__9 0 (x_last - x_first + 1) \<noteq> 0`
-    by (cases carry__11) simp_all
+    by (cases carry__12) simp_all
 qed
 
 spark_end
