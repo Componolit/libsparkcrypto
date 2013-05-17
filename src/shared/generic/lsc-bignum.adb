@@ -60,19 +60,26 @@ is
      (A       : in     Big_Int;
       A_First : in     Natural;
       A_Last  : in     Natural;
-      B       :    out Big_Int;
+      B       : in out Big_Int;
       B_First : in     Natural)
    is
    begin
       for I in Natural range A_First .. A_Last
       --# assert
-      --#   (for all K in Natural range A_First .. I - 1 =>
-      --#      (A (K) = B (B_First + (K - A_First))));
+      --#   for all K in Natural range B'Range =>
+      --#     ((K in B_First .. B_First + I - A_First - 1 ->
+      --#         B (K) = A (A_First + K - B_First)) and
+      --#      (K not in B_First .. B_First + I - A_First - 1 ->
+      --#         B (K) = B~ (K)));
       loop
-         --# accept Flow, 23, B, "Copied between A_First and A_Last";
          B (B_First + (I - A_First)) := A (I);
+         --# assert
+         --#   for all K in Natural range B'Range =>
+         --#     ((K in B_First .. B_First + (I + 1) - A_First - 1 ->
+         --#         B (K) = A (A_First + K - B_First)) and
+         --#      (K not in B_First .. B_First + (I + 1) - A_First - 1 ->
+         --#         B (K) = B~ (K)));
       end loop;
-      --# accept Flow, 602, B, B, "OK";
    end Copy;
 
    ----------------------------------------------------------------------------
@@ -874,5 +881,314 @@ is
          Aux3, Aux3_First, Aux1, Aux1_First,
          M, M_First, M_Inv);
    end Mont_Exp;
+
+   ----------------------------------------------------------------------------
+
+   function Bit_Set
+     (A       : Big_Int;
+      A_First : Natural;
+      I       : Types.Word64)
+     return Boolean
+   --# pre
+   --#   A_First + Natural (I / 32) in A'Range;
+   --# return
+   --#   (A (A_First + Natural (I / 32)) and
+   --#    2 ** (Natural (I mod 32))) /= 0;
+   is
+   begin
+      return
+        (A (A_First + Natural (I / 32)) and
+         2 ** (Natural (I mod 32))) /= 0;
+   end Bit_Set;
+
+   ----------------------------------------------------------------------------
+
+   procedure Mont_Exp_Window
+     (A          :    out Big_Int;
+      A_First    : in     Natural;
+      A_Last     : in     Natural;
+      X          : in     Big_Int;
+      X_First    : in     Natural;
+      E          : in     Big_Int;
+      E_First    : in     Natural;
+      E_Last     : in     Natural;
+      M          : in     Big_Int;
+      M_First    : in     Natural;
+      K          : in     Natural;
+      Aux1       :    out Big_Int;
+      Aux1_First : in     Natural;
+      Aux2       :    out Big_Int;
+      Aux2_First : in     Natural;
+      Aux3       :    out Big_Int;
+      Aux3_First : in     Natural;
+      Aux4       :    out Big_Int;
+      Aux4_First : in     Natural;
+      R          : in     Big_Int;
+      R_First    : in     Natural;
+      M_Inv      : in     Types.Word32)
+   is
+      J, L, S : Natural;
+      I : Types.Word64;
+      W : Types.Word32;
+   begin
+      L := A_Last - A_First;
+
+      Initialize (Aux1, Aux1_First, Aux1_First + L);
+      Aux1 (Aux1_First) := 1;
+
+      Mont_Mult
+        (Aux3, Aux3_First, Aux3_First + L,
+         R, R_First, Aux1, Aux1_First,
+         M, M_First, M_Inv);
+
+      Mont_Mult
+        (Aux4, Aux4_First, Aux4_First + L,
+         X, X_First, R, R_First,
+         M, M_First, M_Inv);
+
+      Mont_Mult
+        (Aux2, Aux2_First, Aux2_First + L,
+         Aux4, Aux4_First, Aux4, Aux4_First,
+         M, M_First, M_Inv);
+
+      --# assert
+      --#   L = A_Last - A_First and
+      --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+      --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+      --#   Num_Of_Big_Int (X, X_First, L + 1) *
+      --#   Num_Of_Big_Int (X, X_First, L + 1) *
+      --#   Base ** (L + 1) mod
+      --#   Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+      --#   Base ** (L + 1) mod
+      --#   Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Num_Of_Big_Int (Aux4, Aux4_First, L + 1) =
+      --#   Num_Of_Big_Int (X, X_First, L + 1) *
+      --#   Base ** (L + 1) mod
+      --#   Num_Of_Big_Int (M, M_First, L + 1);
+
+      for H in Natural range 1 .. 2 ** K - 1
+      --# assert
+      --#   L = A_Last - A_First and
+      --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+      --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+      --#   Num_Of_Big_Int (X, X_First, L + 1) *
+      --#   Num_Of_Big_Int (X, X_First, L + 1) *
+      --#   Base ** (L + 1) mod
+      --#   Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+      --#   Base ** (L + 1) mod
+      --#   Num_Of_Big_Int (M, M_First, L + 1) and
+      --#   (for all N in Natural range 0 .. H - 1 =>
+      --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+      --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+      --#       Base ** (L + 1) mod
+      --#       Num_Of_Big_Int (M, M_First, L + 1)));
+      loop
+         Mont_Mult
+           (A, A_First, A_Last,
+            Aux4, Aux4_First + (H - 1) * (L + 1), Aux2, Aux2_First,
+            M, M_First, M_Inv);
+
+         Copy (A, A_First, A_Last, Aux4, Aux4_First + H * (L + 1));
+
+         --# assert
+         --#   L = A_Last - A_First and
+         --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+         --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+         --#   Num_Of_Big_Int (X, X_First, L + 1) *
+         --#   Num_Of_Big_Int (X, X_First, L + 1) *
+         --#   Base ** (L + 1) mod
+         --#   Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+         --#   Base ** (L + 1) mod
+         --#   Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   (for all N in Natural range 0 .. H =>
+         --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+         --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+         --#       Base ** (L + 1) mod
+         --#       Num_Of_Big_Int (M, M_First, L + 1)));
+      end loop;
+
+      I := (Types.Word64 (E_Last - E_First) + 1) * 32 - 1;
+
+      loop
+         --# assert
+         --#   L = A_Last - A_First and
+         --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+         --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+         --#   Num_Of_Big_Int (X, X_First, L + 1) *
+         --#   Num_Of_Big_Int (X, X_First, L + 1) *
+         --#   Base ** (L + 1) mod
+         --#   Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+         --#   Num_Of_Big_Int (X, X_First, L + 1) **
+         --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+         --#    2 ** (Universal_Integer (I) + 1)) *
+         --#   Base ** (L + 1) mod
+         --#   Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
+         --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+         --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+         --#       Base ** (L + 1) mod
+         --#       Num_Of_Big_Int (M, M_First, L + 1))) and
+         --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+
+         if Bit_Set (E, E_First, I) then
+            W := 1;
+            S := 0;
+            J := 1;
+
+            while J <= K and Types.Word64 (J) <= I
+            --# assert
+            --#   L = A_Last - A_First and
+            --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+            --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+            --#   Num_Of_Big_Int (X, X_First, L + 1) *
+            --#   Num_Of_Big_Int (X, X_First, L + 1) *
+            --#   Base ** (L + 1) mod
+            --#   Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+            --#   Num_Of_Big_Int (X, X_First, L + 1) **
+            --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+            --#    2 ** (Universal_Integer (I) + 1)) *
+            --#   Base ** (L + 1) mod
+            --#   Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
+            --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+            --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+            --#       Base ** (L + 1) mod
+            --#       Num_Of_Big_Int (M, M_First, L + 1))) and
+            --#   Universal_Integer (W) * 2 ** (J - S - 1) =
+            --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+            --#   2 ** (Universal_Integer (I) -
+            --#     (Universal_Integer (J) - 1)) mod 2 ** J and
+            --#   W mod 2 = 1 and 0 <= S and S < J and J <= K + 1 and
+            --#   Universal_Integer (J) <= Universal_Integer (I) + 1 and
+            --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+            loop
+               if Bit_Set (E, E_First, I - Types.Word64 (J)) then
+                  W := Types.SHL32 (W, J - S) or 1;
+                  S := J;
+               end if;
+
+               J := J + 1;
+            end loop;
+
+            S := S + 1;
+
+            for H in Natural range 1 .. S
+            --# assert
+            --#   L = A_Last - A_First and
+            --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+            --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+            --#   Num_Of_Big_Int (X, X_First, L + 1) *
+            --#   Num_Of_Big_Int (X, X_First, L + 1) *
+            --#   Base ** (L + 1) mod
+            --#   Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+            --#   Num_Of_Big_Int (X, X_First, L + 1) **
+            --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+            --#    2 ** (Universal_Integer (I) + 1) * 2 ** (H - 1)) *
+            --#   Base ** (L + 1) mod
+            --#   Num_Of_Big_Int (M, M_First, L + 1) and
+            --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
+            --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+            --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+            --#       Base ** (L + 1) mod
+            --#       Num_Of_Big_Int (M, M_First, L + 1))) and
+            --#   Universal_Integer (W) =
+            --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+            --#   2 ** (Universal_Integer (I) -
+            --#     (Universal_Integer (S) - 1)) mod 2 ** S and
+            --#   W mod 2 = 1 and 0 <= S and S <= K + 1 and S% = S and
+            --#   Universal_Integer (S) <= Universal_Integer (I) + 1 and
+            --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+            loop
+               Mont_Mult
+                 (A, A_First, A_Last,
+                  Aux3, Aux3_First, Aux3, Aux3_First,
+                  M, M_First, M_Inv);
+
+               Copy (A, A_First, A_Last, Aux3, Aux3_First);
+
+               --# assert
+               --#   L = A_Last - A_First and
+               --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+               --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+               --#   Num_Of_Big_Int (X, X_First, L + 1) *
+               --#   Num_Of_Big_Int (X, X_First, L + 1) *
+               --#   Base ** (L + 1) mod
+               --#   Num_Of_Big_Int (M, M_First, L + 1) and
+               --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+               --#   Num_Of_Big_Int (X, X_First, L + 1) **
+               --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+               --#    2 ** (Universal_Integer (I) + 1) * 2 ** H) *
+               --#   Base ** (L + 1) mod
+               --#   Num_Of_Big_Int (M, M_First, L + 1) and
+               --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
+               --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+               --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+               --#       Base ** (L + 1) mod
+               --#       Num_Of_Big_Int (M, M_First, L + 1))) and
+               --#   Universal_Integer (W) =
+               --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+               --#   2 ** (Universal_Integer (I) -
+               --#     (Universal_Integer (S) - 1)) mod 2 ** S and
+               --#   W mod 2 = 1 and 0 <= S and S <= K + 1 and S% = S and
+               --#   Universal_Integer (S) <= Universal_Integer (I) + 1 and
+               --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+            end loop;
+
+            Mont_Mult
+              (A, A_First, A_Last,
+               Aux3, Aux3_First,
+               Aux4, Aux4_First + Natural (Types.SHR32 (W, 1)) * (L + 1),
+               M, M_First, M_Inv);
+
+            Copy (A, A_First, A_Last, Aux3, Aux3_First);
+         else
+            S := 1;
+
+            Mont_Mult
+              (A, A_First, A_Last,
+               Aux3, Aux3_First, Aux3, Aux3_First,
+               M, M_First, M_Inv);
+
+            Copy (A, A_First, A_Last, Aux3, Aux3_First);
+         end if;
+
+         --# assert
+         --#   L = A_Last - A_First and
+         --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
+         --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+         --#   Num_Of_Big_Int (X, X_First, L + 1) *
+         --#   Num_Of_Big_Int (X, X_First, L + 1) *
+         --#   Base ** (L + 1) mod
+         --#   Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+         --#   Num_Of_Big_Int (X, X_First, L + 1) **
+         --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+         --#    2 ** (Universal_Integer (I) - Universal_Integer (S) + 1)) *
+         --#   Base ** (L + 1) mod
+         --#   Num_Of_Big_Int (M, M_First, L + 1) and
+         --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
+         --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+         --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+         --#       Base ** (L + 1) mod
+         --#       Num_Of_Big_Int (M, M_First, L + 1))) and
+         --#   Universal_Integer (S) <= Universal_Integer (I) + 1 and
+         --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+
+         exit when I < Types.Word64 (S);
+
+         I := I - Types.Word64 (S);
+      end loop;
+
+      Mont_Mult
+        (A, A_First, A_Last,
+         Aux3, Aux3_First, Aux1, Aux1_First,
+         M, M_First, M_Inv);
+   end Mont_Exp_Window;
 
 end LSC.Bignum;

@@ -21,6 +21,7 @@ use_thys
    "Add_Mult_Mult",
    "Mont_Mult",
    "Mont_Exp",
+   "Mont_Exp_Window",
    "Point_Add",
    "Point_Mult",
    "Make_Affine",
