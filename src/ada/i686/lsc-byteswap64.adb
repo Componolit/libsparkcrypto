@@ -32,7 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with Unchecked_Conversion;
+with Ada.Unchecked_Conversion;
 with LSC.Byteswap32;
 
 package body LSC.Byteswap64 is
@@ -45,8 +45,8 @@ package body LSC.Byteswap64 is
          LSB : Types.Word32;
       end record;
 
-      function To_Word64 is new Unchecked_Conversion (W32A, Types.Word64);
-      function To_W32A   is new Unchecked_Conversion (Types.Word64, W32A);
+      function To_Word64 is new Ada.Unchecked_Conversion (W32A, Types.Word64);
+      function To_W32A   is new Ada.Unchecked_Conversion (Types.Word64, W32A);
 
       Temp : constant W32A := To_W32A (Value);
    begin
