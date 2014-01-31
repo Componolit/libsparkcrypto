@@ -10,8 +10,8 @@ is
    Mode      	 : Mode_Type := external ("mode", "release");
    Arch      	 : Arch_Type := external ("arch", "x86_64");
    Endianess 	 : Endianess_Type := external ("endianess", "little_endian");
-   IO        	 : IO_Type := external ("io", "textio");
-   Runtime   	 : Runtime_Type := external ("runtime", "native");
+   IO        	 : IO_Type := "textio";
+   Runtime   	 : Runtime_Type := external ("RTS", "native");
 
    Src         := "../src/";
    Default_Opt := "1";
@@ -42,10 +42,20 @@ is
 
    for Library_Name     use "sparkcrypto";
    for Library_Kind     use "static";
-   for Library_Dir      use "../out/build/adalib";
-   for Library_Src_Dir  use "../out/build/adainclude";
+   for Library_Dir      use "../out/build/adalib/" & Runtime;
 
-   for Object_Dir use "../out/build";
+   for Object_Dir use "../out/build/" & Runtime;
+
+   case Runtime is
+      when "native" =>
+         Builder_Switches := ();
+         IO := "textio";
+
+      when "zfp" =>
+         Builder_Switches := ("--RTS=zfp");
+         IO := "nullio";
+
+   end case;
 
    for Source_Dirs use
       (Src & "ada/" & IO,
@@ -62,15 +72,6 @@ is
       when "debug" =>
          Compiler_Switches := ("-gnata");
          Default_Opt := "0";
-
-   end case;
-
-   case Runtime is
-      when "native" =>
-         Builder_Switches := ();
-
-      when "zfp" =>
-         Builder_Switches := ("--RTS=zfp");
 
    end case;
 

@@ -101,15 +101,6 @@ else
    $(error Unsupported architecture: $(ARCH))
 endif
 
-# Feature: RUNTIME
-ifeq      ($(RUNTIME),native)
-   IO		= textio
-else ifeq ($(RUNTIME),zfp)
-   IO    = nullio
-else
-   $(error Unsupported runtime: $(RUNTIME))
-endif
-
 # Feature: ATP
 ifeq ($(ATP),sparksimp)
    REPORT_DEPS += $(OUTPUT_DIR)/proof/sparksimp.log
@@ -168,14 +159,6 @@ ifneq ($(MODE),)
 GNATMAKE_OPTS += -Xmode=$(MODE)
 endif
 
-ifneq ($(IO),)
-GNATMAKE_OPTS += -Xio=$(IO)
-endif
-
-ifneq ($(RUNTIME),)
-GNATMAKE_OPTS += -Xruntime=$(RUNTIME)
-endif
-
 ifneq ($(OPT),)
 GNATMAKE_OPTS += -Xopt=$(OPT)
 endif
@@ -184,7 +167,7 @@ endif
 
 all: $(ALL_GOALS)
 
-build:    $(OUTPUT_DIR)/build/libsparkcrypto.a
+build:    $(addprefix $(OUTPUT_DIR)/build/adalib/,$(addsuffix /libsparkcrypto.a,$(RUNTIME)))
 spark:    $(OUTPUT_DIR)/proof/libsparkcrypto.rep
 isabelle: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
 
@@ -213,8 +196,8 @@ $(OUTPUT_DIR)/tests/tests: install_local
       LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
 
-$(OUTPUT_DIR)/build/libsparkcrypto.a:
-	gnatmake $(GNATMAKE_OPTS) -p -P build/build_libsparkcrypto
+$(OUTPUT_DIR)/build/adalib/%/libsparkcrypto.a:
+	gnatmake $(GNATMAKE_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
 	spark -index=$< $(SPARK_OPTS) -report_file=$@.tmp @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
@@ -248,18 +231,19 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.idx:
 install: $(INSTALL_DEPS)
 
 install_files: build
-	install -d -m 755 $(DESTDIR)/adalib $(DESTDIR)/adainclude $(DESTDIR)/sharedinclude
-	install -p -m 755 $(OUTPUT_DIR)/build/adalib/libsparkcrypto.a $(DESTDIR)/adalib/libsparkcrypto.a
+	$(foreach RTS,$(RUNTIME),install -d -m 755 $(DESTDIR)/adalib/$(RTS);)
+	install -d -m 755 $(DESTDIR)/adainclude $(DESTDIR)/sharedinclude
+	$(foreach RTS,$(RUNTIME),install -p -m 755 $(OUTPUT_DIR)/build/adalib/$(RTS)/libsparkcrypto.a $(DESTDIR)/adalib/$(RTS)/libsparkcrypto.a;)
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
 	install -p -m 644 src/shared/generic/*.ads $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/
-	install -p -m 644 src/ada/$(IO)/*.ad? $(DESTDIR)/adainclude/
+	$(foreach IO,$(subst native,textio,$(subst zfp,nullio,$(RUNTIME))),install -d -m 755 $(DESTDIR)/adainclude/$(IO); install -p -m 644 src/ada/$(IO)/*.ad? $(DESTDIR)/adainclude/$(IO);)
 	install -p -m 644 src/shared/$(ENDIANESS)/*.adb $(DESTDIR)/adainclude/
 	install -p -m 644 src/shared/generic/*.adb $(DESTDIR)/adainclude/
 ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
 endif
-	install -p -m 444 $(OUTPUT_DIR)/build/adalib/*.ali $(DESTDIR)/adalib/
+	$(foreach RTS,$(RUNTIME),install -p -m 444 $(OUTPUT_DIR)/build/adalib/$(RTS)/*.ali $(DESTDIR)/adalib/$(RTS);)
 
 install_spark: install_files $(OUTPUT_DIR)/proof/libsparkcrypto.sum
 	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
