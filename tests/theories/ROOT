@@ -1,0 +1,4 @@
+session "HOL-SPARK-libsparkcrypto-tests" = "HOL-SPARK" +
+  theories
+    EC_Tests
+    Test_Bignum

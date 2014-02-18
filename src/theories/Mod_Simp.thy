@@ -97,10 +97,10 @@ fun pull_mod rng cmod cm ct =
     Drule.instantiate' [SOME (ctyp_of_term ct)]
       [SOME (Drule.list_comb (cmod, [ct, cm]))] refl;
 
-fun pull_mod_proc _ ss ct = (case term_of ct of
+fun pull_mod_proc _ ctxt ct = (case term_of ct of
     Const (@{const_name mod}, Type (_, [T, _])) $ u $ m =>
       let val rng = Sign.of_sort
-        (Proof_Context.theory_of (Simplifier.the_context ss))
+        (Proof_Context.theory_of ctxt)
         (T, @{sort ring})
       in
         if has_mod rng m u then
