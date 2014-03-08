@@ -82,7 +82,7 @@ Development version
 -------------------
 
 The current development version of libsparkcrypto is available through its GIT
-[3]_ repository: ``git://git.codelabs.ch/spark-crypto.git``
+[3]_ repository: ``http://git.codelabs.ch/git/spark-crypto.git``
 
 A browsable version of the repository is also available here:
 http://git.codelabs.ch/?p=spark-crypto.git
