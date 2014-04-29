@@ -75,7 +75,7 @@ $(OUTPUT_DIR)/tests.sum: $(REPORT_DEPS)
 	@echo
 
 $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz: $(OUTPUT_DIR)/proof/sparksimp.log
-	VCG_DIR=$(OUTPUT_DIR)/proof LSC_THYS_DIR=$(CURDIR)/../src/theories isabelle build -o document=false -o threads=5 -D theories
+	VCG_DIR=$(OUTPUT_DIR)/proof LSC_THYS_DIR=$(CURDIR)/../src/theories isabelle build -c -o document=false -o threads=5 -D theories
 
 $(OUTPUT_DIR)/spark.idx:
 	sparkmake -nometa -index=$(OUTPUT_DIR)/spark.idx $(SPARKMAKE_OPTS)

@@ -220,7 +220,7 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(REPORT_DEPS)
 	@echo
 
 $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz: $(OUTPUT_DIR)/proof/sparksimp.log
-	VCG_DIR=$(OUTPUT_DIR)/proof isabelle build -o document=false -o threads=5 -D src/theories
+	VCG_DIR=$(OUTPUT_DIR)/proof isabelle build -c -o document=false -o threads=5 -D src/theories
 
 $(OUTPUT_DIR)/proof/libsparkcrypto.smf:
 	find $(CURDIR)/src/shared/generic -name '*.adb' -print > $@
