@@ -119,7 +119,7 @@ proof -
   finally show ?thesis by simp
 qed
 
-lemma num_of_lint_div: 
+lemma num_of_lint_div:
   assumes "0 \<le> i" and "0 \<le> A l" and "A l < b"
   shows "num_of_lint b A l (i + 1) div b = num_of_lint b A (l + 1) i"
   using assms
@@ -271,7 +271,7 @@ qed
 
 subsection {* Bit vectors *}
 
-lemma Bit_mult2: "2 * i = i BIT 0"
+lemma Bit_mult2: "2 * i = i BIT False"
   by (simp add: Bit_def)
 
 lemma AND_div_mod: "((x::int) AND 2 ^ n = 0) = (x div 2 ^ n mod 2 = 0)"
@@ -286,11 +286,8 @@ next
     case (1 y b)
     then have "(x AND 2 ^ Suc n = 0) = (y AND 2 ^ n = 0)"
       by (simp add: Bit_mult2) (simp add: Bit_B0)
-    moreover have "bitval b div 2 = (0::int)"
-      by (cases b) simp_all
-    ultimately show ?thesis using Suc 1
-      by (simp add: zdiv_zmult2_eq
-        zdiv_zadd1_eq [of "2 * y" "bitval b" 2])
+    then show ?thesis using Suc 1
+      by (simp add: zdiv_zmult2_eq)
   qed
 qed
 

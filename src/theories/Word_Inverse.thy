@@ -14,7 +14,7 @@ qed
 lemma zdiv_zmod_equality': "(m::int) div n * n = m - m mod n"
   by (simp add: zmod_zdiv_equality')
 
-spark_open "$VCG_DIR/lsc_/bignum/word_inverse.siv"
+spark_open "$VCG_DIR/lsc_/bignum/word_inverse"
 
 spark_proof_functions
   gcd = gcd
@@ -30,7 +30,7 @@ proof -
     by (simp add: zdiff_zmod_left [of Base, symmetric])
   with `0 < m` m_upper
   have minus_m: "(- m) mod Base = Base - m"
-    by (simp add: mod_pos_pos_trivial)
+    by (simp only: mod_pos_pos_trivial)
   then have minus_m': "- m mod Base mod m = Base mod m"
     by simp
   also from `0 < m` have "Base mod m < m" by simp

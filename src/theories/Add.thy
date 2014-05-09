@@ -25,11 +25,11 @@ lemma add_carry:
    (a + b + num_of_bool c) div B"
   by (cases "a + b + num_of_bool c < B")
     (auto simp add: mod_pos_pos_trivial div_pos_pos_trivial zdiv_geq
-       le_zmod_geq not_less simp del: zmod_zsub_self
+       le_zmod_geq not_less simp del: minus_mod_self2
        split add: num_of_bool_split)
 
 
-spark_open "$VCG_DIR/lsc_/bignum/add.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/add" (lsc__bignum)
 
 spark_vc procedure_add_3
   by simp
@@ -66,7 +66,7 @@ spark_vc procedure_add_12
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/bignum/add_inplace.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/add_inplace" (lsc__bignum)
 
 spark_vc procedure_add_inplace_3
   by simp
@@ -119,7 +119,7 @@ spark_vc procedure_add_inplace_11
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/bignum/mod_add.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/mod_add" (lsc__bignum)
 
 spark_vc procedure_mod_add_3
 proof -
@@ -172,7 +172,7 @@ qed
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/bignum/mod_add_inplace.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/mod_add_inplace" (lsc__bignum)
 
 spark_vc procedure_mod_add_inplace_3
 proof -

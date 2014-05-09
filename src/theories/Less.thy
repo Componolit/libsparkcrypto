@@ -2,7 +2,7 @@ theory Less
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/bignum/less.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/less" (lsc__bignum)
 
 spark_vc function_less_3
   by simp

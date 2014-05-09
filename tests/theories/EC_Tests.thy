@@ -4,7 +4,7 @@ begin
 
 declare [[names_short]]
 
-spark_open "$VCG_DIR/main/ec_tests.siv"
+spark_open "$VCG_DIR/main/ec_tests"
 
 spark_vc procedure_ec_tests_2
   by (simp del: num_of_lint_update add: num_of_lint_expand)
@@ -12,7 +12,7 @@ spark_vc procedure_ec_tests_2
 spark_end
 
 
-spark_open "$VCG_DIR/main/ec_tests/precompute_values.siv"
+spark_open "$VCG_DIR/main/ec_tests/precompute_values"
 
 spark_vc procedure_precompute_values_1
   by (simp del: num_of_lint_update add: num_of_lint_expand)
@@ -23,7 +23,7 @@ spark_vc procedure_precompute_values_4
 spark_end
 
 
-spark_open "$VCG_DIR/main/ec_tests/test_ecdh.siv"
+spark_open "$VCG_DIR/main/ec_tests/test_ecdh"
 
 spark_vc function_test_ecdh_1
   by (simp_all del: num_of_lint_update add: num_of_lint_expand)
@@ -31,7 +31,7 @@ spark_vc function_test_ecdh_1
 spark_end
 
 
-spark_open "$VCG_DIR/main/ec_tests/test_sign.siv"
+spark_open "$VCG_DIR/main/ec_tests/test_sign"
 
 spark_vc function_test_sign_1
   by (simp del: num_of_lint_update add: num_of_lint_expand)
@@ -51,7 +51,7 @@ spark_vc function_test_sign_8
 spark_end
 
 
-spark_open "$VCG_DIR/main/ec_tests/test_uncompress_point.siv"
+spark_open "$VCG_DIR/main/ec_tests/test_uncompress_point"
 
 spark_vc function_test_uncompress_point_1
   by (simp del: num_of_lint_update add: num_of_lint_expand)

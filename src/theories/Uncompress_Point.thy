@@ -2,7 +2,7 @@ theory Uncompress_Point
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/ec/uncompress_point.siv" (lsc__ec)
+spark_open "$VCG_DIR/lsc_/ec/uncompress_point" (lsc__ec)
 
 spark_vc procedure_uncompress_point_7
   using

@@ -118,7 +118,7 @@ proof -
     by (simp only: mod_add_left_eq [symmetric])
 qed
 
-spark_open "$VCG_DIR/lsc_/bignum/mont_exp_window.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/mont_exp_window" (lsc__bignum)
 
 spark_vc procedure_mont_exp_window_4
   using

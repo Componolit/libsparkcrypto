@@ -2,7 +2,7 @@ theory Equal
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/bignum/equal.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/equal" (lsc__bignum)
 
 spark_vc function_equal_4
   using `a loop__1__i = b (b_first + (loop__1__i - a_first))`

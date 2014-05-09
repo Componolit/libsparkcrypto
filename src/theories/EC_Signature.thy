@@ -4,7 +4,7 @@ begin
 
 declare [[names_short]]
 
-spark_open "$VCG_DIR/lsc_/ec_signature/extract.siv" (lsc__ec_signature)
+spark_open "$VCG_DIR/lsc_/ec_signature/extract" (lsc__ec_signature)
 
 spark_vc procedure_extract_2
   using `num_of_big_int rm _ _ = _`
@@ -31,7 +31,7 @@ spark_vc procedure_extract_6
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/ec_signature/sign.siv" (lsc__ec_signature)
+spark_open "$VCG_DIR/lsc_/ec_signature/sign" (lsc__ec_signature)
 
 spark_vc procedure_sign_2
   using
@@ -82,7 +82,7 @@ spark_vc procedure_sign_20
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/ec_signature/verify.siv" (lsc__ec_signature)
+spark_open "$VCG_DIR/lsc_/ec_signature/verify" (lsc__ec_signature)
 
 spark_vc function_verify_4
   using

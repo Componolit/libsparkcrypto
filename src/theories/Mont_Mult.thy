@@ -29,10 +29,10 @@ proof (cases "a + b < c")
 next
   case False
   with assms div_add_self2 [of c "a + b - c"]
-    zmod_zsub_self [of "a + b" c, symmetric]
+    minus_mod_self2 [of "a + b" c, symmetric]
   show ?thesis
     by (auto simp add: not_less div_pos_pos_trivial
-      mod_pos_pos_trivial simp del: zmod_zsub_self
+      mod_pos_pos_trivial simp del: minus_mod_self2
       split add: num_of_bool_split)
 qed
 
@@ -72,10 +72,10 @@ proof -
     by (simp add: div_pos_pos_trivial)
   note zdiv_mono1 [OF this `0 < B`]
   also have "(2 * B - 1) div B = ((- 1) + 2 * B) div B"
-    by (simp add: add_commute [of "- 1"] del: arith_simps)
+    by (simp add: add_commute [of "- 1"])
   also from `1 < B` have "\<dots> = 1"
     by (simp add: zdiv_zminus1_eq_if div_pos_pos_trivial
-      mod_pos_pos_trivial del: arith_simps)
+      mod_pos_pos_trivial del: uminus_add_conv_diff)
   finally show ?thesis using `1 < B` `0 \<le> lcarry'` `lcarry' < B`
     by (simp add: div_pos_pos_trivial)
 qed
@@ -100,7 +100,7 @@ lemma mod_cong: "a = b \<Longrightarrow> a mod m = b mod m"
 lemma div_cong: "a = b \<Longrightarrow> a div m = b div m"
   by simp
 
-spark_open "$VCG_DIR/lsc_/bignum/mont_mult.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/mont_mult" (lsc__bignum)
 
 spark_vc procedure_mont_mult_5
   using `\<forall>k. a_first \<le> k \<and> k \<le> a_last \<longrightarrow> a__1 k = 0`
@@ -175,7 +175,7 @@ proof -
     `0 \<le> carry2__2`
   ultimately have "carry2__2 \<le> 1"
     by (rule hcarry_le1 [where n=1 and lcarry=0 and hcarry=0, simplified,
-      OF single_add_mult_mult, simplified]) 
+      OF single_add_mult_mult, simplified])
 
   from a2_in_range
     `a__index__subtype__1__first \<le> a_first`
@@ -367,7 +367,7 @@ proof -
       by (rule mult_less_le_imp_less) simp_all
     with invariant2 a_bounds m_bounds
     have "(?a + ?R * a_msw - ?m) mod ?R = (?a + ?R * a_msw - ?m) mod ?m"
-      by (simp add: mod_pos_pos_trivial del: zmod_zsub_self)
+      by (simp add: mod_pos_pos_trivial del: minus_mod_self2)
     finally show ?thesis using invariant1
       by (simp add: diff_add_eq)
   qed

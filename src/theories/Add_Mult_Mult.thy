@@ -2,7 +2,7 @@ theory Add_Mult_Mult
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/bignum/add_mult_mult.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/add_mult_mult" (lsc__bignum)
 
 spark_vc procedure_add_mult_mult_3
   by simp

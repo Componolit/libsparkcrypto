@@ -2,7 +2,7 @@ theory Copy
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/bignum/copy.siv"
+spark_open "$VCG_DIR/lsc_/bignum/copy"
 
 spark_vc procedure_copy_3
   by simp

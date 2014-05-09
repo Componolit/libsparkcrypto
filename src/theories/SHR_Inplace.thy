@@ -15,7 +15,7 @@ proof -
   with `x < a` show ?thesis by (simp add: ring_distribs)
 qed
 
-spark_open "$VCG_DIR/lsc_/bignum/shr_inplace.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/shr_inplace" (lsc__bignum)
 
 spark_vc procedure_shr_inplace_4
   by simp

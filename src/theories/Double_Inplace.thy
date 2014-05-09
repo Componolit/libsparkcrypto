@@ -3,7 +3,7 @@ imports Bignum
 begin
 
 lemma num_of_bool_mod2: "num_of_bool (x mod 2 \<noteq> 0) = x mod 2"
-  by (simp split: num_of_bool_split) arith
+  by (simp split: num_of_bool_split)
 
 lemma div_mod_eq: "(x::int) * (y mod b) + b * x * (y div b) = x * y"
 proof -
@@ -12,7 +12,7 @@ proof -
   then show ?thesis by simp
 qed
 
-spark_open "$VCG_DIR/lsc_/bignum/double_inplace.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/double_inplace" (lsc__bignum)
 
 spark_vc procedure_double_inplace_3
   by simp

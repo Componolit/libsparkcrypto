@@ -12,7 +12,7 @@ lemma sub_less_mod: "x < m \<Longrightarrow> y < m \<Longrightarrow> 0 \<le> y \
   by (simp split add: num_of_bool_split)
 
 
-spark_open "$VCG_DIR/lsc_/ec/point_double.siv" (lsc__ec)
+spark_open "$VCG_DIR/lsc_/ec/point_double" (lsc__ec)
 
 spark_vc procedure_point_double_18
   using
@@ -64,7 +64,7 @@ spark_vc procedure_point_double_30
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/ec/point_add.siv" (lsc__ec)
+spark_open "$VCG_DIR/lsc_/ec/point_add" (lsc__ec)
 
 spark_vc procedure_point_add_30
   using

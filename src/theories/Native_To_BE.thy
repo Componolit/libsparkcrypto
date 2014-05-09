@@ -2,7 +2,7 @@ theory Native_To_BE
 imports SPARK
 begin
 
-spark_open "$VCG_DIR/lsc_/bignum/native_to_be.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/native_to_be" (lsc__bignum)
 
 spark_vc procedure_native_to_be_5
   using

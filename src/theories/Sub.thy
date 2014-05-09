@@ -29,7 +29,7 @@ next
 qed
 
 
-spark_open "$VCG_DIR/lsc_/bignum/sub.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/sub" (lsc__bignum)
 
 spark_vc procedure_sub_3
   by simp
@@ -68,7 +68,7 @@ spark_vc procedure_sub_11
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/bignum/sub_inplace.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/sub_inplace" (lsc__bignum)
 
 spark_vc procedure_sub_inplace_3
   by simp
@@ -122,7 +122,7 @@ spark_vc procedure_sub_inplace_11
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/bignum/mod_sub.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/mod_sub" (lsc__bignum)
 
 spark_vc procedure_mod_sub_3
 proof -
@@ -168,7 +168,7 @@ qed
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/bignum/mod_sub_inplace.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/mod_sub_inplace" (lsc__bignum)
 
 spark_vc procedure_mod_sub_inplace_3
 proof -

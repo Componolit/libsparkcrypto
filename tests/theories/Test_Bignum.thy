@@ -7,7 +7,7 @@ lemma updates_lower:
    \<forall>i\<in>{m..<n}. 0 \<le> (f(j := k)) i"
   by simp
 
-spark_open "$VCG_DIR/main/test_bignum.siv"
+spark_open "$VCG_DIR/main/test_bignum"
 
 spark_vc procedure_test_bignum_11
 proof -

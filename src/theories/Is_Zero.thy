@@ -2,7 +2,7 @@ theory Is_Zero
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/bignum/is_zero.siv" (lsc__bignum)
+spark_open "$VCG_DIR/lsc_/bignum/is_zero" (lsc__bignum)
 
 spark_vc function_is_zero_4
   using `a loop__1__i = 0`

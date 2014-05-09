@@ -2,7 +2,7 @@ theory SHA256_Hash_Context
 imports SPARK
 begin
 
-spark_open "$VCG_DIR/lsc_/sha256/hash_context.siv"
+spark_open "$VCG_DIR/lsc_/sha256/hash_context"
 
 spark_vc procedure_hash_context_4
 proof -

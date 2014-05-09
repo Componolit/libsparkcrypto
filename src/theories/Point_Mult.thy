@@ -2,7 +2,7 @@ theory Point_Mult
 imports Bignum
 begin
 
-spark_open "$VCG_DIR/lsc_/ec/point_mult.siv" (lsc__ec)
+spark_open "$VCG_DIR/lsc_/ec/point_mult" (lsc__ec)
 
 spark_vc procedure_point_mult_7
   using
@@ -47,7 +47,7 @@ qed
 spark_end
 
 
-spark_open "$VCG_DIR/lsc_/ec/two_point_mult.siv" (lsc__ec)
+spark_open "$VCG_DIR/lsc_/ec/two_point_mult" (lsc__ec)
 
 spark_vc procedure_two_point_mult_8
   using
