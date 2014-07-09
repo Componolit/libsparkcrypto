@@ -34,7 +34,9 @@
 
 with LSC.Debug;
 
-package body LSC.AES.Print is
+package body LSC.AES.Print
+  with SPARK_Mode => Off
+is
 
    procedure Print_Round (T : String;
                           R : LSC.AES.Schedule_Index;

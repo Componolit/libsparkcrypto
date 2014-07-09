@@ -55,6 +55,7 @@ package LSC.AES.CBC is
    -- Encrypt @Length@ elements of the @Plaintext@ array using the AES context
    -- @Context@ and the initialization vector @IV@. The result is placed into
    -- @Ciphertext@.
+   pragma Warnings (Off, """Ciphertext"" might not be initialized in ""Encrypt""");
    procedure Encrypt (Context    : in     AES.AES_Enc_Context;
                       IV         : in     AES.Block_Type;
                       Plaintext  : in     AES.Message_Type;
@@ -69,10 +70,12 @@ package LSC.AES.CBC is
    --#    Plaintext'First + Length - 1 in AES.Message_Index and
    --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
    --#    Ciphertext'First + Length - 1 in AES.Message_Index;
+   pragma Warnings (On, """Ciphertext"" might not be initialized in ""Encrypt""");
 
    -- Decrypt @Length@ elements of the @Ciphertext@ array using the AES context
    -- @Context@ and the initialization vector @IV@. The result is placed into
    -- @Plaintext@.
+   pragma Warnings (Off, """Plaintext"" might not be initialized in ""Decrypt""");
    procedure Decrypt (Context    : in     AES.AES_Dec_Context;
                       IV         : in     AES.Block_Type;
                       Ciphertext : in     AES.Message_Type;
@@ -87,5 +90,6 @@ package LSC.AES.CBC is
    --#    Plaintext'First + Length - 1 in AES.Message_Index and
    --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
    --#    Ciphertext'First + Length - 1 in AES.Message_Index;
+   pragma Warnings (On, """Plaintext"" might not be initialized in ""Decrypt""");
 
 end LSC.AES.CBC;

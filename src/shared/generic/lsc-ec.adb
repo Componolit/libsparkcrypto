@@ -338,25 +338,27 @@ is
       Bignum.Initialize (Z2, Z2_First, Z2_First + L);
 
       for I in reverse Natural range E_First .. E_Last
-      --# assert
-      --#   L = X1_Last - X1_First and
-      --#   Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
       loop
+         pragma Loop_Invariant
+           (L = X1_Last - X1_First and
+            Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+
          for J in reverse Natural range 0 .. 31
-         --# assert
-         --#   L = X1_Last - X1_First and
-         --#   Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
          loop
+            pragma Loop_Invariant
+              (L = X1_Last - X1_First and
+               Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+
             Point_Double
               (X2, X2_First, X2_First + L, Y2, Y2_First, Z2, Z2_First,
                X3, X3'First, Y3, Y3'First, Z3, Z3'First,
@@ -374,14 +376,14 @@ is
                Bignum.Copy (Z3, Z3'First, Z3'First + L, Z2, Z2_First);
             end if;
 
-            --# assert
-            --#   L = X1_Last - X1_First and
-            --#   Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
+            pragma Assert_And_Cut
+              (L = X1_Last - X1_First and
+               Bignum.Num_Of_Big_Int (X2, X2_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
          end loop;
       end loop;
    end Point_Mult;
@@ -435,37 +437,39 @@ is
       Bignum.Initialize (Z3, Z3_First, Z3_First + L);
 
       for I in reverse Natural range E1_First .. E1_Last
-      --# assert
-      --#   L = X1_Last - X1_First and
-      --#   Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
-      --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
       loop
+         pragma Loop_Invariant
+           (L = X1_Last - X1_First and
+            Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+
          for J in reverse Natural range 0 .. 31
-         --# assert
-         --#   L = X1_Last - X1_First and
-         --#   Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
-         --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
          loop
+            pragma Loop_Invariant
+              (L = X1_Last - X1_First and
+               Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+
             Point_Double
               (X3, X3_First, X3_First + L, Y3, Y3_First, Z3, Z3_First,
                X4, X4'First, Y4, Y4'First, Z4, Z4'First,
@@ -497,20 +501,20 @@ is
                Bignum.Copy (Z4, Z4'First, Z4'First + L, Z3, Z3_First);
             end if;
 
-            --# assert
-            --#   L = X1_Last - X1_First and
-            --#   Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
-            --#   Bignum.Num_Of_Big_Int (M, M_First, L + 1);
+            pragma Assert_And_Cut
+              (L = X1_Last - X1_First and
+               Bignum.Num_Of_Big_Int (X3, X3_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Y3, Y3_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Z3, Z3_First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (X5, X5'First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
          end loop;
       end loop;
    end Two_Point_Mult;
@@ -536,13 +540,13 @@ is
    begin
       L := A_Last - A_First;
 
-      --# accept Flow, 10, Carry, "Carry not needed here";
+      pragma Warnings (Off, "unused assignment to ""Carry""");
       Bignum.Sub (E, E'First, E'First + L, M, M_First, Two, Two'First, Carry);
-      --# end accept;
+      pragma Warnings (On, "unused assignment to ""Carry""");
 
-      --# accept Flow, 10, H1, "auxiliary variable" &
-      --#        Flow, 10, H2, "auxiliary variable" &
-      --#        Flow, 10, H3, "auxiliary variable";
+      pragma Warnings (Off, "unused assignment to ""H1""");
+      pragma Warnings (Off, "unused assignment to ""H2""");
+      pragma Warnings (Off, "unused assignment to ""H3""");
       Bignum.Mont_Exp
         (A          => H4,
          A_First    => H4'First,
@@ -563,16 +567,13 @@ is
          R          => R,
          R_First    => R_First,
          M_Inv      => M_Inv);
-      --# end accept;
+      pragma Warnings (On, "unused assignment to ""H1""");
+      pragma Warnings (On, "unused assignment to ""H2""");
+      pragma Warnings (On, "unused assignment to ""H3""");
 
       Bignum.Mont_Mult
         (B, B_First, B_First + L, H4, H4'First, R, R_First,
          M, M_First, M_Inv);
-
-      --# accept Flow, 33, Carry, "Carry not needed here" &
-      --#        Flow, 33, H1, "auxiliary variable" &
-      --#        Flow, 33, H2, "auxiliary variable" &
-      --#        Flow, 33, H3, "auxiliary variable";
    end Invert;
 
    ----------------------------------------------------------------------------
@@ -717,23 +718,25 @@ is
         (H1, H1'First, H1'First + L, H3, H3'First, One, One'First,
          M, M_First, M_Inv);
 
-      --# accept Flow, 10, Carry, "not needed here";
+      pragma Warnings (Off, "unused assignment to ""Carry""");
       Bignum.Add
         (H2, H2'First, H2'First + L, M, M_First, One, One'First, Carry);
-      --# end accept;
+      pragma Warnings (On, "unused assignment to ""Carry""");
 
       Bignum.SHR_Inplace (H2, H2'First, H2'First + L, 2);
 
-      --# accept Flow, 10, H4, "auxiliary variable" &
-      --#        Flow, 10, H5, "auxiliary variable" &
-      --#        Flow, 10, H6, "auxiliary variable";
+      pragma Warnings (Off, "unused assignment to ""H4""");
+      pragma Warnings (Off, "unused assignment to ""H5""");
+      pragma Warnings (Off, "unused assignment to ""H6""");
       Bignum.Mont_Exp
         (H3, H3'First, H3'First + L,
          H1, H1'First, H2, H2'First, H2'First + L,
          M, M_First,
          H4, H4'First, H5, H5'First, H6, H6'First,
          R, R_First, M_Inv);
-      --# end accept;
+      pragma Warnings (On, "unused assignment to ""H4""");
+      pragma Warnings (On, "unused assignment to ""H5""");
+      pragma Warnings (On, "unused assignment to ""H6""");
 
       if
         Bignum.Is_Zero (H3, H3'First, H3'First + L) or else
@@ -742,9 +745,9 @@ is
          Bignum.Initialize (Y, Y_First, Y_First + L);
          Bignum.Copy (H3, H3'First, H3'First + L, Y, Y_First);
       else
-         --# accept Flow, 10, Carry, "not needed here";
+         pragma Warnings (Off, "unused assignment to ""Carry""");
          Bignum.Sub (Y, Y_First, Y_First + L, M, M_First, H3, H3'First, Carry);
-         --# end accept;
+         pragma Warnings (On, "unused assignment to ""Carry""");
       end if;
 
       Bignum.Mont_Mult
@@ -756,11 +759,6 @@ is
          M, M_First, M_Inv);
 
       Success := Bignum.Equal (H1, H1'First, H1'First + L, H3, H3'First);
-
-      --# accept Flow, 33, Carry, "not needed here" &
-      --#        Flow, 33, H4, "auxiliary variable" &
-      --#        Flow, 33, H5, "auxiliary variable" &
-      --#        Flow, 33, H6, "auxiliary variable";
    end Uncompress_Point;
 
 end LSC.EC;

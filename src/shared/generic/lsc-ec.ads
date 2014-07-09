@@ -34,12 +34,10 @@
 
 with LSC.Types;
 with LSC.Bignum;
+with LSC.Math_Int;
 
+use type LSC.Math_Int.Math_Int;
 use type LSC.Types.Word32;
-
---# inherit
---#   LSC.Types,
---#   LSC.Bignum;
 
 package LSC.EC
 is
@@ -49,7 +47,6 @@ is
    subtype Coord is Bignum.Big_Int (Coord_Index);
 
    One : constant Coord := Coord'(1, others => 0);
-   --# for One declare Rule;
 
    procedure Point_Double
      (X1       : in     Bignum.Big_Int;
@@ -69,53 +66,59 @@ is
       A_First  : in     Natural;
       M        : in     Bignum.Big_Int;
       M_First  : in     Natural;
-      M_Inv    : in     Types.Word32);
-   --# derives
-   --#   X2 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     X2_First, A, A_First, M, M_First, M_Inv &
-   --#   Y2 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     Y2_First, A, A_First, M, M_First, M_Inv &
-   --#   Z2 from
-   --#     X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     Z2_First, M, M_First, M_Inv;
-   --# pre
-   --#   X1_First in X1'Range and
-   --#   X1_Last in X1'Range and
-   --#   X1_First < X1_Last and
-   --#   X1_Last - X1_First < Max_Coord_Length and
-   --#   Y1_First in Y1'Range and
-   --#   Y1_First + (X1_Last - X1_First) in Y1'Range and
-   --#   Z1_First in Z1'Range and
-   --#   Z1_First + (X1_Last - X1_First) in Z1'Range and
-   --#   X2_First in X2'Range and
-   --#   X2_First + (X1_Last - X1_First) in X2'Range and
-   --#   Y2_First in Y2'Range and
-   --#   Y2_First + (X1_Last - X1_First) in Y2'Range and
-   --#   Z2_First in Z2'Range and
-   --#   Z2_First + (X1_Last - X1_First) in Z2'Range and
-   --#   A_First in A'Range and
-   --#   A_First + (X1_Last - X1_First) in A'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X1_Last - X1_First) in M'Range and
-   --#   Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+      M_Inv    : in     Types.Word32)
+     with
+       Depends =>
+         (X2 =>+
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             X2_First, A, A_First, M, M_First, M_Inv),
+          Y2 =>+
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             Y2_First, A, A_First, M, M_First, M_Inv),
+          Z2 =>+
+            (X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             Z2_First, M, M_First, M_Inv)),
+       Pre =>
+         X1_First in X1'Range and
+         X1_Last in X1'Range and
+         X1_First < X1_Last and
+         X1_Last - X1_First < Max_Coord_Length and
+         Y1_First in Y1'Range and
+         Y1_First + (X1_Last - X1_First) in Y1'Range and
+         Z1_First in Z1'Range and
+         Z1_First + (X1_Last - X1_First) in Z1'Range and
+         X2_First in X2'Range and
+         X2_First + (X1_Last - X1_First) in X2'Range and
+         Y2_First in Y2'Range and
+         Y2_First + (X1_Last - X1_First) in Y2'Range and
+         Z2_First in Z2'Range and
+         Z2_First + (X1_Last - X1_First) in Z2'Range and
+         A_First in A'Range and
+         A_First + (X1_Last - X1_First) in A'Range and
+         M_First in M'Range and
+         M_First + (X1_Last - X1_First) in M'Range and
+         Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         -- FIXME workaround for [N416-037]
+         X2'First = X2'Old'First and X2'Last = X2'Old'Last and
+         Y2'First = Y2'Old'First and Y2'Last = Y2'Old'Last and
+         Z2'First = Z2'Old'First and Z2'Last = Z2'Old'Last;
 
    procedure Point_Add
      (X1       : in     Bignum.Big_Int;
@@ -141,68 +144,70 @@ is
       A_First  : in     Natural;
       M        : in     Bignum.Big_Int;
       M_First  : in     Natural;
-      M_Inv    : in     Types.Word32);
-   --# derives
-   --#   X3 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     X2, X2_First, Y2, Y2_First, Z2, Z2_First,
-   --#     X3_First, A, A_First, M, M_First, M_Inv &
-   --#   Y3 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     X2, X2_First, Y2, Y2_First, Z2, Z2_First,
-   --#     Y3_First, A, A_First, M, M_First, M_Inv &
-   --#   Z3 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     X2, X2_First, Y2, Y2_First, Z2, Z2_First, Z3_First,
-   --#     M, M_First, M_Inv;
-   --# pre
-   --#   X1_First in X1'Range and
-   --#   X1_Last in X1'Range and
-   --#   X1_First < X1_Last and
-   --#   X1_Last - X1_First < Max_Coord_Length and
-   --#   Y1_First in Y1'Range and
-   --#   Y1_First + (X1_Last - X1_First) in Y1'Range and
-   --#   Z1_First in Z1'Range and
-   --#   Z1_First + (X1_Last - X1_First) in Z1'Range and
-   --#   X2_First in X2'Range and
-   --#   X2_First + (X1_Last - X1_First) in X2'Range and
-   --#   Y2_First in Y2'Range and
-   --#   Y2_First + (X1_Last - X1_First) in Y2'Range and
-   --#   Z2_First in Z2'Range and
-   --#   Z2_First + (X1_Last - X1_First) in Z2'Range and
-   --#   X3_First in X3'Range and
-   --#   X3_First + (X1_Last - X1_First) in X3'Range and
-   --#   Y3_First in Y3'Range and
-   --#   Y3_First + (X1_Last - X1_First) in Y3'Range and
-   --#   Z3_First in Z3'Range and
-   --#   Z3_First + (X1_Last - X1_First) in Z3'Range and
-   --#   A_First in A'Range and
-   --#   A_First + (X1_Last - X1_First) in A'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X1_Last - X1_First) in M'Range and
-   --#   Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+      M_Inv    : in     Types.Word32)
+     with
+       Depends =>
+         (X3 =>+
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+             X3_First, A, A_First, M, M_First, M_Inv),
+          Y3 =>+
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+             Y3_First, A, A_First, M, M_First, M_Inv),
+          Z3 =>+
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             X2, X2_First, Y2, Y2_First, Z2, Z2_First, Z3_First,
+             M, M_First, M_Inv)),
+       Pre =>
+         X1_First in X1'Range and
+         X1_Last in X1'Range and
+         X1_First < X1_Last and
+         X1_Last - X1_First < Max_Coord_Length and
+         Y1_First in Y1'Range and
+         Y1_First + (X1_Last - X1_First) in Y1'Range and
+         Z1_First in Z1'Range and
+         Z1_First + (X1_Last - X1_First) in Z1'Range and
+         X2_First in X2'Range and
+         X2_First + (X1_Last - X1_First) in X2'Range and
+         Y2_First in Y2'Range and
+         Y2_First + (X1_Last - X1_First) in Y2'Range and
+         Z2_First in Z2'Range and
+         Z2_First + (X1_Last - X1_First) in Z2'Range and
+         X3_First in X3'Range and
+         X3_First + (X1_Last - X1_First) in X3'Range and
+         Y3_First in Y3'Range and
+         Y3_First + (X1_Last - X1_First) in Y3'Range and
+         Z3_First in Z3'Range and
+         Z3_First + (X1_Last - X1_First) in Z3'Range and
+         A_First in A'Range and
+         A_First + (X1_Last - X1_First) in A'Range and
+         M_First in M'Range and
+         M_First + (X1_Last - X1_First) in M'Range and
+         Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
 
    procedure Point_Mult
      (X1       : in     Bignum.Big_Int;
@@ -225,51 +230,57 @@ is
       A_First  : in     Natural;
       M        : in     Bignum.Big_Int;
       M_First  : in     Natural;
-      M_Inv    : in     Types.Word32);
-   --# derives
-   --#   X2, Y2, Z2 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     X2_First, Y2_First, Z2_First,
-   --#     E, E_First, E_Last, A, A_First, M, M_First, M_Inv;
-   --# pre
-   --#   X1_First in X1'Range and
-   --#   X1_Last in X1'Range and
-   --#   X1_First < X1_Last and
-   --#   X1_Last - X1_First < Max_Coord_Length and
-   --#   Y1_First in Y1'Range and
-   --#   Y1_First + (X1_Last - X1_First) in Y1'Range and
-   --#   Z1_First in Z1'Range and
-   --#   Z1_First + (X1_Last - X1_First) in Z1'Range and
-   --#   X2_First in X2'Range and
-   --#   X2_First + (X1_Last - X1_First) in X2'Range and
-   --#   Y2_First in Y2'Range and
-   --#   Y2_First + (X1_Last - X1_First) in Y2'Range and
-   --#   Z2_First in Z2'Range and
-   --#   Z2_First + (X1_Last - X1_First) in Z2'Range and
-   --#   A_First in A'Range and
-   --#   A_First + (X1_Last - X1_First) in A'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X1_Last - X1_First) in M'Range and
-   --#   E_First in E'Range and
-   --#   E_Last in E'Range and
-   --#   E_First <= E_Last and
-   --#   Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+      M_Inv    : in     Types.Word32)
+     with
+       Depends =>
+         ((X2, Y2, Z2) =>
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+             E, E_First, E_Last, A, A_First, M, M_First, M_Inv)),
+       Pre =>
+         X1_First in X1'Range and
+         X1_Last in X1'Range and
+         X1_First < X1_Last and
+         X1_Last - X1_First < Max_Coord_Length and
+         Y1_First in Y1'Range and
+         Y1_First + (X1_Last - X1_First) in Y1'Range and
+         Z1_First in Z1'Range and
+         Z1_First + (X1_Last - X1_First) in Z1'Range and
+         X2_First in X2'Range and
+         X2_First + (X1_Last - X1_First) in X2'Range and
+         Y2_First in Y2'Range and
+         Y2_First + (X1_Last - X1_First) in Y2'Range and
+         Z2_First in Z2'Range and
+         Z2_First + (X1_Last - X1_First) in Z2'Range and
+         A_First in A'Range and
+         A_First + (X1_Last - X1_First) in A'Range and
+         M_First in M'Range and
+         M_First + (X1_Last - X1_First) in M'Range and
+         E_First in E'Range and
+         E_Last in E'Range and
+         E_First <= E_Last and
+         Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         -- FIXME workaround for [N416-037]
+         X2'First = X2'Old'First and X2'Last = X2'Old'Last and
+         Y2'First = Y2'Old'First and Y2'Last = Y2'Old'Last and
+         Z2'First = Z2'Old'First and Z2'Last = Z2'Old'Last;
 
    procedure Two_Point_Mult
      (X1       : in     Bignum.Big_Int;
@@ -300,67 +311,73 @@ is
       A_First  : in     Natural;
       M        : in     Bignum.Big_Int;
       M_First  : in     Natural;
-      M_Inv    : in     Types.Word32);
-   --# derives
-   --#   X3, Y3, Z3 from
-   --#     X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
-   --#     X2, X2_First, Y2, Y2_First, Z2, Z2_First,
-   --#     X3_First, Y3_First, Z3_First,
-   --#     E1, E1_First, E1_Last, E2, E2_First,
-   --#     A, A_First, M, M_First, M_Inv;
-   --# pre
-   --#   X1_First in X1'Range and
-   --#   X1_Last in X1'Range and
-   --#   X1_First < X1_Last and
-   --#   X1_Last - X1_First < Max_Coord_Length and
-   --#   Y1_First in Y1'Range and
-   --#   Y1_First + (X1_Last - X1_First) in Y1'Range and
-   --#   Z1_First in Z1'Range and
-   --#   Z1_First + (X1_Last - X1_First) in Z1'Range and
-   --#   X2_First in X2'Range and
-   --#   X2_First + (X1_Last - X1_First) in X2'Range and
-   --#   Y2_First in Y2'Range and
-   --#   Y2_First + (X1_Last - X1_First) in Y2'Range and
-   --#   Z2_First in Z2'Range and
-   --#   Z2_First + (X1_Last - X1_First) in Z2'Range and
-   --#   X3_First in X3'Range and
-   --#   X3_First + (X1_Last - X1_First) in X3'Range and
-   --#   Y3_First in Y3'Range and
-   --#   Y3_First + (X1_Last - X1_First) in Y3'Range and
-   --#   Z3_First in Z3'Range and
-   --#   Z3_First + (X1_Last - X1_First) in Z3'Range and
-   --#   A_First in A'Range and
-   --#   A_First + (X1_Last - X1_First) in A'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X1_Last - X1_First) in M'Range and
-   --#   E1_First in E1'Range and
-   --#   E1_Last in E1'Range and
-   --#   E1_First <= E1_Last and
-   --#   E2_First in E2'Range and
-   --#   E2_First + (E1_Last - E1_First) in E2'Range and
-   --#   Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+      M_Inv    : in     Types.Word32)
+     with
+       Depends =>
+         ((X3, Y3, Z3) =>
+            (X1, X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First,
+             X2, X2_First, Y2, Y2_First, Z2, Z2_First,
+             X3, X3_First, Y3, Y3_First, Z3, Z3_First,
+             E1, E1_First, E1_Last, E2, E2_First,
+             A, A_First, M, M_First, M_Inv)),
+       Pre =>
+         X1_First in X1'Range and
+         X1_Last in X1'Range and
+         X1_First < X1_Last and
+         X1_Last - X1_First < Max_Coord_Length and
+         Y1_First in Y1'Range and
+         Y1_First + (X1_Last - X1_First) in Y1'Range and
+         Z1_First in Z1'Range and
+         Z1_First + (X1_Last - X1_First) in Z1'Range and
+         X2_First in X2'Range and
+         X2_First + (X1_Last - X1_First) in X2'Range and
+         Y2_First in Y2'Range and
+         Y2_First + (X1_Last - X1_First) in Y2'Range and
+         Z2_First in Z2'Range and
+         Z2_First + (X1_Last - X1_First) in Z2'Range and
+         X3_First in X3'Range and
+         X3_First + (X1_Last - X1_First) in X3'Range and
+         Y3_First in Y3'Range and
+         Y3_First + (X1_Last - X1_First) in Y3'Range and
+         Z3_First in Z3'Range and
+         Z3_First + (X1_Last - X1_First) in Z3'Range and
+         A_First in A'Range and
+         A_First + (X1_Last - X1_First) in A'Range and
+         M_First in M'Range and
+         M_First + (X1_Last - X1_First) in M'Range and
+         E1_First in E1'Range and
+         E1_Last in E1'Range and
+         E1_First <= E1_Last and
+         E2_First in E2'Range and
+         E2_First + (E1_Last - E1_First) in E2'Range and
+         Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         -- FIXME workaround for [N416-037]
+         X3'First = X3'Old'First and X3'Last = X3'Old'Last and
+         Y3'First = Y3'Old'First and Y3'Last = Y3'Old'Last and
+         Z3'First = Z3'Old'First and Z3'Last = Z3'Old'Last;
 
    procedure Make_Affine
      (X1       : in     Bignum.Big_Int;
@@ -378,47 +395,49 @@ is
       R_First  : in     Natural;
       M        : in     Bignum.Big_Int;
       M_First  : in     Natural;
-      M_Inv    : in     Types.Word32);
-   --# derives
-   --#   X2 from
-   --#     X1, X1_First, X1_Last, X2_First, Z1, Z1_First,
-   --#     R, R_First, M, M_First, M_Inv &
-   --#   Y2 from
-   --#     X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First, Y2_First,
-   --#     R, R_First, M, M_First, M_Inv;
-   --# pre
-   --#   X1_First in X1'Range and
-   --#   X1_Last in X1'Range and
-   --#   X1_First < X1_Last and
-   --#   X1_Last - X1_First < Max_Coord_Length and
-   --#   Y1_First in Y1'Range and
-   --#   Y1_First + (X1_Last - X1_First) in Y1'Range and
-   --#   Z1_First in Z1'Range and
-   --#   Z1_First + (X1_Last - X1_First) in Z1'Range and
-   --#   X2_First in X2'Range and
-   --#   X2_First + (X1_Last - X1_First) in X2'Range and
-   --#   Y2_First in Y2'Range and
-   --#   Y2_First + (X1_Last - X1_First) in Y2'Range and
-   --#   R_First in R'Range and
-   --#   R_First + (X1_Last - X1_First) in R'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X1_Last - X1_First) in M'Range and
-   --#   Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (R, R_First, X1_Last - X1_First + 1) =
-   --#   Bignum.Base ** (2 * (X1_Last - X1_First + 1)) mod
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+      M_Inv    : in     Types.Word32)
+     with
+       Depends =>
+         (X2 =>+
+            (X1, X1_First, X1_Last, X2_First, Z1, Z1_First,
+             R, R_First, M, M_First, M_Inv),
+          Y2 =>+
+            (X1_First, X1_Last, Y1, Y1_First, Z1, Z1_First, Y2_First,
+             R, R_First, M, M_First, M_Inv)),
+       Pre =>
+         X1_First in X1'Range and
+         X1_Last in X1'Range and
+         X1_First < X1_Last and
+         X1_Last - X1_First < Max_Coord_Length and
+         Y1_First in Y1'Range and
+         Y1_First + (X1_Last - X1_First) in Y1'Range and
+         Z1_First in Z1'Range and
+         Z1_First + (X1_Last - X1_First) in Z1'Range and
+         X2_First in X2'Range and
+         X2_First + (X1_Last - X1_First) in X2'Range and
+         Y2_First in Y2'Range and
+         Y2_First + (X1_Last - X1_First) in Y2'Range and
+         R_First in R'Range and
+         R_First + (X1_Last - X1_First) in R'Range and
+         M_First in M'Range and
+         M_First + (X1_Last - X1_First) in M'Range and
+         Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (R, R_First, X1_Last - X1_First + 1) =
+         Bignum.Base ** (2 * (X1_Last - X1_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
 
    procedure Invert
      (A       : in     Bignum.Big_Int;
@@ -430,28 +449,32 @@ is
       R_First : in     Natural;
       M       : in     Bignum.Big_Int;
       M_First : in     Natural;
-      M_Inv   : in     Types.Word32);
-   --# derives
-   --#   B from A, A_First, A_Last, B_First, R, R_First, M, M_First, M_Inv;
-   --# pre
-   --#   A_First in A'Range and
-   --#   A_Last in A'Range and
-   --#   A_First < A_Last and
-   --#   A_Last - A_First < Max_Coord_Length and
-   --#   B_First in B'Range and
-   --#   B_First + (A_Last - A_First) in B'Range and
-   --#   R_First in R'Range and
-   --#   R_First + (A_Last - A_First) in R'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (A_Last - A_First) in M'Range and
-   --#   Bignum.Num_Of_Big_Int (R, R_First, A_Last - A_First + 1) =
-   --#   Bignum.Base ** (2 * (A_Last - A_First + 1)) mod
-   --#   Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+      M_Inv   : in     Types.Word32)
+     with
+       Depends =>
+         (B =>+ (A, A_First, A_Last, B_First, R, R_First, M, M_First, M_Inv)),
+       Pre =>
+         A_First in A'Range and
+         A_Last in A'Range and
+         A_First < A_Last and
+         A_Last - A_First < Max_Coord_Length and
+         B_First in B'Range and
+         B_First + (A_Last - A_First) in B'Range and
+         R_First in R'Range and
+         R_First + (A_Last - A_First) in R'Range and
+         M_First in M'Range and
+         M_First + (A_Last - A_First) in M'Range and
+         Bignum.Num_Of_Big_Int (R, R_First, A_Last - A_First + 1) =
+         Bignum.Base ** (2 * (A_Last - A_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         -- FIXME workaround for [N416-037]
+         B'First = B'Old'First and B'Last = B'Old'Last;
 
    function On_Curve
      (X       : Bignum.Big_Int;
@@ -468,31 +491,33 @@ is
       M       : Bignum.Big_Int;
       M_First : Natural;
       M_Inv : Types.Word32)
-     return Boolean;
-   --# pre
-   --#   X_First in X'Range and
-   --#   X_Last in X'Range and
-   --#   X_First < X_Last and
-   --#   X_Last - X_First < Max_Coord_Length and
-   --#   Y_First in Y'Range and
-   --#   Y_First + (X_Last - X_First) in Y'Range and
-   --#   A_First in A'Range and
-   --#   A_First + (X_Last - X_First) in A'Range and
-   --#   B_First in B'Range and
-   --#   B_First + (X_Last - X_First) in B'Range and
-   --#   R_First in R'Range and
-   --#   R_First + (X_Last - X_First) in R'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X_Last - X_First) in M'Range and
-   --#   Bignum.Num_Of_Big_Int (A, A_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (B, B_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (R, R_First, X_Last - X_First + 1) =
-   --#   Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
+     return Boolean
+     with
+       Pre =>
+         X_First in X'Range and
+         X_Last in X'Range and
+         X_First < X_Last and
+         X_Last - X_First < Max_Coord_Length and
+         Y_First in Y'Range and
+         Y_First + (X_Last - X_First) in Y'Range and
+         A_First in A'Range and
+         A_First + (X_Last - X_First) in A'Range and
+         B_First in B'Range and
+         B_First + (X_Last - X_First) in B'Range and
+         R_First in R'Range and
+         R_First + (X_Last - X_First) in R'Range and
+         M_First in M'Range and
+         M_First + (X_Last - X_First) in M'Range and
+         Bignum.Num_Of_Big_Int (A, A_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Bignum.Num_Of_Big_Int (B, B_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Bignum.Num_Of_Big_Int (R, R_First, X_Last - X_First + 1) =
+         Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         1 + M_Inv * M (M_First) = 0;
 
    procedure Uncompress_Point
      (X       : in     Bignum.Big_Int;
@@ -510,37 +535,39 @@ is
       M_Inv   : in     Types.Word32;
       Y       :    out Bignum.Big_Int;
       Y_First : in     Natural;
-      Success :    out Boolean);
-   --# derives
-   --#   Y, Success from
-   --#   X, X_First, X_Last, Even, A, A_First, B, B_First,
-   --#   R, R_First, M, M_First, M_Inv, Y_First;
-   --# pre
-   --#   X_First in X'Range and
-   --#   X_Last in X'Range and
-   --#   X_First < X_Last and
-   --#   X_Last - X_First < Max_Coord_Length and
-   --#   Y_First in Y'Range and
-   --#   Y_First + (X_Last - X_First) in Y'Range and
-   --#   A_First in A'Range and
-   --#   A_First + (X_Last - X_First) in A'Range and
-   --#   B_First in B'Range and
-   --#   B_First + (X_Last - X_First) in B'Range and
-   --#   R_First in R'Range and
-   --#   R_First + (X_Last - X_First) in R'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X_Last - X_First) in M'Range and
-   --#   Bignum.Num_Of_Big_Int (A, A_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (B, B_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (R, R_First, X_Last - X_First + 1) =
-   --#   Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0;
-   --# post
-   --#   Bignum.Num_Of_Big_Int (Y, Y_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1);
+      Success :    out Boolean)
+     with
+       Depends =>
+         ((Y, Success) =>
+            (X, X_First, X_Last, Even, A, A_First, B, B_First,
+             R, R_First, M, M_First, M_Inv, Y, Y_First)),
+       Pre =>
+         X_First in X'Range and
+         X_Last in X'Range and
+         X_First < X_Last and
+         X_Last - X_First < Max_Coord_Length and
+         Y_First in Y'Range and
+         Y_First + (X_Last - X_First) in Y'Range and
+         A_First in A'Range and
+         A_First + (X_Last - X_First) in A'Range and
+         B_First in B'Range and
+         B_First + (X_Last - X_First) in B'Range and
+         R_First in R'Range and
+         R_First + (X_Last - X_First) in R'Range and
+         M_First in M'Range and
+         M_First + (X_Last - X_First) in M'Range and
+         Bignum.Num_Of_Big_Int (A, A_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Bignum.Num_Of_Big_Int (B, B_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Bignum.Num_Of_Big_Int (R, R_First, X_Last - X_First + 1) =
+         Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         1 + M_Inv * M (M_First) = 0,
+       Post =>
+         Bignum.Num_Of_Big_Int (Y, Y_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1);
 
 end LSC.EC;

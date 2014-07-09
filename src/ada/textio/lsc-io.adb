@@ -39,7 +39,9 @@ use type LSC.Types.Word64;
 use type LSC.Types.Word32;
 use type LSC.Types.Byte;
 
-package body LSC.IO is
+package body LSC.IO
+  with SPARK_Mode => Off
+is
 
    subtype Nibble is Natural range 0 .. 15;
 

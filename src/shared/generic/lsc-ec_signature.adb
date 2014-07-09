@@ -32,11 +32,10 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.EC;
-
 package body LSC.EC_Signature
 is
 
+   pragma Warnings (Off, """V"" may be referenced before it has a value");
    procedure Extract
      (X        : in     Bignum.Big_Int;
       X_First  : in     Natural;
@@ -55,45 +54,48 @@ is
       N_Inv    : in     Types.Word32;
       RN       : in     Bignum.Big_Int;
       RN_First : in     Natural)
-   --# derives
-   --#   V from
-   --#     V_First, X, X_First, X_Last, Z, Z_First,
-   --#     M, M_First, M_Inv, RM, RM_First,
-   --#     N, N_First, N_Inv, RN, RN_First;
-   --# pre
-   --#   X_First in X'Range and
-   --#   X_Last in X'Range and
-   --#   X_First < X_Last and
-   --#   X_Last - X_First < EC.Max_Coord_Length and
-   --#   Z_First in Z'Range and
-   --#   Z_First + (X_Last - X_First) in Z'Range and
-   --#   V_First in V'Range and
-   --#   V_First + (X_Last - X_First) in V'Range and
-   --#   M_First in M'Range and
-   --#   M_First + (X_Last - X_First) in M'Range and
-   --#   RM_First in RM'Range and
-   --#   RM_First + (X_Last - X_First) in RM'Range and
-   --#   N_First in N'Range and
-   --#   N_First + (X_Last - X_First) in N'Range and
-   --#   RN_First in RN'Range and
-   --#   RN_First + (X_Last - X_First) in RN'Range and
-   --#   Bignum.Num_Of_Big_Int (X, X_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (Z, Z_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   1 < Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   1 + M_Inv * M (M_First) = 0 and
-   --#   1 < Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1) and
-   --#   1 + N_Inv * N (N_First) = 0 and
-   --#   Bignum.Num_Of_Big_Int (RM, RM_First, X_Last - X_First + 1) =
-   --#   Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
-   --#   Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
-   --#   Bignum.Num_Of_Big_Int (RN, RN_First, X_Last - X_First + 1) =
-   --#   Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
-   --#   Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1);
-   --# post
-   --#   Bignum.Num_Of_Big_Int (V, V_First, X_Last - X_First + 1) <
-   --#   Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1);
+     with
+       Depends =>
+         (V =>+
+            (V_First, X, X_First, X_Last, Z, Z_First,
+             M, M_First, M_Inv, RM, RM_First,
+             N, N_First, N_Inv, RN, RN_First)),
+       Pre =>
+         X_First in X'Range and
+         X_Last in X'Range and
+         X_First < X_Last and
+         X_Last - X_First < EC.Max_Coord_Length and
+         Z_First in Z'Range and
+         Z_First + (X_Last - X_First) in Z'Range and
+         V_First in V'Range and
+         V_First + (X_Last - X_First) in V'Range and
+         M_First in M'Range and
+         M_First + (X_Last - X_First) in M'Range and
+         RM_First in RM'Range and
+         RM_First + (X_Last - X_First) in RM'Range and
+         N_First in N'Range and
+         N_First + (X_Last - X_First) in N'Range and
+         RN_First in RN'Range and
+         RN_First + (X_Last - X_First) in RN'Range and
+         Bignum.Num_Of_Big_Int (X, X_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Bignum.Num_Of_Big_Int (Z, Z_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         1 + M_Inv * M (M_First) = 0 and
+         Math_Int.From_Word32 (1) <
+         Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1) and
+         1 + N_Inv * N (N_First) = 0 and
+         Bignum.Num_Of_Big_Int (RM, RM_First, X_Last - X_First + 1) =
+         Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, X_Last - X_First + 1) and
+         Bignum.Num_Of_Big_Int (RN, RN_First, X_Last - X_First + 1) =
+         Bignum.Base ** (2 * (X_Last - X_First + 1)) mod
+         Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1),
+       Post =>
+         Bignum.Num_Of_Big_Int (V, V_First, X_Last - X_First + 1) <
+         Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1)
    is
       L : Natural;
       H : EC.Coord;
@@ -116,6 +118,7 @@ is
         (V, V_First, V_First + L, H, H'First, RN, RN_First,
          N, N_First, N_Inv);
    end Extract;
+   pragma Warnings (On, """V"" may be referenced before it has a value");
 
    ----------------------------------------------------------------------------
 
@@ -163,7 +166,7 @@ is
         (H3, H3'First, H3'First + L, H1, H1'First, RN, RN_First,
          N, N_First, N_Inv);
 
-      --# accept Flow, 10, Y, "Y not needed here";
+      pragma Warnings (Off, "unused assignment to ""Y""");
       EC.Point_Mult
         (X1       => BX,
          X1_First => BX_First,
@@ -186,7 +189,7 @@ is
          M        => M,
          M_First  => M_First,
          M_Inv    => M_Inv);
-      --# end accept;
+      pragma Warnings (On, "unused assignment to ""Y""");
 
       Extract
         (X, X'First, X'First + L, Z, Z'First, Sign1, Sign1_First,
@@ -234,7 +237,6 @@ is
       Success :=
         not Bignum.Is_Zero (Sign1, Sign1_First, Sign1_Last) and then
         not Bignum.Is_Zero (Sign2, Sign2_First, Sign2_First + L);
-      --# accept Flow, 33, Y, "Y not needed here";
    end Sign;
 
    ----------------------------------------------------------------------------
@@ -306,7 +308,7 @@ is
            (H1, H1'First, H1'First + L, Hash, Hash_First, H, H'First,
             N, N_First, N_Inv);
 
-         --# accept Flow, 10, Y, "Y not needed here";
+         pragma Warnings (Off, "unused assignment to ""Y""");
          EC.Two_Point_Mult
            (X1       => BX,
             X1_First => BX_First,
@@ -337,7 +339,7 @@ is
             M        => M,
             M_First  => M_First,
             M_Inv    => M_Inv);
-         --# end accept;
+         pragma Warnings (On, "unused assignment to ""Y""");
 
          Extract
            (X, X'First, X'First + L, Z, Z'First, V, V'First,
@@ -350,7 +352,6 @@ is
          Result := False;
       end if;
 
-      --# accept Flow, 33, Y, "Y not needed here";
       return Result;
    end Verify;
 

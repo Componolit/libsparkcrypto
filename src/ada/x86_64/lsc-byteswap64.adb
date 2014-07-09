@@ -34,7 +34,9 @@
 
 with System.Machine_Code;
 
-package body LSC.Byteswap64 is
+package body LSC.Byteswap64
+  with SPARK_Mode => Off
+is
 
    function Swap (Value : Types.Word64) return Types.Word64
    is

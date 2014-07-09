@@ -109,7 +109,7 @@ package body LSC.HMAC_SHA512 is
    ----------------------------------------------------------------------------
 
    function Get_Auth (Context : in Context_Type) return Auth_Type is
-      Result : Auth_Type := Null_Auth;
+      Result : Auth_Type;
       Prf    : SHA512.SHA512_Hash_Type;
    begin
       Prf := SHA512.SHA512_Get_Hash (Context.SHA512_Context);

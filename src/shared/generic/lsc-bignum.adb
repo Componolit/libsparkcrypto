@@ -37,7 +37,8 @@ with LSC.Byteorder32;
 package body LSC.Bignum
 is
 
-   --# function GCD (A, B: Universal_Integer) return Universal_Integer;
+   function GCD (A, B: Types.Word32) return Types.Word32
+     with Convention => Ghost, Import, Global => Null;
 
    procedure Initialize
      (A       :    out Big_Int;
@@ -46,12 +47,18 @@ is
    is
    begin
       for I in Natural range A_First .. A_Last
-      --# assert (for all K in Natural range A_First .. I - 1 => (A (K) = 0));
       loop
-         --# accept Flow, 23, A, "Initialized between A_First and A_Last";
+         pragma Warnings (Off, """A"" may be referenced before it has a value");
+         pragma Warnings (Off, """A"" might not be initialized");
+         pragma Loop_Invariant
+           (for all K in Natural range A_First .. I - 1 => (A (K) = 0));
+         pragma Warnings (On, """A"" may be referenced before it has a value");
+         pragma Warnings (On, """A"" might not be initialized");
+
+         pragma Warnings (Off, """A"" might not be initialized");
          A (I) := 0;
+         pragma Warnings (On, """A"" might not be initialized");
       end loop;
-      --# accept Flow, 602, A, A, "OK";
    end Initialize;
 
    ----------------------------------------------------------------------------
@@ -65,20 +72,22 @@ is
    is
    begin
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   for all K in Natural range B'Range =>
-      --#     ((K in B_First .. B_First + I - A_First - 1 ->
-      --#         B (K) = A (A_First + K - B_First)) and
-      --#      (K not in B_First .. B_First + I - A_First - 1 ->
-      --#         B (K) = B~ (K)));
       loop
+         pragma Loop_Invariant
+           (for all K in Natural range B'Range =>
+              ((if K in B_First .. B_First + I - A_First - 1 then
+                  B (K) = A (A_First + K - B_First)) and
+               (if K not in B_First .. B_First + I - A_First - 1 then
+                  B (K) = B'Loop_Entry (K))));
+
          B (B_First + (I - A_First)) := A (I);
-         --# assert
-         --#   for all K in Natural range B'Range =>
-         --#     ((K in B_First .. B_First + (I + 1) - A_First - 1 ->
-         --#         B (K) = A (A_First + K - B_First)) and
-         --#      (K not in B_First .. B_First + (I + 1) - A_First - 1 ->
-         --#         B (K) = B~ (K)));
+
+         pragma Assert_And_Cut
+           (for all K in Natural range B'Range =>
+              ((if K in B_First .. B_First + (I + 1) - A_First - 1 then
+                  B (K) = A (A_First + K - B_First)) and
+               (if K not in B_First .. B_First + (I + 1) - A_First - 1 then
+                  B (K) = B'Loop_Entry (K))));
       end loop;
    end Copy;
 
@@ -93,18 +102,18 @@ is
    is
    begin
       for I in Natural range A_First .. A_Last
-      --# assert True;
       loop
-         --# accept Flow, 23, B, "Copied between A_First and A_Last";
+         pragma Warnings (Off, """B"" might not be initialized");
          B (B_First + (A_Last - I)) := Byteorder32.Native_To_BE (A (I));
+         pragma Warnings (On, """B"" might not be initialized");
       end loop;
-      --# accept Flow, 602, B, B, "OK";
    end Native_To_BE;
 
    ----------------------------------------------------------------------------
 
    function Word_Of_Boolean (B : Boolean) return Types.Word32
-   --# return Result => Universal_Integer (Result) = Num_Of_Boolean (B);
+     with Post =>
+       Math_Int.From_Word32 (Word_Of_Boolean'Result) = Num_Of_Boolean (B)
    is
       Result : Types.Word32;
    begin
@@ -130,23 +139,26 @@ is
       Carry := False;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (A~, A_First, I - A_First) * 2 =
-      --#   Num_Of_Big_Int (A, A_First, I - A_First) +
-      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry) and
-      --#   (for all K in Natural range I .. A_Last =>
-      --#      (A (K) = A~ (K)));
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (A'Loop_Entry, A_First, I - A_First) *
+            Math_Int.From_Word32 (2) =
+            Num_Of_Big_Int (A, A_First, I - A_First) +
+            Base ** (I - A_First) * Num_Of_Boolean (Carry) and
+            (for all K in Natural range I .. A_Last =>
+               (A (K) = A'Loop_Entry (K))));
+
          New_Carry := (A (I) and 2 ** 31) /= 0;
          A (I) := Types.SHL32 (A (I), 1) + Word_Of_Boolean (Carry);
          Carry := New_Carry;
 
-      --# assert
-      --#   Num_Of_Big_Int (A~, A_First, (I + 1) - A_First) * 2 =
-      --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
-      --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
-      --#   (for all K in Natural range I + 1 .. A_Last =>
-      --#      (A (K) = A~ (K)));
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (A'Loop_Entry, A_First, (I + 1) - A_First) *
+            Math_Int.From_Word32 (2) =
+            Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+            Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
+            (for all K in Natural range I + 1 .. A_Last =>
+               (A (K) = A'Loop_Entry (K))));
       end loop;
    end Double_Inplace;
 
@@ -163,23 +175,26 @@ is
       H1 := 0;
 
       for I in reverse Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (A~, I + 1, A_Last - I) =
-      --#   Num_Of_Big_Int (A, I + 1, A_Last - I) * 2 ** K +
-      --#   Universal_Integer (H1) mod 2 ** K and
-      --#   (for all J in Natural range A_First .. I =>
-      --#      (A (J) = A~ (J)));
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (A'Loop_Entry, I + 1, A_Last - I) =
+            Num_Of_Big_Int (A, I + 1, A_Last - I) *
+            Math_Int.From_Word32 (2) ** K +
+            Math_Int.From_Word32 (H1) mod Math_Int.From_Word32 (2) ** K and
+            (for all J in Natural range A_First .. I =>
+               (A (J) = A'Loop_Entry (J))));
+
          H2 := A (I);
          A (I) := Types.SHR32 (A (I), K) + Types.SHL32 (H1, 32 - K);
          H1 := H2;
 
-      --# assert
-      --#   Num_Of_Big_Int (A~, (I - 1) + 1, A_Last - (I - 1)) =
-      --#   Num_Of_Big_Int (A, (I - 1) + 1, A_Last - (I - 1)) * 2 ** K +
-      --#   Universal_Integer (H1) mod 2 ** K and
-      --#   (for all J in Natural range A_First .. I - 1 =>
-      --#      (A (J) = A~ (J)));
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (A'Loop_Entry, (I - 1) + 1, A_Last - (I - 1)) =
+            Num_Of_Big_Int (A, (I - 1) + 1, A_Last - (I - 1)) *
+            Math_Int.From_Word32 (2) ** K +
+            Math_Int.From_Word32 (H1) mod Math_Int.From_Word32 (2) ** K and
+            (for all J in Natural range A_First .. I - 1 =>
+               (A (J) = A'Loop_Entry (J))));
       end loop;
    end SHR_Inplace;
 
@@ -198,25 +213,26 @@ is
       Carry := False;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (A~, A_First, I - A_First) +
-      --#   Num_Of_Big_Int (B, B_First, I - A_First) =
-      --#   Num_Of_Big_Int (A, A_First, I - A_First) +
-      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry) and
-      --#   (for all K in Natural range I .. A_Last =>
-      --#      (A (K) = A~ (K)));
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (A'Loop_Entry, A_First, I - A_First) +
+            Num_Of_Big_Int (B, B_First, I - A_First) =
+            Num_Of_Big_Int (A, A_First, I - A_First) +
+            Base ** (I - A_First) * Num_Of_Boolean (Carry) and
+            (for all K in Natural range I .. A_Last =>
+               (A (K) = A'Loop_Entry (K))));
+
          H := A (I) + B (B_First + (I - A_First)) + Word_Of_Boolean (Carry);
          Carry := H < A (I) or (H = A (I) and Carry);
          A (I) := H;
 
-         --# assert
-         --#   Num_Of_Big_Int (A~, A_First, (I + 1) - A_First) +
-         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) =
-         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
-         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
-         --#   (for all K in Natural range I + 1 .. A_Last =>
-         --#      (A (K) = A~ (K)));
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (A'Loop_Entry, A_First, (I + 1) - A_First) +
+            Num_Of_Big_Int (B, B_First, (I + 1) - A_First) =
+            Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+            Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
+            (for all K in Natural range I + 1 .. A_Last =>
+               (A (K) = A'Loop_Entry (K))));
       end loop;
    end Add_Inplace;
 
@@ -238,26 +254,32 @@ is
       Carry := False;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (B, B_First, I - A_First) +
-      --#   Num_Of_Big_Int (C, C_First, I - A_First) =
-      --#   Num_Of_Big_Int (A, A_First, I - A_First) +
-      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry);
       loop
+         pragma Warnings (Off, """A"" may be referenced before it has a value");
+         pragma Warnings (Off, """A"" might not be initialized");
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (B, B_First, I - A_First) +
+            Num_Of_Big_Int (C, C_First, I - A_First) =
+            Num_Of_Big_Int (A, A_First, I - A_First) +
+            Base ** (I - A_First) * Num_Of_Boolean (Carry));
+         pragma Warnings (On, """A"" may be referenced before it has a value");
+         pragma Warnings (On, """A"" might not be initialized");
+
          J := I - A_First;
          H := B (B_First + J) + C (C_First + J) + Word_Of_Boolean (Carry);
          Carry := H < B (B_First + J) or (H = B (B_First + J) and Carry);
-         --# accept Flow, 23, A, "Initialized between A_First and A_Last";
+         pragma Warnings (Off, """A"" might not be initialized");
          A (I) := H;
-         --# end accept;
+         pragma Warnings (On, """A"" might not be initialized");
 
-         --# assert
-         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) +
-         --#   Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
-         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
-         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry);
+         pragma Warnings (Off, """A"" might not be initialized");
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) +
+            Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
+            Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+            Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry));
+         pragma Warnings (On, """A"" might not be initialized");
       end loop;
-      --# accept Flow, 602, A, A, "OK";
    end Add;
 
    ----------------------------------------------------------------------------
@@ -276,26 +298,27 @@ is
       Carry := False;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (A~, A_First, I - A_First) -
-      --#   Num_Of_Big_Int (B, B_First, I - A_First) =
-      --#   Num_Of_Big_Int (A, A_First, I - A_First) -
-      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry) and
-      --#   (for all K in Natural range I .. A_Last =>
-      --#      (A (K) = A~ (K)));
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (A'Loop_Entry, A_First, I - A_First) -
+            Num_Of_Big_Int (B, B_First, I - A_First) =
+            Num_Of_Big_Int (A, A_First, I - A_First) -
+            Base ** (I - A_First) * Num_Of_Boolean (Carry) and
+            (for all K in Natural range I .. A_Last =>
+               (A (K) = A'Loop_Entry (K))));
+
          J := B_First + (I - A_First);
          New_Carry := A (I) < B (J) or else (A (I) = B (J) and then Carry);
          A (I) := (A (I) - B (J)) - Word_Of_Boolean (Carry);
          Carry := New_Carry;
 
-         --# assert
-         --#   Num_Of_Big_Int (A~, A_First, (I + 1) - A_First) -
-         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) =
-         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
-         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
-         --#   (for all K in Natural range I + 1 .. A_Last =>
-         --#      (A (K) = A~ (K)));
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (A'Loop_Entry, A_First, (I + 1) - A_First) -
+            Num_Of_Big_Int (B, B_First, (I + 1) - A_First) =
+            Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
+            Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry) and
+            (for all K in Natural range I + 1 .. A_Last =>
+               (A (K) = A'Loop_Entry (K))));
       end loop;
    end Sub_Inplace;
 
@@ -317,27 +340,33 @@ is
       Carry := False;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (B, B_First, I - A_First) -
-      --#   Num_Of_Big_Int (C, C_First, I - A_First) =
-      --#   Num_Of_Big_Int (A, A_First, I - A_First) -
-      --#   Base ** (I - A_First) * Num_Of_Boolean (Carry);
       loop
+         pragma Warnings (Off, """A"" may be referenced before it has a value");
+         pragma Warnings (Off, """A"" might not be initialized");
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (B, B_First, I - A_First) -
+            Num_Of_Big_Int (C, C_First, I - A_First) =
+            Num_Of_Big_Int (A, A_First, I - A_First) -
+            Base ** (I - A_First) * Num_Of_Boolean (Carry));
+         pragma Warnings (On, """A"" may be referenced before it has a value");
+         pragma Warnings (On, """A"" might not be initialized");
+
          J := I - A_First;
          New_Carry := B (B_First + J) < C (C_First + J) or else
            (B (B_First + J) = C (C_First + J) and then Carry);
-         --# accept Flow, 23, A, "Initialized between A_First and A_Last";
+         pragma Warnings (Off, """A"" might not be initialized");
          A (I) := (B (B_First + J) - C (C_First + J)) - Word_Of_Boolean (Carry);
-         --# end accept;
+         pragma Warnings (On, """A"" might not be initialized");
          Carry := New_Carry;
 
-         --# assert
-         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) -
-         --#   Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
-         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
-         --#   Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry);
+         pragma Warnings (Off, """A"" might not be initialized");
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) -
+            Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
+            Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
+            Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry));
+         pragma Warnings (On, """A"" might not be initialized");
       end loop;
-      --# accept Flow, 602, A, A, "OK";
    end Sub;
 
    ----------------------------------------------------------------------------
@@ -356,8 +385,9 @@ is
       Add_Inplace (A, A_First, A_Last, B, B_First, Carry);
 
       if Carry then
-         --# accept Flow, 10, Carry, "Carry not needed here";
+         pragma Warnings (Off, "unused assignment to ""Carry""");
          Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
+         pragma Warnings (On, "unused assignment to ""Carry""");
       end if;
    end Mod_Add_Inplace;
 
@@ -379,8 +409,9 @@ is
       Add (A, A_First, A_Last, B, B_First, C, C_First, Carry);
 
       if Carry then
-         --# accept Flow, 10, Carry, "Carry not needed here";
+         pragma Warnings (Off, "unused assignment to ""Carry""");
          Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
+         pragma Warnings (On, "unused assignment to ""Carry""");
       end if;
    end Mod_Add;
 
@@ -400,8 +431,9 @@ is
       Sub_Inplace (A, A_First, A_Last, B, B_First, Carry);
 
       if Carry then
-         --# accept Flow, 10, Carry, "Carry not needed here";
+         pragma Warnings (Off, "unused assignment to ""Carry""");
          Add_Inplace (A, A_First, A_Last, M, M_First, Carry);
+         pragma Warnings (On, "unused assignment to ""Carry""");
       end if;
    end Mod_Sub_Inplace;
 
@@ -423,8 +455,9 @@ is
       Sub (A, A_First, A_Last, B, B_First, C, C_First, Carry);
 
       if Carry then
-         --# accept Flow, 10, Carry, "Carry not needed here";
+         pragma Warnings (Off, "unused assignment to ""Carry""");
          Add_Inplace (A, A_First, A_Last, M, M_First, Carry);
+         pragma Warnings (On, "unused assignment to ""Carry""");
       end if;
    end Mod_Sub;
 
@@ -441,12 +474,12 @@ is
       Result := True;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   (Result <->
-      --#    (for all J in Natural range A_First .. I - 1 =>
-      --#       (A (J) = 0))) and
-      --#   A_Last% = A_Last;
       loop
+         pragma Loop_Invariant
+           (Result =
+            (for all J in Natural range A_First .. I - 1 =>
+               (A (J) = 0)));
+
          if A (I) /= 0 then
             Result := False;
             exit;
@@ -471,12 +504,12 @@ is
       Result := True;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   (Result <->
-      --#    (for all J in Natural range A_First .. I - 1 =>
-      --#       (A (J) = B (B_First + (J - A_First))))) and
-      --#   A_Last% = A_Last;
       loop
+         pragma Loop_Invariant
+           (Result =
+            (for all J in Natural range A_First .. I - 1 =>
+               (A (J) = B (B_First + (J - A_First)))));
+
          if A (I) /= B (B_First + (I - A_First)) then
             Result := False;
             exit;
@@ -502,11 +535,12 @@ is
       Result := False;
 
       for I in reverse Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (A, I + 1, A_Last - I) =
-      --#   Num_Of_Big_Int (B, B_First + (I - A_First) + 1, A_Last - I) and
-      --#   not Result and A_First% = A_First;
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (A, I + 1, A_Last - I) =
+            Num_Of_Big_Int (B, B_First + (I - A_First) + 1, A_Last - I) and
+            not Result);
+
          J := B_First + (I - A_First);
 
          if A (I) < B (J) then
@@ -538,30 +572,33 @@ is
       R (R_First) := 1;
 
       for I in Natural range M_First .. M_Last
-      --# assert
-      --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-      --#   Base ** (2 * (I - M_First)) mod
-      --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
-      --#   R_Last = R_First + (M_Last - M_First);
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
+            Base ** (2 * (I - M_First)) mod
+            Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
+            R_Last = R_First + (M_Last - M_First));
+
          for J in Natural range 0 .. 63
-         --# assert
-         --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-         --#   Base ** (2 * (I - M_First)) * 2 ** J mod
-         --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
-         --#   R_Last = R_First + (M_Last - M_First);
          loop
+            pragma Loop_Invariant
+              (Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
+               Base ** (2 * (I - M_First)) * Math_Int.From_Word32 (2) ** J mod
+               Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
+               R_Last = R_First + (M_Last - M_First));
+
             Double_Inplace (R, R_First, R_Last, Carry);
             if Carry or else not Less (R, R_First, R_Last, M, M_First) then
-               --# accept Flow, 10, Carry, "Carry not needed here";
+               pragma Warnings (Off, "unused assignment to ""Carry""");
                Sub_Inplace (R, R_First, R_Last, M, M_First, Carry);
+               pragma Warnings (On, "unused assignment to ""Carry""");
             end if;
 
-            --# assert
-            --#   Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-            --#   Base ** (2 * (I - M_First)) * 2 ** (J + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
-            --#   R_Last = R_First + (M_Last - M_First);
+            pragma Assert_And_Cut
+              (Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
+               Base ** (2 * (I - M_First)) * Math_Int.From_Word32 (2) ** (J + 1) mod
+               Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
+               R_Last = R_First + (M_Last - M_First));
          end loop;
       end loop;
    end Size_Square_Mod;
@@ -577,11 +614,14 @@ is
       P := 1;
       Q := (0 - ((0 - M) / M)) - 1;
 
-      while B /= 0
-      --# assert
-      --#   A = P * M and B = Q * M and
-      --#   GCD (Universal_Integer (A), Universal_Integer (B)) = 1;
       loop
+         pragma Loop_Invariant
+           (A = P * M and B = Q * M and
+            GCD (A, B) = 1);
+
+         -- FIXME workaround for [N410-033]
+         exit when B = 0;
+
          Quot := A / B;
          Temp := A mod B;
          A := B;
@@ -604,18 +644,19 @@ is
       Y       : in     Types.Word32;
       Carry1  : in out Types.Word32;
       Carry2  : in out Types.Word32)
-   --# derives
-   --#   A from A, V, W, X, Y, Carry1 &
-   --#   Carry1, Carry2 from A, V, W, X, Y, Carry1, Carry2;
-   --# post
-   --#   Universal_Integer (A~) +
-   --#   Universal_Integer (V) * Universal_Integer (W) +
-   --#   Universal_Integer (X) * Universal_Integer (Y) +
-   --#   Universal_Integer (Carry1~) +
-   --#   Base * Universal_Integer (Carry2~) =
-   --#   Universal_Integer (A) +
-   --#   Base * (Universal_Integer (Carry1) +
-   --#     Base * Universal_Integer (Carry2));
+     with
+       Depends =>
+         (A =>+ (V, W, X, Y, Carry1),
+          (Carry1, Carry2) => (A, V, W, X, Y, Carry1, Carry2)),
+       Post =>
+         Math_Int.From_Word32 (A'Old) +
+         Math_Int.From_Word32 (V) * Math_Int.From_Word32 (W) +
+         Math_Int.From_Word32 (X) * Math_Int.From_Word32 (Y) +
+         Math_Int.From_Word32 (Carry1'Old) +
+         Base * Math_Int.From_Word32 (Carry2'Old) =
+         Math_Int.From_Word32 (A) +
+         Base * (Math_Int.From_Word32 (Carry1) +
+           Base * Math_Int.From_Word32 (Carry2))
    is
       Mult1, Mult2, Temp : Types.Word64;
    begin
@@ -650,46 +691,48 @@ is
       Y       : in     Types.Word32;
       Carry1  : in out Types.Word32;
       Carry2  : in out Types.Word32)
-   --# derives
-   --#   A, Carry1, Carry2 from
-   --#   A, A_First, A_Last, B, B_First, C, C_First, X, Y, Carry1, Carry2;
-   --# pre
-   --#   A_First in A'Range and
-   --#   A_Last + 1 in A'Range and
-   --#   A_First <= A_Last and
-   --#   B_First in B'Range and
-   --#   B_First + (A_Last - A_First) in B'Range and
-   --#   C_First in C'Range and
-   --#   C_First + (A_Last - A_First) in C'Range;
-   --# post
-   --#   Num_Of_Big_Int (A~, A_First + 1, A_Last - A_First + 1) +
-   --#   Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) *
-   --#   Universal_Integer (X) +
-   --#   Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
-   --#   Universal_Integer (Y) +
-   --#   Universal_Integer (Carry1~) +
-   --#   Base * Universal_Integer (Carry2~) =
-   --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-   --#   Base ** (A_Last - A_First + 1) * (Universal_Integer (Carry1) +
-   --#     Base * Universal_Integer (Carry2));
+     with
+       Depends =>
+         ((A, Carry1, Carry2) =>
+            (A, A_First, A_Last, B, B_First, C, C_First, X, Y, Carry1, Carry2)),
+       Pre =>
+         A_First in A'Range and
+         A_Last + 1 in A'Range and
+         A_First <= A_Last and
+         B_First in B'Range and
+         B_First + (A_Last - A_First) in B'Range and
+         C_First in C'Range and
+         C_First + (A_Last - A_First) in C'Range,
+       Post =>
+         Num_Of_Big_Int (A'Old, A_First + 1, A_Last - A_First + 1) +
+         Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) *
+         Math_Int.From_Word32 (X) +
+         Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
+         Math_Int.From_Word32 (Y) +
+         Math_Int.From_Word32 (Carry1'Old) +
+         Base * Math_Int.From_Word32 (Carry2'Old) =
+         Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+         Base ** (A_Last - A_First + 1) * (Math_Int.From_Word32 (Carry1) +
+           Base * Math_Int.From_Word32 (Carry2))
    is
       Temp : Types.Word32;
    begin
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   Num_Of_Big_Int (A~, A_First + 1, I - A_First) +
-      --#   Num_Of_Big_Int (B, B_First, I - A_First) *
-      --#   Universal_Integer (X) +
-      --#   Num_Of_Big_Int (C, C_First, I - A_First) *
-      --#   Universal_Integer (Y) +
-      --#   Universal_Integer (Carry1~) +
-      --#   Base * Universal_Integer (Carry2~) =
-      --#   Num_Of_Big_Int (A, A_First, I - A_First) +
-      --#   Base ** (I - A_First) * (Universal_Integer (Carry1) +
-      --#     Base * Universal_Integer (Carry2)) and
-      --#   (for all K in Natural range I .. A_Last + 1 =>
-      --#      (A (K) = A~ (K)));
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (A'Loop_Entry, A_First + 1, I - A_First) +
+            Num_Of_Big_Int (B, B_First, I - A_First) *
+            Math_Int.From_Word32 (X) +
+            Num_Of_Big_Int (C, C_First, I - A_First) *
+            Math_Int.From_Word32 (Y) +
+            Math_Int.From_Word32 (Carry1'Loop_Entry) +
+            Base * Math_Int.From_Word32 (Carry2'Loop_Entry) =
+            Num_Of_Big_Int (A, A_First, I - A_First) +
+            Base ** (I - A_First) * (Math_Int.From_Word32 (Carry1) +
+              Base * Math_Int.From_Word32 (Carry2)) and
+            (for all K in Natural range I .. A_Last + 1 =>
+               (A (K) = A'Loop_Entry (K))));
+
          Temp := A (I + 1);
          Single_Add_Mult_Mult
            (Temp,
@@ -698,19 +741,19 @@ is
             Carry1, Carry2);
          A (I) := Temp;
 
-         --# assert
-         --#   Num_Of_Big_Int (A~, A_First + 1, (I + 1) - A_First) +
-         --#   Num_Of_Big_Int (B, B_First, (I + 1) - A_First) *
-         --#   Universal_Integer (X) +
-         --#   Num_Of_Big_Int (C, C_First, (I + 1) - A_First) *
-         --#   Universal_Integer (Y) +
-         --#   Universal_Integer (Carry1~) +
-         --#   Base * Universal_Integer (Carry2~) =
-         --#   Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
-         --#   Base ** ((I + 1) - A_First) * (Universal_Integer (Carry1) +
-         --#     Base * Universal_Integer (Carry2)) and
-         --#   (for all K in Natural range I + 1 .. A_Last + 1 =>
-         --#      (A (K) = A~ (K)));
+         pragma Assert_And_Cut
+           (Num_Of_Big_Int (A'Loop_Entry, A_First + 1, (I + 1) - A_First) +
+            Num_Of_Big_Int (B, B_First, (I + 1) - A_First) *
+            Math_Int.From_Word32 (X) +
+            Num_Of_Big_Int (C, C_First, (I + 1) - A_First) *
+            Math_Int.From_Word32 (Y) +
+            Math_Int.From_Word32 (Carry1'Loop_Entry) +
+            Base * Math_Int.From_Word32 (Carry2'Loop_Entry) =
+            Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
+            Base ** ((I + 1) - A_First) * (Math_Int.From_Word32 (Carry1) +
+              Base * Math_Int.From_Word32 (Carry2)) and
+            (for all K in Natural range I + 1 .. A_Last + 1 =>
+               (A (K) = A'Loop_Entry (K))));
       end loop;
    end Add_Mult_Mult;
 
@@ -735,19 +778,22 @@ is
       A_MSW := 0;
 
       for I in Natural range A_First .. A_Last
-      --# assert
-      --#   (Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-      --#    Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW)) mod
-      --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) =
-      --#   (Num_Of_Big_Int (B, B_First, I - A_First) *
-      --#    Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
-      --#    Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
-      --#      Base) ** (I - A_First)) mod
-      --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-      --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-      --#   Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW) <
-      --#   2 * Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) - 1;
       loop
+         pragma Loop_Invariant
+           ((Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+             Base ** (A_Last - A_First + 1) * Math_Int.From_Word32 (A_MSW)) mod
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) =
+            (Num_Of_Big_Int (B, B_First, I - A_First) *
+             Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
+             Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
+               Base) ** (I - A_First)) mod
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+            Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+            Base ** (A_Last - A_First + 1) * Math_Int.From_Word32 (A_MSW) <
+            Math_Int.From_Word32 (2) *
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) -
+            Math_Int.From_Word32 (1));
+
          Carry1 := 0;
          Carry2 := 0;
          BI := B (B_First + (I - A_First));
@@ -761,25 +807,27 @@ is
          A (A_Last) := A_MSW + Carry1;
          A_MSW := Carry2 + Word_Of_Boolean (A (A_Last) < Carry1);
 
-         --# assert
-         --#   (Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-         --#    Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW)) mod
-         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) =
-         --#   (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) *
-         --#    Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
-         --#    Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
-         --#      Base) ** ((I + 1) - A_First)) mod
-         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-         --#   Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
-         --#   Base ** (A_Last - A_First + 1) * Universal_Integer (A_MSW) <
-         --#   2 * Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) - 1;
+         pragma Assert_And_Cut
+           ((Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+             Base ** (A_Last - A_First + 1) * Math_Int.From_Word32 (A_MSW)) mod
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) =
+            (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) *
+             Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
+             Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
+               Base) ** ((I + 1) - A_First)) mod
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+            Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
+            Base ** (A_Last - A_First + 1) * Math_Int.From_Word32 (A_MSW) <
+            Math_Int.From_Word32 (2) *
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) -
+            Math_Int.From_Word32 (1));
       end loop;
 
       if A_MSW /= 0 or else
         not Less (A, A_First, A_Last, M, M_First) then
-         --# accept Flow, 10, Carry, "Carry not needed here" &
-         --#        Flow, 33, Carry, "Carry not needed here";
+         pragma Warnings (Off, "unused assignment to ""Carry""");
          Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
+         pragma Warnings (On, "unused assignment to ""Carry""");
       end if;
    end Mont_Mult;
 
@@ -821,32 +869,38 @@ is
          M, M_First, M_Inv);
 
       for I in reverse Natural range E_First .. E_Last
-      --# assert
-      --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
-      --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
-      --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
-      --#   Base ** (A_Last - A_First + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-      --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
-      --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
-      --#   Num_Of_Big_Int (E, I + 1, E_Last - I) *
-      --#   Base ** (A_Last - A_First + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
       loop
+         pragma Loop_Invariant
+           (Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) =
+            Math_Int.From_Word32 (1) and
+            Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+            Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
+            Base ** (A_Last - A_First + 1) mod
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+            Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
+            Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+            Num_Of_Big_Int (E, I + 1, E_Last - I) *
+            Base ** (A_Last - A_First + 1) mod
+            Num_Of_Big_Int (M, M_First, A_Last - A_First + 1));
+
          for J in reverse Natural range 0 .. 31
-         --# assert
-         --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
-         --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
-         --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
-         --#   Base ** (A_Last - A_First + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-         --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
-         --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
-         --#   (Num_Of_Big_Int (E, I + 1, E_Last - I) * 2 ** (31 - J) +
-         --#    Universal_Integer (E (I)) / 2 ** (J + 1)) *
-         --#   Base ** (A_Last - A_First + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
          loop
+            pragma Loop_Invariant
+              (Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) =
+               Math_Int.From_Word32 (1) and
+               Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+               Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
+               Base ** (A_Last - A_First + 1) mod
+               Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+               Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
+               Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+               (Num_Of_Big_Int (E, I + 1, E_Last - I) *
+                Math_Int.From_Word32 (2) ** (31 - J) +
+                Math_Int.From_Word32 (E (I)) /
+                Math_Int.From_Word32 (2) ** (J + 1)) *
+               Base ** (A_Last - A_First + 1) mod
+               Num_Of_Big_Int (M, M_First, A_Last - A_First + 1));
+
             Mont_Mult
               (A, A_First, A_Last,
                Aux3, Aux3_First, Aux3, Aux3_First,
@@ -861,18 +915,21 @@ is
                Copy (A, A_First, A_Last, Aux3, Aux3_First);
             end if;
 
-            --# assert
-            --#   Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) = 1 and
-            --#   Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
-            --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
-            --#   Base ** (A_Last - A_First + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-            --#   Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
-            --#   Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
-            --#   (Num_Of_Big_Int (E, I + 1, E_Last - I) * 2 ** (31 - (J - 1)) +
-            --#    Universal_Integer (E (I)) / 2 ** ((J - 1) + 1)) *
-            --#   Base ** (A_Last - A_First + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
+            pragma Assert_And_Cut
+              (Num_Of_Big_Int (Aux1, Aux1_First, A_Last - A_First + 1) =
+               Math_Int.From_Word32 (1) and
+               Num_Of_Big_Int (Aux2, Aux2_First, A_Last - A_First + 1) =
+               Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) *
+               Base ** (A_Last - A_First + 1) mod
+               Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+               Num_Of_Big_Int (Aux3, Aux3_First, A_Last - A_First + 1) =
+               Num_Of_Big_Int (X, X_First, A_Last - A_First + 1) **
+               (Num_Of_Big_Int (E, I + 1, E_Last - I) *
+                Math_Int.From_Word32 (2) ** (31 - (J - 1)) +
+                Math_Int.From_Word32 (E (I)) /
+                Math_Int.From_Word32 (2) ** ((J - 1) + 1)) *
+               Base ** (A_Last - A_First + 1) mod
+               Num_Of_Big_Int (M, M_First, A_Last - A_First + 1));
          end loop;
       end loop;
 
@@ -889,11 +946,13 @@ is
       A_First : Natural;
       I       : Types.Word64)
      return Boolean
-   --# pre
-   --#   A_First + Natural (I / 32) in A'Range;
-   --# return
-   --#   (A (A_First + Natural (I / 32)) and
-   --#    2 ** (Natural (I mod 32))) /= 0;
+     with
+       Pre =>
+         A_First + Natural (I / 32) in A'Range,
+       Post =>
+         Bit_Set'Result =
+         ((A (A_First + Natural (I / 32)) and
+           2 ** (Natural (I mod 32))) /= 0)
    is
    begin
       return
@@ -951,40 +1010,43 @@ is
          Aux4, Aux4_First, Aux4, Aux4_First,
          M, M_First, M_Inv);
 
-      --# assert
-      --#   L = A_Last - A_First and
-      --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-      --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-      --#   Num_Of_Big_Int (X, X_First, L + 1) *
-      --#   Num_Of_Big_Int (X, X_First, L + 1) *
-      --#   Base ** (L + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-      --#   Base ** (L + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Num_Of_Big_Int (Aux4, Aux4_First, L + 1) =
-      --#   Num_Of_Big_Int (X, X_First, L + 1) *
-      --#   Base ** (L + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, L + 1);
+      pragma Assert_And_Cut
+        (L = A_Last - A_First and
+         Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+         Math_Int.From_Word32 (1) and
+         Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+         Num_Of_Big_Int (X, X_First, L + 1) *
+         Num_Of_Big_Int (X, X_First, L + 1) *
+         Base ** (L + 1) mod
+         Num_Of_Big_Int (M, M_First, L + 1) and
+         Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+         Base ** (L + 1) mod
+         Num_Of_Big_Int (M, M_First, L + 1) and
+         Num_Of_Big_Int (Aux4, Aux4_First, L + 1) =
+         Num_Of_Big_Int (X, X_First, L + 1) *
+         Base ** (L + 1) mod
+         Num_Of_Big_Int (M, M_First, L + 1));
 
       for H in Natural range 1 .. 2 ** K - 1
-      --# assert
-      --#   L = A_Last - A_First and
-      --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-      --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-      --#   Num_Of_Big_Int (X, X_First, L + 1) *
-      --#   Num_Of_Big_Int (X, X_First, L + 1) *
-      --#   Base ** (L + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-      --#   Base ** (L + 1) mod
-      --#   Num_Of_Big_Int (M, M_First, L + 1) and
-      --#   (for all N in Natural range 0 .. H - 1 =>
-      --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-      --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-      --#       Base ** (L + 1) mod
-      --#       Num_Of_Big_Int (M, M_First, L + 1)));
       loop
+         pragma Loop_Invariant
+           (L = A_Last - A_First and
+            Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+            Math_Int.From_Word32 (1) and
+            Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            (for all N in Natural range 0 .. H - 1 =>
+               (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                Base ** (L + 1) mod
+                Num_Of_Big_Int (M, M_First, L + 1))));
+
          Mont_Mult
            (A, A_First, A_Last,
             Aux4, Aux4_First + (H - 1) * (L + 1), Aux2, Aux2_First,
@@ -992,81 +1054,91 @@ is
 
          Copy (A, A_First, A_Last, Aux4, Aux4_First + H * (L + 1));
 
-         --# assert
-         --#   L = A_Last - A_First and
-         --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-         --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-         --#   Num_Of_Big_Int (X, X_First, L + 1) *
-         --#   Num_Of_Big_Int (X, X_First, L + 1) *
-         --#   Base ** (L + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-         --#   Base ** (L + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   (for all N in Natural range 0 .. H =>
-         --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-         --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-         --#       Base ** (L + 1) mod
-         --#       Num_Of_Big_Int (M, M_First, L + 1)));
+         pragma Assert_And_Cut
+           (L = A_Last - A_First and
+            Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+            Math_Int.From_Word32 (1) and
+            Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            (for all N in Natural range 0 .. H =>
+               (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                Base ** (L + 1) mod
+                Num_Of_Big_Int (M, M_First, L + 1))));
       end loop;
 
       I := (Types.Word64 (E_Last - E_First) + 1) * 32 - 1;
 
       loop
-         --# assert
-         --#   L = A_Last - A_First and
-         --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-         --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-         --#   Num_Of_Big_Int (X, X_First, L + 1) *
-         --#   Num_Of_Big_Int (X, X_First, L + 1) *
-         --#   Base ** (L + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-         --#   Num_Of_Big_Int (X, X_First, L + 1) **
-         --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-         --#    2 ** (Universal_Integer (I) + 1)) *
-         --#   Base ** (L + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
-         --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-         --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-         --#       Base ** (L + 1) mod
-         --#       Num_Of_Big_Int (M, M_First, L + 1))) and
-         --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+         pragma Loop_Invariant
+           (L = A_Last - A_First and
+            Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+            Math_Int.From_Word32 (1) and
+            Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+            Num_Of_Big_Int (X, X_First, L + 1) **
+            (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+             Math_Int.From_Word32 (2) **
+               (Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1))) *
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            (for all N in Natural range 0 .. 2 ** K - 1 =>
+               (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                Base ** (L + 1) mod
+                Num_Of_Big_Int (M, M_First, L + 1))) and
+            I < (Types.Word64 (E_Last - E_First) + 1) * 32);
 
          if Bit_Set (E, E_First, I) then
             W := 1;
             S := 0;
             J := 1;
 
-            while J <= K and Types.Word64 (J) <= I
-            --# assert
-            --#   L = A_Last - A_First and
-            --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-            --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-            --#   Num_Of_Big_Int (X, X_First, L + 1) *
-            --#   Num_Of_Big_Int (X, X_First, L + 1) *
-            --#   Base ** (L + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-            --#   Num_Of_Big_Int (X, X_First, L + 1) **
-            --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-            --#    2 ** (Universal_Integer (I) + 1)) *
-            --#   Base ** (L + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
-            --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-            --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-            --#       Base ** (L + 1) mod
-            --#       Num_Of_Big_Int (M, M_First, L + 1))) and
-            --#   Universal_Integer (W) * 2 ** (J - S - 1) =
-            --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-            --#   2 ** (Universal_Integer (I) -
-            --#     (Universal_Integer (J) - 1)) mod 2 ** J and
-            --#   W mod 2 = 1 and 0 <= S and S < J and J <= K + 1 and
-            --#   Universal_Integer (J) <= Universal_Integer (I) + 1 and
-            --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
             loop
+               pragma Loop_Invariant
+                 (L = A_Last - A_First and
+                  Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+                  Math_Int.From_Word32 (1) and
+                  Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+                  Num_Of_Big_Int (X, X_First, L + 1) *
+                  Num_Of_Big_Int (X, X_First, L + 1) *
+                  Base ** (L + 1) mod
+                  Num_Of_Big_Int (M, M_First, L + 1) and
+                  Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+                  Num_Of_Big_Int (X, X_First, L + 1) **
+                  (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+                   Math_Int.From_Word32 (2) **
+                     (Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1))) *
+                  Base ** (L + 1) mod
+                  Num_Of_Big_Int (M, M_First, L + 1) and
+                  (for all N in Natural range 0 .. 2 ** K - 1 =>
+                     (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                      Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                      Base ** (L + 1) mod
+                      Num_Of_Big_Int (M, M_First, L + 1))) and
+                  Math_Int.From_Word32 (W) * Math_Int.From_Word32 (2) ** (J - S - 1) =
+                  Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+                  Math_Int.From_Word32 (2) ** (Math_Int.From_Word64 (I) -
+                    (Math_Int.From_Integer (J) - Math_Int.From_Word32 (1))) mod
+                  Math_Int.From_Word32 (2) ** J and
+                  W mod 2 = 1 and 0 <= S and S < J and J <= K + 1 and
+                  Math_Int.From_Integer (J) <=
+                  Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
+                  I < (Types.Word64 (E_Last - E_First) + 1) * 32);
+
+               -- FIXME workaround for [N410-033]
+               exit when not (J <= K and Types.Word64 (J) <= I);
+
                if Bit_Set (E, E_First, I - Types.Word64 (J)) then
                   W := Types.SHL32 (W, J - S) or 1;
                   S := J;
@@ -1078,33 +1150,39 @@ is
             S := S + 1;
 
             for H in Natural range 1 .. S
-            --# assert
-            --#   L = A_Last - A_First and
-            --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-            --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-            --#   Num_Of_Big_Int (X, X_First, L + 1) *
-            --#   Num_Of_Big_Int (X, X_First, L + 1) *
-            --#   Base ** (L + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-            --#   Num_Of_Big_Int (X, X_First, L + 1) **
-            --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-            --#    2 ** (Universal_Integer (I) + 1) * 2 ** (H - 1)) *
-            --#   Base ** (L + 1) mod
-            --#   Num_Of_Big_Int (M, M_First, L + 1) and
-            --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
-            --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-            --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-            --#       Base ** (L + 1) mod
-            --#       Num_Of_Big_Int (M, M_First, L + 1))) and
-            --#   Universal_Integer (W) =
-            --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-            --#   2 ** (Universal_Integer (I) -
-            --#     (Universal_Integer (S) - 1)) mod 2 ** S and
-            --#   W mod 2 = 1 and 0 <= S and S <= K + 1 and S% = S and
-            --#   Universal_Integer (S) <= Universal_Integer (I) + 1 and
-            --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
             loop
+               pragma Loop_Invariant
+                 (L = A_Last - A_First and
+                  Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+                  Math_Int.From_Word32 (1) and
+                  Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+                  Num_Of_Big_Int (X, X_First, L + 1) *
+                  Num_Of_Big_Int (X, X_First, L + 1) *
+                  Base ** (L + 1) mod
+                  Num_Of_Big_Int (M, M_First, L + 1) and
+                  Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+                  Num_Of_Big_Int (X, X_First, L + 1) **
+                  (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+                   Math_Int.From_Word32 (2) **
+                     (Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1)) *
+                   Math_Int.From_Word32 (2) ** (H - 1)) *
+                  Base ** (L + 1) mod
+                  Num_Of_Big_Int (M, M_First, L + 1) and
+                  (for all N in Natural range 0 .. 2 ** K - 1 =>
+                     (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                      Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                      Base ** (L + 1) mod
+                      Num_Of_Big_Int (M, M_First, L + 1))) and
+                  Math_Int.From_Word32 (W) =
+                  Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+                  Math_Int.From_Word32 (2) ** (Math_Int.From_Word64 (I) -
+                    (Math_Int.From_Integer (S) - Math_Int.From_Word32 (1))) mod
+                  Math_Int.From_Word32 (2) ** S and
+                  W mod 2 = 1 and 0 <= S and S <= K + 1 and S'Loop_Entry = S and
+                  Math_Int.From_Integer (S) <=
+                  Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
+                  I < (Types.Word64 (E_Last - E_First) + 1) * 32);
+
                Mont_Mult
                  (A, A_First, A_Last,
                   Aux3, Aux3_First, Aux3, Aux3_First,
@@ -1112,32 +1190,37 @@ is
 
                Copy (A, A_First, A_Last, Aux3, Aux3_First);
 
-               --# assert
-               --#   L = A_Last - A_First and
-               --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-               --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-               --#   Num_Of_Big_Int (X, X_First, L + 1) *
-               --#   Num_Of_Big_Int (X, X_First, L + 1) *
-               --#   Base ** (L + 1) mod
-               --#   Num_Of_Big_Int (M, M_First, L + 1) and
-               --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-               --#   Num_Of_Big_Int (X, X_First, L + 1) **
-               --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-               --#    2 ** (Universal_Integer (I) + 1) * 2 ** H) *
-               --#   Base ** (L + 1) mod
-               --#   Num_Of_Big_Int (M, M_First, L + 1) and
-               --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
-               --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-               --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-               --#       Base ** (L + 1) mod
-               --#       Num_Of_Big_Int (M, M_First, L + 1))) and
-               --#   Universal_Integer (W) =
-               --#   Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-               --#   2 ** (Universal_Integer (I) -
-               --#     (Universal_Integer (S) - 1)) mod 2 ** S and
-               --#   W mod 2 = 1 and 0 <= S and S <= K + 1 and S% = S and
-               --#   Universal_Integer (S) <= Universal_Integer (I) + 1 and
-               --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+               pragma Assert_And_Cut
+                 (L = A_Last - A_First and
+                  Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+                  Math_Int.From_Word32 (1) and
+                  Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+                  Num_Of_Big_Int (X, X_First, L + 1) *
+                  Num_Of_Big_Int (X, X_First, L + 1) *
+                  Base ** (L + 1) mod
+                  Num_Of_Big_Int (M, M_First, L + 1) and
+                  Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+                  Num_Of_Big_Int (X, X_First, L + 1) **
+                  (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+                   Math_Int.From_Word32 (2) **
+                     (Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1)) *
+                   Math_Int.From_Word32 (2) ** H) *
+                  Base ** (L + 1) mod
+                  Num_Of_Big_Int (M, M_First, L + 1) and
+                  (for all N in Natural range 0 .. 2 ** K - 1 =>
+                     (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                      Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                      Base ** (L + 1) mod
+                      Num_Of_Big_Int (M, M_First, L + 1))) and
+                  Math_Int.From_Word32 (W) =
+                  Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+                  Math_Int.From_Word32 (2) ** (Math_Int.From_Word64 (I) -
+                    (Math_Int.From_Integer (S) - Math_Int.From_Word32 (1))) mod
+                  Math_Int.From_Word32 (2) ** S and
+                  W mod 2 = 1 and 0 <= S and S <= K + 1 and S'Loop_Entry = S and
+                  Math_Int.From_Integer (S) <=
+                  Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
+                  I < (Types.Word64 (E_Last - E_First) + 1) * 32);
             end loop;
 
             Mont_Mult
@@ -1158,27 +1241,30 @@ is
             Copy (A, A_First, A_Last, Aux3, Aux3_First);
          end if;
 
-         --# assert
-         --#   L = A_Last - A_First and
-         --#   Num_Of_Big_Int (Aux1, Aux1_First, L + 1) = 1 and
-         --#   Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
-         --#   Num_Of_Big_Int (X, X_First, L + 1) *
-         --#   Num_Of_Big_Int (X, X_First, L + 1) *
-         --#   Base ** (L + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
-         --#   Num_Of_Big_Int (X, X_First, L + 1) **
-         --#   (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
-         --#    2 ** (Universal_Integer (I) - Universal_Integer (S) + 1)) *
-         --#   Base ** (L + 1) mod
-         --#   Num_Of_Big_Int (M, M_First, L + 1) and
-         --#   (for all N in Natural range 0 .. 2 ** K - 1 =>
-         --#      (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
-         --#       Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
-         --#       Base ** (L + 1) mod
-         --#       Num_Of_Big_Int (M, M_First, L + 1))) and
-         --#   Universal_Integer (S) <= Universal_Integer (I) + 1 and
-         --#   I < (Types.Word64 (E_Last - E_First) + 1) * 32;
+         pragma Assert_And_Cut
+           (L = A_Last - A_First and
+            Num_Of_Big_Int (Aux1, Aux1_First, L + 1) =
+            Math_Int.From_Word32 (1) and
+            Num_Of_Big_Int (Aux2, Aux2_First, L + 1) =
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Num_Of_Big_Int (X, X_First, L + 1) *
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            Num_Of_Big_Int (Aux3, Aux3_First, L + 1) =
+            Num_Of_Big_Int (X, X_First, L + 1) **
+            (Num_Of_Big_Int (E, E_First, E_Last - E_First + 1) /
+             Math_Int.From_Word32 (2) ** (Math_Int.From_Word64 (I) -
+               Math_Int.From_Integer (S) + Math_Int.From_Word32 (1))) *
+            Base ** (L + 1) mod
+            Num_Of_Big_Int (M, M_First, L + 1) and
+            (for all N in Natural range 0 .. 2 ** K - 1 =>
+               (Num_Of_Big_Int (Aux4, Aux4_First + N * (L + 1), L + 1) =
+                Num_Of_Big_Int (X, X_First, L + 1) ** (2 * N + 1) *
+                Base ** (L + 1) mod
+                Num_Of_Big_Int (M, M_First, L + 1))) and
+            Math_Int.From_Integer (S) <=
+            Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
+            I < (Types.Word64 (E_Last - E_First) + 1) * 32);
 
          exit when I < Types.Word64 (S);
 

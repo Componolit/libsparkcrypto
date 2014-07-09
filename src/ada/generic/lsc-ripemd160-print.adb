@@ -34,7 +34,9 @@
 
 with LSC.Debug;
 
-package body LSC.RIPEMD160.Print is
+package body LSC.RIPEMD160.Print
+  with SPARK_Mode => Off
+is
 
    procedure Print_Schedule (M : String;
                              A : Types.Word32;

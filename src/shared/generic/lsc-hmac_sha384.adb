@@ -110,7 +110,7 @@ package body LSC.HMAC_SHA384 is
    ----------------------------------------------------------------------------
 
    function Get_Auth (Context : in Context_Type) return Auth_Type is
-      Result : Auth_Type := Null_Auth;
+      Result : Auth_Type;
       Prf    : SHA512.SHA384_Hash_Type;
    begin
       Prf := SHA512.SHA384_Get_Hash (Context.SHA384_Context);

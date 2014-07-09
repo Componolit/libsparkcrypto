@@ -35,7 +35,9 @@
 with LSC.Types;
 with LSC.AES;
 
-private package LSC.AES.Print is
+private package LSC.AES.Print
+  with SPARK_Mode => Off
+is
 
    procedure Print_Round (T : String;
                           R : LSC.AES.Schedule_Index;

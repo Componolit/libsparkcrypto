@@ -1,6 +1,7 @@
 with LSC.Debug;
 
 package body LSC.Bignum.Print
+  with SPARK_Mode => Off
 is
 
    procedure Print_Big_Int

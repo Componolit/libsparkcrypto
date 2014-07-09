@@ -57,22 +57,19 @@ package body LSC.AES.CBC is
          --#    Ciphertext'First + Length - 1 <= Plaintext'Last and
          --#    Ciphertext'First + Length - 1 in AES.Message_Index;
 
-         -- FIXME: Why is access to Ciphertext'First OK in a loop statement,
-         --        but not in this if statement?
-         --# accept Flow, 20, Ciphertext, "Accessing Ciphertext'First should be OK";
          if I <= (Ciphertext'First - 1) + Length then
             Ops32.Block_XOR (Next, Plaintext (I), Temp);
             Next := AES.Encrypt (Context, Temp);
 
-            --# accept Flow, 23, Ciphertext, "Initialized in complete loop";
+            pragma Warnings (Off, """Ciphertext"" might not be initialized");
             Ciphertext (I) := Next;
+            pragma Warnings (On, """Ciphertext"" might not be initialized");
          else
-            --# accept Flow, 23, Ciphertext, "Initialized in complete loop";
+            pragma Warnings (Off, """Ciphertext"" might not be initialized");
             Ciphertext (I) := AES.Null_Block;
+            pragma Warnings (On, """Ciphertext"" might not be initialized");
          end if;
       end loop;
-
-      --# accept Flow, 602, Ciphertext, Ciphertext, "Initialized in complete loop";
    end Encrypt;
 
    ----------------------------------------------------------------------------
@@ -97,21 +94,18 @@ package body LSC.AES.CBC is
          --#    Plaintext'First + Length - 1 <= Ciphertext'Last and
          --#    Plaintext'First + Length - 1 in AES.Message_Index;
 
-         -- FIXME: Why is access to Ciphertext'First OK in a loop statement,
-         --        but not in this if statement?
-         --# accept Flow, 20, Plaintext, "Accessing Plaintext'First should be OK";
          if I <= (Plaintext'First - 1) + Length then
             Temp := AES.Decrypt (Context, Ciphertext (I));
 
-            --# accept Flow, 23, Plaintext, "Initialized in complete loop";
+            pragma Warnings (Off, """Plaintext"" might not be initialized");
             Ops32.Block_XOR (Temp, Next, Plaintext (I));
+            pragma Warnings (On, """Plaintext"" might not be initialized");
             Next := Ciphertext (I);
          else
-            --# accept Flow, 23, Plaintext, "Initialized in complete loop";
+            pragma Warnings (Off, """Plaintext"" might not be initialized");
             Plaintext (I) := AES.Null_Block;
+            pragma Warnings (On, """Plaintext"" might not be initialized");
          end if;
       end loop;
-
-      --# accept Flow, 602, Plaintext, Plaintext, "Initialized in complete loop";
    end Decrypt;
 end LSC.AES.CBC;

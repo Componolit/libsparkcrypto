@@ -1,0 +1,2 @@
+pragma SPARK_Mode (On);
+pragma Overflow_Mode (General => Strict, Assertions => Eliminated);

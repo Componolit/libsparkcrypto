@@ -74,16 +74,15 @@ package body LSC.Ops64 is
          --#    I <= Right'Last  and
          --#    I <= Result'Last;
 
-         --# accept Flow, 23, Result, "Initialized in complete loop";
+         pragma Warnings (Off, """Result"" might not be initialized");
          Result (I) := XOR2 (Left (I), Right (I));
+         pragma Warnings (On, """Result"" might not be initialized");
 
          --# assert
          --#   (for all Pos in Types.Index range Result'First .. I =>
          --#       (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
 
       end loop;
-
-      --# accept Flow, 602, Result, Result, "Initialized in complete loop";
    end Block_XOR;
 
    ----------------------------------------------------------------------------
