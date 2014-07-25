@@ -776,7 +776,8 @@ is
       end loop;
 
       if A_MSW /= 0 or else
-        not Less (A, A_First, A_Last, M, M_First) then
+        not Less (A, A_First, A_Last, M, M_First)
+      then
          --# accept Flow, 10, Carry, "Carry not needed here" &
          --#        Flow, 33, Carry, "Carry not needed here";
          Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
