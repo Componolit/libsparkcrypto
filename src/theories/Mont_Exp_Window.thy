@@ -177,14 +177,14 @@ proof -
     (?R * (Base * minv ?m Base mod ?m) ^ nat ?L) mod ?m"
     by (simp only: nat_mult_distrib power_mult power_mult_distrib
         power2_eq_square [simplified transfer_nat_int_numerals])
-      (simp add: power_mult_distrib mult_assoc)
+      (simp add: power_mult_distrib mult.assoc)
   then have R: "?r * minv ?m Base ^ nat ?L mod ?m = ?R mod ?m"
     by (simp add: Base_inv)
 
   from `num_of_big_int aux4__3 _ _ = _`
   have "num_of_big_int aux4__3 aux4_first ?L =
     ?x * (?r * minv ?m Base ^ nat ?L mod ?m) mod ?m"
-    by (simp add: mult_assoc)
+    by (simp add: mult.assoc)
   with R have X: "num_of_big_int aux4__3 aux4_first ?L = ?x * ?R mod ?m"
     by simp
   with `num_of_big_int aux2__4 _ _ = _`
@@ -384,7 +384,7 @@ proof -
     `e__index__subtype__1__first \<le> e_first` `e_last \<le> e__index__subtype__1__last`
   show ?C1
     by (simp only: nat_mult_distrib)
-      (simp add: sdiv_pos_pos power_mult mult_commute [of _ 32]
+      (simp add: sdiv_pos_pos power_mult mult.commute [of _ 32]
          num_of_lint_lower num_of_lint_upper div_pos_pos_trivial
          del: num_of_lint_sum)
 
@@ -400,7 +400,7 @@ spark_vc procedure_mont_exp_window_18
     `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> e_first` `e_last \<le> e__index__subtype__1__last`
   by (simp only: nat_mult_distrib)
-    (simp add: sdiv_pos_pos power_mult mult_commute [of _ 32]
+    (simp add: sdiv_pos_pos power_mult mult.commute [of _ 32]
        num_of_lint_lower num_of_lint_upper div_pos_pos_trivial
        del: num_of_lint_sum)
 
@@ -490,7 +490,7 @@ proof -
     (?e div 2 ^ nat (i - j) div 2 * 2 + 1) mod (2 ^ nat (j + 1))"
     by (simp add: mod_mult_add
       trans [OF diff_diff_eq2 diff_add_eq [symmetric]]
-      zdiv_zmult2_eq [symmetric] nat_add_distrib mult_commute [of 2])
+      zdiv_zmult2_eq [symmetric] nat_add_distrib mult.commute [of 2])
   also from i `j \<le> i`
     `e (e_first + (i - j) sdiv 32) AND 2 ^ nat ((i - j) mod 32) \<noteq> 0`
     `bounds _ _ _ _ e`
@@ -539,7 +539,7 @@ proof -
     (?e div 2 ^ nat (i - j) div 2 * 2) mod (2 ^ nat (j + 1))"
     by (simp add:
       trans [OF diff_diff_eq2 diff_add_eq [symmetric]]
-      zdiv_zmult2_eq [symmetric] nat_add_distrib mult_commute
+      zdiv_zmult2_eq [symmetric] nat_add_distrib mult.commute
       sdiv_pos_pos num_of_lint_lower)
   also from i `j \<le> i`
     `e (e_first + (i - j) sdiv 32) AND 2 ^ nat ((i - j) mod 32) = 0`
@@ -876,7 +876,7 @@ proof -
     num_of_big_int x x_first ?L ^
       nat (num_of_big_int e e_first (e_last - e_first + 1) sdiv 2 ^ nat (i - s + 1)) *
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
-    by (simp add: power_mult_distrib mult_assoc)
+    by (simp add: power_mult_distrib mult.assoc)
   with Base_inv `s \<le> i + 1` `i < s`
     `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> e_first`

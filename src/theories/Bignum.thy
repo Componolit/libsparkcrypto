@@ -43,10 +43,10 @@ proof -
     by (rule inj_onI) simp
   from assms have "{0..<i + j} = {0..<i} \<union> {i..<i + j}"
     by (simp add: ivl_disj_un)
-  with setsum_reindex [OF inj, of "\<lambda>k. b ^ nat k * A (l + k)"]
+  with setsum.reindex [OF inj, of "\<lambda>k. b ^ nat k * A (l + k)"]
     image_add_int_atLeastLessThan [of i "i + j"] `0 \<le> i`
   show ?thesis
-    by (simp add: num_of_lint_def setsum_Un_disjoint nat_add_distrib
+    by (simp add: num_of_lint_def setsum.union_disjoint nat_add_distrib
       power_add setsum_right_distrib add_ac mult_ac)
 qed
 
@@ -123,7 +123,7 @@ lemma num_of_lint_div:
   assumes "0 \<le> i" and "0 \<le> A l" and "A l < b"
   shows "num_of_lint b A l (i + 1) div b = num_of_lint b A (l + 1) i"
   using assms
-  by (simp only: add_commute [of i 1])
+  by (simp only: add.commute [of i 1])
     (simp add: zdiv_mult_self div_pos_pos_trivial)
 
 lemma num_of_lint_mod:
@@ -235,7 +235,7 @@ proof -
     by (simp add: transfer_int_nat_gcd [symmetric])
   with `0 < x` `1 < m`
   have "x * fst ?b + snd ?b * m = 1"
-    by (simp add: bezw_aux [symmetric] mult_commute)
+    by (simp add: bezw_aux [symmetric] mult.commute)
   then have "(x * fst ?b + snd ?b * m) mod m = 1 mod m" by simp
   with `1 < m` show "x * (fst ?b mod m) mod m = 1"
     by (simp add: mod_pos_pos_trivial)
@@ -250,7 +250,7 @@ proof -
   have "(k div n * n) * n' mod m = (k * n') mod m"
     by simp
   then have "((k div n) * ((n * n') mod m)) mod m = (k * n') mod m"
-    by (simp add: mod_mult_right_eq [symmetric]) (simp add: mult_assoc)
+    by (simp add: mod_mult_right_eq [symmetric]) (simp add: mult.assoc)
   with `(n * n') mod m = 1` show ?thesis by simp
 qed
 

@@ -119,7 +119,7 @@ proof -
   have "num_of_big_int a a_first (1 + (a_last - a_first)) =
     num_of_big_int b b_first (1 + (a_last - a_first))"
     by simp
- then show ?thesis by (simp add: add_commute)
+ then show ?thesis by (simp add: add.commute)
 qed
 
 spark_end

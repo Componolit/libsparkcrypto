@@ -88,7 +88,7 @@ spark_vc procedure_point_add_37
     `num_of_big_int h3__31 _ _ = _`
     `num_of_big_int h3__30 _ _ = _`
     `num_of_big_int h2__27 _ _ = _`
-  by (simp add: sub_less_mod uminus_add_conv_diff add_commute)
+  by (simp add: sub_less_mod uminus_add_conv_diff add.commute)
 
 spark_vc procedure_point_add_38
 proof -

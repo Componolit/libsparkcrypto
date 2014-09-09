@@ -23,7 +23,7 @@ proof -
   have "num_of_big_int x2__6 x2_first ?k = num_of_big_int x3__4 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int x3__4 _ _ < num_of_big_int m _ _`
-  show ?C1 by (simp add: add_commute)
+  show ?C1 by (simp add: add.commute)
 
   from
     `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y2__7 _ = y3__4 _) \<and> _`
@@ -32,7 +32,7 @@ proof -
   have "num_of_big_int y2__7 y2_first ?k = num_of_big_int y3__4 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int y3__4 _ _ < num_of_big_int m _ _`
-  show ?C2 by (simp add: add_commute)
+  show ?C2 by (simp add: add.commute)
 
   from
     `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z2__8 _ = z3__4 _) \<and> _`
@@ -41,7 +41,7 @@ proof -
   have "num_of_big_int z2__8 z2_first ?k = num_of_big_int z3__4 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int z3__4 _ _ < num_of_big_int m _ _`
-  show ?C3 by (simp add: add_commute)
+  show ?C3 by (simp add: add.commute)
 qed
 
 spark_end
@@ -86,7 +86,7 @@ proof -
   have "num_of_big_int x3__9 x3_first ?k = num_of_big_int x4__5 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int x4__5 _ _ < num_of_big_int m _ _`
-  show ?C1 by (simp add: add_commute)
+  show ?C1 by (simp add: add.commute)
 
   from
     `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y3__10 _ = y4__5 _) \<and> _`
@@ -95,7 +95,7 @@ proof -
   have "num_of_big_int y3__10 y3_first ?k = num_of_big_int y4__5 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int y4__5 _ _ < num_of_big_int m _ _`
-  show ?C2 by (simp add: add_commute)
+  show ?C2 by (simp add: add.commute)
 
   from
     `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z3__11 _ = z4__5 _) \<and> _`
@@ -104,7 +104,7 @@ proof -
   have "num_of_big_int z3__11 z3_first ?k = num_of_big_int z4__5 0 ?k"
     by (simp add: num_of_lint_ext)
   with `num_of_big_int z4__5 _ _ < num_of_big_int m _ _`
-  show ?C3 by (simp add: add_commute)
+  show ?C3 by (simp add: add.commute)
 qed
 
 spark_end

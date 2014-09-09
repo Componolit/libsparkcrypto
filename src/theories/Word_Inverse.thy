@@ -62,7 +62,7 @@ proof -
   also note zdiff_zmod_right
   also note mod_mult_right_eq
   finally show ?C1
-    by (simp add: pull_mods sdiv_pos_pos ring_distribs mult_assoc)
+    by (simp add: pull_mods sdiv_pos_pos ring_distribs mult.assoc)
 next
   from `coprime (p * m mod Base) (q * m mod Base)`
   show ?C2 by (simp add: gcd_red_int [symmetric])

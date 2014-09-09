@@ -41,7 +41,7 @@ proof -
        b (b_first + (loop__1__i - a_first)) * x +
        c (c_first + (loop__1__i - a_first)) * y)"
     by (simp add: diff_add_eq [symmetric] ring_distribs)
-      (simp add: add_commute)
+      (simp add: add.commute)
   also note inv
   also have "num_of_big_int a a_first (loop__1__i - a_first) +
     Base ^ nat (loop__1__i - a_first) * (carry1 + Base * carry2) +

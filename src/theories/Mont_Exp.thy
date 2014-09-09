@@ -53,14 +53,14 @@ proof -
     (?R * (Base * minv ?m Base mod ?m) ^ nat ?L) mod ?m"
     by (simp only: nat_mult_distrib power_mult power_mult_distrib
         power2_eq_square [simplified transfer_nat_int_numerals])
-      (simp add: power_mult_distrib mult_assoc)
+      (simp add: power_mult_distrib mult.assoc)
   then have R: "?r * minv ?m Base ^ nat ?L mod ?m = ?R mod ?m"
     by (simp add: Base_inv)
 
   from `num_of_big_int aux2__3 _ _ = _`
   have "num_of_big_int aux2__3 aux2_first ?L =
     ?x * (?r * minv ?m Base ^ nat ?L mod ?m) mod ?m"
-    by (simp add: mult_assoc)
+    by (simp add: mult.assoc)
   with R show ?C2 by simp
 
   from `num_of_big_int aux3__2 _ _ = _` one R
@@ -118,7 +118,7 @@ proof -
     ?x ^ nat ((?e * 2 ^ nat (31 - loop__2__j) +
       e loop__1__i div 2 ^ nat (loop__2__j + 1)) * 2) *
     ?x * ?R mod ?m"
-    by (simp only: nat_mult_distrib [of 2, simplified, simplified mult_commute])
+    by (simp only: nat_mult_distrib [of 2, simplified, simplified mult.commute])
       (simp add: mont_mult_eq [OF Base_inv] sdiv_pos_pos power_mult power2_eq_square)
   also from `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> loop__1__i`
@@ -129,14 +129,14 @@ proof -
       e loop__1__i div 2 ^ nat (loop__2__j + 1)) * 2 + 1) *
     ?R mod ?m"
     by (simp add: nat_add_distrib num_of_lint_lower mult_nonneg_nonneg
-      pos_imp_zdiv_nonneg_iff mult_commute)
+      pos_imp_zdiv_nonneg_iff mult.commute)
   also from `0 \<le> loop__2__j` `loop__2__j \<le> 31`
   have "(?e * 2 ^ nat (31 - loop__2__j) +
       e loop__1__i div 2 ^ nat (loop__2__j + 1)) * 2 + 1 =
     ?e * 2 ^ nat (31 - loop__2__j + 1) +
     e loop__1__i div 2 ^ nat loop__2__j div 2 * 2 + 1"
     by (simp only: nat_add_distrib)
-      (simp add: zdiv_zmult2_eq [of 2, simplified mult_commute [of _ 2]])
+      (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
   also from `e loop__1__i AND 2 ^ nat loop__2__j \<noteq> 0`
   have "\<dots> = ?e * 2 ^ nat (31 - loop__2__j + 1) +
     e loop__1__i div 2 ^ nat loop__2__j div 2 * 2 +
@@ -146,7 +146,7 @@ proof -
     using `bounds _ _ _ _ e`
       `e__index__subtype__1__first \<le> loop__1__i`
       `loop__1__i \<le> e__index__subtype__1__last`
-    by (simp add: sdiv_pos_pos add_commute)
+    by (simp add: sdiv_pos_pos add.commute)
 qed
 
 spark_vc procedure_mont_exp_19
@@ -184,7 +184,7 @@ proof -
     ?x ^ nat ((?e * 2 ^ nat (31 - loop__2__j) +
       e loop__1__i div 2 ^ nat (loop__2__j + 1)) * 2) *
     ?R mod ?m"
-    by (simp only: nat_mult_distrib [of 2, simplified, simplified mult_commute])
+    by (simp only: nat_mult_distrib [of 2, simplified, simplified mult.commute])
       (simp add: mont_mult_eq [OF Base_inv] sdiv_pos_pos power_mult power2_eq_square)
   also from `0 \<le> loop__2__j` `loop__2__j \<le> 31`
   have "(?e * 2 ^ nat (31 - loop__2__j) +
@@ -192,7 +192,7 @@ proof -
     ?e * 2 ^ nat (31 - loop__2__j + 1) +
     e loop__1__i div 2 ^ nat loop__2__j div 2 * 2"
     by (simp only: nat_add_distrib)
-      (simp add: zdiv_zmult2_eq [of 2, simplified mult_commute [of _ 2]])
+      (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
   also from `e loop__1__i AND 2 ^ nat loop__2__j = 0`
   have "\<dots> = ?e * 2 ^ nat (31 - loop__2__j + 1) +
     e loop__1__i div 2 ^ nat loop__2__j div 2 * 2 +
@@ -202,7 +202,7 @@ proof -
     using `bounds _ _ _ _ e`
       `e__index__subtype__1__first \<le> loop__1__i`
       `loop__1__i \<le> e__index__subtype__1__last`
-    by (simp add: sdiv_pos_pos add_commute)
+    by (simp add: sdiv_pos_pos add.commute)
 qed
 
 spark_vc procedure_mont_exp_25
@@ -224,9 +224,9 @@ proof -
   have "num_of_big_int a__7 a_first ?L =
     ?x ^ nat (num_of_big_int e e_first (1 + (e_last - e_first))) *
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
-    by (simp add: power_mult_distrib [symmetric] mult_assoc)
-      (simp add: add_commute mult_commute)
-  with Base_inv show ?thesis by (simp add: add_commute)
+    by (simp add: power_mult_distrib [symmetric] mult.assoc)
+      (simp add: add.commute mult.commute)
+  with Base_inv show ?thesis by (simp add: add.commute)
 qed
 
 spark_end

@@ -72,7 +72,7 @@ proof -
     by (simp add: div_pos_pos_trivial)
   note zdiv_mono1 [OF this `0 < B`]
   also have "(2 * B - 1) div B = ((- 1) + 2 * B) div B"
-    by (simp add: add_commute [of "- 1"])
+    by (simp add: add.commute [of "- 1"])
   also from `1 < B` have "\<dots> = 1"
     by (simp add: zdiv_zminus1_eq_if div_pos_pos_trivial
       mod_pos_pos_trivial del: uminus_add_conv_diff)
@@ -271,11 +271,11 @@ proof -
     by (simp only: div_mult_self2 div_pos_pos_trivial) simp
   also from `a_first < a_last` a c m
   have "\<dots> = (?a mod Base + ?bi * (?c mod Base) + ?u * (?m mod Base)) div Base"
-    by (simp only: num_of_lint_mod mult_commute)
+    by (simp only: num_of_lint_mod mult.commute)
   also note zdiv_zadd3' [symmetric]
   also from `a_first < a_last`
   have "(?a + ?bi * ?c + ?u * ?m) div Base + ?R * a_msw = ?a' div Base"
-    by (simp add: nat_add_distrib mult_assoc)
+    by (simp add: nat_add_distrib mult.assoc)
   finally have "?l = ?a' div Base" .
   then have "?l mod ?m = ?a' div Base mod ?m" by (rule mod_cong)
   also note a_div
