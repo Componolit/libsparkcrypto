@@ -36,11 +36,6 @@ with LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 use type LSC.Types.Index;
---# inherit
---#    LSC.Types,
---#    LSC.Ops32,
---#    LSC.Pad32,
---#    LSC.Debug;
 
 -------------------------------------------------------------------------------
 -- The RIPEMD-160 hash algorithm
@@ -96,19 +91,16 @@ package LSC.RIPEMD160 is
    -- Update RIPEMD-160 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     Block_Type)
+     with Depends => (Context =>+ Block);
 
    -- Finalize RIPEMD-160 context using @Length@ bits of final message block
    -- @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
-      Length  : in     Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
 
    -- Return RIPEMD-160 hash from @Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
@@ -116,17 +108,16 @@ package LSC.RIPEMD160 is
    procedure Hash_Context
       (Message : in     Message_Type;
        Length  : in     Types.Word64;
-       Ctx     : in out Context_Type);
-   --# derives Ctx from Ctx, Message, Length;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Ctx     : in out Context_Type)
+     with
+       Depends => (Ctx =>+ (Message, Length)),
+       Pre => Length <= Message'Length * Block_Size;
 
    -- Compute hash value of @Length@ bits of @Message@.
    function Hash
       (Message : Message_Type;
-       Length  : Types.Word64) return Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Length  : Types.Word64) return Hash_Type
+     with Pre => Length <= Message'Length * Block_Size;
 
    -- Empty block
    Null_Block : constant Block_Type;

@@ -72,7 +72,7 @@ package body LSC.HMAC_RIPEMD160 is
 
    procedure Context_Finalize_Outer
      (Context : in out Context_Type)
-   --# derives Context from Context;
+     with Depends => (Context => Context)
    is
       Hash : RIPEMD160.Hash_Type;
       Temp : RIPEMD160.Block_Type;

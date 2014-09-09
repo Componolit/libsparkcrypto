@@ -37,12 +37,6 @@ with LSC.RIPEMD160, LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit
---#    LSC.Debug,
---#    LSC.RIPEMD160,
---#    LSC.Ops32,
---#    LSC.Types;
-
 -------------------------------------------------------------------------------
 -- The HMAC-RIPEMD-160 message authentication
 --
@@ -65,9 +59,9 @@ package LSC.HMAC_RIPEMD160 is
    -- Update HMAC-RIPEMD-160 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     RIPEMD160.Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     RIPEMD160.Block_Type)
+     with
+       Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
    -- Finalize HMAC-RIPEMD-160 @Context@ using @Length@ bits of final message
@@ -76,10 +70,8 @@ package LSC.HMAC_RIPEMD160 is
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     RIPEMD160.Block_Type;
-      Length  : in     RIPEMD160.Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     RIPEMD160.Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
    pragma Inline (Context_Finalize);
 
    -- Get authentication value from @Context@
@@ -91,9 +83,10 @@ package LSC.HMAC_RIPEMD160 is
    function Authenticate
       (Key     : RIPEMD160.Block_Type;
        Message : RIPEMD160.Message_Type;
-       Length  : Types.Word64) return RIPEMD160.Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * RIPEMD160.Block_Size;
+       Length  : Types.Word64) return RIPEMD160.Hash_Type
+     with
+       Pre =>
+         Length <= Message'Length * RIPEMD160.Block_Size;
 
 private
 

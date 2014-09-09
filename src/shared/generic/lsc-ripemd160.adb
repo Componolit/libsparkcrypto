@@ -48,8 +48,7 @@ package body LSC.RIPEMD160 is
 
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32)
-   --# derives Item from *,
-   --#                   Value;
+     with Depends => (Item =>+ Value)
    is
    begin
       if Item.LSW  <= Types.Word32'Last - Value then
@@ -92,15 +91,8 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
-      --  WORKAROUND: The temporary variable for the negation is necessary to
-      --  keep the evaluation depth for the simplifier low enough to simplify
-      --  this automatically!
-
-      Not_x : Types.Word32;
    begin
-      Not_x := not x;
-      --# assert Not_x in Types.Word32;
-      return (x and y) or (Not_x and z);
+      return (x and y) or ((not x) and z);
    end g;
 
    ---------------------------------------------------------------------------
@@ -110,15 +102,8 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
-      --  WORKAROUND: The temporary variable for the negation is necessary to
-      --  keep the evaluation depth for the simplifier low enough to simplify
-      --  this automatically!
-
-      Not_y : Types.Word32;
    begin
-      Not_y := not y;
-      --# assert Not_y in Types.Word32;
-      return Ops32.XOR2 (x or Not_y, z);
+      return Ops32.XOR2 (x or (not y), z);
    end h;
 
    ---------------------------------------------------------------------------
@@ -128,15 +113,8 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
-      --  WORKAROUND: The temporary variable for the negation is necessary to
-      --  keep the evaluation depth for the simplifier low enough to simplify
-      --  this automatically!
-
-      Not_z : Types.Word32;
    begin
-      Not_z := not z;
-      --# assert Not_z in Types.Word32;
-      return (x and z) or (y and Not_z);
+      return (x and z) or (y and (not z));
    end i;
 
    ---------------------------------------------------------------------------
@@ -146,15 +124,8 @@ package body LSC.RIPEMD160 is
        y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
-      --  WORKAROUND: The temporary variable for the negation is necessary to
-      --  keep the evaluation depth for the simplifier low enough to simplify
-      --  this automatically!
-
-      Not_z : Types.Word32;
    begin
-      Not_z := not z;
-      --# assert Not_z in Types.Word32;
-      return Ops32.XOR2 (x, y or Not_z);
+      return Ops32.XOR2 (x, y or not z);
    end j;
 
    ---------------------------------------------------------------------------
@@ -166,8 +137,9 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule (" FF/S", A, B, C, D, E, X, S));
@@ -197,8 +169,9 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S));
@@ -218,8 +191,9 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S));
@@ -239,8 +213,9 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule (" II/S", A, B, C, D, E, X, S));
@@ -260,8 +235,9 @@ package body LSC.RIPEMD160 is
                  E : in     Types.Word32;
                  X : in     Types.Word32;
                  S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S));
@@ -281,8 +257,9 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S));
@@ -302,8 +279,9 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S));
@@ -323,8 +301,9 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S));
@@ -344,8 +323,9 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule ("III/S", A, B, C, D, E, X, S));
@@ -365,8 +345,9 @@ package body LSC.RIPEMD160 is
                   E : in     Types.Word32;
                   X : in     Types.Word32;
                   S : in     Natural)
-   --# derives A from A, B, C, D, E, X, S &
-   --#         C from C;
+     with Depends =>
+       (A => (A, B, C, D, E, X, S),
+        C => C)
    is
    begin
       pragma Debug (Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S));
@@ -382,8 +363,7 @@ package body LSC.RIPEMD160 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       X       : in     Block_Type)
-   --# derives Context from *,
-   --#                      X;
+     with Depends => (Context =>+ X)
    is
       H0,  H1,  H2,  H3,  H4 : Types.Word32;
       HH0, HH1, HH2, HH3, HH4 : Types.Word32;
@@ -407,7 +387,6 @@ package body LSC.RIPEMD160 is
       HH4 := Context.H (4);
 
       --  Round 1
-      --# assert True;
 
       ff (H0, H1, H2, H3, H4, X  (0), 11);
       ff (H4, H0, H1, H2, H3, X  (1), 14);
@@ -427,7 +406,6 @@ package body LSC.RIPEMD160 is
       ff (H0, H1, H2, H3, H4, X (15),  8);
 
       --  Round 2
-      --# assert True;
 
       gg (H4, H0, H1, H2, H3, X  (7),  7);
       gg (H3, H4, H0, H1, H2, X  (4),  6);
@@ -447,7 +425,6 @@ package body LSC.RIPEMD160 is
       gg (H4, H0, H1, H2, H3, X  (8), 12);
 
       --  Round 3
-      --# assert True;
 
       hh (H3, H4, H0, H1, H2, X  (3), 11);
       hh (H2, H3, H4, H0, H1, X (10), 13);
@@ -467,7 +444,6 @@ package body LSC.RIPEMD160 is
       hh (H3, H4, H0, H1, H2, X (12),  5);
 
       --  Round 4
-      --# assert True;
 
       ii (H2, H3, H4, H0, H1, X  (1), 11);
       ii (H1, H2, H3, H4, H0, X  (9), 12);
@@ -487,7 +463,6 @@ package body LSC.RIPEMD160 is
       ii (H2, H3, H4, H0, H1, X  (2), 12);
 
       --  Round 5
-      --# assert True;
 
       jj (H1, H2, H3, H4, H0, X  (4),  9);
       jj (H0, H1, H2, H3, H4, X  (0), 15);
@@ -507,7 +482,6 @@ package body LSC.RIPEMD160 is
       jj (H1, H2, H3, H4, H0, X (13),  6);
 
       --  Parallel round 1
-      --# assert True;
 
       jjj (HH0, HH1, HH2, HH3, HH4, X  (5),  8);
       jjj (HH4, HH0, HH1, HH2, HH3, X (14),  9);
@@ -527,7 +501,6 @@ package body LSC.RIPEMD160 is
       jjj (HH0, HH1, HH2, HH3, HH4, X (12),  6);
 
       --  Parallel round 2
-      --# assert True;
 
       iii (HH4, HH0, HH1, HH2, HH3, X  (6),  9);
       iii (HH3, HH4, HH0, HH1, HH2, X (11), 13);
@@ -547,7 +520,6 @@ package body LSC.RIPEMD160 is
       iii (HH4, HH0, HH1, HH2, HH3, X  (2), 11);
 
       --  Parallel round 3
-      --# assert True;
 
       hhh (HH3, HH4, HH0, HH1, HH2, X (15),  9);
       hhh (HH2, HH3, HH4, HH0, HH1, X  (5),  7);
@@ -567,7 +539,6 @@ package body LSC.RIPEMD160 is
       hhh (HH3, HH4, HH0, HH1, HH2, X (13),  5);
 
       --  Parallel round 4
-      --# assert True;
 
       ggg (HH2, HH3, HH4, HH0, HH1, X  (8), 15);
       ggg (HH1, HH2, HH3, HH4, HH0, X  (6),  5);
@@ -587,7 +558,6 @@ package body LSC.RIPEMD160 is
       ggg (HH2, HH3, HH4, HH0, HH1, X (14),  8);
 
       --  Parallel round 5.
-      --# assert True;
 
       fff (HH1, HH2, HH3, HH4, HH0, X (12),  8);
       fff (HH0, HH1, HH2, HH3, HH4, X (15),  5);
@@ -607,7 +577,6 @@ package body LSC.RIPEMD160 is
       fff (HH1, HH2, HH3, HH4, HH0, X (11), 11);
 
       --  Combine results.
-      --# assert True;
 
       HH3           := Context.H (1) + H2 + HH3;
       Context.H (1) := Context.H (2) + H3 + HH4;
@@ -695,11 +664,10 @@ package body LSC.RIPEMD160 is
       if Last_Block > Message'First then
          for K in Message_Index range Message'First .. Last_Block - 1
          loop
-            --# assert
-            --#    Last_Block = Last_Block% and
-            --#    Last_Block - 1 <= Message'Last and
-            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
-            --#    K < Last_Block;
+            pragma Loop_Invariant
+              (Last_Block - 1 <= Message'Last and
+               (if Last_Length /= 0 then Last_Block <= Message'Last) and
+               K < Last_Block);
             Context_Update (Ctx, Message (K));
          end loop;
       end if;

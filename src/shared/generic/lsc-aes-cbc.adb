@@ -50,12 +50,11 @@ package body LSC.AES.CBC is
       for I in AES.Message_Index range Ciphertext'First .. Ciphertext'Last
       loop
 
-         --# assert
-         --#    Length = Length% and
-         --#    Plaintext'First = Ciphertext'First and
-         --#    Plaintext'Last = Ciphertext'Last and
-         --#    Ciphertext'First + Length - 1 <= Plaintext'Last and
-         --#    Ciphertext'First + Length - 1 in AES.Message_Index;
+         pragma Loop_Invariant
+           (Plaintext'First = Ciphertext'First and
+            Plaintext'Last = Ciphertext'Last and
+            Ciphertext'First + Length - 1 <= Plaintext'Last and
+            Ciphertext'First + Length - 1 in AES.Message_Index);
 
          if I <= (Ciphertext'First - 1) + Length then
             Ops32.Block_XOR (Next, Plaintext (I), Temp);
@@ -87,12 +86,11 @@ package body LSC.AES.CBC is
 
       for I in AES.Message_Index range Plaintext'First .. Plaintext'Last
       loop
-         --# assert
-         --#    Length = Length% and
-         --#    Plaintext'First = Ciphertext'First and
-         --#    Plaintext'Last = Ciphertext'Last and
-         --#    Plaintext'First + Length - 1 <= Ciphertext'Last and
-         --#    Plaintext'First + Length - 1 in AES.Message_Index;
+         pragma Loop_Invariant
+           (Plaintext'First = Ciphertext'First and
+            Plaintext'Last = Ciphertext'Last and
+            Plaintext'First + Length - 1 <= Ciphertext'Last and
+            Plaintext'First + Length - 1 in AES.Message_Index);
 
          if I <= (Plaintext'First - 1) + Length then
             Temp := AES.Decrypt (Context, Ciphertext (I));

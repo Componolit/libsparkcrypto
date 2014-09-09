@@ -33,9 +33,6 @@
 -------------------------------------------------------------------------------
 
 with LSC.AES;
---# inherit
---#    LSC.AES,
---#    LSC.Ops32;
 
 -------------------------------------------------------------------------------
 -- The AES-CBC cipher mode
@@ -60,16 +57,17 @@ package LSC.AES.CBC is
                       IV         : in     AES.Block_Type;
                       Plaintext  : in     AES.Message_Type;
                       Length     : in     AES.Message_Index;
-                      Ciphertext :    out AES.Message_Type);
-   --# derives
-   --#    Ciphertext from Context, IV, Plaintext, Length;
-   --# pre
-   --#    Plaintext'First = Ciphertext'First and
-   --#    Plaintext'Last  = Ciphertext'Last and
-   --#    Plaintext'First + Length - 1 in Plaintext'Range and
-   --#    Plaintext'First + Length - 1 in AES.Message_Index and
-   --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
-   --#    Ciphertext'First + Length - 1 in AES.Message_Index;
+                      Ciphertext :    out AES.Message_Type)
+     with
+       Depends =>
+         (Ciphertext =>+ (Context, IV, Plaintext, Length)),
+       Pre =>
+         Plaintext'First = Ciphertext'First and
+         Plaintext'Last  = Ciphertext'Last and
+         Plaintext'First + Length - 1 in Plaintext'Range and
+         Plaintext'First + Length - 1 in AES.Message_Index and
+         Ciphertext'First + Length - 1 in Ciphertext'Range and
+         Ciphertext'First + Length - 1 in AES.Message_Index;
    pragma Warnings (On, """Ciphertext"" might not be initialized in ""Encrypt""");
 
    -- Decrypt @Length@ elements of the @Ciphertext@ array using the AES context
@@ -80,16 +78,17 @@ package LSC.AES.CBC is
                       IV         : in     AES.Block_Type;
                       Ciphertext : in     AES.Message_Type;
                       Length     : in     AES.Message_Index;
-                      Plaintext  :    out AES.Message_Type);
-   --# derives
-   --#    Plaintext from Context, IV, Ciphertext, Length;
-   --# pre
-   --#    Plaintext'First = Ciphertext'First and
-   --#    Plaintext'Last  = Ciphertext'Last and
-   --#    Plaintext'First + Length - 1 in Plaintext'Range and
-   --#    Plaintext'First + Length - 1 in AES.Message_Index and
-   --#    Ciphertext'First + Length - 1 in Ciphertext'Range and
-   --#    Ciphertext'First + Length - 1 in AES.Message_Index;
+                      Plaintext  :    out AES.Message_Type)
+     with
+       Depends =>
+         (Plaintext =>+ (Context, IV, Ciphertext, Length)),
+       Pre =>
+         Plaintext'First = Ciphertext'First and
+         Plaintext'Last  = Ciphertext'Last and
+         Plaintext'First + Length - 1 in Plaintext'Range and
+         Plaintext'First + Length - 1 in AES.Message_Index and
+         Ciphertext'First + Length - 1 in Ciphertext'Range and
+         Ciphertext'First + Length - 1 in AES.Message_Index;
    pragma Warnings (On, """Plaintext"" might not be initialized in ""Decrypt""");
 
 end LSC.AES.CBC;

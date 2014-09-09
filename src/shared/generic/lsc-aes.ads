@@ -35,11 +35,6 @@
 with LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Index;
---# inherit
---#    LSC.Types,
---#    LSC.Debug,
---#    LSC.Ops32,
---#    LSC.Byteorder32;
 
 -------------------------------------------------------------------------------
 -- The AES algorithm
@@ -114,7 +109,8 @@ package LSC.AES is
    --  Encrypt one @Plaintext@ block using given @Context@, return one block of
    --  ciphertext
    function Encrypt (Context   : AES_Enc_Context;
-                     Plaintext : Block_Type) return Block_Type;
+                     Plaintext : Block_Type) return Block_Type
+     with Global => Null;
 
    --  Create AES-128 decryption context from AES-128 @Key@
    function Create_AES128_Dec_Context (Key : AES128_Key_Type) return AES_Dec_Context;
@@ -128,7 +124,8 @@ package LSC.AES is
    --  Decrypt one @Ciphertext@ block using given @Context@, return one block of
    --  plaintext
    function Decrypt (Context    : AES_Dec_Context;
-                     Ciphertext : Block_Type) return Block_Type;
+                     Ciphertext : Block_Type) return Block_Type
+     with Global => Null;
 
    --  Empty AES block
    Null_Block : constant Block_Type;
