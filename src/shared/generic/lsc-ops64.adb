@@ -68,19 +68,13 @@ package body LSC.Ops64 is
    begin
       for I in Types.Index range Result'First .. Result'Last
       loop
-
-         --# check
-         --#    I <= Left'Last   and
-         --#    I <= Right'Last  and
-         --#    I <= Result'Last;
-
          pragma Warnings (Off, """Result"" might not be initialized");
          Result (I) := XOR2 (Left (I), Right (I));
-         pragma Warnings (On, """Result"" might not be initialized");
 
-         --# assert
-         --#   (for all Pos in Types.Index range Result'First .. I =>
-         --#       (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
+         pragma Loop_Invariant
+           (for all Pos in Types.Index range Result'First .. I =>
+              (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
+         pragma Warnings (On, """Result"" might not be initialized");
 
       end loop;
    end Block_XOR;
@@ -95,13 +89,11 @@ package body LSC.Ops64 is
 
       for I in Types.Index range Source'First .. Source'Last
       loop
-         --# check I in Source'Range;
-
          Dest (I) := Source (I);
 
-         --# assert
-         --#    (for all P in Types.Index range Source'First .. I =>
-         --#        (Dest (P) = Source (P)));
+         pragma Loop_Invariant
+           (for all P in Types.Index range Source'First .. I =>
+              (Dest (P) = Source (P)));
       end loop;
 
    end Block_Copy;

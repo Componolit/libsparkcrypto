@@ -147,7 +147,6 @@ is
       Result := HD_Type'(others => 'X');
 
       for Index in HD_Index
-         --# assert Index in HD_Index;
       loop
          Result ((HD_Index'Last - Index) + 1)   := Num_To_Char (Nibble (Number mod 16));
          Number                                 := Number / 16;
@@ -171,7 +170,6 @@ is
       Result := HD_Type'(others => 'X');
 
       for Index in HD_Index
-         --# assert Index in HD_Index;
       loop
          Result ((HD_Index'Last - Index) + 1)   := Num_To_Char (Nibble (Number mod 16));
          Number                                 := Number / 16;

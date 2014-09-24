@@ -34,7 +34,7 @@
 
 with LSC.Types;
 use type LSC.Types.Word64;
---# inherit LSC.Types;
+use type LSC.Types.Index;
 
 -------------------------------------------------------------------------------
 -- Operations over 64-bit words
@@ -42,8 +42,8 @@ use type LSC.Types.Word64;
 package LSC.Ops64 is
 
    -- Perform XOR on two 64-bit words @V0@ and @V1@
-   function XOR2 (V0, V1 : Types.Word64) return Types.Word64;
-   --# return V0 xor V1;
+   function XOR2 (V0, V1 : Types.Word64) return Types.Word64
+     with Post => XOR2'Result = (V0 xor V1);
    pragma Inline (XOR2);
 
    -- Perform XOR on two arrays of 64-bit words
@@ -51,22 +51,23 @@ package LSC.Ops64 is
    -- @Left@   - First input array <br>
    -- @Right@  - Second input array <br>
    -- @Result@ - Result array <br>
-   pragma Warnings (Off, """Result"" might not be initialized in ""Block_XOR""");
+   pragma Warnings (Off, """Result"" might not be initialized");
    procedure Block_XOR
      (Left   : in     Types.Word64_Array_Type;
       Right  : in     Types.Word64_Array_Type;
-      Result :    out Types.Word64_Array_Type);
-   --# derives
-   --#   Result from Left, Right;
-   --# pre
-   --#   Left'First  = Right'First and
-   --#   Left'Last   = Right'Last  and
-   --#   Right'First = Result'First and
-   --#   Right'Last  = Result'Last;
-   --# post
-   --#   (for all I in Types.Index range Left'First .. Left'Last =>
-   --#        (Result (I) = XOR2 (Left (I), Right (I))));
-   pragma Warnings (On, """Result"" might not be initialized in ""Block_XOR""");
+      Result :    out Types.Word64_Array_Type)
+     with
+       Depends =>
+         (Result =>+ (Left, Right)),
+       Pre =>
+         Left'First  = Right'First and
+         Left'Last   = Right'Last  and
+         Right'First = Result'First and
+         Right'Last  = Result'Last,
+       Post =>
+         (for all I in Types.Index range Left'First .. Left'Last =>
+            (Result (I) = XOR2 (Left (I), Right (I))));
+   pragma Warnings (On, """Result"" might not be initialized");
    pragma Inline (Block_XOR);
 
    -- Convert the eight byte values @Byte0@ .. @Byte7@ to a 64-bit word
@@ -85,15 +86,16 @@ package LSC.Ops64 is
    -- @Dest@, remaining elements stay unchanged.
    procedure Block_Copy
       (Source : in     Types.Word64_Array_Type;
-       Dest   : in out Types.Word64_Array_Type);
-   --# derives
-   --#   Dest from *, Source;
-   --# pre
-   --#   Source'First  = Dest'First and
-   --#   Source'Last  <= Dest'Last;
-   --# post
-   --#   (for all P in Types.Index range Source'First .. Source'Last =>
-   --#       (Dest (P) = Source (P)));
+       Dest   : in out Types.Word64_Array_Type)
+     with
+       Depends =>
+         (Dest =>+ Source),
+       Pre =>
+         Source'First  = Dest'First and
+         Source'Last  <= Dest'Last,
+       Post =>
+         (for all P in Types.Index range Source'First .. Source'Last =>
+            (Dest (P) = Source (P)));
    pragma Inline (Block_Copy);
 
 end LSC.Ops64;

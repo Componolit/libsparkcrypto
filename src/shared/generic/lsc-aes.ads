@@ -110,7 +110,7 @@ package LSC.AES is
    --  ciphertext
    function Encrypt (Context   : AES_Enc_Context;
                      Plaintext : Block_Type) return Block_Type
-     with Global => Null;
+     with Global => null;
 
    --  Create AES-128 decryption context from AES-128 @Key@
    function Create_AES128_Dec_Context (Key : AES128_Key_Type) return AES_Dec_Context;
@@ -125,7 +125,7 @@ package LSC.AES is
    --  plaintext
    function Decrypt (Context    : AES_Dec_Context;
                      Ciphertext : Block_Type) return Block_Type
-     with Global => Null;
+     with Global => null;
 
    --  Empty AES block
    Null_Block : constant Block_Type;

@@ -36,12 +36,6 @@ with LSC.SHA1, LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit
---#    LSC.Debug,
---#    LSC.SHA1,
---#    LSC.Ops32,
---#    LSC.Types;
-
 -------------------------------------------------------------------------------
 -- The HMAC-SHA-1 message authentication
 --
@@ -64,9 +58,8 @@ package LSC.HMAC_SHA1 is
    -- Update HMAC-SHA-1 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     SHA1.Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     SHA1.Block_Type)
+     with Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
    -- Finalize HMAC-SHA-1 @Context@ using @Length@ bits of final message
@@ -74,10 +67,8 @@ package LSC.HMAC_SHA1 is
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     SHA1.Block_Type;
-      Length  : in     SHA1.Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     SHA1.Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
    pragma Inline (Context_Finalize);
 
    -- Get authentication value from @Context@
@@ -88,9 +79,8 @@ package LSC.HMAC_SHA1 is
    function Authenticate
       (Key     : SHA1.Block_Type;
        Message : SHA1.Message_Type;
-       Length  : Types.Word64) return SHA1.Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA1.Block_Size;
+       Length  : Types.Word64) return SHA1.Hash_Type
+     with Pre => Length <= Message'Length * SHA1.Block_Size;
 
 private
 

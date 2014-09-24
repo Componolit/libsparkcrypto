@@ -47,8 +47,7 @@ package body LSC.SHA1 is
 
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32)
-   --# derives Item from *,
-   --#                   Value;
+     with Depends => (Item =>+ Value)
    is
    begin
       if Item.LSW  <= Types.Word32'Last - Value then
@@ -66,18 +65,11 @@ package body LSC.SHA1 is
       y    : Types.Word32;
       z    : Types.Word32)
       return Types.Word32
-   --# return (x and y) xor ((not x) and z);
+     with Post => Ch'Result = ((x and y) xor ((not x) and z))
    is
       pragma Inline (Ch);
-
-      -- This is a workaround for the simplifier, which is not able
-      -- to discharge the (not x) expression directly due to a search
-      -- depth limit.
-      Not_X : Types.Word32;
    begin
-      Not_X := not x;
-      --# assert Not_X in Types.Word32 and Not_X = not x;
-      return ((x and y) xor (Not_X and z));
+      return (x and y) xor ((not x) and z);
    end Ch;
 
    ----------------------------------------------------------------------------
@@ -87,7 +79,7 @@ package body LSC.SHA1 is
       y    : Types.Word32;
       z    : Types.Word32)
       return Types.Word32
-   --# return (x and y) xor (x and z) xor (y and z);
+     with Post => Maj'Result = ((x and y) xor (x and z) xor (y and z))
    is
       pragma Inline (Maj);
    begin
@@ -113,8 +105,7 @@ package body LSC.SHA1 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
-   --# derives Context from *,
-   --#                      Block;
+     with Depends => (Context =>+ Block)
    is
       W                   : Schedule_Type := Null_Schedule;
       a, b, c, d, e, Temp : Types.Word32;
@@ -287,11 +278,10 @@ package body LSC.SHA1 is
       if Last_Block > Message'First then
          for I in Message_Index range Message'First .. Last_Block - 1
          loop
-            --# assert
-            --#    Last_Block = Last_Block% and
-            --#    Last_Block - 1 <= Message'Last and
-            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
-            --#    I < Last_Block;
+            pragma Loop_Invariant
+              (Last_Block - 1 <= Message'Last and
+               (if Last_Length /= 0 then Last_Block <= Message'Last) and
+               I < Last_Block);
             Context_Update (Ctx, Message (I));
          end loop;
       end if;

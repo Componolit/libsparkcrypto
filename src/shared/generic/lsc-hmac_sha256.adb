@@ -72,7 +72,7 @@ package body LSC.HMAC_SHA256 is
 
    procedure Context_Finalize_Outer
      (Context : in out Context_Type)
-   --# derives Context from Context;
+     with Depends => (Context => Context)
    is
       Hash : SHA256.SHA256_Hash_Type;
       Temp : SHA256.Block_Type;
@@ -115,16 +115,12 @@ package body LSC.HMAC_SHA256 is
    begin
       Prf := SHA256.SHA256_Get_Hash (Context.SHA256_Context);
       for Index in Auth_Index
-      --# assert
-      --#    (for all I in SHA256.SHA256_Hash_Index => (Prf (I) in Types.Word32)) and
-      --#    Index <= Result'Last                                                 and
-      --#    Index <= Prf'Last;
       loop
-         --# accept Flow, 23, Result, "Initialized in complete loop";
+         pragma Loop_Invariant
+           (for all I in SHA256.SHA256_Hash_Index => (Prf (I) in Types.Word32));
          Result (Index) := Prf (Index);
       end loop;
 
-      --# accept Flow, 602, Result, "Initialized in complete loop";
       return Result;
    end Get_Auth;
 
@@ -134,8 +130,7 @@ package body LSC.HMAC_SHA256 is
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
        Length  : Types.Word64) return Context_Type
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA256.Block_Size;
+     with Pre => Length <= Message'Length * SHA256.Block_Size
    is
       HMAC_Ctx : Context_Type;
    begin

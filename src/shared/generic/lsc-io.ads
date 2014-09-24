@@ -34,7 +34,6 @@
 
 with LSC.Types;
 use type LSC.Types.Index;
---# inherit LSC.Types;
 
 -------------------------------------------------------------------------------
 -- Input/Output operations
@@ -42,16 +41,16 @@ use type LSC.Types.Index;
 package LSC.IO is
 
    -- Output string @T@
-   procedure Put (T : String);
-   --# derives null from T;
+   procedure Put (T : String)
+     with Depends => (null => T);
 
    -- Output string @T@ followed by a line terminator
-   procedure Put_Line (T : String);
-   --# derives null from T;
+   procedure Put_Line (T : String)
+     with Depends => (null => T);
 
    -- Start a new line
-   procedure New_Line;
-   --# derives ;
+   procedure New_Line
+     with Depends => null;
 
    -- Read one byte from input
    function Read_Byte return Types.Byte;
@@ -60,24 +59,24 @@ package LSC.IO is
    function End_Of_Stream return Boolean;
 
    -- Output byte @Item@
-   procedure Print_Byte (Item : in Types.Byte);
-   --# derives null from Item;
+   procedure Print_Byte (Item : in Types.Byte)
+     with Depends => (null => Item);
 
    -- Output 32-bit word @Item@
-   procedure Print_Word32 (Item : in Types.Word32);
-   --# derives null from Item;
+   procedure Print_Word32 (Item : in Types.Word32)
+     with Depends => (null => Item);
 
    -- Output 64-bit word @Item@
-   procedure Print_Word64 (Item : in Types.Word64);
-   --# derives null from Item;
+   procedure Print_Word64 (Item : in Types.Word64)
+     with Depends => (null => Item);
 
    -- Output index @I@
-   procedure Print_Index (I : in Types.Index);
-   --# derives null from I;
+   procedure Print_Index (I : in Types.Index)
+     with Depends => (null => I);
 
    -- Output natural number @I@
-   procedure Print_Natural (I : in Natural);
-   --# derives null from I;
+   procedure Print_Natural (I : in Natural)
+     with Depends => (null => I);
 
    -- Output @Block@, an array of 32-bit words
    --
@@ -88,10 +87,11 @@ package LSC.IO is
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
-                                 Newln : in Boolean);
-   --# derives null from Block, Space, Break, Newln;
-   --# pre
-   --#    Break > 0;
+                                 Newln : in Boolean)
+     with
+       Depends => (null => (Block, Space, Break, Newln)),
+       Pre =>
+         Break > 0;
 
    -- Output @Block@, an array of 64-bit words
    --
@@ -102,9 +102,10 @@ package LSC.IO is
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;
                                  Break : in Types.Index;
-                                 Newln : in Boolean);
-   --# derives null from Block, Space, Break, Newln;
-   --# pre
-   --#    Break > 0;
+                                 Newln : in Boolean)
+     with
+       Depends => (null => (Block, Space, Break, Newln)),
+       Pre =>
+         Break > 0;
 
 end LSC.IO;

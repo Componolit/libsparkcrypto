@@ -37,12 +37,6 @@ with LSC.Types;
 use type LSC.Types.Index;
 use type LSC.Types.Word64;
 
---# inherit
---#    LSC.Types,
---#    LSC.Debug,
---#    LSC.Byteorder64,
---#    LSC.Pad64;
-
 -------------------------------------------------------------------------------
 -- The SHA-512 and SHA-386 hash algorithms
 --
@@ -103,9 +97,8 @@ package LSC.SHA512 is
    -- Update SHA-512 @Context@ context with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     Block_Type)
+     with Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
    -- Finalize SHA-512 context @Context@ using @Length@ bits of final message
@@ -114,10 +107,8 @@ package LSC.SHA512 is
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
-      Length  : in     Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
 
    -- Return SHA-512 hash.
    function SHA512_Get_Hash (Context : Context_Type) return SHA512_Hash_Type;
@@ -128,24 +119,22 @@ package LSC.SHA512 is
    procedure Hash_Context
       (Message : in     Message_Type;
        Length  : in     Types.Word64;
-       Ctx     : in out Context_Type);
-   --# derives Ctx from Ctx, Message, Length;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Ctx     : in out Context_Type)
+     with
+       Depends => (Ctx =>+ (Message, Length)),
+       Pre => Length <= Message'Length * Block_Size;
 
    -- Compute SHA-512 hash value of @Length@ bits of @Message@.
    function SHA512_Hash
       (Message : Message_Type;
-       Length  : Types.Word64) return SHA512_Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Length  : Types.Word64) return SHA512_Hash_Type
+     with Pre => Length <= Message'Length * Block_Size;
 
    -- Compute SHA-384 hash value of @Length@ bits of @Message@.
    function SHA384_Hash
       (Message : Message_Type;
-       Length  : Types.Word64) return SHA384_Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Length  : Types.Word64) return SHA384_Hash_Type
+     with Pre => Length <= Message'Length * Block_Size;
 
    -- Empty block
    Null_Block : constant Block_Type;

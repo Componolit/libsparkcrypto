@@ -38,12 +38,6 @@ use type LSC.Types.Index;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit
---#    LSC.Types,
---#    LSC.Debug,
---#    LSC.Byteorder32,
---#    LSC.Pad32;
-
 -------------------------------------------------------------------------------
 --  The SHA-256 hash algorithm
 --
@@ -93,9 +87,8 @@ package LSC.SHA256 is
    -- Update SHA-256 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     Block_Type)
+     with Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
    -- Finalize SHA-256 @Context@ using @Length@ bits of final message block
@@ -103,10 +96,8 @@ package LSC.SHA256 is
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
-      Length  : in     Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
 
    -- Return SHA-256 hash from @Context@.
    function SHA256_Get_Hash (Context : Context_Type) return SHA256_Hash_Type;
@@ -114,17 +105,16 @@ package LSC.SHA256 is
    procedure Hash_Context
       (Message : in     Message_Type;
        Length  : in     Types.Word64;
-       Ctx     : in out Context_Type);
-   --# derives Ctx from Ctx, Message, Length;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Ctx     : in out Context_Type)
+     with
+       Depends => (Ctx =>+ (Message, Length)),
+       Pre => Length <= Message'Length * Block_Size;
 
    -- Compute hash value of @Length@ bits of @Message@.
    function Hash
       (Message : Message_Type;
-       Length  : Types.Word64) return SHA256_Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * Block_Size;
+       Length  : Types.Word64) return SHA256_Hash_Type
+     with Pre => Length <= Message'Length * Block_Size;
 
    -- Empty block
    Null_Block : constant Block_Type;

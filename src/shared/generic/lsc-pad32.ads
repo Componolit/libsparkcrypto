@@ -36,9 +36,6 @@ with LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 use type LSC.Types.Index;
---# inherit
---#    LSC.Types,
---#    LSC.Byteorder32;
 
 -------------------------------------------------------------------------------
 -- Cryptographic padding for arrays of 32-bit words
@@ -53,17 +50,17 @@ is
    --
    procedure Block_Terminate
      (Block  : in out Types.Word32_Array_Type;
-      Length : in     Types.Word64);
+      Length : in     Types.Word64)
    --
    -- <strong> NOTE: The postcondition currently does not completely express
    --          the intended behaviour of the operation! </strong>
    --
-   --# derives Block from *,
-   --#                    Length;
-   --# pre
-   --#    Types.Index'First + Types.Index (Length / 32) in Block'Range;
-   --# post
-   --#    (for all I in Types.Index range
-   --#        Types.Index'First + Types.Index (Length / 32) + 1 .. Block'Last => (Block (I) = 0));
+     with
+       Depends => (Block =>+ Length),
+       Pre =>
+         Types.Index'First + Types.Index (Length / 32) in Block'Range,
+       Post =>
+         (for all I in Types.Index range
+            Types.Index'First + Types.Index (Length / 32) + 1 .. Block'Last => (Block (I) = 0));
 
 end LSC.Pad32;

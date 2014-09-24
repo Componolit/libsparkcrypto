@@ -37,8 +37,8 @@ with LSC.Byteorder32;
 package body LSC.Bignum
 is
 
-   function GCD (A, B: Types.Word32) return Types.Word32
-     with Convention => Ghost, Import, Global => Null;
+   function GCD (A, B : Types.Word32) return Types.Word32
+     with Convention => Ghost, Import, Global => null;
 
    procedure Initialize
      (A       :    out Big_Int;
@@ -824,7 +824,8 @@ is
       end loop;
 
       if A_MSW /= 0 or else
-        not Less (A, A_First, A_Last, M, M_First) then
+        not Less (A, A_First, A_Last, M, M_First)
+      then
          pragma Warnings (Off, "unused assignment to ""Carry""");
          Sub_Inplace (A, A_First, A_Last, M, M_First, Carry);
          pragma Warnings (On, "unused assignment to ""Carry""");

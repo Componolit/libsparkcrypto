@@ -48,8 +48,7 @@ package body LSC.SHA512 is
 
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word64)
-   --# derives Item from *,
-   --#                   Value;
+     with Depends => (Item =>+ Value)
    is
       pragma Inline (Add);
    begin
@@ -67,18 +66,11 @@ package body LSC.SHA512 is
      (x    : Types.Word64;
       y    : Types.Word64;
       z    : Types.Word64) return Types.Word64
-   --# return (x and y) xor ((not x) and z);
+     with Post => Ch'Result = ((x and y) xor ((not x) and z))
    is
       pragma Inline (Ch);
-
-      -- This is a workaround for the simplifier, which is not able
-      -- to discharge the (not x) expression directly due to a search
-      -- depth limit.
-      Not_X : Types.Word64;
    begin
-      Not_X := not x;
-      --# assert Not_X in Types.Word64 and Not_X = not x;
-      return ((x and y) xor (Not_X and z));
+      return (x and y) xor ((not x) and z);
    end Ch;
 
    ----------------------------------------------------------------------------
@@ -87,7 +79,7 @@ package body LSC.SHA512 is
      (x    : Types.Word64;
       y    : Types.Word64;
       z    : Types.Word64) return Types.Word64
-   --# return (x and y) xor (x and z) xor (y and z);
+     with Post => Maj'Result = ((x and y) xor (x and z) xor (y and z))
    is
       pragma Inline (Maj);
    begin
@@ -98,45 +90,49 @@ package body LSC.SHA512 is
 
    function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64
    is
-      pragma Inline (Cap_Sigma_0_512);
    begin
       return Types.ROTR (x, 28) xor
              Types.ROTR (x, 34) xor
              Types.ROTR (x, 39);
    end Cap_Sigma_0_512;
 
+   pragma Inline (Cap_Sigma_0_512);
+
    ----------------------------------------------------------------------------
 
    function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64
    is
-      pragma Inline (Cap_Sigma_1_512);
    begin
       return Types.ROTR (x, 14) xor
              Types.ROTR (x, 18) xor
              Types.ROTR (x, 41);
    end Cap_Sigma_1_512;
 
+   pragma Inline (Cap_Sigma_1_512);
+
    ----------------------------------------------------------------------------
 
    function Sigma_0_512 (x : Types.Word64) return Types.Word64
    is
-      pragma Inline (Sigma_0_512);
    begin
       return Types.ROTR (x, 1) xor
              Types.ROTR (x, 8) xor
              Types.SHR (x, 7);
    end Sigma_0_512;
 
+   pragma Inline (Sigma_0_512);
+
    ----------------------------------------------------------------------------
 
    function Sigma_1_512 (x : Types.Word64) return Types.Word64
    is
-      pragma Inline (Sigma_1_512);
    begin
       return Types.ROTR (x, 19) xor
              Types.ROTR (x, 61) xor
              Types.SHR (x, 6);
    end Sigma_1_512;
+
+   pragma Inline (Sigma_1_512);
 
    ----------------------------------------------------------------------------
 
@@ -177,8 +173,7 @@ package body LSC.SHA512 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
-   --# derives Context from *,
-   --#                      Block;
+     with Depends => (Context =>+ Block)
    is
       a, b, c, d, e, f, g, h : Types.Word64;
 
@@ -191,11 +186,11 @@ package body LSC.SHA512 is
                          a5 : in     Types.Word64;
                          a6 : in     Types.Word64;
                          a7 : in out Types.Word64)
-      --# global
-      --#    Context;
-      --# derives
-      --#    a3 from *, a4, a5, a6, a7, r, Context &
-      --#    a7 from a0, a1, a2, a4, a5, a6, a7, r, Context;
+        with
+          Global => Context,
+          Depends =>
+            (a3 =>+ (a4, a5, a6, a7, r, Context),
+             a7 => (a0, a1, a2, a4, a5, a6, a7, r, Context))
       is
          T1, T2 : Types.Word64;
       begin
@@ -255,7 +250,6 @@ package body LSC.SHA512 is
       SHA512_Op  (5, d, e, f, g, h, a, b, c);
       SHA512_Op  (6, c, d, e, f, g, h, a, b);
       SHA512_Op  (7, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op  (8, a, b, c, d, e, f, g, h);
       SHA512_Op  (9, h, a, b, c, d, e, f, g);
@@ -265,7 +259,6 @@ package body LSC.SHA512 is
       SHA512_Op (13, d, e, f, g, h, a, b, c);
       SHA512_Op (14, c, d, e, f, g, h, a, b);
       SHA512_Op (15, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (16, a, b, c, d, e, f, g, h);
       SHA512_Op (17, h, a, b, c, d, e, f, g);
@@ -275,7 +268,6 @@ package body LSC.SHA512 is
       SHA512_Op (21, d, e, f, g, h, a, b, c);
       SHA512_Op (22, c, d, e, f, g, h, a, b);
       SHA512_Op (23, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (24, a, b, c, d, e, f, g, h);
       SHA512_Op (25, h, a, b, c, d, e, f, g);
@@ -285,7 +277,6 @@ package body LSC.SHA512 is
       SHA512_Op (29, d, e, f, g, h, a, b, c);
       SHA512_Op (30, c, d, e, f, g, h, a, b);
       SHA512_Op (31, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (32, a, b, c, d, e, f, g, h);
       SHA512_Op (33, h, a, b, c, d, e, f, g);
@@ -295,7 +286,6 @@ package body LSC.SHA512 is
       SHA512_Op (37, d, e, f, g, h, a, b, c);
       SHA512_Op (38, c, d, e, f, g, h, a, b);
       SHA512_Op (39, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (40, a, b, c, d, e, f, g, h);
       SHA512_Op (41, h, a, b, c, d, e, f, g);
@@ -305,7 +295,6 @@ package body LSC.SHA512 is
       SHA512_Op (45, d, e, f, g, h, a, b, c);
       SHA512_Op (46, c, d, e, f, g, h, a, b);
       SHA512_Op (47, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (48, a, b, c, d, e, f, g, h);
       SHA512_Op (49, h, a, b, c, d, e, f, g);
@@ -315,7 +304,6 @@ package body LSC.SHA512 is
       SHA512_Op (53, d, e, f, g, h, a, b, c);
       SHA512_Op (54, c, d, e, f, g, h, a, b);
       SHA512_Op (55, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (56, a, b, c, d, e, f, g, h);
       SHA512_Op (57, h, a, b, c, d, e, f, g);
@@ -325,7 +313,6 @@ package body LSC.SHA512 is
       SHA512_Op (61, d, e, f, g, h, a, b, c);
       SHA512_Op (62, c, d, e, f, g, h, a, b);
       SHA512_Op (63, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (64, a, b, c, d, e, f, g, h);
       SHA512_Op (65, h, a, b, c, d, e, f, g);
@@ -335,7 +322,6 @@ package body LSC.SHA512 is
       SHA512_Op (69, d, e, f, g, h, a, b, c);
       SHA512_Op (70, c, d, e, f, g, h, a, b);
       SHA512_Op (71, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       SHA512_Op (72, a, b, c, d, e, f, g, h);
       SHA512_Op (73, h, a, b, c, d, e, f, g);
@@ -345,7 +331,6 @@ package body LSC.SHA512 is
       SHA512_Op (77, d, e, f, g, h, a, b, c);
       SHA512_Op (78, c, d, e, f, g, h, a, b);
       SHA512_Op (79, b, c, d, e, f, g, h, a);
-      --# assert True;
 
       -- 4. Compute the i-th intermediate hash value H-i:
       Context.H :=
@@ -453,11 +438,10 @@ package body LSC.SHA512 is
       if Last_Block > Message'First then
          for I in Message_Index range Message'First .. Last_Block - 1
          loop
-            --# assert
-            --#    Last_Block = Last_Block% and
-            --#    Last_Block - 1 <= Message'Last and
-            --#    (Last_Length /= 0 -> Last_Block <= Message'Last) and
-            --#    I < Last_Block;
+            pragma Loop_Invariant
+              (Last_Block - 1 <= Message'Last and
+               (if Last_Length /= 0 then Last_Block <= Message'Last) and
+               I < Last_Block);
             Context_Update (Ctx, Message (I));
          end loop;
       end if;

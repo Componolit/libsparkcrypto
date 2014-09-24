@@ -49,18 +49,8 @@ package body LSC.Pad64 is
       -- index of partial block
       Index := Types.Index'First + Types.Index (Length / 64);
 
-      --# check Length = 0    -> Index =  0;
-      --# check Length = 63   -> Index =  0;
-      --# check Length = 64   -> Index =  1;
-      --# check Length = 1023 -> Index = 15;
-
       -- bit offset within the partial block
       Offset := Natural (63 - Length mod 64);
-
-      --# check Length = 0    -> Offset = 63;
-      --# check Length = 63   -> Offset =  0;
-      --# check Length = 64   -> Offset = 63;
-      --# check Length = 1023 -> Offset =  0;
 
       Temp := Byteorder64.Native_To_BE (Block (Index));
       Temp := Temp and Types.SHL (not 0, Offset);
@@ -71,10 +61,10 @@ package body LSC.Pad64 is
          for I in Types.Index range (Index + 1) .. Block'Last
          loop
             Block (I) := 0;
-            --# assert
-            --#    (for all P in Types.Index range
-            --#       (Types.Index'First + Index + 1) .. I => (Block (P) = 0)) and
-            --#    Index = Types.Index'First + Types.Index (Length / 64);
+            pragma Loop_Invariant
+              ((for all P in Types.Index range
+                  (Types.Index'First + Index + 1) .. I => (Block (P) = 0)) and
+               Index = Types.Index'First + Types.Index (Length / 64));
          end loop;
       end if;
 

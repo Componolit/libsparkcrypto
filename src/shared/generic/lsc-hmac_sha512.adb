@@ -71,7 +71,7 @@ package body LSC.HMAC_SHA512 is
 
    procedure Context_Finalize_Outer
      (Context : in out Context_Type)
-   --# derives Context from Context;
+     with Depends => (Context => Context)
    is
       Hash : SHA512.SHA512_Hash_Type;
       Temp : SHA512.Block_Type;
@@ -126,8 +126,7 @@ package body LSC.HMAC_SHA512 is
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
        Length  : Types.Word64) return Context_Type
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA512.Block_Size;
+     with Pre => Length <= Message'Length * SHA512.Block_Size
    is
       HMAC_Ctx : Context_Type;
    begin

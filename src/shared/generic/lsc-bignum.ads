@@ -49,17 +49,17 @@ is
 
    type Big_Int is array (Natural range <>) of Types.Word32;
 
-   function Num_Of_Big_Int (A: Big_Int; F, L: Natural)
+   function Num_Of_Big_Int (A : Big_Int; F, L : Natural)
      return Math_Int.Math_Int
-     with Convention => Ghost, Import, Global => Null;
+     with Convention => Ghost, Import, Global => null;
 
-   function Num_Of_Boolean (B: Boolean) return Math_Int.Math_Int
-     with Convention => Ghost, Import, Global => Null;
+   function Num_Of_Boolean (B : Boolean) return Math_Int.Math_Int
+     with Convention => Ghost, Import, Global => null;
 
-   function Inverse (M, A: Math_Int.Math_Int) return Math_Int.Math_Int
-     with Convention => Ghost, Import, Global => Null;
+   function Inverse (M, A : Math_Int.Math_Int) return Math_Int.Math_Int
+     with Convention => Ghost, Import, Global => null;
 
-   pragma Warnings (Off, """A"" might not be initialized in ""Initialize""");
+   pragma Warnings (Off, """A"" might not be initialized");
    procedure Initialize
      (A       :    out Big_Int;
       A_First : in     Natural;
@@ -73,7 +73,7 @@ is
          A_First <= A_Last,
        Post =>
          (for all K in Natural range A_First .. A_Last => (A (K) = 0));
-   pragma Warnings (On, """A"" might not be initialized in ""Initialize""");
+   pragma Warnings (On, """A"" might not be initialized");
 
    procedure Copy
      (A       : in     Big_Int;
@@ -175,7 +175,7 @@ is
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
-   pragma Warnings (Off, """A"" might not be initialized in ""Add""");
+   pragma Warnings (Off, """A"" might not be initialized");
    procedure Add
      (A       :    out Big_Int;
       A_First : in     Natural;
@@ -201,7 +201,7 @@ is
          Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) =
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
-   pragma Warnings (On, """A"" might not be initialized in ""Add""");
+   pragma Warnings (On, """A"" might not be initialized");
 
    procedure Sub_Inplace
      (A       : in out Big_Int;
@@ -225,7 +225,7 @@ is
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
-   pragma Warnings (Off, """A"" might not be initialized in ""Sub""");
+   pragma Warnings (Off, """A"" might not be initialized");
    procedure Sub
      (A       :    out Big_Int;
       A_First : in     Natural;
@@ -251,7 +251,7 @@ is
          Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) =
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
-   pragma Warnings (On, """A"" might not be initialized in ""Sub""");
+   pragma Warnings (On, """A"" might not be initialized");
 
    procedure Mod_Add_Inplace
      (A       : in out Big_Int;

@@ -36,12 +36,6 @@ with LSC.SHA256, LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit
---#    LSC.Debug,
---#    LSC.SHA256,
---#    LSC.Ops32,
---#    LSC.Types;
-
 -------------------------------------------------------------------------------
 -- The HMAC-SHA-256 message authentication code
 --
@@ -70,9 +64,8 @@ package LSC.HMAC_SHA256 is
    -- Update HMAC-SHA-256 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     SHA256.Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     SHA256.Block_Type)
+     with Depends => (Context =>+ Block);
 
    -- Finalize HMAC-SHA-256 @Context@ using @Length@ bits of final message
    -- block @Block@.
@@ -80,10 +73,8 @@ package LSC.HMAC_SHA256 is
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     SHA256.Block_Type;
-      Length  : in     SHA256.Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     SHA256.Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
 
    -- Get pseudo-random function value from @Context@
    function Get_Prf  (Context : in Context_Type) return SHA256.SHA256_Hash_Type;
@@ -96,9 +87,8 @@ package LSC.HMAC_SHA256 is
    function Pseudorandom
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return SHA256.SHA256_Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA256.Block_Size;
+       Length  : Types.Word64) return SHA256.SHA256_Hash_Type
+     with Pre => Length <= Message'Length * SHA256.Block_Size;
 
    -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
    -- return the authentication value.
@@ -106,9 +96,8 @@ package LSC.HMAC_SHA256 is
    function Authenticate
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return Auth_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA256.Block_Size;
+       Length  : Types.Word64) return Auth_Type
+     with Pre => Length <= Message'Length * SHA256.Block_Size;
 
 private
 

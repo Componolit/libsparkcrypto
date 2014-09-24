@@ -34,7 +34,9 @@
 
 with Ada.Unchecked_Conversion;
 
-package body LSC.Types is
+package body LSC.Types
+  with SPARK_Mode => Off
+is
 
    function ROTR (Value : Word64; Amount : Natural) return Word64
    is

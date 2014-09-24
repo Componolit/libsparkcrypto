@@ -43,6 +43,7 @@ package body LSC.AES is
    ----------------------------------------------------------------------------
 
    function Sub_Word (Value : Types.Word32) return Types.Word32
+     with Pre => True -- FIXME: Workaround for [N916-032]
    is
       Temp : Types.Byte_Array32_Type;
    begin
@@ -95,7 +96,7 @@ package body LSC.AES is
 
             pragma Assert_And_Cut
               (I mod Nk = 0 and
-               I/Nk in Tables.Rcon_Index);
+               I / Nk in Tables.Rcon_Index);
 
             Rot_Temp := Rot_Word (Temp);
             Sub_Temp := Sub_Word (Rot_Temp);

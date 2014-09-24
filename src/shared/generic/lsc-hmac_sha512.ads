@@ -35,12 +35,6 @@
 with LSC.SHA512, LSC.Types;
 use type LSC.Types.Word64;
 
---# inherit
---#    LSC.Debug,
---#    LSC.SHA512,
---#    LSC.Ops64,
---#    LSC.Types;
-
 -------------------------------------------------------------------------------
 -- The HMAC-SHA-512 message authentication code
 --
@@ -72,9 +66,8 @@ package LSC.HMAC_SHA512 is
    -- Update HMAC-SHA-512 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
-      Block   : in     SHA512.Block_Type);
-   --# derives Context from *,
-   --#                      Block;
+      Block   : in     SHA512.Block_Type)
+     with Depends => (Context =>+ Block);
 
    -- Finalize HMAC-SHA-512 @Context@ using @Length@ bits of final message
    -- block @Block@.
@@ -82,10 +75,8 @@ package LSC.HMAC_SHA512 is
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     SHA512.Block_Type;
-      Length  : in     SHA512.Block_Length_Type);
-   --# derives Context from *,
-   --#                      Block,
-   --#                      Length;
+      Length  : in     SHA512.Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
 
    -- Get pseudo-random function value from @Context@
    function Get_Prf  (Context : in Context_Type) return SHA512.SHA512_Hash_Type;
@@ -98,9 +89,8 @@ package LSC.HMAC_SHA512 is
    function Pseudorandom
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return SHA512.SHA512_Hash_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA512.Block_Size;
+       Length  : Types.Word64) return SHA512.SHA512_Hash_Type
+     with Pre => Length <= Message'Length * SHA512.Block_Size;
 
    -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
    -- return the authentication value.
@@ -108,9 +98,8 @@ package LSC.HMAC_SHA512 is
    function Authenticate
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return Auth_Type;
-   --# pre
-   --#    Universal_Integer (Length) <= Message'Length * SHA512.Block_Size;
+       Length  : Types.Word64) return Auth_Type
+     with Pre => Length <= Message'Length * SHA512.Block_Size;
 
    -- Empty authenticator
    Null_Auth : constant Auth_Type;

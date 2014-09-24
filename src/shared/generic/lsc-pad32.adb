@@ -49,18 +49,8 @@ package body LSC.Pad32 is
       -- index of partial block
       Index := Types.Index'First + Types.Index (Length / 32);
 
-      --# check Length = 0   -> Index =  0;
-      --# check Length = 31  -> Index =  0;
-      --# check Length = 32  -> Index =  1;
-      --# check Length = 511 -> Index = 15;
-
       -- bit offset within the partial block
       Offset := Natural (31 - Length mod 32);
-
-      --# check Length = 0   -> Offset = 31;
-      --# check Length = 31  -> Offset =  0;
-      --# check Length = 32  -> Offset = 31;
-      --# check Length = 511 -> Offset =  0;
 
       Temp := Byteorder32.Native_To_BE (Block (Index));
       Temp := Temp and Types.SHL32 (not 0, Offset);
@@ -71,10 +61,10 @@ package body LSC.Pad32 is
          for I in Types.Index range (Index + 1) .. Block'Last
          loop
             Block (I) := 0;
-            --# assert
-            --#    (for all P in Types.Index range
-            --#       (Types.Index'First + Index + 1) .. I => (Block (P) = 0)) and
-            --#    Index = Types.Index'First + Types.Index (Length / 32);
+            pragma Loop_Invariant
+              ((for all P in Types.Index range
+                  (Types.Index'First + Index + 1) .. I => (Block (P) = 0)) and
+               Index = Types.Index'First + Types.Index (Length / 32));
          end loop;
       end if;
 
