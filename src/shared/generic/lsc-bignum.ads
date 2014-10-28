@@ -59,7 +59,6 @@ is
    function Inverse (M, A : Math_Int.Math_Int) return Math_Int.Math_Int
      with Convention => Ghost, Import, Global => null;
 
-   pragma Warnings (Off, """A"" might not be initialized");
    procedure Initialize
      (A       :    out Big_Int;
       A_First : in     Natural;
@@ -73,7 +72,6 @@ is
          A_First <= A_Last,
        Post =>
          (for all K in Natural range A_First .. A_Last => (A (K) = 0));
-   pragma Warnings (On, """A"" might not be initialized");
 
    procedure Copy
      (A       : in     Big_Int;
@@ -99,7 +97,6 @@ is
          -- FIXME workaround for [N416-037]
          B'First = B'Old'First and B'Last = B'Old'Last;
 
-   pragma Warnings (Off, """B"" might not be initialized in ""Native_To_BE""");
    procedure Native_To_BE
      (A       : in     Big_Int;
       A_First : in     Natural;
@@ -115,7 +112,6 @@ is
          A_First <= A_Last and
          B_First in B'Range and
          B_First + (A_Last - A_First) in B'Range;
-   pragma Warnings (On, """B"" might not be initialized in ""Native_To_BE""");
 
    procedure Double_Inplace
      (A       : in out Big_Int;
@@ -175,7 +171,6 @@ is
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
-   pragma Warnings (Off, """A"" might not be initialized");
    procedure Add
      (A       :    out Big_Int;
       A_First : in     Natural;
@@ -201,7 +196,6 @@ is
          Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) =
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
-   pragma Warnings (On, """A"" might not be initialized");
 
    procedure Sub_Inplace
      (A       : in out Big_Int;
@@ -225,7 +219,6 @@ is
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
 
-   pragma Warnings (Off, """A"" might not be initialized");
    procedure Sub
      (A       :    out Big_Int;
       A_First : in     Natural;
@@ -251,7 +244,6 @@ is
          Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) =
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) -
          Base ** (A_Last - A_First + 1) * Num_Of_Boolean (Carry);
-   pragma Warnings (On, """A"" might not be initialized");
 
    procedure Mod_Add_Inplace
      (A       : in out Big_Int;

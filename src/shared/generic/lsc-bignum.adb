@@ -49,17 +49,25 @@ is
       for I in Natural range A_First .. A_Last
       loop
          pragma Warnings (Off, """A"" may be referenced before it has a value");
-         pragma Warnings (Off, """A"" might not be initialized");
          pragma Loop_Invariant
            (for all K in Natural range A_First .. I - 1 => (A (K) = 0));
          pragma Warnings (On, """A"" may be referenced before it has a value");
-         pragma Warnings (On, """A"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """A"" might not be initialized",
+            "Initialized between A_First and A_Last");
 
-         pragma Warnings (Off, """A"" might not be initialized");
          A (I) := 0;
-         pragma Warnings (On, """A"" might not be initialized");
       end loop;
    end Initialize;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """A"" might not be initialized",
+      "Initialized between A_First and A_Last");
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """A"" might not be initialized in ""Initialize""",
+      "Initialized between A_First and A_Last");
 
    ----------------------------------------------------------------------------
 
@@ -103,11 +111,17 @@ is
    begin
       for I in Natural range A_First .. A_Last
       loop
-         pragma Warnings (Off, """B"" might not be initialized");
          B (B_First + (A_Last - I)) := Byteorder32.Native_To_BE (A (I));
-         pragma Warnings (On, """B"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """B"" might not be initialized",
+           "Copied between A_First and A_Last");
       end loop;
    end Native_To_BE;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """B"" might not be initialized in ""Native_To_Be""",
+      "Copied between A_First and A_Last");
 
    ----------------------------------------------------------------------------
 
@@ -256,31 +270,41 @@ is
       for I in Natural range A_First .. A_Last
       loop
          pragma Warnings (Off, """A"" may be referenced before it has a value");
-         pragma Warnings (Off, """A"" might not be initialized");
          pragma Loop_Invariant
            (Num_Of_Big_Int (B, B_First, I - A_First) +
             Num_Of_Big_Int (C, C_First, I - A_First) =
             Num_Of_Big_Int (A, A_First, I - A_First) +
             Base ** (I - A_First) * Num_Of_Boolean (Carry));
          pragma Warnings (On, """A"" may be referenced before it has a value");
-         pragma Warnings (On, """A"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """A"" might not be initialized",
+            "Initialized between A_First and A_Last");
 
          J := I - A_First;
          H := B (B_First + J) + C (C_First + J) + Word_Of_Boolean (Carry);
          Carry := H < B (B_First + J) or (H = B (B_First + J) and Carry);
-         pragma Warnings (Off, """A"" might not be initialized");
          A (I) := H;
-         pragma Warnings (On, """A"" might not be initialized");
 
-         pragma Warnings (Off, """A"" might not be initialized");
          pragma Assert_And_Cut
            (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) +
             Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
             Num_Of_Big_Int (A, A_First, (I + 1) - A_First) +
             Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry));
-         pragma Warnings (On, """A"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """A"" might not be initialized",
+            "Initialized between A_First and A_Last");
       end loop;
    end Add;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """A"" might not be initialized",
+      "Initialized between A_First and A_Last");
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """A"" might not be initialized in ""Add""",
+      "Initialized between A_First and A_Last");
 
    ----------------------------------------------------------------------------
 
@@ -342,32 +366,42 @@ is
       for I in Natural range A_First .. A_Last
       loop
          pragma Warnings (Off, """A"" may be referenced before it has a value");
-         pragma Warnings (Off, """A"" might not be initialized");
          pragma Loop_Invariant
            (Num_Of_Big_Int (B, B_First, I - A_First) -
             Num_Of_Big_Int (C, C_First, I - A_First) =
             Num_Of_Big_Int (A, A_First, I - A_First) -
             Base ** (I - A_First) * Num_Of_Boolean (Carry));
          pragma Warnings (On, """A"" may be referenced before it has a value");
-         pragma Warnings (On, """A"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """A"" might not be initialized",
+            "Initialized between A_First and A_Last");
 
          J := I - A_First;
          New_Carry := B (B_First + J) < C (C_First + J) or else
            (B (B_First + J) = C (C_First + J) and then Carry);
-         pragma Warnings (Off, """A"" might not be initialized");
          A (I) := (B (B_First + J) - C (C_First + J)) - Word_Of_Boolean (Carry);
-         pragma Warnings (On, """A"" might not be initialized");
          Carry := New_Carry;
 
-         pragma Warnings (Off, """A"" might not be initialized");
          pragma Assert_And_Cut
            (Num_Of_Big_Int (B, B_First, (I + 1) - A_First) -
             Num_Of_Big_Int (C, C_First, (I + 1) - A_First) =
             Num_Of_Big_Int (A, A_First, (I + 1) - A_First) -
             Base ** ((I + 1) - A_First) * Num_Of_Boolean (Carry));
-         pragma Warnings (On, """A"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """A"" might not be initialized",
+            "Initialized between A_First and A_Last");
       end loop;
    end Sub;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """A"" might not be initialized",
+      "Initialized between A_First and A_Last");
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """A"" might not be initialized in ""Sub""",
+      "Initialized between A_First and A_Last");
 
    ----------------------------------------------------------------------------
 

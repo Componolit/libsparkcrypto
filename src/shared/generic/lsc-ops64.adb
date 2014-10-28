@@ -68,16 +68,26 @@ package body LSC.Ops64 is
    begin
       for I in Types.Index range Result'First .. Result'Last
       loop
-         pragma Warnings (Off, """Result"" might not be initialized");
          Result (I) := XOR2 (Left (I), Right (I));
 
          pragma Loop_Invariant
            (for all Pos in Types.Index range Result'First .. I =>
               (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
-         pragma Warnings (On, """Result"" might not be initialized");
+         pragma Annotate
+           (GNATprove, False_Positive,
+            """Result"" might not be initialized",
+            "Initialized in complete loop");
 
       end loop;
    end Block_XOR;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """Result"" might not be initialized",
+      "Initialized in complete loop");
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """Result"" might not be initialized in ""Block_Xor""",
+      "Initialized in complete loop");
 
    ----------------------------------------------------------------------------
 

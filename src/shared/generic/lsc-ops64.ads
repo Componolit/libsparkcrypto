@@ -51,7 +51,6 @@ package LSC.Ops64 is
    -- @Left@   - First input array <br>
    -- @Right@  - Second input array <br>
    -- @Result@ - Result array <br>
-   pragma Warnings (Off, """Result"" might not be initialized");
    procedure Block_XOR
      (Left   : in     Types.Word64_Array_Type;
       Right  : in     Types.Word64_Array_Type;
@@ -67,7 +66,6 @@ package LSC.Ops64 is
        Post =>
          (for all I in Types.Index range Left'First .. Left'Last =>
             (Result (I) = XOR2 (Left (I), Right (I))));
-   pragma Warnings (On, """Result"" might not be initialized");
    pragma Inline (Block_XOR);
 
    -- Convert the eight byte values @Byte0@ .. @Byte7@ to a 64-bit word

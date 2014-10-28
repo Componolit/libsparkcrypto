@@ -60,16 +60,24 @@ package body LSC.AES.CBC is
             Ops32.Block_XOR (Next, Plaintext (I), Temp);
             Next := AES.Encrypt (Context, Temp);
 
-            pragma Warnings (Off, """Ciphertext"" might not be initialized");
             Ciphertext (I) := Next;
-            pragma Warnings (On, """Ciphertext"" might not be initialized");
+            pragma Annotate
+              (GNATprove, False_Positive,
+               """Ciphertext"" might not be initialized",
+               "Initialized in complete loop");
          else
-            pragma Warnings (Off, """Ciphertext"" might not be initialized");
             Ciphertext (I) := AES.Null_Block;
-            pragma Warnings (On, """Ciphertext"" might not be initialized");
+            pragma Annotate
+              (GNATprove, False_Positive,
+               """Ciphertext"" might not be initialized",
+               "Initialized in complete loop");
          end if;
       end loop;
    end Encrypt;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """Ciphertext"" might not be initialized in ""Encrypt""",
+      "Initialized in complete loop");
 
    ----------------------------------------------------------------------------
 
@@ -95,15 +103,24 @@ package body LSC.AES.CBC is
          if I <= (Plaintext'First - 1) + Length then
             Temp := AES.Decrypt (Context, Ciphertext (I));
 
-            pragma Warnings (Off, """Plaintext"" might not be initialized");
             Ops32.Block_XOR (Temp, Next, Plaintext (I));
-            pragma Warnings (On, """Plaintext"" might not be initialized");
+            pragma Annotate
+              (GNATprove, False_Positive,
+               """Plaintext"" might not be initialized",
+              "Initialized in complete loop");
             Next := Ciphertext (I);
          else
-            pragma Warnings (Off, """Plaintext"" might not be initialized");
             Plaintext (I) := AES.Null_Block;
-            pragma Warnings (On, """Plaintext"" might not be initialized");
+            pragma Annotate
+              (GNATprove, False_Positive,
+               """Plaintext"" might not be initialized",
+              "Initialized in complete loop");
          end if;
       end loop;
    end Decrypt;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """Plaintext"" might not be initialized in ""Decrypt""",
+     "Initialized in complete loop");
+
 end LSC.AES.CBC;
