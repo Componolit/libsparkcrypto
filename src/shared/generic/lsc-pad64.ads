@@ -57,9 +57,9 @@ is
      with
        Depends => (Block =>+ Length),
        Pre =>
-         Types.Index'First + Types.Index (Length / 64) in Block'Range,
+         Length / 64 + 1 <= Block'Length,
        Post =>
          (for all I in Types.Index range
-            Types.Index'First + Types.Index (Length / 64) + 1 .. Block'Last => (Block (I) = 0));
+            Block'First + Types.Index (Length / 64) + 1 .. Block'Last => (Block (I) = 0));
 
 end LSC.Pad64;

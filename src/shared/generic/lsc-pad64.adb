@@ -47,7 +47,7 @@ package body LSC.Pad64 is
    begin
 
       -- index of partial block
-      Index := Types.Index'First + Types.Index (Length / 64);
+      Index := Block'First + Types.Index (Length / 64);
 
       -- bit offset within the partial block
       Offset := Natural (63 - Length mod 64);
@@ -63,8 +63,8 @@ package body LSC.Pad64 is
             Block (I) := 0;
             pragma Loop_Invariant
               ((for all P in Types.Index range
-                  (Types.Index'First + Index + 1) .. I => (Block (P) = 0)) and
-               Index = Types.Index'First + Types.Index (Length / 64));
+                  Index + 1 .. I => (Block (P) = 0)) and
+               Index = Block'First + Types.Index (Length / 64));
          end loop;
       end if;
 
