@@ -5,22 +5,10 @@ UNAME_M   := $(shell uname -m)
 ARCH        ?= $(UNAME_M)
 RUNTIME     ?= native
 DESTDIR     ?= /usr/local
-TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 ATP         ?= sparksimp
 
 VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
-
-SPARK_OPTS  = \
-   -brief=fullpath \
-   -vcg \
-   -config=$(TARGET_CFG) \
-   -warn=build/warnings.conf \
-   -output_dir=$(OUTPUT_DIR)/proof \
-   -casing=si \
-   -noswitch \
-   -nosli \
-   -rules=lazy
 
 RST2HTML_OPTS = \
    --generator \
@@ -28,66 +16,12 @@ RST2HTML_OPTS = \
    --time \
    --stylesheet=doc/libsparkcrypto.css
 
-VCT_OPTS = \
-   -fuse-concls \
-   -decls=src/rules/prelude.fdl \
-   -rules=src/rules/divmod.rul \
-   -rules=src/rules/prelude.rul \
-   -unique-working-files \
-   -elim-enums \
-   -ground-eval-exp \
-   -abstract-exp \
-   -abstract-divmod \
-   -gstime \
-   -utick \
-   -gtick \
-   -longtick \
-   -echo-final-stats \
-   -level=warning \
-   -ulimit-timeout=10
-
-SMTLIB_OPTS = \
-   -bit-type \
-   -bit-type-bool-eq-to-iff \
-   -refine-types \
-   -refine-int-subrange-type \
-   -abstract-arrays-records-late \
-   -elim-array-constructors \
-   -add-array-select-box-update-axioms \
-   -abstract-array-box-updates \
-   -add-array-select-update-axioms \
-   -abstract-array-select-updates \
-   -abstract-array-types \
-   -abstract-record-types \
-   -abstract-bit-ops \
-   -abstract-bit-valued-eqs \
-   -abstract-bit-valued-int-le \
-   -elim-bit-type-and-consts \
-   -abstract-reals \
-   -lift-quants \
-   -strip-quantifier-patterns \
-   -elim-type-aliases \
-   -interface-mode=smtlib \
-   -smtlib-hyps-as-assums \
-   -refine-bit-type-as-int-subtype \
-   -refine-bit-eq-equiv \
-   -abstract-arrays-records-late \
-   -elim-record-constructors \
-   -add-record-select-update-axioms \
-   -abstract-record-selects-updates \
-   -logic=AUFNIRA
-
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 ADT_FILES   = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(wildcard src/shared/generic/*.ads))))
 
 ALL_GOALS      = install_local
 INSTALL_DEPS   = install_files
-
-# SPARK_DIR must be set
-ifeq ($(SPARK_DIR),)
-$(error SPARK_DIR is not set - set it to the base directory of your SPARK installation)
-endif
 
 # Feature: ARCH
 ifeq      ($(ARCH),x86_64)
@@ -99,16 +33,6 @@ else ifeq ($(ARCH),generic_be)
    ENDIANESS = big_endian
 else
    $(error Unsupported architecture: $(ARCH))
-endif
-
-# Feature: ATP
-ifeq ($(ATP),sparksimp)
-   REPORT_DEPS += $(OUTPUT_DIR)/proof/sparksimp.log
-else ifeq ($(ATP),cvc3)
-   REPORT_DEPS += $(OUTPUT_DIR)/proof/cvc3.vlg
-else ifeq ($(ATP),none)
-else
-   $(error Unsupported ATP: $(ATP))
 endif
 
 # Feature: NO_SPARK
@@ -168,7 +92,6 @@ endif
 all: $(ALL_GOALS)
 
 build:    $(addprefix $(OUTPUT_DIR)/build/adalib/,$(addsuffix /libsparkcrypto.a,$(RUNTIME)))
-spark:    $(OUTPUT_DIR)/proof/libsparkcrypto.rep
 isabelle: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
 
 apidoc: $(ADT_FILES)
@@ -199,34 +122,12 @@ $(OUTPUT_DIR)/tests/tests: install_local
 $(OUTPUT_DIR)/build/adalib/%/libsparkcrypto.a:
 	gnatmake $(GNATMAKE_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
 
-$(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $(OUTPUT_DIR)/proof/libsparkcrypto.smf $(TARGET_CFG)
-	spark -index=$< $(SPARK_OPTS) -report_file=$@.tmp @$(OUTPUT_DIR)/proof/libsparkcrypto.smf
-	mv $@.tmp $@
-
-$(OUTPUT_DIR)/proof/sparksimp.log: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
-	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5) > $@.tmp
-	mv $@.tmp $@
-
-$(OUTPUT_DIR)/proof/cvc3.vct $(OUTPUT_DIR)/proof/cvc3.vlg $(OUTPUT_DIR)/proof/cvc3.vlm: $(OUTPUT_DIR)/proof/libsparkcrypto.lis
-	vct $(VCT_OPTS) $(SMTLIB_OPTS) -prover-command='cvc3 -lang smt -timeout 10' -units=$< -report=$(OUTPUT_DIR)/proof/cvc3
-
-$(OUTPUT_DIR)/proof/libsparkcrypto.lis: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
-	find $(OUTPUT_DIR)/proof -name '*.fdl' | sed -r 's/\.\/|\.fdl//g' > $@.tmp
-	mv $@.tmp $@
-
-$(OUTPUT_DIR)/proof/libsparkcrypto.sum: $(REPORT_DEPS)
-	pogs -d=$(OUTPUT_DIR)/proof -o=$@
-	@tail -n14 $@ | head -n13
-	@echo
-
-$(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz: $(OUTPUT_DIR)/proof/sparksimp.log
-	VCG_DIR=$(OUTPUT_DIR)/proof isabelle build -c -o document=false -o threads=5 -D src/theories
-
-$(OUTPUT_DIR)/proof/libsparkcrypto.smf:
-	find $(CURDIR)/src/shared/generic -name '*.adb' -print > $@
-
-$(OUTPUT_DIR)/proof/libsparkcrypto.idx:
-	(cd $(OUTPUT_DIR)/empty && sparkmake $(addprefix -dir=$(CURDIR)/, $(SHARED_DIRS)) -dir=$(CURDIR)/src/spark -nometa -index=$@)
+spark:
+	@echo -n "Started at " > $(OUTPUT_DIR)/proof/gnatprove.log
+	@date >> $(OUTPUT_DIR)/proof/gnatprove.log
+	gnatprove -P build/build_libsparkcrypto >> $(OUTPUT_DIR)/proof/gnatprove.log
+	@echo -n "Finished at " >> $(OUTPUT_DIR)/proof/gnatprove.log
+	@date >> $(OUTPUT_DIR)/proof/gnatprove.log
 
 install: $(INSTALL_DEPS)
 
@@ -262,19 +163,6 @@ install_local: install
 #
 $(OUTPUT_DIR)/tree/%.adt: $(CURDIR)/src/shared/generic/%.ads
 	(cd $(OUTPUT_DIR)/tree && gcc -c -gnatc -gnatt $^)
-
-#
-# how to build the target configuration generator
-#
-$(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
-	gnatmake -D $(OUTPUT_DIR) -o $@ $^
-
-#
-# how to generate the target configuration file
-# (We have to change *_ORDER_FIRST, as casing checks will fail otherwise)
-#
-$(OUTPUT_DIR)/target.cfg: $(OUTPUT_DIR)/confgen
-	$< | sed -e 's/LOW_ORDER_FIRST/Low_Order_First/g' -e 's/HIGH_ORDER_FIRST/High_Order_First/g' > $@
 
 clean:
 	@rm -rf $(OUTPUT_DIR)
