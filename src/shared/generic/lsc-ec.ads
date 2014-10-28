@@ -114,11 +114,7 @@ is
          Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-         -- FIXME workaround for [N416-037]
-         X2'First = X2'Old'First and X2'Last = X2'Old'Last and
-         Y2'First = Y2'Old'First and Y2'Last = Y2'Old'Last and
-         Z2'First = Z2'Old'First and Z2'Last = Z2'Old'Last;
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
 
    procedure Point_Add
      (X1       : in     Bignum.Big_Int;
@@ -276,11 +272,7 @@ is
          Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-         -- FIXME workaround for [N416-037]
-         X2'First = X2'Old'First and X2'Last = X2'Old'Last and
-         Y2'First = Y2'Old'First and Y2'Last = Y2'Old'Last and
-         Z2'First = Z2'Old'First and Z2'Last = Z2'Old'Last;
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
 
    procedure Two_Point_Mult
      (X1       : in     Bignum.Big_Int;
@@ -373,11 +365,7 @@ is
          Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
-         -- FIXME workaround for [N416-037]
-         X3'First = X3'Old'First and X3'Last = X3'Old'Last and
-         Y3'First = Y3'Old'First and Y3'Last = Y3'Old'Last and
-         Z3'First = Z3'Old'First and Z3'Last = Z3'Old'Last;
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
 
    procedure Make_Affine
      (X1       : in     Bignum.Big_Int;
@@ -472,9 +460,7 @@ is
          1 + M_Inv * M (M_First) = 0,
        Post =>
          Bignum.Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-         -- FIXME workaround for [N416-037]
-         B'First = B'Old'First and B'Last = B'Old'Last;
+         Bignum.Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
 
    function On_Curve
      (X       : Bignum.Big_Int;

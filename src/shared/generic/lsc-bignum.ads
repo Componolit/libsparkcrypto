@@ -93,9 +93,7 @@ is
             ((if K in B_First .. B_First + A_Last - A_First then
                 B (K) = A (A_First + K - B_First)) and
              (if K not in B_First .. B_First + A_Last - A_First then
-                B (K) = B'Old (K)))) and
-         -- FIXME workaround for [N416-037]
-         B'First = B'Old'First and B'Last = B'Old'Last;
+                B (K) = B'Old (K))));
 
    procedure Native_To_BE
      (A       : in     Big_Int;
@@ -276,9 +274,7 @@ is
          Num_Of_Boolean
            (Num_Of_Big_Int (A'Old, A_First, A_Last - A_First + 1) +
             Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) >=
-            Base ** (A_Last - A_First + 1)) and
-         -- FIXME workaround for [N416-037]
-         A'First = A'Old'First and A'Last = A'Old'Last;
+            Base ** (A_Last - A_First + 1));
 
    procedure Mod_Add
      (A       :    out Big_Int;
@@ -315,9 +311,7 @@ is
          Num_Of_Boolean
            (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) +
             Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) >=
-            Base ** (A_Last - A_First + 1)) and
-         -- FIXME workaround for [N416-037]
-         A'First = A'Old'First and A'Last = A'Old'Last;
+            Base ** (A_Last - A_First + 1));
 
    procedure Mod_Sub_Inplace
      (A       : in out Big_Int;
@@ -347,9 +341,7 @@ is
          Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) *
          Num_Of_Boolean
            (Num_Of_Big_Int (A'Old, A_First, A_Last - A_First + 1) <
-            Num_Of_Big_Int (B, B_First, A_Last - A_First + 1)) and
-         -- FIXME workaround for [N416-037]
-         A'First = A'Old'First and A'Last = A'Old'Last;
+            Num_Of_Big_Int (B, B_First, A_Last - A_First + 1));
 
    procedure Mod_Sub
      (A       :    out Big_Int;
@@ -383,9 +375,7 @@ is
          Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) *
          Num_Of_Boolean
            (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <
-            Num_Of_Big_Int (C, C_First, A_Last - A_First + 1)) and
-         -- FIXME workaround for [N416-037]
-         A'First = A'Old'First and A'Last = A'Old'Last;
+            Num_Of_Big_Int (C, C_First, A_Last - A_First + 1));
 
    function Is_Zero
      (A       : Big_Int;
@@ -501,9 +491,7 @@ is
           Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) *
           Inverse (Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
             Base) ** (A_Last - A_First + 1)) mod
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
-         -- FIXME workaround for [N416-037]
-         A'First = A'Old'First and A'Last = A'Old'Last;
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1);
 
    procedure Mont_Exp
      (A          :    out Big_Int;
