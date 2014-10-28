@@ -89,8 +89,7 @@ is
 
    package Prove is
       for Switches use ("--timeout=60", "-j5", "--proof=progressive");
-      -- FIXME Proof_Dir should be interpreted relative to the location of the project file
-      for Proof_Dir use "out/proof";
+      for Proof_Dir use "../out/proof";
    end Prove;
 
 end Build_Libsparkcrypto;
