@@ -43,7 +43,7 @@ package LSC.Bignum
 is
 
    function Base return Math_Int.Math_Int is (Math_Int.From_Word32 (2) ** 32)
-     with Convention => Ghost;
+     with Ghost;
 
    subtype Big_Int_Range is Natural range Natural'First .. Natural'Last - 1;
 
@@ -51,13 +51,13 @@ is
 
    function Num_Of_Big_Int (A : Big_Int; F, L : Natural)
      return Math_Int.Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function Num_Of_Boolean (B : Boolean) return Math_Int.Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function Inverse (M, A : Math_Int.Math_Int) return Math_Int.Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    procedure Initialize
      (A       :    out Big_Int;

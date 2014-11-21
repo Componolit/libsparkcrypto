@@ -5,49 +5,49 @@ is
    type Math_Int is private;
 
    function "+" (A : Math_Int; B : Math_Int) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "-" (A : Math_Int; B : Math_Int) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "*" (A : Math_Int; B : Math_Int) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "/" (A : Math_Int; B : Math_Int) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "mod" (A : Math_Int; B : Math_Int) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "**" (A : Math_Int; B : Natural) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "**" (A : Math_Int; B : Math_Int) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "=" (A : Math_Int; B : Math_Int) return Boolean
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "<" (A : Math_Int; B : Math_Int) return Boolean
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function ">" (A : Math_Int; B : Math_Int) return Boolean
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function "<=" (A : Math_Int; B : Math_Int) return Boolean
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function ">=" (A : Math_Int; B : Math_Int) return Boolean
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function From_Integer (A : Integer) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function From_Word32 (A : Types.Word32) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    function From_Word64 (A : Types.Word64) return Math_Int
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
 private
    pragma SPARK_Mode (Off);

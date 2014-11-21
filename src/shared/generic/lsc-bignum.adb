@@ -38,7 +38,7 @@ package body LSC.Bignum
 is
 
    function GCD (A, B : Types.Word32) return Types.Word32
-     with Convention => Ghost, Import, Global => null;
+     with Ghost, Import, Global => null;
 
    procedure Initialize
      (A       :    out Big_Int;
