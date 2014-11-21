@@ -7,6 +7,7 @@ RUNTIME     ?= native
 DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 ATP         ?= sparksimp
+SPARKSIMP_OPTS ?= -t -p=5
 
 VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
@@ -207,7 +208,7 @@ $(OUTPUT_DIR)/proof/libsparkcrypto.rep: $(OUTPUT_DIR)/proof/libsparkcrypto.idx $
 	mv $@.tmp $@
 
 $(OUTPUT_DIR)/proof/sparksimp.log: $(OUTPUT_DIR)/proof/libsparkcrypto.rep
-	(cd $(OUTPUT_DIR)/proof && sparksimp -t -p=5) > $@.tmp
+	(cd $(OUTPUT_DIR)/proof && sparksimp $(SPARKSIMP_OPTS)) > $@.tmp
 	mv $@.tmp $@
 
 $(OUTPUT_DIR)/proof/cvc3.vct $(OUTPUT_DIR)/proof/cvc3.vlg $(OUTPUT_DIR)/proof/cvc3.vlm: $(OUTPUT_DIR)/proof/libsparkcrypto.lis
