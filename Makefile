@@ -86,7 +86,10 @@ INSTALL_DEPS   = install_files
 
 # SPARK_DIR must be set
 ifeq ($(SPARK_DIR),)
-$(error SPARK_DIR is not set - set it to the base directory of your SPARK installation)
+SPARK_DIR := $(realpath $(dir $(shell which sparksimp))/..)
+ifeq ($(SPARK_DIR),)
+$(error SPARK not in PATH and SPARK_DIR is not set - set it to the base directory of your SPARK installation)
+endif
 endif
 
 # Feature: ARCH
