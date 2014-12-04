@@ -6,12 +6,14 @@ is
    type IO_Type        		is ("textio", "nullio");
    type Runtime_Type   		is ("native", "zfp");
    type Optimization_Type	is ("s", "0", "1", "2", "3");
+   type AES_Mode_Type           is ("aes_sw", "aes_ni");
 
    Mode      	 : Mode_Type := external ("mode", "release");
    Arch      	 : Arch_Type := external ("arch", "x86_64");
    Endianess 	 : Endianess_Type := external ("endianess", "little_endian");
    IO        	 : IO_Type := "textio";
    Runtime   	 : Runtime_Type := external ("RTS", "native");
+   AES_Mode      : AES_Mode_Type := external ("AES", "aes_sw");
 
    Src         := "../src/";
    Default_Opt := "1";
@@ -57,12 +59,26 @@ is
 
    end case;
 
+   AES_Dir := ();
+   AES_Switches := ();
+
+   case AES_Mode is
+     when "aes_sw" =>
+       AES_Dir := ();
+       AES_Switches := ();
+     when "aes_ni" =>
+       AES_Dir := (Src & "ada/aes_ni");
+       AES_Switches := ("-maes");
+   end case;
+
    for Source_Dirs use
       (Src & "ada/" & IO,
        Src & "ada/" & Arch,
        Src & "ada/generic",
        Src & "shared/" & Endianess,
-       Src & "shared/generic");
+       Src & "shared/" & AES_Mode,
+       Src & "shared/generic") &
+      AES_Dir;
 
    case Mode is
       when "release" =>
@@ -82,7 +98,7 @@ is
    Optimization : Optimization_Type := external ("opt", Default_Opt);
 
    package Compiler is
-      for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches &
+      for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches & AES_Switches &
          ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
    end Compiler;
 

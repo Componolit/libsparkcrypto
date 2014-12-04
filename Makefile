@@ -8,6 +8,7 @@ DESTDIR     ?= /usr/local
 TARGET_CFG  ?= $(OUTPUT_DIR)/target.cfg
 ATP         ?= sparksimp
 SPARKSIMP_OPTS ?= -t -p=5
+AES_MODE    ?= aes_sw
 
 VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
@@ -78,7 +79,7 @@ SMTLIB_OPTS = \
    -abstract-record-selects-updates \
    -logic=AUFNIRA
 
-SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
+SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/$(AES_MODE) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 ADT_FILES   = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(wildcard src/shared/generic/*.ads))))
 
@@ -167,6 +168,8 @@ ifneq ($(OPT),)
 GNATMAKE_OPTS += -Xopt=$(OPT)
 endif
 
+GNATMAKE_OPTS += -XAES=$(AES_MODE)
+
 ###############################################################################
 
 all: $(ALL_GOALS)
@@ -239,10 +242,15 @@ install_files: build
 	install -d -m 755 $(DESTDIR)/adainclude $(DESTDIR)/sharedinclude
 	$(foreach RTS,$(RUNTIME),install -p -m 755 $(OUTPUT_DIR)/build/adalib/$(RTS)/libsparkcrypto.a $(DESTDIR)/adalib/$(RTS)/libsparkcrypto.a;)
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
+	install -p -m 644 src/shared/$(AES_MODE)/*.ads $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/shared/generic/*.ads $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/
+ifeq ($(AES_MODE),aes_ni)
+	install -p -m 644 src/ada/aes_ni/*.adb $(DESTDIR)/adainclude/
+endif
 	$(foreach IO,$(subst native,textio,$(subst zfp,nullio,$(RUNTIME))),install -d -m 755 $(DESTDIR)/adainclude/$(IO); install -p -m 644 src/ada/$(IO)/*.ad? $(DESTDIR)/adainclude/$(IO);)
 	install -p -m 644 src/shared/$(ENDIANESS)/*.adb $(DESTDIR)/adainclude/
+	install -p -m 644 src/shared/$(AES_MODE)/*.adb $(DESTDIR)/adainclude/
 	install -p -m 644 src/shared/generic/*.adb $(DESTDIR)/adainclude/
 ifneq ($(strip $(ARCH_FILES)),)
 	install -p -m 644 $(ARCH_FILES) $(DESTDIR)/adainclude/
