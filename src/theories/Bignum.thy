@@ -1,5 +1,5 @@
 theory Bignum
-imports SPARK GCD Mod_Simp
+imports Why3 GCD Mod_Simp
 begin
 
 subsection {* Coercing booleans to integers *}
@@ -43,10 +43,10 @@ proof -
     by (rule inj_onI) simp
   from assms have "{0..<i + j} = {0..<i} \<union> {i..<i + j}"
     by (simp add: ivl_disj_un)
-  with setsum_reindex [OF inj, of "\<lambda>k. b ^ nat k * A (l + k)"]
+  with setsum.reindex [OF inj, of "\<lambda>k. b ^ nat k * A (l + k)"]
     image_add_int_atLeastLessThan [of i "i + j"] `0 \<le> i`
   show ?thesis
-    by (simp add: num_of_lint_def setsum_Un_disjoint nat_add_distrib
+    by (simp add: num_of_lint_def setsum.union_disjoint nat_add_distrib
       power_add setsum_right_distrib add_ac mult_ac)
 qed
 
@@ -119,12 +119,11 @@ proof -
   finally show ?thesis by simp
 qed
 
-lemma num_of_lint_div: 
+lemma num_of_lint_div:
   assumes "0 \<le> i" and "0 \<le> A l" and "A l < b"
   shows "num_of_lint b A l (i + 1) div b = num_of_lint b A (l + 1) i"
   using assms
-  by (simp only: add_commute [of i 1])
-    (simp add: zdiv_mult_self div_pos_pos_trivial)
+  by (simp only: add.commute [of i 1]) (simp add: div_pos_pos_trivial)
 
 lemma num_of_lint_mod:
   assumes "1 \<le> i" and "0 \<le> A l" and "A l < b"
@@ -235,7 +234,7 @@ proof -
     by (simp add: transfer_int_nat_gcd [symmetric])
   with `0 < x` `1 < m`
   have "x * fst ?b + snd ?b * m = 1"
-    by (simp add: bezw_aux [symmetric] mult_commute)
+    by (simp add: bezw_aux [symmetric] mult.commute)
   then have "(x * fst ?b + snd ?b * m) mod m = 1 mod m" by simp
   with `1 < m` show "x * (fst ?b mod m) mod m = 1"
     by (simp add: mod_pos_pos_trivial)
@@ -250,7 +249,7 @@ proof -
   have "(k div n * n) * n' mod m = (k * n') mod m"
     by simp
   then have "((k div n) * ((n * n') mod m)) mod m = (k * n') mod m"
-    by (simp add: mod_mult_right_eq [symmetric]) (simp add: mult_assoc)
+    by (simp add: mod_mult_right_eq [symmetric]) (simp add: mult.assoc)
   with `(n * n') mod m = 1` show ?thesis by simp
 qed
 
@@ -271,7 +270,7 @@ qed
 
 subsection {* Bit vectors *}
 
-lemma Bit_mult2: "2 * i = i BIT 0"
+lemma Bit_mult2: "2 * i = i BIT False"
   by (simp add: Bit_def)
 
 lemma AND_div_mod: "((x::int) AND 2 ^ n = 0) = (x div 2 ^ n mod 2 = 0)"
@@ -286,19 +285,13 @@ next
     case (1 y b)
     then have "(x AND 2 ^ Suc n = 0) = (y AND 2 ^ n = 0)"
       by (simp add: Bit_mult2) (simp add: Bit_B0)
-    moreover have "bitval b div 2 = (0::int)"
-      by (cases b) simp_all
-    ultimately show ?thesis using Suc 1
-      by (simp add: zdiv_zmult2_eq
-        zdiv_zadd1_eq [of "2 * y" "bitval b" 2])
+    then show ?thesis using Suc 1
+      by (simp add: zdiv_zmult2_eq)
   qed
 qed
 
 
 subsection {* Proof function setup *}
-
-abbreviation (parse) bounds :: "int \<Rightarrow> int \<Rightarrow> ('a::ord) \<Rightarrow> 'a \<Rightarrow> (int \<Rightarrow> 'a) \<Rightarrow> bool" where
-  "bounds k l x y a \<equiv> \<forall>i. k \<le> i \<and> i \<le> l \<longrightarrow> x \<le> a i \<and> a i \<le> y"
 
 abbreviation Base :: int where
   "Base \<equiv> 4294967296"
@@ -307,10 +300,5 @@ lemmas [simp] = zle_diff1_eq [of _ Base, simplified]
 
 abbreviation
   "num_of_big_int \<equiv> num_of_lint Base"
-
-spark_proof_functions
-  lsc__bignum__num_of_big_int = num_of_big_int
-  lsc__bignum__num_of_boolean = num_of_bool
-  lsc__bignum__inverse = minv
 
 end
