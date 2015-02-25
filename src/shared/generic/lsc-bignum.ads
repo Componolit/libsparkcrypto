@@ -47,7 +47,7 @@ is
 
    subtype Big_Int_Range is Natural range Natural'First .. Natural'Last - 1;
 
-   type Big_Int is array (Natural range <>) of Types.Word32;
+   type Big_Int is array (Big_Int_Range range <>) of Types.Word32;
 
    function Num_Of_Big_Int (A : Big_Int; F, L : Natural)
      return Math_Int.Math_Int
@@ -255,13 +255,13 @@ is
        Depends =>
          (A =>+ (A_First, A_Last, B, B_First, M, M_First)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         B_First in B'Range and
-         B_First + (A_Last - A_First) in B'Range and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
-         A_First <= A_Last and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         B_First in B'Range and then
+         B_First + (A_Last - A_First) in B'Range and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
+         A_First <= A_Last and then
          (Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) <=
           Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) or
           Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <=
@@ -290,15 +290,15 @@ is
        Depends =>
          (A =>+ (A_First, A_Last, B, B_First, C, C_First, M, M_First)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         B_First in B'Range and
-         B_First + (A_Last - A_First) in B'Range and
-         C_First in C'Range and
-         C_First + (A_Last - A_First) in C'Range and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
-         A_First <= A_Last and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         B_First in B'Range and then
+         B_First + (A_Last - A_First) in B'Range and then
+         C_First in C'Range and then
+         C_First + (A_Last - A_First) in C'Range and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
+         A_First <= A_Last and then
          (Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <=
           Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) or
           Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) <=
@@ -325,13 +325,13 @@ is
        Depends =>
          (A =>+ (A_First, A_Last, B, B_First, M, M_First)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         B_First in B'Range and
-         B_First + (A_Last - A_First) in B'Range and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
-         A_First <= A_Last and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         B_First in B'Range and then
+         B_First + (A_Last - A_First) in B'Range and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
+         A_First <= A_Last and then
          Num_Of_Big_Int (B, B_First, A_Last - A_First + 1) <=
          Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
        Post =>
@@ -357,15 +357,15 @@ is
        Depends =>
          (A =>+ (A_First, A_Last, B, B_First, C, C_First, M, M_First)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         B_First in B'Range and
-         B_First + (A_Last - A_First) in B'Range and
-         C_First in C'Range and
-         C_First + (A_Last - A_First) in C'Range and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
-         A_First <= A_Last and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         B_First in B'Range and then
+         B_First + (A_Last - A_First) in B'Range and then
+         C_First in C'Range and then
+         C_First + (A_Last - A_First) in C'Range and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
+         A_First <= A_Last and then
          Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) <=
          Num_Of_Big_Int (M, M_First, A_Last - A_First + 1),
        Post =>
@@ -440,15 +440,16 @@ is
        Depends =>
          (R =>+ (M, M_First, M_Last, R_First)),
        Pre =>
-         M_First in M'Range and
-         M_Last in M'Range and
-         M_First <= M_Last and
-         R_First in R'Range and
-         R_First + (M_Last - M_First) in R'Range and
+         M_First in M'Range and then
+         M_Last in M'Range and then
+         M_First <= M_Last and then
+         R_First in R'Range and then
+         R_First + (M_Last - M_First) in R'Range and then
          Math_Int.From_Word32 (1) < Num_Of_Big_Int (M, M_First, M_Last - M_First + 1),
        Post =>
          Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-         Base ** (2 * (M_Last - M_First + 1)) mod
+         Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (M_Last - M_First + 1)) mod
          Num_Of_Big_Int (M, M_First, M_Last - M_First + 1);
 
    function Word_Inverse (M : Types.Word32) return Types.Word32
@@ -471,19 +472,19 @@ is
        Depends =>
          (A =>+ (A_First, A_Last, B, B_First, C, C_First, M, M_First, M_Inv)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         A_First < A_Last and
-         B_First in B'Range and
-         B_First + (A_Last - A_First) in B'Range and
-         C_First in C'Range and
-         C_First + (A_Last - A_First) in C'Range and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         A_First < A_Last and then
+         B_First in B'Range and then
+         B_First + (A_Last - A_First) in B'Range and then
+         C_First in C'Range and then
+         C_First + (A_Last - A_First) in C'Range and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
          Num_Of_Big_Int (C, C_First, A_Last - A_First + 1) <
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and then
          Math_Int.From_Word32 (1) <
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and then
          1 + M_Inv * M (M_First) = 0,
        Post =>
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
@@ -529,29 +530,30 @@ is
              M, M_First, Aux1, Aux1_First, Aux2, Aux2_First, Aux3_First,
              R, R_First, M_Inv)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         A_First < A_Last and
-         X_First in X'Range and
-         X_First + (A_Last - A_First) in X'Range and
-         E_First in E'Range and
-         E_Last in E'Range and
-         E_First <= E_Last and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
-         Aux1_First in Aux1'Range and
-         Aux1_First + (A_Last - A_First) in Aux1'Range and
-         Aux2_First in Aux2'Range and
-         Aux2_First + (A_Last - A_First) in Aux2'Range and
-         Aux3_First in Aux3'Range and
-         Aux3_First + (A_Last - A_First) in Aux3'Range and
-         R_First in R'Range and
-         R_First + (A_Last - A_First) in R'Range and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         A_First < A_Last and then
+         X_First in X'Range and then
+         X_First + (A_Last - A_First) in X'Range and then
+         E_First in E'Range and then
+         E_Last in E'Range and then
+         E_First <= E_Last and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
+         Aux1_First in Aux1'Range and then
+         Aux1_First + (A_Last - A_First) in Aux1'Range and then
+         Aux2_First in Aux2'Range and then
+         Aux2_First + (A_Last - A_First) in Aux2'Range and then
+         Aux3_First in Aux3'Range and then
+         Aux3_First + (A_Last - A_First) in Aux3'Range and then
+         R_First in R'Range and then
+         R_First + (A_Last - A_First) in R'Range and then
          Num_Of_Big_Int (R, R_First, A_Last - A_First + 1) =
-         Base ** (2 * (A_Last - A_First + 1)) mod
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (A_Last - A_First + 1)) mod
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and then
          Math_Int.From_Word32 (1) <
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and then
          1 + M_Inv * M (M_First) = 0,
        Post =>
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =
@@ -603,33 +605,33 @@ is
             (A, A_First, A_Last, X, X_First, Aux2, Aux2_First, Aux4_First,
              M, M_First, R, R_First, M_Inv, K)),
        Pre =>
-         A_First in A'Range and
-         A_Last in A'Range and
-         A_First < A_Last and
-         A_Last - A_First < Natural'Last and
-         X_First in X'Range and
-         X_First + (A_Last - A_First) in X'Range and
-         E_First in E'Range and
-         E_Last in E'Range and
-         E_First <= E_Last and
-         M_First in M'Range and
-         M_First + (A_Last - A_First) in M'Range and
-         Aux1_First in Aux1'Range and
-         Aux1_First + (A_Last - A_First) in Aux1'Range and
-         Aux2_First in Aux2'Range and
-         Aux2_First + (A_Last - A_First) in Aux2'Range and
-         Aux3_First in Aux3'Range and
-         Aux3_First + (A_Last - A_First) in Aux3'Range and
-         Aux4_First in Aux4'Range and
-         Aux4_First + (2 ** K * (A_Last - A_First + 1) - 1) in Aux4'Range and
-         K <= 30 and
-         R_First in R'Range and
-         R_First + (A_Last - A_First) in R'Range and
+         A_First in A'Range and then
+         A_Last in A'Range and then
+         A_First < A_Last and then
+         X_First in X'Range and then
+         X_First + (A_Last - A_First) in X'Range and then
+         E_First in E'Range and then
+         E_Last in E'Range and then
+         E_First <= E_Last and then
+         M_First in M'Range and then
+         M_First + (A_Last - A_First) in M'Range and then
+         Aux1_First in Aux1'Range and then
+         Aux1_First + (A_Last - A_First) in Aux1'Range and then
+         Aux2_First in Aux2'Range and then
+         Aux2_First + (A_Last - A_First) in Aux2'Range and then
+         Aux3_First in Aux3'Range and then
+         Aux3_First + (A_Last - A_First) in Aux3'Range and then
+         Aux4_First in Aux4'Range and then
+         Aux4_First + (2 ** K * (A_Last - A_First + 1) - 1) in Aux4'Range and then
+         K <= 30 and then
+         R_First in R'Range and then
+         R_First + (A_Last - A_First) in R'Range and then
          Num_Of_Big_Int (R, R_First, A_Last - A_First + 1) =
-         Base ** (2 * (A_Last - A_First + 1)) mod
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (A_Last - A_First + 1)) mod
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and then
          Math_Int.From_Word32 (1) <
-         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and
+         Num_Of_Big_Int (M, M_First, A_Last - A_First + 1) and then
          1 + M_Inv * M (M_First) = 0,
        Post =>
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) =

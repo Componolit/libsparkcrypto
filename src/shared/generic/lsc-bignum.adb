@@ -609,7 +609,8 @@ is
       loop
          pragma Loop_Invariant
            (Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-            Base ** (2 * (I - M_First)) mod
+            Base ** (Math_Int.From_Integer (2) *
+              Math_Int.From_Integer (I - M_First)) mod
             Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
             R_Last = R_First + (M_Last - M_First));
 
@@ -617,7 +618,9 @@ is
          loop
             pragma Loop_Invariant
               (Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-               Base ** (2 * (I - M_First)) * Math_Int.From_Word32 (2) ** J mod
+               Base ** (Math_Int.From_Integer (2) *
+                 Math_Int.From_Integer (I - M_First)) *
+               Math_Int.From_Word32 (2) ** J mod
                Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
                R_Last = R_First + (M_Last - M_First));
 
@@ -630,7 +633,9 @@ is
 
             pragma Assert_And_Cut
               (Num_Of_Big_Int (R, R_First, M_Last - M_First + 1) =
-               Base ** (2 * (I - M_First)) * Math_Int.From_Word32 (2) ** (J + 1) mod
+               Base ** (Math_Int.From_Integer (2) *
+                 Math_Int.From_Integer (I - M_First)) *
+               Math_Int.From_Word32 (2) ** (J + 1) mod
                Num_Of_Big_Int (M, M_First, M_Last - M_First + 1) and
                R_Last = R_First + (M_Last - M_First));
          end loop;

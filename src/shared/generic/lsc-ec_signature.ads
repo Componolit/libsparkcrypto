@@ -89,49 +89,51 @@ is
              M, M_First, M_Inv, RM, RM_First,
              N, N_First, N_Inv, RN, RN_First)),
        Pre =>
-         Sign1_First in Sign1'Range and
-         Sign1_Last in Sign1'Range and
-         Sign1_First < Sign1_Last and
-         Sign1_Last - Sign1_First < EC.Max_Coord_Length and
-         Sign2_First in Sign2'Range and
-         Sign2_First + (Sign1_Last - Sign1_First) in Sign2'Range and
-         Hash_First in Hash'Range and
-         Hash_First + (Sign1_Last - Sign1_First) in Hash'Range and
-         Rand_First in Rand'Range and
-         Rand_First + (Sign1_Last - Sign1_First) in Rand'Range and
-         Priv_First in Priv'Range and
-         Priv_First + (Sign1_Last - Sign1_First) in Priv'Range and
-         BX_First in BX'Range and
-         BX_First + (Sign1_Last - Sign1_First) in BX'Range and
-         BY_First in BY'Range and
-         BY_First + (Sign1_Last - Sign1_First) in BY'Range and
-         A_First in A'Range and
-         A_First + (Sign1_Last - Sign1_First) in A'Range and
-         M_First in M'Range and
-         M_First + (Sign1_Last - Sign1_First) in M'Range and
-         RM_First in RM'Range and
-         RM_First + (Sign1_Last - Sign1_First) in RM'Range and
-         N_First in N'Range and
-         N_First + (Sign1_Last - Sign1_First) in N'Range and
-         RN_First in RN'Range and
-         RN_First + (Sign1_Last - Sign1_First) in RN'Range and
+         Sign1_First in Sign1'Range and then
+         Sign1_Last in Sign1'Range and then
+         Sign1_First < Sign1_Last and then
+         Sign1_Last - Sign1_First < EC.Max_Coord_Length and then
+         Sign2_First in Sign2'Range and then
+         Sign2_First + (Sign1_Last - Sign1_First) in Sign2'Range and then
+         Hash_First in Hash'Range and then
+         Hash_First + (Sign1_Last - Sign1_First) in Hash'Range and then
+         Rand_First in Rand'Range and then
+         Rand_First + (Sign1_Last - Sign1_First) in Rand'Range and then
+         Priv_First in Priv'Range and then
+         Priv_First + (Sign1_Last - Sign1_First) in Priv'Range and then
+         BX_First in BX'Range and then
+         BX_First + (Sign1_Last - Sign1_First) in BX'Range and then
+         BY_First in BY'Range and then
+         BY_First + (Sign1_Last - Sign1_First) in BY'Range and then
+         A_First in A'Range and then
+         A_First + (Sign1_Last - Sign1_First) in A'Range and then
+         M_First in M'Range and then
+         M_First + (Sign1_Last - Sign1_First) in M'Range and then
+         RM_First in RM'Range and then
+         RM_First + (Sign1_Last - Sign1_First) in RM'Range and then
+         N_First in N'Range and then
+         N_First + (Sign1_Last - Sign1_First) in N'Range and then
+         RN_First in RN'Range and then
+         RN_First + (Sign1_Last - Sign1_First) in RN'Range and then
          Bignum.Num_Of_Big_Int (BX, BX_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (BY, BY_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (A, A_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Math_Int.From_Word32 (1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
-         1 + M_Inv * M (M_First) = 0 and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
+         1 + M_Inv * M (M_First) = 0 and then
          Math_Int.From_Word32 (1) <
-         Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1) and
-         1 + N_Inv * N (N_First) = 0 and
+         Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1) and then
+         1 + N_Inv * N (N_First) = 0 and then
          Bignum.Num_Of_Big_Int (RM, RM_First, Sign1_Last - Sign1_First + 1) =
-         Bignum.Base ** (2 * (Sign1_Last - Sign1_First + 1)) mod
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (Sign1_Last - Sign1_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (RN, RN_First, Sign1_Last - Sign1_First + 1) =
-         Bignum.Base ** (2 * (Sign1_Last - Sign1_First + 1)) mod
+         Bignum.Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (Sign1_Last - Sign1_First + 1)) mod
          Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1),
        Post =>
          (if Success then
@@ -178,53 +180,55 @@ is
      return Boolean
      with
        Pre =>
-         Sign1_First in Sign1'Range and
-         Sign1_Last in Sign1'Range and
-         Sign1_First < Sign1_Last and
-         Sign1_Last - Sign1_First < EC.Max_Coord_Length and
-         Sign2_First in Sign2'Range and
-         Sign2_First + (Sign1_Last - Sign1_First) in Sign2'Range and
-         Hash_First in Hash'Range and
-         Hash_First + (Sign1_Last - Sign1_First) in Hash'Range and
-         PubX_First in PubX'Range and
-         PubX_First + (Sign1_Last - Sign1_First) in PubX'Range and
-         PubY_First in PubY'Range and
-         PubY_First + (Sign1_Last - Sign1_First) in PubY'Range and
-         BX_First in BX'Range and
-         BX_First + (Sign1_Last - Sign1_First) in BX'Range and
-         BY_First in BY'Range and
-         BY_First + (Sign1_Last - Sign1_First) in BY'Range and
-         A_First in A'Range and
-         A_First + (Sign1_Last - Sign1_First) in A'Range and
-         M_First in M'Range and
-         M_First + (Sign1_Last - Sign1_First) in M'Range and
-         RM_First in RM'Range and
-         RM_First + (Sign1_Last - Sign1_First) in RM'Range and
-         N_First in N'Range and
-         N_First + (Sign1_Last - Sign1_First) in N'Range and
-         RN_First in RN'Range and
-         RN_First + (Sign1_Last - Sign1_First) in RN'Range and
+         Sign1_First in Sign1'Range and then
+         Sign1_Last in Sign1'Range and then
+         Sign1_First < Sign1_Last and then
+         Sign1_Last - Sign1_First < EC.Max_Coord_Length and then
+         Sign2_First in Sign2'Range and then
+         Sign2_First + (Sign1_Last - Sign1_First) in Sign2'Range and then
+         Hash_First in Hash'Range and then
+         Hash_First + (Sign1_Last - Sign1_First) in Hash'Range and then
+         PubX_First in PubX'Range and then
+         PubX_First + (Sign1_Last - Sign1_First) in PubX'Range and then
+         PubY_First in PubY'Range and then
+         PubY_First + (Sign1_Last - Sign1_First) in PubY'Range and then
+         BX_First in BX'Range and then
+         BX_First + (Sign1_Last - Sign1_First) in BX'Range and then
+         BY_First in BY'Range and then
+         BY_First + (Sign1_Last - Sign1_First) in BY'Range and then
+         A_First in A'Range and then
+         A_First + (Sign1_Last - Sign1_First) in A'Range and then
+         M_First in M'Range and then
+         M_First + (Sign1_Last - Sign1_First) in M'Range and then
+         RM_First in RM'Range and then
+         RM_First + (Sign1_Last - Sign1_First) in RM'Range and then
+         N_First in N'Range and then
+         N_First + (Sign1_Last - Sign1_First) in N'Range and then
+         RN_First in RN'Range and then
+         RN_First + (Sign1_Last - Sign1_First) in RN'Range and then
          Bignum.Num_Of_Big_Int (PubX, PubX_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (PubY, PubY_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (BX, BX_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (BY, BY_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (A, A_First, Sign1_Last - Sign1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Math_Int.From_Word32 (1) <
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
-         1 + M_Inv * M (M_First) = 0 and
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
+         1 + M_Inv * M (M_First) = 0 and then
          Math_Int.From_Word32 (1) <
-         Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1) and
-         1 + N_Inv * N (N_First) = 0 and
+         Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1) and then
+         1 + N_Inv * N (N_First) = 0 and then
          Bignum.Num_Of_Big_Int (RM, RM_First, Sign1_Last - Sign1_First + 1) =
-         Bignum.Base ** (2 * (Sign1_Last - Sign1_First + 1)) mod
-         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and
+         Bignum.Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (Sign1_Last - Sign1_First + 1)) mod
+         Bignum.Num_Of_Big_Int (M, M_First, Sign1_Last - Sign1_First + 1) and then
          Bignum.Num_Of_Big_Int (RN, RN_First, Sign1_Last - Sign1_First + 1) =
-         Bignum.Base ** (2 * (Sign1_Last - Sign1_First + 1)) mod
+         Bignum.Base ** (Math_Int.From_Integer (2) *
+           Math_Int.From_Integer (Sign1_Last - Sign1_First + 1)) mod
          Bignum.Num_Of_Big_Int (N, N_First, Sign1_Last - Sign1_First + 1);
 
 end LSC.EC_Signature;
