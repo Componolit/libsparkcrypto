@@ -229,6 +229,9 @@ lemma case_conj_eq [simp]: "(case P of True \<Rightarrow> Q | False \<Rightarrow
 lemma if_trivial [simp]: "(if P then True else False) = P"
   by simp
 
+lemma if_conj_eq [simp]: "(if P then Q else False) = (P \<and> Q)"
+  by simp
+
 
 (**** FIXME: Isabelle printer for Why3 should not generate names ending with underscores ****)
 
