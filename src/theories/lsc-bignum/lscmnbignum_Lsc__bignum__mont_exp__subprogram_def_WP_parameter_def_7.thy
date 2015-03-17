@@ -1,16 +1,6 @@
 theory lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_7
-imports "../LibSPARKcrypto"
+imports "../Mont_Mult_Aux"
 begin
-
-lemma mont_mult_eq:
-  assumes "B * B_inv mod m = (1::int)"
-  shows "(x * B ^ n) * (y * B ^ n) * B_inv ^ n mod m = x * y * B ^ n mod m"
-proof -
-  have "(x * B ^ n) * (y * B ^ n) * B_inv ^ n mod m =
-    x * y * B ^ n * (B * B_inv mod m) ^ n mod m"
-    by (simp add: power_mult_distrib mult_ac)
-  with `B * B_inv mod m = 1` show ?thesis by simp
-qed
 
 why3_open "lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_7.xml"
 
