@@ -72,6 +72,76 @@ why3_thms
   Lsc__types__word32.range_axiom = word32_to_int [simplified] and
   Lsc__types__word32.coerce_axiom = word32_coerce
 
+(**** Lsc__types__word64 ****)
+
+definition word64_in_range :: "int \<Rightarrow> bool" where
+  "word64_in_range x = (0 \<le> x \<and> x \<le> 18446744073709551615)"
+
+typedef word64 = "{x::int. word64_in_range x}"
+  morphisms word64_to_int word64_of_int'
+  by (auto simp add: word64_in_range_def)
+
+definition word64_of_int :: "int \<Rightarrow> word64" where
+  "word64_of_int x = word64_of_int' (x emod 18446744073709551616)"
+
+notation
+  word64_to_int ("\<lfloor>_\<rfloor>\<^bsub>w64\<^esub>") and
+  word64_of_int ("\<lceil>_\<rceil>\<^bsub>w64\<^esub>")
+
+lemma word64_to_int_in_range: "word64_in_range \<lfloor>x\<rfloor>\<^bsub>w64\<^esub>"
+  using word64_to_int
+  by simp
+
+lemma word64_to_int_lower: "0 \<le> \<lfloor>x\<rfloor>\<^bsub>w64\<^esub>"
+  using word64_to_int
+  by (simp add: word64_in_range_def)
+
+lemma word64_to_int_upper: "\<lfloor>x\<rfloor>\<^bsub>w64\<^esub> \<le> 18446744073709551615"
+  using word64_to_int
+  by (simp add: word64_in_range_def)
+
+lemma word64_to_int_upper': "\<lfloor>x\<rfloor>\<^bsub>w64\<^esub> < 18446744073709551616"
+  using word64_to_int
+  by (simp add: word64_in_range_def zle_add1_eq_le [symmetric] del: zle_add1_eq_le)
+
+lemma word64_coerce: "\<lfloor>\<lceil>x\<rceil>\<^bsub>w64\<^esub>\<rfloor>\<^bsub>w64\<^esub> = x emod 18446744073709551616"
+  by (simp add: word64_of_int_def word64_of_int'_inverse
+    word64_in_range_def emod_def)
+
+lemma word64_inversion: "\<lceil>\<lfloor>x\<rfloor>\<^bsub>w64\<^esub>\<rceil>\<^bsub>w64\<^esub> = x"
+  by (simp add: word64_of_int_def word64_to_int_inverse
+    emod_def mod_pos_pos_trivial word64_to_int_lower word64_to_int_upper')
+
+instantiation word64 :: linorder
+begin
+
+definition less_eq_word64 where
+  "i \<le> j = (\<lfloor>i\<rfloor>\<^bsub>w64\<^esub> \<le> \<lfloor>j\<rfloor>\<^bsub>w64\<^esub>)"
+
+definition less_word64 where
+  "i < j = (\<lfloor>i\<rfloor>\<^bsub>w64\<^esub> < \<lfloor>j\<rfloor>\<^bsub>w64\<^esub>)"
+
+instance
+  by default (simp_all add: less_eq_word64_def less_word64_def
+    less_le_not_le linorder_linear word64_to_int_inject)
+
+end
+
+why3_types
+   Lsc__types__word64.word64 = word64
+
+why3_consts
+  Lsc__types__word64.to_int = word64_to_int
+  Lsc__types__word64.of_int = word64_of_int
+
+why3_defs
+  Lsc__types__word64.in_range = word64_in_range_def
+
+why3_thms
+  Lsc__types__word64.inversion_axiom = word64_inversion and
+  Lsc__types__word64.range_axiom = word64_to_int [simplified] and
+  Lsc__types__word64.coerce_axiom = word64_coerce
+
 (**** Lsc__bignum__big_int ****)
 
 type_synonym bounds = "integer \<times> integer"
@@ -211,6 +281,7 @@ why3_consts
   Lsc__math_int__Oexpon.oexpon = power_int
   Lsc__math_int__Oexpon__2.oexpon__2 = power_int
   Lsc__math_int__from_word32.from_word32 = dummy_conv
+  Lsc__math_int__from_word64.from_word64 = dummy_conv
   Lsc__math_int__from_integer.from_integer = dummy_conv
 
 (**** Lsc__bignum__num_of_big_int ****)
