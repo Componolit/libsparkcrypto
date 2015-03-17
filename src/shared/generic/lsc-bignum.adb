@@ -988,7 +988,8 @@ is
      return Boolean
      with
        Pre =>
-         A_First + Natural (I / 32) in A'Range,
+         A_First in A'Range and then
+         I / 32 <= Types.Word64 (A'Last - A_First),
        Post =>
          Bit_Set'Result =
          ((A (A_First + Natural (I / 32)) and
