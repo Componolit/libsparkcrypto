@@ -226,16 +226,13 @@ lemma case_not_eq [simp]: "(case P of True \<Rightarrow> False | False \<Rightar
 lemma case_conj_eq [simp]: "(case P of True \<Rightarrow> Q | False \<Rightarrow> False) = (P \<and> Q)"
   by (cases P) simp_all
 
+lemma case_disj_eq [simp]: "(case P of True \<Rightarrow> True | False \<Rightarrow> Q) = (P \<or> Q)"
+  by (cases P) simp_all
+
 lemma if_trivial [simp]: "(if P then True else False) = P"
   by simp
 
 lemma if_conj_eq [simp]: "(if P then Q else False) = (P \<and> Q)"
   by simp
-
-
-(**** FIXME: Isabelle printer for Why3 should not generate names ending with underscores ****)
-
-why3_consts
-  "_gnatprove_standard_th.Main_Main.__null_ext__" = undefined
 
 end

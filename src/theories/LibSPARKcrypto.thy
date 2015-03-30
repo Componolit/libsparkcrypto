@@ -299,10 +299,16 @@ why3_consts
 
 (**** Lsc__bignum__inverse ****)
 
-axiomatization inverse :: "int \<Rightarrow> int \<Rightarrow> int"
-
 why3_consts
   Lsc__bignum__inverse.inverse = minv
+
+(**** Lsc__bignum__gcd ****)
+
+abbreviation (input) gcd_w32 :: "int \<Rightarrow> int \<Rightarrow> word32" where
+  "gcd_w32 x y \<equiv> \<lceil>gcd x y\<rceil>\<^bsub>w32\<^esub>"
+
+why3_consts
+  Lsc__bignum__gcd.gcd = gcd_w32
 
 (**** Lsc__bignum__base(__axiom) ****)
 
