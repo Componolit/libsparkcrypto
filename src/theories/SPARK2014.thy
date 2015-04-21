@@ -199,7 +199,7 @@ lemma array1_eq:
 definition slide :: "(int \<Rightarrow> 'a) \<Rightarrow> int \<Rightarrow> int \<Rightarrow> int \<Rightarrow> 'a" where
   "slide a old_first new_first i = a (i - (new_first - old_first))"
 
-lemma slide_same: "slide a i i = a"
+lemma slide_eq: "slide a i i = a"
   by (rule ext) (simp add: slide_def)
 
 why3_types
@@ -215,7 +215,8 @@ why3_thms
   "_gnatprove_standard.Array__1.Select_eq" = Select_eq and
   "_gnatprove_standard.Array__1.Select_neq" = Select_neq and
   "_gnatprove_standard.Array__1.T__ada_array___equal_def" = array1_eq and
-  "_gnatprove_standard.Array__1.slide_def" = slide_def
+  "_gnatprove_standard.Array__1.slide_def" = slide_def and
+  "_gnatprove_standard.Array__1.slide_eq" = slide_eq
 
 
 (**** Rules for simplifying unwieldy case expressions ****)
