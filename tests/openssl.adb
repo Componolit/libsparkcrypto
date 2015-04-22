@@ -93,6 +93,25 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
+   procedure CBC_Encrypt
+     (Plaintext  : in     LSC.AES.Message_Type;
+      Ciphertext :    out LSC.AES.Message_Type;
+      Context    : in     AES_Enc_Context_Type;
+      IV         : in     LSC.AES.Block_Type)
+   is
+      Tmp_IV : LSC.AES.Block_Type := IV;
+   begin
+      C_AES_cbc_Encrypt
+        (Input  => Plaintext'Address,
+         Output => Ciphertext'Address,
+         Length => 16 * Plaintext'Length,
+         AESKey => Context.C_Context'Unrestricted_Access,
+         IV     => Tmp_IV'Unrestricted_Access,
+         Enc    => 1);
+   end CBC_Encrypt;
+
+   ----------------------------------------------------------------------------
+
    function Create_AES128_Dec_Context (Key : LSC.AES.AES128_Key_Type)
       return AES_Dec_Context_Type
    is
@@ -142,6 +161,25 @@ package body OpenSSL is
                      AESKey    => Context.C_Context'Unrestricted_Access);
       return Result;
    end Decrypt;
+
+   ----------------------------------------------------------------------------
+
+   procedure CBC_Decrypt
+     (Ciphertext : in     LSC.AES.Message_Type;
+      Plaintext  :    out LSC.AES.Message_Type;
+      Context    : in     AES_Dec_Context_Type;
+      IV         : in     LSC.AES.Block_Type)
+   is
+      Tmp_IV : LSC.AES.Block_Type := IV;
+   begin
+      C_AES_cbc_Encrypt
+        (Input  => Ciphertext'Address,
+         Output => Plaintext'Address,
+         Length => 16 * Ciphertext'Length,
+         AESKey => Context.C_Context'Unrestricted_Access,
+         IV     => Tmp_IV'Unrestricted_Access,
+         Enc    => 0);
+   end CBC_Decrypt;
 
    ----------------------------------------------------------------------------
    -- SHA-1

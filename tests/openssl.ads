@@ -89,6 +89,14 @@ package OpenSSL is
                      Plaintext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
    pragma Inline (Encrypt);
 
+   procedure CBC_Encrypt
+     (Plaintext  : in     LSC.AES.Message_Type;
+      Ciphertext :    out LSC.AES.Message_Type;
+      Context    : in     AES_Enc_Context_Type;
+      IV         : in     LSC.AES.Block_Type);
+   --# derives Ciphertext from Plaintext, Context, IV;
+   pragma Inline (CBC_Encrypt);
+
    function Create_AES128_Dec_Context (Key : LSC.AES.AES128_Key_Type) return AES_Dec_Context_Type;
    function Create_AES192_Dec_Context (Key : LSC.AES.AES192_Key_Type) return AES_Dec_Context_Type;
    function Create_AES256_Dec_Context (Key : LSC.AES.AES256_Key_Type) return AES_Dec_Context_Type;
@@ -96,6 +104,14 @@ package OpenSSL is
    function Decrypt (Context    : AES_Dec_Context_Type;
                      Ciphertext : LSC.AES.Block_Type) return LSC.AES.Block_Type;
    pragma Inline (Decrypt);
+
+   procedure CBC_Decrypt
+     (Ciphertext : in     LSC.AES.Message_Type;
+      Plaintext  :    out LSC.AES.Message_Type;
+      Context    : in     AES_Dec_Context_Type;
+      IV         : in     LSC.AES.Block_Type);
+   --# derives Plaintext from Ciphertext, Context, IV;
+   pragma Inline (CBC_Decrypt);
 
    ----------------------------------------------------------------------------
 
@@ -396,6 +412,15 @@ private
                             Out_Block : Block_Ptr;
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_encrypt, "AES_encrypt");
+
+   procedure C_AES_cbc_Encrypt
+     (Input  : System.Address;
+      Output : System.Address;
+      Length : LSC.Types.Word32;
+      AESKey : C_Context_Ptr;
+      IV     : Block_Ptr;
+      Enc    : Interfaces.Unsigned_16);
+   pragma Import (C, C_AES_cbc_encrypt, "AES_cbc_encrypt");
 
    procedure C_AES_set_decrypt_key (UserKey : Key_Ptr;
                                     Bits    : Interfaces.C.Int;
