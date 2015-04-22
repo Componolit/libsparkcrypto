@@ -36,12 +36,13 @@ separate (Main)
 procedure Test_AES256_Encrypt
 is
    subtype Message_Index is Natural range 1 .. 100000;
-   type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+   subtype Message_Type is LSC.AES.Message_Type (Message_Index);
 
    Plain, Cipher1, Cipher2 : Message_Type;
    Key256                  : LSC.AES.AES256_Key_Type;
    Context1                : OpenSSL.AES_Enc_Context_Type;
    Context2                : LSC.AES.AES_Enc_Context;
+   IV                      : LSC.AES.Block_Type;
    Measurement             : SPARKUnit.Measurement_Type;
 begin
 
@@ -91,6 +92,30 @@ begin
    SPARKUnit.Measurement_Stop (Measurement);
 
    SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_ENC", Measurement, Cipher1 = Cipher2);
+
+   IV := LSC.AES.Block_Type'
+     (16#cafebabe#,
+      16#deadbeef#,
+      16#d00faffe#,
+      16#12345678#);
+
+   SPARKUnit.Reference_Start (Measurement);
+   for k in Natural range 1 .. 20
+     --# assert True;
+   loop
+      OpenSSL.CBC_Encrypt (Plain, Cipher1, Context1, IV);
+   end loop;
+   SPARKUnit.Reference_Stop (Measurement);
+
+   SPARKUnit.Measurement_Start (Measurement);
+   for k in Natural range 1 .. 20
+     --# assert True;
+   loop
+      LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+   end loop;
+   SPARKUnit.Measurement_Stop (Measurement);
+
+   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-CBC-256_ENC", Measurement, Cipher1 = Cipher2);
 
    --# accept Flow, 602, Harness, Cipher1, "completely initialized in loop" &
    --#        Flow, 602, Harness, Cipher2, "completely initialized in loop";
