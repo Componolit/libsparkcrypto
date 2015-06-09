@@ -107,10 +107,6 @@ proof -
     by (simp only: lint_inv_mod [of m_inv m _ 32, simplified, OF m_inv])
 
   from
-    `num_of_big_int aux3__5 _ _ = _`
-    `num_of_big_int a__4 _ _ = _`
-    `num_of_big_int aux3 _ _ = _`
-    `num_of_big_int aux2 _ _ = _`
     `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> loop__1__i`
     `loop__1__i \<le> e__index__subtype__1__last`
@@ -119,7 +115,11 @@ proof -
       e loop__1__i div 2 ^ nat (loop__2__j + 1)) * 2) *
     ?x * ?R mod ?m"
     by (simp only: nat_mult_distrib [of 2, simplified, simplified mult.commute])
-      (simp add: mont_mult_eq [OF Base_inv] sdiv_pos_pos power_mult power2_eq_square)
+      (simp add: mont_mult_eq [OF Base_inv] sdiv_pos_pos power_mult power2_eq_square
+         `num_of_big_int aux3__5 _ _ = _` [simplified]
+         `num_of_big_int a__4 _ _ = _`
+         `num_of_big_int aux3 _ _ = _`
+         `num_of_big_int aux2 _ _ = _`)
   also from `bounds _ _ _ _ e`
     `e__index__subtype__1__first \<le> loop__1__i`
     `loop__1__i \<le> e_last`
@@ -224,8 +224,7 @@ proof -
   have "num_of_big_int a__7 a_first ?L =
     ?x ^ nat (num_of_big_int e e_first (1 + (e_last - e_first))) *
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
-    by (simp add: power_mult_distrib [symmetric] mult.assoc)
-      (simp add: add.commute mult.commute)
+    by (simp add: mult.assoc) (simp add: add.commute mult.commute)
   with Base_inv show ?thesis by (simp add: add.commute)
 qed
 

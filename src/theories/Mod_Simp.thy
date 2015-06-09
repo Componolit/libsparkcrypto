@@ -59,14 +59,14 @@ fun has_mod rng m s =
     | _ => false);
 
 fun pull_mod rng cmod cm ct =
-  if term_of cm aconv term_of ct then
-    Drule.instantiate' [SOME (ctyp_of_term ct)] [SOME ct]
+  if Thm.term_of cm aconv Thm.term_of ct then
+    Drule.instantiate' [SOME (Thm.ctyp_of_cterm ct)] [SOME ct]
       @{thm mod_self_cong}
-  else if has_mod rng (term_of cm) (term_of ct) then
-    case term_of ct of
+  else if has_mod rng (Thm.term_of cm) (Thm.term_of ct) then
+    case Thm.term_of ct of
       Const (@{const_name mod}, _) $ _ $ _ =>
         let val (cx, cm) = Thm.dest_binop ct
-        in Drule.instantiate' [SOME (ctyp_of_term cx)] [SOME cx, SOME cm]
+        in Drule.instantiate' [SOME (Thm.ctyp_of_cterm cx)] [SOME cx, SOME cm]
           @{thm mod_mod_trivial}
         end
     | Const (@{const_name plus}, _) $ _ $ _ =>
@@ -94,10 +94,10 @@ fun pull_mod rng cmod cm ct =
         in @{thm minus_mod_cong} OF [pull_mod rng cmod cm cu] end
     | _ => raise Fail "pull_mod"
   else
-    Drule.instantiate' [SOME (ctyp_of_term ct)]
+    Drule.instantiate' [SOME (Thm.ctyp_of_cterm ct)]
       [SOME (Drule.list_comb (cmod, [ct, cm]))] refl;
 
-fun pull_mod_proc _ ctxt ct = (case term_of ct of
+fun pull_mod_proc _ ctxt ct = (case Thm.term_of ct of
     Const (@{const_name mod}, Type (_, [T, _])) $ u $ m =>
       let val rng = Sign.of_sort
         (Proof_Context.theory_of ctxt)

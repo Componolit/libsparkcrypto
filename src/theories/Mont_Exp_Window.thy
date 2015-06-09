@@ -14,7 +14,7 @@ qed
 
 lemma div_power':
   assumes "n \<le> m" "x \<noteq> 0"
-  shows "(x::'a::{semiring_div,ring_no_zero_divisors}) ^ m div x ^ n = x ^ (m - n)"
+  shows "(x::'a::{semiring_div,ring_1_no_zero_divisors}) ^ m div x ^ n = x ^ (m - n)"
 proof -
   from `n \<le> m` have "x ^ m div x ^ n * x ^ n = x ^ m"
     by (simp add: le_imp_power_dvd dvd_div_mult_self)
@@ -371,7 +371,7 @@ proof (intro strip)
       `1 \<le> loop__1__h`
     show ?thesis
       by (simp add: mont_mult_eq [OF Base_inv])
-        (simp add: mult_ac comm_semiring_1_class.normalizing_semiring_rules(27)
+        (simp add: power_Suc [symmetric]
            Suc_nat_eq_nat_zadd1 add_ac mult_ac)
   qed
 qed
@@ -474,7 +474,7 @@ proof -
     by simp
   also from `s < j` `0 \<le> s`
   have "(2::int) ^ nat (j - s) = 2 ^ nat (j - s - 1) * 2 ^ 1"
-    by (simp add: power_add [symmetric] del: power.simps)
+    by (simp only: power_add [symmetric]) (simp del: power.simps)
   also from
     `w * 2 ^ nat (j - s - 1) = _`
     `bounds _ _ _ _ e`
@@ -527,7 +527,7 @@ proof -
 
   from `s < j` `0 \<le> s`
   have "(2::int) ^ nat (j + 1 - s - 1) = 2 ^ nat (j - s - 1) * 2 ^ 1"
-    by (simp add: power_add [symmetric] del: power.simps)
+    by (simp only: power_add [symmetric]) (simp del: power.simps)
   then have "w * 2 ^ nat (j + 1 - s - 1) = w * 2 ^ nat (j - s - 1) * 2"
     by simp
   also note `w * 2 ^ nat (j - s - 1) = ?e sdiv 2 ^ nat (i - (j - 1)) mod 2 ^ nat j`
@@ -634,10 +634,8 @@ proof -
   have "nat loop__4__h = nat (loop__4__h - 1) + 1"
     by simp
   ultimately show ?thesis
-    using
-      `num_of_big_int a__7 _ _ = _`
-      `num_of_big_int aux3 _ _ = _`
-    by (simp add: mont_mult_eq [OF Base_inv] power_add)
+    by (simp add: mont_mult_eq [OF Base_inv]
+      `num_of_big_int a__7 _ _ = _` `num_of_big_int aux3 _ _ = _`)
       (simp add: mult_ac nat_mult_distrib power_mult power2_eq_square
          power_mult_distrib)
 qed

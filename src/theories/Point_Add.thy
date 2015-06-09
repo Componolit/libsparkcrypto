@@ -185,14 +185,12 @@ spark_vc procedure_point_add_46
 spark_vc procedure_point_add_47
   using
     `1 < num_of_big_int m _ _`
-    `num_of_big_int y3__36 _ _ = _`
+  by (simp_all add: sub_less_mod
+    `num_of_big_int y3__36 _ _ = _` [simplified]
     `num_of_big_int h2__34 _ _ = _`
     `num_of_big_int h1__35 _ _ = _`
-    `num_of_big_int z3__37 _ _ = _`
-    `num_of_big_int h8__28 _ _ = _`
-    `num_of_big_int h7__23 _ _ = _`
-    `num_of_big_int x3__32 _ _ = _`
-  by (simp_all add: sub_less_mod)
+    `num_of_big_int z3__37 _ _ = _` [simplified]
+    `num_of_big_int x3__32 _ _ = _` [simplified])
 
 spark_end
 
