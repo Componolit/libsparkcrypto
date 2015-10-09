@@ -87,7 +87,11 @@ package LSC.HMAC_SHA384 is
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
        Length  : Types.Word64) return SHA512.SHA384_Hash_Type
-     with Pre => Length <= Message'Length * SHA512.Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA512.Block_Size +
+         (if Length mod SHA512.Block_Size = 0 then 0 else 1) <= Message'Length;
 
    -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
    -- return the authentication value.
@@ -96,7 +100,11 @@ package LSC.HMAC_SHA384 is
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
        Length  : Types.Word64) return Auth_Type
-     with Pre => Length <= Message'Length * SHA512.Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA512.Block_Size +
+         (if Length mod SHA512.Block_Size = 0 then 0 else 1) <= Message'Length;
 
    -- Empty authenticator
    Null_Auth : constant Auth_Type;

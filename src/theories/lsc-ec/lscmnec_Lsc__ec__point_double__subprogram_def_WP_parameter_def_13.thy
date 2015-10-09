@@ -7,8 +7,7 @@ why3_open "lscmnec_Lsc__ec__point_double__subprogram_def_WP_parameter_def_13.xml
 why3_vc WP_parameter_def
 proof -
   note [simp] = mk_bounds_eqs integer_in_range_def slide_eq
-    `\<lfloor>o1\<rfloor>\<^sub>\<nat> = \<lfloor>x1_last\<rfloor>\<^sub>\<nat> - \<lfloor>x1_first\<rfloor>\<^sub>\<nat>`
-  from `(1 < num_of_big_int' m _ _) = _`
+  from `(math_int_from_word (of_int 1) < num_of_big_int' m _ _) = _`
   show ?thesis
     apply simp
     apply (simp only:

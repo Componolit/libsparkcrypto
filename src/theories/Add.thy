@@ -19,7 +19,7 @@ lemma le_zmod_geq: "(n::int) \<le> m \<Longrightarrow> m mod n = (m - n) mod n"
   by (simp add: mod_add_self2 [symmetric, of "m - n"])
 
 lemma add_carry:
-  "0 \<le> a \<Longrightarrow> 0 \<le> b \<Longrightarrow> a < B \<Longrightarrow> b < B \<Longrightarrow>
+  "0 \<le> (a::int) \<Longrightarrow> 0 \<le> b \<Longrightarrow> a < B \<Longrightarrow> b < B \<Longrightarrow>
    num_of_bool ((a + b + num_of_bool c) mod B < a \<or>
      (a + b + num_of_bool c) mod B = a \<and> c) =
    (a + b + num_of_bool c) div B"

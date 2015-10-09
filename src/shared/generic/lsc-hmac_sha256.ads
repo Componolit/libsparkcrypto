@@ -88,7 +88,11 @@ package LSC.HMAC_SHA256 is
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
        Length  : Types.Word64) return SHA256.SHA256_Hash_Type
-     with Pre => Length <= Message'Length * SHA256.Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA256.Block_Size +
+         (if Length mod SHA256.Block_Size = 0 then 0 else 1) <= Message'Length;
 
    -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
    -- return the authentication value.
@@ -97,7 +101,11 @@ package LSC.HMAC_SHA256 is
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
        Length  : Types.Word64) return Auth_Type
-     with Pre => Length <= Message'Length * SHA256.Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA256.Block_Size +
+         (if Length mod SHA256.Block_Size = 0 then 0 else 1) <= Message'Length;
 
 private
 

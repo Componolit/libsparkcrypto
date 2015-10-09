@@ -38,62 +38,6 @@ package body LSC.Types
   with SPARK_Mode => Off
 is
 
-   function ROTR (Value : Word64; Amount : Natural) return Word64
-   is
-   begin
-      return Interfaces.Rotate_Right (Value, Amount);
-   end ROTR;
-
-   ----------------------------------------------------------------------------
-
-   function SHR (Value : Word64; Amount : Natural) return Word64
-   is
-   begin
-      return Interfaces.Shift_Right (Value, Amount);
-   end SHR;
-
-   ----------------------------------------------------------------------------
-
-   function SHL (Value : Word64; Amount : Natural) return Word64
-   is
-   begin
-      return Interfaces.Shift_Left (Value, Amount);
-   end SHL;
-
-   ----------------------------------------------------------------------------
-
-   function ROTL32 (Value : Word32; Amount : Natural) return Word32
-   is
-   begin
-      return Interfaces.Rotate_Left (Value, Amount);
-   end ROTL32;
-
-   ----------------------------------------------------------------------------
-
-   function ROTR32 (Value : Word32; Amount : Natural) return Word32
-   is
-   begin
-      return Interfaces.Rotate_Right (Value, Amount);
-   end ROTR32;
-
-   ----------------------------------------------------------------------------
-
-   function SHL32 (Value : Word32; Amount : Natural) return Word32
-   is
-   begin
-      return Interfaces.Shift_Left (Value, Amount);
-   end SHL32;
-
-   ----------------------------------------------------------------------------
-
-   function SHR32 (Value : Word32; Amount : Natural) return Word32
-   is
-   begin
-      return Interfaces.Shift_Right (Value, Amount);
-   end SHR32;
-
-   ----------------------------------------------------------------------------
-
    function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type
    is
       function W322W8A is new Ada.Unchecked_Conversion

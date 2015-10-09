@@ -6,7 +6,7 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_4.
 
 why3_vc WP_parameter_def
   using `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
-  by (simp add: div_pos_pos_trivial word32_to_int_lower word32_to_int_upper')
+  by (simp add: div_pos_pos_trivial word32_to_int_def uint_lt [where 'a=32, simplified])
 
 why3_end
 

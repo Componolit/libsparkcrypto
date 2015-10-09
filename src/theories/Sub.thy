@@ -10,7 +10,7 @@ proof -
 qed
 
 lemma sub_carry:
-  assumes "0 \<le> a" and "a < B" and "0 \<le> b" and "b < B"
+  assumes "0 \<le> (a::int)" and "a < B" and "0 \<le> b" and "b < B"
   shows "num_of_bool (a < b \<or> a = b \<and> c) =
    - ((a - b - num_of_bool c) div B)"
 proof (cases "a < b")

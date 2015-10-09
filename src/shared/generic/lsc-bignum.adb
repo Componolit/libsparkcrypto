@@ -32,13 +32,19 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Byteorder32;
 
 package body LSC.Bignum
 is
 
+   -- FIXME workaround for [OA05-076]
+   function N_Last return Natural is (Natural'Last);
+
    function GCD (A, B : Types.Word32) return Types.Word32
      with Ghost, Import, Global => null;
+
+   ----------------------------------------------------------------------------
 
    procedure Initialize
      (A       :    out Big_Int;
@@ -163,7 +169,7 @@ is
                (A (K) = A'Loop_Entry (K))));
 
          New_Carry := (A (I) and 2 ** 31) /= 0;
-         A (I) := Types.SHL32 (A (I), 1) + Word_Of_Boolean (Carry);
+         A (I) := Interfaces.Shift_Left (A (I), 1) + Word_Of_Boolean (Carry);
          Carry := New_Carry;
 
          pragma Assert_And_Cut
@@ -199,7 +205,9 @@ is
                (A (J) = A'Loop_Entry (J))));
 
          H2 := A (I);
-         A (I) := Types.SHR32 (A (I), K) + Types.SHL32 (H1, 32 - K);
+         A (I) :=
+           Interfaces.Shift_Right (A (I), K) +
+           Interfaces.Shift_Left (H1, 32 - K);
          H1 := H2;
 
          pragma Assert_And_Cut
@@ -709,11 +717,11 @@ is
       A := Types.Word32 (Temp and Types.Word64 (Types.Word32'Last));
       Temp :=
         Types.Word64 (Carry2) +
-        Types.SHR (Mult1, 32) +
-        Types.SHR (Mult2, 32) +
-        Types.SHR (Temp, 32);
+        Interfaces.Shift_Right (Mult1, 32) +
+        Interfaces.Shift_Right (Mult2, 32) +
+        Interfaces.Shift_Right (Temp, 32);
       Carry1 := Types.Word32 (Temp and Types.Word64 (Types.Word32'Last));
-      Carry2 := Types.Word32 (Types.SHR (Temp, 32));
+      Carry2 := Types.Word32 (Interfaces.Shift_Right (Temp, 32));
    end Single_Add_Mult_Mult;
 
    ----------------------------------------------------------------------------
@@ -1181,7 +1189,7 @@ is
                exit when not (J <= K and Types.Word64 (J) <= I);
 
                if Bit_Set (E, E_First, I - Types.Word64 (J)) then
-                  W := Types.SHL32 (W, J - S) or 1;
+                  W := Interfaces.Shift_Left (W, J - S) or 1;
                   S := J;
                end if;
 
@@ -1267,7 +1275,7 @@ is
             Mont_Mult
               (A, A_First, A_Last,
                Aux3, Aux3_First,
-               Aux4, Aux4_First + Natural (Types.SHR32 (W, 1)) * (L + 1),
+               Aux4, Aux4_First + Natural (Interfaces.Shift_Right (W, 1)) * (L + 1),
                M, M_First, M_Inv);
 
             Copy (A, A_First, A_Last, Aux3, Aux3_First);
@@ -1305,7 +1313,9 @@ is
                 Num_Of_Big_Int (M, M_First, L + 1))) and
             Math_Int.From_Integer (S) <=
             Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
-            I < (Types.Word64 (E_Last - E_First) + 1) * 32);
+            I < (Types.Word64 (E_Last - E_First) + 1) * 32 and
+            -- FIXME workaround for [OA05-076]
+            S in 0 .. N_Last);
 
          exit when I < Types.Word64 (S);
 

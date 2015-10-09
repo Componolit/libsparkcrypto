@@ -6,15 +6,10 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
 proof -
-  from `h \<le> 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> - 1` `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "(h - 1) * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) \<le>
-    2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1"
-    by simp
-
-  with
-    `\<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1) \<le> \<lfloor>aux4_last\<rfloor>\<^sub>\<int>`
-    `\<lfloor>l\<rfloor>\<^sub>\<nat> = \<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>`
-  show ?thesis by (simp add: mk_bounds_snd)
+  from `1 \<le> h1` `a_first < a_last`
+  have "0 \<le> (h1 - 1) * (a_last - a_first + 1)" by simp
+  with `\<lfloor>aux4__first\<rfloor>\<^sub>\<int> \<le> aux4_first` `a_first < a_last`
+  show ?thesis by (simp add: mk_bounds_fst)
 qed
 
 why3_end

@@ -126,7 +126,11 @@ package body LSC.HMAC_SHA512 is
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
        Length  : Types.Word64) return Context_Type
-     with Pre => Length <= Message'Length * SHA512.Block_Size
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA512.Block_Size +
+         (if Length mod SHA512.Block_Size = 0 then 0 else 1) <= Message'Length
    is
       HMAC_Ctx : Context_Type;
    begin

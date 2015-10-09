@@ -74,38 +74,6 @@ package LSC.Types is
    -- Unconstrained array of 64-bit words
    type Word64_Array_Type is array (Index range <>) of Word64;
 
-   -- Left rotate 64-bit @Value@ by @Amount@
-   function ROTR (Value : Word64; Amount : Natural) return Word64;
-   pragma Inline (ROTR);
-
-   -- Right shift 64-bit @Value@ by @Amount@
-   function SHR (Value : Word64; Amount : Natural) return Word64
-     with Post => SHR'Result = Value / 2 ** Amount;
-   pragma Inline (SHR);
-
-   -- Left shift 64-bit @Value@ by @Amount@
-   function SHL (Value : Word64; Amount : Natural) return Word64
-     with Post => SHL'Result = Value * 2 ** Amount;
-   pragma Inline (SHL);
-
-   -- Right rotate 32-bit @Value@ by @Amount@
-   function ROTR32 (Value : Word32; Amount : Natural) return Word32;
-   pragma Inline (ROTR32);
-
-   -- Left rotate 32-bit @Value@ by @Amount@
-   function ROTL32 (Value : Word32; Amount : Natural) return Word32;
-   pragma Inline (ROTL32);
-
-   -- Left shift 32-bit @Value@ by @Amount@
-   function SHL32 (Value : Word32; Amount : Natural) return Word32
-     with Post => SHL32'Result = Value * 2 ** Amount;
-   pragma Inline (SHL32);
-
-   -- Right shift 32-bit @Value@ by @Amount@
-   function SHR32 (Value : Word32; Amount : Natural) return Word32
-     with Post => SHR32'Result = Value / 2 ** Amount;
-   pragma Inline (SHR32);
-
    -- Convert 32-bit word to 32-bit byte array
    function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type;
    pragma Inline (Word32_To_Byte_Array32);

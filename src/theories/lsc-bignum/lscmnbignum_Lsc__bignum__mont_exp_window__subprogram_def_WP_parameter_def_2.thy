@@ -6,19 +6,19 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
 proof -
-  from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` natural_to_int_lower [of aux4_first1]
-  have "0 < \<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>)"
-    by simp
-  moreover have "(2::int) ^ 0 \<le> 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>" by (simp add: power_increasing)
-  with `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "2 ^ 0 * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) \<le> 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
+  from `a_first < a_last` `natural_in_range aux4_first`
+  have "0 < aux4_first + (a_last - a_first)"
+    by (simp add: natural_in_range_def)
+  moreover have "(2::int) ^ 0 \<le> 2 ^ nat k" by (simp add: power_increasing)
+  with `a_first < a_last`
+  have "2 ^ 0 * (a_last - a_first + 1) \<le> 2 ^ nat k * (a_last - a_first + 1)"
     by (simp add: mult_right_mono)
   with
-    `\<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1) \<le> \<lfloor>aux4_last\<rfloor>\<^sub>\<int>`
-    integer_to_int_upper [of aux4_last]
-  have "\<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) \<le> 2147483647"
+    `aux4_first + (2 ^ nat k * (a_last - a_first + 1) - 1) \<le> \<lfloor>aux4__last\<rfloor>\<^sub>\<int>`
+    integer_to_int_upper [of aux4__last]
+  have "aux4_first + (a_last - a_first) \<le> 2147483647"
     by simp
-  ultimately show ?thesis using `\<lfloor>o1\<rfloor>\<^sub>\<nat> = \<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>`
+  ultimately show ?thesis
     by (simp add: integer_in_range_def)
 qed
 

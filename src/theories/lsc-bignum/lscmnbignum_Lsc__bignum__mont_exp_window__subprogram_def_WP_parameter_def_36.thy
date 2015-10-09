@@ -6,12 +6,15 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
   using
-    `\<lfloor>i\<rfloor>\<^bsub>w64\<^esub> < (\<lfloor>e_last\<rfloor>\<^sub>\<nat> - \<lfloor>e_first\<rfloor>\<^sub>\<nat> + 1) emod _ * 32 emod _`
-    `\<lfloor>e_first\<rfloor>\<^sub>\<nat> \<le> \<lfloor>e_last\<rfloor>\<^sub>\<nat>`
-    `\<lfloor>e_last\<rfloor>\<^sub>\<nat> \<le> \<lfloor>snd (rt e)\<rfloor>\<^sub>\<int>`
-    natural_to_int_lower [of e_first]
-    natural_to_int_upper [of e_last]
-  by (simp add: ediv_def emod_def mod_pos_pos_trivial)
+    `BV64.ult i1 ((of_int (e_last - e_first) + of_int 1) * of_int 32)`
+    `e_first \<le> e_last`
+    `e_last \<le> \<lfloor>snd (rt e)\<rfloor>\<^sub>\<int>`
+    `j1 \<le> k` `BV64.ule (of_int j1) i1`
+    `natural_in_range e_first`
+    `natural_in_range e_last`
+    integer_to_int_upper [of "snd (rt e)"]
+  by (auto simp add: mod_pos_pos_trivial natural_in_range_def
+    BV64.ult_def BV64.ule_def uint_word_ariths word_of_int uint_word_of_int uint_div)
 
 why3_end
 

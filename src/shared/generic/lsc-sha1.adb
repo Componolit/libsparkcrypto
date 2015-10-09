@@ -31,6 +31,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Ops32;
 with LSC.Pad32;
 with LSC.Debug;
@@ -129,7 +130,7 @@ package body LSC.SHA1 is
 
       for t in Schedule_Index range 16 .. 79
       loop
-         W (t) := Types.ROTL32
+         W (t) := Interfaces.Rotate_Left
            (Ops32.XOR4
               (W (t - 3),
                W (t - 8),
@@ -152,40 +153,40 @@ package body LSC.SHA1 is
 
       for I in Schedule_Index range 0 .. 19
       loop
-         Temp := Types.ROTL32 (a, 5) + Ch (b, c, d) + e + K1 + W (I);
+         Temp := Interfaces.Rotate_Left (a, 5) + Ch (b, c, d) + e + K1 + W (I);
          e := d;
          d := c;
-         c := Types.ROTL32 (b, 30);
+         c := Interfaces.Rotate_Left (b, 30);
          b := a;
          a := Temp;
       end loop;
 
       for I in Schedule_Index range 20 .. 39
       loop
-         Temp := Types.ROTL32 (a, 5) + Ops32.XOR3 (b, c, d) + e + K2 + W (I);
+         Temp := Interfaces.Rotate_Left (a, 5) + Ops32.XOR3 (b, c, d) + e + K2 + W (I);
          e := d;
          d := c;
-         c := Types.ROTL32 (b, 30);
+         c := Interfaces.Rotate_Left (b, 30);
          b := a;
          a := Temp;
       end loop;
 
       for I in Schedule_Index range 40 .. 59
       loop
-         Temp := Types.ROTL32 (a, 5) + Maj (b, c, d) + e + K3 + W (I);
+         Temp := Interfaces.Rotate_Left (a, 5) + Maj (b, c, d) + e + K3 + W (I);
          e := d;
          d := c;
-         c := Types.ROTL32 (b, 30);
+         c := Interfaces.Rotate_Left (b, 30);
          b := a;
          a := Temp;
       end loop;
 
       for I in Schedule_Index range 60 .. 79
       loop
-         Temp := Types.ROTL32 (a, 5) + Ops32.XOR3 (b, c, d) + e + K4 + W (I);
+         Temp := Interfaces.Rotate_Left (a, 5) + Ops32.XOR3 (b, c, d) + e + K4 + W (I);
          e := d;
          d := c;
-         c := Types.ROTL32 (b, 30);
+         c := Interfaces.Rotate_Left (b, 30);
          b := a;
          a := Temp;
       end loop;

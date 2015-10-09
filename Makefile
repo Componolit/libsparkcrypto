@@ -40,14 +40,6 @@ ifeq ($(NO_SPARK),)
    ALL_GOALS += spark
    REPORT_DEPS += spark
    INSTALL_DEPS += install_spark
-
-   # Feature: NO_ISABELLE
-   ifeq ($(NO_ISABELLE),)
-      ALL_GOALS += isabelle
-      REPORT_DEPS += isabelle
-      INSTALL_DEPS += install_isabelle
-      $(eval $(shell isabelle getenv ISABELLE_OUTPUT))
-   endif
 endif
 
 # Feature: NO_TESTS
@@ -68,23 +60,23 @@ endif
 ###############################################################################
 
 #
-# set gnatmake options
+# set gprbuild options
 #
 
 ifneq ($(ARCH),)
-GNATMAKE_OPTS += -Xarch=$(ARCH)
+GPRBUILD_OPTS += -Xarch=$(ARCH)
 endif
 
 ifneq ($(ENDIANESS),)
-GNATMAKE_OPTS += -Xendianess=$(ENDIANESS)
+GPRBUILD_OPTS += -Xendianess=$(ENDIANESS)
 endif
 
 ifneq ($(MODE),)
-GNATMAKE_OPTS += -Xmode=$(MODE)
+GPRBUILD_OPTS += -Xmode=$(MODE)
 endif
 
 ifneq ($(OPT),)
-GNATMAKE_OPTS += -Xopt=$(OPT)
+GPRBUILD_OPTS += -Xopt=$(OPT)
 endif
 
 ###############################################################################
@@ -92,7 +84,7 @@ endif
 all: $(ALL_GOALS)
 
 build:    $(addprefix $(OUTPUT_DIR)/build/adalib/,$(addsuffix /libsparkcrypto.a,$(RUNTIME)))
-isabelle: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
+spark: $(OUTPUT_DIR)/proof/gnatprove.log
 
 apidoc: $(ADT_FILES)
 	echo $^ | xargs -n1 > $(OUTPUT_DIR)/tree.lst
@@ -120,9 +112,9 @@ $(OUTPUT_DIR)/tests/tests: install_local
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
 
 $(OUTPUT_DIR)/build/adalib/%/libsparkcrypto.a:
-	gnatmake $(GNATMAKE_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
+	gprbuild $(GPRBUILD_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
 
-spark:
+$(OUTPUT_DIR)/proof/gnatprove.log:
 	@echo -n "Started at " > $(OUTPUT_DIR)/proof/gnatprove.log
 	@date >> $(OUTPUT_DIR)/proof/gnatprove.log
 	gnatprove -P build/build_libsparkcrypto >> $(OUTPUT_DIR)/proof/gnatprove.log
@@ -146,14 +138,8 @@ ifneq ($(strip $(ARCH_FILES)),)
 endif
 	$(foreach RTS,$(RUNTIME),install -p -m 444 $(OUTPUT_DIR)/build/adalib/$(RTS)/*.ali $(DESTDIR)/adalib/$(RTS);)
 
-install_spark: install_files $(OUTPUT_DIR)/proof/libsparkcrypto.sum
-	install -D -p -m 444 $(OUTPUT_DIR)/proof/libsparkcrypto.sum $(DESTDIR)/libsparkcrypto.sum
-	(cd $(OUTPUT_DIR)/empty && sparkmake -include=*\.ads -dir=$(DESTDIR)/sharedinclude -nometa -index=$(DESTDIR)/libsparkcrypto.idx)
-
-install_isabelle: $(OUTPUT_DIR)/proof/HOL-SPARK-libsparkcrypto.gz
-
-$(OUTPUT_DIR)/proof/HOL-SPARK-libsparkcrypto.gz: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto.gz
-	install -p -m 644 -D $< $@
+install_spark: install_files $(OUTPUT_DIR)/proof/gnatprove.log
+	install -D -p -m 444 $(OUTPUT_DIR)/proof/gnatprove.log $(DESTDIR)/gnatprove.log
 
 install_local: DESTDIR = $(OUTPUT_DIR)/libsparkcrypto
 install_local: install
@@ -167,5 +153,5 @@ $(OUTPUT_DIR)/tree/%.adt: $(CURDIR)/src/shared/generic/%.ads
 clean:
 	@rm -rf $(OUTPUT_DIR)
 
-.PHONY: all install install_local install_files install_spark install_isabelle
-.PHONY: build tests proof apidoc archive spark isabelle
+.PHONY: all install install_local install_files install_spark
+.PHONY: build tests proof apidoc archive spark

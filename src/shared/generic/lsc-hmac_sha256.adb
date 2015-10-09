@@ -130,7 +130,11 @@ package body LSC.HMAC_SHA256 is
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
        Length  : Types.Word64) return Context_Type
-     with Pre => Length <= Message'Length * SHA256.Block_Size
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA256.Block_Size +
+         (if Length mod SHA256.Block_Size = 0 then 0 else 1) <= Message'Length
    is
       HMAC_Ctx : Context_Type;
    begin

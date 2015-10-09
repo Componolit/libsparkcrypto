@@ -6,10 +6,10 @@ why3_open "lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_3
 
 why3_vc WP_parameter_def
 proof -
-  from `i1 = i2 + 1` `\<not> i1 \<le> \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` `i2 \<le> \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "i2 = \<lfloor>a_last1\<rfloor>\<^sub>\<nat>" by simp
+  from `i1 = result + 1` `\<not> i1 \<le> a_last` `result \<le> a_last`
+  have "result = a_last" by simp
   with `(if less _ _ _ _ _ \<noteq> _ then _ else _) \<noteq> _`
-    `(less _ _ _ _ _ = _) = _` `\<lfloor>a_msw1\<rfloor>\<^bsub>w32\<^esub> = 0`
+    `(less _ _ _ _ _ = _) = _`
     `((num_of_big_int' (Array a _) _ _ + _) mod _ = _) = _`
     `a1 = a`
   show ?thesis

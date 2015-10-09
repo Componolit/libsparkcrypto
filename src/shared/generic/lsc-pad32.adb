@@ -32,6 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Byteorder32;
 
 package body LSC.Pad32 is
@@ -53,8 +54,8 @@ package body LSC.Pad32 is
       Offset := Natural (31 - Length mod 32);
 
       Temp := Byteorder32.Native_To_BE (Block (Index));
-      Temp := Temp and Types.SHL32 (not 0, Offset);
-      Temp := Temp  or Types.SHL32 (1, Offset);
+      Temp := Temp and Interfaces.Shift_Left (not 0, Offset);
+      Temp := Temp  or Interfaces.Shift_Left (1, Offset);
       Block (Index) := Byteorder32.BE_To_Native (Temp);
 
       if Index < Block'Last then

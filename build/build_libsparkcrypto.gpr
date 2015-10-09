@@ -88,7 +88,7 @@ is
    end Compiler;
 
    package Prove is
-      for Switches use ("--timeout=60", "-j5", "--proof=progressive", "--prover=cvc4,altergo");
+      for Switches use ("--timeout=60", "-j5", "--proof=progressive", "--prover=z3,cvc4,altergo");
       for Proof_Dir use "../out/proof";
    end Prove;
 

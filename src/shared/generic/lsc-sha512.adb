@@ -32,6 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Debug;
 with LSC.Byteorder64;
 with LSC.SHA512.Tables;
@@ -91,9 +92,9 @@ package body LSC.SHA512 is
    function Cap_Sigma_0_512 (x : Types.Word64) return Types.Word64
    is
    begin
-      return Types.ROTR (x, 28) xor
-             Types.ROTR (x, 34) xor
-             Types.ROTR (x, 39);
+      return Interfaces.Rotate_Right (x, 28) xor
+             Interfaces.Rotate_Right (x, 34) xor
+             Interfaces.Rotate_Right (x, 39);
    end Cap_Sigma_0_512;
 
    pragma Inline (Cap_Sigma_0_512);
@@ -103,9 +104,9 @@ package body LSC.SHA512 is
    function Cap_Sigma_1_512 (x : Types.Word64) return Types.Word64
    is
    begin
-      return Types.ROTR (x, 14) xor
-             Types.ROTR (x, 18) xor
-             Types.ROTR (x, 41);
+      return Interfaces.Rotate_Right (x, 14) xor
+             Interfaces.Rotate_Right (x, 18) xor
+             Interfaces.Rotate_Right (x, 41);
    end Cap_Sigma_1_512;
 
    pragma Inline (Cap_Sigma_1_512);
@@ -115,9 +116,9 @@ package body LSC.SHA512 is
    function Sigma_0_512 (x : Types.Word64) return Types.Word64
    is
    begin
-      return Types.ROTR (x, 1) xor
-             Types.ROTR (x, 8) xor
-             Types.SHR (x, 7);
+      return Interfaces.Rotate_Right (x, 1) xor
+             Interfaces.Rotate_Right (x, 8) xor
+             Interfaces.Shift_Right (x, 7);
    end Sigma_0_512;
 
    pragma Inline (Sigma_0_512);
@@ -127,9 +128,9 @@ package body LSC.SHA512 is
    function Sigma_1_512 (x : Types.Word64) return Types.Word64
    is
    begin
-      return Types.ROTR (x, 19) xor
-             Types.ROTR (x, 61) xor
-             Types.SHR (x, 6);
+      return Interfaces.Rotate_Right (x, 19) xor
+             Interfaces.Rotate_Right (x, 61) xor
+             Interfaces.Shift_Right (x, 6);
    end Sigma_1_512;
 
    pragma Inline (Sigma_1_512);

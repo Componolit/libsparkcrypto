@@ -80,7 +80,11 @@ package LSC.HMAC_SHA1 is
       (Key     : SHA1.Block_Type;
        Message : SHA1.Message_Type;
        Length  : Types.Word64) return SHA1.Hash_Type
-     with Pre => Length <= Message'Length * SHA1.Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / SHA1.Block_Size +
+         (if Length mod SHA1.Block_Size = 0 then 0 else 1) <= Message'Length;
 
 private
 

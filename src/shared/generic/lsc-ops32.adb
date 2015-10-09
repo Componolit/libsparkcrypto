@@ -133,19 +133,11 @@ package body LSC.Ops32 is
          pragma Loop_Invariant
            (for all Pos in Types.Index range Result'First .. I =>
               (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
-         pragma Annotate
-           (GNATprove, False_Positive,
-            """Result"" might not be initialized",
-            "Initialized in complete loop");
       end loop;
    end Block_XOR;
    pragma Annotate
      (GNATprove, False_Positive,
       """Result"" might not be initialized",
-      "Initialized in complete loop");
-   pragma Annotate
-     (GNATprove, False_Positive,
-      """Result"" might not be initialized in ""Block_Xor""",
       "Initialized in complete loop");
 
    ----------------------------------------------------------------------------

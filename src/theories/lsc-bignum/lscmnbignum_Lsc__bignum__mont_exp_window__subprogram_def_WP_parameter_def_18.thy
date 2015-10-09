@@ -6,10 +6,14 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
 proof -
-  from `1 \<le> h` natural_to_int_lower [of l]
-  have "0 \<le> (h - 1) * (\<lfloor>l\<rfloor>\<^sub>\<nat> + 1)" by simp
-  with `\<lfloor>aux4_first\<rfloor>\<^sub>\<int> \<le> \<lfloor>aux4_first1\<rfloor>\<^sub>\<nat>`
-  show ?thesis by (simp add: mk_bounds_fst)
+  from `h1 \<le> 2 ^ nat k - 1` `a_first < a_last`
+  have "(h1 - 1) * (a_last - a_first + 1) \<le>
+    2 ^ nat k * (a_last - a_first + 1) - 1"
+    by simp
+
+  with
+    `aux4_first + (2 ^ nat k * (a_last - a_first + 1) - 1) \<le> \<lfloor>aux4__last\<rfloor>\<^sub>\<int>`
+  show ?thesis by (simp add: mk_bounds_snd)
 qed
 
 why3_end

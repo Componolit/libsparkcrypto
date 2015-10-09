@@ -32,6 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Ops32;
 with LSC.Pad32;
 with LSC.Debug;
@@ -149,12 +150,12 @@ package body LSC.RIPEMD160 is
       pragma Debug (Debug.Print_Word32 (A));
       pragma Debug (Debug.Put (" "));
 
-      A := Types.ROTL32 (A, S) + E;
+      A := Interfaces.Rotate_Left (A, S) + E;
 
       pragma Debug (Debug.Print_Word32 (A));
       pragma Debug (Debug.New_Line);
 
-      C := Types.ROTL32 (C, 10);
+      C := Interfaces.Rotate_Left (C, 10);
 
       pragma Debug (Print.Print_Schedule (" FF/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
@@ -176,8 +177,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S));
       A := A + g (B, C, D) + X + 16#5a82_7999#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule (" GG/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end gg;
@@ -198,8 +199,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S));
       A := A + h (B, C, D) + X + 16#6ed9_eba1#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule (" HH/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end hh;
@@ -220,8 +221,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule (" II/S", A, B, C, D, E, X, S));
       A := A + i (B, C, D) + X + 16#8f1b_bcdc#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule (" II/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end ii;
@@ -242,8 +243,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S));
       A := A + j (B, C, D) + X + 16#a953_fd4e#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule (" JJ/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end jj;
@@ -264,8 +265,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S));
       A := A + f (B, C, D) + X;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule ("FFF/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end fff;
@@ -286,8 +287,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S));
       A := A + g (B, C, D) + X + 16#7a6d_76e9#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule ("GGG/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end ggg;
@@ -308,8 +309,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S));
       A := A + h (B, C, D) + X + 16#6d70_3ef3#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule ("HHH/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end hhh;
@@ -330,8 +331,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule ("III/S", A, B, C, D, E, X, S));
       A := A + i (B, C, D) + X + 16#5c4d_d124#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule ("III/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end iii;
@@ -352,8 +353,8 @@ package body LSC.RIPEMD160 is
    begin
       pragma Debug (Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S));
       A := A + j (B, C, D) + X + 16#50a2_8be6#;
-      A := Types.ROTL32 (A, S) + E;
-      C := Types.ROTL32 (C, 10);
+      A := Interfaces.Rotate_Left (A, S) + E;
+      C := Interfaces.Rotate_Left (C, 10);
       pragma Debug (Print.Print_Schedule ("JJJ/E", A, B, C, D, E, X, S));
       pragma Debug (Debug.New_Line);
    end jjj;

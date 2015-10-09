@@ -6,13 +6,12 @@ why3_open "lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_de
 
 why3_vc WP_parameter_def
   using
-    `lsc__bignum__word_inverse__result = o1`
-    `\<lfloor>o1\<rfloor>\<^bsub>w32\<^esub> = (0 - \<lfloor>p\<rfloor>\<^bsub>w32\<^esub>) emod Base`
-    `\<lfloor>\<lceil>gcd \<lfloor>a2\<rfloor>\<^bsub>w32\<^esub> \<lfloor>b2\<rfloor>\<^bsub>w32\<^esub>\<rceil>\<^bsub>w32\<^esub>\<rfloor>\<^bsub>w32\<^esub> = 1`
-    `\<lfloor>a2\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>p2\<rfloor>\<^bsub>w32\<^esub> * \<lfloor>m\<rfloor>\<^bsub>w32\<^esub> emod Base`
-    `\<lfloor>b2\<rfloor>\<^bsub>w32\<^esub> = 0`
-    `mk_ref p = mk_ref p2`
-  by (simp add: emod_def word32_coerce zdiff_zmod_right [of _ "\<lfloor>p2\<rfloor>\<^bsub>w32\<^esub> * \<lfloor>m\<rfloor>\<^bsub>w32\<^esub>", symmetric])
+    `lsc__bignum__word_inverse__result = of_int 0 - p`
+    `of_int (gcd (uint a2) (uint (of_int 0))) = of_int 1`
+    `a2 = p2 * m`
+    `of_int 0 = b2`
+    `mk_t__ref p = mk_t__ref p2`
+  by (simp add: word_of_int)
 
 why3_end
 

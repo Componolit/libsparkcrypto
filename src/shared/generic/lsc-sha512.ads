@@ -122,19 +122,30 @@ package LSC.SHA512 is
        Ctx     : in out Context_Type)
      with
        Depends => (Ctx =>+ (Message, Length)),
-       Pre => Length <= Message'Length * Block_Size;
+       Pre =>
+         Message'First <= Message'Last and
+         Length / Block_Size +
+         (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
    -- Compute SHA-512 hash value of @Length@ bits of @Message@.
    function SHA512_Hash
       (Message : Message_Type;
        Length  : Types.Word64) return SHA512_Hash_Type
-     with Pre => Length <= Message'Length * Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / Block_Size +
+         (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
    -- Compute SHA-384 hash value of @Length@ bits of @Message@.
    function SHA384_Hash
       (Message : Message_Type;
        Length  : Types.Word64) return SHA384_Hash_Type
-     with Pre => Length <= Message'Length * Block_Size;
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / Block_Size +
+         (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
    -- Empty block
    Null_Block : constant Block_Type;

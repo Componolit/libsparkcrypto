@@ -32,6 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Debug;
 with LSC.Byteorder32;
 with LSC.SHA256.Tables;
@@ -93,9 +94,9 @@ package body LSC.SHA256 is
    function Cap_Sigma_0_256 (x : Types.Word32) return Types.Word32
    is
    begin
-      return Types.ROTR32 (x,  2) xor
-             Types.ROTR32 (x, 13) xor
-             Types.ROTR32 (x, 22);
+      return Interfaces.Rotate_Right (x,  2) xor
+             Interfaces.Rotate_Right (x, 13) xor
+             Interfaces.Rotate_Right (x, 22);
    end Cap_Sigma_0_256;
 
    pragma Inline (Cap_Sigma_0_256);
@@ -105,9 +106,9 @@ package body LSC.SHA256 is
    function Cap_Sigma_1_256 (x : Types.Word32) return Types.Word32
    is
    begin
-      return Types.ROTR32 (x,  6) xor
-             Types.ROTR32 (x, 11) xor
-             Types.ROTR32 (x, 25);
+      return Interfaces.Rotate_Right (x,  6) xor
+             Interfaces.Rotate_Right (x, 11) xor
+             Interfaces.Rotate_Right (x, 25);
    end Cap_Sigma_1_256;
 
    pragma Inline (Cap_Sigma_1_256);
@@ -117,9 +118,9 @@ package body LSC.SHA256 is
    function Sigma_0_256 (x : Types.Word32) return Types.Word32
    is
    begin
-      return Types.ROTR32 (x,  7) xor
-             Types.ROTR32 (x, 18) xor
-             Types.SHR32  (x,  3);
+      return Interfaces.Rotate_Right (x,  7) xor
+             Interfaces.Rotate_Right (x, 18) xor
+             Interfaces.Shift_Right (x,  3);
    end Sigma_0_256;
 
    pragma Inline (Sigma_0_256);
@@ -129,9 +130,9 @@ package body LSC.SHA256 is
    function Sigma_1_256 (x : Types.Word32) return Types.Word32
    is
    begin
-      return Types.ROTR32 (x, 17) xor
-             Types.ROTR32 (x, 19) xor
-             Types.SHR32  (x, 10);
+      return Interfaces.Rotate_Right (x, 17) xor
+             Interfaces.Rotate_Right (x, 19) xor
+             Interfaces.Shift_Right (x, 10);
    end Sigma_1_256;
 
    pragma Inline (Sigma_1_256);

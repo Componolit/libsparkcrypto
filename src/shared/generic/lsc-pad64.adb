@@ -32,6 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Byteorder64;
 
 package body LSC.Pad64 is
@@ -53,8 +54,8 @@ package body LSC.Pad64 is
       Offset := Natural (63 - Length mod 64);
 
       Temp := Byteorder64.Native_To_BE (Block (Index));
-      Temp := Temp and Types.SHL (not 0, Offset);
-      Temp := Temp  or Types.SHL (1, Offset);
+      Temp := Temp and Interfaces.Shift_Left (not 0, Offset);
+      Temp := Temp  or Interfaces.Shift_Left (1, Offset);
       Block (Index) := Byteorder64.BE_To_Native (Temp);
 
       if Index < Block'Last then

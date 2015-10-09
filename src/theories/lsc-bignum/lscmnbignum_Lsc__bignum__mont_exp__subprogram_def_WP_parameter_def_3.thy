@@ -6,24 +6,26 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_3.
 
 why3_vc WP_parameter_def
 proof -
-  let ?L = "\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1"
-  let ?m = "num_of_big_int' m \<lfloor>m_first\<rfloor>\<^sub>\<nat> ?L"
-  let ?x = "num_of_big_int' x \<lfloor>x_first\<rfloor>\<^sub>\<nat> ?L"
-  let ?r = "num_of_big_int' r \<lfloor>r_first\<rfloor>\<^sub>\<nat> ?L"
+  let ?L = "a_last - a_first + 1"
+  let ?m = "num_of_big_int (word32_to_int \<circ> elts m) m_first ?L"
+  let ?x = "num_of_big_int (word32_to_int \<circ> elts x) x_first ?L"
+  let ?r = "num_of_big_int (word32_to_int \<circ> elts r) r_first ?L"
   let ?R = "Base ^ nat ?L"
-  note m_inv = `(1 + \<lfloor>m_inv\<rfloor>\<^bsub>w32\<^esub> * \<lfloor>elts m \<lfloor>m_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> emod Base) emod Base = 0`
-    [unfolded emod_def, simplified]
+  note m_inv = `of_int 1 + m_inv * elts m m_first = of_int 0`
+    [simplified word_uint_eq_iff uint_word_ariths, simplified,
+     folded word32_to_int_def]
 
-  from `\<forall>k. \<lfloor>aux1_first1\<rfloor>\<^sub>\<nat> \<le> k \<and> k \<le> \<lfloor>aux1_first1\<rfloor>\<^sub>\<nat> + (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) \<longrightarrow>
-    \<lfloor>aux1 k\<rfloor>\<^bsub>w32\<^esub> = 0`
-    `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` `\<lfloor>o1\<rfloor>\<^bsub>w32\<^esub> = 1`
-  show one: ?C1 by (simp add: num_of_lint_all0 fun_upd_comp)
+  from `\<forall>k. aux1_first \<le> k \<and> k \<le> aux1_first + (a_last - a_first) \<longrightarrow>
+    result k = of_int 0`
+    `a_first < a_last` `o1 = _`
+  show one: ?C1 by (simp add: num_of_lint_all0 fun_upd_comp word32_to_int_def)
 
-  from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` `(1 < ?m) = _`
+  from `a_first < a_last` `(_ < num_of_big_int' m _ _) = _` [simplified]
   have Base_inv: "Base * minv ?m Base mod ?m = 1"
-    by (simp only: lint_inv_mod [of "\<lfloor>m_inv\<rfloor>\<^bsub>w32\<^esub>" "word32_to_int o elts m" _ 32, simplified, OF m_inv])
+    by (simp only: lint_inv_mod [of "\<lfloor>m_inv\<rfloor>\<^sub>s" "word32_to_int o elts m" _ 32, simplified, OF m_inv])
 
-  from `(?r = _) = _` [unfolded base_eq]
+  from `(num_of_big_int' r  _ _ = _) = _`
+    [unfolded base_eq, simplified math_int_conv math_int_of_int_inv]
   have "?r * minv ?m Base ^ nat ?L mod ?m =
     (?R * (Base * minv ?m Base mod ?m) ^ nat ?L) mod ?m"
     by (simp only: nat_mult_distrib power_mult power_mult_distrib
@@ -33,7 +35,7 @@ proof -
     by (simp add: Base_inv)
 
   from `(num_of_big_int' (Array aux2 _) _ _ = _) = _`
-  have "num_of_big_int (word32_to_int o aux2) \<lfloor>aux2_first1\<rfloor>\<^sub>\<nat> ?L =
+  have "num_of_big_int (word32_to_int o aux2) aux2_first ?L =
     ?x * (?r * minv ?m Base ^ nat ?L mod ?m) mod ?m"
     by (simp add: mult.assoc base_eq)
   with R show ?C2 by (simp add: base_eq)

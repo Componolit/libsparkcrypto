@@ -6,14 +6,14 @@ why3_open "lscmnec_Lsc__ec__point_add__subprogram_def_WP_parameter_def_20.xml"
 
 why3_vc WP_parameter_def
 proof -
-  let ?l = "\<lfloor>x1_last\<rfloor>\<^sub>\<nat> - \<lfloor>x1_first\<rfloor>\<^sub>\<nat> + 1"
+  let ?l = "x1_last - x1_first + 1"
   from
-    `l = o1` `\<lfloor>o1\<rfloor>\<^sub>\<nat> = \<lfloor>x1_last\<rfloor>\<^sub>\<nat> - \<lfloor>x1_first\<rfloor>\<^sub>\<nat>`
-    `\<forall>k. \<lfloor>x3_first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>x3_last\<rfloor>\<^sub>\<int> \<longrightarrow> _`
-    `\<lfloor>x3_first\<rfloor>\<^sub>\<int> \<le> \<lfloor>x3_first1\<rfloor>\<^sub>\<nat>`
-    `\<lfloor>x3_first1\<rfloor>\<^sub>\<nat> + (\<lfloor>x1_last\<rfloor>\<^sub>\<nat> - \<lfloor>x1_first\<rfloor>\<^sub>\<nat>) \<le> \<lfloor>x3_last\<rfloor>\<^sub>\<int>`
-  have "num_of_big_int (word32_to_int \<circ> x3) \<lfloor>x3_first1\<rfloor>\<^sub>\<nat> ?l =
-    num_of_big_int' x2 \<lfloor>x2_first\<rfloor>\<^sub>\<nat> ?l"
+    `l = x1_last - x1_first`
+    `\<forall>k. \<lfloor>x3__first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>x3__last\<rfloor>\<^sub>\<int> \<longrightarrow> _`
+    `\<lfloor>x3__first\<rfloor>\<^sub>\<int> \<le> x3_first`
+    `x3_first + (x1_last - x1_first) \<le> \<lfloor>x3__last\<rfloor>\<^sub>\<int>`
+  have "num_of_big_int (word32_to_int \<circ> x3) x3_first ?l =
+    num_of_big_int (word32_to_int \<circ> elts x2) x2_first ?l"
     by (simp add: num_of_lint_ext sign_simps)
   with `(num_of_big_int' x2 _ _ < num_of_big_int' m _ _) = _`
   show ?thesis by simp

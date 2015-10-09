@@ -4,7 +4,7 @@ begin
 
 subsection {* Coercing booleans to integers *}
 
-primrec num_of_bool :: "bool \<Rightarrow> int"
+primrec num_of_bool :: "bool \<Rightarrow> 'a::{zero,one}"
 where
   "num_of_bool False = 0"
 | "num_of_bool True = 1"
@@ -12,10 +12,10 @@ where
 lemma num_of_bool_split: "P (num_of_bool b) = ((b \<longrightarrow> P 1) \<and> (\<not> b \<longrightarrow> P 0))"
   by (cases b) simp_all
 
-lemma num_of_bool_ge0: "0 \<le> num_of_bool b"
+lemma num_of_bool_ge0: "(0::'a::linordered_semidom) \<le> num_of_bool b"
   by (simp split add: num_of_bool_split)
 
-lemma num_of_bool_le1: "num_of_bool b \<le> 1"
+lemma num_of_bool_le1: "num_of_bool b \<le> (1::'a::linordered_semidom)"
   by (simp split add: num_of_bool_split)
 
 
@@ -293,7 +293,7 @@ qed
 
 subsection {* Proof function setup *}
 
-abbreviation Base :: int where
+abbreviation Base where
   "Base \<equiv> 4294967296"
 
 lemmas [simp] = zle_diff1_eq [of _ Base, simplified]

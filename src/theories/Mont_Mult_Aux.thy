@@ -14,7 +14,7 @@ qed
 
 lemma div_power':
   assumes "n \<le> m" "x \<noteq> 0"
-  shows "(x::'a::{semiring_div,ring_no_zero_divisors}) ^ m div x ^ n = x ^ (m - n)"
+  shows "(x::'a::{semiring_div,ring_1_no_zero_divisors}) ^ m div x ^ n = x ^ (m - n)"
 proof -
   from `n \<le> m` have "x ^ m div x ^ n * x ^ n = x ^ m"
     by (simp add: le_imp_power_dvd dvd_div_mult_self)

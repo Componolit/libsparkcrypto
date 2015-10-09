@@ -32,6 +32,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Interfaces;
 with LSC.Debug;
 with LSC.Ops32;
 with LSC.Byteorder32;
@@ -59,7 +60,7 @@ package body LSC.AES is
    function Rot_Word (Value : Types.Word32) return Types.Word32
    is
    begin
-      return Types.ROTL32 (Value, 8);
+      return Interfaces.Rotate_Left (Value, 8);
    end Rot_Word;
 
    ----------------------------------------------------------------------------
@@ -262,11 +263,7 @@ package body LSC.AES is
                          Context.Schedule (Nb * Round + 3));
 
          pragma Assert_And_Cut
-           (A0 in Types.Word32                     and
-            A1 in Types.Word32                     and
-            A2 in Types.Word32                     and
-            A3 in Types.Word32                     and
-            Round <= Context.Nr - 1                and
+           (Round <= Context.Nr - 1                and
             Schedule_Index'First <= Nb * Round     and
             Nb * Round + 3 <= Schedule_Index'Last);
 

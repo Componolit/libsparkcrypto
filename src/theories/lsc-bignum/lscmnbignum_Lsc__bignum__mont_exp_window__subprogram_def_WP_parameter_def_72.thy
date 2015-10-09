@@ -6,20 +6,34 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
 proof -
-  from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` `0 \<le> n`
-  have "0 \<le> n * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
-    by simp
-  moreover from `n \<le> 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> - 1` `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "n * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) \<le>
-    2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1"
-    by simp
-  ultimately show ?thesis using
-    `\<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1) \<le>
-     \<lfloor>aux4_last\<rfloor>\<^sub>\<int>`
-    `\<lfloor>l\<rfloor>\<^sub>\<nat> = \<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>`
-    natural_to_int_lower [of aux4_first1]
-    integer_to_int_upper [of aux4_last]
-    by (simp add: natural_in_range_def)
+  let ?L = "a_last - a_first + 1"
+  let ?m = "num_of_big_int (word32_to_int \<circ> elts m) m_first ?L"
+
+  note m_inv = `of_int 1 + m_inv * elts m m_first = of_int 0`
+    [simplified word_uint_eq_iff uint_word_ariths, simplified,
+     folded word32_to_int_def]
+
+  from `a_first < a_last` `(_ < num_of_big_int' m _ _) = _`
+  have Base_inv: "Base * minv ?m Base mod ?m = 1"
+    by (simp add: lint_inv_mod
+      [of "\<lfloor>m_inv\<rfloor>\<^sub>s" "word32_to_int o elts m" _ 32, simplified, OF m_inv]
+      del: num_of_lint_sum)
+
+  from
+    `(num_of_big_int' (Array a _) _ _ = _) = _`
+    `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
+    `(num_of_big_int' (Array aux1 _) _ _ = _) = _`
+    `l = a_last - a_first`
+  have "num_of_big_int (word32_to_int o a) a_first ?L =
+    num_of_big_int (word32_to_int \<circ> elts x) x_first ?L ^
+      nat (num_of_big_int (word32_to_int \<circ> elts e) e_first (e_last - e_first + 1) div
+        2 ^ nat (uint i2 - s1 + 1)) *
+    (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
+    by (simp add: power_mult_distrib mult.assoc base_eq)
+  with Base_inv `(math_int_of_int s1 \<le> math_int_from_word i2 + _) = _`
+    `BV64.ult i2 (of_int s1)` `0 \<le> s1` `s1 \<le> n_last ()`
+  show ?thesis by (simp add: BV64.ult_def word_of_int uint_word_of_int
+    n_last_def mod_pos_pos_trivial)
 qed
 
 why3_end

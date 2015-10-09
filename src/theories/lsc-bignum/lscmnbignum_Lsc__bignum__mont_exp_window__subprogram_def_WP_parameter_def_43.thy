@@ -5,8 +5,9 @@ begin
 why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_43.xml"
 
 why3_vc WP_parameter_def
-  using `\<lfloor>o7\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>shl32 \<lfloor>w\<rfloor>\<^bsub>w32\<^esub> (\<lfloor>j\<rfloor>\<^sub>\<nat> - \<lfloor>s\<rfloor>\<^sub>\<nat>)\<rfloor>\<^bsub>w32\<^esub> OR 1`
-  by (simp add: mod_def emod_def AND_mod [where n=1, simplified, symmetric])
+  using `mk_int__ref s1 = mk_int__ref s2`
+    `s2 < j2` `(math_int_of_int j2 \<le> math_int_from_word i1 + _) = _`
+  by simp
 
 why3_end
 

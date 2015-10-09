@@ -6,22 +6,21 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
 proof -
-  from `1 \<le> h` `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "0 \<le> (h - 1) * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
+  from `1 \<le> h1` `a_first < a_last`
+  have "0 \<le> (h1 - 1) * (a_last - a_first + 1)"
     by simp
-  moreover from `h \<le> 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> - 1` `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "(h - 1) * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) \<le>
-    2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1"
+  moreover from `h1 \<le> 2 ^ nat k - 1` `a_first < a_last`
+  have "(h1 - 1) * (a_last - a_first + 1) \<le>
+    2 ^ nat k * (a_last - a_first + 1) - 1"
     by simp
-  with `\<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) - 1) \<le>
-    \<lfloor>aux4_last\<rfloor>\<^sub>\<int>`
-  have "\<lfloor>aux4_first1\<rfloor>\<^sub>\<nat> + (h - 1) * (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) \<le> \<lfloor>aux4_last\<rfloor>\<^sub>\<int>"
+  with `aux4_first + (2 ^ nat k * (a_last - a_first + 1) - 1) \<le>
+    \<lfloor>aux4__last\<rfloor>\<^sub>\<int>`
+  have "aux4_first + (h1 - 1) * (a_last - a_first + 1) \<le> \<lfloor>aux4__last\<rfloor>\<^sub>\<int>"
     by simp
   ultimately show ?thesis using
-    `\<lfloor>l\<rfloor>\<^sub>\<nat> = \<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>`
-    integer_to_int_upper [of aux4_last]
-    natural_to_int_lower [of aux4_first1]
-    by (simp add: integer_in_range_def)
+    integer_to_int_upper [of aux4__last]
+    `natural_in_range aux4_first`
+    by (simp add: natural_in_range_def)
 qed
 
 why3_end

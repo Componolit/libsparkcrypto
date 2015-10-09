@@ -2,7 +2,7 @@ theory lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_def_
 imports "../LibSPARKcrypto"
 begin
 
-lemma num_of_bool_mod2: "num_of_bool (x mod 2 \<noteq> 0) = x mod 2"
+lemma num_of_bool_mod2: "num_of_bool ((x::int) mod 2 \<noteq> 0) = x mod 2"
   by (simp split: num_of_bool_split)
 
 lemma div_mod_eq: "(x::int) * (y mod b) + b * x * (y div b) = x * y"
@@ -13,7 +13,7 @@ proof -
 qed
 
 lemma double_inplace_carry:
-  assumes "0 \<le> a" and "a \<le> Base - 1"
+  assumes "(0::int) \<le> a" and "a \<le> Base - 1"
   shows "num_of_bool (a AND 2147483648 \<noteq> 0) =
     (a * 2 + num_of_bool carry) div (2 * 2147483648)"
 proof -
@@ -37,22 +37,23 @@ why3_open "lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_
 
 why3_vc WP_parameter_def
 proof -
-  have "0 \<le> \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub>" "\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> \<le> Base - 1"
+  have "0 \<le> \<lfloor>result2 i1\<rfloor>\<^sub>s" "\<lfloor>result2 i1\<rfloor>\<^sub>s \<le> Base - 1"
     by (simp_all add: word32_to_int_lower word32_to_int_upper')
-  then have "num_of_bool (\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> AND 2147483648 \<noteq> 0) =
-    (\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> * 2 + num_of_bool carry) div (2 * 2147483648)"
+  then have "num_of_bool (\<lfloor>result2 i1\<rfloor>\<^sub>s AND 2147483648 \<noteq> 0) =
+    (\<lfloor>result2 i1\<rfloor>\<^sub>s * 2 + num_of_bool result3) div (2 * 2147483648)"
     by (rule double_inplace_carry)
-  moreover from `\<forall>k. i \<le> k \<and> k \<le> \<lfloor>a_last1\<rfloor>\<^sub>\<nat> \<longrightarrow> \<lfloor>a1 k\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>a k\<rfloor>\<^bsub>w32\<^esub>`
-    `i \<le> \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "\<lfloor>a i\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub>" by simp
+  moreover from `\<forall>k. i1 \<le> k \<and> k \<le> a_last \<longrightarrow> result2 k = a k`
+    `i1 \<le> a_last`
+  have "\<lfloor>a i1\<rfloor>\<^sub>s = \<lfloor>result2 i1\<rfloor>\<^sub>s" by simp
   ultimately show ?thesis
-    using `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> \<le> i`
-      `(num_of_big_int' (Array a _) _ _ * 2 = num_of_big_int' (Array a1 _) _ _ + _) = _`
-      `\<lfloor>o1\<rfloor>\<^bsub>w32\<^esub> = _`
-      `\<lfloor>shl32 \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> 1\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> * 2 ^ nat 1 emod Base`
-      `(\<lfloor>word_of_boolean carry\<rfloor>\<^bsub>w32\<^esub> = num_of_bool carry) = _`
+    using `a_first \<le> i1`
+      `(num_of_big_int' (Array a _) _ _ * _ = num_of_big_int' (Array result2 _) _ _ + _) = _`
+      `o1 = _`
+      BV32.facts.to_uint_lsl [of "result2 i1" 1]
+      `(math_int_from_word (word_of_boolean result3) = num_of_bool result3) = _`
     by (simp add: diff_add_eq [symmetric] nat_add_distrib div_mod_eq ring_distribs
-      emod_def base_eq fun_upd_comp)
+      base_eq fun_upd_comp uint_0_iff [symmetric] uint_and
+      word32_to_int_def uint_word_ariths emod_def)
 qed
 
 why3_end

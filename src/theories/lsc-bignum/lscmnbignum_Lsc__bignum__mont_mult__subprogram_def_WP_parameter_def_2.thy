@@ -19,7 +19,7 @@ lemma zdiv_zadd3': "((a::int) + x * b + y * c) div d =
     zdiv_zmult1_eq [of y c d])
 
 lemma add_carry:
-  assumes "0 \<le> a" and "0 \<le> b" and "a < c" and "b < c"
+  assumes "0 \<le> (a::int)" and "0 \<le> b" and "a < c" and "b < c"
   shows "num_of_bool ((a + b) mod c < b) = (a + b) div c"
 proof (cases "a + b < c")
   case True
@@ -105,135 +105,140 @@ why3_open "lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_2
 why3_vc WP_parameter_def
 proof -
   let "(?l mod _ = _) = _" = ?C1
-  let ?R = "Base ^ nat (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>)"
-  let ?R' = "Base ^ nat (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
-  let ?j = "i - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>"
-  let ?a = "num_of_big_int (word32_to_int \<circ> a1) \<lfloor>a_first1\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
-  let ?b = "num_of_big_int' b \<lfloor>b_first\<rfloor>\<^sub>\<nat> ?j"
-  let ?b' = "num_of_big_int' b \<lfloor>b_first\<rfloor>\<^sub>\<nat> (?j + 1)"
-  let ?c = "num_of_big_int' c \<lfloor>c_first\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
-  let ?m = "num_of_big_int' m \<lfloor>m_first\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1)"
-  let ?bi = "\<lfloor>elts b (\<lfloor>b_first\<rfloor>\<^sub>\<nat> + ?j)\<rfloor>\<^bsub>w32\<^esub>"
-  let ?u = "(\<lfloor>a1 \<lfloor>a_first1\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> + ?bi * \<lfloor>elts c \<lfloor>c_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub>) * \<lfloor>m_inv\<rfloor>\<^bsub>w32\<^esub> mod Base"
-  let ?a' = "?a + ?bi * ?c + ?u * ?m + ?R' * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub>"
+  let ?R = "Base ^ nat (a_last - a_first)"
+  let ?R' = "Base ^ nat (a_last - a_first + 1)"
+  let ?j = "i1 - a_first"
+  let ?a = "num_of_big_int (word32_to_int \<circ> result2) a_first (a_last - a_first + 1)"
+  let ?b = "num_of_big_int (word32_to_int \<circ> elts b) b_first ?j"
+  let ?b' = "num_of_big_int (word32_to_int \<circ> elts b) b_first (?j + 1)"
+  let ?c = "num_of_big_int (word32_to_int \<circ> elts c) c_first (a_last - a_first + 1)"
+  let ?m = "num_of_big_int (word32_to_int \<circ> elts m) m_first (a_last - a_first + 1)"
+  let ?bi = "\<lfloor>elts b (b_first + ?j)\<rfloor>\<^sub>s"
+  let ?u = "(\<lfloor>result2 a_first\<rfloor>\<^sub>s + ?bi * \<lfloor>elts c c_first\<rfloor>\<^sub>s) * \<lfloor>m_inv\<rfloor>\<^sub>s mod Base"
+  let ?a' = "?a + ?bi * ?c + ?u * ?m + ?R' * \<lfloor>result3\<rfloor>\<^sub>s"
   note single_add_mult_mult =
-    `(_ = \<lfloor>lsc__bignum__single_add_mult_mult__a1\<rfloor>\<^bsub>w32\<^esub> + _) = True`
-    [simplified `a1 \<lfloor>a_first1\<rfloor>\<^sub>\<nat> = lsc__bignum__single_add_mult_mult__a` [symmetric]
-     `\<lfloor>o2\<rfloor>\<^bsub>w32\<^esub> = _` `\<lfloor>o3\<rfloor>\<^bsub>w32\<^esub> = _` `\<lfloor>o4\<rfloor>\<^bsub>w32\<^esub> = _` emod_def,
-     simplified, simplified base_eq]
+    `(_ = math_int_from_word o1 + _) = True`
+    [simplified `result2 a_first = lsc__bignum__single_add_mult_mult__a` [symmetric],
+     simplified, simplified uint_word_ariths, simplified,
+     simplified base_eq int_of_math_int_Base]
   note add_mult_mult =
-    `(_ = num_of_big_int' (Array a2 _) _ _ + _) = True`
-    [simplified, simplified base_eq emod_def `\<lfloor>o4\<rfloor>\<^bsub>w32\<^esub> = _` fun_upd_comp, simplified]
+    `(_ = num_of_big_int' (Array result8 _) _ _ + _) = True`
+    [simplified, simplified base_eq fun_upd_comp uint_word_ariths, simplified]
   note word_of_boolean = `(_ = num_of_bool _) = _`
-    [simplified, simplified `\<lfloor>o5\<rfloor>\<^bsub>w32\<^esub> = _`]
+    [simplified `o2 = _` BV32.ult_def, simplified,
+     simplified uint_word_ariths, simplified]
   note invariant =
-    `((num_of_big_int' (Array a1 _) _ _ + _) mod _ = _) = True`
+    `((num_of_big_int' (Array result2 _) _ _ + _) mod _ = _) = True`
     [simplified base_eq, simplified]
-  note m_inv = `(1 + \<lfloor>m_inv\<rfloor>\<^bsub>w32\<^esub> * \<lfloor>elts m \<lfloor>m_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> emod Base) emod Base = 0`
-    [unfolded emod_def, simplified]
+  note m_inv = `of_int 1 + m_inv * elts m m_first = of_int 0`
+    [simplified word_uint_eq_iff uint_word_ariths, simplified,
+     folded word32_to_int_def]
 
-  have "\<lfloor>carry2\<rfloor>\<^bsub>w32\<^esub> \<le> 1"
+  have "uint carry21 \<le> 1"
     by (rule hcarry_le1 [where n=1 and lcarry=0 and hcarry=0, simplified, OF single_add_mult_mult])
-      (simp_all add: word32_to_int_lower word32_to_int_upper')
+      (simp_all add: uint_lt [where 'a=32, simplified])
 
-  then have "\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> \<le> 1"
+  then have "uint carry22 \<le> 1"
     by (rule_tac hcarry_le1 [OF add_mult_mult])
-      (simp_all add: word32_to_int_lower word32_to_int_upper'
+      (simp_all add: uint_lt [where 'a=32, simplified] word32_to_int_lower word32_to_int_upper'
          num_of_lint_lower num_of_lint_upper)
 
   have "?a' mod Base =
     ((?a mod Base + ?bi * (?c mod Base) + ?u * (?m mod Base)) mod Base +
-     ?R' * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> mod Base) mod Base"
+     ?R' * \<lfloor>result3\<rfloor>\<^sub>s mod Base) mod Base"
     by simp
-  also from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
+  also from `a_first < a_last`
   have "(?a mod Base + ?bi * (?c mod Base) + ?u * (?m mod Base)) mod Base =
-    ((\<lfloor>a1 \<lfloor>a_first1\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> + ?bi * \<lfloor>elts c \<lfloor>c_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub>) * ((1 + \<lfloor>m_inv\<rfloor>\<^bsub>w32\<^esub> * \<lfloor>elts m \<lfloor>m_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub>) mod Base)) mod Base"
+    ((\<lfloor>result2 a_first\<rfloor>\<^sub>s + ?bi * \<lfloor>elts c c_first\<rfloor>\<^sub>s) * ((1 + \<lfloor>m_inv\<rfloor>\<^sub>s * \<lfloor>elts m m_first\<rfloor>\<^sub>s) mod Base)) mod Base"
     by (simp add: num_of_lint_mod word32_to_int_lower word32_to_int_upper'
       ring_distribs add_ac mult_ac del: num_of_lint_sum)
   also note m_inv
   finally have "?a' mod Base = 0"
-    using `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
+    using `a_first < a_last`
     by (simp add: nat_add_distrib o_def)
-  moreover from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` `(1 < ?m) = _`
+  moreover from `a_first < a_last` `(math_int_from_word (of_int 1) < num_of_big_int' m _ _) = _`
   have Base_inv: "Base * minv ?m Base mod ?m = 1"
-    by (simp only: lint_inv_mod [of "\<lfloor>m_inv\<rfloor>\<^bsub>w32\<^esub>" "word32_to_int o elts m" _ 32, simplified, OF m_inv])
+    by (simp add: lint_inv_mod [of "\<lfloor>m_inv\<rfloor>\<^sub>s" "word32_to_int o elts m" _ 32, simplified, OF m_inv]
+      del: num_of_lint_sum)
   ultimately have a_div: "?a' div Base mod ?m = ?a' * minv ?m Base mod ?m"
     by (simp add: inv_div)
 
-  from `\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> \<le> 1` `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` word_of_boolean
-    `\<lfloor>o5\<rfloor>\<^bsub>w32\<^esub> = _` `\<lfloor>o6\<rfloor>\<^bsub>w32\<^esub> = _`
-  have "?l = num_of_big_int (word32_to_int \<circ> a2) \<lfloor>a_first1\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) +
-    ?R * ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) mod Base) +
-    Base * ?R * ((\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> + num_of_bool
-      ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) mod Base < \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>)) mod Base)"
-    by (simp add: nat_add_distrib emod_def base_eq fun_upd_comp)
-  also from `\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> \<le> 1` num_of_bool_le1
-  have "\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> +
-    num_of_bool ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) mod Base < \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) \<le> 1 + 1"
+  from `uint carry22 \<le> 1` `a_first < a_last` word_of_boolean
+    `o2 = _`
+  have "int_of_math_int ?l = num_of_big_int (word32_to_int \<circ> result8) a_first (a_last - a_first) +
+    ?R * ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) mod Base) +
+    Base * ?R * ((\<lfloor>carry22\<rfloor>\<^sub>s + num_of_bool
+      ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) mod Base < \<lfloor>carry12\<rfloor>\<^sub>s)) mod Base)"
+    by (simp add: nat_add_distrib base_eq fun_upd_comp uint_word_ariths
+      word32_to_int_def BV32.ult_def)
+  also from `uint carry22 \<le> 1` [folded word32_to_int_def] num_of_bool_le1
+  have "\<lfloor>carry22\<rfloor>\<^sub>s +
+    num_of_bool ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) mod Base < \<lfloor>carry12\<rfloor>\<^sub>s) \<le> 1 + 1"
     by (rule add_mono)
-  with word32_to_int_lower [of carry11] word32_to_int_lower [of carry21]
-    word32_to_int_lower [of a_msw]
-    word32_to_int_upper [of a_msw] word32_to_int_upper [of carry11]
-  have "(\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> +
-      num_of_bool ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) mod Base < \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>)) mod Base =
-    \<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> + (\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) div Base"
+  with word32_to_int_lower [of carry12] word32_to_int_lower [of carry22]
+    word32_to_int_lower [of result3]
+    word32_to_int_upper [of result3] word32_to_int_upper [of carry12]
+  have "(\<lfloor>carry22\<rfloor>\<^sub>s +
+      num_of_bool ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) mod Base < \<lfloor>carry12\<rfloor>\<^sub>s)) mod Base =
+    \<lfloor>carry22\<rfloor>\<^sub>s + (\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) div Base"
     by (simp add: num_of_bool_ge0 mod_pos_pos_trivial add_carry)
-  also have "num_of_big_int (word32_to_int \<circ> a2) \<lfloor>a_first1\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) +
-    ?R * ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) mod Base) +
-    Base * ?R * (\<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> + (\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) div Base) =
-    num_of_big_int (word32_to_int \<circ> a2) \<lfloor>a_first1\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) +
-    ?R * ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) mod Base +
-      Base * \<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub> + Base * ((\<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub>) div Base))"
+  also have "num_of_big_int (word32_to_int \<circ> result8) a_first (a_last - a_first) +
+    ?R * ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) mod Base) +
+    Base * ?R * (\<lfloor>carry22\<rfloor>\<^sub>s + (\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) div Base) =
+    num_of_big_int (word32_to_int \<circ> result8) a_first (a_last - a_first) +
+    ?R * ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) mod Base +
+      Base * \<lfloor>carry22\<rfloor>\<^sub>s + Base * ((\<lfloor>result3\<rfloor>\<^sub>s + \<lfloor>carry12\<rfloor>\<^sub>s) div Base))"
     by (simp only: ring_distribs add_ac mult_ac)
-  also have "\<dots> = num_of_big_int (word32_to_int \<circ> a2) \<lfloor>a_first1\<rfloor>\<^sub>\<nat> (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) +
-    ?R * (\<lfloor>carry11\<rfloor>\<^bsub>w32\<^esub> + Base * \<lfloor>carry21\<rfloor>\<^bsub>w32\<^esub>) + ?R * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub>"
+  also have "\<dots> = num_of_big_int (word32_to_int \<circ> result8) a_first (a_last - a_first) +
+    ?R * (\<lfloor>carry12\<rfloor>\<^sub>s + Base * \<lfloor>carry22\<rfloor>\<^sub>s) + ?R * \<lfloor>result3\<rfloor>\<^sub>s"
     by (simp add: ring_distribs add_ac)
-  also note add_mult_mult [symmetric]
-  also from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "num_of_big_int (word32_to_int \<circ> a1) (\<lfloor>a_first1\<rfloor>\<^sub>\<nat> + 1) (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) +
-    num_of_big_int' c (\<lfloor>c_first\<rfloor>\<^sub>\<nat> + 1) (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) * ?bi +
-    num_of_big_int' m (\<lfloor>m_first\<rfloor>\<^sub>\<nat> + 1) (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) * ?u +
-    \<lfloor>carry1\<rfloor>\<^bsub>w32\<^esub> + Base * \<lfloor>carry2\<rfloor>\<^bsub>w32\<^esub> + ?R * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> =
+  also note add_mult_mult [symmetric, folded word32_to_int_def]
+  also from `a_first < a_last`
+  have "num_of_big_int (word32_to_int \<circ> result2) (a_first + 1) (a_last - a_first) +
+    num_of_big_int (word32_to_int \<circ> elts c) (c_first + 1) (a_last - a_first) * ?bi +
+    num_of_big_int (word32_to_int \<circ> elts m) (m_first + 1) (a_last - a_first) * ?u +
+    \<lfloor>carry11\<rfloor>\<^sub>s + Base * \<lfloor>carry21\<rfloor>\<^sub>s + ?R * \<lfloor>result3\<rfloor>\<^sub>s =
     ?a div Base + ?bi * (?c div Base) + ?u * (?m div Base) +
-      (\<lfloor>carry1\<rfloor>\<^bsub>w32\<^esub> + Base * \<lfloor>carry2\<rfloor>\<^bsub>w32\<^esub>) + ?R * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub>"
+      (\<lfloor>carry11\<rfloor>\<^sub>s + Base * \<lfloor>carry21\<rfloor>\<^sub>s) + ?R * \<lfloor>result3\<rfloor>\<^sub>s"
     by (simp add: num_of_lint_div word32_to_int_lower word32_to_int_upper'
       fun_upd_comp del: num_of_lint_sum)
   also from single_add_mult_mult [THEN div_cong, of Base]
-    word32_to_int_lower [of lsc__bignum__single_add_mult_mult__a1]
-    word32_to_int_upper' [of lsc__bignum__single_add_mult_mult__a1]
-  have "\<lfloor>carry1\<rfloor>\<^bsub>w32\<^esub> + Base * \<lfloor>carry2\<rfloor>\<^bsub>w32\<^esub> =
-    (\<lfloor>a1 \<lfloor>a_first1\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> + ?bi * \<lfloor>elts c \<lfloor>c_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>elts m \<lfloor>m_first\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> * ?u) div Base"
-    by (simp only: div_mult_self2 div_pos_pos_trivial)
-  also from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
+    word32_to_int_lower [of o1]
+    word32_to_int_upper' [of o1]
+  have "\<lfloor>carry11\<rfloor>\<^sub>s + Base * \<lfloor>carry21\<rfloor>\<^sub>s =
+    (\<lfloor>result2 a_first\<rfloor>\<^sub>s + ?bi * \<lfloor>elts c c_first\<rfloor>\<^sub>s + \<lfloor>elts m m_first\<rfloor>\<^sub>s * ?u) div Base"
+    by (simp only: div_mult_self2 div_pos_pos_trivial word32_to_int_def)
+  also from `a_first < a_last`
   have "\<dots> = (?a mod Base + ?bi * (?c mod Base) + ?u * (?m mod Base)) div Base"
     by (simp add: num_of_lint_mod mult.commute word32_to_int_lower word32_to_int_upper'
       del: num_of_lint_sum)
   also note zdiv_zadd3' [symmetric]
-  also from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
-  have "(?a + ?bi * ?c + ?u * ?m) div Base + ?R * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub> = ?a' div Base"
+  also from `a_first < a_last`
+  have "(?a + ?bi * ?c + ?u * ?m) div Base + ?R * \<lfloor>result3\<rfloor>\<^sub>s = ?a' div Base"
     by (simp add: nat_add_distrib mult.assoc)
-  finally have "?l = ?a' div Base" .
-  then have "?l mod ?m = ?a' div Base mod ?m" by (rule mod_cong)
+  finally have "int_of_math_int ?l = ?a' div Base" .
+  then have "int_of_math_int ?l mod ?m = ?a' div Base mod ?m" by (rule mod_cong)
   also note a_div
   also have "(?a' * minv ?m Base) mod ?m =
-    (((?a + ?R' * \<lfloor>a_msw\<rfloor>\<^bsub>w32\<^esub>) mod ?m +
+    (((?a + ?R' * \<lfloor>result3\<rfloor>\<^sub>s) mod ?m +
       ?bi * ?c) * minv ?m Base) mod ?m"
     by (simp add: add_ac)
-  also note invariant
-  also from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> \<le> i`
+  also note invariant [folded word32_to_int_def]
+  also from `a_first \<le> i1`
   have "(?b * ?c * minv ?m Base ^ nat ?j mod ?m +
      ?bi * ?c) * minv ?m Base mod ?m =
     (?b * ?c + Base ^ nat ?j * ?bi * ?c) *
     minv ?m Base ^ nat (?j + 1) mod ?m"
     by (simp add: nat_add_distrib inv_sum_eq [OF Base_inv]) (simp add: mult_ac)
-  also from `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> \<le> i`
+  also from `a_first \<le> i1`
   have "?b * ?c + Base ^ nat ?j * ?bi * ?c =
     ?b' * ?c"
     by (simp add: nat_add_distrib ring_distribs)
-  finally show ?C1 by (simp only: diff_add_eq [symmetric] base_eq eq_True)
+  finally show ?C1 by (simp only: diff_add_eq [symmetric] base_eq eq_True
+    math_int_conv math_int_of_int_inv)
 
   have "0 \<le> ?c" by (simp_all add: num_of_lint_lower word32_to_int_lower)
-  with `(?c < ?m) = _`
+  with `(num_of_big_int' c _ _ < num_of_big_int' m _ _) = _`
   have "?bi * ?c \<le> (Base - 1) * (?m - 1)"
     by - (rule mult_mono, simp_all add: word32_to_int_upper')
   moreover  have "0 \<le> ?m"
@@ -241,13 +246,13 @@ proof -
   then have "?u * ?m \<le> (Base - 1) * ?m"
     by (simp_all add: mult_right_mono)
   ultimately have "?a' \<le> 2 * Base * ?m - Base - 1"
-    using `(num_of_big_int' (Array a1 _) _ _ + _ < _) = _`
-    by (simp add: base_eq)
+    using `(num_of_big_int' (Array result2 _) _ _ + _ < _) = _`
+    by (simp add: base_eq word32_to_int_def)
   then have "?a' div Base \<le> (2 * Base * ?m - Base - 1) div Base"
     by simp
   also have "\<dots> < 2 * ?m - 1" by simp
-  also note `?l = ?a' div Base` [symmetric]
-  finally show ?C2 by (simp only: eq_True)
+  also note `int_of_math_int ?l = ?a' div Base` [symmetric]
+  finally show ?C2 by (simp add: o_def)
 qed
 
 why3_end

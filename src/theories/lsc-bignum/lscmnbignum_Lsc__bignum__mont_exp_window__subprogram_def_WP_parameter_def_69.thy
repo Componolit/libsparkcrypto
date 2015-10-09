@@ -6,10 +6,12 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
   using
-    `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
-    `(1 < num_of_big_int' m _ _) = _`
-    `\<lfloor>l\<rfloor>\<^sub>\<nat> = \<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>`
-  by simp
+    `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
+    `\<not> BV64.ult result3 (of_int s2)`
+    uint_lt [of result3]
+    `0 \<le> s2` `s2 \<le> n_last ()`
+  by (simp add: uint_word_ariths BV64.ult_def mod_pos_pos_trivial
+    word_of_int uint_word_of_int n_last_def)
 
 why3_end
 

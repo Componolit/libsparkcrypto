@@ -5,10 +5,36 @@ begin
 why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_54.xml"
 
 why3_vc WP_parameter_def
-  using `\<lfloor>shr32 \<lfloor>w1\<rfloor>\<^bsub>w32\<^esub> 1\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>w1\<rfloor>\<^bsub>w32\<^esub> ediv 2 ^ nat 1`
-    zdiv_mono1 [OF word32_to_int_upper, of 2, simplified]
-  by (simp add: natural_in_range_def ediv_def
-    word32_to_int_lower pos_imp_zdiv_nonneg_iff)
+proof -
+  let ?L = "a_last - a_first + 1"
+  let ?e = "num_of_big_int (word32_to_int \<circ> elts e) e_first (e_last - e_first + 1)"
+
+  have "?e div 2 ^ nat (uint i1 - s1) mod 2 ^ nat (s1 + 1) < 2 ^ nat (s1 + 1)"
+    by simp
+  also from `s1 + 1 \<le> k + 1`
+  have "(2::int) ^ nat (s1 + 1) \<le> 2 ^ nat (k + 1)"
+    by simp
+  with `natural_in_range k`
+  have "(2::int) ^ nat (s1 + 1) \<le> 2 * 2 ^ nat k"
+    by (simp add: nat_add_distrib natural_in_range_def)
+  finally have "?e div 2 ^ nat (uint i1 - s1) mod
+    2 ^ nat (s1 + 1) div 2 < 2 ^ nat k"
+    by simp
+  with `a_first < a_last`
+  have "?e div 2 ^ nat (uint i1 - s1) mod 2 ^ nat (s1 + 1) div 2 * ?L <
+    2 ^ nat k * ?L"
+    by simp
+  moreover from `a_first < a_last`
+  have "0 \<le> ?e div 2 ^ nat (uint i1 - s1) mod
+    2 ^ nat (s1 + 1) div 2 * ?L"
+    by (simp add: pos_imp_zdiv_nonneg_iff)
+  ultimately show ?thesis using
+    `aux4_first + (2 ^ nat k * ?L - 1) \<le> \<lfloor>aux4__last\<rfloor>\<^sub>\<int>`
+    `natural_in_range aux4_first`
+    `(math_int_from_word w1 = _) = _`
+    by (simp add: natural_in_range_def ediv_def
+      BV32.facts.to_uint_lsr [of _ 1, simplified] mk_bounds_snd)
+qed
 
 why3_end
 

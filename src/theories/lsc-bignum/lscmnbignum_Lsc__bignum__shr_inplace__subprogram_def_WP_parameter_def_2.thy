@@ -19,50 +19,53 @@ why3_open "lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def
 
 why3_vc WP_parameter_def
 proof -
-  have eq: "\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - (i - 1) = 1 + (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - i)"
+  have eq: "a_last - (i1 - 1) = 1 + (a_last - i1)"
     by simp
   have
-    "(\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> + \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> * 2 ^ nat (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>)) mod Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> +
-     \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> =
-     (\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> +
-      \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> * 2 ^ nat (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>) * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> mod (Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>)) mod
-       (Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>) +
-     \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>"
+    "(\<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k + \<lfloor>result3\<rfloor>\<^sub>s * 2 ^ nat (32 - k)) mod Base * 2 ^ nat k +
+     \<lfloor>a i1\<rfloor>\<^sub>s mod 2 ^ nat k =
+     (\<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k * 2 ^ nat k +
+      \<lfloor>result3\<rfloor>\<^sub>s * 2 ^ nat (32 - k) * 2 ^ nat k mod (Base * 2 ^ nat k)) mod
+       (Base * 2 ^ nat k) +
+     \<lfloor>a i1\<rfloor>\<^sub>s mod 2 ^ nat k"
     by (simp add: mod_mult_mult2 ring_distribs [symmetric])
-  also from `\<lfloor>k\<rfloor>\<^sub>\<nat> \<le> 32`
-  have "\<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> * 2 ^ nat (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>) * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> = Base * \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub>"
-    by (simp add: nat_diff_distrib power_add [symmetric] natural_to_int_lower)
-  also have "Base * \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> mod (Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>) = Base * (\<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>)"
+  also from `k \<le> 32` `natural_in_range k`
+  have "\<lfloor>result3\<rfloor>\<^sub>s * 2 ^ nat (32 - k) * 2 ^ nat k = Base * \<lfloor>result3\<rfloor>\<^sub>s"
+    by (simp add: nat_diff_distrib power_add [symmetric] natural_in_range_def)
+  also have "Base * \<lfloor>result3\<rfloor>\<^sub>s mod (Base * 2 ^ nat k) = Base * (\<lfloor>result3\<rfloor>\<^sub>s mod 2 ^ nat k)"
     by simp
-  also have "\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> < Base"
+  also have "\<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k * 2 ^ nat k < Base"
     by (auto simp add: zdiv_zmod_equality' word32_to_int_lower word32_to_int_upper'
-      intro: add_less_le_mono [of _ _ "- (\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>)" 0,
+      intro: add_less_le_mono [of _ _ "- (\<lfloor>a i1\<rfloor>\<^sub>s mod 2 ^ nat k)" 0,
       simplified])
-  then have "\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> +
-      Base * (\<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>) < Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>"
+  then have "\<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k * 2 ^ nat k +
+      Base * (\<lfloor>result3\<rfloor>\<^sub>s mod 2 ^ nat k) < Base * 2 ^ nat k"
     by (rule two_words_upper) simp_all
-  then have "(\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> +
-      Base * (\<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>)) mod (Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>) =
-    \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> + Base * (\<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>)"
+  then have "(\<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k * 2 ^ nat k +
+      Base * (\<lfloor>result3\<rfloor>\<^sub>s mod 2 ^ nat k)) mod (Base * 2 ^ nat k) =
+    \<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k * 2 ^ nat k + Base * (\<lfloor>result3\<rfloor>\<^sub>s mod 2 ^ nat k)"
     by (simp add: mod_pos_pos_trivial
-      mult_nonneg_nonneg pos_imp_zdiv_nonneg_iff word32_to_int_lower)
+      pos_imp_zdiv_nonneg_iff word32_to_int_lower)
   finally
-  have "(\<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> div 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> + \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> * 2 ^ nat (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>)) mod Base * 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> +
-    \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat> =
-    \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> + Base * (\<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> mod 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>)"
+  have "(\<lfloor>a i1\<rfloor>\<^sub>s div 2 ^ nat k + \<lfloor>result3\<rfloor>\<^sub>s * 2 ^ nat (32 - k)) mod Base * 2 ^ nat k +
+    \<lfloor>a i1\<rfloor>\<^sub>s mod 2 ^ nat k =
+    \<lfloor>a i1\<rfloor>\<^sub>s + Base * (\<lfloor>result3\<rfloor>\<^sub>s mod 2 ^ nat k)"
     by (simp add: mod_div_equality)
   moreover from
-    `\<forall>j. \<lfloor>a_first1\<rfloor>\<^sub>\<nat> \<le> j \<and> j \<le> i \<longrightarrow> \<lfloor>a1 j\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>a j\<rfloor>\<^bsub>w32\<^esub>`
-    `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> \<le> i`
-  have "\<lfloor>a i\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub>" by simp
+    `\<forall>j. a_first \<le> j \<and> j \<le> i1 \<longrightarrow> result2 j = a j`
+    `a_first \<le> i1`
+  have "\<lfloor>a i1\<rfloor>\<^sub>s = \<lfloor>result2 i1\<rfloor>\<^sub>s" by simp
   ultimately show ?thesis
   using
-    `i \<le> \<lfloor>a_last1\<rfloor>\<^sub>\<nat>`
+    `i1 \<le> a_last`
     `(num_of_big_int' (Array a _) _ _ = _) = _`
-    `\<lfloor>shr32 \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> \<lfloor>k\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> ediv 2 ^ nat \<lfloor>k\<rfloor>\<^sub>\<nat>`
-    `\<lfloor>shl32 \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>)\<rfloor>\<^bsub>w32\<^esub> = \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> * 2 ^ nat (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>) emod Base`
-    `\<lfloor>o2\<rfloor>\<^bsub>w32\<^esub> = (\<lfloor>shr32 \<lfloor>a1 i\<rfloor>\<^bsub>w32\<^esub> \<lfloor>k\<rfloor>\<^sub>\<nat>\<rfloor>\<^bsub>w32\<^esub> + \<lfloor>shl32 \<lfloor>h1\<rfloor>\<^bsub>w32\<^esub> (32 - \<lfloor>k\<rfloor>\<^sub>\<nat>)\<rfloor>\<^bsub>w32\<^esub>) emod Base`
-    by (simp add: eq ring_distribs ediv_def emod_def fun_upd_comp)
+    BV32.facts.to_uint_lsr [of "result2 i1" "of_int k"]
+    BV32.facts.to_uint_lsl [of result3 "of_int (32 - k)"]
+    `o1 = _` `natural_in_range k` `natural_in_range (32 - k)`
+    by (simp add: eq ring_distribs ediv_def emod_def fun_upd_comp
+      word32_to_int_def uint_word_ariths uint_div uint_pow
+      BV32.facts.to_uint_of_int BV32.uint_in_range_def natural_in_range_def
+      mod_pos_pos_trivial)
 qed
 
 why3_end

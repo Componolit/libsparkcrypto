@@ -6,11 +6,11 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_1.
 
 why3_vc WP_parameter_def
   using
-    `\<lfloor>a_first1\<rfloor>\<^sub>\<nat> < \<lfloor>a_last1\<rfloor>\<^sub>\<nat>` `\<lfloor>o1\<rfloor>\<^bsub>w32\<^esub> = 1`
-    `\<forall>k. \<lfloor>aux1_first1\<rfloor>\<^sub>\<nat> \<le> k \<and> k \<le> \<lfloor>aux1_first1\<rfloor>\<^sub>\<nat> + (\<lfloor>a_last1\<rfloor>\<^sub>\<nat> - \<lfloor>a_first1\<rfloor>\<^sub>\<nat>) \<longrightarrow>
-       \<lfloor>aux1 k\<rfloor>\<^bsub>w32\<^esub> = 0`
-    `(1 < num_of_big_int' m _ _) = _`
-  by (simp add: num_of_lint_all0 fun_upd_comp)
+    `a_first < a_last` `o1 = _`
+    `\<forall>k. aux1_first \<le> k \<and> k \<le> aux1_first + (a_last - a_first) \<longrightarrow>
+       result  k = of_int 0`
+    `(_ < num_of_big_int' m _ _) = _`
+  by (simp add: num_of_lint_all0 fun_upd_comp word32_to_int_def)
 
 why3_end
 
