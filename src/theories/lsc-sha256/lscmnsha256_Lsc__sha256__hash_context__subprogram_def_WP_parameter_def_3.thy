@@ -6,13 +6,13 @@ why3_open "lscmnsha256_Lsc__sha256__hash_context__subprogram_def_WP_parameter_de
 
 why3_vc WP_parameter_def
 proof -
-  from `dynamic_invariant3 message True False`
+  from `dynamic_invariant3 message True False True`
     `BV64.ule (unsigned_64_to_rep (first (rt message)))
        (unsigned_64_to_rep (last (rt message)))`
   have first: "uint (first (rt message)) \<le> 36028797018963967"
     and last: "uint (last (rt message)) \<le> 36028797018963967"
     by (simp_all add: dynamic_invariant3_def dynamic_property_def
-      BV64.ule_def in_range2_def first1_def last1_def
+      BV64.ule_def in_range5_def first1_def last1_def
       unsigned_64_to_rep_def)
   from `ucast (length1 mod of_int 512) \<noteq> of_int 0`
   have "length1 mod 512 \<noteq> 0" by auto

@@ -166,7 +166,7 @@ why3_defs
 why3_thms
   Lsc__bignum__big_int.mk_def = mk_bounds_eqs
 
-(**** Temp___lsc__ec_118 ****)
+(**** Temp___lsc__ec_142 ****)
 
 definition singleton0 :: "'a \<Rightarrow> 'a \<Rightarrow> int \<Rightarrow> 'a"
 where
@@ -178,10 +178,10 @@ lemma singleton0_eqs:
   by (simp_all add: singleton0_def)
 
 why3_consts
-  Temp___lsc__ec_118.temp___lsc__ec_118 = singleton0
+  Temp___lsc__ec_142.temp___lsc__ec_142 = singleton0
 
 why3_thms
-  Temp___lsc__ec_118.def_axiom = singleton0_eqs
+  Temp___lsc__ec_142.def_axiom = singleton0_eqs
 
 (**** Lsc__ec__one__axiom ****)
 
@@ -193,13 +193,13 @@ why3_consts
 why3_thms
   Lsc__ec__one__axiom.def_axiom = one_def
 
-(**** Temp___lsc__ec_signature_118 ****)
+(**** Temp___lsc__ec_signature_142 ****)
 
 why3_consts
-  Temp___lsc__ec_signature_118.temp___lsc__ec_signature_118 = singleton0
+  Temp___lsc__ec_signature_142.temp___lsc__ec_signature_142 = singleton0
 
 why3_thms
-  Temp___lsc__ec_signature_118.def_axiom = singleton0_eqs and
+  Temp___lsc__ec_signature_142.def_axiom = singleton0_eqs and
   Lsc__ec__one__axiom.one__def_axiom = one_def
 
 (**** Lsc__ec_signature__signature_type ****)
