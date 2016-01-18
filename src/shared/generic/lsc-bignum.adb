@@ -38,9 +38,6 @@ with LSC.Byteorder32;
 package body LSC.Bignum
 is
 
-   -- FIXME workaround for [OA05-076]
-   function N_Last return Natural is (Natural'Last);
-
    function GCD (A, B : Types.Word32) return Types.Word32
      with Ghost, Import, Global => null;
 
@@ -1313,9 +1310,7 @@ is
                 Num_Of_Big_Int (M, M_First, L + 1))) and
             Math_Int.From_Integer (S) <=
             Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
-            I < (Types.Word64 (E_Last - E_First) + 1) * 32 and
-            -- FIXME workaround for [OA05-076]
-            S in 0 .. N_Last);
+            I < (Types.Word64 (E_Last - E_First) + 1) * 32);
 
          exit when I < Types.Word64 (S);
 

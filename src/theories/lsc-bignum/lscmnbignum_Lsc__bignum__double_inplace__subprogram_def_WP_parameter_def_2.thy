@@ -37,20 +37,20 @@ why3_open "lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_
 
 why3_vc WP_parameter_def
 proof -
-  have "0 \<le> \<lfloor>result2 i1\<rfloor>\<^sub>s" "\<lfloor>result2 i1\<rfloor>\<^sub>s \<le> Base - 1"
+  have "0 \<le> \<lfloor>a1 o1\<rfloor>\<^sub>s" "\<lfloor>a1 o1\<rfloor>\<^sub>s \<le> Base - 1"
     by (simp_all add: word32_to_int_lower word32_to_int_upper')
-  then have "num_of_bool (\<lfloor>result2 i1\<rfloor>\<^sub>s AND 2147483648 \<noteq> 0) =
-    (\<lfloor>result2 i1\<rfloor>\<^sub>s * 2 + num_of_bool result3) div (2 * 2147483648)"
+  then have "num_of_bool (\<lfloor>a1 o1\<rfloor>\<^sub>s AND 2147483648 \<noteq> 0) =
+    (\<lfloor>a1 o1\<rfloor>\<^sub>s * 2 + num_of_bool carry1) div (2 * 2147483648)"
     by (rule double_inplace_carry)
-  moreover from `\<forall>k. i1 \<le> k \<and> k \<le> a_last \<longrightarrow> result2 k = a k`
-    `i1 \<le> a_last`
-  have "\<lfloor>a i1\<rfloor>\<^sub>s = \<lfloor>result2 i1\<rfloor>\<^sub>s" by simp
+  moreover from `\<forall>k. o1 \<le> k \<and> k \<le> a_last \<longrightarrow> a1 k = a k`
+    `o1 \<le> a_last`
+  have "\<lfloor>a o1\<rfloor>\<^sub>s = \<lfloor>a1 o1\<rfloor>\<^sub>s" by simp
   ultimately show ?thesis
-    using `a_first \<le> i1`
-      `(num_of_big_int' (Array a _) _ _ * _ = num_of_big_int' (Array result2 _) _ _ + _) = _`
-      `o1 = _`
-      BV32.facts.to_uint_lsl [of "result2 i1" 1]
-      `(math_int_from_word (word_of_boolean result3) = num_of_bool result3) = _`
+    using `a_first \<le> o1`
+      `(num_of_big_int' (Array a _) _ _ * _ = num_of_big_int' (Array a1 _) _ _ + _) = _`
+      `o2 = _`
+      BV32.facts.to_uint_lsl [of "a1 o1" 1]
+      `(math_int_from_word (word_of_boolean carry1) = num_of_bool carry1) = _`
     by (simp add: diff_add_eq [symmetric] nat_add_distrib div_mod_eq ring_distribs
       base_eq fun_upd_comp uint_0_iff [symmetric] uint_and
       word32_to_int_def uint_word_ariths emod_def)

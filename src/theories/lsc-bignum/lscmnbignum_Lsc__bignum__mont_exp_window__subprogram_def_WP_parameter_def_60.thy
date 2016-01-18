@@ -9,24 +9,24 @@ proof -
   let ?L = "a_last - a_first + 1"
   let ?e = "num_of_big_int (word32_to_int \<circ> elts e) e_first (e_last - e_first + 1)"
 
-  have "?e div 2 ^ nat (uint i1 - s1) mod 2 ^ nat (s1 + 1) < 2 ^ nat (s1 + 1)"
+  have "?e div 2 ^ nat (uint i1 - s2) mod 2 ^ nat (s2 + 1) < 2 ^ nat (s2 + 1)"
     by simp
-  also from `s1 + 1 \<le> k + 1`
-  have "(2::int) ^ nat (s1 + 1) \<le> 2 ^ nat (k + 1)"
+  also from `s2 + 1 \<le> k + 1`
+  have "(2::int) ^ nat (s2 + 1) \<le> 2 ^ nat (k + 1)"
     by simp
   with `natural_in_range k`
-  have "(2::int) ^ nat (s1 + 1) \<le> 2 * 2 ^ nat k"
+  have "(2::int) ^ nat (s2 + 1) \<le> 2 * 2 ^ nat k"
     by (simp add: nat_add_distrib natural_in_range_def)
-  finally have "?e div 2 ^ nat (uint i1 - s1) mod
-    2 ^ nat (s1 + 1) div 2 < 2 ^ nat k"
+  finally have "?e div 2 ^ nat (uint i1 - s2) mod
+    2 ^ nat (s2 + 1) div 2 < 2 ^ nat k"
     by simp
   moreover from `a_first < a_last`
-  have "0 \<le> ?e div 2 ^ nat (uint i1 - s1) mod
-    2 ^ nat (s1 + 1) div 2"
+  have "0 \<le> ?e div 2 ^ nat (uint i1 - s2) mod
+    2 ^ nat (s2 + 1) div 2"
     by (simp add: pos_imp_zdiv_nonneg_iff)
   ultimately show ?thesis using
     `\<forall>n. 0 \<le> n \<and> n \<le> 2 ^ nat k - 1 \<longrightarrow> _`
-    `(math_int_from_word w1 = _) = _`
+    `(math_int_from_word w = _) = _`
     `(_ < num_of_big_int' m _ _) = _`
     by (simp add: ediv_def BV32.facts.to_uint_lsr [of _ 1, simplified])
 qed

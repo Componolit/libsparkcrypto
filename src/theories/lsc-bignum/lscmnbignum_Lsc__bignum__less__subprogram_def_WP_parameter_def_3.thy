@@ -21,16 +21,15 @@ proof -
     by (simp add: num_of_lint_lower word32_to_int_lower)
   moreover from
     `(num_of_big_int' a _ _ = num_of_big_int' b _ _) = _`
-    `_ = (if BV32.ult (elts a i2) (elts b j) then _ else _)`
-    `mk_int__ref i = mk_int__ref i2` `i2 \<le> a_last`
-    `j = b_first + (i2 - a_first)`
+    `_ = (if BV32.ult (elts a o1) (elts b _) then _ else _)`
+    `mk_int__ref i = mk_int__ref o1` `o1 \<le> a_last`
   have "?a < ?b" by (simp add: word32_to_int_def BV32.ult_def)
   ultimately have "?a' + ?c * ?a < ?b' + ?c * ?b"
     by (rule msw_less)
   then have "int_of_math_int (num_of_big_int' a a_first (?l' + ?l)) <
     int_of_math_int (num_of_big_int' b b_first (?l' + ?l))"
-    using `a_first \<le> i2` `i2 \<le> a_last`
-      `mk_int__ref i = mk_int__ref i2` [simplified]
+    using `a_first \<le> o1` `o1 \<le> a_last`
+      `mk_int__ref i = mk_int__ref o1` [simplified]
     by (simp only: num_of_lint_sum) simp
   then show ?thesis by (simp add: sign_simps)
 qed

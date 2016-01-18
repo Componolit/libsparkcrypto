@@ -9,7 +9,7 @@ why3_vc WP_parameter_def
     `BV64.ult i1 ((of_int (e_last - e_first) + of_int 1) * of_int 32)`
     `e_first \<le> e_last`
     `e_last \<le> \<lfloor>snd (rt e)\<rfloor>\<^sub>\<int>`
-    `j1 \<le> k` `BV64.ule (of_int j1) i1`
+    `j2 \<le> k` `BV64.ule (of_int j2) i1`
     `natural_in_range e_first`
     `natural_in_range e_last`
     integer_to_int_upper [of "snd (rt e)"]

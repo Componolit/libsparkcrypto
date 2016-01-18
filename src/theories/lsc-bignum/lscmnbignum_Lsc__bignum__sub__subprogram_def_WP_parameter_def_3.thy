@@ -8,14 +8,14 @@ why3_vc WP_parameter_def
 proof -
   from `True = _`
   have eq: "num_of_bool True = num_of_bool
-    (\<lfloor>elts b (b_first + (i1 - a_first))\<rfloor>\<^sub>s < \<lfloor>elts c (c_first + (i1 - a_first))\<rfloor>\<^sub>s \<or>
-     \<lfloor>elts b (b_first + (i1 - a_first))\<rfloor>\<^sub>s = \<lfloor>elts c (c_first + (i1 - a_first))\<rfloor>\<^sub>s \<and> result3)"
+    (\<lfloor>elts b (b_first + (o1 - a_first))\<rfloor>\<^sub>s < \<lfloor>elts c (c_first + (o1 - a_first))\<rfloor>\<^sub>s \<or>
+     \<lfloor>elts b (b_first + (o1 - a_first))\<rfloor>\<^sub>s = \<lfloor>elts c (c_first + (o1 - a_first))\<rfloor>\<^sub>s \<and> carry1)"
     by (simp add: BV32.ult_def word32_to_int_def)
   from
     `(num_of_big_int' b _ _ - num_of_big_int' c _ _= _) = _`
-    `a_first \<le> i1`
-    `o1 = _`
-    `(math_int_from_word (word_of_boolean result3) = num_of_bool result3) = _`
+    `a_first \<le> o1`
+    `o2 = _`
+    `(math_int_from_word (word_of_boolean carry1) = num_of_bool carry1) = _`
   show ?thesis
     by (simp (no_asm_simp) only: eq)
       (simp add: diff_add_eq [symmetric] nat_add_distrib

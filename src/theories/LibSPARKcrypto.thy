@@ -36,6 +36,10 @@ lemma word32_to_int_upper': "\<lfloor>x\<rfloor>\<^sub>s < 4294967296"
   using word32_range_int
   by (simp add: word32_in_range_int_def zle_add1_eq_le [symmetric] del: zle_add1_eq_le)
 
+lemma word32_uint_in_range: "BV32.uint_in_range \<lfloor>x\<rfloor>\<^sub>s"
+  using word32_to_int_upper' [of x]
+  by (simp add: BV32.uint_in_range_def word32_to_int_def)
+
 why3_types
    Lsc__types__word32.word32 = word32
 
@@ -50,8 +54,8 @@ why3_defs
 
 why3_thms
   Lsc__types__word32.inversion_axiom = refl and
-  Lsc__types__word32.range_axiom = word32_range and
-  Lsc__types__word32.range_int_axiom = word32_range_int and
+  Lsc__types__word32.range_axiom = TrueI and
+  Lsc__types__word32.range_int_axiom = word32_uint_in_range and
   Lsc__types__word32.coerce_axiom = refl
 
 (**** Lsc__types__word64 ****)
@@ -85,6 +89,10 @@ lemma word64_to_int_upper': "\<lfloor>x\<rfloor>\<^sub>l < 18446744073709551616"
   using word64_range_int
   by (simp add: word64_in_range_int_def zle_add1_eq_le [symmetric] del: zle_add1_eq_le)
 
+lemma word64_uint_in_range: "BV64.uint_in_range \<lfloor>x\<rfloor>\<^sub>l"
+  using word64_to_int_upper' [of x]
+  by (simp add: BV64.uint_in_range_def word64_to_int_def)
+
 why3_types
    Lsc__types__word64.word64 = word64
 
@@ -99,8 +107,8 @@ why3_defs
 
 why3_thms
   Lsc__types__word64.inversion_axiom = refl and
-  Lsc__types__word64.range_axiom = word64_range and
-  Lsc__types__word64.range_int_axiom = word64_range_int and
+  Lsc__types__word64.range_axiom = TrueI and
+  Lsc__types__word64.range_int_axiom = word64_uint_in_range and
   Lsc__types__word64.coerce_axiom = refl
 
 (**** Array__Int__Lsc__types__word32 ****)
@@ -166,7 +174,7 @@ why3_defs
 why3_thms
   Lsc__bignum__big_int.mk_def = mk_bounds_eqs
 
-(**** Temp___lsc__ec_142 ****)
+(**** Temp___142 ****)
 
 definition singleton0 :: "'a \<Rightarrow> 'a \<Rightarrow> int \<Rightarrow> 'a"
 where
@@ -178,10 +186,10 @@ lemma singleton0_eqs:
   by (simp_all add: singleton0_def)
 
 why3_consts
-  Temp___lsc__ec_142.temp___lsc__ec_142 = singleton0
+  Temp___142.temp___142 = singleton0
 
 why3_thms
-  Temp___lsc__ec_142.def_axiom = singleton0_eqs
+  Temp___142.def_axiom = singleton0_eqs
 
 (**** Lsc__ec__one__axiom ****)
 
@@ -442,18 +450,5 @@ why3_consts
 
 why3_thms
   Lsc__bignum__base__axiom.base__def_axiom = base_def
-
-(**** Lsc__bignum__n_last(__axiom) ****)
-
-(* FIXME workaround for [OA05-076] *)
-
-definition n_last :: "unit \<Rightarrow> int" where
-  "n_last x = 2147483647"
-
-why3_consts
-  Lsc__bignum__n_last.n_last = n_last
-
-why3_thms
-  Lsc__bignum__n_last__axiom.n_last__def_axiom = n_last_def
 
 end

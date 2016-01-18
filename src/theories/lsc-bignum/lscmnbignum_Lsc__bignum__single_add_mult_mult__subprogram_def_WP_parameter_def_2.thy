@@ -57,7 +57,7 @@ proof -
   then have "?x = ?x mod ?k"
     by (simp add: mod_pos_pos_trivial word32_to_int_lower)
   finally show ?thesis
-    by (simp add: `_ = carry11` [symmetric] `_ = carry21` [symmetric] `_ = a1` [symmetric]
+    by (simp add:
       base_eq uint_word_ariths
       uint_up_ucast is_up uint_down_ucast
       shiftr_div_2n uint_and AND_mod [where n=32, simplified]

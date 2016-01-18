@@ -208,6 +208,10 @@ lemma unsigned_64_coerce:
   "unsigned_64_to_rep (unsigned_64_of_rep x) = x"
   by (simp add: unsigned_64_of_rep_def unsigned_64_to_rep_def)
 
+lemma unsigned_64_uint_in_range: "BV64.uint_in_range (unsigned_64_to_int x)"
+  using unsigned_64_range_int [of x]
+  by (simp add: BV64.uint_in_range_def unsigned_64_to_int_def unsigned_64_in_range_int_def)
+
 why3_types
   Interfaces__unsigned_64.unsigned_64 = word64
 
@@ -223,8 +227,8 @@ why3_defs
 
 why3_thms
   Interfaces__unsigned_64.inversion_axiom = unsigned_64_inversion and
-  Interfaces__unsigned_64.range_axiom = unsigned_64_range and
-  Interfaces__unsigned_64.range_int_axiom = unsigned_64_range_int and
+  Interfaces__unsigned_64.range_axiom = TrueI and
+  Interfaces__unsigned_64.range_int_axiom = unsigned_64_uint_in_range and
   Interfaces__unsigned_64.coerce_axiom = unsigned_64_coerce
 
 

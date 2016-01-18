@@ -6,8 +6,6 @@ why3_open "lscmnbignum_Lsc__bignum__word_of_boolean__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
   using
-    `lsc__bignum__word_of_boolean__result = result_us`
-    `result_us = of_int 0`
     `b \<noteq> True`
   by simp
 

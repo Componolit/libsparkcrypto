@@ -24,22 +24,22 @@ why3_vc WP_parameter_def
 proof -
   let ?l = "m_last - m_first + 1"
   let ?R = "Base ^ nat ?l"
-  let ?r = "num_of_big_int (word32_to_int o r1) r_first ?l"
+  let ?r = "num_of_big_int (word32_to_int o r2) r_first ?l"
   let ?m = "int_of_math_int (num_of_big_int' m m_first ?l)"
 
-  from `(num_of_big_int' (Array r2 _) _ _ - _ = _) = _`
-  have r_minus_m: "(num_of_big_int (word32_to_int o r2) r_first ?l - ?m) mod ?R =
-    num_of_big_int (word32_to_int o r3) r_first ?l"
+  from `(num_of_big_int' (Array r3 _) _ _ - _ = _) = _`
+  have r_minus_m: "(num_of_big_int (word32_to_int o r3) r_first ?l - ?m) mod ?R =
+    num_of_big_int (word32_to_int o r4) r_first ?l"
     by (simp add: mod_diff_right_eq [of _ "?R * num_of_bool carry"]
       num_of_lint_lower num_of_lint_upper mod_pos_pos_trivial
       word32_to_int_lower word32_to_int_upper' base_eq)
 
   from `carry1 \<noteq> True`
-    `(num_of_big_int' (Array r1 _) _ _ * _ = _) = _`
-  have r2: "num_of_big_int (word32_to_int o r2) r_first ?l = ?r * 2"
+    `(num_of_big_int' (Array r2 _) _ _ * _ = _) = _`
+  have r2: "num_of_big_int (word32_to_int o r3) r_first ?l = ?r * 2"
     by simp
 
-  from `(num_of_big_int' (Array r1 _) _ _ = _) = _`
+  from `(num_of_big_int' (Array r2 _) _ _ = _) = _`
     `(_ < num_of_big_int' m _ _) = _`
   have "?r < ?m" by simp
   moreover have "?m < ?R"
@@ -51,7 +51,7 @@ proof -
   ultimately have "(?r * 2) mod ?m = (?r * 2 - ?m) mod ?R"
     by (rule mod_eq')
   then show ?thesis using
-    `(num_of_big_int' (Array r1 _) _ _ = _) = _` `0 \<le> j` r_minus_m r2
+    `(num_of_big_int' (Array r2 _) _ _ = _) = _` `0 \<le> j` r_minus_m r2
     by (simp add: nat_add_distrib mult_ac)
 qed
 

@@ -23,7 +23,6 @@ proof -
     `(num_of_big_int' (Array a _) _ _ = _) = _`
     `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
     `(num_of_big_int' (Array aux1 _) _ _ = _) = _`
-    `l = a_last - a_first`
   have "num_of_big_int (word32_to_int o a) a_first ?L =
     num_of_big_int (word32_to_int \<circ> elts x) x_first ?L ^
       nat (num_of_big_int (word32_to_int \<circ> elts e) e_first (e_last - e_first + 1) div
@@ -31,9 +30,9 @@ proof -
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
     by (simp add: power_mult_distrib mult.assoc base_eq)
   with Base_inv `(math_int_of_int s1 \<le> math_int_from_word i2 + _) = _`
-    `BV64.ult i2 (of_int s1)` `0 \<le> s1` `s1 \<le> n_last ()`
+    `BV64.ult i2 (of_int s1)` `_ \<longrightarrow> natural_in_range s1`
   show ?thesis by (simp add: BV64.ult_def word_of_int uint_word_of_int
-    n_last_def mod_pos_pos_trivial)
+    natural_in_range_def mod_pos_pos_trivial)
 qed
 
 why3_end

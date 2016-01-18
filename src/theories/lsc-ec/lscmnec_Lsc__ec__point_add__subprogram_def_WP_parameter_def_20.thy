@@ -8,7 +8,6 @@ why3_vc WP_parameter_def
 proof -
   let ?l = "x1_last - x1_first + 1"
   from
-    `l = x1_last - x1_first`
     `\<forall>k. \<lfloor>x3__first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>x3__last\<rfloor>\<^sub>\<int> \<longrightarrow> _`
     `\<lfloor>x3__first\<rfloor>\<^sub>\<int> \<le> x3_first`
     `x3_first + (x1_last - x1_first) \<le> \<lfloor>x3__last\<rfloor>\<^sub>\<int>`

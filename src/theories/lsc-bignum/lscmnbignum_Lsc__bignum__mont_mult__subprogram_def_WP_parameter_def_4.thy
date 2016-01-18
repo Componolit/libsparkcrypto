@@ -18,8 +18,8 @@ proof -
   note invariant1 = `((num_of_big_int' (Array a _) _ _ + _) mod _ = _) = _`
   note invariant2 = `(num_of_big_int' (Array a _) _ _ + _ < _ * _ - _) = _`
 
-  from `i1 = result + 1` `\<not> i1 \<le> a_last` `result \<le> a_last`
-  have "result = a_last" by simp
+  from `\<not> i1 + 1 \<le> a_last` `i1 \<le> a_last`
+  have "i1 = a_last" by simp
 
   have "?m < ?R" "?a' < ?R" by (simp_all add: num_of_lint_upper word32_to_int_upper')
   moreover from `_ = (if less _ _ _ _ _ \<noteq> _ then _ else _)`
@@ -29,7 +29,7 @@ proof -
   ultimately have "?a' = (?a - ?m) mod ?m"
     using sub [THEN mod_cong, of ?R]
     by (simp add: mod_pos_pos_trivial num_of_lint_lower word32_to_int_lower)
-  with `result = a_last` invariant1
+  with `i1 = a_last` invariant1
   show ?thesis
     by (simp add: diff_add_eq)
 qed

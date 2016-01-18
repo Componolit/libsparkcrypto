@@ -14,9 +14,9 @@ proof -
     [simplified word_uint_eq_iff uint_word_ariths, simplified,
      folded word32_to_int_def]
 
-  from `\<forall>k. aux1_first \<le> k \<and> k \<le> aux1_first + (a_last - a_first) \<longrightarrow> result1 k = of_int 0`
+  from `\<forall>k. aux1_first \<le> k \<and> k \<le> aux1_first + (a_last - a_first) \<longrightarrow> aux1 k = of_int 0`
     `a_first < a_last`
-  have one: "num_of_big_int ((word32_to_int \<circ> result1)(aux1_first := 1))
+  have one: "num_of_big_int ((word32_to_int \<circ> aux1)(aux1_first := 1))
     aux1_first ?L = 1"
     by (simp add: num_of_lint_all0 word32_to_int_def)
 

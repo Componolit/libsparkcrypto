@@ -13,33 +13,33 @@ proof -
     `natural_in_range e_last`
     `BV64.ult i1 ((of_int (e_last - e_first) + of_int 1) * of_int 32)`
     `e_first \<le> e_last`
-    `_ \<longrightarrow> natural_in_range result6`
-  have i: "uint i1 - result6 < 32 * (e_last - e_first + 1)"
+    `_ \<longrightarrow> natural_in_range j2`
+  have i: "uint i1 - j2 < 32 * (e_last - e_first + 1)"
     by (simp add: mod_pos_pos_trivial BV64.ult_def
       natural_in_range_def uint_word_ariths word_of_int uint_word_of_int)
 
-  from `s1 < result6`
-  have "(2::int) ^ nat (result6 - s1) = 2 ^ nat (result6 - s1 - 1) * 2 ^ 1"
+  from `s2 < j2`
+  have "(2::int) ^ nat (j2 - s2) = 2 ^ nat (j2 - s2 - 1) * 2 ^ 1"
     by (simp only: power_add [symmetric]) (simp del: power.simps)
-  then have "uint w1 * 2 ^ nat (result6 - s1) = uint w1 * 2 ^ nat (result6 - s1 - 1) * 2"
+  then have "uint w * 2 ^ nat (j2 - s2) = uint w * 2 ^ nat (j2 - s2 - 1) * 2"
     by simp
-  also note `(math_int_from_word w1 * _ ^ nat (result6 - s1 - 1) =
+  also note `(math_int_from_word w * _ ^ nat (j2 - s2 - 1) =
     num_of_big_int' e _ _ div _ mod _) = _` [simplified]
-  also from `BV64.ule (of_int result6) i1` `_ \<longrightarrow> natural_in_range result6`
-  have "?e div 2 ^ nat (uint i1 - (result6 - 1)) mod 2 ^ nat result6 * 2 =
-    (?e div 2 ^ nat (uint i1 - result6) div 2 * 2) mod (2 ^ nat (result6 + 1))"
+  also from `BV64.ule (of_int j2) i1` `_ \<longrightarrow> natural_in_range j2`
+  have "?e div 2 ^ nat (uint i1 - (j2 - 1)) mod 2 ^ nat j2 * 2 =
+    (?e div 2 ^ nat (uint i1 - j2) div 2 * 2) mod (2 ^ nat (j2 + 1))"
     by (simp add:
       trans [OF diff_diff_eq2 diff_add_eq [symmetric]]
       zdiv_zmult2_eq [symmetric] nat_add_distrib mult.commute
       num_of_lint_lower
       BV64.ule_def word_of_int uint_word_of_int
       natural_in_range_def mod_pos_pos_trivial)
-  also from i `BV64.ule (of_int result6) i1`
-    `bit_set e e_first (i1 - of_int result6) \<noteq> _`
-    `(bit_set e e_first (i1 - of_int result6) = _) = _`
+  also from i `BV64.ule (of_int j2) i1`
+    `bit_set e e_first (i1 - of_int j2) \<noteq> _`
+    `(bit_set e e_first (i1 - of_int j2) = _) = _`
     word64_to_int_upper [of i1]
-    `_ \<longrightarrow> natural_in_range result6`
-  have "?e AND 2 ^ nat (uint i1 - result6) = 0"
+    `_ \<longrightarrow> natural_in_range j2`
+  have "?e AND 2 ^ nat (uint i1 - j2) = 0"
     by (simp add: num_of_lint_AND_32 zdiv_int nat_mod_distrib
       mod_pos_pos_trivial
       uint_lt [where 'a=32, simplified] uint_word_ariths uint_mod uint_div
@@ -47,8 +47,8 @@ proof -
       BV64.ule_def word32_to_int_def word_uint_eq_iff uint_and uint_pow
       word64_to_int_def power_strict_increasing [of _ 32 2, simplified]
       del: num_of_lint_sum)
-  then have "?e div 2 ^ nat (uint i1 - result6) div 2 * 2 =
-    ?e div 2 ^ nat (uint i1 - result6) div 2 * 2 + ?e div 2 ^ nat (uint i1 - result6) mod 2"
+  then have "?e div 2 ^ nat (uint i1 - j2) div 2 * 2 =
+    ?e div 2 ^ nat (uint i1 - j2) div 2 * 2 + ?e div 2 ^ nat (uint i1 - j2) mod 2"
     by (simp add: AND_div_mod)
   finally show ?thesis
     by simp

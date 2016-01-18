@@ -22,8 +22,8 @@ proof -
       [of "\<lfloor>m_inv\<rfloor>\<^sub>s" "word32_to_int o elts m" _ 32, simplified, OF m_inv]
       del: num_of_lint_sum)
 
-  from `result6 \<le> r214b` `h2 = result6 + 1` `\<not> h2 \<le> r214b`
-  have "result6 = r214b" by simp
+  from `h2 \<le> r214b` `\<not> h2 + 1 \<le> r214b`
+  have "h2 = r214b" by simp
 
   from
     `\<forall>k. \<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int> \<longrightarrow> _`
@@ -34,7 +34,7 @@ proof -
     by (simp add: num_of_lint_ext add_diff_eq)
   also from
     `(num_of_big_int' (Array a2 _) _ _ = _) = _`
-    `(math_int_from_word w1 = _) = _`
+    `(math_int_from_word w = _) = _`
   have "num_of_big_int (word32_to_int o a2) a_first ?L =
     num_of_big_int (word32_to_int \<circ> aux33) aux3_first ?L *
     num_of_big_int (word32_to_int \<circ> aux4)
@@ -42,7 +42,7 @@ proof -
        2 ^ nat r214b div 2 * ?L) ?L * minv ?m Base ^ nat ?L mod ?m"
     by (simp add: ediv_def base_eq BV32.facts.to_uint_lsr [of _ 1, simplified])
   also note `(num_of_big_int' (Array aux33 _) _ _ = _) = _`
-    [simplified `result6 = r214b` base_eq, simplified]
+    [simplified `h2 = r214b` base_eq, simplified]
   also {
     have "?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b < 2 ^ nat r214b"
       by simp
@@ -63,8 +63,8 @@ proof -
       ?R mod ?m"
       by (simp add: pos_imp_zdiv_nonneg_iff base_eq)
   } also from
-    `w1 mod of_int 2 = of_int 1`
-    `(math_int_from_word w1 = _) = _`
+    `w mod of_int 2 = of_int 1`
+    `(math_int_from_word w = _) = _`
   have "2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1 =
     2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) +
     ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b mod 2"

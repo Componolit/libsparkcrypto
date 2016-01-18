@@ -25,8 +25,8 @@ proof -
   have "num_of_big_int (word32_to_int o aux33) aux3_first ?L =
     num_of_big_int (word32_to_int o a8) a_first ?L"
     by (simp add: num_of_lint_ext add_diff_eq)
-  moreover from `1 \<le> h7`
-  have "nat h7 = nat (h7 - 1) + 1"
+  moreover from `1 \<le> h8`
+  have "nat h8 = nat (h8 - 1) + 1"
     by simp
   ultimately show ?thesis
     using

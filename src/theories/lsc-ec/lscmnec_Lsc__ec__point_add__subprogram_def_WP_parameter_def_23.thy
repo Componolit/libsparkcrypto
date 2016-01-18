@@ -8,7 +8,6 @@ why3_vc WP_parameter_def
 proof -
   let ?l = "x1_last - x1_first + 1"
   from
-    `y3 = y31` `l = x1_last - x1_first`
     `\<lfloor>y3__first\<rfloor>\<^sub>\<int> \<le> y3_first`
     `y3_first + (x1_last - x1_first) \<le> \<lfloor>y3__last\<rfloor>\<^sub>\<int>`
     `\<forall>k. \<lfloor>y3__first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>y3__last\<rfloor>\<^sub>\<int> \<longrightarrow> _`

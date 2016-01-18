@@ -9,7 +9,7 @@ proof -
   let ?L = "a_last - a_first + 1"
   let ?m = "num_of_big_int (word32_to_int \<circ> elts m) m_first ?L"
   let ?x = "num_of_big_int (word32_to_int \<circ> elts x) x_first ?L"
-  let ?e = "num_of_big_int (word32_to_int \<circ> elts e) (i1 + 1) (e_last - i1)"
+  let ?e = "num_of_big_int (word32_to_int \<circ> elts e) (o2 + 1) (e_last - o2)"
   let ?R = "Base ^ nat ?L"
   note m_inv = `of_int 1 + m_inv * elts m m_first = of_int 0`
     [simplified word_uint_eq_iff uint_word_ariths, simplified,
@@ -31,22 +31,22 @@ proof -
     `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
   have "\<dots> =
     ?x ^ nat ((?e * 2 ^ nat (31 - j) +
-      \<lfloor>elts e i1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2) *
+      \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2) *
     ?R mod ?m"
     by (simp only: nat_mult_distrib [of 2, simplified, simplified mult.commute] base_eq)
       (simp add: mont_mult_eq [OF Base_inv] power_mult power2_eq_square word32_to_int_def)
   also from `0 \<le> j` `j \<le> 31`
   have "(?e * 2 ^ nat (31 - j) +
-      \<lfloor>elts e i1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2 =
+      \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2 =
     ?e * 2 ^ nat (31 - j + 1) +
-    \<lfloor>elts e i1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2"
+    \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2"
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
-  also from `(if (if elts e i1 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
+  also from `(if (if elts e o2 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
     power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
   have "\<dots> = ?e * 2 ^ nat (31 - j + 1) +
-    \<lfloor>elts e i1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
-    \<lfloor>elts e i1\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
+    \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
+    \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
     by (simp add: AND_div_mod word_uint_eq_iff uint_pow uint_and
       mod_pos_pos_trivial word32_to_int_def)
   finally show ?thesis

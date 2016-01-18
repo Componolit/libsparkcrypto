@@ -21,10 +21,10 @@ proof -
     `(num_of_big_int' (Array a _) _ _ = _) = _`
     `mk_map__ref aux31 = mk_map__ref aux32`
     `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
-    `(num_of_big_int' (Array aux1 _) _ _ = _) = _`
+    `(num_of_big_int' (Array (aux1(aux1_first := o1)) _) _ _ = _) = _`
     `e_first \<le> e_last`
-    `i1 = result - 1` `\<not> e_first \<le> i1` `e_first \<le> result`
-    `j2 = result1 - 1` `\<not> 0 \<le> j2` `0 \<le> result1`
+    `\<not> e_first \<le> i1 - 1` `e_first \<le> i1`
+    `\<not> 0 \<le> j2 - 1` `0 \<le> j2`
   have "num_of_big_int (word32_to_int o a) a_first ?L =
     ?x ^ nat (num_of_big_int (word32_to_int \<circ> elts e) e_first (1 + (e_last - e_first))) *
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"

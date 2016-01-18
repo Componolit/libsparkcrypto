@@ -6,11 +6,11 @@ why3_open "lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
 proof -
-  from `j = result4 + 1` `\<not> j \<le> 63` `result4 \<le> 63`
-  have "result4 = 63" by simp
+  from `\<not> j + 1 \<le> 63` `j \<le> 63`
+  have "j = 63" by simp
   with
-    `(num_of_big_int' (Array r1 _) _ _ = _) = _`
-    `m_first \<le> result3`
+    `(num_of_big_int' (Array r2 _) _ _ = _) = _`
+    `m_first \<le> i1`
   show ?thesis
     by (simp add: diff_add_eq [symmetric] nat_add_distrib mult_ac base_eq)
 qed
