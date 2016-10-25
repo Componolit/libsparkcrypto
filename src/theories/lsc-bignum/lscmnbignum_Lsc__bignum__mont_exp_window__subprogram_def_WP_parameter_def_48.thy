@@ -4,7 +4,7 @@ begin
 
 why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_48.xml"
 
-why3_vc WP_parameter_def
+why3_vc WP_parameter_def thm assms
 proof -
   let ?L = "a_last - a_first + 1"
   let ?m = "num_of_big_int (word32_to_int \<circ> elts m) m_first ?L"
@@ -23,14 +23,14 @@ proof -
     `\<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> aux3_first`
     `aux3_first + (a_last - a_first) \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int>`
   have "num_of_big_int (word32_to_int o aux33) aux3_first ?L =
-    num_of_big_int (word32_to_int o a8) a_first ?L"
+    num_of_big_int (word32_to_int o a5) a_first ?L"
     by (simp add: num_of_lint_ext add_diff_eq)
-  moreover from `1 \<le> h8`
-  have "nat h8 = nat (h8 - 1) + 1"
+  moreover from `1 \<le> h4`
+  have "nat h4 = nat (h4 - 1) + 1"
     by simp
   ultimately show ?thesis
     using
-      `(num_of_big_int' (Array a8 _) _ _ = _) = _`
+      `(num_of_big_int' (Array a5 _) _ _ = _) = _`
       `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
     by (simp add: mont_mult_eq [OF Base_inv] power_add base_eq)
       (simp add: mult_ac nat_mult_distrib power_mult power2_eq_square

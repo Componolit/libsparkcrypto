@@ -2,9 +2,6 @@ theory LibSPARKcrypto
 imports SPARK2014 Bignum
 begin
 
-abbreviation (input) dummy_conv where
-  "dummy_conv x \<equiv> x"
-
 (**** Lsc__types__word32 ****)
 
 definition word32_in_range :: "32 word \<Rightarrow> bool" where
@@ -44,19 +41,19 @@ why3_types
    Lsc__types__word32.word32 = word32
 
 why3_consts
-  Lsc__types__word32.to_rep = dummy_conv
-  Lsc__types__word32.of_rep = dummy_conv
+  Lsc__types__word32__rep.to_rep = dummy_conv
+  Lsc__types__word32__rep.of_rep = dummy_conv
 
 why3_defs
-  Lsc__types__word32.in_range = word32_in_range_def and
-  Lsc__types__word32.in_range_int = word32_in_range_int_def and
-  Lsc__types__word32.to_int = word32_to_int_def
+  Lsc__types__word32__rep.in_range = word32_in_range_def and
+  Lsc__types__word32__rep.in_range_int = word32_in_range_int_def and
+  Lsc__types__word32__rep.to_int = word32_to_int_def
 
 why3_thms
-  Lsc__types__word32.inversion_axiom = refl and
-  Lsc__types__word32.range_axiom = TrueI and
-  Lsc__types__word32.range_int_axiom = word32_uint_in_range and
-  Lsc__types__word32.coerce_axiom = refl
+  Lsc__types__word32__rep.inversion_axiom = refl and
+  Lsc__types__word32__rep.range_axiom = TrueI and
+  Lsc__types__word32__rep.range_int_axiom = word32_uint_in_range and
+  Lsc__types__word32__rep.coerce_axiom = refl
 
 (**** Lsc__types__word64 ****)
 
@@ -97,19 +94,19 @@ why3_types
    Lsc__types__word64.word64 = word64
 
 why3_consts
-  Lsc__types__word64.to_rep = dummy_conv
-  Lsc__types__word64.of_rep = dummy_conv
+  Lsc__types__word64__rep.to_rep = dummy_conv
+  Lsc__types__word64__rep.of_rep = dummy_conv
 
 why3_defs
-  Lsc__types__word64.in_range = word64_in_range_def and
-  Lsc__types__word64.in_range_int = word64_in_range_int_def and
-  Lsc__types__word64.to_int = word64_to_int_def
+  Lsc__types__word64__rep.in_range = word64_in_range_def and
+  Lsc__types__word64__rep.in_range_int = word64_in_range_int_def and
+  Lsc__types__word64__rep.to_int = word64_to_int_def
 
 why3_thms
-  Lsc__types__word64.inversion_axiom = refl and
-  Lsc__types__word64.range_axiom = TrueI and
-  Lsc__types__word64.range_int_axiom = word64_uint_in_range and
-  Lsc__types__word64.coerce_axiom = refl
+  Lsc__types__word64__rep.inversion_axiom = refl and
+  Lsc__types__word64__rep.range_axiom = TrueI and
+  Lsc__types__word64__rep.range_int_axiom = word64_uint_in_range and
+  Lsc__types__word64__rep.coerce_axiom = refl
 
 (**** Array__Int__Lsc__types__word32 ****)
 
@@ -349,7 +346,7 @@ lemma math_int_conv':
   "int_of_math_int (i mod j) = int_of_math_int i mod int_of_math_int j"
   by (simp_all add: zero_math_int_def one_math_int_def uminus_math_int_def
     plus_math_int_def minus_math_int_def times_math_int_def
-    div_math_int_def mod_math_int_def)
+    divide_math_int_def mod_math_int_def)
 
 lemma math_int_power: "int_of_math_int (x ^ n) = int_of_math_int x ^ n"
   by (induct n) (simp_all add: math_int_conv')
@@ -373,12 +370,12 @@ abbreviation (input) power_math_int :: "('a::power) \<Rightarrow> math_int \<Rig
 
 why3_types
   "_gnatprove_standard_th.Main_Main.__private" = int
-  "Lsc__math_int__math_int.__split_fields" = math_int'
-  Lsc__math_int__math_int.math_int = math_int
+  "Lsc__math_int__math_int__rep.__split_fields" = math_int'
+  "Lsc__math_int__math_int__rep.__rep" = math_int
 
 why3_defs
-  "Lsc__math_int__math_int.rec__main__" = dest_math_int'_def and
-  "Lsc__math_int__math_int.__split_fields" = dest_math_int_def
+  "Lsc__math_int__math_int__rep.rec__lsc__math_int__math_int" = dest_math_int'_def and
+  "Lsc__math_int__math_int__rep.__split_fields" = dest_math_int_def
 
 why3_thms
   Lsc__math_int__math_int.value__size_axiom = order_refl and
@@ -396,7 +393,7 @@ why3_consts
   Lsc__math_int__Oadd.oadd = plus
   Lsc__math_int__Osubtract.osubtract = minus
   Lsc__math_int__Omultiply.omultiply = times
-  Lsc__math_int__Odivide.odivide = div
+  Lsc__math_int__Odivide.odivide = divide
   Lsc__math_int__Omod.omod = mod
   Lsc__math_int__Oexpon.oexpon = power_int
   Lsc__math_int__Oexpon__2.oexpon__2 = power_math_int

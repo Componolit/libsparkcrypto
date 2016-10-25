@@ -21,9 +21,6 @@ proof -
   have "?m < ?R" by (simp add: num_of_lint_upper word32_to_int_upper')
   have "0 \<le> ?m" "0 \<le> ?a" by (simp_all add: num_of_lint_lower word32_to_int_lower)
 
-  from `\<not> i1 + 1 \<le> a_last` `i1 \<le> a_last`
-  have "i1 = a_last" by simp
-
   from sub [THEN mod_cong, of ?R]
     have "?a' = (?a + ?R * \<lfloor>a_msw1\<rfloor>\<^sub>s - ?m) mod ?R"
       by (simp add: mod_pos_pos_trivial num_of_lint_lower word32_to_int_lower
@@ -36,7 +33,7 @@ proof -
   with invariant2 `0 \<le> ?a` `0 \<le> ?m` `?m < ?R`
   have "(?a + ?R * \<lfloor>a_msw1\<rfloor>\<^sub>s - ?m) mod ?R = (?a + ?R * \<lfloor>a_msw1\<rfloor>\<^sub>s - ?m) mod ?m"
     by (simp add: mod_pos_pos_trivial base_eq word32_to_int_def del: minus_mod_self2)
-  finally show ?thesis using invariant1 `i1 = a_last`
+  finally show ?thesis using invariant1
     by (simp add: diff_add_eq base_eq word32_to_int_def)
 qed
 

@@ -2,6 +2,9 @@ theory SPARK2014
 imports Why3
 begin
 
+abbreviation (input) dummy_conv where
+  "dummy_conv x \<equiv> x"
+
 (**** _gnatprove_standard.Boolean ****)
 
 definition bool_of_int :: "int \<Rightarrow> bool" where
@@ -100,16 +103,16 @@ why3_types
   Standard__integer.integer = integer
 
 why3_consts
-  Standard__integer.to_rep = integer_to_int
-  Standard__integer.of_rep = integer_of_int
+  Standard__integer__rep.to_rep = integer_to_int
+  Standard__integer__rep.of_rep = integer_of_int
 
 why3_defs
   Standard__integer.in_range = integer_in_range_def
 
 why3_thms
-  Standard__integer.inversion_axiom = integer_to_int_inverse and
-  Standard__integer.range_axiom = integer_to_int [simplified] and
-  Standard__integer.coerce_axiom = integer_of_int_inverse [simplified]
+  Standard__integer__rep.inversion_axiom = integer_to_int_inverse and
+  Standard__integer__rep.range_axiom = integer_to_int [simplified] and
+  Standard__integer__rep.coerce_axiom = integer_of_int_inverse [simplified]
 
 
 (**** Standard__natural ****)
@@ -181,32 +184,17 @@ definition unsigned_64_in_range_int :: "int \<Rightarrow> bool" where
 definition unsigned_64_bool_eq :: "64 word \<Rightarrow> 64 word \<Rightarrow> bool" where
   "unsigned_64_bool_eq x y = (if x = y then True else False)"
 
-definition unsigned_64_to_rep :: "64 word \<Rightarrow> 64 word" where
-  "unsigned_64_to_rep = id"
-
-definition unsigned_64_of_rep :: "64 word \<Rightarrow> 64 word" where
-  "unsigned_64_of_rep = id"
-
-lemma unsigned_64_inversion:
-  "unsigned_64_of_rep (unsigned_64_to_rep x) = x"
-  by (simp add: unsigned_64_of_rep_def unsigned_64_to_rep_def)
-
-lemma unsigned_64_range: "unsigned_64_in_range (unsigned_64_to_rep x)"
+lemma unsigned_64_range: "unsigned_64_in_range x"
   using uint_lt [of x]
-  by (simp add: unsigned_64_in_range_def unsigned_64_to_rep_def BV64.ule_def)
+  by (simp add: unsigned_64_in_range_def BV64.ule_def)
 
 definition unsigned_64_to_int :: "64 word \<Rightarrow> int" where
-  "unsigned_64_to_int x = uint (unsigned_64_to_rep x)"
+  "unsigned_64_to_int x = uint x"
 
 lemma unsigned_64_range_int:
   "unsigned_64_in_range_int (unsigned_64_to_int x)"
   using uint_lt [of x]
-  by (simp add: unsigned_64_in_range_int_def unsigned_64_to_int_def
-    unsigned_64_to_rep_def)
-
-lemma unsigned_64_coerce:
-  "unsigned_64_to_rep (unsigned_64_of_rep x) = x"
-  by (simp add: unsigned_64_of_rep_def unsigned_64_to_rep_def)
+  by (simp add: unsigned_64_in_range_int_def unsigned_64_to_int_def)
 
 lemma unsigned_64_uint_in_range: "BV64.uint_in_range (unsigned_64_to_int x)"
   using unsigned_64_range_int [of x]
@@ -216,20 +204,20 @@ why3_types
   Interfaces__unsigned_64.unsigned_64 = word64
 
 why3_consts
-  Interfaces__unsigned_64.of_rep = unsigned_64_of_rep
-  Interfaces__unsigned_64.to_rep = unsigned_64_to_rep
+  Interfaces__unsigned_64__rep.of_rep = dummy_conv
+  Interfaces__unsigned_64__rep.to_rep = dummy_conv
 
 why3_defs
-  Interfaces__unsigned_64.in_range = unsigned_64_in_range_def and
-  Interfaces__unsigned_64.in_range_int = unsigned_64_in_range_int_def and
-  Interfaces__unsigned_64.bool_eq = unsigned_64_bool_eq_def and
-  Interfaces__unsigned_64.to_int = unsigned_64_to_int_def
+  Interfaces__unsigned_64__rep.in_range = unsigned_64_in_range_def and
+  Interfaces__unsigned_64__rep.in_range_int = unsigned_64_in_range_int_def and
+  Interfaces__unsigned_64__rep.bool_eq = unsigned_64_bool_eq_def and
+  Interfaces__unsigned_64__rep.to_int = unsigned_64_to_int_def
 
 why3_thms
-  Interfaces__unsigned_64.inversion_axiom = unsigned_64_inversion and
-  Interfaces__unsigned_64.range_axiom = TrueI and
-  Interfaces__unsigned_64.range_int_axiom = unsigned_64_uint_in_range and
-  Interfaces__unsigned_64.coerce_axiom = unsigned_64_coerce
+  Interfaces__unsigned_64__rep.inversion_axiom = refl and
+  Interfaces__unsigned_64__rep.range_axiom = TrueI and
+  Interfaces__unsigned_64__rep.range_int_axiom = unsigned_64_uint_in_range and
+  Interfaces__unsigned_64__rep.coerce_axiom = refl
 
 
 (**** _gnatprove_standard.BV32 ****)

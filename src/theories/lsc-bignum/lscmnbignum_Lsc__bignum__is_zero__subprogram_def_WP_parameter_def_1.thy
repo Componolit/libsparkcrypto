@@ -4,18 +4,13 @@ begin
 
 why3_open "lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_1.xml"
 
-why3_vc WP_parameter_def
-proof -
-  from `\<not> o1 + 1 \<le> a_last` `o1 \<le> a_last`
-  have "o1 = a_last" by simp
-  with
+why3_vc WP_parameter_def thm assms
+  using
     `mk_bool__ref True = mk_bool__ref result_us`
     `(result_us = True) = _`
-    `(if (if elts a o1 = _ then True else False) \<noteq> True then True else False) \<noteq> True`
+    `(if (if elts a a_last = _ then True else False) \<noteq> True then True else False) \<noteq> True`
     `a_first \<le> a_last`
-  show ?thesis
-    by (simp add: num_of_lint_all0 word32_to_int_def)
-qed
+  by (simp add: num_of_lint_all0 word32_to_int_def)
 
 why3_end
 

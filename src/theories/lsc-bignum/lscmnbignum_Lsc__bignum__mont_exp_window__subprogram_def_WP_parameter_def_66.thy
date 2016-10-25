@@ -22,27 +22,24 @@ proof -
       [of "\<lfloor>m_inv\<rfloor>\<^sub>s" "word32_to_int o elts m" _ 32, simplified, OF m_inv]
       del: num_of_lint_sum)
 
-  from `h3 \<le> r214b` `\<not> h3 + 1 \<le> r214b`
-  have "h3 = r214b" by simp
-
   from
     `\<forall>k. \<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int> \<longrightarrow> _`
     `\<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> aux3_first`
     `aux3_first + (a_last - a_first) \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int>`
-  have "num_of_big_int (word32_to_int o aux32) aux3_first ?L =
+  have "num_of_big_int (word32_to_int o aux31) aux3_first ?L =
     num_of_big_int (word32_to_int o a) a_first ?L"
     by (simp add: num_of_lint_ext add_diff_eq)
   also from
     `(num_of_big_int' (Array a _) _ _ = _) = _`
     `(math_int_from_word w = _) = _`
   have "num_of_big_int (word32_to_int o a) a_first ?L =
-    num_of_big_int (word32_to_int \<circ> aux33) aux3_first ?L *
-    num_of_big_int (word32_to_int \<circ> aux41)
+    num_of_big_int (word32_to_int \<circ> aux32) aux3_first ?L *
+    num_of_big_int (word32_to_int \<circ> aux4)
       (aux4_first + ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod
        2 ^ nat r214b div 2 * ?L) ?L * minv ?m Base ^ nat ?L mod ?m"
     by (simp add: ediv_def base_eq BV32.facts.to_uint_lsr [of _ 1, simplified])
-  also note `(num_of_big_int' (Array aux33 _) _ _ = _) = _`
-    [simplified `h3 = r214b` base_eq, simplified]
+  also note `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
+    [simplified base_eq, simplified]
   also {
     have "?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b < 2 ^ nat r214b"
       by simp
@@ -56,8 +53,8 @@ proof -
       2 ^ nat r214b div 2 < 2 ^ nat k"
       by simp
     with
-      `\<forall>n. 0 \<le> n \<and> n \<le> 2 ^ nat k - 1 \<longrightarrow> (num_of_big_int' (Array aux41 _) _ _ = _) = _`
-    have "num_of_big_int (word32_to_int o aux41)
+      `\<forall>n. 0 \<le> n \<and> n \<le> 2 ^ nat k - 1 \<longrightarrow> (num_of_big_int' (Array aux4 _) _ _ = _) = _`
+    have "num_of_big_int (word32_to_int o aux4)
       (aux4_first + ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2 * ?L) ?L =
       ?x ^ nat (2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1) *
       ?R mod ?m"

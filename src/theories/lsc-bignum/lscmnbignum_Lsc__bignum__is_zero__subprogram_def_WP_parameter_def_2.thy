@@ -10,8 +10,7 @@ why3_vc WP_parameter_def
     `mk_bool__ref result_us = mk_bool__ref result_us1`
     `(result_us1 = True) = _`
     `(num_of_big_int' a a_first (a_last - a_first + 1) = _) = _`
-    `(if (if elts a o1 = _ then _ else _) \<noteq> _ then _ else _) \<noteq> _`
-    `a_first \<le> o1` `o1 \<le> a_last`
+    `(if (if elts a a_last = _ then _ else _) \<noteq> _ then _ else _) \<noteq> _`
   by (simp add: num_of_lint_all0
     word32_to_int_def uint_lt [where 'a=32, simplified] uint_0_iff
     del: num_of_lint_sum)
