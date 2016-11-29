@@ -1,0 +1,21 @@
+#!/bin/bash
+
+OUT=../../out/proof/sessions
+
+for X in *
+do
+  if [ -d $X ]
+  then
+    if [ ! -e "${OUT}/${X}.bak" ]
+    then
+      mv "${OUT}/${X}" "${OUT}/${X}.bak"
+      cp -r "${X}" "${OUT}"
+
+      for Y in $X/*_def_*.thy
+      do
+        Z=`basename "$Y" .thy`
+        touch "${OUT}/${X}/${Z}.xml"
+      done
+    fi
+  fi
+done
