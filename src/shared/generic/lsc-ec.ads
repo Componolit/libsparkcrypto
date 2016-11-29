@@ -48,6 +48,11 @@ is
 
    One : constant Coord := Coord'(1, others => 0);
 
+   function Point_Double_Spec
+     (M, A, X1, Y1, Z1, X2, Y2, Z2 : Math_Int.Math_Int)
+     return Boolean
+     with Ghost, Import, Global => null;
+
    procedure Point_Double
      (X1       : in     Bignum.Big_Int;
       X1_First : in     Natural;
@@ -114,7 +119,24 @@ is
          Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Point_Double_Spec
+           (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+            Bignum.Inverse
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Base) ** (X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1));
+
+   function Point_Add_Spec
+     (M, A, X1, Y1, Z1, X2, Y2, Z2, X3, Y3, Z3 : Math_Int.Math_Int)
+     return Boolean
+     with Ghost, Import, Global => null;
 
    procedure Point_Add
      (X1       : in     Bignum.Big_Int;
@@ -203,7 +225,27 @@ is
          Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Point_Add_Spec
+           (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+            Bignum.Inverse
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Base) ** (X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1));
+
+   function Point_Mult_Spec
+     (M, A, X1, Y1, Z1, E, X2, Y2, Z2 : Math_Int.Math_Int)
+     return Boolean
+     with Ghost, Import, Global => null;
 
    procedure Point_Mult
      (X1       : in     Bignum.Big_Int;
@@ -272,7 +314,25 @@ is
          Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Point_Mult_Spec
+           (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+            Bignum.Inverse
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Base) ** (X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (E, E_First, E_Last - E_First + 1),
+            Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1));
+
+   function Two_Point_Mult_Spec
+     (M, A, X1, Y1, Z1, E1, X2, Y2, Z2, E2, X3, Y3, Z3 : Math_Int.Math_Int)
+     return Boolean
+     with Ghost, Import, Global => null;
 
    procedure Two_Point_Mult
      (X1       : in     Bignum.Big_Int;
@@ -365,7 +425,24 @@ is
          Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1) <
          Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
          Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1) <
-         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1);
+         Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1) and
+         Two_Point_Mult_Spec
+           (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+            Bignum.Inverse
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Base) ** (X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (E1, E1_First, E1_Last - E1_First + 1),
+            Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (E2, E2_First, E1_Last - E1_First + 1),
+            Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1),
+            Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1));
 
    procedure Make_Affine
      (X1       : in     Bignum.Big_Int;

@@ -346,7 +346,20 @@ is
             Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
             Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
             Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
-            Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Point_Mult_Spec
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+               Bignum.Inverse
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Base) ** (X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (E, I + 1, E_Last - I),
+               Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1)));
 
          for J in reverse Natural range 0 .. 31
          loop
@@ -357,7 +370,23 @@ is
                Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
                Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
                Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
-               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Point_Mult_Spec
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+                  Bignum.Inverse
+                    (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                     Bignum.Base) ** (X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (E, I + 1, E_Last - I) *
+                  Math_Int.From_Word32 (2) ** (31 - J) +
+                  Math_Int.From_Word32 (E (I)) /
+                  Math_Int.From_Word32 (2) ** (J + 1),
+                  Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1)));
 
             Point_Double
               (X2, X2_First, X2_First + L, Y2, Y2_First, Z2, Z2_First,
@@ -383,7 +412,23 @@ is
                Bignum.Num_Of_Big_Int (Y2, Y2_First, L + 1) <
                Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
                Bignum.Num_Of_Big_Int (Z2, Z2_First, L + 1) <
-               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Point_Mult_Spec
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+                  Bignum.Inverse
+                    (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                     Bignum.Base) ** (X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (E, I + 1, E_Last - I) *
+                  Math_Int.From_Word32 (2) ** (31 - (J - 1)) +
+                  Math_Int.From_Word32 (E (I)) /
+                  Math_Int.From_Word32 (2) ** ((J - 1) + 1),
+                  Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1)));
          end loop;
       end loop;
    end Point_Mult;
@@ -451,7 +496,39 @@ is
             Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
             Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
             Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
-            Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+            Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+            Point_Add_Spec
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+               Bignum.Inverse
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Base) ** (X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (X5, X5'First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y5, Y5'First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z5, Z5'First, X1_Last - X1_First + 1)) and
+            Two_Point_Mult_Spec
+              (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+               Bignum.Inverse
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Base) ** (X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (E1, I + 1, E1_Last - I),
+               Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (E2, E2_First + (I - E1_First) + 1, E1_Last - I),
+               Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1),
+               Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1)));
 
          for J in reverse Natural range 0 .. 31
          loop
@@ -468,7 +545,45 @@ is
                Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
                Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
                Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
-               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Point_Add_Spec
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+                  Bignum.Inverse
+                    (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                     Bignum.Base) ** (X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X5, X5'First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y5, Y5'First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z5, Z5'First, X1_Last - X1_First + 1)) and
+               Two_Point_Mult_Spec
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+                  Bignum.Inverse
+                    (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                     Bignum.Base) ** (X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (E1, I + 1, E1_Last - I) *
+                  Math_Int.From_Word32 (2) ** (31 - J) +
+                  Math_Int.From_Word32 (E1 (I)) /
+                  Math_Int.From_Word32 (2) ** (J + 1),
+                  Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (E2, E2_First + (I - E1_First) + 1, E1_Last - I) *
+                  Math_Int.From_Word32 (2) ** (31 - J) +
+                  Math_Int.From_Word32 (E2 (E2_First + (I - E1_First))) /
+                  Math_Int.From_Word32 (2) ** (J + 1),
+                  Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1)));
 
             Point_Double
               (X3, X3_First, X3_First + L, Y3, Y3_First, Z3, Z3_First,
@@ -514,7 +629,45 @@ is
                Bignum.Num_Of_Big_Int (Y5, Y5'First, L + 1) <
                Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
                Bignum.Num_Of_Big_Int (Z5, Z5'First, L + 1) <
-               Bignum.Num_Of_Big_Int (M, M_First, L + 1));
+               Bignum.Num_Of_Big_Int (M, M_First, L + 1) and
+               Point_Add_Spec
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+                  Bignum.Inverse
+                    (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                     Bignum.Base) ** (X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X5, X5'First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y5, Y5'First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z5, Z5'First, X1_Last - X1_First + 1)) and
+               Two_Point_Mult_Spec
+                 (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (A, A_First, X1_Last - X1_First + 1) *
+                  Bignum.Inverse
+                    (Bignum.Num_Of_Big_Int (M, M_First, X1_Last - X1_First + 1),
+                     Bignum.Base) ** (X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (X1, X1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y1, Y1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z1, Z1_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (E1, I + 1, E1_Last - I) *
+                  Math_Int.From_Word32 (2) ** (31 - (J - 1)) +
+                  Math_Int.From_Word32 (E1 (I)) /
+                  Math_Int.From_Word32 (2) ** ((J - 1) + 1),
+                  Bignum.Num_Of_Big_Int (X2, X2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y2, Y2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z2, Z2_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (E2, E2_First + (I - E1_First) + 1, E1_Last - I) *
+                  Math_Int.From_Word32 (2) ** (31 - (J - 1)) +
+                  Math_Int.From_Word32 (E2 (E2_First + (I - E1_First))) /
+                  Math_Int.From_Word32 (2) ** ((J - 1) + 1),
+                  Bignum.Num_Of_Big_Int (X3, X3_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Y3, Y3_First, X1_Last - X1_First + 1),
+                  Bignum.Num_Of_Big_Int (Z3, Z3_First, X1_Last - X1_First + 1)));
          end loop;
       end loop;
    end Two_Point_Mult;

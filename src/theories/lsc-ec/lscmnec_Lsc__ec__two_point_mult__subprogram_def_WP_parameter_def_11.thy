@@ -1,8 +1,8 @@
-theory lscmnec_Lsc__ec__two_point_mult__subprogram_def_WP_parameter_def_6
+theory lscmnec_Lsc__ec__two_point_mult__subprogram_def_WP_parameter_def_11
 imports "../Elliptic_Spec"
 begin
 
-why3_open "lscmnec_Lsc__ec__two_point_mult__subprogram_def_WP_parameter_def_6.xml"
+why3_open "lscmnec_Lsc__ec__two_point_mult__subprogram_def_WP_parameter_def_11.xml"
 
 why3_vc WP_parameter_def
 proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
@@ -36,6 +36,9 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
     INV_def
 
+  note bit1 = `_ = (if (if elts e1 o1 AND of_int 2 ^ nat j =
+    of_int 0 then _ else _) \<noteq> _ then _ else _)`
+
   note nonsingular = `ell_field.nonsingular _ _ b` [simplified defs]
   note on_curvep1 = `cring.on_curvep _ _ b (num_of_big_int (word32_to_int \<circ> elts x1) _ _, _, _)` [simplified defs]
   note on_curvep2 = `cring.on_curvep _ _ b (num_of_big_int (word32_to_int \<circ> elts x2) _ _, _, _)` [simplified defs]
@@ -49,11 +52,12 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
   let ?x2 = "make_affine (X\<^sub>2, Y\<^sub>2, Z\<^sub>2)"
 
   from gt2
-  have ge0: "0 \<le> A" "0 \<le> INV" "0 \<le> DX\<^sub>2" "0 \<le> DY\<^sub>2" "0 \<le> DZ\<^sub>2"
-    "0 \<le> X\<^sub>3\<^sub>2" "0 \<le> Y\<^sub>3\<^sub>2" "0 \<le> Z\<^sub>3\<^sub>2" "0 \<le> X\<^sub>3\<^sub>3" "0 \<le> Y\<^sub>3\<^sub>3" "0 \<le> Z\<^sub>3\<^sub>3"
-    by (simp_all add: A_def INV_def DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
-      X\<^sub>3\<^sub>2_def Y\<^sub>3\<^sub>2_def Z\<^sub>3\<^sub>2_def X\<^sub>3\<^sub>3_def Y\<^sub>3\<^sub>3_def Z\<^sub>3\<^sub>3_def
-      num_of_lint_lower word32_to_int_lower base_eq minv_def)
+  have ge0: "0 \<le> A" "0 \<le> INV" "0 \<le> X\<^sub>3\<^sub>2" "0 \<le> Y\<^sub>3\<^sub>2" "0 \<le> Z\<^sub>3\<^sub>2" "0 \<le> X\<^sub>3\<^sub>3" "0 \<le> Y\<^sub>3\<^sub>3" "0 \<le> Z\<^sub>3\<^sub>3"
+    "0 \<le> DX\<^sub>2" "0 \<le> DY\<^sub>2" "0 \<le> DZ\<^sub>2"
+    by (simp_all add: A_def INV_def X\<^sub>3\<^sub>2_def Y\<^sub>3\<^sub>2_def Z\<^sub>3\<^sub>2_def X\<^sub>3\<^sub>3_def Y\<^sub>3\<^sub>3_def Z\<^sub>3\<^sub>3_def
+      DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
+      num_of_lint_lower word32_to_int_lower
+      base_eq minv_def)
 
   from gt2 have "2 < M" by simp
 
@@ -70,6 +74,13 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     `(num_of_big_int' (Array y32 _) _ _ < _) = _`
     `(num_of_big_int' (Array z32 _) _ _ < _) = _`
   have p\<^sub>3\<^sub>2: "in_carrierp (X\<^sub>3\<^sub>2, Y\<^sub>3\<^sub>2, Z\<^sub>3\<^sub>2)"
+    by (simp add: in_carrierp_def res_carrier_eq defs)
+
+  from ge0
+    `(num_of_big_int' (Array x33 _) _ _ < _) = _`
+    `(num_of_big_int' (Array y33 _) _ _ < _) = _`
+    `(num_of_big_int' (Array z33 _) _ _ < _) = _`
+  have p\<^sub>3\<^sub>3: "in_carrierp (X\<^sub>3\<^sub>3, Y\<^sub>3\<^sub>3, Z\<^sub>3\<^sub>3)"
     by (simp add: in_carrierp_def res_carrier_eq defs)
 
   from ge0
@@ -104,39 +115,55 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     by (simp add: on_curvep_iff_on_curve [OF a b d\<^sub>2] add_closed
       on_curvep_iff_on_curve [symmetric])
 
-  from
-    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> x33 k = _) \<and> _`
-    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y33 k = _) \<and> _`
-    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z33 k = _) \<and> _`
-    `\<lfloor>x3__first\<rfloor>\<^sub>\<int> \<le> x3_first`
-    `x3_first + (x1_last - x1_first) \<le> \<lfloor>x3__last\<rfloor>\<^sub>\<int>`
-    `\<lfloor>y3__first\<rfloor>\<^sub>\<int> \<le> y3_first`
-    `y3_first + (x1_last - x1_first) \<le> \<lfloor>y3__last\<rfloor>\<^sub>\<int>`
-    `\<lfloor>z3__first\<rfloor>\<^sub>\<int> \<le> z3_first`
-    `z3_first + (x1_last - x1_first) \<le> \<lfloor>z3__last\<rfloor>\<^sub>\<int>`
-  have eq3: "(X\<^sub>3\<^sub>3, Y\<^sub>3\<^sub>3, Z\<^sub>3\<^sub>3) = (DX\<^sub>2, DY\<^sub>2, DZ\<^sub>2)"
-    by (simp add: X\<^sub>3\<^sub>3_def Y\<^sub>3\<^sub>3_def Z\<^sub>3\<^sub>3_def DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def num_of_lint_def
-      slide_eq mk_bounds_eqs integer_in_range_def)
+  note eq3 =
+    `point_add_spec _ _ _ _ _ _ _ _ (num_of_big_int' (Array x33 _) _ _) _ _ = _`
+      [my_simplified point_add_spec_def Let_def slide_eq mk_bounds_eqs integer_in_range_def defs
+       make_affine_proj_eq_iff a b p\<^sub>3\<^sub>3 d\<^sub>2' padd_in_carrierp padd_correct [of _ b]
+       on_curvep1 on_curvep_imp_in_carrierp [of ?a b], symmetric]
 
-  from eq1 eq2 a b nonsingular on_curvep1 on_curvep2
-  have "make_affine (DX\<^sub>2, DY\<^sub>2, DZ\<^sub>2) =
+  with a b d\<^sub>2' on_curvep1
+  have p\<^sub>3\<^sub>3': "on_curvep ?a b (X\<^sub>3\<^sub>3, Y\<^sub>3\<^sub>3, Z\<^sub>3\<^sub>3)"
+    by (simp add: on_curvep_iff_on_curve [OF a b p\<^sub>3\<^sub>3] add_closed
+      on_curvep_iff_on_curve [symmetric])
+
+  from eq1 eq2 eq3 a b nonsingular on_curvep1 on_curvep2
+  have "make_affine (X\<^sub>3\<^sub>3, Y\<^sub>3\<^sub>3, Z\<^sub>3\<^sub>3) =
     add ?a
-      (point_mult ?a (nat ((?e1 * 2 ^ nat (31 - j) +
-         \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2)) ?x1)
-      (point_mult ?a (nat ((?e2 * 2 ^ nat (31 - j) +
-         \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2)) ?x2)"
+      (add ?a
+         (point_mult ?a
+            (nat ((?e1 * 2 ^ nat (31 - j) +
+               \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2))
+            ?x1)
+         (point_mult ?a
+            (nat ((?e2 * 2 ^ nat (31 - j) +
+               \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2))
+            ?x2))
+      ?x1"
     by (simp only: nat_mult_distrib [of 2, simplified, simplified mult.commute])
       (simp add: point_mult_mult point_mult2_eq_double word32_to_int_def
         on_curvep_iff_on_curve [symmetric] add_assoc [symmetric] add_comm add_comm'
         add_closed point_mult_closed)
+  also from a b nonsingular on_curvep1 on_curvep2 have "\<dots> =
+    add ?a
+      (point_mult ?a
+         (nat ((?e1 * 2 ^ nat (31 - j) +
+            \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2 + 1))
+         ?x1)
+      (point_mult ?a
+         (nat ((?e2 * 2 ^ nat (31 - j) +
+            \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2))
+         ?x2)"
+    by (simp add: nat_add_distrib num_of_lint_lower word32_to_int_lower
+      pos_imp_zdiv_nonneg_iff on_curvep_iff_on_curve [symmetric]
+      add_comm add_comm' add_closed point_mult_closed)
   also from `0 \<le> j` `j \<le> 31`
   have "(?e1 * 2 ^ nat (31 - j) +
-      \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2 =
+      \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2 + 1 =
     ?e1 * 2 ^ nat (31 - j + 1) +
-    \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2"
+    \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 + 1"
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
-  also from `(if (if elts e1 o1 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
+  also from bit1
     power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
   have "\<dots> = ?e1 * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
@@ -156,12 +183,12 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
   have "\<dots> = ?e2 * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
     \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
-    by (simp add: AND_div_mod word_uint_eq_iff uint_pow uint_and
+    by (simp add: AND_div_mod word_uint_eq_iff uint_and uint_pow
       word32_to_int_def)
   finally show ?case
-    by (simp add: defs make_affine_proj_eq_iff on_curvep1 on_curvep2 eq3 d\<^sub>2' a b
-      ppoint_mult_correct [of _ b] padd_correct [of _ b] on_curvep_imp_in_carrierp [of ?a b]
-      padd_closed)
+    by (simp add: defs make_affine_proj_eq_iff on_curvep1 on_curvep2 p\<^sub>3\<^sub>3' a b
+      ppoint_mult_correct [of _ b] on_curvep_imp_in_carrierp [of ?a b]
+      padd_correct [of _ b] padd_closed)
       (simp add: add.commute word32_to_int_def o_def)
 qed
 
