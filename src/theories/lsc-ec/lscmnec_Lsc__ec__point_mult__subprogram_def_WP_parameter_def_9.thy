@@ -31,7 +31,7 @@ proof (simp add: point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
     INV_def
 
-  note bit = `_ = (if (if elts e o1 AND _ ^ nat j = _ then _ else _) \<noteq> _ then _ else _)`
+  note bit = `(if (if elts e o1 AND _ ^ nat j = _ then _ else _) \<noteq> _ then _ else _) = _`
 
   note nonsingular = `ell_field.nonsingular _ _ b` [simplified defs]
   note on_curvep = `cring.on_curvep _ _ b _` [simplified defs]

@@ -10,7 +10,7 @@ proof -
     (sign1_last - sign1_first + 1)"
     by (simp add: num_of_lint_lower word32_to_int_lower)
   with
-    `_ = (if is_zero (Array sign1 _) _ _ \<noteq> True then _ else _)`
+    `(if is_zero (Array sign1 _) _ _ \<noteq> True then _ else _) = _`
     `(is_zero (Array sign1 _) _ _ = True) = _`
   show ?thesis by simp
 qed

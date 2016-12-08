@@ -27,10 +27,11 @@ proof -
   have "Z\<^sub>2 = 0"
     by (simp add: Z\<^sub>2_def num_of_lint_all0 word32_to_int_def)
   with `_ = ((num_of_big_int' z1 _ _ = _) = _)` [my_simplified defs]
+    `is_zero z1 z1_first (z1_first + (x1_last - x1_first)) = _`
   show ?thesis
     by (simp add: point_double_spec_def Let_def proj_eq_def pdouble_def
       zero_cong res_mult_eq res_add_eq res_diff_cong
-    res_of_int_eq res_pow_eq defs)
+      res_of_int_eq res_pow_eq defs)
 qed
 
 why3_end

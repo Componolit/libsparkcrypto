@@ -15,9 +15,9 @@ proof -
   def X\<^sub>2 \<equiv> "num_of_big_int (word32_to_int \<circ> elts x2) x2_first ?L"
   def Y\<^sub>2 \<equiv> "num_of_big_int (word32_to_int \<circ> elts y2) y2_first ?L"
   def Z\<^sub>2 \<equiv> "num_of_big_int (word32_to_int \<circ> elts z2) z2_first ?L"
-  def X\<^sub>3 \<equiv> "num_of_big_int (word32_to_int \<circ> x3) x3_first ?L"
-  def Y\<^sub>3 \<equiv> "num_of_big_int (word32_to_int \<circ> y3) y3_first ?L"
-  def Z\<^sub>3 \<equiv> "num_of_big_int (word32_to_int \<circ> z3) z3_first ?L"
+  def X\<^sub>3 \<equiv> "num_of_big_int (word32_to_int \<circ> x31) x3_first ?L"
+  def Y\<^sub>3 \<equiv> "num_of_big_int (word32_to_int \<circ> y31) y3_first ?L"
+  def Z\<^sub>3 \<equiv> "num_of_big_int (word32_to_int \<circ> z31) z3_first ?L"
   def INV \<equiv> "minv M (int_of_math_int (base ())) ^ nat ?L"
 
   note defs [symmetric] =
@@ -34,21 +34,22 @@ proof -
   have "Z\<^sub>1 \<noteq> 0" by (simp add: Z\<^sub>1_def)
   moreover from
     `_ = ((num_of_big_int' z2 _ _ = _) = _)`
+    `is_zero z2 _ _ = _`
   have "Z\<^sub>2 = 0" by (simp add: Z\<^sub>2_def)
   moreover from
-    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> x3 k = _) \<and> _`
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> x31 k = _) \<and> _`
     `\<lfloor>x3__first\<rfloor>\<^sub>\<int> \<le> x3_first`
     `x3_first + (x1_last - x1_first) \<le> \<lfloor>x3__last\<rfloor>\<^sub>\<int>`
   have "X\<^sub>3 = X\<^sub>1"
     by (simp add: X\<^sub>1_def X\<^sub>3_def add_diff_eq num_of_lint_ext)
   moreover from
-    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y3 k = _) \<and> _`
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> y31 k = _) \<and> _`
     `\<lfloor>y3__first\<rfloor>\<^sub>\<int> \<le> y3_first`
     `y3_first + (x1_last - x1_first) \<le> \<lfloor>y3__last\<rfloor>\<^sub>\<int>`
   have "Y\<^sub>3 = Y\<^sub>1"
     by (simp add: Y\<^sub>1_def Y\<^sub>3_def add_diff_eq num_of_lint_ext)
   moreover from
-    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z3 k = _) \<and> _`
+    `\<forall>k. _ \<longrightarrow> (_ \<longrightarrow> z31 k = _) \<and> _`
     `\<lfloor>z3__first\<rfloor>\<^sub>\<int> \<le> z3_first`
     `z3_first + (x1_last - x1_first) \<le> \<lfloor>z3__last\<rfloor>\<^sub>\<int>`
   have "Z\<^sub>3 = Z\<^sub>1"

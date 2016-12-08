@@ -18,12 +18,12 @@ proof -
     by (simp only: lint_inv_mod [of "\<lfloor>m_inv\<rfloor>\<^sub>s" "word32_to_int o elts m" _ 32, simplified, OF m_inv])
 
   from
-    `(num_of_big_int' (Array a _) _ _ = _) = _`
-    `mk_map__ref aux31 = mk_map__ref aux32`
-    `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
+    `(num_of_big_int' (Array a2 _) _ _ = _) = _`
+    `mk_map__ref aux32 = mk_map__ref aux31`
+    `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
     `(num_of_big_int' (Array (aux1(aux1_first := o1)) _) _ _ = _) = _`
     `e_first \<le> e_last`
-  have "num_of_big_int (word32_to_int o a) a_first ?L =
+  have "num_of_big_int (word32_to_int o a2) a_first ?L =
     ?x ^ nat (num_of_big_int (word32_to_int \<circ> elts e) e_first (1 + (e_last - e_first))) *
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
     by simp

@@ -20,17 +20,17 @@ proof -
       del: num_of_lint_sum)
 
   from
-    `(num_of_big_int' (Array a _) _ _ = _) = _`
+    `(num_of_big_int' (Array a1 _) _ _ = _) = _`
     `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
     `(num_of_big_int' (Array aux1 _) _ _ = _) = _`
-  have "num_of_big_int (word32_to_int o a) a_first ?L =
+  have "num_of_big_int (word32_to_int o a1) a_first ?L =
     num_of_big_int (word32_to_int \<circ> elts x) x_first ?L ^
       nat (num_of_big_int (word32_to_int \<circ> elts e) e_first (e_last - e_first + 1) div
-        2 ^ nat (uint i2 - s1 + 1)) *
+        2 ^ nat (uint i1 - s2 + 1)) *
     (Base * minv ?m Base mod ?m) ^ nat ?L mod ?m"
     by (simp add: power_mult_distrib mult.assoc base_eq)
-  with Base_inv `(math_int_of_int s1 \<le> math_int_from_word i2 + _) = _`
-    `BV64.ult i2 (of_int s1)` `_ \<longrightarrow> natural_in_range s1`
+  with Base_inv `(math_int_of_int s2 \<le> math_int_from_word i1 + _) = _`
+    `BV64.ult i1 (of_int s2)` `_ \<longrightarrow> natural_in_range s2`
   show ?thesis by (simp add: BV64.ult_def word_of_int uint_word_of_int
     natural_in_range_def mod_pos_pos_trivial)
 qed

@@ -10,9 +10,9 @@ proof -
     by simp
   from
     `two_point_mult_spec _ _ _ _ _ _ _ _ _ _
-       (num_of_big_int' (Array x31 _) _ _)
-       (num_of_big_int' (Array y31 _) _ _)
-       (num_of_big_int' (Array z31 _) _ _) = _`
+       (num_of_big_int' (Array x32 _) _ _)
+       (num_of_big_int' (Array y32 _) _ _)
+       (num_of_big_int' (Array z32 _) _ _) = _`
     `i1 \<le> e1_last`
   show ?thesis
     by (simp add: e add_ac mult_ac word32_to_int_def two_point_mult_spec_def)

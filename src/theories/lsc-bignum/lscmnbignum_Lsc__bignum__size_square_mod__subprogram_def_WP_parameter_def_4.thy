@@ -34,7 +34,7 @@ proof -
       num_of_lint_lower num_of_lint_upper mod_pos_pos_trivial
       word32_to_int_lower word32_to_int_upper' base_eq)
 
-  from `carry1 \<noteq> True`
+  from `carry \<noteq> True`
     `(num_of_big_int' (Array r2 _) _ _ * _ = _) = _`
   have r2: "num_of_big_int (word32_to_int o r3) r_first ?l = ?r * 2"
     by simp
@@ -45,7 +45,7 @@ proof -
   moreover have "?m < ?R"
     by (simp add: num_of_lint_upper word32_to_int_upper')
   moreover from r2
-    `_ = (if WP_parameter_def.less _ _ _ _ _ \<noteq> _ then _ else _)`
+    `(if WP_parameter_def.less _ _ _ _ _ \<noteq> _ then _ else _) = _`
     `(WP_parameter_def.less _ _ _ _ _ = _) = _`
   have "?m \<le> ?r * 2" by simp
   ultimately have "(?r * 2) mod ?m = (?r * 2 - ?m) mod ?R"

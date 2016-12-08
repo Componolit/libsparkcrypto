@@ -43,7 +43,7 @@ proof -
     \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 + 1"
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
-  also from `_ = (if (if elts e o2 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _)`
+  also from `(if (if elts e o2 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _) = _`
     power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
   have "\<dots> = ?e * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +

@@ -5,7 +5,7 @@
 <prover id="1" name="altergo" version="0.99.1" timelimit="240" steplimit="0" memlimit="0"/>
 <prover id="2" name="Z3" version="4.4.1" timelimit="60" steplimit="530000" memlimit="0"/>
 <prover id="3" name="CVC4" version="1.5" timelimit="60" steplimit="12500" memlimit="0"/>
-<prover id="4" name="Isabelle" version="2016" timelimit="240" steplimit="0" memlimit="1000"/>
+<prover id="4" name="Isabelle" version="2016" timelimit="240" steplimit="0" memlimit="0"/>
 <file name="../../../build/native/gnatprove/lsc-bignum.mlw">
 <theory name="Temp___finite_float_literal_42" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
@@ -1107,144 +1107,6 @@
 </theory>
 <theory name="Lsc__bignum__mont_exp_window__m_inv___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="System__name" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__name__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__system_name" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__address" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__address__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__null_address" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__bit_order" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__bit_order__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_bit_order" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_interrupt_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__any_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__any_priority__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__priority__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__interrupt_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__interrupt_priority__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_divide_checks" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_overflow_checks" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__command_line_args" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__configurable_run_time" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__denorm" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__duration_32_bits" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__exit_status_supported" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__fractional_fixed_ops" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_layout" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_overflows" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_rounds" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__preallocated_stacks" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__signed_zeros" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_default" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_probes" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_limits" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_aggregates" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_atomic_primitives" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_assign" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_compare" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_long_shifts" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__always_compatible_rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__suppress_standard_library" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__use_ada_main_program_name" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_exceptions" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__zcx_by_default" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__bignum__gcd__a" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__bignum__gcd__a___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -2345,18 +2207,6 @@
 </theory>
 <theory name="Lsc__bignum__copy__L138s__T139s___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="System__name___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__address___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__bit_order___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__any_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__interrupt_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__bignum__initialize__TS1bP1___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__bignum__initialize__S1b___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -2735,70 +2585,6 @@
 </theory>
 <theory name="Lsc__version___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="System__system_name___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_bit_order___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_interrupt_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__null_address___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_divide_checks___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_overflow_checks___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__command_line_args___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__configurable_run_time___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__denorm___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__duration_32_bits___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__exit_status_supported___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__fractional_fixed_ops___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_layout___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_overflows___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_rounds___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__preallocated_stacks___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__signed_zeros___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_default___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_probes___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_limits___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_aggregates___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_atomic_primitives___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_assign___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_compare___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_long_shifts___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__always_compatible_rep___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__suppress_standard_library___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__use_ada_main_program_name___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_exceptions___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__zcx_by_default___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__bignum__mont_exp_window__L_23__R214b___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__types__word32_to_byte_array32___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -2896,16 +2682,6 @@
 <theory name="Lsc__bignum__mont_exp___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__bignum__mont_exp_window___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__bignum__gcd___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
@@ -3179,7 +2955,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="757"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:160:10. lsc-bignum.adb:161:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="40.52"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="40.52"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:160:10. lsc-bignum.adb:166:16)">
   <proof prover="2"><result status="valid" time="0.01" steps="769"/></proof>
@@ -3257,7 +3033,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="6250"/></proof>
   </goal>
   <goal name="WP_parameter def.29" expl="29. postcondition (VC_ASSERT. lsc-bignum.adb:172:10. lsc-bignum.adb:173:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="41.02"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__double_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="41.02"/></proof>
   </goal>
   <goal name="WP_parameter def.30" expl="30. postcondition (VC_ASSERT. lsc-bignum.adb:172:10)">
   <proof prover="2"><result status="valid" time="0.04" steps="21760"/></proof>
@@ -3283,7 +3059,7 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__shr_inplace__subprogram_def" sum="f99336923fcb8281ecfe96e2874756d1">
+<theory name="Lsc__bignum__shr_inplace__subprogram_def" sum="6b44bd7e8902badf40a21b63678b4540">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.adb:194:11)">
@@ -3293,7 +3069,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="736"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:196:10. lsc-bignum.adb:197:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="40.09"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="61.10"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:196:10. lsc-bignum.adb:202:16)">
   <proof prover="2"><result status="valid" time="0.02" steps="748"/></proof>
@@ -3380,7 +3156,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="6208"/></proof>
   </goal>
   <goal name="WP_parameter def.32" expl="32. postcondition (VC_ASSERT. lsc-bignum.adb:210:10. lsc-bignum.adb:211:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="47.82"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="71.58"/></proof>
   </goal>
   <goal name="WP_parameter def.33" expl="33. postcondition (VC_ASSERT. lsc-bignum.adb:210:10)">
   <proof prover="2"><result status="valid" time="0.04" steps="27320"/></proof>
@@ -3400,13 +3176,13 @@
   <goal name="WP_parameter def.38" expl="38. postcondition (VC_POSTCONDITION. lsc-bignum.ads:146:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.38.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:146:10)">
-   <proof prover="2"><result status="valid" time="0.03" steps="12873"/></proof>
+   <proof prover="2"><result status="valid" time="0.03" steps="13249"/></proof>
    </goal>
    <goal name="WP_parameter def.38.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:146:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="38.59"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="202"/></proof>
    </goal>
    <goal name="WP_parameter def.38.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:146:10)">
-   <proof prover="2"><result status="valid" time="0.00" steps="150"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__shr_inplace__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="59.43"/></proof>
    </goal>
   </transf>
   </goal>
@@ -3423,7 +3199,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="883"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:236:10. lsc-bignum.adb:237:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__add_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.58"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__add_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.58"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:236:10. lsc-bignum.adb:242:16)">
   <proof prover="2"><result status="valid" time="0.01" steps="895"/></proof>
@@ -3525,7 +3301,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="7167"/></proof>
   </goal>
   <goal name="WP_parameter def.37" expl="37. postcondition (VC_ASSERT. lsc-bignum.adb:248:10. lsc-bignum.adb:249:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__add_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="40.14"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__add_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="40.14"/></proof>
   </goal>
   <goal name="WP_parameter def.38" expl="38. postcondition (VC_ASSERT. lsc-bignum.adb:248:10)">
   <proof prover="2"><result status="valid" time="0.03" steps="25202"/></proof>
@@ -3564,7 +3340,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="1015"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:278:10. lsc-bignum.adb:279:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__add__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="38.51"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__add__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="38.51"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. precondition (VC_RANGE_CHECK. lsc-bignum.adb:282:24)">
   <proof prover="2"><result status="valid" time="0.03" steps="16731"/></proof>
@@ -3639,7 +3415,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="7749"/></proof>
   </goal>
   <goal name="WP_parameter def.28" expl="28. postcondition (VC_ASSERT. lsc-bignum.adb:294:10. lsc-bignum.adb:295:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__add__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.97"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__add__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.97"/></proof>
   </goal>
   <goal name="WP_parameter def.29" expl="29. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:278:10. lsc-bignum.adb:279:13)">
   <proof prover="2"><result status="valid" time="0.03" steps="19097"/></proof>
@@ -3662,7 +3438,7 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__sub_inplace__subprogram_def" sum="cc75c8cdd71be77d1d4fe564e3e7933e">
+<theory name="Lsc__bignum__sub_inplace__subprogram_def" sum="ceb5dff896cff1937ae1207437e5c593">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.adb:329:11)">
@@ -3672,7 +3448,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="899"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:331:10. lsc-bignum.adb:332:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__sub_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.05"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__sub_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="64.74"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:331:10. lsc-bignum.adb:337:16)">
   <proof prover="2"><result status="valid" time="0.01" steps="911"/></proof>
@@ -3791,10 +3567,10 @@
   <goal name="WP_parameter def.42" expl="42. postcondition (VC_ASSERT. lsc-bignum.adb:344:10. lsc-bignum.adb:345:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.42.1" expl="1. postcondition (VC_ASSERT. lsc-bignum.adb:344:10. lsc-bignum.adb:345:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__sub_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.86"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__sub_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="65.00"/></proof>
    </goal>
    <goal name="WP_parameter def.42.2" expl="2. postcondition (VC_ASSERT. lsc-bignum.adb:344:10. lsc-bignum.adb:345:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__sub_inplace__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="40.33"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__sub_inplace__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="60.10"/></proof>
    </goal>
   </transf>
   </goal>
@@ -3825,7 +3601,7 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__sub__subprogram_def" sum="7faa454cc1c44af17d97b1bfad1cbf32">
+<theory name="Lsc__bignum__sub__subprogram_def" sum="a8b4c5a5fd3ddb1b14b1540dfabd253b">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.adb:371:11)">
@@ -3835,7 +3611,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="1015"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:374:10. lsc-bignum.adb:375:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.69"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="61.18"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. precondition (VC_RANGE_CHECK. lsc-bignum.adb:378:24)">
   <proof prover="2"><result status="valid" time="0.03" steps="16731"/></proof>
@@ -3930,10 +3706,10 @@
   <goal name="WP_parameter def.34" expl="34. postcondition (VC_ASSERT. lsc-bignum.adb:391:10. lsc-bignum.adb:392:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.34.1" expl="1. postcondition (VC_ASSERT. lsc-bignum.adb:391:10. lsc-bignum.adb:392:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="39.68"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="62.70"/></proof>
    </goal>
    <goal name="WP_parameter def.34.2" expl="2. postcondition (VC_ASSERT. lsc-bignum.adb:391:10. lsc-bignum.adb:392:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="39.69"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="59.42"/></proof>
    </goal>
   </transf>
   </goal>
@@ -3958,7 +3734,7 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mod_add_inplace__subprogram_def" sum="b2aa9415ef7b5a139334ac44e4ec1646">
+<theory name="Lsc__bignum__mod_add_inplace__subprogram_def" sum="1472dbeb45fa6ddbc3758e5ede07f500">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:268:56)">
@@ -4051,20 +3827,20 @@
   <goal name="WP_parameter def.30" expl="30. postcondition (VC_POSTCONDITION. lsc-bignum.ads:270:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.30.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:270:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="36.29"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="308"/></proof>
    </goal>
    <goal name="WP_parameter def.30.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:270:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="37.04"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="56.42"/></proof>
    </goal>
    <goal name="WP_parameter def.30.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:270:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="58.80"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mod_add__subprogram_def" sum="68aa4ec92e92303166b52317ca2e2eb7">
+<theory name="Lsc__bignum__mod_add__subprogram_def" sum="b6b99d41d3d020407beffd89eb7942d4">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:305:56)">
@@ -4169,20 +3945,20 @@
   <goal name="WP_parameter def.34" expl="34. postcondition (VC_POSTCONDITION. lsc-bignum.ads:307:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.34.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:307:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="36.75"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.00" steps="364"/></proof>
    </goal>
    <goal name="WP_parameter def.34.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:307:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.60"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="57.19"/></proof>
    </goal>
    <goal name="WP_parameter def.34.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:307:10)">
-   <proof prover="2"><result status="valid" time="0.00" steps="150"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_add__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="59.91"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mod_sub_inplace__subprogram_def" sum="8b3103fe25471a23772c00cfd2c6cb0d">
+<theory name="Lsc__bignum__mod_sub_inplace__subprogram_def" sum="27a20cbea33a320a64f16342a34fb5ff">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:336:55)">
@@ -4266,20 +4042,20 @@
   <goal name="WP_parameter def.27" expl="27. postcondition (VC_POSTCONDITION. lsc-bignum.ads:338:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.27.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:338:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="36.57"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="308"/></proof>
    </goal>
    <goal name="WP_parameter def.27.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:338:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.91"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub_inplace__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="58.36"/></proof>
    </goal>
    <goal name="WP_parameter def.27.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:338:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub_inplace__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="58.95"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mod_sub__subprogram_def" sum="334e391fd6603b15fc7568287dfd0d37">
+<theory name="Lsc__bignum__mod_sub__subprogram_def" sum="c533e5bcea1c4a33f94c08b87336ee2c">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:370:55)">
@@ -4375,20 +4151,20 @@
   <goal name="WP_parameter def.31" expl="31. postcondition (VC_POSTCONDITION. lsc-bignum.ads:372:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.31.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:372:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.78"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.00" steps="364"/></proof>
    </goal>
    <goal name="WP_parameter def.31.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:372:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.00"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="58.77"/></proof>
    </goal>
    <goal name="WP_parameter def.31.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:372:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mod_sub__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="59.20"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__is_zero__subprogram_def" sum="4f5615807b2af8accf324c65c88778aa">
+<theory name="Lsc__bignum__is_zero__subprogram_def" sum="a6b3515eea2d88ed7997cee07bb26e90">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.adb:515:11)">
@@ -4433,39 +4209,39 @@
   <goal name="WP_parameter def.14" expl="14. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.14.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="13266"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="5940"/></proof>
    </goal>
    <goal name="WP_parameter def.14.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.04"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="60.14"/></proof>
    </goal>
    <goal name="WP_parameter def.14.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="4740"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="216"/></proof>
    </goal>
    <goal name="WP_parameter def.14.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="150"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="13237"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="WP_parameter def.15" expl="15. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.15.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="4195"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="57.44"/></proof>
    </goal>
    <goal name="WP_parameter def.15.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="36.83"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="59.27"/></proof>
    </goal>
    <goal name="WP_parameter def.15.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__is_zero__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="38.89"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="216"/></proof>
    </goal>
    <goal name="WP_parameter def.15.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:391:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="4268"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__equal__subprogram_def" sum="2b3666840ee528d5b2df84cf11d7d716">
+<theory name="Lsc__bignum__equal__subprogram_def" sum="d64d22b72f98b4736eab0a19e7ce0577">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.adb:545:11)">
@@ -4531,39 +4307,39 @@
   <goal name="WP_parameter def.21" expl="21. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.21.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="14616"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="6889"/></proof>
    </goal>
    <goal name="WP_parameter def.21.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.12"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="58.71"/></proof>
    </goal>
    <goal name="WP_parameter def.21.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="5459"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="272"/></proof>
    </goal>
    <goal name="WP_parameter def.21.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="14599"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="WP_parameter def.22" expl="22. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.22.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="4572"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="58.67"/></proof>
    </goal>
    <goal name="WP_parameter def.22.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="36.90"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="56.81"/></proof>
    </goal>
    <goal name="WP_parameter def.22.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="37.19"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="272"/></proof>
    </goal>
    <goal name="WP_parameter def.22.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:410:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="4685"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__less__subprogram_def" sum="d714d16d32087c7547eb0b1edf9bb6f3">
+<theory name="Lsc__bignum__less__subprogram_def" sum="7f9cf898d28dd889ddc415a0ffb725f8">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.adb:576:11)">
@@ -4573,7 +4349,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="904"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:578:10. lsc-bignum.adb:579:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="38.37"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="60.04"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:578:10. lsc-bignum.adb:581:13)">
   <proof prover="2"><result status="valid" time="0.02" steps="920"/></proof>
@@ -4624,7 +4400,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="1088"/></proof>
   </goal>
   <goal name="WP_parameter def.20" expl="20. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:578:10. lsc-bignum.adb:579:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="39.34"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="60.27"/></proof>
   </goal>
   <goal name="WP_parameter def.21" expl="21. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:578:10. lsc-bignum.adb:581:13)">
   <proof prover="2"><result status="valid" time="0.02" steps="5765"/></proof>
@@ -4638,45 +4414,45 @@
   <goal name="WP_parameter def.24" expl="24. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.24.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="4670"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="4856"/></proof>
    </goal>
    <goal name="WP_parameter def.24.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="5784"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="278"/></proof>
    </goal>
    <goal name="WP_parameter def.24.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="5767"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="6152"/></proof>
    </goal>
    <goal name="WP_parameter def.24.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="38.61"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="6134"/></proof>
    </goal>
    <goal name="WP_parameter def.24.5" expl="5. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="150"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="61.16"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="WP_parameter def.25" expl="25. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.25.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.03" steps="14832"/></proof>
+   <proof prover="2"><result status="valid" time="0.03" steps="15044"/></proof>
    </goal>
    <goal name="WP_parameter def.25.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="38.14"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="278"/></proof>
    </goal>
    <goal name="WP_parameter def.25.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="40.08"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="59.19"/></proof>
    </goal>
    <goal name="WP_parameter def.25.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="5544"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__less__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="58.62"/></proof>
    </goal>
    <goal name="WP_parameter def.25.5" expl="5. postcondition (VC_POSTCONDITION. lsc-bignum.ads:429:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="150"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="7091"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__size_square_mod__subprogram_def" sum="35985190743facd9dba1eac01ae7d0e1">
+<theory name="Lsc__bignum__size_square_mod__subprogram_def" sum="f97e96dcb6531aa949f9f823f0a095e1">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:448:82)">
@@ -4719,7 +4495,7 @@
   <proof prover="2"><result status="valid" time="0.00" steps="1320"/></proof>
   </goal>
   <goal name="WP_parameter def.14" expl="14. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:615:10. lsc-bignum.adb:616:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="39.71"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="61.16"/></proof>
   </goal>
   <goal name="WP_parameter def.15" expl="15. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:615:10. lsc-bignum.adb:620:13)">
   <proof prover="2"><result status="valid" time="0.02" steps="17151"/></proof>
@@ -4731,7 +4507,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="6893"/></proof>
   </goal>
   <goal name="WP_parameter def.18" expl="18. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:624:13. lsc-bignum.adb:625:16)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.26"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="63.56"/></proof>
   </goal>
   <goal name="WP_parameter def.19" expl="19. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:624:13. lsc-bignum.adb:630:16)">
   <proof prover="2"><result status="valid" time="0.01" steps="1392"/></proof>
@@ -4820,16 +4596,16 @@
   <goal name="WP_parameter def.47" expl="47. postcondition (VC_ASSERT. lsc-bignum.adb:639:13. lsc-bignum.adb:640:16)">
   <transf name="split_disj">
    <goal name="WP_parameter def.47.1" expl="1. postcondition (VC_ASSERT. lsc-bignum.adb:639:13. lsc-bignum.adb:640:16)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="40.15"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="60.74"/></proof>
    </goal>
    <goal name="WP_parameter def.47.2" expl="2. postcondition (VC_ASSERT. lsc-bignum.adb:639:13. lsc-bignum.adb:640:16)">
-   <proof prover="2"><result status="valid" time="0.01" steps="1486"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="64.31"/></proof>
    </goal>
    <goal name="WP_parameter def.47.3" expl="3. postcondition (VC_ASSERT. lsc-bignum.adb:639:13. lsc-bignum.adb:640:16)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="44.76"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="1486"/></proof>
    </goal>
    <goal name="WP_parameter def.47.4" expl="4. postcondition (VC_ASSERT. lsc-bignum.adb:639:13. lsc-bignum.adb:640:16)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="41.10"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="67.26"/></proof>
    </goal>
   </transf>
   </goal>
@@ -4845,13 +4621,13 @@
   <goal name="WP_parameter def.51" expl="51. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:615:10. lsc-bignum.adb:616:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.51.1" expl="1. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:615:10. lsc-bignum.adb:616:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="442"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="7616"/></proof>
    </goal>
    <goal name="WP_parameter def.51.2" expl="2. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:615:10. lsc-bignum.adb:616:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="40.45"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="448"/></proof>
    </goal>
    <goal name="WP_parameter def.51.3" expl="3. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:615:10. lsc-bignum.adb:616:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="7618"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="60.56"/></proof>
    </goal>
   </transf>
   </goal>
@@ -4867,29 +4643,29 @@
   <goal name="WP_parameter def.55" expl="55. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.55.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
-   <proof prover="2"><result status="valid" time="0.03" steps="19926"/></proof>
+   <proof prover="2"><result status="valid" time="0.03" steps="442"/></proof>
    </goal>
    <goal name="WP_parameter def.55.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="8093"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="19951"/></proof>
    </goal>
    <goal name="WP_parameter def.55.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="40.87"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="442"/></proof>
    </goal>
    <goal name="WP_parameter def.55.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="334"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="8137"/></proof>
    </goal>
    <goal name="WP_parameter def.55.5" expl="5. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="334"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="448"/></proof>
    </goal>
    <goal name="WP_parameter def.55.6" expl="6. postcondition (VC_POSTCONDITION. lsc-bignum.ads:450:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="334"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="59.13"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__word_inverse__subprogram_def" sum="a30065fac568967de808e7b4cbb00bc7">
+<theory name="Lsc__bignum__word_inverse__subprogram_def" sum="143bdeb71f9ff35128ce745287d75502">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_DIVISION_CHECK. lsc-bignum.ads:457:17)">
@@ -4905,10 +4681,10 @@
   <proof prover="2"><result status="valid" time="0.02" steps="188"/></proof>
   </goal>
   <goal name="WP_parameter def.5" expl="5. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:662:10. lsc-bignum.adb:663:27)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="31.79"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="54.68"/></proof>
   </goal>
   <goal name="WP_parameter def.6" expl="6. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:662:10. lsc-bignum.adb:664:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="30.08"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="54.27"/></proof>
   </goal>
   <goal name="WP_parameter def.7" expl="7. precondition (VC_DIVISION_CHECK. lsc-bignum.adb:669:15. lsc-bignum.adb:669:20)">
   <proof prover="2"><result status="valid" time="0.01" steps="127"/></proof>
@@ -4920,15 +4696,15 @@
   <proof prover="2"><result status="valid" time="0.02" steps="420"/></proof>
   </goal>
   <goal name="WP_parameter def.10" expl="10. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:662:10. lsc-bignum.adb:663:27)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="35.70"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="57.19"/></proof>
   </goal>
   <goal name="WP_parameter def.11" expl="11. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:662:10. lsc-bignum.adb:664:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="29.99"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="49.94"/></proof>
   </goal>
   <goal name="WP_parameter def.12" expl="12. postcondition (VC_POSTCONDITION. lsc-bignum.ads:458:16)">
   <transf name="split_disj">
    <goal name="WP_parameter def.12.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:458:16)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="29.11"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_inverse__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="47.71"/></proof>
    </goal>
    <goal name="WP_parameter def.12.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:458:16)">
    <proof prover="2"><result status="valid" time="0.01" steps="1"/></proof>
@@ -4938,7 +4714,7 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mont_mult__subprogram_def" sum="e82f6fb359d867a26e94a10ff521ed52">
+<theory name="Lsc__bignum__mont_mult__subprogram_def" sum="47dd21b714c1a282cfa2988911247cb2">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:485:55)">
@@ -4978,10 +4754,10 @@
   <proof prover="2"><result status="valid" time="0.02" steps="1517"/></proof>
   </goal>
   <goal name="WP_parameter def.13" expl="13. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:826:10. lsc-bignum.adb:827:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="39.12"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="60.50"/></proof>
   </goal>
   <goal name="WP_parameter def.14" expl="14. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:826:10. lsc-bignum.adb:835:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="37.53"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="60.59"/></proof>
   </goal>
   <goal name="WP_parameter def.15" expl="15. precondition (VC_RANGE_CHECK. lsc-bignum.adb:838:58)">
   <proof prover="2"><result status="valid" time="0.04" steps="29306"/></proof>
@@ -5158,10 +4934,10 @@
   <proof prover="2"><result status="valid" time="0.03" steps="12176"/></proof>
   </goal>
   <goal name="WP_parameter def.73" expl="73. postcondition (VC_ASSERT. lsc-bignum.adb:854:10. lsc-bignum.adb:855:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="44.42"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="70.14"/></proof>
   </goal>
   <goal name="WP_parameter def.74" expl="74. postcondition (VC_ASSERT. lsc-bignum.adb:854:10. lsc-bignum.adb:863:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="49.62"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="72.97"/></proof>
   </goal>
   <goal name="WP_parameter def.75" expl="75. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:826:10. lsc-bignum.adb:827:13)">
   <proof prover="2"><result status="valid" time="0.11" steps="176047"/></proof>
@@ -5244,50 +5020,50 @@
   <goal name="WP_parameter def.101" expl="101. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.101.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.04" steps="31152"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="59.45"/></proof>
    </goal>
    <goal name="WP_parameter def.101.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="39.63"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="1809"/></proof>
    </goal>
    <goal name="WP_parameter def.101.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="317"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="60.18"/></proof>
    </goal>
    <goal name="WP_parameter def.101.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="1707"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="60.52"/></proof>
    </goal>
    <goal name="WP_parameter def.101.5" expl="5. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="1809"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="531"/></proof>
    </goal>
    <goal name="WP_parameter def.101.6" expl="6. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="317"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="531"/></proof>
    </goal>
    <goal name="WP_parameter def.101.7" expl="7. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.04" steps="34763"/></proof>
+   <proof prover="2"><result status="valid" time="0.04" steps="531"/></proof>
    </goal>
    <goal name="WP_parameter def.101.8" expl="8. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="39.84"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="531"/></proof>
    </goal>
    <goal name="WP_parameter def.101.9" expl="9. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="317"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="21332"/></proof>
    </goal>
    <goal name="WP_parameter def.101.10" expl="10. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.03" steps="21210"/></proof>
+   <proof prover="2"><result status="valid" time="0.03" steps="1707"/></proof>
    </goal>
    <goal name="WP_parameter def.101.11" expl="11. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_mult__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="39.98"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.04" steps="34900"/></proof>
    </goal>
    <goal name="WP_parameter def.101.12" expl="12. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="317"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="31250"/></proof>
    </goal>
    <goal name="WP_parameter def.101.13" expl="13. postcondition (VC_POSTCONDITION. lsc-bignum.ads:490:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="317"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="531"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mont_exp__subprogram_def" sum="ae97fc387464e2479e50839c401c1f79">
+<theory name="Lsc__bignum__mont_exp__subprogram_def" sum="a87a08841b4ae5141010419cde812428">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:554:55)">
@@ -5396,7 +5172,7 @@
   <proof prover="2"><result status="valid" time="0.04" steps="23318"/></proof>
   </goal>
   <goal name="WP_parameter def.36" expl="36. precondition (VC_PRECONDITION. lsc-bignum.adb:906:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="39.21"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="61.33"/></proof>
   </goal>
   <goal name="WP_parameter def.37" expl="37. precondition (VC_PRECONDITION. lsc-bignum.adb:906:7)">
   <proof prover="2"><result status="valid" time="0.07" steps="91643"/></proof>
@@ -5465,7 +5241,7 @@
   <proof prover="2"><result status="valid" time="0.04" steps="24563"/></proof>
   </goal>
   <goal name="WP_parameter def.59" expl="59. precondition (VC_PRECONDITION. lsc-bignum.adb:911:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="38.12"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="62.64"/></proof>
   </goal>
   <goal name="WP_parameter def.60" expl="60. precondition (VC_PRECONDITION. lsc-bignum.adb:911:7)">
   <proof prover="2"><result status="valid" time="0.11" steps="184023"/></proof>
@@ -5480,13 +5256,13 @@
   <proof prover="2"><result status="valid" time="0.01" steps="1734"/></proof>
   </goal>
   <goal name="WP_parameter def.64" expl="64. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:919:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="39.85"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="62.10"/></proof>
   </goal>
   <goal name="WP_parameter def.65" expl="65. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:921:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_12.xml"><result status="valid" time="40.44"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_12.xml"><result status="valid" time="63.51"/></proof>
   </goal>
   <goal name="WP_parameter def.66" expl="66. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:925:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_13.xml"><result status="valid" time="38.71"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_13.xml"><result status="valid" time="61.64"/></proof>
   </goal>
   <goal name="WP_parameter def.67" expl="67. precondition (VC_RANGE_CHECK. lsc-bignum.adb:929:58)">
   <proof prover="2"><result status="valid" time="0.05" steps="30126"/></proof>
@@ -5528,7 +5304,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="1828"/></proof>
   </goal>
   <goal name="WP_parameter def.80" expl="80. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:933:13. lsc-bignum.adb:940:16)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="39.52"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="59.33"/></proof>
   </goal>
   <goal name="WP_parameter def.81" expl="81. precondition (VC_RANGE_CHECK. lsc-bignum.adb:947:61)">
   <proof prover="2"><result status="valid" time="0.05" steps="31364"/></proof>
@@ -5621,7 +5397,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="1900"/></proof>
   </goal>
   <goal name="WP_parameter def.111" expl="111. precondition (VC_PRECONDITION. lsc-bignum.adb:949:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="39.86"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="62.34"/></proof>
   </goal>
   <goal name="WP_parameter def.112" expl="112. precondition (VC_PRECONDITION. lsc-bignum.adb:949:13)">
   <proof prover="2"><result status="valid" time="0.01" steps="1902"/></proof>
@@ -5696,7 +5472,7 @@
   <proof prover="2"><result status="valid" time="0.04" steps="33175"/></proof>
   </goal>
   <goal name="WP_parameter def.136" expl="136. precondition (VC_PRECONDITION. lsc-bignum.adb:955:16)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="40.33"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="62.25"/></proof>
   </goal>
   <goal name="WP_parameter def.137" expl="137. precondition (VC_PRECONDITION. lsc-bignum.adb:955:16)">
   <proof prover="2"><result status="valid" time="0.21" steps="382381"/></proof>
@@ -5779,10 +5555,10 @@
   <goal name="WP_parameter def.163" expl="163. postcondition (VC_ASSERT. lsc-bignum.adb:963:13. lsc-bignum.adb:970:16)">
   <transf name="split_disj">
    <goal name="WP_parameter def.163.1" expl="1. postcondition (VC_ASSERT. lsc-bignum.adb:963:13. lsc-bignum.adb:970:16)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="48.34"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="71.15"/></proof>
    </goal>
    <goal name="WP_parameter def.163.2" expl="2. postcondition (VC_ASSERT. lsc-bignum.adb:963:13. lsc-bignum.adb:970:16)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_8.xml"><result status="valid" time="65.58"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_8.xml"><result status="valid" time="85.37"/></proof>
    </goal>
   </transf>
   </goal>
@@ -5804,13 +5580,13 @@
   <goal name="WP_parameter def.169" expl="169. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:925:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.169.1" expl="1. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:925:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="600"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="10671"/></proof>
    </goal>
    <goal name="WP_parameter def.169.2" expl="2. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:925:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_9.xml"><result status="valid" time="38.63"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="606"/></proof>
    </goal>
    <goal name="WP_parameter def.169.3" expl="3. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:918:10. lsc-bignum.adb:925:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="10680"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_9.xml"><result status="valid" time="60.60"/></proof>
    </goal>
   </transf>
   </goal>
@@ -5868,19 +5644,19 @@
   <goal name="WP_parameter def.187" expl="187. precondition (VC_PRECONDITION. lsc-bignum.adb:981:7)">
   <transf name="split_disj">
    <goal name="WP_parameter def.187.1" expl="1. precondition (VC_PRECONDITION. lsc-bignum.adb:981:7)">
-   <proof prover="2"><result status="valid" time="0.04" steps="26063"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_10.xml"><result status="valid" time="61.11"/></proof>
    </goal>
    <goal name="WP_parameter def.187.2" expl="2. precondition (VC_PRECONDITION. lsc-bignum.adb:981:7)">
-   <proof prover="2"><result status="valid" time="0.02" steps="10747"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="606"/></proof>
    </goal>
    <goal name="WP_parameter def.187.3" expl="3. precondition (VC_PRECONDITION. lsc-bignum.adb:981:7)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_10.xml"><result status="valid" time="39.73"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="10764"/></proof>
    </goal>
    <goal name="WP_parameter def.187.4" expl="4. precondition (VC_PRECONDITION. lsc-bignum.adb:981:7)">
    <proof prover="2"><result status="valid" time="0.01" steps="600"/></proof>
    </goal>
    <goal name="WP_parameter def.187.5" expl="5. precondition (VC_PRECONDITION. lsc-bignum.adb:981:7)">
-   <proof prover="2"><result status="valid" time="0.02" steps="600"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="26069"/></proof>
    </goal>
   </transf>
   </goal>
@@ -5905,41 +5681,41 @@
   <goal name="WP_parameter def.194" expl="194. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.194.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.04" steps="26455"/></proof>
+   <proof prover="2"><result status="valid" time="0.04" steps="624"/></proof>
    </goal>
    <goal name="WP_parameter def.194.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="11355"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="606"/></proof>
    </goal>
    <goal name="WP_parameter def.194.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_11.xml"><result status="valid" time="42.54"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="606"/></proof>
    </goal>
    <goal name="WP_parameter def.194.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="204"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="600"/></proof>
    </goal>
    <goal name="WP_parameter def.194.5" expl="5. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="204"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="600"/></proof>
    </goal>
    <goal name="WP_parameter def.194.6" expl="6. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="204"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp__subprogram_def_WP_parameter_def_11.xml"><result status="valid" time="64.77"/></proof>
    </goal>
    <goal name="WP_parameter def.194.7" expl="7. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="204"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="606"/></proof>
    </goal>
    <goal name="WP_parameter def.194.8" expl="8. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="204"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="11404"/></proof>
    </goal>
    <goal name="WP_parameter def.194.9" expl="9. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="204"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="600"/></proof>
    </goal>
    <goal name="WP_parameter def.194.10" expl="10. postcondition (VC_POSTCONDITION. lsc-bignum.ads:559:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="204"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="27646"/></proof>
    </goal>
   </transf>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__mont_exp_window__subprogram_def" sum="96bd03685cf3662c6a6e1866022a2944">
+<theory name="Lsc__bignum__mont_exp_window__subprogram_def" sum="39166eba552f00818d7ab770450f2921">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-bignum.ads:632:55)">
@@ -6042,7 +5818,7 @@
   <proof prover="2"><result status="valid" time="0.04" steps="34409"/></proof>
   </goal>
   <goal name="WP_parameter def.34" expl="34. precondition (VC_PRECONDITION. lsc-bignum.adb:1044:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="43.78"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="65.24"/></proof>
   </goal>
   <goal name="WP_parameter def.35" expl="35. precondition (VC_PRECONDITION. lsc-bignum.adb:1044:7)">
   <proof prover="3"><result status="valid" time="0.14" steps="5"/></proof>
@@ -6051,7 +5827,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2148"/></proof>
   </goal>
   <goal name="WP_parameter def.37" expl="37. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1050:39)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="43.82"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="67.75"/></proof>
   </goal>
   <goal name="WP_parameter def.38" expl="38. precondition (VC_PRECONDITION. lsc-bignum.adb:1049:7)">
   <proof prover="2"><result status="valid" time="0.02" steps="2190"/></proof>
@@ -6063,7 +5839,7 @@
   <proof prover="2"><result status="valid" time="0.05" steps="35350"/></proof>
   </goal>
   <goal name="WP_parameter def.41" expl="41. precondition (VC_PRECONDITION. lsc-bignum.adb:1049:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="43.37"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="64.52"/></proof>
   </goal>
   <goal name="WP_parameter def.42" expl="42. precondition (VC_PRECONDITION. lsc-bignum.adb:1049:7)">
   <proof prover="2"><result status="valid" time="0.05" steps="35317"/></proof>
@@ -6105,7 +5881,7 @@
   <proof prover="2"><result status="valid" time="0.06" steps="35388"/></proof>
   </goal>
   <goal name="WP_parameter def.55" expl="55. precondition (VC_PRECONDITION. lsc-bignum.adb:1049:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="43.50"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_4.xml"><result status="valid" time="66.42"/></proof>
   </goal>
   <goal name="WP_parameter def.56" expl="56. precondition (VC_PRECONDITION. lsc-bignum.adb:1049:7)">
   <proof prover="3"><result status="valid" time="0.14" steps="5"/></proof>
@@ -6141,7 +5917,7 @@
   <proof prover="2"><result status="valid" time="0.06" steps="37736"/></proof>
   </goal>
   <goal name="WP_parameter def.67" expl="67. precondition (VC_PRECONDITION. lsc-bignum.adb:1054:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="43.81"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_5.xml"><result status="valid" time="67.10"/></proof>
   </goal>
   <goal name="WP_parameter def.68" expl="68. precondition (VC_PRECONDITION. lsc-bignum.adb:1054:7)">
   <proof prover="2"><result status="valid" time="0.05" steps="37725"/></proof>
@@ -6153,7 +5929,7 @@
   <proof prover="2"><result status="valid" time="0.05" steps="37736"/></proof>
   </goal>
   <goal name="WP_parameter def.71" expl="71. precondition (VC_PRECONDITION. lsc-bignum.adb:1054:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="41.69"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_6.xml"><result status="valid" time="66.77"/></proof>
   </goal>
   <goal name="WP_parameter def.72" expl="72. precondition (VC_PRECONDITION. lsc-bignum.adb:1054:7)">
   <proof prover="2"><result status="valid" time="0.01" steps="2238"/></proof>
@@ -6168,7 +5944,7 @@
   <proof prover="2"><result status="valid" time="0.05" steps="36210"/></proof>
   </goal>
   <goal name="WP_parameter def.76" expl="76. precondition (VC_PRECONDITION. lsc-bignum.adb:1054:7)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="43.89"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_7.xml"><result status="valid" time="64.62"/></proof>
   </goal>
   <goal name="WP_parameter def.77" expl="77. precondition (VC_PRECONDITION. lsc-bignum.adb:1054:7)">
   <proof prover="3"><result status="valid" time="0.15" steps="5"/></proof>
@@ -6180,16 +5956,16 @@
   <proof prover="2"><result status="valid" time="0.05" steps="38210"/></proof>
   </goal>
   <goal name="WP_parameter def.80" expl="80. postcondition (VC_ASSERT. lsc-bignum.adb:1059:7. lsc-bignum.adb:1061:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_8.xml"><result status="valid" time="43.57"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_8.xml"><result status="valid" time="66.69"/></proof>
   </goal>
   <goal name="WP_parameter def.81" expl="81. postcondition (VC_ASSERT. lsc-bignum.adb:1059:7. lsc-bignum.adb:1063:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_9.xml"><result status="valid" time="48.19"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_9.xml"><result status="valid" time="66.78"/></proof>
   </goal>
   <goal name="WP_parameter def.82" expl="82. postcondition (VC_ASSERT. lsc-bignum.adb:1059:7. lsc-bignum.adb:1068:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_10.xml"><result status="valid" time="44.06"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_10.xml"><result status="valid" time="67.19"/></proof>
   </goal>
   <goal name="WP_parameter def.83" expl="83. postcondition (VC_ASSERT. lsc-bignum.adb:1059:7. lsc-bignum.adb:1071:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_11.xml"><result status="valid" time="45.27"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_11.xml"><result status="valid" time="66.82"/></proof>
   </goal>
   <goal name="WP_parameter def.84" expl="84. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1076:37)">
   <proof prover="1"><result status="valid" time="0.21" steps="220"/></proof>
@@ -6222,7 +5998,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2172"/></proof>
   </goal>
   <goal name="WP_parameter def.94" expl="94. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1078:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_12.xml"><result status="valid" time="45.28"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_12.xml"><result status="valid" time="65.28"/></proof>
   </goal>
   <goal name="WP_parameter def.95" expl="95. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1090:22)">
   <proof prover="2"><result status="valid" time="0.02" steps="2286"/></proof>
@@ -6234,19 +6010,19 @@
   <proof prover="1"><result status="valid" time="0.21" steps="241"/></proof>
   </goal>
   <goal name="WP_parameter def.98" expl="98. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1091:50)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_13.xml"><result status="valid" time="42.58"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_13.xml"><result status="valid" time="66.54"/></proof>
   </goal>
   <goal name="WP_parameter def.99" expl="99. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1098:45)">
   <proof prover="2"><result status="valid" time="0.05" steps="42217"/></proof>
   </goal>
   <goal name="WP_parameter def.100" expl="100. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1098:40)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_14.xml"><result status="valid" time="42.31"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_14.xml"><result status="valid" time="66.18"/></proof>
   </goal>
   <goal name="WP_parameter def.101" expl="101. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1098:30)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_15.xml"><result status="valid" time="43.25"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_15.xml"><result status="valid" time="63.74"/></proof>
   </goal>
   <goal name="WP_parameter def.102" expl="102. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1098:30)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_16.xml"><result status="valid" time="43.55"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_16.xml"><result status="valid" time="68.80"/></proof>
   </goal>
   <goal name="WP_parameter def.103" expl="103. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
   <proof prover="2"><result status="valid" time="0.02" steps="2340"/></proof>
@@ -6264,16 +6040,16 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2340"/></proof>
   </goal>
   <goal name="WP_parameter def.108" expl="108. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_17.xml"><result status="valid" time="42.67"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_17.xml"><result status="valid" time="69.31"/></proof>
   </goal>
   <goal name="WP_parameter def.109" expl="109. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_18.xml"><result status="valid" time="43.02"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_18.xml"><result status="valid" time="65.33"/></proof>
   </goal>
   <goal name="WP_parameter def.110" expl="110. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_19.xml"><result status="valid" time="43.89"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_19.xml"><result status="valid" time="65.41"/></proof>
   </goal>
   <goal name="WP_parameter def.111" expl="111. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_20.xml"><result status="valid" time="44.34"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_20.xml"><result status="valid" time="65.41"/></proof>
   </goal>
   <goal name="WP_parameter def.112" expl="112. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
   <proof prover="2"><result status="valid" time="0.06" steps="43376"/></proof>
@@ -6300,7 +6076,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2340"/></proof>
   </goal>
   <goal name="WP_parameter def.120" expl="120. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_21.xml"><result status="valid" time="42.64"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_21.xml"><result status="valid" time="66.91"/></proof>
   </goal>
   <goal name="WP_parameter def.121" expl="121. precondition (VC_PRECONDITION. lsc-bignum.adb:1096:10)">
   <proof prover="2"><result status="valid" time="0.02" steps="2342"/></proof>
@@ -6312,10 +6088,10 @@
   <proof prover="2"><result status="valid" time="0.02" steps="12950"/></proof>
   </goal>
   <goal name="WP_parameter def.124" expl="124. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1101:57)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_22.xml"><result status="valid" time="43.17"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_22.xml"><result status="valid" time="66.94"/></proof>
   </goal>
   <goal name="WP_parameter def.125" expl="125. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1101:53)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_23.xml"><result status="valid" time="42.60"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_23.xml"><result status="valid" time="65.91"/></proof>
   </goal>
   <goal name="WP_parameter def.126" expl="126. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1101:53)">
   <proof prover="3"><result status="valid" time="0.15" steps="19"/></proof>
@@ -6339,13 +6115,13 @@
   <proof prover="1"><result status="valid" time="1.50" steps="1477"/></proof>
   </goal>
   <goal name="WP_parameter def.133" expl="133. precondition (VC_PRECONDITION. lsc-bignum.adb:1101:10)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_24.xml"><result status="valid" time="44.63"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_24.xml"><result status="valid" time="66.14"/></proof>
   </goal>
   <goal name="WP_parameter def.134" expl="134. precondition (VC_PRECONDITION. lsc-bignum.adb:1101:10)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_74.xml"><result status="valid" time="43.86"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_74.xml"><result status="valid" time="65.04"/></proof>
   </goal>
   <goal name="WP_parameter def.135" expl="135. precondition (VC_PRECONDITION. lsc-bignum.adb:1101:10)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_25.xml"><result status="valid" time="43.19"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_25.xml"><result status="valid" time="67.96"/></proof>
   </goal>
   <goal name="WP_parameter def.136" expl="136. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1115:22)">
   <proof prover="2"><result status="valid" time="0.02" steps="2486"/></proof>
@@ -6357,7 +6133,7 @@
   <proof prover="1"><result status="valid" time="1.68" steps="1654"/></proof>
   </goal>
   <goal name="WP_parameter def.139" expl="139. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1116:50)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_26.xml"><result status="valid" time="43.57"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_26.xml"><result status="valid" time="64.48"/></proof>
   </goal>
   <goal name="WP_parameter def.140" expl="140. postcondition (VC_ASSERT. lsc-bignum.adb:1103:10. lsc-bignum.adb:1104:13)">
   <proof prover="2"><result status="valid" time="0.02" steps="2484"/></proof>
@@ -6372,7 +6148,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2490"/></proof>
   </goal>
   <goal name="WP_parameter def.144" expl="144. postcondition (VC_ASSERT. lsc-bignum.adb:1103:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_27.xml"><result status="valid" time="52.12"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_27.xml"><result status="valid" time="74.18"/></proof>
   </goal>
   <goal name="WP_parameter def.145" expl="145. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1078:10. lsc-bignum.adb:1079:13)">
   <proof prover="2"><result status="valid" time="0.02" steps="2390"/></proof>
@@ -6407,26 +6183,26 @@
   <goal name="WP_parameter def.155" expl="155. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10. lsc-bignum.adb:1134:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.155.1" expl="1. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10. lsc-bignum.adb:1134:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_29.xml"><result status="valid" time="43.69"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_29.xml"><result status="valid" time="64.78"/></proof>
    </goal>
    <goal name="WP_parameter def.155.2" expl="2. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10. lsc-bignum.adb:1134:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_28.xml"><result status="valid" time="44.61"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="716"/></proof>
    </goal>
    <goal name="WP_parameter def.155.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10. lsc-bignum.adb:1134:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="716"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_28.xml"><result status="valid" time="65.44"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="WP_parameter def.156" expl="156. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.156.1" expl="1. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_30.xml"><result status="valid" time="42.87"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_30.xml"><result status="valid" time="66.27"/></proof>
    </goal>
    <goal name="WP_parameter def.156.2" expl="2. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10)">
-   <proof prover="2"><result status="valid" time="0.07" steps="48189"/></proof>
+   <proof prover="2"><result status="valid" time="0.07" steps="716"/></proof>
    </goal>
    <goal name="WP_parameter def.156.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="716"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="48206"/></proof>
    </goal>
   </transf>
   </goal>
@@ -6451,10 +6227,10 @@
    <proof prover="1"><result status="valid" time="0.15" steps="193"/></proof>
    </goal>
    <goal name="WP_parameter def.162.2" expl="2. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1142:50)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_31.xml"><result status="valid" time="42.85"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="746"/></proof>
    </goal>
    <goal name="WP_parameter def.162.3" expl="3. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1142:50)">
-   <proof prover="2"><result status="valid" time="0.02" steps="746"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_31.xml"><result status="valid" time="65.37"/></proof>
    </goal>
   </transf>
   </goal>
@@ -6470,13 +6246,13 @@
   <goal name="WP_parameter def.166" expl="166. precondition (VC_PRECONDITION. lsc-bignum.adb:1148:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.166.1" expl="1. precondition (VC_PRECONDITION. lsc-bignum.adb:1148:13)">
-   <proof prover="1"><result status="valid" time="5.59" steps="5376"/></proof>
+   <proof prover="1"><result status="valid" time="5.59" steps="5404"/></proof>
    </goal>
    <goal name="WP_parameter def.166.2" expl="2. precondition (VC_PRECONDITION. lsc-bignum.adb:1148:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_32.xml"><result status="valid" time="43.01"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="728"/></proof>
    </goal>
    <goal name="WP_parameter def.166.3" expl="3. precondition (VC_PRECONDITION. lsc-bignum.adb:1148:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="728"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_32.xml"><result status="valid" time="63.29"/></proof>
    </goal>
   </transf>
   </goal>
@@ -6496,7 +6272,7 @@
   <proof prover="2"><result status="valid" time="0.10" steps="59706"/></proof>
   </goal>
   <goal name="WP_parameter def.172" expl="172. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1175:19)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_33.xml"><result status="valid" time="45.22"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_33.xml"><result status="valid" time="66.22"/></proof>
   </goal>
   <goal name="WP_parameter def.173" expl="173. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1180:19)">
   <proof prover="2"><result status="valid" time="0.03" steps="18787"/></proof>
@@ -6511,7 +6287,7 @@
   <proof prover="2"><result status="valid" time="0.09" steps="55939"/></proof>
   </goal>
   <goal name="WP_parameter def.177" expl="177. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1181:19)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_34.xml"><result status="valid" time="42.68"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_34.xml"><result status="valid" time="65.27"/></proof>
   </goal>
   <goal name="WP_parameter def.178" expl="178. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1183:19)">
   <proof prover="2"><result status="valid" time="0.01" steps="2742"/></proof>
@@ -6538,7 +6314,7 @@
   <proof prover="1"><result status="valid" time="0.29" steps="339"/></proof>
   </goal>
   <goal name="WP_parameter def.186" expl="186. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1171:56)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_35.xml"><result status="valid" time="44.82"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_35.xml"><result status="valid" time="65.39"/></proof>
   </goal>
   <goal name="WP_parameter def.187" expl="187. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1165:65)">
   <proof prover="2"><result status="valid" time="0.03" steps="19289"/></proof>
@@ -6550,7 +6326,7 @@
   <proof prover="2"><result status="valid" time="0.01" steps="2946"/></proof>
   </goal>
   <goal name="WP_parameter def.190" expl="190. precondition (VC_PRECONDITION. lsc-bignum.adb:1188:19)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_36.xml"><result status="valid" time="43.61"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_36.xml"><result status="valid" time="66.47"/></proof>
   </goal>
   <goal name="WP_parameter def.191" expl="191. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1189:52)">
   <proof prover="2"><result status="valid" time="0.12" steps="70114"/></proof>
@@ -6585,16 +6361,16 @@
    <proof prover="3" timelimit="240" steplimit="0"><result status="valid" time="14.13" steps="42264"/></proof>
    </goal>
    <goal name="WP_parameter def.199.3" expl="3. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1175:19)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_37.xml"><result status="valid" time="46.45"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="746"/></proof>
    </goal>
    <goal name="WP_parameter def.199.4" expl="4. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1175:19)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_38.xml"><result status="valid" time="48.63"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="758"/></proof>
    </goal>
    <goal name="WP_parameter def.199.5" expl="5. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1175:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="746"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_37.xml"><result status="valid" time="69.08"/></proof>
    </goal>
    <goal name="WP_parameter def.199.6" expl="6. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1175:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_38.xml"><result status="valid" time="70.56"/></proof>
    </goal>
   </transf>
   </goal>
@@ -6611,7 +6387,7 @@
   <proof prover="2"><result status="valid" time="0.12" steps="72501"/></proof>
   </goal>
   <goal name="WP_parameter def.204" expl="204. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1181:19)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_39.xml"><result status="valid" time="42.68"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_39.xml"><result status="valid" time="66.09"/></proof>
   </goal>
   <goal name="WP_parameter def.205" expl="205. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1154:16. lsc-bignum.adb:1183:19)">
   <proof prover="2"><result status="valid" time="0.02" steps="3138"/></proof>
@@ -6635,7 +6411,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="3046"/></proof>
   </goal>
   <goal name="WP_parameter def.212" expl="212. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1209:19)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_40.xml"><result status="valid" time="44.32"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_40.xml"><result status="valid" time="67.61"/></proof>
   </goal>
   <goal name="WP_parameter def.213" expl="213. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16)">
   <proof prover="2"><result status="valid" time="0.10" steps="63045"/></proof>
@@ -6643,22 +6419,22 @@
   <goal name="WP_parameter def.214" expl="214. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
   <transf name="split_disj">
    <goal name="WP_parameter def.214.1" expl="1. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="740"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_41.xml"><result status="valid" time="64.82"/></proof>
    </goal>
    <goal name="WP_parameter def.214.2" expl="2. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_41.xml"><result status="valid" time="46.96"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.214.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="752"/></proof>
    </goal>
    <goal name="WP_parameter def.214.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_42.xml"><result status="valid" time="46.42"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.214.5" expl="5. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="740"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_42.xml"><result status="valid" time="66.18"/></proof>
    </goal>
    <goal name="WP_parameter def.214.6" expl="6. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1222:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="752"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
    </goal>
   </transf>
   </goal>
@@ -6674,22 +6450,22 @@
   <goal name="WP_parameter def.218" expl="218. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
   <transf name="split_disj">
    <goal name="WP_parameter def.218.1" expl="1. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="740"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_43.xml"><result status="valid" time="64.40"/></proof>
    </goal>
    <goal name="WP_parameter def.218.2" expl="2. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_43.xml"><result status="valid" time="42.06"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.218.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
-   <proof prover="2"><result status="valid" time="0.01" steps="758"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="752"/></proof>
    </goal>
    <goal name="WP_parameter def.218.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_44.xml"><result status="valid" time="44.48"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.218.5" expl="5. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="740"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_44.xml"><result status="valid" time="64.96"/></proof>
    </goal>
    <goal name="WP_parameter def.218.6" expl="6. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:1200:16. lsc-bignum.adb:1228:19)">
-   <proof prover="2"><result status="valid" time="0.02" steps="752"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
    </goal>
   </transf>
   </goal>
@@ -6715,7 +6491,7 @@
   <proof prover="1"><result status="valid" time="0.36" steps="371"/></proof>
   </goal>
   <goal name="WP_parameter def.226" expl="226. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1218:56)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_45.xml"><result status="valid" time="43.19"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_45.xml"><result status="valid" time="66.32"/></proof>
   </goal>
   <goal name="WP_parameter def.227" expl="227. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1211:65)">
   <proof prover="2"><result status="valid" time="0.03" steps="20448"/></proof>
@@ -6772,7 +6548,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="3222"/></proof>
   </goal>
   <goal name="WP_parameter def.245" expl="245. precondition (VC_PRECONDITION. lsc-bignum.adb:1232:16)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_46.xml"><result status="valid" time="44.13"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_46.xml"><result status="valid" time="65.98"/></proof>
   </goal>
   <goal name="WP_parameter def.246" expl="246. precondition (VC_PRECONDITION. lsc-bignum.adb:1232:16)">
   <proof prover="2"><result status="valid" time="0.02" steps="3224"/></proof>
@@ -6826,7 +6602,7 @@
   <proof prover="1"><result status="valid" time="0.36" steps="372"/></proof>
   </goal>
   <goal name="WP_parameter def.263" expl="263. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1257:56)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_47.xml"><result status="valid" time="43.30"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_47.xml"><result status="valid" time="66.82"/></proof>
   </goal>
   <goal name="WP_parameter def.264" expl="264. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1250:65)">
   <proof prover="2"><result status="valid" time="0.03" steps="21044"/></proof>
@@ -6841,7 +6617,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="3308"/></proof>
   </goal>
   <goal name="WP_parameter def.268" expl="268. postcondition (VC_ASSERT. lsc-bignum.adb:1239:16. lsc-bignum.adb:1248:19)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_48.xml"><result status="valid" time="65.73"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_48.xml"><result status="valid" time="87.21"/></proof>
   </goal>
   <goal name="WP_parameter def.269" expl="269. postcondition (VC_ASSERT. lsc-bignum.adb:1239:16)">
   <proof prover="2"><result status="valid" time="0.10" steps="66459"/></proof>
@@ -6906,116 +6682,116 @@
   <goal name="WP_parameter def.289" expl="289. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
   <transf name="split_disj">
    <goal name="WP_parameter def.289.1" expl="1. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_49.xml"><result status="valid" time="66.37"/></proof>
    </goal>
    <goal name="WP_parameter def.289.2" expl="2. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.289.3" expl="3. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="61547"/></proof>
    </goal>
    <goal name="WP_parameter def.289.4" expl="4. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.10" steps="61504"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.289.5" expl="5. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_49.xml"><result status="valid" time="47.31"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="758"/></proof>
    </goal>
    <goal name="WP_parameter def.289.6" expl="6. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
    </goal>
    <goal name="WP_parameter def.289.7" expl="7. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
    </goal>
    <goal name="WP_parameter def.289.8" expl="8. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.01" steps="800"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.289.9" expl="9. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.289.10" expl="10. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.10" steps="63201"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.289.11" expl="11. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_50.xml"><result status="valid" time="47.71"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="758"/></proof>
    </goal>
    <goal name="WP_parameter def.289.12" expl="12. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
    </goal>
    <goal name="WP_parameter def.289.13" expl="13. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_50.xml"><result status="valid" time="67.98"/></proof>
    </goal>
    <goal name="WP_parameter def.289.14" expl="14. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
    </goal>
    <goal name="WP_parameter def.289.15" expl="15. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="758"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="63271"/></proof>
    </goal>
    <goal name="WP_parameter def.289.16" expl="16. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
    </goal>
    <goal name="WP_parameter def.289.17" expl="17. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.01" steps="794"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="776"/></proof>
    </goal>
    <goal name="WP_parameter def.289.18" expl="18. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:75)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="WP_parameter def.290" expl="290. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
   <transf name="split_disj">
    <goal name="WP_parameter def.290.1" expl="1. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_51.xml"><result status="valid" time="68.57"/></proof>
    </goal>
    <goal name="WP_parameter def.290.2" expl="2. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
    </goal>
    <goal name="WP_parameter def.290.3" expl="3. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="61829"/></proof>
    </goal>
    <goal name="WP_parameter def.290.4" expl="4. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.10" steps="61788"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="788"/></proof>
    </goal>
    <goal name="WP_parameter def.290.5" expl="5. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_51.xml"><result status="valid" time="47.90"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="764"/></proof>
    </goal>
    <goal name="WP_parameter def.290.6" expl="6. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.7" expl="7. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.8" expl="8. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="806"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.9" expl="9. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.10" expl="10. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.11" steps="63485"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.11" expl="11. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_52.xml"><result status="valid" time="48.28"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.12" expl="12. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.13" expl="13. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.01" steps="764"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.14" expl="14. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.290.15" expl="15. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
    <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
    </goal>
-   <goal name="WP_parameter def.290.16" expl="16. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <goal name="WP_parameter def.290.7" expl="7. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.01" steps="800"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.8" expl="8. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
    <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.9" expl="9. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.10" expl="10. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.11" steps="788"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.11" expl="11. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="764"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.12" expl="12. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.13" expl="13. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_52.xml"><result status="valid" time="69.59"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.14" expl="14. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.15" expl="15. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.02" steps="63553"/></proof>
+   </goal>
+   <goal name="WP_parameter def.290.16" expl="16. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
+   <proof prover="2"><result status="valid" time="0.02" steps="806"/></proof>
    </goal>
    <goal name="WP_parameter def.290.17" expl="17. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.290.18" expl="18. precondition (VC_OVERFLOW_CHECK. lsc-bignum.adb:1275:33)">
-   <proof prover="2"><result status="valid" time="0.02" steps="776"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7050,124 +6826,124 @@
   <proof prover="2"><result status="valid" time="0.11" steps="69308"/></proof>
   </goal>
   <goal name="WP_parameter def.301" expl="301. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_53.xml"><result status="valid" time="43.51"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_53.xml"><result status="valid" time="65.22"/></proof>
   </goal>
   <goal name="WP_parameter def.302" expl="302. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.302.1" expl="1. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_54.xml"><result status="valid" time="67.68"/></proof>
    </goal>
    <goal name="WP_parameter def.302.2" expl="2. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.3" expl="3. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.4" expl="4. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.09" steps="62238"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.5" expl="5. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_54.xml"><result status="valid" time="46.52"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.6" expl="6. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
    <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
    </goal>
+   <goal name="WP_parameter def.302.3" expl="3. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="62288"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.4" expl="4. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.09" steps="794"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.5" expl="5. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.6" expl="6. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
    <goal name="WP_parameter def.302.7" expl="7. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.8" expl="8. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="812"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.9" expl="9. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.10" expl="10. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="63937"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.11" expl="11. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_55.xml"><result status="valid" time="45.99"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.12" expl="12. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.13" expl="13. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.14" expl="14. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.15" expl="15. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.16" expl="16. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.302.17" expl="17. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
    <proof prover="2"><result status="valid" time="0.01" steps="806"/></proof>
    </goal>
-   <goal name="WP_parameter def.302.18" expl="18. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <goal name="WP_parameter def.302.8" expl="8. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
    <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.9" expl="9. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.10" expl="10. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.10" steps="794"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.11" expl="11. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.12" expl="12. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.13" expl="13. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_55.xml"><result status="valid" time="67.36"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.14" expl="14. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.15" expl="15. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="64014"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.16" expl="16. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="812"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.17" expl="17. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
+   </goal>
+   <goal name="WP_parameter def.302.18" expl="18. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
    </goal>
   </transf>
   </goal>
   <goal name="WP_parameter def.303" expl="303. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_56.xml"><result status="valid" time="43.58"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_56.xml"><result status="valid" time="68.07"/></proof>
   </goal>
   <goal name="WP_parameter def.304" expl="304. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.304.1" expl="1. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_57.xml"><result status="valid" time="65.66"/></proof>
    </goal>
    <goal name="WP_parameter def.304.2" expl="2. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.304.3" expl="3. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="62293"/></proof>
    </goal>
    <goal name="WP_parameter def.304.4" expl="4. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="62243"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="794"/></proof>
    </goal>
    <goal name="WP_parameter def.304.5" expl="5. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_57.xml"><result status="valid" time="44.65"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.304.6" expl="6. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.7" expl="7. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.8" expl="8. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="812"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.9" expl="9. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.10" expl="10. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="63942"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.11" expl="11. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_58.xml"><result status="valid" time="44.94"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.12" expl="12. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="800"/></proof>
-   </goal>
-   <goal name="WP_parameter def.304.13" expl="13. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
    <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
    </goal>
+   <goal name="WP_parameter def.304.7" expl="7. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="806"/></proof>
+   </goal>
+   <goal name="WP_parameter def.304.8" expl="8. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.304.9" expl="9. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.304.10" expl="10. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.10" steps="794"/></proof>
+   </goal>
+   <goal name="WP_parameter def.304.11" expl="11. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.304.12" expl="12. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.304.13" expl="13. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_58.xml"><result status="valid" time="65.76"/></proof>
+   </goal>
    <goal name="WP_parameter def.304.14" expl="14. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="794"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="800"/></proof>
    </goal>
    <goal name="WP_parameter def.304.15" expl="15. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="64019"/></proof>
    </goal>
    <goal name="WP_parameter def.304.16" expl="16. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="812"/></proof>
    </goal>
    <goal name="WP_parameter def.304.17" expl="17. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="806"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
    </goal>
    <goal name="WP_parameter def.304.18" expl="18. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7186,58 +6962,58 @@
   <goal name="WP_parameter def.309" expl="309. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.309.1" expl="1. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_59.xml"><result status="valid" time="68.54"/></proof>
    </goal>
    <goal name="WP_parameter def.309.2" expl="2. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="794"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.309.3" expl="3. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="62172"/></proof>
    </goal>
    <goal name="WP_parameter def.309.4" expl="4. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="62125"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="794"/></proof>
    </goal>
    <goal name="WP_parameter def.309.5" expl="5. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_59.xml"><result status="valid" time="50.21"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.309.6" expl="6. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.309.7" expl="7. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.8" expl="8. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="812"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.9" expl="9. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.10" expl="10. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.11" steps="63822"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.11" expl="11. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_60.xml"><result status="valid" time="49.87"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.12" expl="12. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.13" expl="13. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.14" expl="14. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.15" expl="15. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.16" expl="16. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.309.17" expl="17. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
    <proof prover="2"><result status="valid" time="0.02" steps="806"/></proof>
    </goal>
-   <goal name="WP_parameter def.309.18" expl="18. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <goal name="WP_parameter def.309.8" expl="8. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
    <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.9" expl="9. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.10" expl="10. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.11" steps="794"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.11" expl="11. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.12" expl="12. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.13" expl="13. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_60.xml"><result status="valid" time="71.06"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.14" expl="14. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.15" expl="15. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="63896"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.16" expl="16. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="812"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.17" expl="17. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
+   </goal>
+   <goal name="WP_parameter def.309.18" expl="18. precondition (VC_PRECONDITION. lsc-bignum.adb:1272:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7326,7 +7102,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2728"/></proof>
   </goal>
   <goal name="WP_parameter def.338" expl="338. precondition (VC_PRECONDITION. lsc-bignum.adb:1282:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_61.xml"><result status="valid" time="44.07"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_61.xml"><result status="valid" time="67.91"/></proof>
   </goal>
   <goal name="WP_parameter def.339" expl="339. precondition (VC_PRECONDITION. lsc-bignum.adb:1282:13)">
   <proof prover="2"><result status="valid" time="0.02" steps="2730"/></proof>
@@ -7374,7 +7150,7 @@
   <proof prover="1"><result status="valid" time="0.29" steps="310"/></proof>
   </goal>
   <goal name="WP_parameter def.354" expl="354. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1307:50)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_62.xml"><result status="valid" time="43.49"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_62.xml"><result status="valid" time="65.69"/></proof>
   </goal>
   <goal name="WP_parameter def.355" expl="355. precondition (VC_RANGE_CHECK. lsc-bignum.adb:1301:59)">
   <proof prover="2"><result status="valid" time="0.12" steps="81102"/></proof>
@@ -7391,67 +7167,67 @@
   <goal name="WP_parameter def.359" expl="359. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.359.1" expl="1. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_65.xml"><result status="valid" time="67.84"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_64.xml"><result status="valid" time="74.39"/></proof>
    </goal>
    <goal name="WP_parameter def.359.2" expl="2. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="64523"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.359.3" expl="3. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="64553"/></proof>
    </goal>
    <goal name="WP_parameter def.359.4" expl="4. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_64.xml"><result status="valid" time="57.24"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="794"/></proof>
    </goal>
    <goal name="WP_parameter def.359.5" expl="5. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
    <goal name="WP_parameter def.359.6" expl="6. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="764"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.7" expl="7. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.8" expl="8. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_63.xml"><result status="valid" time="66.61"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.9" expl="9. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="66220"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.10" expl="10. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.11" expl="11. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_66.xml"><result status="valid" time="56.55"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.12" expl="12. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="812"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.13" expl="13. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.14" expl="14. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.15" expl="15. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="728"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.16" expl="16. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.359.17" expl="17. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
    <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
    </goal>
+   <goal name="WP_parameter def.359.7" expl="7. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_63.xml"><result status="valid" time="90.76"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.8" expl="8. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="806"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.9" expl="9. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.10" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.10" expl="10. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.11" expl="11. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.00" steps="794"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.12" expl="12. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.13" expl="13. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.14" expl="14. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="728"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.15" expl="15. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_66.xml"><result status="valid" time="75.91"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.16" expl="16. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
+   </goal>
+   <goal name="WP_parameter def.359.17" expl="17. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
+   <proof prover="2"><result status="valid" time="0.12" steps="66277"/></proof>
+   </goal>
    <goal name="WP_parameter def.359.18" expl="18. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="806"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="812"/></proof>
    </goal>
    <goal name="WP_parameter def.359.19" expl="19. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
    </goal>
    <goal name="WP_parameter def.359.20" expl="20. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
    </goal>
    <goal name="WP_parameter def.359.21" expl="21. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1299:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_65.xml"><result status="valid" time="89.37"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7461,67 +7237,67 @@
   <goal name="WP_parameter def.361" expl="361. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
   <transf name="split_disj">
    <goal name="WP_parameter def.361.1" expl="1. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_67.xml"><result status="valid" time="43.44"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.01" steps="3346"/></proof>
    </goal>
    <goal name="WP_parameter def.361.2" expl="2. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="64008"/></proof>
+   <proof prover="2"><result status="valid" time="0.10" steps="782"/></proof>
    </goal>
    <goal name="WP_parameter def.361.3" expl="3. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="64044"/></proof>
    </goal>
    <goal name="WP_parameter def.361.4" expl="4. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="3346"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.5" expl="5. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
    <proof prover="2"><result status="valid" time="0.02" steps="794"/></proof>
    </goal>
-   <goal name="WP_parameter def.361.6" expl="6. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.7" expl="7. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.8" expl="8. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_68.xml"><result status="valid" time="43.67"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.9" expl="9. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.10" steps="65705"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.10" expl="10. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="788"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.11" expl="11. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="3546"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.12" expl="12. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="812"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.13" expl="13. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.14" expl="14. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.15" expl="15. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="728"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.16" expl="16. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
-   </goal>
-   <goal name="WP_parameter def.361.17" expl="17. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <goal name="WP_parameter def.361.5" expl="5. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
    <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
-   <goal name="WP_parameter def.361.18" expl="18. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="806"/></proof>
+   <goal name="WP_parameter def.361.6" expl="6. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
    </goal>
-   <goal name="WP_parameter def.361.19" expl="19. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <goal name="WP_parameter def.361.7" expl="7. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_67.xml"><result status="valid" time="63.40"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.8" expl="8. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="806"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.9" expl="9. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.10" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.10" expl="10. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="782"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.11" expl="11. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
    <proof prover="2"><result status="valid" time="0.01" steps="794"/></proof>
    </goal>
+   <goal name="WP_parameter def.361.12" expl="12. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.13" expl="13. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="770"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.14" expl="14. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="728"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.15" expl="15. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="3546"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.16" expl="16. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="800"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.17" expl="17. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="65768"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.18" expl="18. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.02" steps="812"/></proof>
+   </goal>
+   <goal name="WP_parameter def.361.19" expl="19. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
+   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
+   </goal>
    <goal name="WP_parameter def.361.20" expl="20. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.01" steps="764"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="788"/></proof>
    </goal>
    <goal name="WP_parameter def.361.21" expl="21. postcondition (VC_ASSERT. lsc-bignum.adb:1290:10. lsc-bignum.adb:1311:13)">
-   <proof prover="2"><result status="valid" time="0.02" steps="764"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_68.xml"><result status="valid" time="63.58"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7538,13 +7314,13 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2812"/></proof>
   </goal>
   <goal name="WP_parameter def.366" expl="366. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10. lsc-bignum.adb:1134:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_69.xml"><result status="valid" time="43.96"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_69.xml"><result status="valid" time="68.19"/></proof>
   </goal>
   <goal name="WP_parameter def.367" expl="367. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10)">
   <proof prover="2"><result status="valid" time="0.11" steps="55492"/></proof>
   </goal>
   <goal name="WP_parameter def.368" expl="368. loop invariant preservation (VC_LOOP_INVARIANT. lsc-bignum.adb:1125:10. lsc-bignum.adb:1146:13)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_70.xml"><result status="valid" time="43.97"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_70.xml"><result status="valid" time="67.84"/></proof>
   </goal>
   <goal name="WP_parameter def.369" expl="369. precondition (VC_PRECONDITION. lsc-bignum.adb:1320:7)">
   <proof prover="2"><result status="valid" time="0.02" steps="2878"/></proof>
@@ -7598,7 +7374,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="2878"/></proof>
   </goal>
   <goal name="WP_parameter def.386" expl="386. precondition (VC_PRECONDITION. lsc-bignum.adb:1320:7)">
-  <proof prover="4" memlimit="0" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_71.xml"><result status="valid" time="42.64"/></proof>
+  <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_71.xml"><result status="valid" time="65.66"/></proof>
   </goal>
   <goal name="WP_parameter def.387" expl="387. precondition (VC_PRECONDITION. lsc-bignum.adb:1320:7)">
   <proof prover="2"><result status="valid" time="0.02" steps="2880"/></proof>
@@ -7621,40 +7397,40 @@
   <goal name="WP_parameter def.393" expl="393. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
   <transf name="split_disj">
    <goal name="WP_parameter def.393.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_72.xml"><result status="valid" time="49.01"/></proof>
+   <proof prover="2" timelimit="240" steplimit="0"><result status="valid" time="0.02" steps="716"/></proof>
    </goal>
    <goal name="WP_parameter def.393.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_73.xml"><result status="valid" time="50.19"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_72.xml"><result status="valid" time="69.60"/></proof>
    </goal>
    <goal name="WP_parameter def.393.3" expl="3. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="274"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="716"/></proof>
    </goal>
    <goal name="WP_parameter def.393.4" expl="4. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.393.5" expl="5. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="734"/></proof>
    </goal>
    <goal name="WP_parameter def.393.6" expl="6. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="4" edited="lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_73.xml"><result status="valid" time="71.95"/></proof>
    </goal>
    <goal name="WP_parameter def.393.7" expl="7. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="716"/></proof>
    </goal>
    <goal name="WP_parameter def.393.8" expl="8. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.393.9" expl="9. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="716"/></proof>
    </goal>
    <goal name="WP_parameter def.393.10" expl="10. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="740"/></proof>
    </goal>
    <goal name="WP_parameter def.393.11" expl="11. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.02" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.02" steps="734"/></proof>
    </goal>
    <goal name="WP_parameter def.393.12" expl="12. postcondition (VC_POSTCONDITION. lsc-bignum.ads:637:10)">
-   <proof prover="2"><result status="valid" time="0.01" steps="250"/></proof>
+   <proof prover="2"><result status="valid" time="0.01" steps="758"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7667,16 +7443,16 @@
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__bignum__word_of_boolean__subprogram_def" sum="7e6e62752bb7b55d9bd3374e0484b080">
+<theory name="Lsc__bignum__word_of_boolean__subprogram_def" sum="d8784a87ac49fab3e69fdfa9425594df">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.adb:133:8)">
   <transf name="split_disj">
    <goal name="WP_parameter def.1.1" expl="1. postcondition (VC_POSTCONDITION. lsc-bignum.adb:133:8)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_of_boolean__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="31.13"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_of_boolean__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="52.28"/></proof>
    </goal>
    <goal name="WP_parameter def.1.2" expl="2. postcondition (VC_POSTCONDITION. lsc-bignum.adb:133:8)">
-   <proof prover="4" edited="lscmnbignum_Lsc__bignum__word_of_boolean__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="31.24"/></proof>
+   <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__word_of_boolean__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="51.90"/></proof>
    </goal>
   </transf>
   </goal>
@@ -7705,7 +7481,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="292"/></proof>
   </goal>
   <goal name="WP_parameter def.7" expl="7. postcondition (VC_POSTCONDITION. lsc-bignum.adb:696:10)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__single_add_mult_mult__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="62.28"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__single_add_mult_mult__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="62.28"/></proof>
   </goal>
  </transf>
  </goal>
@@ -7720,7 +7496,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="966"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:766:10. lsc-bignum.adb:767:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__add_mult_mult__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.59"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__add_mult_mult__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="37.59"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. loop invariant init (VC_LOOP_INVARIANT. lsc-bignum.adb:766:10. lsc-bignum.adb:778:16)">
   <proof prover="2"><result status="valid" time="0.01" steps="978"/></proof>
@@ -7831,7 +7607,7 @@
   <proof prover="2"><result status="valid" time="0.02" steps="8714"/></proof>
   </goal>
   <goal name="WP_parameter def.40" expl="40. postcondition (VC_ASSERT. lsc-bignum.adb:788:10. lsc-bignum.adb:789:13)">
-  <proof prover="4" edited="lscmnbignum_Lsc__bignum__add_mult_mult__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="37.85"/></proof>
+  <proof prover="4" memlimit="1000" edited="lscmnbignum_Lsc__bignum__add_mult_mult__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="37.85"/></proof>
   </goal>
   <goal name="WP_parameter def.41" expl="41. postcondition (VC_ASSERT. lsc-bignum.adb:788:10)">
   <proof prover="2"><result status="valid" time="0.03" steps="28418"/></proof>

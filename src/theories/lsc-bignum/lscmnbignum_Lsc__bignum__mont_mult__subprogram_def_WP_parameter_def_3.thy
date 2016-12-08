@@ -8,7 +8,7 @@ why3_vc WP_parameter_def
   using
     `(if less _ _ _ _ _ \<noteq> _ then _ else _) \<noteq> _`
     `(less _ _ _ _ _ = _) = _`
-    `((num_of_big_int' (Array a _) _ _ + _) mod _ = _) = _`
+    `((num_of_big_int' (Array a1 _) _ _ + _) mod _ = _) = _`
   by (simp add: base_eq mod_pos_pos_trivial
     num_of_lint_lower word32_to_int_lower diff_add_eq)
 

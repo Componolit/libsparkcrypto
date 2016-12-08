@@ -36,10 +36,10 @@ proof -
     `\<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> aux3_first`
     `aux3_first + (a_last - a_first) \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int>`
   have "num_of_big_int (word32_to_int o aux32) aux3_first ?L =
-    num_of_big_int (word32_to_int o a) a_first ?L"
+    num_of_big_int (word32_to_int o a2) a_first ?L"
     by (simp add: num_of_lint_ext add_diff_eq)
   with
-    `(num_of_big_int' (Array a _) _ _ = _) = _`
+    `(num_of_big_int' (Array a2 _) _ _ = _) = _`
     `(num_of_big_int' (Array aux31 _) _ _ = _) = _`
   have "num_of_big_int (word32_to_int o aux32) aux3_first ?L =
     ?x ^ nat ((?e div 2 ^ nat (uint i1) div 2) * 2) * ?R mod ?m"

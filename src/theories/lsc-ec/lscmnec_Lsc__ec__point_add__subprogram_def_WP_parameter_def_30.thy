@@ -55,15 +55,16 @@ proof -
   have "Z\<^sub>2 \<noteq> 0" by (simp add: Z\<^sub>2_def)
   moreover from
     `(math_int_from_word _ < num_of_big_int' m m_first (x1_last - x1_first + 1)) = _`
-    `_ = ((num_of_big_int' (Array (slide lsc__bignum__mod_sub__a1 _ _) _) _ _ = _) = _)`
+    `_ = ((num_of_big_int' (Array (slide lsc__bignum__mod_sub__a _ _) _) _ _ = _) = _)`
+    `is_zero (Array (slide lsc__bignum__mod_sub__a _ _) _) _ _ = _`
   have "(X\<^sub>2 * Z\<^sub>1 - X\<^sub>1 * Z\<^sub>2) * INV mod M = 0"
     by (simp add: mk_bounds_eqs integer_in_range_def slide_eq defs defs' mod_sub_eq ring_distribs)
   then have "(X\<^sub>2 * Z\<^sub>1 - X\<^sub>1 * Z\<^sub>2) mod M = 0"
     by (simp add: INV_def base_eq eq0_inv_iff' [OF Base_inv])   
   moreover from
     `(math_int_from_word _ < num_of_big_int' m m_first (x1_last - x1_first + 1)) = _`
-    `is_zero (Array (slide lsc__bignum__mod_sub__a _ _) _) _ _ \<noteq> _`
-    `(is_zero (Array (slide lsc__bignum__mod_sub__a _ _) _) _ _ = _) = _`
+    `is_zero (Array (slide lsc__bignum__mod_sub__a1 _ _) _) _ _ \<noteq> _`
+    `(is_zero (Array (slide lsc__bignum__mod_sub__a1 _ _) _) _ _ = _) = _`
   have "(Y\<^sub>2 * Z\<^sub>1 - Y\<^sub>1 * Z\<^sub>2) * INV mod M \<noteq> 0"
     by (simp add: mk_bounds_eqs integer_in_range_def slide_eq defs defs' mod_sub_eq ring_distribs)
   then have "(Y\<^sub>2 * Z\<^sub>1 - Y\<^sub>1 * Z\<^sub>2) mod M \<noteq> 0"

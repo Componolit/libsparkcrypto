@@ -36,8 +36,8 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
     INV_def
 
-  note bit2 = `_ = (if (if elts e2 (e2_first + (o1 - e1_first)) AND of_int 2 ^ nat j =
-    of_int 0 then _ else _) \<noteq> _ then _ else _)`
+  note bit2 = `(if (if elts e2 (e2_first + (o1 - e1_first)) AND of_int 2 ^ nat j =
+    of_int 0 then _ else _) \<noteq> _ then _ else _) = _`
 
   note nonsingular = `ell_field.nonsingular _ _ b` [simplified defs]
   note on_curvep1 = `cring.on_curvep _ _ b (num_of_big_int (word32_to_int \<circ> elts x1) _ _, _, _)` [simplified defs]

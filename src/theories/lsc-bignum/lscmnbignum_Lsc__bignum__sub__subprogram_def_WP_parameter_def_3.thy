@@ -6,7 +6,7 @@ why3_open "lscmnbignum_Lsc__bignum__sub__subprogram_def_WP_parameter_def_3.xml"
 
 why3_vc WP_parameter_def
 proof -
-  from `True = _`
+  from `(if BV32.ult (elts b (b_first + (o1 - a_first))) (elts c (c_first + (o1 - a_first))) then _ else _) = _`
   have eq: "num_of_bool True = num_of_bool
     (\<lfloor>elts b (b_first + (o1 - a_first))\<rfloor>\<^sub>s < \<lfloor>elts c (c_first + (o1 - a_first))\<rfloor>\<^sub>s \<or>
      \<lfloor>elts b (b_first + (o1 - a_first))\<rfloor>\<^sub>s = \<lfloor>elts c (c_first + (o1 - a_first))\<rfloor>\<^sub>s \<and> carry1)"

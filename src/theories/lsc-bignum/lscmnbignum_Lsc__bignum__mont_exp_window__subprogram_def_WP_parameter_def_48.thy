@@ -4,7 +4,7 @@ begin
 
 why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter_def_48.xml"
 
-why3_vc WP_parameter_def thm assms
+why3_vc WP_parameter_def
 proof -
   let ?L = "a_last - a_first + 1"
   let ?m = "num_of_big_int (word32_to_int \<circ> elts m) m_first ?L"

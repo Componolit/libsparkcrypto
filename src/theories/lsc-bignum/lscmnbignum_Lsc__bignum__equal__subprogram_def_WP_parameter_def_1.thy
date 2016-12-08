@@ -6,8 +6,8 @@ why3_open "lscmnbignum_Lsc__bignum__equal__subprogram_def_WP_parameter_def_1.xml
 
 why3_vc WP_parameter_def
   using
-    `mk_bool__ref True = mk_bool__ref result_us`
-    `(result_us = _) = _`
+    `mk_bool__ref True = mk_bool__ref result_us1`
+    `(result_us1 = _) = _`
     `(if (if elts a a_last = elts b (b_first + (a_last - a_first)) then _
       else _) \<noteq> _ then _ else _) \<noteq> _`
     `a_first \<le> a_last`

@@ -53,6 +53,7 @@ proof -
   also from i `BV64.ule (of_int j2) i1`
     `_ = (elts e (e_first + uint ((i1 - of_int j2) div of_int 32)) AND
      of_int 2 ^ nat (uint ((i1 - of_int j2) mod of_int 32)) \<noteq> of_int 0)`
+    `bit_set e e_first (i1 - of_int j2) = _`
     uint_lt [of i1]
     `_ \<longrightarrow> natural_in_range j2`
   have "?e AND 2 ^ nat (uint i1 - j2) \<noteq> 0"

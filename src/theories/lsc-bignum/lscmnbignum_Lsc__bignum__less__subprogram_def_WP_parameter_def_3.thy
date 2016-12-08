@@ -21,7 +21,7 @@ proof -
     by (simp add: num_of_lint_lower word32_to_int_lower)
   moreover from
     `(num_of_big_int' a _ _ = num_of_big_int' b _ _) = _`
-    `_ = (if BV32.ult (elts a o1) (elts b _) then _ else _)`
+    `(if BV32.ult (elts a o1) (elts b _) then _ else _) = _`
     `o1 \<le> a_last`
   have "?a < ?b" by (simp add: word32_to_int_def BV32.ult_def)
   ultimately have "?a' + ?c * ?a < ?b' + ?c * ?b"

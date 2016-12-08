@@ -6,7 +6,7 @@ why3_open "lscmnbignum_Lsc__bignum__size_square_mod__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
   using
-    `(num_of_big_int' (Array r1 _) _ _ = _) = _`
+    `(num_of_big_int' (Array r2 _) _ _ = _) = _`
     `m_first \<le> i1`
   by (simp add: diff_add_eq [symmetric] nat_add_distrib mult_ac base_eq)
 

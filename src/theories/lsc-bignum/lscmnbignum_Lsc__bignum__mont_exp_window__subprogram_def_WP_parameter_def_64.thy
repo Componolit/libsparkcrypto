@@ -26,12 +26,13 @@ proof -
     `\<forall>k. \<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> k \<and> k \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int> \<longrightarrow> _`
     `\<lfloor>aux3__first\<rfloor>\<^sub>\<int> \<le> aux3_first`
     `aux3_first + (a_last - a_first) \<le> \<lfloor>aux3__last\<rfloor>\<^sub>\<int>`
-  have "num_of_big_int (word32_to_int o aux31) aux3_first ?L =
+  have "num_of_big_int (word32_to_int o aux33) aux3_first ?L =
     num_of_big_int (word32_to_int o a2) a_first ?L"
     by (simp add: num_of_lint_ext add_diff_eq)
   also from
     `(num_of_big_int' (Array a2 _) _ _ = _) = _`
-    `(math_int_from_word w = _) = _`
+    `(math_int_from_word w1 = _) = _`
+    `s3 + 1 = r214b`
   have "num_of_big_int (word32_to_int o a2) a_first ?L =
     num_of_big_int (word32_to_int \<circ> aux32) aux3_first ?L *
     num_of_big_int (word32_to_int \<circ> aux4)
@@ -43,7 +44,7 @@ proof -
   also {
     have "?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b < 2 ^ nat r214b"
       by simp
-    also from `r214b \<le> k + 1`
+    also from `s3 + 1 \<le> k + 1` `s3 + 1 = r214b`
     have "(2::int) ^ nat r214b \<le> 2 ^ nat (k + 1)"
       by simp
     with `natural_in_range k`
@@ -61,7 +62,8 @@ proof -
       by (simp add: pos_imp_zdiv_nonneg_iff base_eq)
   } also from
     `w mod of_int 2 = of_int 1`
-    `(math_int_from_word w = _) = _`
+    `(math_int_from_word w1 = _) = _`
+    [simplified `s3 + 1 = r214b` `mk_t__ref w1 = mk_t__ref w` [simplified]]
   have "2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1 =
     2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) +
     ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b mod 2"
@@ -69,7 +71,7 @@ proof -
       word_uint_eq_iff uint_mod)
   also have "\<dots> = ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b"
     by simp
-  also from `0 \<le> r214b` `(math_int_of_int r214b \<le> math_int_from_word i1 + _) = _`
+  also from `0 \<le> s3 + 1` `s3 + 1 = r214b` `(math_int_of_int (s3 + 1) \<le> math_int_from_word i1 + _) = _`
   have "?e div 2 ^ nat (uint i1 + 1) =
     ?e div 2 ^ nat (uint i1 - (r214b - 1)) div 2 ^ nat r214b"
     by (simp add: zdiv_zmult2_eq [symmetric]
@@ -83,7 +85,7 @@ proof -
       power_add [symmetric] nat_add_distrib [symmetric]
       pos_imp_zdiv_nonneg_iff num_of_lint_lower
       mod_div_equality word32_to_int_lower)
-  finally show ?thesis
+  finally show ?thesis using `s3 + 1 = r214b`
     by (simp add: num_of_lint_lower word32_to_int_lower sign_simps base_eq o_def)
 qed
 
