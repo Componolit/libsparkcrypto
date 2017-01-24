@@ -53,12 +53,11 @@ package body LSC.SHA512 is
    is
       pragma Inline (Add);
    begin
-      if Item.LSW <= Types.Word64'Last - Value then
-         Item.LSW := Item.LSW + Value;
-      else
+      if Item.LSW > Types.Word64'Last - Value then
          Item.MSW := Item.MSW + 1;
-         Item.LSW := Types.Word64'Last - Value;
       end if;
+
+      Item.LSW := Item.LSW + Value;
    end Add;
 
    ----------------------------------------------------------------------------
