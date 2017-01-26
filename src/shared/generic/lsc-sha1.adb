@@ -51,12 +51,11 @@ package body LSC.SHA1 is
      with Depends => (Item =>+ Value)
    is
    begin
-      if Item.LSW  <= Types.Word32'Last - Value then
-         Item.LSW := Item.LSW + Value;
-      else
+      if Item.LSW > Types.Word32'Last - Value then
          Item.MSW := Item.MSW + 1;
-         Item.LSW := Types.Word32'Last - Value;
       end if;
+
+      Item.LSW := Item.LSW + Value;
    end Add;
 
    ----------------------------------------------------------------------------
