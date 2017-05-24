@@ -36,7 +36,7 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
     INV_def
 
-  note bit2 = `(if (if elts e2 (e2_first + (o1 - e1_first)) AND of_int 2 ^ nat j =
+  note bit2 = `(if (if elts e2 (e2_first + (o1 - e1_first)) AND _ =
     of_int 0 then _ else _) \<noteq> _ then _ else _) = _`
 
   note nonsingular = `ell_field.nonsingular _ _ b` [simplified defs]
@@ -163,13 +163,13 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2"
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
-  also from `(if (if elts e1 o1 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
-    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
+  also from `(if (if elts e1 o1 AND _ = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
+    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"] `0 \<le> j` `j \<le> 31`
   have "\<dots> = ?e1 * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
     \<lfloor>elts e1 o1\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
     by (simp add: AND_div_mod word_uint_eq_iff uint_pow uint_and
-      word32_to_int_def)
+      word32_to_int_def unat_def uint_word_of_int word_of_int)
   also from `0 \<le> j` `j \<le> 31`
   have "(?e2 * 2 ^ nat (31 - j) +
       \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat (j + 1)) * 2 + 1 =
@@ -178,12 +178,12 @@ proof (simp add: two_point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
   also from bit2
-    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
+    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"] `0 \<le> j` `j \<le> 31`
   have "\<dots> = ?e2 * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
     \<lfloor>elts e2 (e2_first + (o1 - e1_first))\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
     by (simp add: AND_div_mod word_uint_eq_iff uint_and uint_pow
-      word32_to_int_def)
+      word32_to_int_def unat_def uint_word_of_int word_of_int)
   finally show ?case
     by (simp add: defs make_affine_proj_eq_iff on_curvep1 on_curvep2 p\<^sub>3\<^sub>3' a b
       ppoint_mult_correct [of _ b] on_curvep_imp_in_carrierp [of ?a b]

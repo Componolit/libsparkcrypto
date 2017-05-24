@@ -10,9 +10,9 @@ proof -
     (sign1_last - sign1_first + 1)"
     by (simp add: num_of_lint_lower word32_to_int_lower)
   with
-    `(if is_zero (Array sign2 _) _ _ \<noteq> True then _ else _) = _`
+    `bool__content (mk_bool__ref (if is_zero (Array sign2 _) _ _ \<noteq> True then _ else _)) = _`
     `(is_zero (Array sign2 _) _ _ = True) = _`
-  show ?thesis by simp
+  show ?thesis by (simp add: map__content_def bool__content_def)
 qed
 
 why3_end

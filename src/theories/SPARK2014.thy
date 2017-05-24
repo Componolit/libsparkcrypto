@@ -225,7 +225,7 @@ why3_thms
 abbreviation (input) power_int :: "('a::power) \<Rightarrow> int \<Rightarrow> 'a" where
   "power_int i j \<equiv> i ^ nat j"
 
-lemma Power_0: "power_int x 0 = of_int 1"
+lemma Power_0: "power_int x 0 = 1"
   by simp
 
 lemma Power_1: "power_int (x::'a::monoid_mult) 1 = x"

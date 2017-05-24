@@ -31,7 +31,7 @@ proof (simp add: point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     DX\<^sub>2_def DY\<^sub>2_def DZ\<^sub>2_def
     INV_def
 
-  note bit = `(if (if elts e o1 AND _ ^ nat j = _ then _ else _) \<noteq> _ then _ else _) = _`
+  note bit = `(if (if elts e o1 AND _ = _ then _ else _) \<noteq> _ then _ else _) = _`
 
   note nonsingular = `ell_field.nonsingular _ _ b` [simplified defs]
   note on_curvep = `cring.on_curvep _ _ b _` [simplified defs]
@@ -141,12 +141,12 @@ proof (simp add: point_mult_spec_def Let_def, (rule allI impI)+, goal_cases)
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
   also from bit
-    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
+    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"] `0 \<le> j` `j \<le> 31`
   have "\<dots> = ?e * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e o1\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
     \<lfloor>elts e o1\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
     by (simp add: AND_div_mod word_uint_eq_iff uint_and uint_pow
-      word32_to_int_def)
+      word32_to_int_def unat_def uint_word_of_int word_of_int)
   finally show ?case
     by (simp add: defs make_affine_proj_eq_iff on_curvep p\<^sub>2\<^sub>3' a b
       ppoint_mult_correct [of _ b] on_curvep_imp_in_carrierp [of ?a b])

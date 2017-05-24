@@ -15,7 +15,7 @@ proof -
        (num_of_big_int' (Array z22 _) _ _) = _`
     `i1 \<le> e_last`
   show ?thesis
-    by (simp add: e add_ac mult_ac word32_to_int_def point_mult_spec_def)
+    by (simp add: e add_ac mult_ac word32_to_int_def point_mult_spec_def map__content_def)
 qed
 
 why3_end

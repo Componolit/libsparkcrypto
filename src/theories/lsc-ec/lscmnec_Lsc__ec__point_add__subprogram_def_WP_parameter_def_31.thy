@@ -73,7 +73,7 @@ proof -
   using `point_double_spec _ _ _ _ _ _ _ _ = _`
     by (simp add: point_add_spec_def point_double_spec_def padd_def
       zero_cong res_mult_eq res_add_eq res_diff_cong
-      res_of_int_eq res_pow_eq defs defs')
+      res_of_int_eq res_pow_eq defs defs' map__content_def)
 qed
 
 why3_end

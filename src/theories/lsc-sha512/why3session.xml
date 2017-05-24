@@ -7,14 +7,6 @@
 <prover id="3" name="CVC4" version="1.5" timelimit="60" steplimit="12500" memlimit="0"/>
 <prover id="4" name="Isabelle" version="2016" timelimit="240" steplimit="0" memlimit="1000"/>
 <file name="../../../build/native/gnatprove/lsc-sha512.mlw">
-<theory name="Temp___finite_float_literal_42" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Temp___finite_float_literal_43" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Temp___finite_float_literal_56" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Temp___finite_float_literal_57" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Standard__short_short_integer" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Standard__short_short_integer__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -637,144 +629,6 @@
 </theory>
 <theory name="Lsc__pad64__block_terminate__L3s__T4s" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="System__name" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__name__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__system_name" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__address" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__address__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__null_address" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Olt" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__left" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__left___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__right" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq__right___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__bit_order" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__bit_order__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_bit_order" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_interrupt_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__any_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__any_priority__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__priority__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__interrupt_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__interrupt_priority__rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_priority" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_divide_checks" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_overflow_checks" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__command_line_args" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__configurable_run_time" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__denorm" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__duration_32_bits" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__exit_status_supported" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__fractional_fixed_ops" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_layout" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_overflows" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_rounds" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__preallocated_stacks" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__signed_zeros" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_default" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_probes" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_limits" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_aggregates" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_atomic_primitives" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_assign" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_compare" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_long_shifts" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__always_compatible_rep" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__suppress_standard_library" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__use_ada_main_program_name" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_exceptions" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__zcx_by_default" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__sha512__add__value" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__sha512__add__value___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -1023,14 +877,6 @@
 </theory>
 <theory name="Lsc__sha512__sha384_hash__ctx___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Ada__text_io__current_in" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Ada__text_io__current_in___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Ada__text_io__current_out" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Ada__text_io__current_out___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__io__num_to_char__digit" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__io__num_to_char__digit___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -1075,6 +921,22 @@
 </theory>
 <theory name="Lsc__io__print_natural__iio__put__3__to___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
+<theory name="Lsc__pad64__block_terminate__temp" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__pad64__block_terminate__temp___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__pad64__block_terminate__index" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__pad64__block_terminate__index___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__pad64__block_terminate__offset" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__pad64__block_terminate__offset___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__io__read_byte__result" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Lsc__io__read_byte__result___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
 <theory name="Lsc__io__print_word32__result" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__io__print_word32__result___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -1107,25 +969,17 @@
 </theory>
 <theory name="Lsc__io__print_natural__iio__default_base___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Lsc__pad64__block_terminate__temp" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__pad64__block_terminate__temp___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__pad64__block_terminate__index" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__pad64__block_terminate__index___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__pad64__block_terminate__offset" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__pad64__block_terminate__offset___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__io__read_byte__result" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="Lsc__io__read_byte__result___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__byteswap64__swap__result" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__byteswap64__swap__result___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Ada__text_io__current_in" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Ada__text_io__current_in___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Ada__text_io__current_out" sum="d41d8cd98f00b204e9800998ecf8427e">
+</theory>
+<theory name="Ada__text_io__current_out___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Standard__short_short_integer___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
@@ -1171,7 +1025,7 @@
 </theory>
 <theory name="Standard__universal_integer___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Temp___133" sum="d41d8cd98f00b204e9800998ecf8427e">
+<theory name="Temp___String_Literal_132" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__io__put" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
@@ -1339,18 +1193,6 @@
 </theory>
 <theory name="Lsc__pad64__block_terminate__L3s__T4s___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="System__name___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__address___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__bit_order___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__any_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__interrupt_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__sha512__sha512_context_init__T19b___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__sha512__sha512_context_init__T20b___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -1389,15 +1231,15 @@
 </theory>
 <theory name="Lsc__sha512__sha384_hash__S71b___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Temp___598" sum="d41d8cd98f00b204e9800998ecf8427e">
+<theory name="Temp___551" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Temp___612" sum="d41d8cd98f00b204e9800998ecf8427e">
+<theory name="Temp___565" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Temp___642" sum="d41d8cd98f00b204e9800998ecf8427e">
+<theory name="Temp___595" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Temp___664" sum="d41d8cd98f00b204e9800998ecf8427e">
+<theory name="Temp___617" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Temp___739" sum="d41d8cd98f00b204e9800998ecf8427e">
+<theory name="Temp___688" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__version___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
@@ -1410,70 +1252,6 @@
 <theory name="Lsc__sha512__null_sha512_hash___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__sha512__tables__k___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__system_name___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_bit_order___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__max_interrupt_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__default_priority___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__null_address___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_divide_checks___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__backend_overflow_checks___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__command_line_args___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__configurable_run_time___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__denorm___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__duration_32_bits___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__exit_status_supported___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__fractional_fixed_ops___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_layout___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_overflows___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__machine_rounds___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__preallocated_stacks___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__signed_zeros___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_default___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_probes___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__stack_check_limits___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_aggregates___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_atomic_primitives___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_assign___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_composite_compare___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__support_long_shifts___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__always_compatible_rep___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__suppress_standard_library___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__use_ada_main_program_name___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__frontend_exceptions___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__zcx_by_default___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__sha512__context_update_internal__sha512_op__C27b___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
@@ -1547,16 +1325,6 @@
 </theory>
 <theory name="Lsc__pad64__block_terminate___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="System__Olt___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ole___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Ogt___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oge___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
-<theory name="System__Oeq___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
-</theory>
 <theory name="Lsc__sha512__add___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
 <theory name="Lsc__sha512__ch___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
@@ -1567,208 +1335,214 @@
 </theory>
 <theory name="Lsc__sha512__context_update_internal__sha512_op___axiom" sum="d41d8cd98f00b204e9800998ecf8427e">
 </theory>
-<theory name="Lsc__sha512__package_def" sum="d198d0191c96dc2148ef80aad9fb4886">
+<theory name="Lsc__sha512__package_def" sum="199dd7ad9599d60d11ac545a4d56f756">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.ads:169:60)">
-  <proof prover="2"><result status="valid" time="0.01" steps="442"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="832"/></proof>
   </goal>
   <goal name="WP_parameter def.2" expl="2. assertion (VC_LENGTH_CHECK. lsc-sha512.ads:178:18)">
-  <proof prover="2"><result status="valid" time="0.02" steps="446"/></proof>
+  <proof prover="2"><result status="valid" time="0.02" steps="836"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. assertion (VC_LENGTH_CHECK. lsc-sha512.ads:181:24)">
-  <proof prover="2"><result status="valid" time="0.01" steps="450"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="840"/></proof>
   </goal>
   <goal name="WP_parameter def.4" expl="4. assertion (VC_LENGTH_CHECK. lsc-sha512.ads:184:24)">
-  <proof prover="2"><result status="valid" time="0.01" steps="454"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="844"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__sha512_context_init__subprogram_def" sum="ac3023e348aed45c39d97b7ff74bb0ad">
- <goal name="WP_parameter def">
- <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:144:37)">
-  <proof prover="2"><result status="valid" time="0.01" steps="602"/></proof>
-  </goal>
- </transf>
- </goal>
-</theory>
-<theory name="Lsc__sha512__sha384_context_init__subprogram_def" sum="ac3023e348aed45c39d97b7ff74bb0ad">
- <goal name="WP_parameter def">
- <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:161:37)">
-  <proof prover="2"><result status="valid" time="0.01" steps="602"/></proof>
-  </goal>
- </transf>
- </goal>
-</theory>
-<theory name="Lsc__sha512__context_update__subprogram_def" sum="f6b73f6411f265bb570f183598d128cc">
+<theory name="Lsc__sha512__context_type__default_checks" sum="e284967f6dbb6592898a5ced2974229f">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__context_finalize__subprogram_def" sum="73c483c24294640ca76e6c45a07fa671">
+<theory name="Lsc__sha512__sha512_context_init__subprogram_def" sum="8dbb366abfe0cf2bad7ab894d0a9e0ab">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. precondition (VC_PRECONDITION. lsc-sha512.adb:382:12)">
-  <proof prover="2"><result status="valid" time="0.02" steps="11972"/></proof>
+  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:143:37)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1080"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__sha512_get_hash__subprogram_def" sum="a2b389836bd44f491b3d7069ade4dbf8">
+<theory name="Lsc__sha512__sha384_context_init__subprogram_def" sum="8dbb366abfe0cf2bad7ab894d0a9e0ab">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:402:31)">
-  <proof prover="2"><result status="valid" time="0.02" steps="585"/></proof>
+  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:160:37)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1080"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__sha384_get_hash__subprogram_def" sum="89e368ba62035f7549c43de4e56cebfa">
+<theory name="Lsc__sha512__context_update__subprogram_def" sum="b49173a6af836b6a9c59e2f852b95cc5">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:416:31)">
-  <proof prover="2"><result status="valid" time="0.01" steps="569"/></proof>
+ </transf>
+ </goal>
+</theory>
+<theory name="Lsc__sha512__context_finalize__subprogram_def" sum="107063480e7496e0307274d178cd0e91">
+ <goal name="WP_parameter def">
+ <transf name="split_goal_wp_conj">
+  <goal name="WP_parameter def.1" expl="1. precondition (VC_PRECONDITION. lsc-sha512.adb:381:12)">
+  <proof prover="2"><result status="valid" time="0.02" steps="15182"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__hash_context__subprogram_def" sum="3b89564c203883cfabb171c976a1c541">
+<theory name="Lsc__sha512__sha512_get_hash__subprogram_def" sum="c42de1a0aacbd75160f54dbd7e846776">
+ <goal name="WP_parameter def">
+ <transf name="split_goal_wp_conj">
+  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:401:31)">
+  <proof prover="2"><result status="valid" time="0.02" steps="1060"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Lsc__sha512__sha384_get_hash__subprogram_def" sum="244bbdd014a28dcc9434160e883d97af">
+ <goal name="WP_parameter def">
+ <transf name="split_goal_wp_conj">
+  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:415:31)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1044"/></proof>
+  </goal>
+ </transf>
+ </goal>
+</theory>
+<theory name="Lsc__sha512__hash_context__subprogram_def" sum="cfe8aca1f6825d2370dcf61fc29119ca">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-sha512.ads:128:65)">
-  <proof prover="1"><result status="valid" time="0.16" steps="252"/></proof>
+  <proof prover="1"><result status="valid" time="0.16" steps="184"/></proof>
   </goal>
   <goal name="WP_parameter def.2" expl="2. precondition (VC_DIVISION_CHECK. lsc-sha512.ads:128:21)">
-  <proof prover="2"><result status="valid" time="0.02" steps="1048"/></proof>
+  <proof prover="2"><result status="valid" time="0.02" steps="1892"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. precondition (VC_DIVISION_CHECK. lsc-sha512.ads:127:17)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1084"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="1928"/></proof>
   </goal>
-  <goal name="WP_parameter def.4" expl="4. precondition (VC_DIVISION_CHECK. lsc-sha512.adb:435:19. lsc-sha512.adb:435:29)">
-  <proof prover="2"><result status="valid" time="0.02" steps="1056"/></proof>
+  <goal name="WP_parameter def.4" expl="4. precondition (VC_DIVISION_CHECK. lsc-sha512.adb:434:19. lsc-sha512.adb:434:29)">
+  <proof prover="2"><result status="valid" time="0.02" steps="1900"/></proof>
   </goal>
-  <goal name="WP_parameter def.5" expl="5. precondition (VC_DIVISION_CHECK. lsc-sha512.adb:436:19. lsc-sha512.adb:436:45)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1060"/></proof>
+  <goal name="WP_parameter def.5" expl="5. precondition (VC_DIVISION_CHECK. lsc-sha512.adb:435:19. lsc-sha512.adb:435:45)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1904"/></proof>
   </goal>
-  <goal name="WP_parameter def.6" expl="6. precondition (VC_RANGE_CHECK. lsc-sha512.adb:440:14)">
-  <proof prover="2"><result status="valid" time="0.02" steps="1080"/></proof>
+  <goal name="WP_parameter def.6" expl="6. precondition (VC_RANGE_CHECK. lsc-sha512.adb:439:14)">
+  <proof prover="2"><result status="valid" time="0.02" steps="1924"/></proof>
   </goal>
-  <goal name="WP_parameter def.7" expl="7. precondition (VC_RANGE_CHECK. lsc-sha512.adb:440:14)">
-  <proof prover="4" edited="lscmnsha512_Lsc__sha512__hash_context__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="36.33"/></proof>
+  <goal name="WP_parameter def.7" expl="7. precondition (VC_RANGE_CHECK. lsc-sha512.adb:439:14)">
+  <proof prover="4" edited="lscmnsha512_Lsc__sha512__hash_context__subprogram_def_WP_parameter_def_1.xml"><result status="valid" time="74.47"/></proof>
   </goal>
-  <goal name="WP_parameter def.8" expl="8. loop invariant init (VC_LOOP_INVARIANT. lsc-sha512.adb:442:13. lsc-sha512.adb:443:16)">
-  <proof prover="4" edited="lscmnsha512_Lsc__sha512__hash_context__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="36.16"/></proof>
+  <goal name="WP_parameter def.8" expl="8. loop invariant init (VC_LOOP_INVARIANT. lsc-sha512.adb:442:16)">
+  <proof prover="4" edited="lscmnsha512_Lsc__sha512__hash_context__subprogram_def_WP_parameter_def_2.xml"><result status="valid" time="72.43"/></proof>
   </goal>
-  <goal name="WP_parameter def.9" expl="9. loop invariant init (VC_LOOP_INVARIANT. lsc-sha512.adb:442:13)">
-  <proof prover="4" edited="lscmnsha512_Lsc__sha512__hash_context__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="35.45"/></proof>
+  <goal name="WP_parameter def.9" expl="9. loop invariant init (VC_LOOP_INVARIANT. lsc-sha512.adb:442:16)">
+  <proof prover="4" edited="lscmnsha512_Lsc__sha512__hash_context__subprogram_def_WP_parameter_def_3.xml"><result status="valid" time="72.22"/></proof>
   </goal>
-  <goal name="WP_parameter def.10" expl="10. loop invariant init (VC_LOOP_INVARIANT. lsc-sha512.adb:442:13. lsc-sha512.adb:445:16)">
-  <proof prover="2"><result status="valid" time="0.11" steps="164705"/></proof>
+  <goal name="WP_parameter def.10" expl="10. loop invariant init (VC_LOOP_INVARIANT. lsc-sha512.adb:442:16. lsc-sha512.adb:444:16)">
+  <proof prover="2"><result status="valid" time="0.11" steps="160792"/></proof>
   </goal>
-  <goal name="WP_parameter def.11" expl="11. assertion (VC_INDEX_CHECK. lsc-sha512.adb:446:43)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1128"/></proof>
+  <goal name="WP_parameter def.11" expl="11. assertion (VC_INDEX_CHECK. lsc-sha512.adb:445:43)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1972"/></proof>
   </goal>
-  <goal name="WP_parameter def.12" expl="12. assertion (VC_INDEX_CHECK. lsc-sha512.adb:446:43)">
-  <proof prover="2"><result status="valid" time="0.22" steps="465018"/></proof>
+  <goal name="WP_parameter def.12" expl="12. assertion (VC_INDEX_CHECK. lsc-sha512.adb:445:43)">
+  <proof prover="2"><result status="valid" time="0.22" steps="369006"/></proof>
   </goal>
-  <goal name="WP_parameter def.13" expl="13. loop invariant preservation (VC_LOOP_INVARIANT. lsc-sha512.adb:442:13. lsc-sha512.adb:443:16)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1152"/></proof>
+  <goal name="WP_parameter def.13" expl="13. loop invariant preservation (VC_LOOP_INVARIANT. lsc-sha512.adb:442:16)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1998"/></proof>
   </goal>
-  <goal name="WP_parameter def.14" expl="14. loop invariant preservation (VC_LOOP_INVARIANT. lsc-sha512.adb:442:13)">
-  <proof prover="2"><result status="valid" time="0.02" steps="6498"/></proof>
+  <goal name="WP_parameter def.14" expl="14. loop invariant preservation (VC_LOOP_INVARIANT. lsc-sha512.adb:442:16)">
+  <proof prover="2"><result status="valid" time="0.02" steps="8422"/></proof>
   </goal>
-  <goal name="WP_parameter def.15" expl="15. loop invariant preservation (VC_LOOP_INVARIANT. lsc-sha512.adb:442:13. lsc-sha512.adb:445:16)">
+  <goal name="WP_parameter def.15" expl="15. loop invariant preservation (VC_LOOP_INVARIANT. lsc-sha512.adb:442:16. lsc-sha512.adb:444:16)">
   <proof prover="3"><result status="valid" time="0.21" steps="8541"/></proof>
   </goal>
-  <goal name="WP_parameter def.16" expl="16. assertion (VC_INDEX_CHECK. lsc-sha512.adb:453:42)">
-  <proof prover="2"><result status="valid" time="0.20" steps="275247"/></proof>
+  <goal name="WP_parameter def.16" expl="16. assertion (VC_INDEX_CHECK. lsc-sha512.adb:452:42)">
+  <proof prover="2"><result status="valid" time="0.20" steps="367574"/></proof>
   </goal>
-  <goal name="WP_parameter def.17" expl="17. assertion (VC_INDEX_CHECK. lsc-sha512.adb:453:42)">
-  <proof prover="2"><result status="valid" time="0.31" steps="463135"/></proof>
+  <goal name="WP_parameter def.17" expl="17. assertion (VC_INDEX_CHECK. lsc-sha512.adb:452:42)">
+  <proof prover="2"><result status="valid" time="0.31" steps="470193"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__sha512_hash__subprogram_def" sum="8a79854a505ef5ad2d3aaec364b96560">
+<theory name="Lsc__sha512__sha512_hash__subprogram_def" sum="347d8c7ccd5db2f236309c412f3b3a71">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-sha512.ads:138:65)">
-  <proof prover="1"><result status="valid" time="0.15" steps="251"/></proof>
+  <proof prover="1"><result status="valid" time="0.15" steps="183"/></proof>
   </goal>
   <goal name="WP_parameter def.2" expl="2. precondition (VC_DIVISION_CHECK. lsc-sha512.ads:138:21)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1022"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="1866"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. precondition (VC_DIVISION_CHECK. lsc-sha512.ads:137:17)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1058"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="1902"/></proof>
   </goal>
-  <goal name="WP_parameter def.4" expl="4. precondition (VC_PRECONDITION. lsc-sha512.adb:466:7)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1022"/></proof>
+  <goal name="WP_parameter def.4" expl="4. precondition (VC_PRECONDITION. lsc-sha512.adb:465:7)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1868"/></proof>
   </goal>
-  <goal name="WP_parameter def.5" expl="5. precondition (VC_PRECONDITION. lsc-sha512.adb:466:7)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1040"/></proof>
+  <goal name="WP_parameter def.5" expl="5. precondition (VC_PRECONDITION. lsc-sha512.adb:465:7)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1886"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__sha384_hash__subprogram_def" sum="8a79854a505ef5ad2d3aaec364b96560">
+<theory name="Lsc__sha512__sha384_hash__subprogram_def" sum="347d8c7ccd5db2f236309c412f3b3a71">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
   <goal name="WP_parameter def.1" expl="1. precondition (VC_RANGE_CHECK. lsc-sha512.ads:148:65)">
-  <proof prover="1"><result status="valid" time="0.16" steps="251"/></proof>
+  <proof prover="1"><result status="valid" time="0.16" steps="183"/></proof>
   </goal>
   <goal name="WP_parameter def.2" expl="2. precondition (VC_DIVISION_CHECK. lsc-sha512.ads:148:21)">
-  <proof prover="2"><result status="valid" time="0.02" steps="1022"/></proof>
+  <proof prover="2"><result status="valid" time="0.02" steps="1866"/></proof>
   </goal>
   <goal name="WP_parameter def.3" expl="3. precondition (VC_DIVISION_CHECK. lsc-sha512.ads:147:17)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1058"/></proof>
+  <proof prover="2"><result status="valid" time="0.01" steps="1902"/></proof>
   </goal>
-  <goal name="WP_parameter def.4" expl="4. precondition (VC_PRECONDITION. lsc-sha512.adb:480:7)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1022"/></proof>
+  <goal name="WP_parameter def.4" expl="4. precondition (VC_PRECONDITION. lsc-sha512.adb:479:7)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1868"/></proof>
   </goal>
-  <goal name="WP_parameter def.5" expl="5. precondition (VC_PRECONDITION. lsc-sha512.adb:480:7)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1040"/></proof>
+  <goal name="WP_parameter def.5" expl="5. precondition (VC_PRECONDITION. lsc-sha512.adb:479:7)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1886"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__add__subprogram_def" sum="291497371f76f2f3ae0da6994b89761f">
+<theory name="Lsc__sha512__add__subprogram_def" sum="16a5d805af7d85dac4e08d01e997c3c4">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__ch__subprogram_def" sum="7830cb9c24518bdef365162a100aae00">
+<theory name="Lsc__sha512__ch__subprogram_def" sum="66b13567552723350607bbaed3c82934">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. postcondition (VC_POSTCONDITION. lsc-sha512.adb:70:19)">
+  <goal name="WP_parameter def.1" expl="1. postcondition (VC_POSTCONDITION. lsc-sha512.adb:69:19)">
   <proof prover="2"><result status="valid" time="0.01" steps="46"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__maj__subprogram_def" sum="fcf5debb0211165a2370948174f2c42e">
+<theory name="Lsc__sha512__maj__subprogram_def" sum="2544611eb7a02da666d587ff960d927e">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. postcondition (VC_POSTCONDITION. lsc-sha512.adb:83:19)">
+  <goal name="WP_parameter def.1" expl="1. postcondition (VC_POSTCONDITION. lsc-sha512.adb:82:19)">
   <proof prover="2"><result status="valid" time="0.01" steps="62"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__context_update_internal__subprogram_def" sum="6a0e46d0bd6f77f2e6177f9f2e63f6db">
+<theory name="Lsc__sha512__context_update_internal__subprogram_def" sum="5648ef3fbadbd310e69a2513f2f13d1f">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
-  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:339:9)">
-  <proof prover="2"><result status="valid" time="0.01" steps="1359"/></proof>
+  <goal name="WP_parameter def.1" expl="1. assertion (VC_LENGTH_CHECK. lsc-sha512.adb:338:9)">
+  <proof prover="2"><result status="valid" time="0.01" steps="1696"/></proof>
   </goal>
  </transf>
  </goal>
 </theory>
-<theory name="Lsc__sha512__context_update_internal__sha512_op__subprogram_def" sum="cf3eea7cefb2d75305f7191478a69746">
+<theory name="Lsc__sha512__context_update_internal__sha512_op__subprogram_def" sum="7dbc96aa1e22188485aa59d3ea3fc92e">
  <goal name="WP_parameter def">
  <transf name="split_goal_wp_conj">
  </transf>

@@ -89,7 +89,7 @@ proof -
   proof (simp add: point_double_spec_def Let_def proj_eq_def pdouble_def
     zero_cong res_mult_eq res_add_eq res_diff_cong
     res_of_int_eq res_pow_eq defs defs'
-    mk_bounds_eqs integer_in_range_def slide_eq,
+    mk_bounds_eqs integer_in_range_def slide_eq map__content_def,
     intro impI conjI, goal_cases)
     case 1
     let "?l = ?r" = ?case

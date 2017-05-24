@@ -10,14 +10,8 @@ why3_vc WP_parameter_def
        (num_of_big_int' (Array x21 _) _ _)
        (num_of_big_int' (Array y21 _) _ _)
        (num_of_big_int' (Array z21 _) _ _) = _`
-    `mk_map__ref x22 = mk_map__ref x21`
-    `mk_map__ref x23 = mk_map__ref x22`
-    `mk_map__ref y22 = mk_map__ref y21`
-    `mk_map__ref y23 = mk_map__ref y22`
-    `mk_map__ref z22 = mk_map__ref z21`
-    `mk_map__ref z23 = mk_map__ref z22`
     `e_first \<le> e_last`
-  by (simp add: point_mult_spec_def word32_to_int_def base_eq add.commute mult.commute)
+  by (simp add: point_mult_spec_def word32_to_int_def base_eq add.commute mult.commute map__content_def)
 
 why3_end
 

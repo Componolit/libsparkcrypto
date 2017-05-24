@@ -12,27 +12,26 @@ proof -
     `(math_int_from_word w * math_int_from_word (of_int 2) ^ nat (j2 - s2 - 1) = _) = _`
     [simplified, symmetric]
   have "uint w * 2 ^ nat (j2 - s2 - 1) =
-    (?e div 2 ^ nat (uint i1 - (j2 - 1)) -
-     ?e div 2 ^ nat (uint i1 - (j2 - 1)) mod 2 ^ nat j2 mod 2 ^ nat (j2 - s2 - 1))
+    (?e div 2 ^ nat (uint i - (j2 - 1)) -
+     ?e div 2 ^ nat (uint i - (j2 - 1)) mod 2 ^ nat j2 mod 2 ^ nat (j2 - s2 - 1))
       mod 2 ^ nat j2"
     by simp
-  also from `s2 < j2` `(math_int_of_int j2 \<le> math_int_from_word i1 + _) = _`
+  also from `s2 < j2` `(math_int_of_int j2 \<le> math_int_from_word i + _) = _`
     `_ \<longrightarrow> natural_in_range s2`
-  have "?e div 2 ^ nat (uint i1 - (j2 - 1)) -
-    ?e div 2 ^ nat (uint i1 - (j2 - 1)) mod 2 ^ nat j2 mod 2 ^ nat (j2 - s2 - 1) =
-    ?e div 2 ^ nat (uint i1 - s2) * 2 ^ nat (j2 - s2 - 1)"
+  have "?e div 2 ^ nat (uint i - (j2 - 1)) -
+    ?e div 2 ^ nat (uint i - (j2 - 1)) mod 2 ^ nat j2 mod 2 ^ nat (j2 - s2 - 1) =
+    ?e div 2 ^ nat (uint i - s2) * 2 ^ nat (j2 - s2 - 1)"
     by (auto simp add: mod_mod_cancel le_imp_power_dvd
       mod_div_equality' [symmetric] zdiv_zmult2_eq [symmetric]
       power_add [symmetric] nat_add_distrib [symmetric]
       natural_in_range_def)
   also from `s2 < j2` `_ \<longrightarrow> natural_in_range s2`
-  have "?e div 2 ^ nat (uint i1 - s2) * 2 ^ nat (j2 - s2 - 1) mod 2 ^ nat j2 =
-    ?e div 2 ^ nat (uint i1 - s2) mod 2 ^ nat (s2 + 1) * 2 ^ nat (j2 - s2 - 1)"
+  have "?e div 2 ^ nat (uint i - s2) * 2 ^ nat (j2 - s2 - 1) mod 2 ^ nat j2 =
+    ?e div 2 ^ nat (uint i - s2) mod 2 ^ nat (s2 + 1) * 2 ^ nat (j2 - s2 - 1)"
     by (simp add: mult_mod_left power_add [symmetric] nat_add_distrib [symmetric]
       natural_to_int_lower natural_in_range_def)
   finally show ?thesis
-    using `mk_int__ref s3 = mk_int__ref s2` `mk_t__ref w1 = mk_t__ref w`
-    by simp
+    by (simp add: t__content_def int__content_def)
 qed
 
 why3_end

@@ -21,7 +21,7 @@ proof -
     `(_ = num_of_big_int' (Array y _) _ _ - _) = _`
     `is_zero (Array _ _) _ _ \<noteq> True`
     `(is_zero (Array _ _) _ _ = True) = _`
-    by (cases carry1) (simp_all add: mk_bounds_eqs integer_in_range_def slide_eq base_eq)
+    by (cases carry1) (simp_all add: mk_bounds_eqs integer_in_range_def slide_eq base_eq map__content_def)
 qed
 
 why3_end

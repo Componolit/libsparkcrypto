@@ -42,13 +42,13 @@ proof -
     \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2"
     by (simp only: nat_add_distrib)
       (simp add: zdiv_zmult2_eq [of 2, simplified mult.commute [of _ 2]])
-  also from `(if (if elts e o2 AND of_int 2 ^ nat j = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
-    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"]
+  also from `(if (if elts e o2 AND (of_int 1 << unat (of_int j)) = of_int 0 then _ else _) \<noteq> _ then _ else _) \<noteq> _`
+    power_increasing [OF nat_mono [OF `j \<le> 31`], of "2::int"] `0 \<le> j` `j \<le> 31`
   have "\<dots> = ?e * 2 ^ nat (31 - j + 1) +
     \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j div 2 * 2 +
     \<lfloor>elts e o2\<rfloor>\<^sub>s div 2 ^ nat j mod 2"
     by (simp add: AND_div_mod word_uint_eq_iff uint_pow uint_and
-      mod_pos_pos_trivial word32_to_int_def)
+      mod_pos_pos_trivial word32_to_int_def unat_def uint_word_of_int word_of_int)
   finally show ?thesis
     by (simp add: add.commute base_eq o_def word32_to_int_def)
 qed

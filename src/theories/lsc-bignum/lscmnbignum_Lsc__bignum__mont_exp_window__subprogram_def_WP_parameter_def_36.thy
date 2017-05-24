@@ -6,10 +6,10 @@ why3_open "lscmnbignum_Lsc__bignum__mont_exp_window__subprogram_def_WP_parameter
 
 why3_vc WP_parameter_def
   using
-    `BV64.ult i1 ((of_int (e_last - e_first) + of_int 1) * of_int 32)`
+    `BV64.ult i ((of_int (e_last - e_first) + of_int 1) * of_int 32)`
     `e_first \<le> e_last`
     `e_last \<le> \<lfloor>snd (rt e)\<rfloor>\<^sub>\<int>`
-    `j2 \<le> k` `BV64.ule (of_int j2) i1`
+    `j2 \<le> k` `BV64.ule (of_int j2) i`
     `natural_in_range e_first`
     `natural_in_range e_last`
     integer_to_int_upper [of "snd (rt e)"]

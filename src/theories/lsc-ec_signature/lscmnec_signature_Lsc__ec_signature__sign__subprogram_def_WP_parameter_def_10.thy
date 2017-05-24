@@ -12,7 +12,7 @@ proof -
   with
     `(if is_zero (Array sign1 _) _ _ \<noteq> True then _ else _) = _`
     `(is_zero (Array sign1 _) _ _ = True) = _`
-  show ?thesis by simp
+  show ?thesis by (simp add: map__content_def)
 qed
 
 why3_end

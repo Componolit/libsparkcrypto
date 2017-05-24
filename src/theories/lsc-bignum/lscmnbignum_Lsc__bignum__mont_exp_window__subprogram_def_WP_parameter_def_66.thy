@@ -31,61 +31,64 @@ proof -
     by (simp add: num_of_lint_ext add_diff_eq)
   also from
     `(num_of_big_int' (Array a _) _ _ = _) = _`
-    `(math_int_from_word w1 = _) = _`
-    `mk_t__ref w1 = mk_t__ref w` `s3 + 1 = r214b`
+    `(math_int_from_word (t__content (mk_t__ref w)) = _) = _`
   have "num_of_big_int (word32_to_int o a) a_first ?L =
     num_of_big_int (word32_to_int \<circ> aux32) aux3_first ?L *
     num_of_big_int (word32_to_int \<circ> aux41)
-      (aux4_first + ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod
+      (aux4_first + ?e div 2 ^ nat (uint i - (r214b - 1)) mod
        2 ^ nat r214b div 2 * ?L) ?L * minv ?m Base ^ nat ?L mod ?m"
-    by (simp add: ediv_def base_eq BV32.facts.to_uint_lsr [of _ 1, simplified])
+    by (simp add: ediv_def base_eq BV32.facts.to_uint_lsr [of _ 1, simplified]
+      `int__content (mk_int__ref s2) + 1 = r214b` [symmetric]
+      map__content_def int__content_def)
   also note `(num_of_big_int' (Array aux32 _) _ _ = _) = _`
     [simplified base_eq, simplified]
   also {
-    have "?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b < 2 ^ nat r214b"
+    have "?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b < 2 ^ nat r214b"
       by simp
-    also from `s3 + 1 \<le> k + 1` `s3 + 1 = r214b`
+    also from `int__content (mk_int__ref s2) + 1 \<le> k + 1`
+      `int__content (mk_int__ref s2) + 1 = r214b`
     have "(2::int) ^ nat r214b \<le> 2 ^ nat (k + 1)"
       by simp
     with `natural_in_range k`
     have "(2::int) ^ nat r214b \<le> 2 * 2 ^ nat k"
       by (simp add: nat_add_distrib natural_in_range_def)
-    finally have "?e div 2 ^ nat (uint i1 - (r214b - 1)) mod
+    finally have "?e div 2 ^ nat (uint i - (r214b - 1)) mod
       2 ^ nat r214b div 2 < 2 ^ nat k"
       by simp
     with
       `\<forall>n. 0 \<le> n \<and> n \<le> 2 ^ nat k - 1 \<longrightarrow> (num_of_big_int' (Array aux41 _) _ _ = _) = _`
     have "num_of_big_int (word32_to_int o aux41)
-      (aux4_first + ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2 * ?L) ?L =
-      ?x ^ nat (2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1) *
+      (aux4_first + ?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b div 2 * ?L) ?L =
+      ?x ^ nat (2 * (?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1) *
       ?R mod ?m"
       by (simp add: pos_imp_zdiv_nonneg_iff base_eq)
   } also from
     `w mod of_int 2 = of_int 1`
-    `(math_int_from_word w1 = _) = _`
-    [simplified `s3 + 1 = r214b` `mk_t__ref w1 = mk_t__ref w` [simplified]]
-  have "2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1 =
-    2 * (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b div 2) +
-    ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b mod 2"
+    `(math_int_from_word (t__content (mk_t__ref w)) = _) = _`
+  have "2 * (?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b div 2) + 1 =
+    2 * (?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b div 2) +
+    ?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b mod 2"
     by (simp add: num_of_lint_lower word32_to_int_lower
-      word_uint_eq_iff uint_mod)
-  also have "\<dots> = ?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b"
+      word_uint_eq_iff uint_mod `int__content (mk_int__ref s2) + 1 = r214b` [symmetric]
+      t__content_def int__content_def)
+  also have "\<dots> = ?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b"
     by simp
-  also from `0 \<le> s3 + 1` `s3 + 1 = r214b` `(math_int_of_int (s3 + 1) \<le> math_int_from_word i1 + _) = _`
-  have "?e div 2 ^ nat (uint i1 + 1) =
-    ?e div 2 ^ nat (uint i1 - (r214b - 1)) div 2 ^ nat r214b"
+  also from `0 \<le> int__content (mk_int__ref s2) + 1` `int__content (mk_int__ref s2) + 1 = r214b`
+    `(math_int_of_int (int__content (mk_int__ref s2) + 1) \<le> math_int_from_word i + _) = _`
+  have "?e div 2 ^ nat (uint i + 1) =
+    ?e div 2 ^ nat (uint i - (r214b - 1)) div 2 ^ nat r214b"
     by (simp add: zdiv_zmult2_eq [symmetric]
       power_add [symmetric] nat_add_distrib [symmetric])
   also have
-    "?x ^ nat (?e div 2 ^ nat (uint i1 - (r214b - 1)) div 2 ^ nat r214b * 2 ^ nat r214b) * ?R mod ?m *
-     (?x ^ nat (?e div 2 ^ nat (uint i1 - (r214b - 1)) mod 2 ^ nat r214b) * ?R mod ?m) *
+    "?x ^ nat (?e div 2 ^ nat (uint i - (r214b - 1)) div 2 ^ nat r214b * 2 ^ nat r214b) * ?R mod ?m *
+     (?x ^ nat (?e div 2 ^ nat (uint i - (r214b - 1)) mod 2 ^ nat r214b) * ?R mod ?m) *
      minv ?m Base ^ nat ?L mod ?m =
-     ?x ^ nat (?e div 2 ^ nat (uint i1 - (r214b - 1))) * ?R mod ?m"
+     ?x ^ nat (?e div 2 ^ nat (uint i - (r214b - 1))) * ?R mod ?m"
     by (simp add: mont_mult_eq [OF Base_inv]
       power_add [symmetric] nat_add_distrib [symmetric]
       pos_imp_zdiv_nonneg_iff num_of_lint_lower
       mod_div_equality word32_to_int_lower)
-  finally show ?thesis using `s3 + 1 = r214b`
+  finally show ?thesis using `int__content (mk_int__ref s2) + 1 = r214b`
     by (simp add: num_of_lint_lower word32_to_int_lower sign_simps base_eq o_def)
 qed
 

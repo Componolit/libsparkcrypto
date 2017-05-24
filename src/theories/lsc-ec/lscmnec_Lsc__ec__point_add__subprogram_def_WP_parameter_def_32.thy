@@ -57,7 +57,7 @@ proof -
   ultimately show ?thesis
     by (simp add: point_add_spec_def point_double_spec_def padd_def proj_eq_def
       zero_cong res_mult_eq res_add_eq res_diff_cong
-      res_of_int_eq res_pow_eq defs)
+      res_of_int_eq res_pow_eq defs map__content_def)
 qed
 
 why3_end
