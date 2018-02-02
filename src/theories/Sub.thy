@@ -21,11 +21,11 @@ proof (cases "a < b")
     zdiv_zminus1_eq_if [of _ "b - a"]
   show ?thesis
     by (auto simp add: zdiv_eq_0_iff mod_pos_pos_trivial
-      split add: num_of_bool_split)
+      split: num_of_bool_split)
 next
   case False
   with assms show ?thesis
-    by (auto simp add: zdiv_eq_0_iff div_eq_minus1 split add: num_of_bool_split)
+    by (auto simp add: zdiv_eq_0_iff div_eq_minus1 split: num_of_bool_split)
 qed
 
 

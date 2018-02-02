@@ -25,7 +25,7 @@ proof (cases "a + b < c")
   case True
   with assms show ?thesis
     by (auto simp add: mod_pos_pos_trivial div_pos_pos_trivial
-      split add: num_of_bool_split)
+      split: num_of_bool_split)
 next
   case False
   with assms div_add_self2 [of c "a + b - c"]
@@ -33,7 +33,7 @@ next
   show ?thesis
     by (auto simp add: not_less div_pos_pos_trivial
       mod_pos_pos_trivial simp del: minus_mod_self2
-      split add: num_of_bool_split)
+      split: num_of_bool_split)
 qed
 
 lemma hcarry_le1:

@@ -13,10 +13,10 @@ lemma num_of_bool_split: "P (num_of_bool b) = ((b \<longrightarrow> P 1) \<and> 
   by (cases b) simp_all
 
 lemma num_of_bool_ge0: "0 \<le> num_of_bool b"
-  by (simp split add: num_of_bool_split)
+  by (simp split: num_of_bool_split)
 
 lemma num_of_bool_le1: "num_of_bool b \<le> 1"
-  by (simp split add: num_of_bool_split)
+  by (simp split: num_of_bool_split)
 
 
 subsection {* Big numbers *}
@@ -43,11 +43,11 @@ proof -
     by (rule inj_onI) simp
   from assms have "{0..<i + j} = {0..<i} \<union> {i..<i + j}"
     by (simp add: ivl_disj_un)
-  with setsum.reindex [OF inj, of "\<lambda>k. b ^ nat k * A (l + k)"]
+  with sum.reindex [OF inj, of "\<lambda>k. b ^ nat k * A (l + k)"]
     image_add_int_atLeastLessThan [of i "i + j"] `0 \<le> i`
   show ?thesis
-    by (simp add: num_of_lint_def setsum.union_disjoint nat_add_distrib
-      power_add setsum_right_distrib add_ac mult_ac)
+    by (simp add: num_of_lint_def sum.union_disjoint nat_add_distrib
+      power_add sum_distrib_left add_ac mult_ac)
 qed
 
 lemma num_of_lint_expand:
@@ -82,7 +82,7 @@ qed
 
 lemma num_of_lint_lower:
   "0 \<le> b \<Longrightarrow> \<forall>j\<in>{l..<l+i}. 0 \<le> A j \<Longrightarrow> 0 \<le> num_of_lint b A l i"
-  by (simp add: mult_nonneg_nonneg setsum_nonneg num_of_lint_def)
+  by (simp add: sum_nonneg num_of_lint_def)
 
 lemma num_of_lint_all0:
   assumes "\<forall>j\<in>{0..<i}. A (l + j) = 0"
@@ -200,7 +200,7 @@ subsection {* Number theory *}
 lemma odd_coprime:
   assumes "(m::int) mod 2 = 1"
   shows "coprime m (2 ^ n)"
-proof (rule coprime_exp_int)
+proof (rule coprime_exp)
   from assms gcd_red_int [of m 2]
   show "coprime m 2" by simp
 qed
@@ -246,7 +246,7 @@ lemma inv_div:
   and "k mod n = 0"
   shows "(k div n) mod m = (k * n') mod m"
 proof -
-  from `k mod n = 0` mod_div_equality [of k n]
+  from `k mod n = 0` div_mult_mod_eq[of k n]
   have "(k div n * n) * n' mod m = (k * n') mod m"
     by simp
   then have "((k div n) * ((n * n') mod m)) mod m = (k * n') mod m"
@@ -265,7 +265,7 @@ proof -
   have "?m mod 2 = 1" by (simp add: num_of_lint_mod_dvd del: num_of_lint_sum)
   then have "coprime ?m ?B" by (rule odd_coprime)
   with `1 < ?m` show ?thesis
-    by (simp add: minv_is_inverse gcd_commute_int)
+    by (simp add: minv_is_inverse gcd.commute)
 qed
 
 

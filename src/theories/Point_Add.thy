@@ -5,11 +5,11 @@ begin
 lemma add_less_mod: "x < m \<Longrightarrow> y < m \<Longrightarrow>
   x + y - m * num_of_bool (b \<le> x + y) -
   m + m * num_of_bool (x + y - m * num_of_bool (b \<le> x + y) < m) < m"
-  by (simp split add: num_of_bool_split)
+  by (simp split: num_of_bool_split)
 
 lemma sub_less_mod: "x < m \<Longrightarrow> y < m \<Longrightarrow> 0 \<le> y \<Longrightarrow>
   x - y + m * num_of_bool (x < y) < m"
-  by (simp split add: num_of_bool_split)
+  by (simp split: num_of_bool_split)
 
 
 spark_open "$VCG_DIR/lsc_/ec/point_double" (lsc__ec)

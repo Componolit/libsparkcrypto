@@ -23,7 +23,7 @@ proof -
   finally show ?thesis using `x \<noteq> 0` by simp
 qed
 
-lemmas mod_div_equality' = eq_diff_eq [THEN iffD2, OF mod_div_equality]
+lemmas mod_div_equality' = eq_diff_eq [THEN iffD2, OF div_mult_mod_eq]
 
 lemma num_of_lint_AND:
   assumes "int j < int k * i"
@@ -31,7 +31,7 @@ lemma num_of_lint_AND:
   shows "(num_of_lint (2 ^ k) A l i AND 2 ^ j = 0) =
     (A (l + int (j div k)) AND 2 ^ (j mod k) = 0)"
 proof -
-  from zero_zle_int `int j < int k * i`
+  from of_nat_0_le_iff `int j < int k * i`
   have "0 < int k * i"
     by (rule le_less_trans)
   then have "0 < k" by (simp add: zero_less_mult_iff)
@@ -846,7 +846,7 @@ proof -
     by (simp add: mont_mult_eq [OF Base_inv]
       power_add [symmetric] nat_add_distrib [symmetric]
       pos_imp_zdiv_nonneg_iff num_of_lint_lower mult_nonneg_nonneg
-      mod_div_equality)
+      div_mult_mod_eq)
   finally show ?thesis
     using
       `bounds _ _ _ _ e`

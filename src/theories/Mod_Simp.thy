@@ -45,7 +45,7 @@ let
 
 fun has_mod rng m s =
   m aconv s orelse (case s of
-      Const (@{const_name mod}, _) $ _ $ m' => m aconv m'
+      Const (@{const_name modulo}, _) $ _ $ m' => m aconv m'
     | Const (@{const_name plus}, _) $ t $ u =>
         has_mod rng m t orelse has_mod rng m u
     | Const (@{const_name minus}, _) $ t $ u =>
@@ -64,7 +64,7 @@ fun pull_mod rng cmod cm ct =
       @{thm mod_self_cong}
   else if has_mod rng (Thm.term_of cm) (Thm.term_of ct) then
     case Thm.term_of ct of
-      Const (@{const_name mod}, _) $ _ $ _ =>
+      Const (@{const_name modulo}, _) $ _ $ _ =>
         let val (cx, cm) = Thm.dest_binop ct
         in Thm.instantiate' [SOME (Thm.ctyp_of_cterm cx)] [SOME cx, SOME cm]
           @{thm mod_mod_trivial}
@@ -98,7 +98,7 @@ fun pull_mod rng cmod cm ct =
       [SOME (Drule.list_comb (cmod, [ct, cm]))] refl;
 
 fun pull_mod_proc _ ctxt ct = (case Thm.term_of ct of
-    Const (@{const_name mod}, Type (_, [T, _])) $ u $ m =>
+    Const (@{const_name modulo}, Type (_, [T, _])) $ u $ m =>
       let val rng = Sign.of_sort
         (Proof_Context.theory_of ctxt)
         (T, @{sort ring})

@@ -3,7 +3,7 @@ imports Bignum
 begin
 
 lemma zdiv_zmod_equality': "(m::int) div n * n = m - m mod n"
-  by (simp add: zmod_zdiv_equality')
+  by (simp add: minus_div_mult_eq_mod [symmetric])
 
 lemma two_words_upper:
   assumes "(x::int) < a" "y < b" "0 \<le> a"
@@ -58,7 +58,7 @@ proof -
   have "(a loop__1__i div 2 ^ nat k + h1 * 2 ^ nat (32 - k)) mod Base * 2 ^ nat k +
     a loop__1__i mod 2 ^ nat k =
     a loop__1__i + Base * (h1 mod 2 ^ nat k)"
-    by (simp add: mod_div_equality)
+    by (simp add: div_mult_mod_eq)
   moreover from
     `\<forall>j. a_first \<le> j \<and> j \<le> loop__1__i \<longrightarrow> a j = a_init j`
     `a_first \<le> loop__1__i`

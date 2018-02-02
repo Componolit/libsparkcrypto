@@ -12,7 +12,7 @@ proof -
 qed
 
 lemma zdiv_zmod_equality': "(m::int) div n * n = m - m mod n"
-  by (simp add: zmod_zdiv_equality')
+  by (simp add: minus_div_mult_eq_mod [symmetric])
 
 spark_open "$VCG_DIR/lsc_/bignum/word_inverse"
 
@@ -36,7 +36,7 @@ proof -
   also from `0 < m` have "Base mod m < m" by simp
   with m_upper have "Base mod m < Base" by simp
   with `0 < m` have "Base mod m = (Base - Base div m * m) mod Base"
-    by (simp add: zmod_zdiv_equality' [symmetric]
+    by (simp add: minus_div_mult_eq_mod
       mod_pos_pos_trivial)
   also have "\<dots> = - (Base div m * m) mod Base"
     by (simp add: zdiff_zmod_left [of Base, symmetric])
@@ -44,7 +44,7 @@ proof -
     by (simp add: pull_mods minus_m sdiv_pos_pos div_minus_self)
 
   from odd_coprime [OF `m mod 2 = 1`, of 32]
-  have "coprime Base m"  by (simp add: gcd_commute_int)
+  have "coprime Base m"  by (simp add: gcd.commute)
   also note gcd_red_int
   finally show ?C2 using minus_m' by simp
 qed

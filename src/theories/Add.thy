@@ -26,7 +26,7 @@ lemma add_carry:
   by (cases "a + b + num_of_bool c < B")
     (auto simp add: mod_pos_pos_trivial div_pos_pos_trivial zdiv_geq
        le_zmod_geq not_less simp del: minus_mod_self2
-       split add: num_of_bool_split)
+       split: num_of_bool_split)
 
 
 spark_open "$VCG_DIR/lsc_/bignum/add" (lsc__bignum)

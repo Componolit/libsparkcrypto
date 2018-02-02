@@ -32,7 +32,7 @@ proof -
     assume "length mod 1024 \<noteq> 0"
     with `0 \<le> length`
     have "length div 1024 * 1024 < length div 1024 * 1024 + length mod 1024"
-      by (simp add: zmod_zdiv_equality')
+      by (simp add: minus_div_mult_eq_mod [symmetric])
     with `length \<le>
       (message__index__subtype__1__last - message__index__subtype__1__first + 1) * 1024`
     have "length div 1024 * 1024 <

@@ -32,7 +32,7 @@ proof -
     assume "length mod 512 \<noteq> 0"
     with `0 \<le> length`
     have "length div 512 * 512 < length div 512 * 512 + length mod 512"
-      by (simp add: zmod_zdiv_equality')
+      by (simp add: minus_div_mult_eq_mod [symmetric])
     with `length \<le>
       (message__index__subtype__1__last - message__index__subtype__1__first + 1) * 512`
     have "length div 512 * 512 <
