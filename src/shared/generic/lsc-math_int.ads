@@ -1,6 +1,8 @@
 with LSC.Types;
 
 package LSC.Math_Int
+with
+   SPARK_Mode => On
 is
    type Math_Int is private;
 
