@@ -57,6 +57,15 @@ ifeq ($(NO_APIDOC),)
 ALL_GOALS += apidoc
 endif
 
+# Feature: SHARED
+ifneq ($(SHARED),)
+   LIBTYPE = dynamic
+	LIBPREFIX = .so
+else
+   LIBTYPE = static
+	LIBPREFIX = .a
+endif
+
 ###############################################################################
 
 #
@@ -79,11 +88,13 @@ ifneq ($(OPT),)
 GPRBUILD_OPTS += -Xopt=$(OPT)
 endif
 
+GPRBUILD_OPTS += -Xlibtype=$(LIBTYPE)
+
 ###############################################################################
 
 all: $(ALL_GOALS)
 
-build:    $(addprefix $(OUTPUT_DIR)/build/adalib/,$(addsuffix /libsparkcrypto.a,$(RUNTIME)))
+build:    $(addprefix $(OUTPUT_DIR)/build/adalib/,$(addsuffix /libsparkcrypto$(LIBPREFIX),$(RUNTIME)))
 spark: $(OUTPUT_DIR)/proof/gnatprove.log
 
 apidoc: $(ADT_FILES)
@@ -111,7 +122,7 @@ $(OUTPUT_DIR)/tests/tests: install_local
       LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
 
-$(OUTPUT_DIR)/build/adalib/%/libsparkcrypto.a:
+$(OUTPUT_DIR)/build/adalib/%/libsparkcrypto$(LIBPREFIX):
 	gprbuild $(GPRBUILD_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/gnatprove.log:
@@ -126,7 +137,7 @@ install: $(INSTALL_DEPS)
 install_files: build
 	$(foreach RTS,$(RUNTIME),install -d -m 755 $(DESTDIR)/adalib/$(RTS);)
 	install -d -m 755 $(DESTDIR)/adainclude $(DESTDIR)/sharedinclude
-	$(foreach RTS,$(RUNTIME),install -p -m 755 $(OUTPUT_DIR)/build/adalib/$(RTS)/libsparkcrypto.a $(DESTDIR)/adalib/$(RTS)/libsparkcrypto.a;)
+	$(foreach RTS,$(RUNTIME),install -p -m 755 $(OUTPUT_DIR)/build/adalib/$(RTS)/libsparkcrypto$(LIBPREFIX) $(DESTDIR)/adalib/$(RTS)/libsparkcrypto$(LIBPREFIX);)
 	install -p -m 644 build/libsparkcrypto.gpr $(DESTDIR)/libsparkcrypto.gpr
 	install -p -m 644 src/shared/generic/*.ads $(DESTDIR)/sharedinclude/
 	install -p -m 644 src/ada/generic/*.ad? $(DESTDIR)/adainclude/

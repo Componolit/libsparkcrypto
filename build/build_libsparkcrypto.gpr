@@ -1,6 +1,7 @@
 project Build_Libsparkcrypto
 is
    type Mode_Type      		is ("debug", "release");
+   type Lib_Type      	   is ("static", "dynamic");
    type Arch_Type      		is ("x86_64", "i686", "generic_be");
    type Endianess_Type 		is ("little_endian", "big_endian");
    type IO_Type        		is ("textio", "nullio");
@@ -12,6 +13,7 @@ is
    Endianess 	 : Endianess_Type := external ("endianess", "little_endian");
    IO        	 : IO_Type := "textio";
    Runtime   	 : Runtime_Type := external ("RTS", "native");
+   Linking      : Lib_Type := external ("libtype", "static");
 
    Src         := "../src/";
    Default_Opt := "1";
@@ -41,7 +43,7 @@ is
    );
 
    for Library_Name     use "sparkcrypto";
-   for Library_Kind     use "static";
+   for Library_Kind     use Linking;
    for Library_Dir      use "../out/build/adalib/" & Runtime;
 
    for Object_Dir use "../out/build/" & Runtime;

@@ -2,9 +2,11 @@ project Libsparkcrypto
 is
    type IO_Type        		is ("textio", "nullio");
    type Runtime_Type   		is ("native", "zfp");
+   type Lib_Type      	   is ("static", "dynamic");
 
    IO        	 : IO_Type := "textio";
    Runtime   	 : Runtime_Type := external ("RTS", "native");
+   Linking      : Lib_Type := external ("libtype", "static");
 
    case Runtime is
       when "native" =>
@@ -17,7 +19,7 @@ is
 
    for Source_Dirs  use ("adainclude", "adainclude/" & IO, "sharedinclude");
    for Library_Dir  use "adalib/" & Runtime;
-   for Library_Kind use "static";
+   for Library_Kind use Linking;
    for Library_Name use "sparkcrypto";
    for Externally_Built use "true";
 end Libsparkcrypto;
