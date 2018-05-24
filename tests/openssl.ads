@@ -206,7 +206,7 @@ package OpenSSL is
 
    -- HMAC_SHA256
 
-   subtype SHA256_Message_Index is LSC.Types.Word64 range 1 .. 100;
+   subtype SHA256_Message_Index is LSC.SHA256.Message_Index range 1 .. 100;
    subtype SHA256_Message_Type is LSC.SHA256.Message_Type (SHA256_Message_Index);
 
    function Authenticate_SHA256

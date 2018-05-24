@@ -125,7 +125,7 @@ package body LSC.HMAC_SHA512 is
    function Keyed_Hash
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return Context_Type
+       Length  : SHA512.Message_Index) return Context_Type
      with
        Pre =>
          Message'First <= Message'Last and
@@ -146,7 +146,7 @@ package body LSC.HMAC_SHA512 is
    function Pseudorandom
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return SHA512.SHA512_Hash_Type
+       Length  : SHA512.Message_Index) return SHA512.SHA512_Hash_Type
    is
    begin
       return Get_Prf (Keyed_Hash (Key, Message, Length));
@@ -157,7 +157,7 @@ package body LSC.HMAC_SHA512 is
    function Authenticate
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return Auth_Type
+       Length  : SHA512.Message_Index) return Auth_Type
    is
    begin
       return Get_Auth (Keyed_Hash (Key, Message, Length));

@@ -129,7 +129,7 @@ package body LSC.HMAC_SHA256 is
    function Keyed_Hash
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return Context_Type
+       Length  : SHA256.Message_Index) return Context_Type
      with
        Pre =>
          Message'First <= Message'Last and
@@ -150,7 +150,7 @@ package body LSC.HMAC_SHA256 is
    function Pseudorandom
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return SHA256.SHA256_Hash_Type
+       Length  : SHA256.Message_Index) return SHA256.SHA256_Hash_Type
    is
    begin
       return Get_Prf (Keyed_Hash (Key, Message, Length));
@@ -161,7 +161,7 @@ package body LSC.HMAC_SHA256 is
    function Authenticate
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return Auth_Type
+       Length  : SHA256.Message_Index) return Auth_Type
    is
    begin
       return Get_Auth (Keyed_Hash (Key, Message, Length));

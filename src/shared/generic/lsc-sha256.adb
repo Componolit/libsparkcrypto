@@ -385,12 +385,12 @@ package body LSC.SHA256 is
 
    procedure Hash_Context
       (Message : in     Message_Type;
-       Length  : in     Types.Word64;
+       Length  : in     Message_Index;
        Ctx     : in out Context_Type)
    is
       Dummy       : constant Block_Type := Null_Block;
       Last_Length : Block_Length_Type;
-      Last_Block  : Types.Word64;
+      Last_Block  : Message_Index;
    begin
       Last_Length := Types.Word32 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
@@ -418,7 +418,7 @@ package body LSC.SHA256 is
 
    function Hash
       (Message : Message_Type;
-       Length  : Types.Word64) return SHA256_Hash_Type
+       Length  : Message_Index) return SHA256_Hash_Type
    is
       Ctx : Context_Type;
    begin

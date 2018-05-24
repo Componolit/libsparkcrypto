@@ -33,7 +33,7 @@
 -------------------------------------------------------------------------------
 
 with LSC.SHA512, LSC.Types;
-use type LSC.Types.Word64;
+use type LSC.SHA512.Message_Index;
 
 -------------------------------------------------------------------------------
 -- The HMAC-SHA-384 message authentication code
@@ -86,7 +86,7 @@ package LSC.HMAC_SHA384 is
    function Pseudorandom
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return SHA512.SHA384_Hash_Type
+       Length  : SHA512.Message_Index) return SHA512.SHA384_Hash_Type
      with
        Pre =>
          Message'First <= Message'Last and
@@ -99,7 +99,7 @@ package LSC.HMAC_SHA384 is
    function Authenticate
       (Key     : SHA512.Block_Type;
        Message : SHA512.Message_Type;
-       Length  : Types.Word64) return Auth_Type
+       Length  : SHA512.Message_Index) return Auth_Type
      with
        Pre =>
          Message'First <= Message'Last and

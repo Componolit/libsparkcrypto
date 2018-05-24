@@ -35,6 +35,7 @@
 with LSC.SHA256, LSC.Types;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
+use type LSC.SHA256.Message_Index;
 
 -------------------------------------------------------------------------------
 -- The HMAC-SHA-256 message authentication code
@@ -87,7 +88,7 @@ package LSC.HMAC_SHA256 is
    function Pseudorandom
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return SHA256.SHA256_Hash_Type
+       Length  : SHA256.Message_Index) return SHA256.SHA256_Hash_Type
      with
        Pre =>
          Message'First <= Message'Last and
@@ -100,7 +101,7 @@ package LSC.HMAC_SHA256 is
    function Authenticate
       (Key     : SHA256.Block_Type;
        Message : SHA256.Message_Type;
-       Length  : Types.Word64) return Auth_Type
+       Length  : SHA256.Message_Index) return Auth_Type
      with
        Pre =>
          Message'First <= Message'Last and

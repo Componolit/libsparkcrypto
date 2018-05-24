@@ -37,13 +37,13 @@ procedure HMAC_SHA256_Tests is
 
    HMAC_SHA256_Suite : SPARKUnit.Index_Type;
 
-   subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
+   subtype Message1_Index is LSC.SHA256.Message_Index range 1 .. 1;
    subtype Message1_Type is LSC.SHA256.Message_Type (Message1_Index);
 
-   subtype Message4_Index is LSC.Types.Word64 range 1 .. 4;
+   subtype Message4_Index is LSC.SHA256.Message_Index range 1 .. 4;
    subtype Message4_Type is LSC.SHA256.Message_Type (Message4_Index);
 
-   subtype Message5_Index is LSC.Types.Word64 range 1 .. 5;
+   subtype Message5_Index is LSC.SHA256.Message_Index range 1 .. 5;
    subtype Message5_Type is LSC.SHA256.Message_Type (Message5_Index);
 
    ----------------------

@@ -62,6 +62,7 @@ use type LSC.Bignum.Big_Int;
 use type LSC.EC_Signature.Signature_Type;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
+use type LSC.SHA256.Message_Index;
 
 --# inherit
 --#    LSC.IO,
