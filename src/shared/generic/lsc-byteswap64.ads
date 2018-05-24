@@ -37,7 +37,10 @@ with LSC.Types;
 -------------------------------------------------------------------------------
 -- Byte swapping for 64-bit words
 -------------------------------------------------------------------------------
-package LSC.Byteswap64 is
+package LSC.Byteswap64
+with
+   SPARK_Mode => On
+is
 
    -- Byte-swap @Value@
    function Swap (Value : Types.Word64) return Types.Word64;

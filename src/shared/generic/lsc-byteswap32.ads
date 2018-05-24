@@ -37,7 +37,10 @@ with LSC.Types;
 -------------------------------------------------------------------------------
 -- Byte swapping for 32-bit words
 -------------------------------------------------------------------------------
-package LSC.Byteswap32 is
+package LSC.Byteswap32
+with
+   SPARK_Mode => On
+is
 
    -- Byte-swap @Value@
    function Swap (Value : Types.Word32) return Types.Word32;

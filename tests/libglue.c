@@ -152,8 +152,9 @@ void c_rsa_public_encrypt
 {
    int rv = -1;
    RSA *key = RSA_new ();
-   key->n = BN_bin2bn(N, N_Length, key->n);
-   key->e = BN_bin2bn(E, E_Length, key->e);
+   BIGNUM *n = BN_bin2bn(N, N_Length, NULL);
+   BIGNUM *e = BN_bin2bn(E, E_Length, NULL);
+   RSA_set0_key (key, n, e, NULL);
 
    rv = RSA_public_encrypt ((int)N_Length, P, C, key, RSA_NO_PADDING);
    if (rv == -1)
@@ -184,11 +185,12 @@ void c_rsa_private_decrypt
 {
    int rv = -1;
    RSA *key = RSA_new ();
-   key->n = BN_bin2bn(N, N_Length, key->n);
-   key->d = BN_bin2bn(D, D_Length, key->d);
+   BIGNUM *n = BN_bin2bn(N, N_Length, NULL);
+   BIGNUM *d = BN_bin2bn(D, D_Length, NULL);
+   RSA_set0_key (key, n, NULL, d);
 
    // FIXME: Why is RSA_FLAG_NO_BLINDING needed?
-   key->flags = (key->flags | RSA_FLAG_NO_BLINDING);
+   RSA_set_flags (key, RSA_FLAG_NO_BLINDING);
 
    rv = RSA_private_decrypt ((int)N_Length, C, P, key, RSA_NO_PADDING);
    if (rv == -1)

@@ -49,9 +49,10 @@ package body LSC.SHA256 is
 
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32)
-     with Depends => (Item =>+ Value)
+     with
+         Depends => (Item =>+ Value),
+         Inline
    is
-      pragma Inline (Add);
    begin
       if Item.LSW > Types.Word32'Last - Value then
          Item.MSW := Item.MSW + 1;
@@ -67,9 +68,10 @@ package body LSC.SHA256 is
       y    : Types.Word32;
       z    : Types.Word32)
       return Types.Word32
-     with Post => Ch'Result = ((x and y) xor ((not x) and z))
+     with
+         Post => Ch'Result = ((x and y) xor ((not x) and z)),
+         Inline
    is
-      pragma Inline (Ch);
    begin
       return (x and y) xor ((not x) and z);
    end Ch;
@@ -81,9 +83,10 @@ package body LSC.SHA256 is
       y    : Types.Word32;
       z    : Types.Word32)
       return Types.Word32
-     with Post => Maj'Result = ((x and y) xor (x and z) xor (y and z))
+     with
+         Post => Maj'Result = ((x and y) xor (x and z) xor (y and z)),
+         Inline
    is
-      pragma Inline (Maj);
    begin
       return (x and y) xor (x and z) xor (y and z);
    end Maj;

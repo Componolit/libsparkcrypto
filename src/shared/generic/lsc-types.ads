@@ -40,7 +40,10 @@ use type Interfaces.Unsigned_64;
 -------------------------------------------------------------------------------
 -- Primitive types and operations
 -------------------------------------------------------------------------------
-package LSC.Types is
+package LSC.Types
+   with
+      SPARK_Mode => On
+is
 
    pragma Pure;
 
