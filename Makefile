@@ -89,6 +89,7 @@ GPRBUILD_OPTS += -Xopt=$(OPT)
 endif
 
 GPRBUILD_OPTS += -Xlibtype=$(LIBTYPE)
+GPRBUILD_OPTS += -Xcallgraph=$(CALLGRAPH)
 
 ###############################################################################
 

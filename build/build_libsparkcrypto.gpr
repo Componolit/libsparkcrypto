@@ -7,6 +7,7 @@ is
    type IO_Type        		is ("textio", "nullio");
    type Runtime_Type   		is ("native", "zfp");
    type Optimization_Type	is ("s", "0", "1", "2", "3");
+   type Callgraph_Type	   is ("none", "su", "su_da");
 
    Mode      	 : Mode_Type := external ("mode", "release");
    Arch      	 : Arch_Type := external ("arch", "x86_64");
@@ -14,12 +15,14 @@ is
    IO        	 : IO_Type := "textio";
    Runtime   	 : Runtime_Type := external ("RTS", "native");
    Linking      : Lib_Type := external ("libtype", "static");
+   Callgraph    : Callgraph_Type := external ("callgraph", "none");
 
    Src         := "../src/";
    Default_Opt := "1";
 
    Compiler_Switches := ();
    Builder_Switches := ();
+   Callgraph_Switches := ();
 
    Style_Switches :=
    ("-gnaty" &
@@ -66,9 +69,20 @@ is
        Src & "shared/" & Endianess,
        Src & "shared/generic");
 
+   case Callgraph is
+      when "none" =>
+         Callgraph_Switches := ();
+
+      when "su" =>
+         Callgraph_Switches := ("-fcallgraph-info=su");
+
+      when "su_da" =>
+         Callgraph_Switches := ("-fcallgraph-info=su,da");
+   end case;
+
    case Mode is
       when "release" =>
-         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops", "-fcallgraph-info=su,da");
+         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops") & Callgraph_Switches;
          Default_Opt := "3";
 
       when "debug" =>
