@@ -217,7 +217,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   subtype SHA512_Message_Index is LSC.Types.Word64 range 1 .. 100;
+   subtype SHA512_Message_Index is LSC.SHA512.Message_Index range 1 .. 100;
    subtype SHA512_Message_Type is LSC.SHA512.Message_Type (SHA512_Message_Index);
 
    -- HMAC_SHA384

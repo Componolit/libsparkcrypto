@@ -41,13 +41,15 @@ procedure HMAC_SHA384_Tests is
    PRF_HMAC_SHA_384  : LSC.SHA512.SHA384_Hash_Type;
    HMAC_SHA384_Suite : SPARKUnit.Index_Type;
 
-   subtype Message1_Index is LSC.Types.Word64 range 1 .. 1;
+   use type LSC.SHA512.Message_Index;
+
+   subtype Message1_Index is LSC.SHA512.Message_Index range 1 .. 1;
    subtype Message1_Type is LSC.SHA512.Message_Type (Message1_Index);
 
-   subtype Message2_Index is LSC.Types.Word64 range 1 .. 2;
+   subtype Message2_Index is LSC.SHA512.Message_Index range 1 .. 2;
    subtype Message2_Type is LSC.SHA512.Message_Type (Message2_Index);
 
-   subtype Message3_Index is LSC.Types.Word64 range 1 .. 3;
+   subtype Message3_Index is LSC.SHA512.Message_Index range 1 .. 3;
    subtype Message3_Type is LSC.SHA512.Message_Type (Message3_Index);
 
    Message1  : Message1_Type;
