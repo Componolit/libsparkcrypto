@@ -42,13 +42,10 @@ ifeq ($(NO_SPARK),)
 endif
 
 $(OUTPUT_DIR)/tests: $(OUTPUT_DIR)/libglue.a *.ad?
-	gnatmake -aP$(LSC_DIR) -aP$(SPARKUNIT_DIR) -L$(OUTPUT_DIR) -D$(OUTPUT_DIR)/build -o $@ -P build.gpr
+	ADA_PROJECT_PATH=$(SPARKUNIT_DIR):$(ADA_PROJECT_PATH) gprbuild -P build.gpr
 
 $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz: $(OUTPUT_DIR)/proof/sparksimp.log
 	VCG_DIR=$(OUTPUT_DIR)/proof LSC_THYS_DIR=$(CURDIR)/../src/theories isabelle build -c -o document=false -o threads=5 -D theories
-
-$(OUTPUT_DIR)/confgen: $(SPARK_DIR)/lib/spark/confgen.adb
-	gnatmake -D $(OUTPUT_DIR) -o $@ $^
 
 $(OUTPUT_DIR)/genhmac:
 	$(CC) -W -Wall -Werror -o $@ genhmac.c -lcrypto

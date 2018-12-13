@@ -1,18 +1,23 @@
-with "libsparkcrypto";
+with "../out/libsparkcrypto/libsparkcrypto";
 with "SPARKUnit";
 
 project Build
 is
    for Source_Dirs use (".");
    for Main use ("main.adb");
+   for Exec_Dir use "../out/tests";
 
    package Linker is
-      for Default_Switches ("Ada") use ("-Wl,--gc-sections");
+      for Default_Switches ("Ada") use ("-Wl,--gc-sections", "-L../out/tests");
    end Linker;
 
    package Compiler is
       for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN", "-fomit-frame-pointer", "-gnatp", "-gnatwe");
       for Switches ("spark_io.ads") use ("-gnatwa", "-gnatwe", "-gnat95", "-gnatwY", "-gnatwC");
    end Compiler;
+
+   package Builder is
+      for Executable ("main.adb") use "tests";
+   end Builder;
 
 end Build;
