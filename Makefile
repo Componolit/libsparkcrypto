@@ -6,6 +6,7 @@ ARCH        ?= $(UNAME_M)
 RUNTIME     ?= native
 DESTDIR     ?= /usr/local
 ATP         ?= sparksimp
+CALLGRAPH   ?= none
 
 VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
@@ -46,10 +47,10 @@ endif
 # Feature: SHARED
 ifneq ($(SHARED),)
    LIBTYPE = dynamic
-	LIBPREFIX = .so
+   LIBPREFIX = .so
 else
    LIBTYPE = static
-	LIBPREFIX = .a
+   LIBPREFIX = .a
 endif
 
 ###############################################################################
@@ -75,7 +76,10 @@ GPRBUILD_OPTS += -Xopt=$(OPT)
 endif
 
 GPRBUILD_OPTS += -Xlibtype=$(LIBTYPE)
+
+ifneq ($(CALLGRAPH),)
 GPRBUILD_OPTS += -Xcallgraph=$(CALLGRAPH)
+endif
 
 ###############################################################################
 
