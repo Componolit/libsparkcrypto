@@ -5,3 +5,7 @@ vc_view.ini
 *.o
 *.ali
 *~
+b__*.ad?
+*.stdout
+*.stderr
+*.bexch

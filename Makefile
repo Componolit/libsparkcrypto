@@ -1,5 +1,5 @@
 OUTPUT_DIR = $(CURDIR)/out
-DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/doc $(OUTPUT_DIR)/tree $(OUTPUT_DIR)/tests)
+DUMMY     := $(shell mkdir -p $(OUTPUT_DIR)/empty $(OUTPUT_DIR)/build $(OUTPUT_DIR)/proof $(OUTPUT_DIR)/tree $(OUTPUT_DIR)/tests)
 UNAME_M   := $(shell uname -m)
 
 ARCH        ?= $(UNAME_M)
@@ -9,12 +9,6 @@ ATP         ?= sparksimp
 
 VERSION     ?= 0.1.1
 TAG         ?= v$(VERSION)
-
-RST2HTML_OPTS = \
-   --generator \
-   --date \
-   --time \
-   --stylesheet=doc/libsparkcrypto.css
 
 SHARED_DIRS = src/shared/$(ENDIANESS) src/shared/generic
 ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
@@ -50,11 +44,6 @@ ifneq ($(MAKECMDGOALS),clean)
    $(error SPARKUNIT_DIR is not set - set it to the base directory of your SPARKUnit installation)
    endif
 endif
-endif
-
-# Feature: NO_APIDOC
-ifeq ($(NO_APIDOC),)
-ALL_GOALS += apidoc
 endif
 
 # Feature: SHARED
@@ -98,22 +87,10 @@ all: $(ALL_GOALS)
 build:    $(addprefix $(OUTPUT_DIR)/build/adalib/,$(addsuffix /libsparkcrypto$(LIBPREFIX),$(RUNTIME)))
 spark: $(OUTPUT_DIR)/proof/gnatprove.log
 
-apidoc: $(ADT_FILES)
-	echo $^ | xargs -n1 > $(OUTPUT_DIR)/tree.lst
-	adabrowse -T $(OUTPUT_DIR)/tree -f @$(OUTPUT_DIR)/tree.lst -w1 -c doc/adabrowse.conf -o $(OUTPUT_DIR)/doc/
-	install -m 644 doc/libsparkcrypto.css $(OUTPUT_DIR)/doc/libsparkcrypto.css
-	install -m 644 doc/apidoc.css $(OUTPUT_DIR)/doc/apidoc.css
-	install -m 644 doc/lsc_logo.png $(OUTPUT_DIR)/doc/lsc_logo.png
-
 archive: $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz
 
 $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ $(TAG) | gzip -c > $@
-
-doc: apidoc
-	rst2html $(RST2HTML_OPTS) README $(OUTPUT_DIR)/doc/index.html
-	rst2html $(RST2HTML_OPTS) CHANGES $(OUTPUT_DIR)/doc/CHANGES.html
-	rst2html $(RST2HTML_OPTS) TODO $(OUTPUT_DIR)/doc/TODO.html
 
 tests: $(OUTPUT_DIR)/tests/tests
 	$<
@@ -166,4 +143,4 @@ clean:
 	@rm -rf $(OUTPUT_DIR)
 
 .PHONY: all install install_local install_files install_spark
-.PHONY: build tests proof apidoc archive spark
+.PHONY: build tests proof archive spark
