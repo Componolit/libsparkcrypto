@@ -15,7 +15,9 @@ ARCH_FILES  = $(wildcard src/ada/$(ARCH)/*.ad?)
 ADT_FILES   = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(wildcard src/shared/generic/*.ads))))
 
 ALL_GOALS      = install_local
-INSTALL_DEPS   = install_files
+INSTALL_DEPS   = install_files \
+
+export SPARKUNIT_DIR ?= $(CURDIR)/contrib/sparkunit/out/sparkunit
 
 # Feature: ARCH
 ifeq      ($(ARCH),x86_64)
@@ -39,11 +41,6 @@ endif
 # Feature: NO_TESTS
 ifeq ($(NO_TESTS),)
 ALL_GOALS += tests
-ifneq ($(MAKECMDGOALS),clean)
-   ifeq ($(SPARKUNIT_DIR),)
-   $(error SPARKUNIT_DIR is not set - set it to the base directory of your SPARKUnit installation)
-   endif
-endif
 endif
 
 # Feature: SHARED
@@ -95,10 +92,14 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 tests: $(OUTPUT_DIR)/tests/tests
 	$<
 
-$(OUTPUT_DIR)/tests/tests: install_local
+$(OUTPUT_DIR)/tests/tests: install_local contrib/sparkunit/out/sparkunit/SPARKUnit.gpr
 	make -C tests \
       LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
+
+contrib/sparkunit/out/sparkunit/SPARKUnit.gpr:
+	git submodule update contrib/sparkunit
+	make -C contrib/sparkunit
 
 $(OUTPUT_DIR)/build/adalib/%/libsparkcrypto$(LIBPREFIX):
 	gprbuild $(GPRBUILD_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto

@@ -1,0 +1,3 @@
+[submodule "contrib/sparkunit"]
+	path = contrib/sparkunit
+	url = https://github.com/Componolit/sparkunit.git
