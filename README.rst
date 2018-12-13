@@ -1,23 +1,22 @@
-==============================================================
-libsparkcrypto - A cryptographic library implemented in SPARK.
-==============================================================
+===================================================================
+libsparkcrypto - A cryptographic library implemented in SPARK 2014.
+===================================================================
 
 libsparkcrypto is a formally verified implementation of several widely used
-symmetric cryptographic algorithms using the SPARK programming language and
-toolset [1]_.  For the complete library proofs of the absence of run-time
-errors like type range violations, division by zero and numerical overflows are
-available. Some of its subprograms include proofs of partial correctness.
+cryptographic algorithms using the SPARK 2014 programming language and toolset
+[1]_.  For the complete library proofs of the absence of run-time errors like
+type range violations, division by zero and numerical overflows are available.
+Some of its subprograms include proofs of partial correctness.
 
 The distribution contains test cases for all implemented algorithms and a
-benchmark to compare its performance with the OpenSSL library [2]_. The
-achieved speed has been found to be very close to the optimized C and Assembler
-implementations of OpenSSL.
+benchmark to compare its performance with the OpenSSL library [2]_.
 
 Copyright, Warranty and Licensing
 =================================
 
-| Copyright (C) 2010, Alexander Senier
-| Copyright (C) 2010, secunet Security Networks AG
+| Copyright (C) 2011-2017  Stefan Berghofer
+| Copyright (C) 2010-2011,2018  Alexander Senier
+| Copyright (C) 2010-2017  secunet Security Networks AG
 
 | All rights reserved.
 
@@ -52,40 +51,28 @@ libsparkcrypto is released under the simplified BSD license::
 Features
 ========
 
-Version 0.1.1 of libsparkcrypto implements the following symmetric cryptographic
+This version of libsparkcrypto implements the following cryptographic
 algorithms and modes:
 
 - AES-128, AES-192, AES-256
 - AES-CBC (all supported AES modes)
+- SHA-1
+- HMAC-SHA1
 - SHA-256, SHA-384, SHA-512
 - HMAC-SHA-256, HMAC-SHA-384, HMAC-SHA-512
 - PRF-HMAC-SHA-256, PRF-HMAC-SHA-384, PRF-HMAC-SHA-512
 - RIPEMD-160
 - HMAC-RIPEMD-160
-
-The list of changes in libsparkcrypto is available in the CHANGES_ file and the
-list of planned enhancements in the TODO_ file.
-
-Download
-========
-
-Release version
----------------
-
-The current release version of libsparkcrypto is available at
-http://senier.net/libsparkcrypto/libsparkcrypto-0.1.1.tgz
-
-An API documentation of the current release version can be found at
-http://senier.net/libsparkcrypto/lsc.html
+- ECDSA, ECGDSA
 
 Development version
--------------------
+===================
 
 The current development version of libsparkcrypto is available through its GIT
-[3]_ repository: ``http://git.codelabs.ch/git/spark-crypto.git``
+[3]_ repository: ``https://github.com/Componolit/libsparkcrypto.git``
 
 A browsable version of the repository is also available here:
-http://git.codelabs.ch/?p=spark-crypto.git
+https://github.com/Componolit/libsparkcrypto
 
 Building and installing
 =======================
@@ -95,16 +82,14 @@ Required tools
 
 To build and prove libsparkcrypto, the following tools are required:
 
-- GCC or GNAT Pro
-- SPARK 9 (SPARK Pro or SPARK GPL)
-- GNU make, version >= 3.81
-- OpenSSL (for building the benchmark, tested with 0.9.8g)
-- AdaBrowse (for building the API documentation, tested with 4.0.3)
-- Docutils (for building the documentation, tested with 0.6)
+- GNAT (recent Pro or FSF)
+- SPARK 2014 (tested with Pro 19.0 and Community 2018)
+- GNU make
+- OpenSSL (for building the benchmark, tested with 1.1.1j)
 - SPARKUnit [4]_ (for unit testing, tested with 0.1.0)
 
-The primary development environments of libsparkcrypto are Debian 5 (x86_64)
-and Ubuntu 10.04 (x86_64). Though the source and project files should be system
+The primary development environments of libsparkcrypto are Debian (x86_64) and
+Ubuntu (x86_64). Though the source and project files should be system
 independent, the Makefiles assume a UNIXish system (cygwin seems to work).
 Tools like ``mkdir``, ``uname``, ``tail`` and ``install`` must be present in
 the systems search path.
@@ -128,28 +113,12 @@ libsparkcrypto was successfully built and tested on the following systems:
 +------------------+--------------+-----------------------------------------------+
 |operating system  | architecture |  toolchain                                    |
 +==================+==============+===============================================+
-|Ubuntu 10.04      | x86_64       |  GNAT-GPL 2010 or GCC-4.4.3, SPARK-GPL/-Pro 9 |
+|Debian 9          | x86_64       |  SPARK Pro 19.0, GNAT Pro 19.0                |
 +------------------+--------------+-----------------------------------------------+
-|Debian 5          | i686         |  GCC-4.3.2, SPARK-GPL 9                       |
-+------------------+--------------+-----------------------------------------------+
-|Debian 5          | x86_64       |  GNAT-Pro 6.3.1 or GCC-4.3.2, SPARK-Pro 9     |
+|Debian 9          | x86_64       |  GNAT Community 2018                          |
 +------------------+--------------+-----------------------------------------------+
 
-If you were able to build and verify libsparkcrypto on a platform not listed
-here, please send mail to Alexander Senier <mail@senier.net> for inclusion into
-that list. Please provide information about type and version of your operation
-system, the toolchain and the CPU architecture. We would also appreciate your
-proof summary and the results of the ``benchmark`` tool (if providing that,
-please also tell us the version of your OpenSSL library).
-
-Known issues
-------------
-
-- GNAT Pro 6.3.1 (and maybe other versions) is known to cause trouble if
-  optimization is set to -O3. It will generate invalid code for all  HMAC
-  implementations, all respective test cases will fail.
-
-Please send bug reports and comments to Alexander Senier <mail@senier.net>.
+Please send bug reports and comments to Alexander Senier <senier@componolit.com>.
 
 Using libsparkcrypto
 ====================
@@ -173,19 +142,19 @@ contributing changes back to the project:
 - Make sure you successfully ran the test suite (``make test``).
 - Try to stay consistent with the current style of the source.
 - If feasible, implement a benchmark for your code.
-- Create your patches using git-format-patch.
+- Create a pull request on GitHub
 
 The Directory structure of libsparkcrypto is as follows:
 
-+---------------+-------------------------------------------------------------+
-|directory      | content                                                     |
-+===============+=============================================================+
-|``src/shared`` | sources analyzed by SPARK Examiner and used by Ada compiler |
-+---------------+-------------------------------------------------------------+
-|``src/spark``  | sources only analyzed by SPARK Examiner                     |
-+---------------+-------------------------------------------------------------+
-|``src/ada``    | sources only used by Ada compiler                           |
-+---------------+-------------------------------------------------------------+
++---------------+----------------------------------------------------+
+|directory      | content                                            |
++===============+====================================================+
+|``src/shared`` | sources analyzed by SPARK and used by Ada compiler |
++---------------+----------------------------------------------------+
+|``src/spark``  | sources only analyzed by SPARK                     |
++---------------+----------------------------------------------------+
+|``src/ada``    | sources only used by Ada compiler                  |
++---------------+----------------------------------------------------+
 
 The directories ``src/ada`` and ``src/shared`` have a sub-directory ``generic``,
 which contains platform independent code. Furthermore, there are
@@ -205,6 +174,8 @@ altered by passing the following variables to ``make``:
 +------------------+----------------------------------------------------------------------+
 |``OPT``           | Optimization level to use (``s``, ``0``, ``1``, ``2`` or ``3``).     |
 +------------------+----------------------------------------------------------------------+
+|``SHARED``        | Build a shared library (``0``, ``1``).                               |
++------------------+----------------------------------------------------------------------+
 |``RUNTIME``       | Runtime to build for (``native`` or ``zfp``).                        |
 +------------------+----------------------------------------------------------------------+
 |``NO_TESTS``      | Disable tests step.                                                  |
@@ -212,8 +183,6 @@ altered by passing the following variables to ``make``:
 |``NO_SPARK``      | Disable SPARK proof step.                                            |
 +------------------+----------------------------------------------------------------------+
 |``NO_ISABELLE``   | Disable ISABELLE proof step.                                         |
-+------------------+----------------------------------------------------------------------+
-|``NO_APIDOC``     | Disable generation of API documentation.                             |
 +------------------+----------------------------------------------------------------------+
 |``TARGET_CFG``    | Target system configuration.                                         |
 +------------------+----------------------------------------------------------------------+
@@ -234,10 +203,7 @@ Credits
   many tricky problems.
 
 
-
-.. [1] SPARK - http://www.altran-praxis.com/spark.aspx
+.. [1] SPARK 2014 - https://www.adacore.com/about-spark
 .. [2] OpenSSL: The Open Source toolkit for SSL/TLS - http://www.openssl.org
 .. [3] GIT - the fast version control system, http://git-scm.com
 .. [4] SPARKUnit - A unit test framework for the SPARK programming language, http://senier.net/SPARKUnit
-.. _CHANGES: CHANGES.html
-.. _TODO: TODO.html
