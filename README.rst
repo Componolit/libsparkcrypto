@@ -86,7 +86,6 @@ To build and prove libsparkcrypto, the following tools are required:
 - SPARK 2014 (tested with Pro 19.0 and Community 2018)
 - GNU make
 - OpenSSL (for building the benchmark, tested with 1.1.1j)
-- SPARKUnit [4]_ (for unit testing, tested with 0.1.0)
 
 The primary development environments of libsparkcrypto are Debian (x86_64) and
 Ubuntu (x86_64). Though the source and project files should be system
@@ -188,8 +187,6 @@ altered by passing the following variables to ``make``:
 +------------------+----------------------------------------------------------------------+
 |``SPARK_DIR``     | Base directory of the SPARK installation.                            |
 +------------------+----------------------------------------------------------------------+
-|``SPARKUNIT_DIR`` | Base directory of the SPARKUnit installation.                        |
-+------------------+----------------------------------------------------------------------+
 |``DESTDIR``       | Installation base directory.                                         |
 +------------------+----------------------------------------------------------------------+
 
@@ -206,4 +203,3 @@ Credits
 .. [1] SPARK 2014 - https://www.adacore.com/about-spark
 .. [2] OpenSSL: The Open Source toolkit for SSL/TLS - http://www.openssl.org
 .. [3] GIT - the fast version control system, http://git-scm.com
-.. [4] SPARKUnit - A unit test framework for the SPARK programming language, http://senier.net/SPARKUnit
