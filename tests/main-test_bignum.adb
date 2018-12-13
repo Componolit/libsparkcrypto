@@ -287,12 +287,12 @@ begin
 
    SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark
-     (Harness, Benchmarks, "RSA 2048 encryption / decryption", Measurement,
-      Success_Enc and then Success_Dec and then
-      Cipher1_Small = Cipher2_Small and then
-      Plain1_Small = Plain2_Small and then
-      Plain2_Small = Plain3_Small);
+   --  SPARKUnit.Create_Benchmark
+   --    (Harness, Benchmarks, "RSA 2048 encryption / decryption", Measurement,
+   --     Success_Enc and then Success_Dec and then
+   --     Cipher1_Small = Cipher2_Small and then
+   --     Plain1_Small = Plain2_Small and then
+   --     Plain2_Small = Plain3_Small);
 
 
    -- 4096 bit
@@ -417,12 +417,12 @@ begin
 
    SPARKUnit.Measurement_Stop (Measurement);
 
-   SPARKUnit.Create_Benchmark
-     (Harness, Benchmarks, "RSA 4096 encryption / decryption", Measurement,
-      Success_Enc and then Success_Dec and then
-      Cipher1 = Cipher2 and then
-      Plain1 = Plain2 and then
-      Plain2 = Plain3);
+   --  SPARKUnit.Create_Benchmark
+   --    (Harness, Benchmarks, "RSA 4096 encryption / decryption", Measurement,
+   --     Success_Enc and then Success_Dec and then
+   --     Cipher1 = Cipher2 and then
+   --     Plain1 = Plain2 and then
+   --     Plain2 = Plain3);
 
    --# accept Flow, 602, Harness, Plain1_Small, "completely initialized in loop" &
    --#        Flow, 602, Harness, Plain1, "completely initialized in loop" &
