@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/Componolit/libsparkcrypto.svg?branch=componolit
+       :target: https://travis-ci.org/Componolit/libsparkcrypto
+
 ===================================================================
 libsparkcrypto - A cryptographic library implemented in SPARK 2014.
 ===================================================================
