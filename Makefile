@@ -102,7 +102,7 @@ $(OUTPUT_DIR)/tests/tests: install_local contrib/sparkunit/out/sparkunit/SPARKUn
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
 
 contrib/sparkunit/out/sparkunit/SPARKUnit.gpr:
-	git submodule update contrib/sparkunit
+	git submodule update --init contrib/sparkunit
 	make -C contrib/sparkunit
 
 $(OUTPUT_DIR)/build/adalib/%/libsparkcrypto$(LIBPREFIX):
