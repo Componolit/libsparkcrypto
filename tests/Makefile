@@ -14,7 +14,8 @@ DUMMY := $(shell mkdir -p $(OUTPUT_DIR)/proof)
 
 GOALS = $(OUTPUT_DIR)/tests
 
-REPORT_DEPS = $(OUTPUT_DIR)/proof/sparksimp.log
+SPARK_LOG = $(OUTPUT_DIR)/../libsparkcrypto/gnatprove.log
+REPORT_DEPS = $(SPARK_LOG)
 
 # Feature: NO_SPARK
 ifeq ($(NO_SPARK),)
@@ -44,7 +45,7 @@ endif
 $(OUTPUT_DIR)/tests: $(OUTPUT_DIR)/libglue.a *.ad?
 	ADA_PROJECT_PATH=$(SPARKUNIT_DIR):$(ADA_PROJECT_PATH) gprbuild -P build.gpr
 
-$(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz: $(OUTPUT_DIR)/proof/sparksimp.log
+$(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz: $(SPARK_LOG)
 	VCG_DIR=$(OUTPUT_DIR)/proof LSC_THYS_DIR=$(CURDIR)/../src/theories isabelle build -c -o document=false -o threads=5 -D theories
 
 $(OUTPUT_DIR)/genhmac:

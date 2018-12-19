@@ -94,7 +94,7 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ $(TAG) | gzip -c > $@
 
 tests: $(OUTPUT_DIR)/tests/tests
-	$<
+	$< | tee $(OUTPUT_DIR)/tests/tests.sum
 
 $(OUTPUT_DIR)/tests/tests: install_local contrib/sparkunit/out/sparkunit/SPARKUnit.gpr
 	make -C tests \
