@@ -6,10 +6,6 @@ $(error "LSC_DIR not set")
 endif
 endif
 
-ifeq ($(SPARKUNIT_DIR),)
-$(error "SPARKUNIT_DIR not set")
-endif
-
 DUMMY := $(shell mkdir -p $(OUTPUT_DIR)/proof)
 
 GOALS = $(OUTPUT_DIR)/tests
@@ -49,3 +45,6 @@ $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz: $(OUTPUT_DIR)/proof/sp
 
 $(OUTPUT_DIR)/genhmac:
 	$(CC) -W -Wall -Werror -o $@ genhmac.c -lcrypto
+
+clean:
+	rm -r -f *.o *.ali out *.stderr *.stdout b__*.ad? *.bexch
