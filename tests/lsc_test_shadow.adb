@@ -1,7 +1,8 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- Copyright (C) 2010, Alexander Senier
+-- Copyright (C) 2010, secunet Security Networks AG
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,28 +32,45 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_SHA2;
-with LSC_Test_Shadow;
+with LSC.Types;
+with LSC.Byteswap32;
+with LSC.Byteswap64;
+with AUnit.Assertions; use AUnit.Assertions;
+with Interfaces;
 
-package body LSC_Suite is
+use type Interfaces.Unsigned_32;
+use type Interfaces.Unsigned_64;
 
-   use AUnit.Test_Suites;
+package body LSC_Test_Shadow
+is
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   --  Statically allocate test cases:
-   Test_AES    : aliased LSC_Test_AES.Test_Case;
-   Test_SHA2   : aliased LSC_Test_SHA2.Test_Case;
-   Test_Shadow : aliased LSC_Test_Shadow.Test_Case;
-
-   function Suite return Access_Test_Suite is
+   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   is
    begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_Shadow'Access);
-      return Result'Access;
-   end Suite;
+      Assert (LSC.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
+   end Test_Byteswap32;
 
-end LSC_Suite;
+   ---------------------------------------------------------------------------
+
+   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (LSC.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
+   end Test_Byteswap64;
+
+   ---------------------------------------------------------------------------
+
+   procedure Register_Tests (T: in out Test_Case) is
+      use AUnit.Test_Cases.Registration;
+   begin
+      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
+      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
+   end Register_Tests;
+
+   ---------------------------------------------------------------------------
+
+   function Name (T : Test_Case) return Test_String is
+   begin
+      return Format ("Shadow");
+   end Name;
+end LSC_Test_Shadow;
