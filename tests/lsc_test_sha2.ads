@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
+-- @author Alexander Senier
+-- @date   2019-01-09
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -32,39 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-separate (Main)
-procedure Test_SHA512
-is
-   Block1, Block2  : LSC.SHA512.Block_Type;
-   SHA512_Context1 : OpenSSL.SHA512_Context_Type;
-   SHA512_Context2 : LSC.SHA512.Context_Type;
-   H1, H2          : LSC.SHA512.SHA512_Hash_Type;
-   Measurement     : SPARKUnit.Measurement_Type;
-begin
-   Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
-   Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-   SPARKUnit.Reference_Start (Measurement);
-   for I in Natural range 1 .. 500000
-     --# assert True;
-   loop
-      OpenSSL.SHA512_Context_Init (SHA512_Context1);
-      OpenSSL.SHA512_Context_Update (SHA512_Context1, Block1);
-      OpenSSL.SHA512_Context_Finalize (SHA512_Context1, Block2, 56);
-   end loop;
-   H1 := OpenSSL.SHA512_Get_Hash (SHA512_Context1);
-   SPARKUnit.Reference_Stop (Measurement);
+-- @summary Tests SHA2
+package LSC_Test_SHA2 is
 
-   SPARKUnit.Measurement_Start (Measurement);
-   for I in Natural range 1 .. 500000
-     --# assert True;
-   loop
-      SHA512_Context2 := LSC.SHA512.SHA512_Context_Init;
-      LSC.SHA512.Context_Update (SHA512_Context2, Block1);
-      LSC.SHA512.Context_Finalize (SHA512_Context2, Block2, 56);
-   end loop;
-   H2 := LSC.SHA512.SHA512_Get_Hash (SHA512_Context2);
-   SPARKUnit.Measurement_Stop (Measurement);
+   type Test_Case is new Test_Cases.Test_Case with null record;
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "SHA512", Measurement, H1 = H2);
-end Test_SHA512;
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
+
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
+
+end LSC_Test_SHA2;
