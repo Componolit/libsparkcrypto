@@ -1,5 +1,5 @@
 with "../out/libsparkcrypto/libsparkcrypto";
-with "SPARKUnit";
+with "aunit";
 
 project Build
 is
