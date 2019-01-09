@@ -33,37 +33,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
---  with LSC.AES;
---  with LSC.IO;
---  with LSC.Byteorder32;
---  with LSC.Byteorder64;
---  with LSC.Byteswap32;
---  with LSC.Byteswap64;
---  with LSC.Types;
---  with LSC.AES.CBC;
---  with LSC.SHA1;
---  with LSC.SHA256;
---  with LSC.SHA512;
---  with LSC.RIPEMD160;
---  with LSC.HMAC_SHA1;
---  with LSC.HMAC_SHA256;
---  with LSC.HMAC_SHA512;
---  with LSC.HMAC_SHA384;
---  with LSC.HMAC_RIPEMD160;
---  with LSC.Bignum;
---  with LSC.EC;
---  with LSC.EC_Signature;
---  with OpenSSL;
---  
---  use type LSC.AES.Block_Type;
---  use type LSC.AES.Message_Type;
---  use type LSC.SHA512.SHA512_Hash_Type;
---  use type LSC.Bignum.Big_Int;
---  use type LSC.EC_Signature.Signature_Type;
---  use type LSC.Types.Word32;
---  use type LSC.Types.Word64;
---  use type LSC.SHA256.Message_Index;
-
 with LSC_Suite;
 with AUnit.Run;
 with AUnit.Reporter.Text;
