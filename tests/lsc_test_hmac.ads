@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
+-- @author Alexander Senier
+-- @date   2019-01-09
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -32,35 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-separate (Main)
-procedure Test_HMAC_RMD160
-is
-   Message : constant OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
-      (others => LSC.RIPEMD160.Block_Type'(others => 16#dead_beef#));
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-   Key : constant LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
-      (others => 16#c0deaffe#);
+-- @summary Tests HMAC implementation
+package LSC_Test_HMAC is
 
-   H1 : LSC.RIPEMD160.Hash_Type;
-   H2 : LSC.RIPEMD160.Hash_Type;
-   Measurement : SPARKUnit.Measurement_Type;
-begin
+   type Test_Case is new Test_Cases.Test_Case with null record;
 
-   SPARKUnit.Reference_Start (Measurement);
-   for I in Natural range 1 .. 50000
-     --# assert True;
-   loop
-      H1 := OpenSSL.Authenticate_RMD160 (Key, Message, 10000);
-   end loop;
-   SPARKUnit.Reference_Stop (Measurement);
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
 
-   SPARKUnit.Measurement_Start (Measurement);
-   for I in Natural range 1 .. 50000
-     --# assert True;
-   loop
-      H2 := LSC.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
-   end loop;
-   SPARKUnit.Measurement_Stop (Measurement);
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
 
-   SPARKUnit.Create_Benchmark (Harness, Benchmarks, "HMAC_RMD160", Measurement, H1 = H2);
-end Test_HMAC_RMD160;
+end LSC_Test_HMAC;
