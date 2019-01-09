@@ -1,8 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
+-- @author Alexander Senier
+-- @date   2019-01-09
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -32,24 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-separate (Main)
-procedure Shadow_Tests
-is
-   Shadow_Suite : SPARKUnit.Index_Type;
-begin
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-   SPARKUnit.Create_Suite (Harness, "Shadow tests", Shadow_Suite);
+-- @summary Tests shadow implementation
+package LSC_Test_Shadow is
 
-   SPARKUnit.Create_Test
-      (Harness,
-       Shadow_Suite,
-       "Byte swap (32-bit)",
-       LSC.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#);
+   type Test_Case is new Test_Cases.Test_Case with null record;
 
-   SPARKUnit.Create_Test
-      (Harness,
-       Shadow_Suite,
-       "Byte swap (64-bit)",
-       LSC.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#);
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
 
-end Shadow_Tests;
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
+
+end LSC_Test_Shadow;
