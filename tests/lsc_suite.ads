@@ -1,9 +1,7 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2019, Alexander Senier <senier@componolit.com>
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
+-- Copyright (C) 2018, Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -33,52 +31,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
---  with LSC.AES;
---  with LSC.IO;
---  with LSC.Byteorder32;
---  with LSC.Byteorder64;
---  with LSC.Byteswap32;
---  with LSC.Byteswap64;
---  with LSC.Types;
---  with LSC.AES.CBC;
---  with LSC.SHA1;
---  with LSC.SHA256;
---  with LSC.SHA512;
---  with LSC.RIPEMD160;
---  with LSC.HMAC_SHA1;
---  with LSC.HMAC_SHA256;
---  with LSC.HMAC_SHA512;
---  with LSC.HMAC_SHA384;
---  with LSC.HMAC_RIPEMD160;
---  with LSC.Bignum;
---  with LSC.EC;
---  with LSC.EC_Signature;
---  with OpenSSL;
---  
---  use type LSC.AES.Block_Type;
---  use type LSC.AES.Message_Type;
---  use type LSC.SHA512.SHA512_Hash_Type;
---  use type LSC.Bignum.Big_Int;
---  use type LSC.EC_Signature.Signature_Type;
---  use type LSC.Types.Word32;
---  use type LSC.Types.Word64;
---  use type LSC.SHA256.Message_Index;
+with AUnit.Test_Suites;
 
-with LSC_Suite;
-with AUnit.Run;
-with AUnit.Reporter.Text;
-with Ada.Command_Line;
-with Ada.Text_IO; use Ada.Text_IO;
-
-procedure Main
+package LSC_Suite
 is
-   function Run is new AUnit.Run.Test_Runner_With_Status (LSC_Suite.Suite);
-   Reporter : AUnit.Reporter.Text.Text_Reporter;
-   use AUnit;
-   S : Status;
-begin
-   Put_Line ("Running libsparkcrypto tests...");
-   Reporter.Set_Use_ANSI_Colors (True);
-   S := Run (Reporter);
-   Ada.Command_Line.Set_Exit_Status ((if (S = Success) then 0 else 1));
-end Main;
+   function Suite return AUnit.Test_Suites.Access_Test_Suite;
+end LSC_Suite;
