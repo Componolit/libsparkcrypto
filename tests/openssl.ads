@@ -263,6 +263,7 @@ package OpenSSL is
 
    procedure RSA_Private_Decrypt
      (M       : in     LSC.Bignum.Big_Int;
+      E       : in     LSC.Bignum.Big_Int;
       D       : in     LSC.Bignum.Big_Int;
       C       : in     LSC.Bignum.Big_Int;
       P       :    out LSC.Bignum.Big_Int;
@@ -554,6 +555,8 @@ private
    procedure C_RSA_Private_Decrypt
      (M        : in System.Address;
       M_Length : in LSC.Types.Word64;
+      E        : in System.Address;
+      E_Length : in LSC.Types.Word64;
       D        : in System.Address;
       D_Length : in LSC.Types.Word64;
       C        : in System.Address;

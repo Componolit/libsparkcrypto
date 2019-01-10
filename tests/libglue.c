@@ -33,6 +33,7 @@
  */
 
 #include <err.h>
+#include <assert.h>
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 #include <openssl/crypto.h>
@@ -177,6 +178,8 @@ void c_rsa_public_encrypt
 void c_rsa_private_decrypt
    (unsigned char       *N,
     unsigned long long   N_Length,
+    unsigned char       *E,
+    unsigned long long   E_Length,
     unsigned char       *D,
     unsigned long long   D_Length,
     const unsigned char *C,
@@ -184,10 +187,20 @@ void c_rsa_private_decrypt
     unsigned long long  *Result)
 {
    int rv = -1;
+
    RSA *key = RSA_new ();
+   assert(key);
+
    BIGNUM *n = BN_bin2bn(N, N_Length, NULL);
+   assert(n);
+
+   BIGNUM *e = BN_bin2bn(E, N_Length, NULL);
+   assert(n);
+
    BIGNUM *d = BN_bin2bn(D, D_Length, NULL);
-   RSA_set0_key (key, n, NULL, d);
+   assert(d);
+
+   assert(RSA_set0_key (key, n, e, d) == 1);
 
    // FIXME: Why is RSA_FLAG_NO_BLINDING needed?
    RSA_set_flags (key, RSA_FLAG_NO_BLINDING);
@@ -199,7 +212,6 @@ void c_rsa_private_decrypt
        *Result = 1;
        return;
    }
-
    if (rv != N_Length)
    {
        printf ("wrong length (%ld vs. %ld)!\n", rv, N_Length);
