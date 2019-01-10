@@ -82,7 +82,6 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      --  FIXME: SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-128_DEC", Measurement, Plain1 = Plain2);
       Assert (Plain1 = Plain2, "Plaintext differs");
 
 	end Test_AES128_Decrypt;
@@ -112,7 +111,6 @@ package body LSC_Test_AES is
                                           16#0f0e0d0c#);
 
       Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
-      --  FIXME: SPARKUnit.Reference_Start (Measurement);
 
       for k in Natural range 1 .. 20
       loop
@@ -131,7 +129,6 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      --  FIXME: SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-128_ENC", Measurement, Cipher1 = Cipher2);
       Assert (Cipher1 = Cipher2, "Ciphertext differs");
 
    end Test_AES128_Encrypt;
@@ -180,7 +177,6 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      --  FIXME: SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-192_DEC", Measurement, Plain1 = Plain2);
       Assert (Plain1 = Plain2, "Plaintext differs");
 
    end Test_AES192_Decrypt;
@@ -229,7 +225,6 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      --  FIXME: SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-192_ENC", Measurement, Cipher1 = Cipher2);
       Assert (Cipher1 = Cipher2, "Ciphertext differs");
 
    end Test_AES192_Encrypt;
@@ -280,7 +275,6 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      --  FIXME: SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_DEC", Measurement, Plain1 = Plain2);
       Assert (Plain1 = Plain2, "Plaintext differs");
 
    end Test_AES256_Decrypt;
@@ -331,7 +325,6 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      --  FIXME: SPARKUnit.Create_Benchmark (Harness, Benchmarks, "AES-256_ENC", Measurement, Cipher1 = Cipher2);
       Assert (Cipher1 = Cipher2, "Plaintext differs");
 
    end Test_AES256_Encrypt;
