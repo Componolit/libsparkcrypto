@@ -70,8 +70,6 @@ use type LSC.Types.Word64;
 -------------------------------------------------------------------------------
 package OpenSSL is
 
-   pragma Linker_Options ("-lglue");
-
    type SHA1_Context_Type is private;
    type SHA256_Context_Type is private;
    type SHA384_Context_Type is private;
