@@ -18,8 +18,6 @@ ADT_FILES   = $(addprefix $(OUTPUT_DIR)/tree/,$(notdir $(patsubst %.ads,%.adt,$(
 ALL_GOALS      = install_local
 INSTALL_DEPS   = install_files \
 
-export SPARKUNIT_DIR ?= $(CURDIR)/contrib/sparkunit/out/sparkunit
-
 # Feature: ARCH
 ifeq      ($(ARCH),x86_64)
    ENDIANESS = little_endian
@@ -96,14 +94,10 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 tests: $(OUTPUT_DIR)/tests/tests
 	$< | tee $(OUTPUT_DIR)/tests/tests.sum
 
-$(OUTPUT_DIR)/tests/tests: install_local contrib/sparkunit/out/sparkunit/SPARKUnit.gpr
+$(OUTPUT_DIR)/tests/tests: install_local
 	make -C tests \
       LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
-
-contrib/sparkunit/out/sparkunit/SPARKUnit.gpr:
-	git submodule update --init contrib/sparkunit
-	make -C contrib/sparkunit
 
 $(OUTPUT_DIR)/build/adalib/%/libsparkcrypto$(LIBPREFIX):
 	gprbuild $(GPRBUILD_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
