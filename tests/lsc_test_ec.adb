@@ -32,78 +32,26 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-separate (Main)
-procedure EC_Tests
-is
-   EC_Suite : SPARKUnit.Index_Type;
+with LSC.Types;
+with LSC.Bignum;
+with LSC.EC;
+with LSC.EC_Signature;
+with AUnit.Assertions; use AUnit.Assertions;
+with Interfaces;
 
+use type LSC.Bignum.Big_Int;
+use type LSC.EC_Signature.Signature_Type;
+
+package body LSC_Test_EC
+is
    subtype Coord_Index is Natural range 0 .. 16;
    subtype Coord is LSC.Bignum.Big_Int (Coord_Index);
 
-   -- 521-bit elliptic curve, see RFC 4753 / 4754
+   ---------------------------------------------------------------------------
 
-   P : constant Coord := Coord'
-     (16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#000001FF#);
-   --# for P declare Rule;
-
-   A : constant Coord := Coord'
-     (16#FFFFFFFC#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#000001FF#);
-   --# for A declare Rule;
-
-   B : constant Coord := Coord'
-     (16#6B503F00#, 16#EF451FD4#, 16#3D2C34F1#, 16#3573DF88#, 16#3BB1BF07#,
-      16#1652C0BD#, 16#EC7E937B#, 16#56193951#, 16#8EF109E1#, 16#B8B48991#,
-      16#99B315F3#, 16#A2DA725B#, 16#B68540EE#, 16#929A21A0#, 16#8E1C9A1F#,
-      16#953EB961#, 16#00000051#);
-   --# for B declare Rule;
-
-   Base_X : constant Coord := Coord'
-     (16#C2E5BD66#, 16#F97E7E31#, 16#856A429B#, 16#3348B3C1#, 16#A2FFA8DE#,
-      16#FE1DC127#, 16#EFE75928#, 16#A14B5E77#, 16#6B4D3DBA#, 16#F828AF60#,
-      16#053FB521#, 16#9C648139#, 16#2395B442#, 16#9E3ECB66#, 16#0404E9CD#,
-      16#858E06B7#, 16#000000C6#);
-   --# for Base_X declare Rule;
-
-   Base_Y : constant Coord := Coord'
-     (16#9FD16650#, 16#88BE9476#, 16#A272C240#, 16#353C7086#, 16#3FAD0761#,
-      16#C550B901#, 16#5EF42640#, 16#97EE7299#, 16#273E662C#, 16#17AFBD17#,
-      16#579B4468#, 16#98F54449#, 16#2C7D1BD9#, 16#5C8A5FB4#, 16#9A3BC004#,
-      16#39296A78#, 16#00000118#);
-   --# for Base_Y declare Rule;
-
-   Q : constant Coord := Coord'
-     (16#91386409#, 16#BB6FB71E#, 16#899C47AE#, 16#3BB5C9B8#, 16#F709A5D0#,
-      16#7FCC0148#, 16#BF2F966B#, 16#51868783#, 16#FFFFFFFA#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
-      16#FFFFFFFF#, 16#000001FF#);
-   --# for Q declare Rule;
-
-   RP, AM, BM, RQ : Coord;
-
-   P_Inv, Q_Inv : LSC.Types.Word32;
-
-   procedure Precompute_Values
-     --# global RP, AM, BM, RQ, P_Inv, Q_Inv;
-     --# derives RP, AM, BM, RQ, P_Inv, Q_Inv from ;
-     --# post
-     --#   LSC.Bignum.Num_Of_Big_Int (RP, RP'First, P'Last - P'First + 1) =
-     --#   LSC.Bignum.Base ** (2 * (P'Last - P'First + 1)) mod
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (AM, AM'First, P'Last - P'First + 1) <
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (BM, BM'First, P'Last - P'First + 1) <
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (RQ, RQ'First, Q'Last - Q'First + 1) =
-     --#   LSC.Bignum.Base ** (2 * (Q'Last - Q'First + 1)) mod
-     --#   LSC.Bignum.Num_Of_Big_Int (Q, Q'First, Q'Last - Q'First + 1) and
-     --#   1 + P_Inv * P (P'First) = 0 and
-     --#   1 + Q_Inv * Q (Q'First) = 0;
+   procedure Precompute_Values (P, A, B, Q     : Coord;
+                                RP, AM, BM, RQ : out Coord;
+                                P_Inv, Q_Inv   : out LSC.Types.Word32)
    is
    begin
       LSC.Bignum.Size_Square_Mod (P, P'First, P'Last, RP, RP'First);
@@ -121,17 +69,51 @@ is
          P, P'First, P_Inv);
    end Precompute_Values;
 
+   ---------------------------------------------------------------------------
+
+   -- 521-bit elliptic curve, see RFC 4753 / 4754
+
+   P : constant Coord := Coord'
+     (16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#000001FF#);
+
+   A : constant Coord := Coord'
+     (16#FFFFFFFC#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#000001FF#);
+
+   B : constant Coord := Coord'
+     (16#6B503F00#, 16#EF451FD4#, 16#3D2C34F1#, 16#3573DF88#, 16#3BB1BF07#,
+      16#1652C0BD#, 16#EC7E937B#, 16#56193951#, 16#8EF109E1#, 16#B8B48991#,
+      16#99B315F3#, 16#A2DA725B#, 16#B68540EE#, 16#929A21A0#, 16#8E1C9A1F#,
+      16#953EB961#, 16#00000051#);
+
+   Base_X : constant Coord := Coord'
+     (16#C2E5BD66#, 16#F97E7E31#, 16#856A429B#, 16#3348B3C1#, 16#A2FFA8DE#,
+      16#FE1DC127#, 16#EFE75928#, 16#A14B5E77#, 16#6B4D3DBA#, 16#F828AF60#,
+      16#053FB521#, 16#9C648139#, 16#2395B442#, 16#9E3ECB66#, 16#0404E9CD#,
+      16#858E06B7#, 16#000000C6#);
+
+   Base_Y : constant Coord := Coord'
+     (16#9FD16650#, 16#88BE9476#, 16#A272C240#, 16#353C7086#, 16#3FAD0761#,
+      16#C550B901#, 16#5EF42640#, 16#97EE7299#, 16#273E662C#, 16#17AFBD17#,
+      16#579B4468#, 16#98F54449#, 16#2C7D1BD9#, 16#5C8A5FB4#, 16#9A3BC004#,
+      16#39296A78#, 16#00000118#);
+
+   Q : constant Coord := Coord'
+     (16#91386409#, 16#BB6FB71E#, 16#899C47AE#, 16#3BB5C9B8#, 16#F709A5D0#,
+      16#7FCC0148#, 16#BF2F966B#, 16#51868783#, 16#FFFFFFFA#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
+      16#FFFFFFFF#, 16#000001FF#);
+
+   ---------------------------------------------------------------------------
+
    -- See RFC 4753 (section 8.3) for test values
 
-   function Test_ECDH return Boolean
-     --# global RP, AM, P_Inv;
-     --# pre
-     --#   LSC.Bignum.Num_Of_Big_Int (RP, RP'First, P'Last - P'First + 1) =
-     --#   LSC.Bignum.Base ** (2 * (P'Last - P'First + 1)) mod
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (AM, AM'First, P'Last - P'First + 1) <
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   1 + P_Inv * P (P'First) = 0;
+   procedure Test_ECDH (T : in out Test_Cases.Test_Case'Class)
    is
       Priv : constant Coord := Coord'
         (16#382D4A52#, 16#68C27A57#, 16#B072462F#, 16#7B2639BA#, 16#9777F595#,
@@ -161,8 +143,12 @@ is
       Shared_X, Shared_Y, Shared_Other_X, Shared_Other_Y : Coord;
 
       X, Y, Z : Coord;
+      RP, AM, BM, RQ : Coord;
+      P_Inv, Q_Inv : LSC.Types.Word32;
 
    begin
+      Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
+
       -- Compute public values from secrets
 
       LSC.EC.Point_Mult
@@ -281,10 +267,13 @@ is
 
       -- Check if shared secrets are equal
 
-      return
-        Shared_X = Shared_Other_X and then Shared_Y = Shared_Other_Y and then
-        Shared_X = Shared_Expected_X and then Shared_Y = Shared_Expected_Y;
+      Assert
+        (Shared_X = Shared_Other_X and then Shared_Y = Shared_Other_Y and then
+         Shared_X = Shared_Expected_X and then Shared_Y = Shared_Expected_Y,
+         "Invalid ECDH operation");
    end Test_ECDH;
+
+   ---------------------------------------------------------------------------
 
    -- See RFC 4754 (section 8.3) for test values
 
@@ -292,25 +281,12 @@ is
      (T   : LSC.EC_Signature.Signature_Type;
       Bad : Boolean)
      return Boolean
-     --# global RP, AM, RQ, P_Inv, Q_Inv;
-     --# pre
-     --#   LSC.Bignum.Num_Of_Big_Int (RP, RP'First, P'Last - P'First + 1) =
-     --#   LSC.Bignum.Base ** (2 * (P'Last - P'First + 1)) mod
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (AM, AM'First, P'Last - P'First + 1) <
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (RQ, RQ'First, Q'Last - Q'First + 1) =
-     --#   LSC.Bignum.Base ** (2 * (Q'Last - Q'First + 1)) mod
-     --#   LSC.Bignum.Num_Of_Big_Int (Q, Q'First, Q'Last - Q'First + 1) and
-     --#   1 + P_Inv * P (P'First) = 0 and
-     --#   1 + Q_Inv * Q (Q'First) = 0;
    is
       Hash : constant Coord := Coord'
         (16#A54CA49F#, 16#2A9AC94F#, 16#643CE80E#, 16#454D4423#, 16#A3FEEBBD#,
          16#36BA3C23#, 16#274FC1A8#, 16#2192992A#, 16#4B55D39A#, 16#0A9EEEE6#,
          16#89A97EA2#, 16#12E6FA4E#, 16#AE204131#, 16#CC417349#, 16#93617ABA#,
          16#DDAF35A1#, 16#00000000#);
-      --# for Hash declare Rule;
 
       Priv : constant Coord := Coord'
         (16#8B375FA1#, 16#C5B153B4#, 16#0C5D5481#, 16#62E95C7E#, 16#0FFAD6F0#,
@@ -339,10 +315,14 @@ is
          16#05A70302#, 16#00000177#);
 
       Inv_Priv, PubX, PubY, Sign1, Sign2, X, Y, Z, H : Coord;
-
       Success : Boolean;
+      RP, AM, BM, RQ : Coord;
+      P_Inv, Q_Inv : LSC.Types.Word32;
 
    begin
+
+      Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
+
       case T is
          when LSC.EC_Signature.ECGDSA =>
             LSC.EC.Invert
@@ -478,21 +458,17 @@ is
             RN_First    => RQ'First) xor Bad);
    end Test_Sign;
 
-   function Test_Uncompress_Point return Boolean
-     --# global AM, BM, RP, P_Inv;
-     --# pre
-     --#   LSC.Bignum.Num_Of_Big_Int (RP, RP'First, P'Last - P'First + 1) =
-     --#   LSC.Bignum.Base ** (2 * (P'Last - P'First + 1)) mod
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (AM, AM'First, P'Last - P'First + 1) <
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   LSC.Bignum.Num_Of_Big_Int (BM, BM'First, P'Last - P'First + 1) <
-     --#   LSC.Bignum.Num_Of_Big_Int (P, P'First, P'Last - P'First + 1) and
-     --#   1 + P_Inv * P (P'First) = 0;
+   ---------------------------------------------------------------------------
+
+   procedure Test_Uncompress_Point(T : in out Test_Cases.Test_Case'Class)
    is
       Y : Coord;
       Success : Boolean;
+      RP, AM, BM, RQ : Coord;
+      P_Inv, Q_Inv : LSC.Types.Word32;
    begin
+      Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
+
       LSC.EC.Uncompress_Point
         (X       => Base_X,
          X_First => Base_X'First,
@@ -511,55 +487,76 @@ is
          Y_First => Y'First,
          Success => Success);
 
-      return Success and then Y = Base_Y;
+      Assert (Success and then Y = Base_Y, "Invalid");
+
    end Test_Uncompress_Point;
 
-begin
-   SPARKUnit.Create_Suite (Harness, "EC tests", EC_Suite);
+   ---------------------------------------------------------------------------
 
-   Precompute_Values;
+   procedure Test_Bad_ECDSA_Signature (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (Test_Sign (LSC.EC_Signature.ECDSA, True), "Invalid");
+   end Test_Bad_ECDSA_Signature;
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "Check if base point is on curve",
-      LSC.EC.On_Curve
-        (Base_X, Base_X'First, Base_X'Last, Base_Y, Base_Y'First,
-         AM, AM'First, BM, BM'First, RP, RP'First, P, P'First, P_Inv));
+   ---------------------------------------------------------------------------
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "ECDH key agreement",
-      Test_ECDH);
+   procedure Test_Good_ECDSA_Signature (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (Test_Sign (LSC.EC_Signature.ECDSA, False), "Invalid");
+   end Test_Good_ECDSA_Signature;
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "Good ECDSA signature",
-      Test_Sign (LSC.EC_Signature.ECDSA, False));
+   ---------------------------------------------------------------------------
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "Bad ECDSA signature",
-      Test_Sign (LSC.EC_Signature.ECDSA, True));
+   procedure Test_Bad_ECGDSA_Signature (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (Test_Sign (LSC.EC_Signature.ECGDSA, True), "Invalid");
+   end Test_Bad_ECGDSA_Signature;
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "Good ECGDSA signature",
-      Test_Sign (LSC.EC_Signature.ECGDSA, False));
+   ---------------------------------------------------------------------------
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "Bad ECGDSA signature",
-      Test_Sign (LSC.EC_Signature.ECGDSA, True));
+   procedure Test_Good_ECGDSA_Signature (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (Test_Sign (LSC.EC_Signature.ECGDSA, False), "Invalid");
+   end Test_Good_ECGDSA_Signature;
 
-   SPARKUnit.Create_Test
-     (Harness,
-      EC_Suite,
-      "Uncompress point",
-      Test_Uncompress_Point);
-end EC_Tests;
+   ---------------------------------------------------------------------------
+
+   procedure Test_Base_Point_On_Curve (T : in out Test_Cases.Test_Case'Class)
+   is
+      RP, AM, BM, RQ : Coord;
+      P_Inv, Q_Inv : LSC.Types.Word32;
+   begin
+      Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
+
+      Assert
+         (LSC.EC.On_Curve
+           (Base_X, Base_X'First, Base_X'Last, Base_Y, Base_Y'First,
+            AM, AM'First, BM, BM'First, RP, RP'First, P, P'First, P_Inv), "Invalid");
+   end Test_Base_Point_On_Curve;
+
+   ---------------------------------------------------------------------------
+
+   procedure Register_Tests (T: in out Test_Case) is
+      use AUnit.Test_Cases.Registration;
+   begin
+      Register_Routine (T, Test_Base_Point_On_Curve'Access, "Base point on curve");
+      Register_Routine (T, Test_ECDH'Access, "ECDH key agreement");
+      Register_Routine (T, Test_Bad_ECDSA_Signature'Access, "ECDSA signature (bad)");
+      Register_Routine (T, Test_Good_ECDSA_Signature'Access, "ECDSA signature (good)");
+      Register_Routine (T, Test_Bad_ECGDSA_Signature'Access, "ECGDSA signature (bad)");
+      Register_Routine (T, Test_Good_ECGDSA_Signature'Access, "ECGDSA signature (good)");
+      Register_Routine (T, Test_Uncompress_Point'Access, "Uncompress point");
+   end Register_Tests;
+
+   ---------------------------------------------------------------------------
+
+   function Name (T : Test_Case) return Test_String is
+   begin
+      return Format ("EC");
+   end Name;
+
+end LSC_Test_EC;
