@@ -37,7 +37,7 @@
 with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
--- @summary Tests shadow implementation
+-- @summary Tests AES-CBC
 package LSC_Test_AES_CBC is
 
    type Test_Case is new Test_Cases.Test_Case with null record;

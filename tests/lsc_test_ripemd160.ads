@@ -37,7 +37,7 @@
 with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
--- @summary Tests shadow implementation
+-- @summary Tests RIPEMD-160 implementation
 package LSC_Test_RIPEMD160 is
 
    type Test_Case is new Test_Cases.Test_Case with null record;
