@@ -49,19 +49,6 @@ with System;
 use type LSC.Types.Word32;
 use type LSC.Types.Word64;
 
---# inherit
---#   LSC.Types,
---#   LSC.SHA1,
---#   LSC.SHA256,
---#   LSC.SHA512,
---#   LSC.RIPEMD160,
---#   LSC.AES,
---#   LSC.HMAC_SHA256,
---#   LSC.HMAC_SHA384,
---#   LSC.HMAC_SHA512,
---#   LSC.HMAC_RIPEMD160,
---#   LSC.Bignum;
-
 -------------------------------------------------------------------------------
 --  ATTENTION: This is *NOT* a proper OpenSSL binding. It is very hacky and
 --  e.g. relies on facts like GNAT being used, that 'access all' is equivalent
@@ -94,7 +81,6 @@ package OpenSSL is
       Ciphertext :    out LSC.AES.Message_Type;
       Context    : in     AES_Enc_Context_Type;
       IV         : in     LSC.AES.Block_Type);
-   --# derives Ciphertext from Plaintext, Context, IV;
    pragma Inline (CBC_Encrypt);
 
    function Create_AES128_Dec_Context (Key : LSC.AES.AES128_Key_Type) return AES_Dec_Context_Type;
@@ -110,23 +96,19 @@ package OpenSSL is
       Plaintext  :    out LSC.AES.Message_Type;
       Context    : in     AES_Dec_Context_Type;
       IV         : in     LSC.AES.Block_Type);
-   --# derives Plaintext from Ciphertext, Context, IV;
    pragma Inline (CBC_Decrypt);
 
    ----------------------------------------------------------------------------
 
    -- SHA-1
    procedure SHA1_Context_Init (Context :    out SHA1_Context_Type);
-   --# derives Context from ;
 
    procedure SHA1_Context_Update (Context : in out SHA1_Context_Type;
                                   Block   : in     LSC.SHA1.Block_Type);
-   --# derives Context from Context, Block;
 
    procedure SHA1_Context_Finalize (Context : in out SHA1_Context_Type;
                                     Block   : in     LSC.SHA1.Block_Type;
                                     Length  : in     LSC.SHA1.Block_Length_Type);
-   --# derives Context from Context, Block, Length;
    pragma Inline (SHA1_Context_Update, SHA1_Context_Finalize);
 
    function SHA1_Get_Hash (Context : in SHA1_Context_Type) return LSC.SHA1.Hash_Type;
@@ -135,16 +117,13 @@ package OpenSSL is
 
    -- SHA-256
    procedure SHA256_Context_Init (Context :    out SHA256_Context_Type);
-   --# derives Context from ;
 
    procedure SHA256_Context_Update (Context : in out SHA256_Context_Type;
                                     Block   : in     LSC.SHA256.Block_Type);
-   --# derives Context from Context, Block;
 
    procedure SHA256_Context_Finalize (Context : in out SHA256_Context_Type;
                                       Block   : in     LSC.SHA256.Block_Type;
                                       Length  : in     LSC.SHA256.Block_Length_Type);
-   --# derives Context from Context, Block, Length;
    pragma Inline (SHA256_Context_Update, SHA256_Context_Finalize);
 
    function SHA256_Get_Hash (Context : in SHA256_Context_Type) return LSC.SHA256.SHA256_Hash_Type;
@@ -153,16 +132,13 @@ package OpenSSL is
 
    -- SHA-384
    procedure SHA384_Context_Init (Context :    out SHA384_Context_Type);
-   --# derives Context from ;
 
    procedure SHA384_Context_Update (Context : in out SHA384_Context_Type;
                                     Block   : in     LSC.SHA512.Block_Type);
-   --# derives Context from Context, Block;
 
    procedure SHA384_Context_Finalize (Context : in out SHA384_Context_Type;
                                       Block   : in     LSC.SHA512.Block_Type;
                                       Length  : in     LSC.SHA512.Block_Length_Type);
-   --# derives Context from Context, Block, Length;
    pragma Inline (SHA384_Context_Update, SHA384_Context_Finalize);
 
    function SHA384_Get_Hash (Context : in SHA384_Context_Type) return LSC.SHA512.SHA384_Hash_Type;
@@ -171,16 +147,13 @@ package OpenSSL is
 
    -- SHA-512
    procedure SHA512_Context_Init (Context :    out SHA512_Context_Type);
-   --# derives Context from ;
 
    procedure SHA512_Context_Update (Context : in out SHA512_Context_Type;
                                     Block   : in     LSC.SHA512.Block_Type);
-   --# derives Context from Context, Block;
 
    procedure SHA512_Context_Finalize (Context : in out SHA512_Context_Type;
                                       Block   : in     LSC.SHA512.Block_Type;
                                       Length  : in     LSC.SHA512.Block_Length_Type);
-   --# derives Context from Context, Block, Length;
    pragma Inline (SHA512_Context_Update, SHA512_Context_Finalize);
 
    function SHA512_Get_Hash (Context : in SHA512_Context_Type) return LSC.SHA512.SHA512_Hash_Type;
@@ -189,16 +162,13 @@ package OpenSSL is
 
    -- RIPEMD-160
    procedure RIPEMD160_Context_Init (Context :    out RIPEMD160_Context_Type);
-   --# derives Context from ;
 
    procedure RIPEMD160_Context_Update (Context : in out RIPEMD160_Context_Type;
                                        Block   : in     LSC.RIPEMD160.Block_Type);
-   --# derives Context from Context, Block;
 
    procedure RIPEMD160_Context_Finalize (Context : in out RIPEMD160_Context_Type;
                                          Block   : in     LSC.RIPEMD160.Block_Type;
                                          Length  : in     LSC.RIPEMD160.Block_Length_Type);
-   --# derives Context from Context, Block, Length;
    pragma Inline (RIPEMD160_Context_Update, RIPEMD160_Context_Finalize);
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type) return LSC.RIPEMD160.Hash_Type;
@@ -275,7 +245,6 @@ package OpenSSL is
       P       : in     LSC.Bignum.Big_Int;
       C       :    out LSC.Bignum.Big_Int;
       Success :    out Boolean);
-   --# derives C, Success from M, E, P;
 
    procedure RSA_Private_Decrypt
      (M       : in     LSC.Bignum.Big_Int;
@@ -284,11 +253,8 @@ package OpenSSL is
       C       : in     LSC.Bignum.Big_Int;
       P       :    out LSC.Bignum.Big_Int;
       Success :    out Boolean);
-   --# derives P, Success from M, D, C;
 
 private
-   --# hide OpenSSL;
-
    pragma Linker_Options ("-lcrypto");
 
    type SHA512_Block_Type_Ptr is access all LSC.SHA512.Block_Type;
