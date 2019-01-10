@@ -9,3 +9,4 @@ b__*.ad?
 *.stdout
 *.stderr
 *.bexch
+obj
