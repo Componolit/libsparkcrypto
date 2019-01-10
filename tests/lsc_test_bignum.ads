@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-09
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,46 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA1;
-with LSC_Test_SHA2;
-with LSC_Test_RIPEMD160;
-with LSC_Test_HMAC;
-with LSC_Test_Shadow;
-with LSC_Test_Bignum;
-with LSC_Test_EC;
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-package body LSC_Suite is
+-- @summary Tests big number implementation
+package LSC_Test_Bignum is
 
-   use AUnit.Test_Suites;
+   type Test_Case is new Test_Cases.Test_Case with null record;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
 
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA1      : aliased LSC_Test_SHA1.Test_Case;
-   Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
-   Test_RIPEMD160 : aliased LSC_Test_RIPEMD160.Test_Case;
-   Test_HMAC      : aliased LSC_Test_HMAC.Test_Case;
-   Test_Shadow    : aliased LSC_Test_Shadow.Test_Case;
-   Test_Bignum    : aliased LSC_Test_Bignum.Test_Case;
-   Test_EC        : aliased LSC_Test_EC.Test_Case;
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA1'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_RIPEMD160'Access);
-      Add_Test (Result'Access, Test_HMAC'Access);
-      Add_Test (Result'Access, Test_Shadow'Access);
-      Add_Test (Result'Access, Test_Bignum'Access);
-      Add_Test (Result'Access, Test_EC'Access);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+end LSC_Test_Bignum;

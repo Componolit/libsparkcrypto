@@ -468,45 +468,44 @@ package body OpenSSL is
       C       :    out LSC.Bignum.Big_Int;
       Success :    out Boolean)
    is
-      -- Result : LSC.Types.Word64;
+      Result : LSC.Types.Word64;
    begin
-      -- FIXME: Crashes
-      Success := False;
       C := (others => 0);
-      -- C_RSA_Public_Encrypt
-      --   (M        => M'Address,
-      --    M_Length => LSC.Types.Word64 (4 * M'Length),
-      --    E        => E'Address,
-      --    E_Length => LSC.Types.Word64 (4 * E'Length),
-      --    P        => P'Address,
-      --    C        => C'Address,
-      --    Result   => Result'Address);
-      -- Success := Result = 0;
+      C_RSA_Public_Encrypt
+        (M        => M'Address,
+         M_Length => LSC.Types.Word64 (4 * M'Length),
+         E        => E'Address,
+         E_Length => LSC.Types.Word64 (4 * E'Length),
+         P        => P'Address,
+         C        => C'Address,
+         Result   => Result'Address);
+      Success := Result = 0;
    end RSA_Public_Encrypt;
 
    ----------------------------------------------------------------------------
 
    procedure RSA_Private_Decrypt
      (M       : in     LSC.Bignum.Big_Int;
+      E       : in     LSC.Bignum.Big_Int;
       D       : in     LSC.Bignum.Big_Int;
       C       : in     LSC.Bignum.Big_Int;
       P       :    out LSC.Bignum.Big_Int;
       Success :    out Boolean)
    is
-      -- Result : LSC.Types.Word64;
+      Result : LSC.Types.Word64;
    begin
-      -- FIXME: Crashes
       P := (others => 0);
-      Success := False;
-      -- C_RSA_Private_Decrypt
-      --   (M        => M'Address,
-      --    M_Length => LSC.Types.Word64 (4 * M'Length),
-      --    D        => D'Address,
-      --    D_Length => LSC.Types.Word64 (4 * D'Length),
-      --    C        => C'Address,
-      --    P        => P'Address,
-      --    Result   => Result'Address);
-      -- Success := Result = 0;
+      C_RSA_Private_Decrypt
+        (M        => M'Address,
+         M_Length => LSC.Types.Word64 (4 * M'Length),
+         E        => E'Address,
+         E_Length => LSC.Types.Word64 (4 * E'Length),
+         D        => D'Address,
+         D_Length => LSC.Types.Word64 (4 * D'Length),
+         C        => C'Address,
+         P        => P'Address,
+         Result   => Result'Address);
+      Success := Result = 0;
    end RSA_Private_Decrypt;
 
 end OpenSSL;
