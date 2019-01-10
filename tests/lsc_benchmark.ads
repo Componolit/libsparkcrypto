@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-10
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,49 +34,28 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA1;
-with LSC_Test_SHA2;
-with LSC_Test_RIPEMD160;
-with LSC_Test_HMAC;
-with LSC_Test_Shadow;
-with LSC_Test_Bignum;
-with LSC_Test_EC;
-with LSC_Benchmark;
+with AUnit; use AUnit;
+with AUnit.Test_Cases;
+with Ada.Calendar;
 
-package body LSC_Suite is
+-- @summary Benchmarks
+package LSC_Benchmark is
 
-   use AUnit.Test_Suites;
+   type Test_Case is new AUnit.Test_Cases.Test_Case with
+   record
+      Reference_Start : Ada.Calendar.Time;
+      Reference_Stop  : Ada.Calendar.Time;
+      Test_Start      : Ada.Calendar.Time;
+      Test_Stop       : Ada.Calendar.Time;
+   end record;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
+   overriding
+   function Routine_Name (T : Test_Case) return Message_String;
 
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA1      : aliased LSC_Test_SHA1.Test_Case;
-   Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
-   Test_RIPEMD160 : aliased LSC_Test_RIPEMD160.Test_Case;
-   Test_HMAC      : aliased LSC_Test_HMAC.Test_Case;
-   Test_Shadow    : aliased LSC_Test_Shadow.Test_Case;
-   Test_Bignum    : aliased LSC_Test_Bignum.Test_Case;
-   Test_EC        : aliased LSC_Test_EC.Test_Case;
-   Benchmark      : aliased LSC_Benchmark.Test_Case;
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA1'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_RIPEMD160'Access);
-      Add_Test (Result'Access, Test_HMAC'Access);
-      Add_Test (Result'Access, Test_Shadow'Access);
-      Add_Test (Result'Access, Test_Bignum'Access);
-      Add_Test (Result'Access, Test_EC'Access);
-      Add_Test (Result'Access, Benchmark'Access);
-      return Result'Access;
-   end Suite;
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
 
-end LSC_Suite;
+end LSC_Benchmark;
