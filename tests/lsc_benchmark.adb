@@ -35,6 +35,7 @@
 
 with LSC.Types;
 with LSC.RIPEMD160;
+with LSC.SHA1;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
 with AUnit.Test_Results; use AUnit.Test_Results;
@@ -44,6 +45,8 @@ use type LSC.Types.Word32_Array_Type;
 
 package body LSC_Benchmark
 is
+   use Ada.Calendar;
+
    function Routine_Name (T : Test_Case) return Message_String
    is
       use Ada.Calendar;
@@ -54,13 +57,14 @@ is
       return Format (AUnit.Test_Cases.Test_Case (T).Routine_Name.all & "   [" & Percent'Img & "% ]");
    end Routine_Name;
 
+   ---------------------------------------------------------------------------
+
    procedure Benchmark_RIPEMD160 (T : in out Test_Case'Class)
    is
       Block1, Block2       : LSC.RIPEMD160.Block_Type;
       RIPEMD160_Context1   : OpenSSL.RIPEMD160_Context_Type;
       RIPEMD160_Context2   : LSC.RIPEMD160.Context_Type;
       H1, H2               : LSC.RIPEMD160.Hash_Type;
-      use Ada.Calendar;
    begin
 
       Block1  := LSC.RIPEMD160.Block_Type'(others => 16#cafebabe#);
@@ -92,12 +96,49 @@ is
 
    ---------------------------------------------------------------------------
 
+   procedure Benchmark_SHA1 (T : in out Test_Case'Class)
+   is
+      Block1, Block2 : LSC.SHA1.Block_Type;
+      SHA1_Context1  : OpenSSL.SHA1_Context_Type;
+      SHA1_Context2  : LSC.SHA1.Context_Type;
+      H1, H2         : LSC.SHA1.Hash_Type;
+   begin
+      Block1 := LSC.SHA1.Block_Type'(others => 16#cafebabe#);
+      Block2 := LSC.SHA1.Block_Type'(others => 16#00636261#);
+
+      T.Reference_Start := Clock;
+      for I in Natural range 1 .. 500000
+      loop
+         OpenSSL.SHA1_Context_Init (SHA1_Context1);
+         OpenSSL.SHA1_Context_Update (SHA1_Context1, Block1);
+         OpenSSL.SHA1_Context_Finalize (SHA1_Context1, Block2, 56);
+      end loop;
+      H1 := OpenSSL.SHA1_Get_Hash (SHA1_Context1);
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      for I in Natural range 1 .. 500000
+      loop
+         SHA1_Context2 := LSC.SHA1.Context_Init;
+         LSC.SHA1.Context_Update (SHA1_Context2, Block1);
+         LSC.SHA1.Context_Finalize (SHA1_Context2, Block2, 56);
+      end loop;
+      H2 := LSC.SHA1.Get_Hash (SHA1_Context2);
+      T.Test_Stop := Clock;
+
+      Assert (H1 = H2, "Invalid hash");
+
+   end Benchmark_SHA1;
+
+   ---------------------------------------------------------------------------
+
    procedure Register_Tests (T: in out Test_Case) is
       package Registration is new
          AUnit.Test_Cases.Specific_Test_Case_Registration (Test_Case);
       use Registration;
    begin
       Register_Wrapper (T, Benchmark_RIPEMD160'Access, "RIPEMD160");
+      Register_Wrapper (T, Benchmark_SHA1'Access, "SHA1");
    end Register_Tests;
 
    ---------------------------------------------------------------------------
