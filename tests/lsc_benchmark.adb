@@ -39,6 +39,11 @@ with LSC.SHA1;
 with LSC.SHA256;
 with LSC.SHA512;
 with LSC.AES.CBC;
+with LSC.HMAC_RIPEMD160;
+with LSC.HMAC_SHA1;
+with LSC.HMAC_SHA256;
+with LSC.HMAC_SHA384;
+with LSC.HMAC_SHA512;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
 with AUnit.Test_Results; use AUnit.Test_Results;
@@ -875,6 +880,160 @@ is
 
    ---------------------------------------------------------------------------
 
+   procedure Benchmark_HMAC_RIPEMD160 (T : in out Test_Case'Class)
+   is
+      Message : constant OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
+         (others => LSC.RIPEMD160.Block_Type'(others => 16#dead_beef#));
+
+      Key : constant LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
+         (others => 16#c0deaffe#);
+
+      H1 : LSC.RIPEMD160.Hash_Type;
+      H2 : LSC.RIPEMD160.Hash_Type;
+   begin
+
+      T.Reference_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H1 := OpenSSL.Authenticate_RMD160 (Key, Message, 10000);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H2 := LSC.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (H1 = H2, "Invalid encryption");
+   end Benchmark_HMAC_RIPEMD160;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_HMAC_SHA1 (T : in out Test_Case'Class)
+   is
+      Message : constant OpenSSL.SHA1_Message_Type := OpenSSL.SHA1_Message_Type'
+        (others => LSC.SHA1.Block_Type'(others => 16#dead_beef#));
+
+      Key     : constant LSC.SHA1.Block_Type := LSC.SHA1.Block_Type'(others => 16#c0deaffe#);
+
+      H1      : LSC.SHA1.Hash_Type;
+      H2      : LSC.SHA1.Hash_Type;
+   begin
+
+      T.Reference_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H1 := OpenSSL.Authenticate_SHA1 (Key, Message, 10000);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H2 := LSC.HMAC_SHA1.Authenticate (Key, Message, 10000);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (H1 = H2, "Invalid encryption");
+   end Benchmark_HMAC_SHA1;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_HMAC_SHA256 (T : in out Test_Case'Class)
+   is
+      Message : constant OpenSSL.SHA256_Message_Type := OpenSSL.SHA256_Message_Type'
+         (others => LSC.SHA256.Block_Type'(others => 16#dead_beef#));
+
+      Key : constant LSC.SHA256.Block_Type := LSC.SHA256.Block_Type'
+         (others => 16#c0deaffe#);
+
+      H1 : LSC.HMAC_SHA256.Auth_Type;
+      H2 : LSC.HMAC_SHA256.Auth_Type;
+   begin
+
+      T.Reference_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H1 := OpenSSL.Authenticate_SHA256 (Key, Message, 10000);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H2 := LSC.HMAC_SHA256.Authenticate (Key, Message, 10000);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (H1 = H2, "Invalid encryption");
+   end Benchmark_HMAC_SHA256;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_HMAC_SHA384 (T : in out Test_Case'Class)
+   is
+      Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
+         (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
+
+      Key : constant LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
+         (others => 16#c0de_affe_cafe_babe#);
+
+      H1 : LSC.HMAC_SHA384.Auth_Type;
+      H2 : LSC.HMAC_SHA384.Auth_Type;
+   begin
+
+      T.Reference_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H1 := OpenSSL.Authenticate_SHA384 (Key, Message, 10000);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H2 := LSC.HMAC_SHA384.Authenticate (Key, Message, 10000);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (H1 = H2, "Invalid encryption");
+   end Benchmark_HMAC_SHA384;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_HMAC_SHA512 (T : in out Test_Case'Class)
+   is
+      Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
+         (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
+
+      Key : constant LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
+         (others => 16#c0de_affe_cafe_babe#);
+
+      H1 : LSC.HMAC_SHA512.Auth_Type;
+      H2 : LSC.HMAC_SHA512.Auth_Type;
+   begin
+
+      T.Reference_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H1 := OpenSSL.Authenticate_SHA512 (Key, Message, 10000);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      for I in Natural range 1 .. 50000
+      loop
+         H2 := LSC.HMAC_SHA512.Authenticate (Key, Message, 10000);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (H1 = H2, "Invalid encryption");
+   end Benchmark_HMAC_SHA512;
+
+   ---------------------------------------------------------------------------
+
    procedure Register_Tests (T: in out Test_Case) is
       package Registration is new
          AUnit.Test_Cases.Specific_Test_Case_Registration (Test_Case);
@@ -897,6 +1056,11 @@ is
       Register_Wrapper (T, Benchmark_AES256_CBC_Decrypt'Access, "AES256 CBC (decrypt)");
       Register_Wrapper (T, Benchmark_AES256_Encrypt'Access, "AES256 (encrypt)");
       Register_Wrapper (T, Benchmark_AES256_CBC_Encrypt'Access, "AES256 CBC (encrypt)");
+      Register_Wrapper (T, Benchmark_HMAC_RIPEMD160'Access, "HMAC (RIPEMD160)");
+      Register_Wrapper (T, Benchmark_HMAC_SHA1'Access, "HMAC (SHA1)");
+      Register_Wrapper (T, Benchmark_HMAC_SHA256'Access, "HMAC (SHA256)");
+      Register_Wrapper (T, Benchmark_HMAC_SHA384'Access, "HMAC (SHA384)");
+      Register_Wrapper (T, Benchmark_HMAC_SHA512'Access, "HMAC (SHA512)");
    end Register_Tests;
 
    ---------------------------------------------------------------------------
