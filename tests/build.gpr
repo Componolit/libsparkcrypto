@@ -4,6 +4,7 @@ with "aunit";
 project Build
 is
    for Create_Missing_Dirs use "True";
+   for Languages use ("Ada", "C");
    for Source_Dirs use (".");
    for Main use ("main.adb");
    for Exec_Dir use "../out/tests";
@@ -15,7 +16,6 @@ is
 
    package Compiler is
       for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN", "-fomit-frame-pointer", "-gnatp", "-gnatwe");
-      for Switches ("spark_io.ads") use ("-gnatwa", "-gnatwe", "-gnat95", "-gnatwY", "-gnatwC");
    end Compiler;
 
    package Builder is

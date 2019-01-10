@@ -1,4 +1,4 @@
-OUTPUT_DIR ?= $(CURDIR)/out
+OUTPUT_DIR ?= $(CURDIR)/../out/tests
 
 ifneq ($(MAKECMDGOALS),clean)
 ifeq ($(LSC_DIR),)
@@ -28,17 +28,14 @@ all: $(GOALS) $(OUTPUT_DIR)/genhmac
 
 isabelle: $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz
 
-$(OUTPUT_DIR)/%.a: %.o
-	ar cru $@ $^
-
 install: all
 	install -D -m 755 $(OUTPUT_DIR)/tests $(DESTDIR)/tests
 ifeq ($(NO_SPARK),)
 	install -D -m 644 $(OUTPUT_DIR)/tests.sum $(DESTDIR)/tests.sum
 endif
 
-$(OUTPUT_DIR)/tests: $(OUTPUT_DIR)/libglue.a *.ad?
-	ADA_PROJECT_PATH=$(SPARKUNIT_DIR):$(ADA_PROJECT_PATH) gprbuild -P build.gpr
+$(OUTPUT_DIR)/tests: *.ad? *.c
+	gprbuild -P build.gpr
 
 $(ISABELLE_OUTPUT)/log/HOL-SPARK-libsparkcrypto-tests.gz: $(OUTPUT_DIR)/proof/sparksimp.log
 	VCG_DIR=$(OUTPUT_DIR)/proof LSC_THYS_DIR=$(CURDIR)/../src/theories isabelle build -c -o document=false -o threads=5 -D theories
@@ -47,4 +44,4 @@ $(OUTPUT_DIR)/genhmac:
 	$(CC) -W -Wall -Werror -o $@ genhmac.c -lcrypto
 
 clean:
-	rm -r -f *.o *.ali out *.stderr *.stdout b__*.ad? *.bexch
+	rm -r -f *.o *.ali $(OUTPUT_DIR) obj *.stderr *.stdout b__*.ad? *.bexch
