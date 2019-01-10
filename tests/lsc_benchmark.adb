@@ -38,12 +38,16 @@ with LSC.RIPEMD160;
 with LSC.SHA1;
 with LSC.SHA256;
 with LSC.SHA512;
+with LSC.AES.CBC;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
 with AUnit.Test_Results; use AUnit.Test_Results;
+with Interfaces;
 
 use type LSC.Types.Word32_Array_Type;
 use type LSC.Types.Word64_Array_Type;
+use type LSC.AES.Message_Type;
+use type Interfaces.Unsigned_32;
 
 package body LSC_Benchmark
 is
@@ -241,6 +245,636 @@ is
 
    ---------------------------------------------------------------------------
 
+   procedure Benchmark_AES128_Decrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain1, Plain2, Cipher  : Message_Type;
+      Key128                  : LSC.AES.AES128_Key_Type;
+      Context1                : OpenSSL.AES_Dec_Context_Type;
+      Context2                : LSC.AES.AES_Dec_Context;
+   begin
+
+      Cipher := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+         end loop;
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+         end loop;
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Plain1 = Plain2, "Invalid decryption");
+
+   end Benchmark_AES128_Decrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES128_CBC_Decrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain1, Plain2, Cipher  : Message_Type;
+      Key128                  : LSC.AES.AES128_Key_Type;
+      Context1                : OpenSSL.AES_Dec_Context_Type;
+      Context2                : LSC.AES.AES_Dec_Context;
+      IV                      : LSC.AES.Block_Type;
+   begin
+
+      IV := LSC.AES.Block_Type'
+        (16#cafebabe#,
+         16#deadbeef#,
+         16#d00faffe#,
+         16#12345678#);
+
+      Cipher := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         OpenSSL.CBC_Decrypt (Cipher, Plain1, Context1, IV);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         LSC.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Plain1 = Plain2, "Invalid decryption");
+
+   end Benchmark_AES128_CBC_Decrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES128_Encrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain, Cipher1, Cipher2 : Message_Type;
+      Key128                  : LSC.AES.AES128_Key_Type;
+      Context1                : OpenSSL.AES_Enc_Context_Type;
+      Context2                : LSC.AES.AES_Enc_Context;
+   begin
+
+      Plain := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+         end loop;
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES128_Enc_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+         end loop;
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Cipher1 = Cipher2, "Invalid encryption");
+
+   end Benchmark_AES128_Encrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES128_CBC_Encrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain, Cipher1, Cipher2 : Message_Type;
+      Key128                  : LSC.AES.AES128_Key_Type;
+      Context1                : OpenSSL.AES_Enc_Context_Type;
+      Context2                : LSC.AES.AES_Enc_Context;
+      IV                      : LSC.AES.Block_Type;
+   begin
+
+      IV := LSC.AES.Block_Type'
+        (16#cafebabe#,
+         16#deadbeef#,
+         16#d00faffe#,
+         16#12345678#);
+
+      Plain := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         OpenSSL.CBC_Encrypt (Plain, Cipher1, Context1, IV);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES128_Enc_Context (Key128);
+      for k in Natural range 1 .. 20
+      loop
+         LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Cipher1 = Cipher2, "Invalid decryption");
+
+   end Benchmark_AES128_CBC_Encrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES192_Decrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain1, Plain2, Cipher  : Message_Type;
+      Key192                  : LSC.AES.AES192_Key_Type;
+      Context1                : OpenSSL.AES_Dec_Context_Type;
+      Context2                : LSC.AES.AES_Dec_Context;
+   begin
+
+      Cipher := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#13121110#,
+                                          16#17161514#,
+                                          16#1b1a1918#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES192_Dec_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+         end loop;
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES192_Dec_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+         end loop;
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Plain1 = Plain2, "Invalid decryption");
+
+   end Benchmark_AES192_Decrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES192_CBC_Decrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain1, Plain2, Cipher  : Message_Type;
+      Key192                  : LSC.AES.AES192_Key_Type;
+      Context1                : OpenSSL.AES_Dec_Context_Type;
+      Context2                : LSC.AES.AES_Dec_Context;
+      IV                      : LSC.AES.Block_Type;
+   begin
+
+      IV := LSC.AES.Block_Type'
+        (16#cafebabe#,
+         16#deadbeef#,
+         16#d00faffe#,
+         16#12345678#);
+
+      Cipher := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#13121110#,
+                                          16#17161514#,
+                                          16#1b1a1918#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES192_Dec_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         OpenSSL.CBC_Decrypt (Cipher, Plain1, Context1, IV);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES192_Dec_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         LSC.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Plain1 = Plain2, "Invalid decryption");
+
+   end Benchmark_AES192_CBC_Decrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES192_Encrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain, Cipher1, Cipher2 : Message_Type;
+      Key192                  : LSC.AES.AES192_Key_Type;
+      Context1                : OpenSSL.AES_Enc_Context_Type;
+      Context2                : LSC.AES.AES_Enc_Context;
+   begin
+
+      Plain := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+         end loop;
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+         end loop;
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Cipher1 = Cipher2, "Invalid encryption");
+
+   end Benchmark_AES192_Encrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES192_CBC_Encrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain, Cipher1, Cipher2 : Message_Type;
+      Key192                  : LSC.AES.AES192_Key_Type;
+      Context1                : OpenSSL.AES_Enc_Context_Type;
+      Context2                : LSC.AES.AES_Enc_Context;
+      IV                      : LSC.AES.Block_Type;
+   begin
+
+      IV := LSC.AES.Block_Type'
+        (16#cafebabe#,
+         16#deadbeef#,
+         16#d00faffe#,
+         16#12345678#);
+
+      Plain := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         OpenSSL.CBC_Encrypt (Plain, Cipher1, Context1, IV);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
+      for k in Natural range 1 .. 20
+      loop
+         LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Cipher1 = Cipher2, "Invalid encryption");
+
+   end Benchmark_AES192_CBC_Encrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES256_Decrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain1, Plain2, Cipher  : Message_Type;
+      Key256                  : LSC.AES.AES256_Key_Type;
+      Context1                : OpenSSL.AES_Dec_Context_Type;
+      Context2                : LSC.AES.AES_Dec_Context;
+   begin
+
+      Cipher := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#,
+                                          16#13121110#,
+                                          16#17161514#,
+                                          16#1b1a1918#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES256_Dec_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Plain1 (I) := OpenSSL.Decrypt (Context1, Cipher (I));
+         end loop;
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES256_Dec_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+         end loop;
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Plain1 = Plain2, "Invalid decryption");
+
+   end Benchmark_AES256_Decrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES256_CBC_Decrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain1, Plain2, Cipher  : Message_Type;
+      Key256                  : LSC.AES.AES256_Key_Type;
+      Context1                : OpenSSL.AES_Dec_Context_Type;
+      Context2                : LSC.AES.AES_Dec_Context;
+      IV                      : LSC.AES.Block_Type;
+   begin
+
+      IV := LSC.AES.Block_Type'
+        (16#cafebabe#,
+         16#deadbeef#,
+         16#d00faffe#,
+         16#12345678#);
+
+      Cipher := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#,
+                                          16#13121110#,
+                                          16#17161514#,
+                                          16#1b1a1918#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES256_Dec_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         OpenSSL.CBC_Decrypt (Cipher, Plain1, Context1, IV);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES256_Dec_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         LSC.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Plain1 = Plain2, "Invalid decryption");
+
+   end Benchmark_AES256_CBC_Decrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES256_Encrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain, Cipher1, Cipher2 : Message_Type;
+      Key256                  : LSC.AES.AES256_Key_Type;
+      Context1                : OpenSSL.AES_Enc_Context_Type;
+      Context2                : LSC.AES.AES_Enc_Context;
+   begin
+
+      Plain := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#,
+                                          16#13121110#,
+                                          16#17161514#,
+                                          16#1b1a1918#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Cipher1 (I) := OpenSSL.Encrypt (Context1, Plain (I));
+         end loop;
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         for I in Message_Index
+         loop
+            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+         end loop;
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Cipher1 = Cipher2, "Invalid encryption");
+
+   end Benchmark_AES256_Encrypt;
+
+   ---------------------------------------------------------------------------
+
+   procedure Benchmark_AES256_CBC_Encrypt (T : in out Test_Case'Class)
+   is
+      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+
+      Plain, Cipher1, Cipher2 : Message_Type;
+      Key256                  : LSC.AES.AES256_Key_Type;
+      Context1                : OpenSSL.AES_Enc_Context_Type;
+      Context2                : LSC.AES.AES_Enc_Context;
+      IV                      : LSC.AES.Block_Type;
+   begin
+
+      IV := LSC.AES.Block_Type'
+        (16#cafebabe#,
+         16#deadbeef#,
+         16#d00faffe#,
+         16#12345678#);
+
+      Plain := Message_Type'
+         (others => LSC.AES.Block_Type'(16#33221100#,
+                                        16#77665544#,
+                                        16#bbaa9988#,
+                                        16#ffeeddcc#));
+
+      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+                                          16#07060504#,
+                                          16#0b0a0908#,
+                                          16#0f0e0d0c#,
+                                          16#13121110#,
+                                          16#17161514#,
+                                          16#1b1a1918#,
+                                          16#1f1e1d1c#);
+
+      T.Reference_Start := Clock;
+      Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         OpenSSL.CBC_Encrypt (Plain, Cipher1, Context1, IV);
+      end loop;
+      T.Reference_Stop := Clock;
+
+      T.Test_Start := Clock;
+      Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
+      for k in Natural range 1 .. 20
+      loop
+         LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+      end loop;
+      T.Test_Stop := Clock;
+
+      Assert (Cipher1 = Cipher2, "Invalid encryption");
+
+   end Benchmark_AES256_CBC_Encrypt;
+
+   ---------------------------------------------------------------------------
+
    procedure Register_Tests (T: in out Test_Case) is
       package Registration is new
          AUnit.Test_Cases.Specific_Test_Case_Registration (Test_Case);
@@ -251,6 +885,18 @@ is
       Register_Wrapper (T, Benchmark_SHA256'Access, "SHA256");
       Register_Wrapper (T, Benchmark_SHA384'Access, "SHA384");
       Register_Wrapper (T, Benchmark_SHA512'Access, "SHA512");
+      Register_Wrapper (T, Benchmark_AES128_Decrypt'Access, "AES128 (decrypt)");
+      Register_Wrapper (T, Benchmark_AES128_CBC_Decrypt'Access, "AES128 CBC (decrypt)");
+      Register_Wrapper (T, Benchmark_AES128_Encrypt'Access, "AES128 (encrypt)");
+      Register_Wrapper (T, Benchmark_AES128_CBC_Encrypt'Access, "AES128 CBC (encrypt)");
+      Register_Wrapper (T, Benchmark_AES192_Decrypt'Access, "AES192 (decrypt)");
+      Register_Wrapper (T, Benchmark_AES192_CBC_Decrypt'Access, "AES192 CBC (decrypt)");
+      Register_Wrapper (T, Benchmark_AES192_Encrypt'Access, "AES192 (encrypt)");
+      Register_Wrapper (T, Benchmark_AES192_CBC_Encrypt'Access, "AES192 CBC (encrypt)");
+      Register_Wrapper (T, Benchmark_AES256_Decrypt'Access, "AES256 (decrypt)");
+      Register_Wrapper (T, Benchmark_AES256_CBC_Decrypt'Access, "AES256 CBC (decrypt)");
+      Register_Wrapper (T, Benchmark_AES256_Encrypt'Access, "AES256 (encrypt)");
+      Register_Wrapper (T, Benchmark_AES256_CBC_Encrypt'Access, "AES256 CBC (encrypt)");
    end Register_Tests;
 
    ---------------------------------------------------------------------------
