@@ -50,6 +50,8 @@ use type LSC.Types.Word64;
 -------------------------------------------------------------------------------
 package LSC.SHA512 is
 
+   pragma Preelaborate;
+
    -- SHA-512 context
    type Context_Type is private;
 

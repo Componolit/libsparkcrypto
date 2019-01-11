@@ -42,4 +42,5 @@
 -------------------------------------------------------------------------------
 package LSC.Debug
 is
+   pragma Preelaborate;
 end LSC.Debug;

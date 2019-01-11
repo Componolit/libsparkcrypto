@@ -33,7 +33,8 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types, LSC.IO;
-with Ada.Text_IO.Text_Streams;
+with GNAT.IO;
+with Ada.Unchecked_Conversion;
 
 use type LSC.Types.Word64;
 use type LSC.Types.Word32;
@@ -47,30 +48,29 @@ is
 
    ----------------------------------------------------------------------------
 
-   procedure Put (T : String) renames Ada.Text_IO.Put;
+   procedure Put (T : String) renames GNAT.IO.Put;
 
    ----------------------------------------------------------------------------
 
-   procedure Put_Line (T : String) renames Ada.Text_IO.Put_Line;
+   procedure Put_Line (T : String) renames GNAT.IO.Put_Line;
 
    ----------------------------------------------------------------------------
 
    procedure New_Line
    is
    begin
-      Ada.Text_IO.New_Line;
+      GNAT.IO.New_Line;
    end New_Line;
 
    ----------------------------------------------------------------------------
 
    function Read_Byte return  Types.Byte
    is
-      Result : Types.Byte;
+      Result : Character;
+      function To_Byte is new Ada.Unchecked_Conversion (Character, Types.Byte);
    begin
-      Types.Byte'Read
-        (Ada.Text_IO.Text_Streams.Stream (Ada.Text_IO.Standard_Input),
-         Result);
-      return Result;
+      GNAT.IO.Get (Result);
+      return To_Byte (Result);
    end Read_Byte;
 
    ----------------------------------------------------------------------------
@@ -78,7 +78,7 @@ is
    function End_Of_Stream return Boolean
    is
    begin
-      return Ada.Text_IO.End_Of_File (Ada.Text_IO.Standard_Input);
+      return False;
    end End_Of_Stream;
 
    ----------------------------------------------------------------------------
@@ -182,18 +182,16 @@ is
 
    procedure Print_Index (I : in Types.Index)
    is
-      package SIIO is new Ada.Text_IO.Integer_IO (LSC.Types.Index);
    begin
-      SIIO.Put (Item => I, Width => 3);
+      GNAT.IO.Put (Integer (I));
    end Print_Index;
 
    ----------------------------------------------------------------------------
 
    procedure Print_Natural (I : Natural)
    is
-      package IIO is new Ada.Text_IO.Integer_IO (Natural);
    begin
-      IIO.Put (I);
+      GNAT.IO.Put (Integer (I));
    end Print_Natural;
 
    ----------------------------------------------------------------------------

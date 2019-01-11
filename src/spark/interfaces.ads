@@ -34,6 +34,8 @@
 
 package Interfaces is
 
+   pragma Pure;
+
    type Unsigned_8 is mod 2 ** 8;
    type Unsigned_32 is mod 2 ** 32;
    type Unsigned_64 is mod 2 ** 64;

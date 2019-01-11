@@ -42,4 +42,5 @@
 -------------------------------------------------------------------------------
 private package LSC.RIPEMD160.Print
 is
+   pragma Pure;
 end LSC.RIPEMD160.Print;

@@ -49,6 +49,8 @@ use type LSC.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.SHA1 is
 
+   pragma Preelaborate;
+
    -- SHA-1 context
    type Context_Type is private;
 

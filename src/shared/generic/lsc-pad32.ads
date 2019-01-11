@@ -42,6 +42,7 @@ use type LSC.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Pad32
 is
+   pragma Pure;
 
    -- Terminate a Word32 array
    --

@@ -4,6 +4,8 @@ package LSC.Math_Int
 with
    SPARK_Mode => On
 is
+   pragma Pure;
+
    type Math_Int is private;
 
    function "+" (A : Math_Int; B : Math_Int) return Math_Int

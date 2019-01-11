@@ -40,6 +40,8 @@ use type LSC.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.IO is
 
+   pragma Preelaborate;
+
    -- Output string @T@
    procedure Put (T : String)
      with Depends => (null => T);

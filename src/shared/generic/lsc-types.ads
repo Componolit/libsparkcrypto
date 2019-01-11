@@ -44,7 +44,6 @@ package LSC.Types
    with
       SPARK_Mode => On
 is
-
    pragma Pure;
 
    -- Base index type

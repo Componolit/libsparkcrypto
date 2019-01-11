@@ -49,6 +49,8 @@ use type LSC.SHA512.Message_Index;
 -------------------------------------------------------------------------------
 package LSC.HMAC_SHA512 is
 
+   pragma Preelaborate;
+
    -- HMAC-SHA-512 context
    type Context_Type is private;
 

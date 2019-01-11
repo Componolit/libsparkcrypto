@@ -39,6 +39,8 @@ with LSC.Types;
 -------------------------------------------------------------------------------
 package LSC.Byteorder64 is
 
+   pragma Pure;
+
    -- Convert 64-bit word @Item@ from native byte order to big endian
    function Native_To_BE (Item : Types.Word64) return Types.Word64;
    pragma Inline (Native_To_BE);
