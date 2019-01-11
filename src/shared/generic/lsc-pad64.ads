@@ -41,6 +41,7 @@ use type LSC.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Pad64
 is
+   pragma Pure;
 
    -- Terminate a Word64 array
    --

@@ -50,6 +50,8 @@ use type LSC.Types.Word64;
 -------------------------------------------------------------------------------
 package LSC.HMAC_RIPEMD160 is
 
+   pragma Preelaborate;
+
    -- HMAC-RIPEMD-160 context
    type Context_Type is private;
 

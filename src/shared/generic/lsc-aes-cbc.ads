@@ -49,6 +49,8 @@ with LSC.AES;
 -------------------------------------------------------------------------------
 package LSC.AES.CBC is
 
+   pragma Preelaborate;
+
    -- Encrypt @Length@ elements of the @Plaintext@ array using the AES context
    -- @Context@ and the initialization vector @IV@. The result is placed into
    -- @Ciphertext@.

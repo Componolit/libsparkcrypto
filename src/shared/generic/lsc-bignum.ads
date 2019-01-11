@@ -41,6 +41,7 @@ use type LSC.Types.Word64;
 
 package LSC.Bignum
 is
+   pragma Pure;
 
    function Base return Math_Int.Math_Int is (Math_Int.From_Word32 (2) ** 32)
      with Ghost;

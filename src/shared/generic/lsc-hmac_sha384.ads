@@ -48,6 +48,8 @@ use type LSC.SHA512.Message_Index;
 -------------------------------------------------------------------------------
 package LSC.HMAC_SHA384 is
 
+   pragma Preelaborate;
+
    -- HMAC-SHA-384 context
    type Context_Type is private;
 

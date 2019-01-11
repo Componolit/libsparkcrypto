@@ -37,6 +37,8 @@ use type LSC.Types.Word64;
 
 package LSC.Debug is
 
+   pragma Preelaborate;
+
    procedure Put (T : String) renames LSC.IO.Put;
 
    ----------------------------------------------------------------------------

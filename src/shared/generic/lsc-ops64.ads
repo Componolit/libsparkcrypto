@@ -41,6 +41,8 @@ use type LSC.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Ops64 is
 
+   pragma Pure;
+
    -- Perform XOR on two 64-bit words @V0@ and @V1@
    function XOR2 (V0, V1 : Types.Word64) return Types.Word64
      with Post => XOR2'Result = (V0 xor V1);

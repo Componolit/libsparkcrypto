@@ -37,6 +37,7 @@ with LSC.Types;
 package LSC.RIPEMD160.Print
   with SPARK_Mode => Off
 is
+   pragma Preelaborate;
 
    procedure Print_Schedule (M : String;
                              A : Types.Word32;

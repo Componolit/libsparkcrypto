@@ -41,6 +41,7 @@ package LSC.Byteswap64
 with
    SPARK_Mode => On
 is
+   pragma Pure;
 
    -- Byte-swap @Value@
    function Swap (Value : Types.Word64) return Types.Word64;

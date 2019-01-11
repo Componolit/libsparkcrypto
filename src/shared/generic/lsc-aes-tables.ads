@@ -39,6 +39,8 @@ with LSC.Types;
 -------------------------------------------------------------------------------
 private package LSC.AES.Tables is
 
+   pragma Preelaborate;
+
    type SBox_Type is array (Types.Byte) of Types.Byte;
    type Table_Type is array (Types.Byte) of Types.Word32;
 

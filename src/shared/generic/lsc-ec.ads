@@ -41,6 +41,7 @@ use type LSC.Types.Word32;
 
 package LSC.EC
 is
+   pragma Pure;
 
    Max_Coord_Length : constant := 20;
    subtype Coord_Index is Natural range 0 .. Max_Coord_Length - 1;

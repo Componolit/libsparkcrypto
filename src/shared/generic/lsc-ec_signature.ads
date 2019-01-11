@@ -42,6 +42,7 @@ use type LSC.Types.Word32;
 
 package LSC.EC_Signature
 is
+   pragma Pure;
 
    type Signature_Type is (ECDSA, ECGDSA);
 
