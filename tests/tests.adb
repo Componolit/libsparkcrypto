@@ -1,9 +1,7 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2019, Alexander Senier <senier@componolit.com>
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
+-- Copyright (C) 2018, Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -33,21 +31,22 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with Tests;
-with AUnit.Run;
-with AUnit.Reporter.Text;
-with Ada.Command_Line;
-with Ada.Text_IO; use Ada.Text_IO;
+with LSC_Internal_Suite;
+with Util_Tests;
 
-procedure Main
-is
-   function Run is new AUnit.Run.Test_Runner_With_Status (Tests.Suite);
-   Reporter : AUnit.Reporter.Text.Text_Reporter;
-   use AUnit;
-   S : Status;
-begin
-   Put_Line ("Running libsparkcrypto tests...");
-   Reporter.Set_Use_ANSI_Colors (True);
-   S := Run (Reporter);
-   Ada.Command_Line.Set_Exit_Status ((if (S = Success) then 0 else 1));
-end Main;
+package body Tests is
+
+   use AUnit.Test_Suites;
+
+   -- Statically allocate test suite:
+   Result    : aliased Test_Suite;
+   Test_Util : aliased Util_Tests.Test_Case;
+
+   function Suite return Access_Test_Suite is
+   begin
+      Add_Test (Result'Access, LSC_Internal_Suite.Suite);
+      Add_Test (Result'Access, Test_Util'Access);
+      return Result'Access;
+   end Suite;
+
+end Tests;

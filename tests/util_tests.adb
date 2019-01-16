@@ -1,9 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2019, Alexander Senier <senier@componolit.com>
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
+-- @author Alexander Senier
+-- @date   2019-01-16
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -33,21 +34,33 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with Tests;
-with AUnit.Run;
-with AUnit.Reporter.Text;
-with Ada.Command_Line;
-with Ada.Text_IO; use Ada.Text_IO;
+with AUnit.Assertions; use AUnit.Assertions;
+with Util;
+with LSC.Types;
 
-procedure Main
+package body Util_Tests
 is
-   function Run is new AUnit.Run.Test_Runner_With_Status (Tests.Suite);
-   Reporter : AUnit.Reporter.Text.Text_Reporter;
-   use AUnit;
-   S : Status;
-begin
-   Put_Line ("Running libsparkcrypto tests...");
-   Reporter.Set_Use_ANSI_Colors (True);
-   S := Run (Reporter);
-   Ada.Command_Line.Set_Exit_Status ((if (S = Success) then 0 else 1));
-end Main;
+   use type LSC.Types.Bytes;
+
+   procedure Test_String_To_Bytes_Simple (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : LSC.Types.Bytes := Util.S2B ("deadbeef");
+   begin
+      Assert (Result = (16#de#, 16#ad#, 16#be#, 16#ef#), "Invalid result: " & Util.B2S (Result));
+   end Test_String_To_Bytes_Simple;
+
+   ---------------------------------------------------------------------------
+
+   procedure Register_Tests (T: in out Test_Case) is
+      use AUnit.Test_Cases.Registration;
+   begin
+      Register_Routine (T, Test_String_To_Bytes_Simple'Access, "String to bytes (simple)");
+   end Register_Tests;
+
+   ---------------------------------------------------------------------------
+
+   function Name (T : Test_Case) return Test_String is
+   begin
+      return Format ("Utils");
+   end Name;
+end Util_Tests;

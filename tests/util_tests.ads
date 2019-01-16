@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-16
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,9 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with AUnit.Test_Suites;
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-package LSC_Suite
-is
-   function Suite return AUnit.Test_Suites.Access_Test_Suite;
-end LSC_Suite;
+-- @summary Tests test utility functions
+package Util_Tests is
+
+   type Test_Case is new Test_Cases.Test_Case with null record;
+
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
+
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
+
+end Util_Tests;

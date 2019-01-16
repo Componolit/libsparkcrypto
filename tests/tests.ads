@@ -31,19 +31,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Internal_Suite;
+with AUnit.Test_Suites;
 
-package body LSC_Suite is
-
-   use AUnit.Test_Suites;
-
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, LSC_Internal_Suite.Suite);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+package Tests
+is
+   function Suite return AUnit.Test_Suites.Access_Test_Suite;
+end Tests;
