@@ -42,6 +42,24 @@ package body Util_Tests
 is
    use type LSC.Types.Bytes;
 
+   procedure Test_Bytes_To_String_Simple (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : String := Util.B2S ((16#de#, 16#ad#, 16#be#, 16#ef#));
+   begin
+      Assert (Result = "deadbeef", "Invalid result: " & Result);
+   end Test_Bytes_To_String_Simple;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_Bytes_To_String_Odd (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : String := Util.B2S ((16#c#, 16#af#, 16#ef#, 16#ee#));
+   begin
+      Assert (Result = "cafefee", "Invalid result: " & Result);
+   end Test_Bytes_To_String_Odd;
+
+   ---------------------------------------------------------------------------
+
    procedure Test_String_To_Bytes_Simple (T : in out Test_Cases.Test_Case'Class)
    is
       Result : LSC.Types.Bytes := Util.S2B ("deadbeef");
@@ -54,6 +72,8 @@ is
    procedure Register_Tests (T: in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
+      Register_Routine (T, Test_Bytes_To_String_Simple'Access, "Bytes to string (simple)");
+      Register_Routine (T, Test_Bytes_To_String_Odd'Access, "Bytes to string (odd)");
       Register_Routine (T, Test_String_To_Bytes_Simple'Access, "String to bytes (simple)");
    end Register_Tests;
 
