@@ -123,6 +123,57 @@ is
 
    ---------------------------------------------------------------------------
 
+   procedure Test_Text_To_Bytes_Simple (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : LSC.Types.Bytes := Util.T2B ("Dead Beef!");
+   begin
+      Assert (Result = (16#44#, 16#65#, 16#61#, 16#64#, 16#20#,
+                        16#42#, 16#65#, 16#65#, 16#66#, 16#21#), "Invalid result: " & Util.B2S (Result));
+   end Test_Text_To_Bytes_Simple;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_Bytes_To_Text_Simple (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : String := Util.B2T ((16#44#, 16#65#, 16#61#, 16#64#, 16#20#,
+                                    16#42#, 16#65#, 16#65#, 16#66#, 16#21#));
+   begin
+      Assert (Result = "Dead Beef!", "Invalid result: " & Result);
+   end Test_Bytes_To_Text_Simple;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_Bytes_To_Text_To_Bytes (T : in out Test_Cases.Test_Case'Class)
+   is
+      Expected : LSC.Types.Bytes := 
+         (16#0B#, 16#46#, 16#D9#, 16#8D#, 16#A1#, 16#04#, 16#64#, 16#84#,
+          16#60#, 16#55#, 16#8B#, 16#3F#, 16#2B#, 16#22#, 16#4E#, 16#FE#,
+          16#CB#, 16#EF#, 16#32#, 16#95#, 16#A7#, 16#0E#, 16#E0#, 16#E9#,
+          16#CA#, 16#79#, 16#28#, 16#C9#, 16#8B#, 16#31#, 16#64#, 16#81#,
+          16#93#, 16#85#, 16#56#, 16#B2#, 16#28#, 16#22#, 16#A7#, 16#55#,
+          16#BA#, 16#4D#, 16#B2#, 16#90#, 16#D3#, 16#E4#, 16#D7#, 16#9F#);
+      Result   : LSC.Types.Bytes := Util.T2B (Util.B2T (Expected));
+   begin
+      Assert (Result = Expected, "Invalid result: " & Util.B2S (Result));
+   end Test_Bytes_To_Text_To_Bytes;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_Text_To_Bytes_To_Text (T : in out Test_Cases.Test_Case'Class)
+   is
+      Expected : String :=
+         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "&
+         "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim " &
+         "ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " &
+         "aliquip ex ea commodo consequat. Duis aute irure dolor in";
+
+      Result   : String := Util.B2T (Util.T2B (Expected));
+   begin
+      Assert (Result = Expected, "Invalid result: " & Result);
+   end Test_Text_To_Bytes_To_Text;
+
+   ---------------------------------------------------------------------------
+
    procedure Register_Tests (T: in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
@@ -134,6 +185,10 @@ is
       Register_Routine (T, Test_String_To_Bytes_Surrounding'Access, "String to bytes (surrounding whitespace)");
       Register_Routine (T, Test_String_To_Bytes_Uppercase'Access, "String to bytes (uppercase)");
       Register_Routine (T, Test_String_To_Bytes_Invalid'Access, "String to bytes (invalid)");
+      Register_Routine (T, Test_Text_To_Bytes_Simple'Access, "Text to bytes (simple)");
+      Register_Routine (T, Test_Bytes_To_Text_Simple'Access, "Bytes to text (simple)");
+      Register_Routine (T, Test_Bytes_To_Text_To_Bytes'Access, "Bytes to text to bytes");
+      Register_Routine (T, Test_Text_To_Bytes_To_Text'Access, "Text to bytes to text");
    end Register_Tests;
 
    ---------------------------------------------------------------------------

@@ -110,4 +110,41 @@ is
       end return;
    end S2B;
 
+   ---------
+   -- T2B --
+   ---------
+
+   function T2B (Data : String) return LSC.Types.Bytes
+   is
+      Result : LSC.Types.Bytes (1 .. Data'Length);
+
+      function To_Byte (C : Character) return LSC.Types.Byte
+      is (LSC.Types.Byte (Character'Pos (C)));
+
+   begin
+      for I in 0 .. Data'Length - 1
+      loop
+         Result (Result'First + I) := To_Byte (Data (Data'First + I));
+      end loop;
+      return Result;
+   end T2B;
+
+   ---------
+   -- B2T --
+   ---------
+
+   function B2T (Data : LSC.Types.Bytes) return String
+   is
+      Result : String (1 .. Data'Length);
+
+      function To_Character (B : LSC.Types.Byte) return Character
+      is (Character'Val (B));
+   begin
+      for I in 0 .. Data'Length - 1
+      loop
+         Result (Result'First + I) := To_Character (Data (Data'First + I));
+      end loop;
+      return Result;
+   end B2T;
+
 end Util;
