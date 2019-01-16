@@ -32,45 +32,46 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+with LSC.Internal.Debug;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
+package body LSC.Internal.RIPEMD160.Print
+  with SPARK_Mode => Off
 is
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   procedure Print_Schedule (M : String;
+                             A : Types.Word32;
+                             B : Types.Word32;
+                             C : Types.Word32;
+                             D : Types.Word32;
+                             E : Types.Word32;
+                             X : Types.Word32;
+                             S : Natural)
    is
    begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+      Debug.Put (M);
+      Debug.Put (": ");
 
-   ---------------------------------------------------------------------------
+      Debug.Print_Word32 (A);
+      Debug.Put (" ");
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+      Debug.Print_Word32 (B);
+      Debug.Put (" ");
 
-   ---------------------------------------------------------------------------
+      Debug.Print_Word32 (C);
+      Debug.Put (" ");
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+      Debug.Print_Word32 (D);
+      Debug.Put (" ");
 
-   ---------------------------------------------------------------------------
+      Debug.Print_Word32 (E);
+      Debug.Put (" ");
 
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+      Debug.Print_Word32 (X);
+      Debug.Put (" ");
+
+      Debug.Print_Natural (S);
+
+      Debug.New_Line;
+   end Print_Schedule;
+
+end LSC.Internal.RIPEMD160.Print;

@@ -32,39 +32,39 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
-with LSC.Bignum;
-with LSC.EC;
-with LSC.EC_Signature;
+with LSC.Internal.Types;
+with LSC.Internal.Bignum;
+with LSC.Internal.EC;
+with LSC.Internal.EC_Signature;
 with AUnit.Assertions; use AUnit.Assertions;
 with Interfaces;
 
-use type LSC.Bignum.Big_Int;
-use type LSC.EC_Signature.Signature_Type;
+use type LSC.Internal.Bignum.Big_Int;
+use type LSC.Internal.EC_Signature.Signature_Type;
 
 package body LSC_Test_EC
 is
    subtype Coord_Index is Natural range 0 .. 16;
-   subtype Coord is LSC.Bignum.Big_Int (Coord_Index);
+   subtype Coord is LSC.Internal.Bignum.Big_Int (Coord_Index);
 
    ---------------------------------------------------------------------------
 
    procedure Precompute_Values (P, A, B, Q     : Coord;
                                 RP, AM, BM, RQ : out Coord;
-                                P_Inv, Q_Inv   : out LSC.Types.Word32)
+                                P_Inv, Q_Inv   : out LSC.Internal.Types.Word32)
    is
    begin
-      LSC.Bignum.Size_Square_Mod (P, P'First, P'Last, RP, RP'First);
-      P_Inv := LSC.Bignum.Word_Inverse (P (P'First));
+      LSC.Internal.Bignum.Size_Square_Mod (P, P'First, P'Last, RP, RP'First);
+      P_Inv := LSC.Internal.Bignum.Word_Inverse (P (P'First));
 
-      LSC.Bignum.Size_Square_Mod (Q, Q'First, Q'Last, RQ, RQ'First);
-      Q_Inv := LSC.Bignum.Word_Inverse (Q (Q'First));
+      LSC.Internal.Bignum.Size_Square_Mod (Q, Q'First, Q'Last, RQ, RQ'First);
+      Q_Inv := LSC.Internal.Bignum.Word_Inverse (Q (Q'First));
 
-      LSC.Bignum.Mont_Mult
+      LSC.Internal.Bignum.Mont_Mult
         (AM, AM'First, AM'Last, A, A'First, RP, RP'First,
          P, P'First, P_Inv);
 
-      LSC.Bignum.Mont_Mult
+      LSC.Internal.Bignum.Mont_Mult
         (BM, BM'First, BM'Last, B, B'First, RP, RP'First,
          P, P'First, P_Inv);
    end Precompute_Values;
@@ -144,21 +144,21 @@ is
 
       X, Y, Z : Coord;
       RP, AM, BM, RQ : Coord;
-      P_Inv, Q_Inv : LSC.Types.Word32;
+      P_Inv, Q_Inv : LSC.Internal.Types.Word32;
 
    begin
       Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
 
       -- Compute public values from secrets
 
-      LSC.EC.Point_Mult
+      LSC.Internal.EC.Point_Mult
         (X1       => Base_X,
          X1_First => Base_X'First,
          X1_Last  => Base_X'Last,
          Y1       => Base_Y,
          Y1_First => Base_Y'First,
-         Z1       => LSC.EC.One,
-         Z1_First => LSC.EC.One'First,
+         Z1       => LSC.Internal.EC.One,
+         Z1_First => LSC.Internal.EC.One'First,
          E        => Priv,
          E_First  => Priv'First,
          E_Last   => Priv'Last,
@@ -174,19 +174,19 @@ is
          M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine
+      LSC.Internal.EC.Make_Affine
         (X, X'First, X'Last, Y, Y'First, Z, Z'First,
          Pub_X, Pub_X'First, Pub_Y, Pub_Y'First,
          RP, RP'First, P, P'First, P_Inv);
 
-      LSC.EC.Point_Mult
+      LSC.Internal.EC.Point_Mult
         (X1       => Base_X,
          X1_First => Base_X'First,
          X1_Last  => Base_X'Last,
          Y1       => Base_Y,
          Y1_First => Base_Y'First,
-         Z1       => LSC.EC.One,
-         Z1_First => LSC.EC.One'First,
+         Z1       => LSC.Internal.EC.One,
+         Z1_First => LSC.Internal.EC.One'First,
          E        => Priv_Other,
          E_First  => Priv_Other'First,
          E_Last   => Priv_Other'Last,
@@ -202,21 +202,21 @@ is
          M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine
+      LSC.Internal.EC.Make_Affine
         (X, X'First, X'Last, Y, Y'First, Z, Z'First,
          Pub_Other_X, Pub_Other_X'First, Pub_Other_Y, Pub_Other_Y'First,
          RP, RP'First, P, P'First, P_Inv);
 
       -- Now compute shared secret
 
-      LSC.EC.Point_Mult
+      LSC.Internal.EC.Point_Mult
         (X1       => Pub_Other_X,
          X1_First => Pub_Other_X'First,
          X1_Last  => Pub_Other_X'Last,
          Y1       => Pub_Other_Y,
          Y1_First => Pub_Other_Y'First,
-         Z1       => LSC.EC.One,
-         Z1_First => LSC.EC.One'First,
+         Z1       => LSC.Internal.EC.One,
+         Z1_First => LSC.Internal.EC.One'First,
          E        => Priv,
          E_First  => Priv'First,
          E_Last   => Priv'Last,
@@ -232,19 +232,19 @@ is
          M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine
+      LSC.Internal.EC.Make_Affine
         (X, X'First, X'Last, Y, Y'First, Z, Z'First,
          Shared_X, Shared_X'First, Shared_Y, Shared_Y'First,
          RP, RP'First, P, P'First, P_Inv);
 
-      LSC.EC.Point_Mult
+      LSC.Internal.EC.Point_Mult
         (X1       => Pub_X,
          X1_First => Pub_X'First,
          X1_Last  => Pub_X'Last,
          Y1       => Pub_Y,
          Y1_First => Pub_Y'First,
-         Z1       => LSC.EC.One,
-         Z1_First => LSC.EC.One'First,
+         Z1       => LSC.Internal.EC.One,
+         Z1_First => LSC.Internal.EC.One'First,
          E        => Priv_Other,
          E_First  => Priv_Other'First,
          E_Last   => Priv_Other'Last,
@@ -260,7 +260,7 @@ is
          M_First  => P'First,
          M_Inv    => P_Inv);
 
-      LSC.EC.Make_Affine
+      LSC.Internal.EC.Make_Affine
         (X, X'First, X'Last, Y, Y'First, Z, Z'First,
          Shared_Other_X, Shared_Other_X'First, Shared_Other_Y, Shared_Other_Y'First,
          RP, RP'First, P, P'First, P_Inv);
@@ -278,7 +278,7 @@ is
    -- See RFC 4754 (section 8.3) for test values
 
    function Test_Sign
-     (T   : LSC.EC_Signature.Signature_Type;
+     (T   : LSC.Internal.EC_Signature.Signature_Type;
       Bad : Boolean)
      return Boolean
    is
@@ -317,30 +317,30 @@ is
       Inv_Priv, PubX, PubY, Sign1, Sign2, X, Y, Z, H : Coord;
       Success : Boolean;
       RP, AM, BM, RQ : Coord;
-      P_Inv, Q_Inv : LSC.Types.Word32;
+      P_Inv, Q_Inv : LSC.Internal.Types.Word32;
 
    begin
 
       Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
 
       case T is
-         when LSC.EC_Signature.ECGDSA =>
-            LSC.EC.Invert
+         when LSC.Internal.EC_Signature.ECGDSA =>
+            LSC.Internal.EC.Invert
               (Priv, Priv'First, Priv'Last, H, H'First,
                RQ, RQ'First, Q, Q'First, Q_Inv);
-            LSC.Bignum.Mont_Mult
+            LSC.Internal.Bignum.Mont_Mult
               (Inv_Priv, Inv_Priv'First, Inv_Priv'Last,
-               H, H'First, LSC.EC.One, LSC.EC.One'First,
+               H, H'First, LSC.Internal.EC.One, LSC.Internal.EC.One'First,
                Q, Q'First, Q_Inv);
 
-            LSC.EC.Point_Mult
+            LSC.Internal.EC.Point_Mult
               (X1       => Base_X,
                X1_First => Base_X'First,
                X1_Last  => Base_X'Last,
                Y1       => Base_Y,
                Y1_First => Base_Y'First,
-               Z1       => LSC.EC.One,
-               Z1_First => LSC.EC.One'First,
+               Z1       => LSC.Internal.EC.One,
+               Z1_First => LSC.Internal.EC.One'First,
                E        => Inv_Priv,
                E_First  => Inv_Priv'First,
                E_Last   => Inv_Priv'Last,
@@ -356,15 +356,15 @@ is
                M_First  => P'First,
                M_Inv    => P_Inv);
 
-         when LSC.EC_Signature.ECDSA =>
-            LSC.EC.Point_Mult
+         when LSC.Internal.EC_Signature.ECDSA =>
+            LSC.Internal.EC.Point_Mult
               (X1       => Base_X,
                X1_First => Base_X'First,
                X1_Last  => Base_X'Last,
                Y1       => Base_Y,
                Y1_First => Base_Y'First,
-               Z1       => LSC.EC.One,
-               Z1_First => LSC.EC.One'First,
+               Z1       => LSC.Internal.EC.One,
+               Z1_First => LSC.Internal.EC.One'First,
                E        => Priv,
                E_First  => Priv'First,
                E_Last   => Priv'Last,
@@ -381,12 +381,12 @@ is
                M_Inv    => P_Inv);
       end case;
 
-      LSC.EC.Make_Affine
+      LSC.Internal.EC.Make_Affine
         (X, X'First, X'Last, Y, Y'First, Z, Z'First,
          PubX, PubX'First, PubY, PubY'First,
          RP, RP'First, P, P'First, P_Inv);
 
-      LSC.EC_Signature.Sign
+      LSC.Internal.EC_Signature.Sign
         (Sign1       => Sign1,
          Sign1_First => Sign1'First,
          Sign1_Last  => Sign1'Last,
@@ -425,9 +425,9 @@ is
 
       return
         Success and then
-        (Bad or else T = LSC.EC_Signature.ECGDSA or else
+        (Bad or else T = LSC.Internal.EC_Signature.ECGDSA or else
            (Sign1 = Sign1_Expected and then Sign2 = Sign2_Expected)) and then
-        (LSC.EC_Signature.Verify
+        (LSC.Internal.EC_Signature.Verify
            (Sign1       => Sign1,
             Sign1_First => Sign1'First,
             Sign1_Last  => Sign1'Last,
@@ -465,11 +465,11 @@ is
       Y : Coord;
       Success : Boolean;
       RP, AM, BM, RQ : Coord;
-      P_Inv, Q_Inv : LSC.Types.Word32;
+      P_Inv, Q_Inv : LSC.Internal.Types.Word32;
    begin
       Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
 
-      LSC.EC.Uncompress_Point
+      LSC.Internal.EC.Uncompress_Point
         (X       => Base_X,
          X_First => Base_X'First,
          X_Last  => Base_X'Last,
@@ -496,7 +496,7 @@ is
    procedure Test_Bad_ECDSA_Signature (T : in out Test_Cases.Test_Case'Class)
    is
    begin
-      Assert (Test_Sign (LSC.EC_Signature.ECDSA, True), "Invalid");
+      Assert (Test_Sign (LSC.Internal.EC_Signature.ECDSA, True), "Invalid");
    end Test_Bad_ECDSA_Signature;
 
    ---------------------------------------------------------------------------
@@ -504,7 +504,7 @@ is
    procedure Test_Good_ECDSA_Signature (T : in out Test_Cases.Test_Case'Class)
    is
    begin
-      Assert (Test_Sign (LSC.EC_Signature.ECDSA, False), "Invalid");
+      Assert (Test_Sign (LSC.Internal.EC_Signature.ECDSA, False), "Invalid");
    end Test_Good_ECDSA_Signature;
 
    ---------------------------------------------------------------------------
@@ -512,7 +512,7 @@ is
    procedure Test_Bad_ECGDSA_Signature (T : in out Test_Cases.Test_Case'Class)
    is
    begin
-      Assert (Test_Sign (LSC.EC_Signature.ECGDSA, True), "Invalid");
+      Assert (Test_Sign (LSC.Internal.EC_Signature.ECGDSA, True), "Invalid");
    end Test_Bad_ECGDSA_Signature;
 
    ---------------------------------------------------------------------------
@@ -520,7 +520,7 @@ is
    procedure Test_Good_ECGDSA_Signature (T : in out Test_Cases.Test_Case'Class)
    is
    begin
-      Assert (Test_Sign (LSC.EC_Signature.ECGDSA, False), "Invalid");
+      Assert (Test_Sign (LSC.Internal.EC_Signature.ECGDSA, False), "Invalid");
    end Test_Good_ECGDSA_Signature;
 
    ---------------------------------------------------------------------------
@@ -528,12 +528,12 @@ is
    procedure Test_Base_Point_On_Curve (T : in out Test_Cases.Test_Case'Class)
    is
       RP, AM, BM, RQ : Coord;
-      P_Inv, Q_Inv : LSC.Types.Word32;
+      P_Inv, Q_Inv : LSC.Internal.Types.Word32;
    begin
       Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
 
       Assert
-         (LSC.EC.On_Curve
+         (LSC.Internal.EC.On_Curve
            (Base_X, Base_X'First, Base_X'Last, Base_Y, Base_Y'First,
             AM, AM'First, BM, BM'First, RP, RP'First, P, P'First, P_Inv), "Invalid");
    end Test_Base_Point_On_Curve;

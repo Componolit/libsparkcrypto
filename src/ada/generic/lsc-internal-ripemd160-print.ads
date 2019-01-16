@@ -33,44 +33,19 @@
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
+package LSC.Internal.RIPEMD160.Print
+  with SPARK_Mode => Off
 is
+   pragma Preelaborate;
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+   procedure Print_Schedule (M : String;
+                             A : Types.Word32;
+                             B : Types.Word32;
+                             C : Types.Word32;
+                             D : Types.Word32;
+                             E : Types.Word32;
+                             X : Types.Word32;
+                             S : Natural);
 
-   ---------------------------------------------------------------------------
-
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
-
-   ---------------------------------------------------------------------------
-
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
-
-   ---------------------------------------------------------------------------
-
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+end LSC.Internal.RIPEMD160.Print;

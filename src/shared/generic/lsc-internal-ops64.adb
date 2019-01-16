@@ -32,45 +32,72 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+package body LSC.Internal.Ops64 is
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
-is
-
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   function Bytes_To_Word
+      (Byte0 : Types.Byte;
+       Byte1 : Types.Byte;
+       Byte2 : Types.Byte;
+       Byte3 : Types.Byte;
+       Byte4 : Types.Byte;
+       Byte5 : Types.Byte;
+       Byte6 : Types.Byte;
+       Byte7 : Types.Byte) return Types.Word64
    is
    begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+      return Types.Byte_Array64_To_Word64
+          (Types.Byte_Array64_Type'(Byte7, Byte6, Byte5, Byte4,
+                                    Byte3, Byte2, Byte1, Byte0));
+   end Bytes_To_Word;
 
-   ---------------------------------------------------------------------------
+   ----------------------------------------------------------------------------
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
+   function XOR2 (V0, V1 : Types.Word64) return Types.Word64
    is
    begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+      return V0 xor V1;
+   end XOR2;
 
-   ---------------------------------------------------------------------------
+   ----------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
+   procedure Block_XOR
+     (Left   : in     Types.Word64_Array_Type;
+      Right  : in     Types.Word64_Array_Type;
+      Result :    out Types.Word64_Array_Type)
+   is
    begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+      for I in Types.Index range Result'First .. Result'Last
+      loop
+         Result (I) := XOR2 (Left (I), Right (I));
 
-   ---------------------------------------------------------------------------
+         pragma Loop_Invariant
+           (for all Pos in Types.Index range Result'First .. I =>
+              (Result (Pos) = XOR2 (Left (Pos), Right (Pos))));
 
-   function Name (T : Test_Case) return Test_String is
+      end loop;
+   end Block_XOR;
+   pragma Annotate
+     (GNATprove, False_Positive,
+      """Result"" might not be initialized",
+      "Initialized in complete loop");
+
+   ----------------------------------------------------------------------------
+
+   procedure Block_Copy
+     (Source : in     Types.Word64_Array_Type;
+      Dest   : in out Types.Word64_Array_Type)
+   is
    begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+
+      for I in Types.Index range Source'First .. Source'Last
+      loop
+         Dest (I) := Source (I);
+
+         pragma Loop_Invariant
+           (for all P in Types.Index range Source'First .. I =>
+              (Dest (P) = Source (P)));
+      end loop;
+
+   end Block_Copy;
+
+end LSC.Internal.Ops64;

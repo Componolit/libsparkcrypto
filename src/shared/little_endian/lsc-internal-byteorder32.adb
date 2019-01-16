@@ -32,45 +32,38 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
 with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
+package body LSC.Internal.Byteorder32 is
 
-package body LSC_Test_Shadow
-is
-
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   function Native_To_BE (Item : Types.Word32) return Types.Word32
    is
    begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+      return Byteswap32.Swap (Item);
+   end Native_To_BE;
 
    ---------------------------------------------------------------------------
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
+   function Native_To_LE (Item : Types.Word32) return Types.Word32
    is
    begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+      return Item;
+   end Native_To_LE;
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
+   function BE_To_Native (Item : Types.Word32) return Types.Word32
+   is
    begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+      return Byteswap32.Swap (Item);
+   end BE_To_Native;
 
    ---------------------------------------------------------------------------
 
-   function Name (T : Test_Case) return Test_String is
+   function LE_To_Native (Item : Types.Word32) return Types.Word32
+   is
    begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+      return Item;
+   end LE_To_Native;
+
+end LSC.Internal.Byteorder32;

@@ -32,45 +32,16 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+with LSC.Internal.Ops32;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
+package body LSC.Internal.Byteswap32 is
 
-package body LSC_Test_Shadow
-is
-
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   function Swap (Value : Types.Word32) return Types.Word32
    is
+      Temp : Types.Byte_Array32_Type;
    begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+      Temp := Types.Word32_To_Byte_Array32 (Value);
+      return Ops32.Bytes_To_Word (Temp (0), Temp (1), Temp (2), Temp (3));
+   end Swap;
 
-   ---------------------------------------------------------------------------
-
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
-
-   ---------------------------------------------------------------------------
-
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
-
-   ---------------------------------------------------------------------------
-
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+end LSC.Internal.Byteswap32;

@@ -33,12 +33,12 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
-with LSC.RIPEMD160;
+with LSC.Internal.Types;
+with LSC.Internal.RIPEMD160;
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 
-use type LSC.Types.Word32_Array_Type;
+use type LSC.Internal.Types.Word32_Array_Type;
 
 package body LSC_Test_RIPEMD160 is
 
@@ -46,18 +46,18 @@ package body LSC_Test_RIPEMD160 is
    --
    procedure Test_RIPEMD160_Empty (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "" (empty string)
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(others => 0);
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 0);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(others => 0);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 0);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#9c1185a5#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#9c1185a5#),
                                               M (16#c5e9fc54#),
                                               M (16#61280897#),
                                               M (16#7ee8f548#),
@@ -70,18 +70,18 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_A (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "a"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#61000000#), others => 0);
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 8);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#61000000#), others => 0);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 8);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#0bdc9d2d#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#0bdc9d2d#),
                                               M (16#256b3ee9#),
                                               M (16#daae347b#),
                                               M (16#e6f4dc83#),
@@ -94,18 +94,18 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_ABC (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "abc"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#61626300#), others => 0);
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 24);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#61626300#), others => 0);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 24);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#8eb208f7#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#8eb208f7#),
                                               M (16#e05d987a#),
                                               M (16#9b044a8e#),
                                               M (16#98c6b087#),
@@ -118,22 +118,22 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_Message_Digest (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "message digest"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#6d657373#),
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#6d657373#),
                                            M (16#61676520#),
                                            M (16#64696765#),
                                            M (16#73740000#),
                                            others => 0);
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 112);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 112);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#5d0689ef#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#5d0689ef#),
                                               M (16#49d2fae5#),
                                               M (16#72b881b1#),
                                               M (16#23a85ffa#),
@@ -146,14 +146,14 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_AtoZ (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "abcdefghijklmnopqrstuvwxyz"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#61626364#),
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#61626364#),
                                            M (16#65666768#),
                                            M (16#696a6b6c#),
                                            M (16#6d6e6f70#),
@@ -162,10 +162,10 @@ package body LSC_Test_RIPEMD160 is
                                            M (16#797a0000#),
                                            others => 0);
 
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 208);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 208);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#f71c2710#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#f71c2710#),
                                               M (16#9c692c1b#),
                                               M (16#56bbdceb#),
                                               M (16#5b9d2865#),
@@ -178,14 +178,14 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_ABCDEFG (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#61626364#),
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#61626364#),
                                            M (16#62636465#),
                                            M (16#63646566#),
                                            M (16#64656667#),
@@ -200,10 +200,10 @@ package body LSC_Test_RIPEMD160 is
                                            M (16#6d6e6f70#),
                                            M (16#6e6f7071#),
                                            others => 0);
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 448);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 448);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#12a05338#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#12a05338#),
                                               M (16#4a9c0c88#),
                                               M (16#e405a06c#),
                                               M (16#27dcf49a#),
@@ -216,14 +216,14 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_AZaz09 (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#41424344#),
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#41424344#),
                                            M (16#45464748#),
                                            M (16#494a4b4c#),
                                            M (16#4d4e4f50#),
@@ -239,10 +239,10 @@ package body LSC_Test_RIPEMD160 is
                                            M (16#30313233#),
                                            M (16#34353637#),
                                            M (16#38390000#));
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 496);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 496);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#b0e20b6e#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#b0e20b6e#),
                                               M (16#31166402#),
                                               M (16#86ed3a87#),
                                               M (16#a5713079#),
@@ -255,14 +255,14 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_8x1to0 (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  8 times "1234567890"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(M (16#31323334#),
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#31323334#),
                                            M (16#35363738#),
                                            M (16#39303132#),
                                            M (16#33343536#),
@@ -278,17 +278,17 @@ package body LSC_Test_RIPEMD160 is
                                            M (16#33343536#),
                                            M (16#37383930#),
                                            M (16#31323334#));
-      LSC.RIPEMD160.Context_Update (Ctx, Message);
+      LSC.Internal.RIPEMD160.Context_Update (Ctx, Message);
 
-      Message := LSC.RIPEMD160.Block_Type'(M (16#35363738#),
+      Message := LSC.Internal.RIPEMD160.Block_Type'(M (16#35363738#),
                                            M (16#39303132#),
                                            M (16#33343536#),
                                            M (16#37383930#),
           others => 0);
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 128);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 128);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#9b752e45#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#9b752e45#),
                                               M (16#573d4b39#),
                                               M (16#f4dbd332#),
                                               M (16#3cab82bf#),
@@ -301,24 +301,24 @@ package body LSC_Test_RIPEMD160 is
 
    procedure Test_RIPEMD160_1millionAs (T : in out Test_Cases.Test_Case'Class)
    is
-      Ctx             : LSC.RIPEMD160.Context_Type;
-      Hash            : LSC.RIPEMD160.Hash_Type;
-      Message         : LSC.RIPEMD160.Block_Type;
+      Ctx             : LSC.Internal.RIPEMD160.Context_Type;
+      Hash            : LSC.Internal.RIPEMD160.Hash_Type;
+      Message         : LSC.Internal.RIPEMD160.Block_Type;
    begin
 
       --  1 million times "a"
-      Ctx := LSC.RIPEMD160.Context_Init;
-      Message := LSC.RIPEMD160.Block_Type'(others => M (16#61616161#));
+      Ctx := LSC.Internal.RIPEMD160.Context_Init;
+      Message := LSC.Internal.RIPEMD160.Block_Type'(others => M (16#61616161#));
 
       for I in Natural range 1 .. 15625
       loop
-         LSC.RIPEMD160.Context_Update (Ctx, Message);
+         LSC.Internal.RIPEMD160.Context_Update (Ctx, Message);
       end loop;
 
-      LSC.RIPEMD160.Context_Finalize (Ctx, Message, 0);
-      Hash := LSC.RIPEMD160.Get_Hash (Ctx);
+      LSC.Internal.RIPEMD160.Context_Finalize (Ctx, Message, 0);
+      Hash := LSC.Internal.RIPEMD160.Get_Hash (Ctx);
 
-      Assert (Hash = LSC.RIPEMD160.Hash_Type'(M (16#52783243#),
+      Assert (Hash = LSC.Internal.RIPEMD160.Hash_Type'(M (16#52783243#),
                                               M (16#c1697bdb#),
                                               M (16#e16d37f9#),
                                               M (16#7f68f083#),

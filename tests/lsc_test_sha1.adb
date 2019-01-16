@@ -32,31 +32,31 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.SHA1;
-with LSC.Types;
+with LSC.Internal.SHA1;
+with LSC.Internal.Types;
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 
-use type LSC.Types.Word32_Array_Type;
-use type LSC.Types.Word64_Array_Type;
+use type LSC.Internal.Types.Word32_Array_Type;
+use type LSC.Internal.Types.Word64_Array_Type;
 
 package body LSC_Test_SHA1 is
 
    procedure Test_SHA1_One_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA1_Ctx : LSC.SHA1.Context_Type;
-      Hash     : LSC.SHA1.Hash_Type;
-      Message  : LSC.SHA1.Block_Type;
+      SHA1_Ctx : LSC.Internal.SHA1.Context_Type;
+      Hash     : LSC.Internal.SHA1.Hash_Type;
+      Message  : LSC.Internal.SHA1.Block_Type;
    begin
 
       --  FIPS 180-2, Appendix A: SHA-1 Examples
       --  A.1 SHA-1 Example (One-Block Message)
-      SHA1_Ctx := LSC.SHA1.Context_Init;
-      Message  := LSC.SHA1.Block_Type'(M (16#61626300#), others => 16#fedca987#);
-      LSC.SHA1.Context_Finalize (SHA1_Ctx, Message, 24);
-      Hash := LSC.SHA1.Get_Hash (SHA1_Ctx);
+      SHA1_Ctx := LSC.Internal.SHA1.Context_Init;
+      Message  := LSC.Internal.SHA1.Block_Type'(M (16#61626300#), others => 16#fedca987#);
+      LSC.Internal.SHA1.Context_Finalize (SHA1_Ctx, Message, 24);
+      Hash := LSC.Internal.SHA1.Get_Hash (SHA1_Ctx);
 
-      Assert (Hash = LSC.SHA1.Hash_Type'(M (16#a9993e36#), M (16#4706816a#), M (16#ba3e2571#),
+      Assert (Hash = LSC.Internal.SHA1.Hash_Type'(M (16#a9993e36#), M (16#4706816a#), M (16#ba3e2571#),
                                          M (16#7850c26c#), M (16#9cd0d89d#)),
              "Hash differs");
 
@@ -66,24 +66,24 @@ package body LSC_Test_SHA1 is
 
    procedure Test_SHA1_Multi_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA1_Ctx : LSC.SHA1.Context_Type;
-      Hash     : LSC.SHA1.Hash_Type;
-      Message  : LSC.SHA1.Block_Type;
+      SHA1_Ctx : LSC.Internal.SHA1.Context_Type;
+      Hash     : LSC.Internal.SHA1.Hash_Type;
+      Message  : LSC.Internal.SHA1.Block_Type;
    begin
 
       --  A.2 SHA-1 Example (Multi-Block Message)
-      SHA1_Ctx := LSC.SHA1.Context_Init;
-      Message  := LSC.SHA1.Block_Type'
+      SHA1_Ctx := LSC.Internal.SHA1.Context_Init;
+      Message  := LSC.Internal.SHA1.Block_Type'
         (M (16#61626364#), M (16#62636465#), M (16#63646566#), M (16#64656667#),
          M (16#65666768#), M (16#66676869#), M (16#6768696a#), M (16#68696a6b#),
          M (16#696a6b6c#), M (16#6a6b6c6d#), M (16#6b6c6d6e#), M (16#6c6d6e6f#),
          M (16#6d6e6f70#), M (16#6e6f7071#), M (16#0a000000#),
          others => 16#deadbeef#);
 
-      LSC.SHA1.Context_Finalize (SHA1_Ctx, Message, 448);
-      Hash := LSC.SHA1.Get_Hash (SHA1_Ctx);
+      LSC.Internal.SHA1.Context_Finalize (SHA1_Ctx, Message, 448);
+      Hash := LSC.Internal.SHA1.Get_Hash (SHA1_Ctx);
 
-      Assert (Hash = LSC.SHA1.Hash_Type'(M (16#84983e44#), M (16#1c3bd26e#), M (16#baae4aa1#),
+      Assert (Hash = LSC.Internal.SHA1.Hash_Type'(M (16#84983e44#), M (16#1c3bd26e#), M (16#baae4aa1#),
                                          M (16#f95129e5#), M (16#e54670f1#)),
               "Hash differs");
 
@@ -93,23 +93,23 @@ package body LSC_Test_SHA1 is
 
    procedure Test_SHA1_Long (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA1_Ctx : LSC.SHA1.Context_Type;
-      Hash     : LSC.SHA1.Hash_Type;
-      Message  : LSC.SHA1.Block_Type;
+      SHA1_Ctx : LSC.Internal.SHA1.Context_Type;
+      Hash     : LSC.Internal.SHA1.Hash_Type;
+      Message  : LSC.Internal.SHA1.Block_Type;
    begin
 
       --  A.3 SHA-1 Example (Long Message)
-      Message := LSC.SHA1.Block_Type'(others => M (16#61616161#));
+      Message := LSC.Internal.SHA1.Block_Type'(others => M (16#61616161#));
 
-      SHA1_Ctx := LSC.SHA1.Context_Init;
+      SHA1_Ctx := LSC.Internal.SHA1.Context_Init;
       for I in Natural range 1 .. 15625
       loop
-         LSC.SHA1.Context_Update (SHA1_Ctx, Message);
+         LSC.Internal.SHA1.Context_Update (SHA1_Ctx, Message);
       end loop;
-      LSC.SHA1.Context_Finalize (SHA1_Ctx, Message, 0);
-      Hash := LSC.SHA1.Get_Hash (SHA1_Ctx);
+      LSC.Internal.SHA1.Context_Finalize (SHA1_Ctx, Message, 0);
+      Hash := LSC.Internal.SHA1.Get_Hash (SHA1_Ctx);
 
-      Assert (Hash = LSC.SHA1.Hash_Type'(M (16#34aa973c#), M (16#d4c4daa4#), M (16#f61eeb2b#),
+      Assert (Hash = LSC.Internal.SHA1.Hash_Type'(M (16#34aa973c#), M (16#d4c4daa4#), M (16#f61eeb2b#),
                                          M (16#dbad2731#), M (16#6534016f#)),
               "Hash differs");
 

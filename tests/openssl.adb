@@ -41,7 +41,7 @@ package body OpenSSL is
    -- AES
    ----------------------------------------------------------------------------
 
-   function Create_AES128_Enc_Context (Key : LSC.AES.AES128_Key_Type)
+   function Create_AES128_Enc_Context (Key : LSC.Internal.AES.AES128_Key_Type)
       return AES_Enc_Context_Type
    is
       Result : C_Context_Type;
@@ -54,7 +54,7 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES192_Enc_Context (Key : LSC.AES.AES192_Key_Type)
+   function Create_AES192_Enc_Context (Key : LSC.Internal.AES.AES192_Key_Type)
        return AES_Enc_Context_Type
    is
       Result : C_Context_Type;
@@ -67,7 +67,7 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES256_Enc_Context (Key : LSC.AES.AES256_Key_Type)
+   function Create_AES256_Enc_Context (Key : LSC.Internal.AES.AES256_Key_Type)
       return AES_Enc_Context_Type
    is
       Result : C_Context_Type;
@@ -81,9 +81,9 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Encrypt (Context   : AES_Enc_Context_Type;
-                     Plaintext : LSC.AES.Block_Type) return LSC.AES.Block_Type
+                     Plaintext : LSC.Internal.AES.Block_Type) return LSC.Internal.AES.Block_Type
    is
-      Result : LSC.AES.Block_Type;
+      Result : LSC.Internal.AES.Block_Type;
    begin
       C_AES_encrypt (In_Block  => Plaintext'Unrestricted_Access,
                      Out_Block => Result'Unrestricted_Access,
@@ -94,12 +94,12 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    procedure CBC_Encrypt
-     (Plaintext  : in     LSC.AES.Message_Type;
-      Ciphertext :    out LSC.AES.Message_Type;
+     (Plaintext  : in     LSC.Internal.AES.Message_Type;
+      Ciphertext :    out LSC.Internal.AES.Message_Type;
       Context    : in     AES_Enc_Context_Type;
-      IV         : in     LSC.AES.Block_Type)
+      IV         : in     LSC.Internal.AES.Block_Type)
    is
-      Tmp_IV : LSC.AES.Block_Type := IV;
+      Tmp_IV : LSC.Internal.AES.Block_Type := IV;
    begin
       C_AES_cbc_Encrypt
         (Input  => Plaintext'Address,
@@ -112,7 +112,7 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES128_Dec_Context (Key : LSC.AES.AES128_Key_Type)
+   function Create_AES128_Dec_Context (Key : LSC.Internal.AES.AES128_Key_Type)
       return AES_Dec_Context_Type
    is
       Result : C_Context_Type;
@@ -125,7 +125,7 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES192_Dec_Context (Key : LSC.AES.AES192_Key_Type)
+   function Create_AES192_Dec_Context (Key : LSC.Internal.AES.AES192_Key_Type)
        return AES_Dec_Context_Type
    is
       Result : C_Context_Type;
@@ -138,7 +138,7 @@ package body OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   function Create_AES256_Dec_Context (Key : LSC.AES.AES256_Key_Type)
+   function Create_AES256_Dec_Context (Key : LSC.Internal.AES.AES256_Key_Type)
       return AES_Dec_Context_Type
    is
       Result : C_Context_Type;
@@ -152,9 +152,9 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Decrypt (Context    : AES_Dec_Context_Type;
-                     Ciphertext : LSC.AES.Block_Type) return LSC.AES.Block_Type
+                     Ciphertext : LSC.Internal.AES.Block_Type) return LSC.Internal.AES.Block_Type
    is
-      Result : LSC.AES.Block_Type;
+      Result : LSC.Internal.AES.Block_Type;
    begin
       C_AES_decrypt (In_Block  => Ciphertext'Unrestricted_Access,
                      Out_Block => Result'Unrestricted_Access,
@@ -165,12 +165,12 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    procedure CBC_Decrypt
-     (Ciphertext : in     LSC.AES.Message_Type;
-      Plaintext  :    out LSC.AES.Message_Type;
+     (Ciphertext : in     LSC.Internal.AES.Message_Type;
+      Plaintext  :    out LSC.Internal.AES.Message_Type;
       Context    : in     AES_Dec_Context_Type;
-      IV         : in     LSC.AES.Block_Type)
+      IV         : in     LSC.Internal.AES.Block_Type)
    is
-      Tmp_IV : LSC.AES.Block_Type := IV;
+      Tmp_IV : LSC.Internal.AES.Block_Type := IV;
    begin
       C_AES_cbc_Encrypt
         (Input  => Ciphertext'Address,
@@ -195,7 +195,7 @@ package body OpenSSL is
 
    procedure SHA1_Context_Update
      (Context : in out SHA1_Context_Type;
-      Block   : in     LSC.SHA1.Block_Type)
+      Block   : in     LSC.Internal.SHA1.Block_Type)
    is
    begin
       OpenSSL.C_SHA1_Update (Context.C_Context'Unrestricted_Access,
@@ -207,8 +207,8 @@ package body OpenSSL is
 
    procedure SHA1_Context_Finalize
      (Context : in out SHA1_Context_Type;
-      Block   : in     LSC.SHA1.Block_Type;
-      Length  : in     LSC.SHA1.Block_Length_Type)
+      Block   : in     LSC.Internal.SHA1.Block_Type;
+      Length  : in     LSC.Internal.SHA1.Block_Length_Type)
    is
    begin
       OpenSSL.C_SHA1_Update (Context.C_Context'Unrestricted_Access,
@@ -222,7 +222,7 @@ package body OpenSSL is
 
    function SHA1_Get_Hash
      (Context : in SHA1_Context_Type)
-      return LSC.SHA1.Hash_Type
+      return LSC.Internal.SHA1.Hash_Type
    is
    begin
       return Context.Hash;
@@ -242,7 +242,7 @@ package body OpenSSL is
 
    procedure SHA256_Context_Update
       (Context : in out SHA256_Context_Type;
-       Block   : in     LSC.SHA256.Block_Type)
+       Block   : in     LSC.Internal.SHA256.Block_Type)
    is
    begin
       OpenSSL.C_SHA256_Update (Context.C_Context'Unrestricted_Access,
@@ -254,8 +254,8 @@ package body OpenSSL is
 
    procedure SHA256_Context_Finalize
       (Context : in out SHA256_Context_Type;
-       Block   : in     LSC.SHA256.Block_Type;
-       Length  : in     LSC.SHA256.Block_Length_Type)
+       Block   : in     LSC.Internal.SHA256.Block_Type;
+       Length  : in     LSC.Internal.SHA256.Block_Length_Type)
    is
    begin
       OpenSSL.C_SHA256_Update (Context.C_Context'Unrestricted_Access,
@@ -268,7 +268,7 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function SHA256_Get_Hash (Context : in SHA256_Context_Type)
-      return LSC.SHA256.SHA256_Hash_Type
+      return LSC.Internal.SHA256.SHA256_Hash_Type
    is
    begin
       return Context.Hash;
@@ -288,7 +288,7 @@ package body OpenSSL is
 
    procedure SHA384_Context_Update
       (Context : in out SHA384_Context_Type;
-       Block   : in     LSC.SHA512.Block_Type)
+       Block   : in     LSC.Internal.SHA512.Block_Type)
    is
    begin
       OpenSSL.C_SHA384_Update (Context.C_Context'Unrestricted_Access,
@@ -300,8 +300,8 @@ package body OpenSSL is
 
    procedure SHA384_Context_Finalize
       (Context : in out SHA384_Context_Type;
-       Block   : in     LSC.SHA512.Block_Type;
-       Length  : in     LSC.SHA512.Block_Length_Type)
+       Block   : in     LSC.Internal.SHA512.Block_Type;
+       Length  : in     LSC.Internal.SHA512.Block_Length_Type)
    is
    begin
       OpenSSL.C_SHA384_Update (Context.C_Context'Unrestricted_Access,
@@ -314,7 +314,7 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function SHA384_Get_Hash (Context : in SHA384_Context_Type)
-      return LSC.SHA512.SHA384_Hash_Type
+      return LSC.Internal.SHA512.SHA384_Hash_Type
    is
    begin
       return Context.Hash;
@@ -334,7 +334,7 @@ package body OpenSSL is
 
    procedure SHA512_Context_Update
       (Context : in out SHA512_Context_Type;
-       Block   : in     LSC.SHA512.Block_Type)
+       Block   : in     LSC.Internal.SHA512.Block_Type)
    is
    begin
       OpenSSL.C_SHA512_Update (Context.C_Context'Unrestricted_Access,
@@ -346,8 +346,8 @@ package body OpenSSL is
 
    procedure SHA512_Context_Finalize
       (Context : in out SHA512_Context_Type;
-       Block   : in     LSC.SHA512.Block_Type;
-       Length  : in     LSC.SHA512.Block_Length_Type)
+       Block   : in     LSC.Internal.SHA512.Block_Type;
+       Length  : in     LSC.Internal.SHA512.Block_Length_Type)
    is
    begin
       OpenSSL.C_SHA512_Update (Context.C_Context'Unrestricted_Access,
@@ -360,7 +360,7 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function SHA512_Get_Hash (Context : in SHA512_Context_Type)
-      return LSC.SHA512.SHA512_Hash_Type
+      return LSC.Internal.SHA512.SHA512_Hash_Type
    is
    begin
       return Context.Hash;
@@ -380,7 +380,7 @@ package body OpenSSL is
 
    procedure RIPEMD160_Context_Update
       (Context : in out RIPEMD160_Context_Type;
-       Block   : in     LSC.RIPEMD160.Block_Type)
+       Block   : in     LSC.Internal.RIPEMD160.Block_Type)
    is
    begin
       OpenSSL.C_RIPEMD160_Update (Context.C_Context'Unrestricted_Access,
@@ -392,8 +392,8 @@ package body OpenSSL is
 
    procedure RIPEMD160_Context_Finalize
       (Context : in out RIPEMD160_Context_Type;
-       Block   : in     LSC.RIPEMD160.Block_Type;
-       Length  : in     LSC.RIPEMD160.Block_Length_Type)
+       Block   : in     LSC.Internal.RIPEMD160.Block_Type;
+       Length  : in     LSC.Internal.RIPEMD160.Block_Length_Type)
    is
    begin
       OpenSSL.C_RIPEMD160_Update (Context.C_Context'Unrestricted_Access,
@@ -406,7 +406,7 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function RIPEMD160_Get_Hash (Context : in RIPEMD160_Context_Type)
-      return LSC.RIPEMD160.Hash_Type
+      return LSC.Internal.RIPEMD160.Hash_Type
    is
    begin
       return Context.Hash;
@@ -415,11 +415,11 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Authenticate_SHA1
-     (Key     : LSC.SHA1.Block_Type;
+     (Key     : LSC.Internal.SHA1.Block_Type;
       Message : SHA1_Message_Type;
-      Length  : LSC.Types.Word64) return LSC.SHA1.Hash_Type
+      Length  : LSC.Internal.Types.Word64) return LSC.Internal.SHA1.Hash_Type
    is
-      Temp_Digest : LSC.SHA1.Hash_Type;
+      Temp_Digest : LSC.Internal.SHA1.Hash_Type;
    begin
       C_Authenticate_SHA1
         (Key'Unrestricted_Access,
@@ -432,11 +432,11 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Authenticate_SHA256
-      (Key     : LSC.SHA256.Block_Type;
+      (Key     : LSC.Internal.SHA256.Block_Type;
        Message : SHA256_Message_Type;
-       Length  : LSC.Types.Word64) return LSC.HMAC_SHA256.Auth_Type
+       Length  : LSC.Internal.Types.Word64) return LSC.Internal.HMAC_SHA256.Auth_Type
    is
-      Temp_Digest : LSC.HMAC_SHA256.Auth_Type;
+      Temp_Digest : LSC.Internal.HMAC_SHA256.Auth_Type;
    begin
       C_Authenticate_SHA256
         (Key'Unrestricted_Access,
@@ -449,11 +449,11 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Authenticate_SHA384
-      (Key     : LSC.SHA512.Block_Type;
+      (Key     : LSC.Internal.SHA512.Block_Type;
        Message : SHA512_Message_Type;
-       Length  : LSC.Types.Word64) return LSC.HMAC_SHA384.Auth_Type
+       Length  : LSC.Internal.Types.Word64) return LSC.Internal.HMAC_SHA384.Auth_Type
    is
-      Temp_Digest : LSC.HMAC_SHA384.Auth_Type;
+      Temp_Digest : LSC.Internal.HMAC_SHA384.Auth_Type;
    begin
       C_Authenticate_SHA384
         (Key'Unrestricted_Access,
@@ -466,11 +466,11 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Authenticate_SHA512
-      (Key     : LSC.SHA512.Block_Type;
+      (Key     : LSC.Internal.SHA512.Block_Type;
        Message : SHA512_Message_Type;
-       Length  : LSC.Types.Word64) return LSC.HMAC_SHA512.Auth_Type
+       Length  : LSC.Internal.Types.Word64) return LSC.Internal.HMAC_SHA512.Auth_Type
    is
-      Temp_Digest : LSC.HMAC_SHA512.Auth_Type;
+      Temp_Digest : LSC.Internal.HMAC_SHA512.Auth_Type;
    begin
       C_Authenticate_SHA512
         (Key'Unrestricted_Access,
@@ -483,11 +483,11 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    function Authenticate_RMD160
-      (Key     : LSC.RIPEMD160.Block_Type;
+      (Key     : LSC.Internal.RIPEMD160.Block_Type;
        Message : RMD160_Message_Type;
-       Length  : LSC.Types.Word64) return LSC.RIPEMD160.Hash_Type
+       Length  : LSC.Internal.Types.Word64) return LSC.Internal.RIPEMD160.Hash_Type
    is
-      Temp_Digest : LSC.RIPEMD160.Hash_Type;
+      Temp_Digest : LSC.Internal.RIPEMD160.Hash_Type;
    begin
       C_Authenticate_RMD160
         (Key'Unrestricted_Access,
@@ -500,20 +500,20 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    procedure RSA_Public_Encrypt
-     (M       : in     LSC.Bignum.Big_Int;
-      E       : in     LSC.Bignum.Big_Int;
-      P       : in     LSC.Bignum.Big_Int;
-      C       :    out LSC.Bignum.Big_Int;
+     (M       : in     LSC.Internal.Bignum.Big_Int;
+      E       : in     LSC.Internal.Bignum.Big_Int;
+      P       : in     LSC.Internal.Bignum.Big_Int;
+      C       :    out LSC.Internal.Bignum.Big_Int;
       Success :    out Boolean)
    is
-      Result : LSC.Types.Word64;
+      Result : LSC.Internal.Types.Word64;
    begin
       C := (others => 0);
       C_RSA_Public_Encrypt
         (M        => M'Address,
-         M_Length => LSC.Types.Word64 (4 * M'Length),
+         M_Length => LSC.Internal.Types.Word64 (4 * M'Length),
          E        => E'Address,
-         E_Length => LSC.Types.Word64 (4 * E'Length),
+         E_Length => LSC.Internal.Types.Word64 (4 * E'Length),
          P        => P'Address,
          C        => C'Address,
          Result   => Result'Address);
@@ -523,23 +523,23 @@ package body OpenSSL is
    ----------------------------------------------------------------------------
 
    procedure RSA_Private_Decrypt
-     (M       : in     LSC.Bignum.Big_Int;
-      E       : in     LSC.Bignum.Big_Int;
-      D       : in     LSC.Bignum.Big_Int;
-      C       : in     LSC.Bignum.Big_Int;
-      P       :    out LSC.Bignum.Big_Int;
+     (M       : in     LSC.Internal.Bignum.Big_Int;
+      E       : in     LSC.Internal.Bignum.Big_Int;
+      D       : in     LSC.Internal.Bignum.Big_Int;
+      C       : in     LSC.Internal.Bignum.Big_Int;
+      P       :    out LSC.Internal.Bignum.Big_Int;
       Success :    out Boolean)
    is
-      Result : LSC.Types.Word64;
+      Result : LSC.Internal.Types.Word64;
    begin
       P := (others => 0);
       C_RSA_Private_Decrypt
         (M        => M'Address,
-         M_Length => LSC.Types.Word64 (4 * M'Length),
+         M_Length => LSC.Internal.Types.Word64 (4 * M'Length),
          E        => E'Address,
-         E_Length => LSC.Types.Word64 (4 * E'Length),
+         E_Length => LSC.Internal.Types.Word64 (4 * E'Length),
          D        => D'Address,
-         D_Length => LSC.Types.Word64 (4 * D'Length),
+         D_Length => LSC.Internal.Types.Word64 (4 * D'Length),
          C        => C'Address,
          P        => P'Address,
          Result   => Result'Address);

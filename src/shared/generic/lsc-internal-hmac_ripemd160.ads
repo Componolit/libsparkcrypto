@@ -32,11 +32,71 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
--------------------------------------------------------------------------------
--- Base package of libsparkcrypto
--------------------------------------------------------------------------------
-package LSC is
+with LSC.Internal.RIPEMD160, LSC.Internal.Types;
 
-   pragma Pure;
+use type LSC.Internal.Types.Word32;
+use type LSC.Internal.Types.Word64;
 
-end LSC;
+-------------------------------------------------------------------------------
+-- The HMAC-RIPEMD-160 message authentication
+--
+-- <ul>
+-- <li>
+-- <a href="http://www.faqs.org/rfcs/rfc2286.html">
+-- J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
+-- February 1998. </a>
+-- </li>
+-- </ul>
+-------------------------------------------------------------------------------
+package LSC.Internal.HMAC_RIPEMD160 is
+
+   pragma Preelaborate;
+
+   -- HMAC-RIPEMD-160 context
+   type Context_Type is private;
+
+   -- Initialize HMAC-RIPEMD-160 context using @Key@.
+   function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type;
+
+   -- Update HMAC-RIPEMD-160 @Context@ with message block @Block@.
+   procedure Context_Update
+     (Context : in out Context_Type;
+      Block   : in     RIPEMD160.Block_Type)
+     with
+       Depends => (Context =>+ Block);
+   pragma Inline (Context_Update);
+
+   -- Finalize HMAC-RIPEMD-160 @Context@ using @Length@ bits of final message
+   -- block @Block@.
+   --
+   procedure Context_Finalize
+     (Context : in out Context_Type;
+      Block   : in     RIPEMD160.Block_Type;
+      Length  : in     RIPEMD160.Block_Length_Type)
+     with Depends => (Context =>+ (Block, Length));
+   pragma Inline (Context_Finalize);
+
+   -- Get authentication value from @Context@
+   function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type;
+
+   -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
+   -- return the authentication value.
+   --
+   function Authenticate
+      (Key     : RIPEMD160.Block_Type;
+       Message : RIPEMD160.Message_Type;
+       Length  : Types.Word64) return RIPEMD160.Hash_Type
+     with
+       Pre =>
+         Message'First <= Message'Last and
+         Length / RIPEMD160.Block_Size +
+         (if Length mod RIPEMD160.Block_Size = 0 then 0 else 1) <= Message'Length;
+
+private
+
+   type Context_Type is record
+      RIPEMD160_Context : RIPEMD160.Context_Type;
+      Key               : RIPEMD160.Block_Type;
+   end record;
+
+end LSC.Internal.HMAC_RIPEMD160;

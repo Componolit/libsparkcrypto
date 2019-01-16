@@ -32,45 +32,15 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
-
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
+-------------------------------------------------------------------------------
+-- Debug package
+--
+-- Debug is done through Debug pragmas. As the compiler has to with the debug
+-- package to make it available to this pragma, this is an empty package which
+-- makes the SPARK Examiner accept the respective with clause. Debug functions,
+-- however, cannot (and should not) be use from within SPARK.
+-------------------------------------------------------------------------------
+package LSC.Internal.Debug
 is
-
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
-
-   ---------------------------------------------------------------------------
-
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
-
-   ---------------------------------------------------------------------------
-
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
-
-   ---------------------------------------------------------------------------
-
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+   pragma Preelaborate;
+end LSC.Internal.Debug;

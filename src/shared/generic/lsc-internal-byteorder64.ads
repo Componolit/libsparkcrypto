@@ -33,44 +33,28 @@
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
+-------------------------------------------------------------------------------
+-- Byte order conversion for 64-bit words
+-------------------------------------------------------------------------------
+package LSC.Internal.Byteorder64 is
 
-package body LSC_Test_Shadow
-is
+   pragma Pure;
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+   -- Convert 64-bit word @Item@ from native byte order to big endian
+   function Native_To_BE (Item : Types.Word64) return Types.Word64;
+   pragma Inline (Native_To_BE);
 
-   ---------------------------------------------------------------------------
+   -- Convert 64-bit word @Item@ from native byte order to little endian
+   function Native_To_LE (Item : Types.Word64) return Types.Word64;
+   pragma Inline (Native_To_LE);
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+   -- Convert 64-bit word @Item@ from big endian to native byte order
+   function BE_To_Native (Item : Types.Word64) return Types.Word64;
+   pragma Inline (BE_To_Native);
 
-   ---------------------------------------------------------------------------
+   -- Convert 64-bit word @Item@ from little endian to native byte order
+   function LE_To_Native (Item : Types.Word64) return Types.Word64;
+   pragma Inline (LE_To_Native);
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
-
-   ---------------------------------------------------------------------------
-
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+end LSC.Internal.Byteorder64;

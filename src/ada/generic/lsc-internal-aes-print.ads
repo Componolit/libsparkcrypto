@@ -33,44 +33,33 @@
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+with LSC.Internal.AES;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
+private package LSC.Internal.AES.Print
+  with SPARK_Mode => Off
 is
+   pragma Preelaborate;
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+   procedure Print_Round (T : String;
+                          R : LSC.Internal.AES.Schedule_Index;
+                          B : LSC.Internal.AES.Block_Type);
 
-   ---------------------------------------------------------------------------
+   procedure Block
+      (Header : String;
+       Line   : String;
+       Block  : LSC.Internal.AES.Block_Type;
+       Index  : LSC.Internal.AES.Schedule_Index);
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+   procedure Header
+      (Initial_Schedule : Types.Word32_Array_Type);
 
-   ---------------------------------------------------------------------------
+   procedure Footer
+      (Final_Schedule : Types.Word32_Array_Type);
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+   procedure Index (I : Types.Index);
 
-   ---------------------------------------------------------------------------
+   procedure Row (I : Types.Word32);
 
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+   procedure Empty (N : Positive);
+
+end LSC.Internal.AES.Print;

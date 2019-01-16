@@ -33,44 +33,34 @@
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+use type LSC.Internal.Types.Word64;
+use type LSC.Internal.Types.Index;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
+-------------------------------------------------------------------------------
+-- Cryptographic padding for arrays of 64-bit words
+-------------------------------------------------------------------------------
+package LSC.Internal.Pad64
 is
+   pragma Pure;
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+   -- Terminate a Word64 array
+   --
+   -- The array @Block@ is terminated by setting the bit at (@Length@ + 1) to 1
+   -- and all following bits to 0.
+   --
+   procedure Block_Terminate
+     (Block  : in out Types.Word64_Array_Type;
+      Length : in     Types.Word64)
+   --
+   -- <strong> NOTE: The postcondition currently does not completely express
+   --          the intended behaviour of the operation! </strong>
+   --
+     with
+       Depends => (Block =>+ Length),
+       Pre =>
+         Length / 64 + 1 <= Block'Length,
+       Post =>
+         (for all I in Types.Index range
+            Block'First + Types.Index (Length / 64) + 1 .. Block'Last => (Block (I) = 0));
 
-   ---------------------------------------------------------------------------
-
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
-
-   ---------------------------------------------------------------------------
-
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
-
-   ---------------------------------------------------------------------------
-
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+end LSC.Internal.Pad64;

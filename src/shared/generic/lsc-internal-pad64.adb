@@ -32,45 +32,43 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
 with Interfaces;
+with LSC.Internal.Byteorder64;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
+package body LSC.Internal.Pad64 is
 
-package body LSC_Test_Shadow
-is
-
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   procedure Block_Terminate
+     (Block  : in out Types.Word64_Array_Type;
+      Length : in     Types.Word64)
    is
+      pragma Inline (Block_Terminate);
+      Temp   : Types.Word64;
+      Index  : Types.Index;
+      Offset : Natural;
    begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
 
-   ---------------------------------------------------------------------------
+      -- index of partial block
+      Index := Block'First + Types.Index (Length / 64);
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+      -- bit offset within the partial block
+      Offset := Natural (63 - Length mod 64);
 
-   ---------------------------------------------------------------------------
+      Temp := Byteorder64.Native_To_BE (Block (Index));
+      Temp := Temp and Interfaces.Shift_Left (not 0, Offset);
+      Temp := Temp  or Interfaces.Shift_Left (1, Offset);
+      Block (Index) := Byteorder64.BE_To_Native (Temp);
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+      if Index < Block'Last then
+         for I in Types.Index range (Index + 1) .. Block'Last
+         loop
+            Block (I) := 0;
+            pragma Loop_Invariant
+              ((for all P in Types.Index range
+                  Index + 1 .. I => (Block (P) = 0)) and
+               Index = Block'First + Types.Index (Length / 64));
+         end loop;
+      end if;
 
-   ---------------------------------------------------------------------------
+   end Block_Terminate;
 
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+end LSC.Internal.Pad64;

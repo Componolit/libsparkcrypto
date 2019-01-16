@@ -34,7 +34,7 @@
 -------------------------------------------------------------------------------
 
 with AUnit.Assertions; use AUnit.Assertions;
-with LSC.AES;
+with LSC.Internal.AES;
 with OpenSSL;
 
 package body LSC_Test_AES is
@@ -44,21 +44,21 @@ package body LSC_Test_AES is
    procedure Test_AES128_Decrypt (T : in out Test_Cases.Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+      type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key128                  : LSC.AES.AES128_Key_Type;
+      Key128                  : LSC.Internal.AES.AES128_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#1f1e1d1c#);
@@ -72,13 +72,13 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
+      Context2 := LSC.Internal.AES.Create_AES128_Dec_Context (Key128);
 
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+            Plain2 (I) := LSC.Internal.AES.Decrypt (Context2, Cipher (I));
          end loop;
       end loop;
 
@@ -91,21 +91,21 @@ package body LSC_Test_AES is
    procedure Test_AES128_Encrypt (T : in out Test_Cases.Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+      type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key128                  : LSC.AES.AES128_Key_Type;
+      Key128                  : LSC.Internal.AES.AES128_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
    begin
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#);
@@ -120,12 +120,12 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      Context2 := LSC.AES.Create_AES128_Enc_Context (Key128);
+      Context2 := LSC.Internal.AES.Create_AES128_Enc_Context (Key128);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+            Cipher2 (I) := LSC.Internal.AES.Encrypt (Context2, Plain (I));
          end loop;
       end loop;
 
@@ -138,21 +138,21 @@ package body LSC_Test_AES is
    procedure Test_AES192_Decrypt (T : in out Test_Cases.Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+      type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key192                  : LSC.AES.AES192_Key_Type;
+      Key192                  : LSC.Internal.AES.AES192_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#13121110#,
                                           16#17161514#,
@@ -168,12 +168,12 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      Context2 := LSC.AES.Create_AES192_Dec_Context (Key192);
+      Context2 := LSC.Internal.AES.Create_AES192_Dec_Context (Key192);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+            Plain2 (I) := LSC.Internal.AES.Decrypt (Context2, Cipher (I));
          end loop;
       end loop;
 
@@ -186,21 +186,21 @@ package body LSC_Test_AES is
    procedure Test_AES192_Encrypt (T : in out Test_Cases.Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+      type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key192                  : LSC.AES.AES192_Key_Type;
+      Key192                  : LSC.Internal.AES.AES192_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
    begin
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#07060504#,
                                           16#0b0a0908#,
@@ -216,12 +216,12 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
+      Context2 := LSC.Internal.AES.Create_AES192_Enc_Context (Key192);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+            Cipher2 (I) := LSC.Internal.AES.Encrypt (Context2, Plain (I));
          end loop;
       end loop;
 
@@ -234,21 +234,21 @@ package body LSC_Test_AES is
    procedure Test_AES256_Decrypt (T : in out Test_Cases.Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+      type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key256                  : LSC.AES.AES256_Key_Type;
+      Key256                  : LSC.Internal.AES.AES256_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#,
@@ -266,12 +266,12 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      Context2 := LSC.AES.Create_AES256_Dec_Context (Key256);
+      Context2 := LSC.Internal.AES.Create_AES256_Dec_Context (Key256);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+            Plain2 (I) := LSC.Internal.AES.Decrypt (Context2, Cipher (I));
          end loop;
       end loop;
 
@@ -284,21 +284,21 @@ package body LSC_Test_AES is
    procedure Test_AES256_Encrypt (T : in out Test_Cases.Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      type Message_Type is array (Message_Index) of LSC.AES.Block_Type;
+      type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key256                  : LSC.AES.AES256_Key_Type;
+      Key256                  : LSC.Internal.AES.AES256_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
    begin
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#,
@@ -316,12 +316,12 @@ package body LSC_Test_AES is
          end loop;
       end loop;
 
-      Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
+      Context2 := LSC.Internal.AES.Create_AES256_Enc_Context (Key256);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+            Cipher2 (I) := LSC.Internal.AES.Encrypt (Context2, Plain (I));
          end loop;
       end loop;
 

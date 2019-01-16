@@ -32,12 +32,12 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
-with LSC.Bignum;
+with LSC.Internal.Types;
+with LSC.Internal.Bignum;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
 
-use type LSC.Bignum.Big_Int;
+use type LSC.Internal.Bignum.Big_Int;
 
 package body LSC_Test_Bignum
 is
@@ -49,10 +49,10 @@ is
    subtype Pub_Exp_Range is Natural range 0 .. 0;
    subtype Window_Aux_Range is Natural range 0 .. 128 * (2 ** Window_Size) - 1;
 
-   subtype LInt_Small is LSC.Bignum.Big_Int (Mod_Range_Small);
-   subtype LInt is LSC.Bignum.Big_Int (Mod_Range);
-   subtype SInt is LSC.Bignum.Big_Int (Pub_Exp_Range);
-   subtype Window_Aux is LSC.Bignum.Big_Int (Window_Aux_Range);
+   subtype LInt_Small is LSC.Internal.Bignum.Big_Int (Mod_Range_Small);
+   subtype LInt is LSC.Internal.Bignum.Big_Int (Mod_Range);
+   subtype SInt is LSC.Internal.Bignum.Big_Int (Pub_Exp_Range);
+   subtype Window_Aux is LSC.Internal.Bignum.Big_Int (Window_Aux_Range);
 
    Pub_Exp : constant SInt := SInt'(0 => 16#00010001#);
 
@@ -151,7 +151,7 @@ is
    procedure Test_RSA2048 (T : in out Test_Cases.Test_Case'Class)
    is
       Aux1, Aux2, Aux3, R : LInt;
-      M_Inv : LSC.Types.Word32;
+      M_Inv : LSC.Internal.Types.Word32;
       Aux4 : Window_Aux;
       Plain1_Small, OpenSSL_Plain1_Small : LInt_Small;
       Plain2_Small, Plain3_Small, OpenSSL_Plain2_Small : LInt_Small;
@@ -160,26 +160,26 @@ is
       OpenSSL_Pub_Exp : SInt;
       Success_Enc, Success_Dec : Boolean;
    begin
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
       -- Create original data
       for I in Natural range Modulus_Small'Range
       loop
-         Plain1_Small (I) := LSC.Types.Word32 (I);
+         Plain1_Small (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
       -- Convert modulus, exponent and plaintext to format expected by OpenSSL
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp_Small, Priv_Exp_Small'First, Priv_Exp_Small'Last,
          OpenSSL_Priv_Exp_Small, OpenSSL_Priv_Exp_Small'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Modulus_Small, Modulus_Small'First, Modulus_Small'Last,
          OpenSSL_Modulus_Small, OpenSSL_Modulus_Small'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Plain1_Small, Plain1_Small'First, Plain1_Small'Last,
          OpenSSL_Plain1_Small, OpenSSL_Plain1_Small'First);
 
@@ -198,16 +198,16 @@ is
          OpenSSL_Plain2_Small,
          Success_Dec);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Cipher_Small, OpenSSL_Cipher_Small'First, OpenSSL_Cipher_Small'Last,
          Cipher2_Small, Cipher2_Small'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Plain2_Small, OpenSSL_Plain2_Small'First, OpenSSL_Plain2_Small'Last,
          Plain3_Small, Plain3_Small'First);
 
       -- Precompute R^2 mod m
-      LSC.Bignum.Size_Square_Mod
+      LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus_Small,
          M_First => Modulus_Small'First,
          M_Last  => Modulus_Small'Last,
@@ -215,10 +215,10 @@ is
          R_First => R'First);
 
       -- Precompute inverse
-      M_Inv := LSC.Bignum.Word_Inverse (Modulus_Small (Modulus_Small'First));
+      M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus_Small (Modulus_Small'First));
 
       -- Encrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1_Small,
          A_First    => Cipher1_Small'First,
          A_Last     => Cipher1_Small'Last,
@@ -243,7 +243,7 @@ is
          M_Inv      => M_Inv);
 
       -- Decrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2_Small,
          A_First    => Plain2_Small'First,
          A_Last     => Plain2_Small'Last,
@@ -286,29 +286,29 @@ is
       OpenSSL_Pub_Exp : SInt;
       Aux1, Aux2, Aux3, R : LInt;
       Aux4 : Window_Aux;
-      M_Inv : LSC.Types.Word32;
+      M_Inv : LSC.Internal.Types.Word32;
       Success_Enc, Success_Dec : Boolean;
    begin
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
       -- Create original data
       for I in Natural range Modulus'Range
       loop
-         Plain1 (I) := LSC.Types.Word32 (I);
+         Plain1 (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
       -- Convert modulus, exponent and plaintext to format expected by OpenSSL
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp, Priv_Exp'First, Priv_Exp'Last,
          OpenSSL_Priv_Exp, OpenSSL_Priv_Exp'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Modulus, Modulus'First, Modulus'Last,
          OpenSSL_Modulus, OpenSSL_Modulus'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Plain1, Plain1'First, Plain1'Last,
          OpenSSL_Plain1, OpenSSL_Plain1'First);
 
@@ -327,16 +327,16 @@ is
          OpenSSL_Plain2,
          Success_Dec);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Cipher, OpenSSL_Cipher'First, OpenSSL_Cipher'Last,
          Cipher2, Cipher2'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Plain2, OpenSSL_Plain2'First, OpenSSL_Plain2'Last,
          Plain3, Plain3'First);
 
       -- Precompute R^2 mod m
-      LSC.Bignum.Size_Square_Mod
+      LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus,
          M_First => Modulus'First,
          M_Last  => Modulus'Last,
@@ -344,10 +344,10 @@ is
          R_First => R'First);
 
       -- Precompute inverse
-      M_Inv := LSC.Bignum.Word_Inverse (Modulus (Modulus'First));
+      M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus (Modulus'First));
 
       -- Encrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1,
          A_First    => Cipher1'First,
          A_Last     => Cipher1'Last,
@@ -372,7 +372,7 @@ is
          M_Inv      => M_Inv);
 
       -- Decrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2,
          A_First    => Plain2'First,
          A_Last     => Plain2'Last,

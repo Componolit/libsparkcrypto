@@ -32,45 +32,48 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+with Ada.Unchecked_Conversion;
 
-use type Interfaces.Unsigned_32;
-use type Interfaces.Unsigned_64;
-
-package body LSC_Test_Shadow
+package body LSC.Internal.Types
+  with SPARK_Mode => Off
 is
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type
    is
+      function W322W8A is new Ada.Unchecked_Conversion
+        (Word32, Byte_Array32_Type);
    begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+      return W322W8A (Value);
+   end Word32_To_Byte_Array32;
 
-   ---------------------------------------------------------------------------
+   ----------------------------------------------------------------------------
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
+   function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32
    is
+      function W8A2W32 is new Ada.Unchecked_Conversion
+        (Byte_Array32_Type, Word32);
    begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+      return W8A2W32 (Value);
+   end Byte_Array32_To_Word32;
 
-   ---------------------------------------------------------------------------
+   ----------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
+   function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type
+   is
+      function W642W8A is new Ada.Unchecked_Conversion
+        (Word64, Byte_Array64_Type);
    begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+      return W642W8A (Value);
+   end Word64_To_Byte_Array64;
 
-   ---------------------------------------------------------------------------
+   ----------------------------------------------------------------------------
 
-   function Name (T : Test_Case) return Test_String is
+   function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64
+   is
+      function W8A2W64 is new Ada.Unchecked_Conversion
+        (Byte_Array64_Type, Word64);
    begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+      return W8A2W64 (Value);
+   end Byte_Array64_To_Word64;
+
+end LSC.Internal.Types;

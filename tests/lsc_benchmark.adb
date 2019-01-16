@@ -34,27 +34,27 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
-with LSC.RIPEMD160;
-with LSC.SHA1;
-with LSC.SHA256;
-with LSC.SHA512;
-with LSC.AES.CBC;
-with LSC.HMAC_RIPEMD160;
-with LSC.HMAC_SHA1;
-with LSC.HMAC_SHA256;
-with LSC.HMAC_SHA384;
-with LSC.HMAC_SHA512;
-with LSC.Bignum;
+with LSC.Internal.Types;
+with LSC.Internal.RIPEMD160;
+with LSC.Internal.SHA1;
+with LSC.Internal.SHA256;
+with LSC.Internal.SHA512;
+with LSC.Internal.AES.CBC;
+with LSC.Internal.HMAC_RIPEMD160;
+with LSC.Internal.HMAC_SHA1;
+with LSC.Internal.HMAC_SHA256;
+with LSC.Internal.HMAC_SHA384;
+with LSC.Internal.HMAC_SHA512;
+with LSC.Internal.Bignum;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
 with AUnit.Test_Results; use AUnit.Test_Results;
 with Interfaces;
 
-use type LSC.Types.Word32_Array_Type;
-use type LSC.Types.Word64_Array_Type;
-use type LSC.AES.Message_Type;
-use type LSC.Bignum.Big_Int;
+use type LSC.Internal.Types.Word32_Array_Type;
+use type LSC.Internal.Types.Word64_Array_Type;
+use type LSC.Internal.AES.Message_Type;
+use type LSC.Internal.Bignum.Big_Int;
 use type Interfaces.Unsigned_32;
 
 package body LSC_Benchmark
@@ -75,14 +75,14 @@ is
 
    procedure Benchmark_RIPEMD160 (T : in out Test_Case'Class)
    is
-      Block1, Block2       : LSC.RIPEMD160.Block_Type;
+      Block1, Block2       : LSC.Internal.RIPEMD160.Block_Type;
       RIPEMD160_Context1   : OpenSSL.RIPEMD160_Context_Type;
-      RIPEMD160_Context2   : LSC.RIPEMD160.Context_Type;
-      H1, H2               : LSC.RIPEMD160.Hash_Type;
+      RIPEMD160_Context2   : LSC.Internal.RIPEMD160.Context_Type;
+      H1, H2               : LSC.Internal.RIPEMD160.Hash_Type;
    begin
 
-      Block1  := LSC.RIPEMD160.Block_Type'(others => 16#cafebabe#);
-      Block2  := LSC.RIPEMD160.Block_Type'(others => 16#00636261#);
+      Block1  := LSC.Internal.RIPEMD160.Block_Type'(others => 16#cafebabe#);
+      Block2  := LSC.Internal.RIPEMD160.Block_Type'(others => 16#00636261#);
 
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 200000
@@ -97,11 +97,11 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 200000
       loop
-         RIPEMD160_Context2 := LSC.RIPEMD160.Context_Init;
-         LSC.RIPEMD160.Context_Update (RIPEMD160_Context2, Block1);
-         LSC.RIPEMD160.Context_Finalize (RIPEMD160_Context2, Block2, 56);
+         RIPEMD160_Context2 := LSC.Internal.RIPEMD160.Context_Init;
+         LSC.Internal.RIPEMD160.Context_Update (RIPEMD160_Context2, Block1);
+         LSC.Internal.RIPEMD160.Context_Finalize (RIPEMD160_Context2, Block2, 56);
       end loop;
-      H2 := LSC.RIPEMD160.Get_Hash (RIPEMD160_Context2);
+      H2 := LSC.Internal.RIPEMD160.Get_Hash (RIPEMD160_Context2);
       T.Test_Stop := Clock;
 
       Assert (H1 = H2, "Invalid hash");
@@ -112,13 +112,13 @@ is
 
    procedure Benchmark_SHA1 (T : in out Test_Case'Class)
    is
-      Block1, Block2 : LSC.SHA1.Block_Type;
+      Block1, Block2 : LSC.Internal.SHA1.Block_Type;
       SHA1_Context1  : OpenSSL.SHA1_Context_Type;
-      SHA1_Context2  : LSC.SHA1.Context_Type;
-      H1, H2         : LSC.SHA1.Hash_Type;
+      SHA1_Context2  : LSC.Internal.SHA1.Context_Type;
+      H1, H2         : LSC.Internal.SHA1.Hash_Type;
    begin
-      Block1 := LSC.SHA1.Block_Type'(others => 16#cafebabe#);
-      Block2 := LSC.SHA1.Block_Type'(others => 16#00636261#);
+      Block1 := LSC.Internal.SHA1.Block_Type'(others => 16#cafebabe#);
+      Block2 := LSC.Internal.SHA1.Block_Type'(others => 16#00636261#);
 
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 500000
@@ -133,11 +133,11 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 500000
       loop
-         SHA1_Context2 := LSC.SHA1.Context_Init;
-         LSC.SHA1.Context_Update (SHA1_Context2, Block1);
-         LSC.SHA1.Context_Finalize (SHA1_Context2, Block2, 56);
+         SHA1_Context2 := LSC.Internal.SHA1.Context_Init;
+         LSC.Internal.SHA1.Context_Update (SHA1_Context2, Block1);
+         LSC.Internal.SHA1.Context_Finalize (SHA1_Context2, Block2, 56);
       end loop;
-      H2 := LSC.SHA1.Get_Hash (SHA1_Context2);
+      H2 := LSC.Internal.SHA1.Get_Hash (SHA1_Context2);
       T.Test_Stop := Clock;
 
       Assert (H1 = H2, "Invalid hash");
@@ -148,13 +148,13 @@ is
 
    procedure Benchmark_SHA256 (T : in out Test_Case'Class)
    is
-      Block1, Block2  : LSC.SHA256.Block_Type;
+      Block1, Block2  : LSC.Internal.SHA256.Block_Type;
       SHA256_Context1 : OpenSSL.SHA256_Context_Type;
-      SHA256_Context2 : LSC.SHA256.Context_Type;
-      H1, H2          : LSC.SHA256.SHA256_Hash_Type;
+      SHA256_Context2 : LSC.Internal.SHA256.Context_Type;
+      H1, H2          : LSC.Internal.SHA256.SHA256_Hash_Type;
    begin
-      Block1  := LSC.SHA256.Block_Type'(others => 16#cafebabe#);
-      Block2  := LSC.SHA256.Block_Type'(others => 16#00636261#);
+      Block1  := LSC.Internal.SHA256.Block_Type'(others => 16#cafebabe#);
+      Block2  := LSC.Internal.SHA256.Block_Type'(others => 16#00636261#);
 
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 500000
@@ -169,11 +169,11 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 500000
       loop
-         SHA256_Context2 := LSC.SHA256.SHA256_Context_Init;
-         LSC.SHA256.Context_Update (SHA256_Context2, Block1);
-         LSC.SHA256.Context_Finalize (SHA256_Context2, Block2, 56);
+         SHA256_Context2 := LSC.Internal.SHA256.SHA256_Context_Init;
+         LSC.Internal.SHA256.Context_Update (SHA256_Context2, Block1);
+         LSC.Internal.SHA256.Context_Finalize (SHA256_Context2, Block2, 56);
       end loop;
-      H2 := LSC.SHA256.SHA256_Get_Hash (SHA256_Context2);
+      H2 := LSC.Internal.SHA256.SHA256_Get_Hash (SHA256_Context2);
       T.Test_Stop := Clock;
 
       Assert (H1 = H2, "Invalid hash");
@@ -184,13 +184,13 @@ is
 
    procedure Benchmark_SHA384 (T : in out Test_Case'Class)
    is
-      Block1, Block2  : LSC.SHA512.Block_Type;
+      Block1, Block2  : LSC.Internal.SHA512.Block_Type;
       SHA384_Context1 : OpenSSL.SHA384_Context_Type;
-      SHA384_Context2 : LSC.SHA512.Context_Type;
-      H1, H2          : LSC.SHA512.SHA384_Hash_Type;
+      SHA384_Context2 : LSC.Internal.SHA512.Context_Type;
+      H1, H2          : LSC.Internal.SHA512.SHA384_Hash_Type;
    begin
-      Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
-      Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
+      Block1  := LSC.Internal.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
+      Block2  := LSC.Internal.SHA512.Block_Type'(others => 16#0000000000636261#);
 
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 500000
@@ -205,11 +205,11 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 500000
       loop
-         SHA384_Context2 := LSC.SHA512.SHA384_Context_Init;
-         LSC.SHA512.Context_Update (SHA384_Context2, Block1);
-         LSC.SHA512.Context_Finalize (SHA384_Context2, Block2, 56);
+         SHA384_Context2 := LSC.Internal.SHA512.SHA384_Context_Init;
+         LSC.Internal.SHA512.Context_Update (SHA384_Context2, Block1);
+         LSC.Internal.SHA512.Context_Finalize (SHA384_Context2, Block2, 56);
       end loop;
-      H2 := LSC.SHA512.SHA384_Get_Hash (SHA384_Context2);
+      H2 := LSC.Internal.SHA512.SHA384_Get_Hash (SHA384_Context2);
       T.Test_Stop := Clock;
 
       Assert (H1 = H2, "Invalid hash");
@@ -220,13 +220,13 @@ is
 
    procedure Benchmark_SHA512 (T : in out Test_Case'Class)
    is
-      Block1, Block2  : LSC.SHA512.Block_Type;
+      Block1, Block2  : LSC.Internal.SHA512.Block_Type;
       SHA512_Context1 : OpenSSL.SHA512_Context_Type;
-      SHA512_Context2 : LSC.SHA512.Context_Type;
-      H1, H2          : LSC.SHA512.SHA512_Hash_Type;
+      SHA512_Context2 : LSC.Internal.SHA512.Context_Type;
+      H1, H2          : LSC.Internal.SHA512.SHA512_Hash_Type;
    begin
-      Block1  := LSC.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
-      Block2  := LSC.SHA512.Block_Type'(others => 16#0000000000636261#);
+      Block1  := LSC.Internal.SHA512.Block_Type'(others => 16#deadbeefcafebabe#);
+      Block2  := LSC.Internal.SHA512.Block_Type'(others => 16#0000000000636261#);
 
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 500000
@@ -241,11 +241,11 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 500000
       loop
-         SHA512_Context2 := LSC.SHA512.SHA512_Context_Init;
-         LSC.SHA512.Context_Update (SHA512_Context2, Block1);
-         LSC.SHA512.Context_Finalize (SHA512_Context2, Block2, 56);
+         SHA512_Context2 := LSC.Internal.SHA512.SHA512_Context_Init;
+         LSC.Internal.SHA512.Context_Update (SHA512_Context2, Block1);
+         LSC.Internal.SHA512.Context_Finalize (SHA512_Context2, Block2, 56);
       end loop;
-      H2 := LSC.SHA512.SHA512_Get_Hash (SHA512_Context2);
+      H2 := LSC.Internal.SHA512.SHA512_Get_Hash (SHA512_Context2);
       T.Test_Stop := Clock;
 
       Assert (H1 = H2, "Invalid hash");
@@ -256,21 +256,21 @@ is
    procedure Benchmark_AES128_Decrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key128                  : LSC.AES.AES128_Key_Type;
+      Key128                  : LSC.Internal.AES.AES128_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#1f1e1d1c#);
@@ -287,12 +287,12 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
+      Context2 := LSC.Internal.AES.Create_AES128_Dec_Context (Key128);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+            Plain2 (I) := LSC.Internal.AES.Decrypt (Context2, Cipher (I));
          end loop;
       end loop;
       T.Test_Stop := Clock;
@@ -306,28 +306,28 @@ is
    procedure Benchmark_AES128_CBC_Decrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key128                  : LSC.AES.AES128_Key_Type;
+      Key128                  : LSC.Internal.AES.AES128_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
-      IV                      : LSC.AES.Block_Type;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
+      IV                      : LSC.Internal.AES.Block_Type;
    begin
 
-      IV := LSC.AES.Block_Type'
+      IV := LSC.Internal.AES.Block_Type'
         (16#cafebabe#,
          16#deadbeef#,
          16#d00faffe#,
          16#12345678#);
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#1f1e1d1c#);
@@ -341,10 +341,10 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES128_Dec_Context (Key128);
+      Context2 := LSC.Internal.AES.Create_AES128_Dec_Context (Key128);
       for k in Natural range 1 .. 20
       loop
-         LSC.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
+         LSC.Internal.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
       end loop;
       T.Test_Stop := Clock;
 
@@ -357,21 +357,21 @@ is
    procedure Benchmark_AES128_Encrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key128                  : LSC.AES.AES128_Key_Type;
+      Key128                  : LSC.Internal.AES.AES128_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
    begin
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#);
@@ -388,12 +388,12 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES128_Enc_Context (Key128);
+      Context2 := LSC.Internal.AES.Create_AES128_Enc_Context (Key128);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+            Cipher2 (I) := LSC.Internal.AES.Encrypt (Context2, Plain (I));
          end loop;
       end loop;
       T.Test_Stop := Clock;
@@ -407,28 +407,28 @@ is
    procedure Benchmark_AES128_CBC_Encrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key128                  : LSC.AES.AES128_Key_Type;
+      Key128                  : LSC.Internal.AES.AES128_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
-      IV                      : LSC.AES.Block_Type;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
+      IV                      : LSC.Internal.AES.Block_Type;
    begin
 
-      IV := LSC.AES.Block_Type'
+      IV := LSC.Internal.AES.Block_Type'
         (16#cafebabe#,
          16#deadbeef#,
          16#d00faffe#,
          16#12345678#);
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.AES.AES128_Key_Type' (16#03020100#,
+      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#);
@@ -442,10 +442,10 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES128_Enc_Context (Key128);
+      Context2 := LSC.Internal.AES.Create_AES128_Enc_Context (Key128);
       for k in Natural range 1 .. 20
       loop
-         LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+         LSC.Internal.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
       end loop;
       T.Test_Stop := Clock;
 
@@ -458,21 +458,21 @@ is
    procedure Benchmark_AES192_Decrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key192                  : LSC.AES.AES192_Key_Type;
+      Key192                  : LSC.Internal.AES.AES192_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#13121110#,
                                           16#17161514#,
@@ -491,12 +491,12 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES192_Dec_Context (Key192);
+      Context2 := LSC.Internal.AES.Create_AES192_Dec_Context (Key192);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+            Plain2 (I) := LSC.Internal.AES.Decrypt (Context2, Cipher (I));
          end loop;
       end loop;
       T.Test_Stop := Clock;
@@ -510,28 +510,28 @@ is
    procedure Benchmark_AES192_CBC_Decrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key192                  : LSC.AES.AES192_Key_Type;
+      Key192                  : LSC.Internal.AES.AES192_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
-      IV                      : LSC.AES.Block_Type;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
+      IV                      : LSC.Internal.AES.Block_Type;
    begin
 
-      IV := LSC.AES.Block_Type'
+      IV := LSC.Internal.AES.Block_Type'
         (16#cafebabe#,
          16#deadbeef#,
          16#d00faffe#,
          16#12345678#);
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#13121110#,
                                           16#17161514#,
@@ -547,10 +547,10 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES192_Dec_Context (Key192);
+      Context2 := LSC.Internal.AES.Create_AES192_Dec_Context (Key192);
       for k in Natural range 1 .. 20
       loop
-         LSC.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
+         LSC.Internal.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
       end loop;
       T.Test_Stop := Clock;
 
@@ -563,21 +563,21 @@ is
    procedure Benchmark_AES192_Encrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key192                  : LSC.AES.AES192_Key_Type;
+      Key192                  : LSC.Internal.AES.AES192_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
    begin
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#07060504#,
                                           16#0b0a0908#,
@@ -596,12 +596,12 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
+      Context2 := LSC.Internal.AES.Create_AES192_Enc_Context (Key192);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+            Cipher2 (I) := LSC.Internal.AES.Encrypt (Context2, Plain (I));
          end loop;
       end loop;
       T.Test_Stop := Clock;
@@ -615,28 +615,28 @@ is
    procedure Benchmark_AES192_CBC_Encrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key192                  : LSC.AES.AES192_Key_Type;
+      Key192                  : LSC.Internal.AES.AES192_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
-      IV                      : LSC.AES.Block_Type;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
+      IV                      : LSC.Internal.AES.Block_Type;
    begin
 
-      IV := LSC.AES.Block_Type'
+      IV := LSC.Internal.AES.Block_Type'
         (16#cafebabe#,
          16#deadbeef#,
          16#d00faffe#,
          16#12345678#);
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.AES.AES192_Key_Type' (16#03020100#,
+      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#07060504#,
                                           16#0b0a0908#,
@@ -652,10 +652,10 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES192_Enc_Context (Key192);
+      Context2 := LSC.Internal.AES.Create_AES192_Enc_Context (Key192);
       for k in Natural range 1 .. 20
       loop
-         LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+         LSC.Internal.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
       end loop;
       T.Test_Stop := Clock;
 
@@ -668,21 +668,21 @@ is
    procedure Benchmark_AES256_Decrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key256                  : LSC.AES.AES256_Key_Type;
+      Key256                  : LSC.Internal.AES.AES256_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#,
@@ -703,12 +703,12 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES256_Dec_Context (Key256);
+      Context2 := LSC.Internal.AES.Create_AES256_Dec_Context (Key256);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Plain2 (I) := LSC.AES.Decrypt (Context2, Cipher (I));
+            Plain2 (I) := LSC.Internal.AES.Decrypt (Context2, Cipher (I));
          end loop;
       end loop;
       T.Test_Stop := Clock;
@@ -722,28 +722,28 @@ is
    procedure Benchmark_AES256_CBC_Decrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
-      Key256                  : LSC.AES.AES256_Key_Type;
+      Key256                  : LSC.Internal.AES.AES256_Key_Type;
       Context1                : OpenSSL.AES_Dec_Context_Type;
-      Context2                : LSC.AES.AES_Dec_Context;
-      IV                      : LSC.AES.Block_Type;
+      Context2                : LSC.Internal.AES.AES_Dec_Context;
+      IV                      : LSC.Internal.AES.Block_Type;
    begin
 
-      IV := LSC.AES.Block_Type'
+      IV := LSC.Internal.AES.Block_Type'
         (16#cafebabe#,
          16#deadbeef#,
          16#d00faffe#,
          16#12345678#);
 
       Cipher := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#,
@@ -761,10 +761,10 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES256_Dec_Context (Key256);
+      Context2 := LSC.Internal.AES.Create_AES256_Dec_Context (Key256);
       for k in Natural range 1 .. 20
       loop
-         LSC.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
+         LSC.Internal.AES.CBC.Decrypt (Context2, IV, Cipher, Cipher'Length, Plain2);
       end loop;
       T.Test_Stop := Clock;
 
@@ -777,21 +777,21 @@ is
    procedure Benchmark_AES256_Encrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key256                  : LSC.AES.AES256_Key_Type;
+      Key256                  : LSC.Internal.AES.AES256_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
    begin
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#,
@@ -812,12 +812,12 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
+      Context2 := LSC.Internal.AES.Create_AES256_Enc_Context (Key256);
       for k in Natural range 1 .. 20
       loop
          for I in Message_Index
          loop
-            Cipher2 (I) := LSC.AES.Encrypt (Context2, Plain (I));
+            Cipher2 (I) := LSC.Internal.AES.Encrypt (Context2, Plain (I));
          end loop;
       end loop;
       T.Test_Stop := Clock;
@@ -831,28 +831,28 @@ is
    procedure Benchmark_AES256_CBC_Encrypt (T : in out Test_Case'Class)
    is
       subtype Message_Index is Natural range 1 .. 100000;
-      subtype Message_Type is LSC.AES.Message_Type (Message_Index);
+      subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
-      Key256                  : LSC.AES.AES256_Key_Type;
+      Key256                  : LSC.Internal.AES.AES256_Key_Type;
       Context1                : OpenSSL.AES_Enc_Context_Type;
-      Context2                : LSC.AES.AES_Enc_Context;
-      IV                      : LSC.AES.Block_Type;
+      Context2                : LSC.Internal.AES.AES_Enc_Context;
+      IV                      : LSC.Internal.AES.Block_Type;
    begin
 
-      IV := LSC.AES.Block_Type'
+      IV := LSC.Internal.AES.Block_Type'
         (16#cafebabe#,
          16#deadbeef#,
          16#d00faffe#,
          16#12345678#);
 
       Plain := Message_Type'
-         (others => LSC.AES.Block_Type'(16#33221100#,
+         (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                         16#77665544#,
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.AES.AES256_Key_Type' (16#03020100#,
+      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
                                           16#07060504#,
                                           16#0b0a0908#,
                                           16#0f0e0d0c#,
@@ -870,10 +870,10 @@ is
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
-      Context2 := LSC.AES.Create_AES256_Enc_Context (Key256);
+      Context2 := LSC.Internal.AES.Create_AES256_Enc_Context (Key256);
       for k in Natural range 1 .. 20
       loop
-         LSC.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
+         LSC.Internal.AES.CBC.Encrypt (Context2, IV, Plain, Plain'Length, Cipher2);
       end loop;
       T.Test_Stop := Clock;
 
@@ -886,13 +886,13 @@ is
    procedure Benchmark_HMAC_RIPEMD160 (T : in out Test_Case'Class)
    is
       Message : constant OpenSSL.RMD160_Message_Type := OpenSSL.RMD160_Message_Type'
-         (others => LSC.RIPEMD160.Block_Type'(others => 16#dead_beef#));
+         (others => LSC.Internal.RIPEMD160.Block_Type'(others => 16#dead_beef#));
 
-      Key : constant LSC.RIPEMD160.Block_Type := LSC.RIPEMD160.Block_Type'
+      Key : constant LSC.Internal.RIPEMD160.Block_Type := LSC.Internal.RIPEMD160.Block_Type'
          (others => 16#c0deaffe#);
 
-      H1 : LSC.RIPEMD160.Hash_Type;
-      H2 : LSC.RIPEMD160.Hash_Type;
+      H1 : LSC.Internal.RIPEMD160.Hash_Type;
+      H2 : LSC.Internal.RIPEMD160.Hash_Type;
    begin
 
       T.Reference_Start := Clock;
@@ -905,7 +905,7 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_RIPEMD160.Authenticate (Key, Message, 10000);
       end loop;
       T.Test_Stop := Clock;
 
@@ -917,12 +917,12 @@ is
    procedure Benchmark_HMAC_SHA1 (T : in out Test_Case'Class)
    is
       Message : constant OpenSSL.SHA1_Message_Type := OpenSSL.SHA1_Message_Type'
-        (others => LSC.SHA1.Block_Type'(others => 16#dead_beef#));
+        (others => LSC.Internal.SHA1.Block_Type'(others => 16#dead_beef#));
 
-      Key     : constant LSC.SHA1.Block_Type := LSC.SHA1.Block_Type'(others => 16#c0deaffe#);
+      Key     : constant LSC.Internal.SHA1.Block_Type := LSC.Internal.SHA1.Block_Type'(others => 16#c0deaffe#);
 
-      H1      : LSC.SHA1.Hash_Type;
-      H2      : LSC.SHA1.Hash_Type;
+      H1      : LSC.Internal.SHA1.Hash_Type;
+      H2      : LSC.Internal.SHA1.Hash_Type;
    begin
 
       T.Reference_Start := Clock;
@@ -935,7 +935,7 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.HMAC_SHA1.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA1.Authenticate (Key, Message, 10000);
       end loop;
       T.Test_Stop := Clock;
 
@@ -947,13 +947,13 @@ is
    procedure Benchmark_HMAC_SHA256 (T : in out Test_Case'Class)
    is
       Message : constant OpenSSL.SHA256_Message_Type := OpenSSL.SHA256_Message_Type'
-         (others => LSC.SHA256.Block_Type'(others => 16#dead_beef#));
+         (others => LSC.Internal.SHA256.Block_Type'(others => 16#dead_beef#));
 
-      Key : constant LSC.SHA256.Block_Type := LSC.SHA256.Block_Type'
+      Key : constant LSC.Internal.SHA256.Block_Type := LSC.Internal.SHA256.Block_Type'
          (others => 16#c0deaffe#);
 
-      H1 : LSC.HMAC_SHA256.Auth_Type;
-      H2 : LSC.HMAC_SHA256.Auth_Type;
+      H1 : LSC.Internal.HMAC_SHA256.Auth_Type;
+      H2 : LSC.Internal.HMAC_SHA256.Auth_Type;
    begin
 
       T.Reference_Start := Clock;
@@ -966,7 +966,7 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.HMAC_SHA256.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA256.Authenticate (Key, Message, 10000);
       end loop;
       T.Test_Stop := Clock;
 
@@ -978,13 +978,13 @@ is
    procedure Benchmark_HMAC_SHA384 (T : in out Test_Case'Class)
    is
       Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
-         (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
+         (others => LSC.Internal.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
 
-      Key : constant LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
+      Key : constant LSC.Internal.SHA512.Block_Type := LSC.Internal.SHA512.Block_Type'
          (others => 16#c0de_affe_cafe_babe#);
 
-      H1 : LSC.HMAC_SHA384.Auth_Type;
-      H2 : LSC.HMAC_SHA384.Auth_Type;
+      H1 : LSC.Internal.HMAC_SHA384.Auth_Type;
+      H2 : LSC.Internal.HMAC_SHA384.Auth_Type;
    begin
 
       T.Reference_Start := Clock;
@@ -997,7 +997,7 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.HMAC_SHA384.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA384.Authenticate (Key, Message, 10000);
       end loop;
       T.Test_Stop := Clock;
 
@@ -1009,13 +1009,13 @@ is
    procedure Benchmark_HMAC_SHA512 (T : in out Test_Case'Class)
    is
       Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
-         (others => LSC.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
+         (others => LSC.Internal.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
 
-      Key : constant LSC.SHA512.Block_Type := LSC.SHA512.Block_Type'
+      Key : constant LSC.Internal.SHA512.Block_Type := LSC.Internal.SHA512.Block_Type'
          (others => 16#c0de_affe_cafe_babe#);
 
-      H1 : LSC.HMAC_SHA512.Auth_Type;
-      H2 : LSC.HMAC_SHA512.Auth_Type;
+      H1 : LSC.Internal.HMAC_SHA512.Auth_Type;
+      H2 : LSC.Internal.HMAC_SHA512.Auth_Type;
    begin
 
       T.Reference_Start := Clock;
@@ -1028,7 +1028,7 @@ is
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.HMAC_SHA512.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA512.Authenticate (Key, Message, 10000);
       end loop;
       T.Test_Stop := Clock;
 
@@ -1046,10 +1046,10 @@ is
       subtype Pub_Exp_Range is Natural range 0 .. 0;
       subtype Window_Aux_Range is Natural range 0 .. 128 * (2 ** Window_Size) - 1;
 
-      subtype LInt_Small is LSC.Bignum.Big_Int (Mod_Range_Small);
-      subtype LInt is LSC.Bignum.Big_Int (Mod_Range);
-      subtype SInt is LSC.Bignum.Big_Int (Pub_Exp_Range);
-      subtype Window_Aux is LSC.Bignum.Big_Int (Window_Aux_Range);
+      subtype LInt_Small is LSC.Internal.Bignum.Big_Int (Mod_Range_Small);
+      subtype LInt is LSC.Internal.Bignum.Big_Int (Mod_Range);
+      subtype SInt is LSC.Internal.Bignum.Big_Int (Pub_Exp_Range);
+      subtype Window_Aux is LSC.Internal.Bignum.Big_Int (Window_Aux_Range);
 
       Pub_Exp : constant SInt := SInt'(0 => 16#00010001#);
 
@@ -1087,7 +1087,7 @@ is
 
       Aux1, Aux2, Aux3, R : LInt;
       Aux4 : Window_Aux;
-      M_Inv : LSC.Types.Word32;
+      M_Inv : LSC.Internal.Types.Word32;
 
       Plain1_Small, OpenSSL_Plain1_Small : LInt_Small;
       Plain2_Small, Plain3_Small, OpenSSL_Plain2_Small : LInt_Small;
@@ -1098,7 +1098,7 @@ is
 
       Success_Enc, Success_Dec : Boolean;
    begin
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
@@ -1107,19 +1107,19 @@ is
       -- Create original data
       for I in Natural range Modulus_Small'Range
       loop
-         Plain1_Small (I) := LSC.Types.Word32 (I);
+         Plain1_Small (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
       -- Convert modulus, exponent and plaintext to format expected by OpenSSL
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp_Small, Priv_Exp_Small'First, Priv_Exp_Small'Last,
          OpenSSL_Priv_Exp_Small, OpenSSL_Priv_Exp_Small'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Modulus_Small, Modulus_Small'First, Modulus_Small'Last,
          OpenSSL_Modulus_Small, OpenSSL_Modulus_Small'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Plain1_Small, Plain1_Small'First, Plain1_Small'Last,
          OpenSSL_Plain1_Small, OpenSSL_Plain1_Small'First);
 
@@ -1142,16 +1142,16 @@ is
 
       T.Reference_Stop := Clock;
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Cipher_Small, OpenSSL_Cipher_Small'First, OpenSSL_Cipher_Small'Last,
          Cipher2_Small, Cipher2_Small'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Plain2_Small, OpenSSL_Plain2_Small'First, OpenSSL_Plain2_Small'Last,
          Plain3_Small, Plain3_Small'First);
 
       -- Precompute R^2 mod m
-      LSC.Bignum.Size_Square_Mod
+      LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus_Small,
          M_First => Modulus_Small'First,
          M_Last  => Modulus_Small'Last,
@@ -1159,12 +1159,12 @@ is
          R_First => R'First);
 
       -- Precompute inverse
-      M_Inv := LSC.Bignum.Word_Inverse (Modulus_Small (Modulus_Small'First));
+      M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus_Small (Modulus_Small'First));
 
       T.Test_Start := Clock;
 
       -- Encrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1_Small,
          A_First    => Cipher1_Small'First,
          A_Last     => Cipher1_Small'Last,
@@ -1189,7 +1189,7 @@ is
          M_Inv      => M_Inv);
 
       -- Decrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2_Small,
          A_First    => Plain2_Small'First,
          A_Last     => Plain2_Small'Last,
@@ -1234,10 +1234,10 @@ is
       subtype Pub_Exp_Range is Natural range 0 .. 0;
       subtype Window_Aux_Range is Natural range 0 .. 128 * (2 ** Window_Size) - 1;
 
-      subtype LInt_Small is LSC.Bignum.Big_Int (Mod_Range_Small);
-      subtype LInt is LSC.Bignum.Big_Int (Mod_Range);
-      subtype SInt is LSC.Bignum.Big_Int (Pub_Exp_Range);
-      subtype Window_Aux is LSC.Bignum.Big_Int (Window_Aux_Range);
+      subtype LInt_Small is LSC.Internal.Bignum.Big_Int (Mod_Range_Small);
+      subtype LInt is LSC.Internal.Bignum.Big_Int (Mod_Range);
+      subtype SInt is LSC.Internal.Bignum.Big_Int (Pub_Exp_Range);
+      subtype Window_Aux is LSC.Internal.Bignum.Big_Int (Window_Aux_Range);
 
       Pub_Exp : constant SInt := SInt'(0 => 16#00010001#);
 
@@ -1299,7 +1299,7 @@ is
 
       Aux1, Aux2, Aux3, R : LInt;
       Aux4 : Window_Aux;
-      M_Inv : LSC.Types.Word32;
+      M_Inv : LSC.Internal.Types.Word32;
 
       Plain1, OpenSSL_Plain1 : LInt;
       Plain2, Plain3, OpenSSL_Plain2 : LInt;
@@ -1310,26 +1310,26 @@ is
 
       Success_Enc, Success_Dec : Boolean;
    begin
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
       -- Create original data
       for I in Natural range Modulus'Range
       loop
-         Plain1 (I) := LSC.Types.Word32 (I);
+         Plain1 (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
       -- Convert modulus, exponent and plaintext to format expected by OpenSSL
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp, Priv_Exp'First, Priv_Exp'Last,
          OpenSSL_Priv_Exp, OpenSSL_Priv_Exp'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Modulus, Modulus'First, Modulus'Last,
          OpenSSL_Modulus, OpenSSL_Modulus'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (Plain1, Plain1'First, Plain1'Last,
          OpenSSL_Plain1, OpenSSL_Plain1'First);
 
@@ -1352,16 +1352,16 @@ is
 
       T.Reference_Stop := Clock;
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Cipher, OpenSSL_Cipher'First, OpenSSL_Cipher'Last,
          Cipher2, Cipher2'First);
 
-      LSC.Bignum.Native_To_BE
+      LSC.Internal.Bignum.Native_To_BE
         (OpenSSL_Plain2, OpenSSL_Plain2'First, OpenSSL_Plain2'Last,
          Plain3, Plain3'First);
 
       -- Precompute R^2 mod m
-      LSC.Bignum.Size_Square_Mod
+      LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus,
          M_First => Modulus'First,
          M_Last  => Modulus'Last,
@@ -1369,12 +1369,12 @@ is
          R_First => R'First);
 
       -- Precompute inverse
-      M_Inv := LSC.Bignum.Word_Inverse (Modulus (Modulus'First));
+      M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus (Modulus'First));
 
       T.Test_Start := Clock;
 
       -- Encrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1,
          A_First    => Cipher1'First,
          A_Last     => Cipher1'Last,
@@ -1399,7 +1399,7 @@ is
          M_Inv      => M_Inv);
 
       -- Decrypt
-      LSC.Bignum.Mont_Exp_Window
+      LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2,
          A_First    => Plain2'First,
          A_Last     => Plain2'Last,

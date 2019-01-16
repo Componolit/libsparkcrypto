@@ -32,45 +32,64 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Types;
-with LSC.Internal.Byteswap32;
-with LSC.Internal.Byteswap64;
-with AUnit.Assertions; use AUnit.Assertions;
 with Interfaces;
 
 use type Interfaces.Unsigned_32;
 use type Interfaces.Unsigned_64;
 
-package body LSC_Test_Shadow
+-------------------------------------------------------------------------------
+-- Primitive types and operations
+-------------------------------------------------------------------------------
+package LSC.Internal.Types
+   with
+      SPARK_Mode => On
 is
+   pragma Pure;
 
-   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
-   end Test_Byteswap32;
+   -- Base index type
+   type Index is range 0 .. 79;
 
-   ---------------------------------------------------------------------------
+   -- 8-bit word
+   subtype Byte is Interfaces.Unsigned_8;
 
-   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
-   is
-   begin
-      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
-   end Test_Byteswap64;
+   -- 32-bit word
+   subtype Word32 is Interfaces.Unsigned_32;
 
-   ---------------------------------------------------------------------------
+   -- 64-bit word
+   subtype Word64 is Interfaces.Unsigned_64;
 
-   procedure Register_Tests (T: in out Test_Case) is
-      use AUnit.Test_Cases.Registration;
-   begin
-      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
-      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
-   end Register_Tests;
+   -- Index for 32-bit byte array
+   subtype Byte_Array32_Index is Index range 0 .. 3;
 
-   ---------------------------------------------------------------------------
+   -- 32-bit byte array
+   type Byte_Array32_Type is array (Byte_Array32_Index) of Byte;
 
-   function Name (T : Test_Case) return Test_String is
-   begin
-      return Format ("Shadow");
-   end Name;
-end LSC_Test_Shadow;
+   -- Index for 64-bit byte array
+   subtype Byte_Array64_Index is Index range 0 .. 7;
+
+   -- 64-bit byte array
+   type Byte_Array64_Type is array (Byte_Array64_Index) of Byte;
+
+   -- Unconstrained array of 32-bit words
+   type Word32_Array_Type is array (Index range <>) of Word32;
+
+   -- Unconstrained array of 64-bit words
+   type Word64_Array_Type is array (Index range <>) of Word64;
+
+   -- Convert 32-bit word to 32-bit byte array
+   function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type;
+   pragma Inline (Word32_To_Byte_Array32);
+
+   -- Convert 32-bit byte array to 32-bit word
+   function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32;
+   pragma Inline (Byte_Array32_To_Word32);
+
+   -- Convert 64-bit word to 64-bit byte array
+   function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type;
+   pragma Inline (Word64_To_Byte_Array64);
+
+   -- Convert 64-bit byte array to 64-bit word
+   function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64;
+   pragma Inline (Byte_Array64_To_Word64);
+
+end LSC.Internal.Types;

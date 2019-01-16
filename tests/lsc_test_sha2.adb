@@ -35,30 +35,30 @@
 
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
-with LSC.Types;
-with LSC.SHA256;
-with LSC.SHA512;
+with LSC.Internal.Types;
+with LSC.Internal.SHA256;
+with LSC.Internal.SHA512;
 
-use type LSC.Types.Word32_Array_Type;
-use type LSC.Types.Word64_Array_Type;
+use type LSC.Internal.Types.Word32_Array_Type;
+use type LSC.Internal.Types.Word64_Array_Type;
 
 package body LSC_Test_SHA2 is
 
    procedure Test_SHA256_One_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA256_Ctx : LSC.SHA256.Context_Type;
-      Hash       : LSC.SHA256.SHA256_Hash_Type;
-      Message    : LSC.SHA256.Block_Type;
+      SHA256_Ctx : LSC.Internal.SHA256.Context_Type;
+      Hash       : LSC.Internal.SHA256.SHA256_Hash_Type;
+      Message    : LSC.Internal.SHA256.Block_Type;
    begin
       --  FIPS 180-2, Appendix C: SHA-256 Examples
 
       --  C.1 SHA-256 Example (One-Block Message)
-      SHA256_Ctx := LSC.SHA256.SHA256_Context_Init;
-      Message := LSC.SHA256.Block_Type'(M (16#61626300#), others => 16#fedca987#);
-      LSC.SHA256.Context_Finalize (SHA256_Ctx, Message, 24);
-      Hash := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx);
+      SHA256_Ctx := LSC.Internal.SHA256.SHA256_Context_Init;
+      Message := LSC.Internal.SHA256.Block_Type'(M (16#61626300#), others => 16#fedca987#);
+      LSC.Internal.SHA256.Context_Finalize (SHA256_Ctx, Message, 24);
+      Hash := LSC.Internal.SHA256.SHA256_Get_Hash (SHA256_Ctx);
 
-      Assert (Hash = LSC.SHA256.SHA256_Hash_Type'(M (16#ba7816bf#),
+      Assert (Hash = LSC.Internal.SHA256.SHA256_Hash_Type'(M (16#ba7816bf#),
                                                   M (16#8f01cfea#),
                                                   M (16#414140de#),
                                                   M (16#5dae2223#),
@@ -72,15 +72,15 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA256_Multi_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA256_Ctx : LSC.SHA256.Context_Type;
-      Hash       : LSC.SHA256.SHA256_Hash_Type;
-      Message    : LSC.SHA256.Block_Type;
+      SHA256_Ctx : LSC.Internal.SHA256.Context_Type;
+      Hash       : LSC.Internal.SHA256.SHA256_Hash_Type;
+      Message    : LSC.Internal.SHA256.Block_Type;
    begin
 
       --  C.2 SHA-256 Example (Multi-Block Message)
-      SHA256_Ctx := LSC.SHA256.SHA256_Context_Init;
+      SHA256_Ctx := LSC.Internal.SHA256.SHA256_Context_Init;
       Message :=
-        LSC.SHA256.Block_Type'(M (16#61626364#),
+        LSC.Internal.SHA256.Block_Type'(M (16#61626364#),
                                M (16#62636465#),
                                M (16#63646566#),
                                M (16#64656667#),
@@ -97,10 +97,10 @@ package body LSC_Test_SHA2 is
                                M (16#0a000000#),
                                others => 16#deadbeef#);
 
-      LSC.SHA256.Context_Finalize (SHA256_Ctx, Message, 448);
-      Hash := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx);
+      LSC.Internal.SHA256.Context_Finalize (SHA256_Ctx, Message, 448);
+      Hash := LSC.Internal.SHA256.SHA256_Get_Hash (SHA256_Ctx);
 
-      Assert (Hash = LSC.SHA256.SHA256_Hash_Type'(M (16#248d6a61#),
+      Assert (Hash = LSC.Internal.SHA256.SHA256_Hash_Type'(M (16#248d6a61#),
                                                   M (16#d20638b8#),
                                                   M (16#e5c02693#),
                                                   M (16#0c3e6039#),
@@ -114,23 +114,23 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA256_Long (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA256_Ctx : LSC.SHA256.Context_Type;
-      Hash       : LSC.SHA256.SHA256_Hash_Type;
-      Message    : LSC.SHA256.Block_Type;
+      SHA256_Ctx : LSC.Internal.SHA256.Context_Type;
+      Hash       : LSC.Internal.SHA256.SHA256_Hash_Type;
+      Message    : LSC.Internal.SHA256.Block_Type;
    begin
 
       --  C.3 SHA-256 Example (Long Message)
-      Message := LSC.SHA256.Block_Type'(others => M (16#61616161#));
+      Message := LSC.Internal.SHA256.Block_Type'(others => M (16#61616161#));
 
-      SHA256_Ctx := LSC.SHA256.SHA256_Context_Init;
+      SHA256_Ctx := LSC.Internal.SHA256.SHA256_Context_Init;
       for I in Natural range 1 .. 15625
       loop
-         LSC.SHA256.Context_Update (SHA256_Ctx, Message);
+         LSC.Internal.SHA256.Context_Update (SHA256_Ctx, Message);
       end loop;
-      LSC.SHA256.Context_Finalize (SHA256_Ctx, Message, 0);
-      Hash := LSC.SHA256.SHA256_Get_Hash (SHA256_Ctx);
+      LSC.Internal.SHA256.Context_Finalize (SHA256_Ctx, Message, 0);
+      Hash := LSC.Internal.SHA256.SHA256_Get_Hash (SHA256_Ctx);
 
-      Assert (Hash = LSC.SHA256.SHA256_Hash_Type'(M (16#cdc76e5c#),
+      Assert (Hash = LSC.Internal.SHA256.SHA256_Hash_Type'(M (16#cdc76e5c#),
                                                   M (16#9914fb92#),
                                                   M (16#81a1c7e2#),
                                                   M (16#84d73e67#),
@@ -146,19 +146,19 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA384_One_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA512_Ctx : LSC.SHA512.Context_Type;
-      Hash       : LSC.SHA512.SHA384_Hash_Type;
-      Message    : LSC.SHA512.Block_Type;
+      SHA512_Ctx : LSC.Internal.SHA512.Context_Type;
+      Hash       : LSC.Internal.SHA512.SHA384_Hash_Type;
+      Message    : LSC.Internal.SHA512.Block_Type;
    begin
       --  FIPS 180-2, Appendix C: SHA-384 Examples
       --  D.1 SHA-384 Example (One-Block Message)
-      SHA512_Ctx := LSC.SHA512.SHA384_Context_Init;
-      Message := LSC.SHA512.Block_Type'(N (16#6162630000000000#),
+      SHA512_Ctx := LSC.Internal.SHA512.SHA384_Context_Init;
+      Message := LSC.Internal.SHA512.Block_Type'(N (16#6162630000000000#),
                                         others => 16#deadbeefcafebabe#);
-      LSC.SHA512.Context_Finalize (SHA512_Ctx, Message, 24);
-      Hash := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx);
+      LSC.Internal.SHA512.Context_Finalize (SHA512_Ctx, Message, 24);
+      Hash := LSC.Internal.SHA512.SHA384_Get_Hash (SHA512_Ctx);
 
-      Assert (Hash = LSC.SHA512.SHA384_Hash_Type'(N (16#cb00753f45a35e8b#),
+      Assert (Hash = LSC.Internal.SHA512.SHA384_Hash_Type'(N (16#cb00753f45a35e8b#),
                                                   N (16#b5a03d699ac65007#),
                                                   N (16#272c32ab0eded163#),
                                                   N (16#1a8b605a43ff5bed#),
@@ -172,15 +172,15 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA384_Multi_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA512_Ctx : LSC.SHA512.Context_Type;
-      Hash       : LSC.SHA512.SHA384_Hash_Type;
-      Message    : LSC.SHA512.Block_Type;
+      SHA512_Ctx : LSC.Internal.SHA512.Context_Type;
+      Hash       : LSC.Internal.SHA512.SHA384_Hash_Type;
+      Message    : LSC.Internal.SHA512.Block_Type;
    begin
 
       --  D.2 SHA-384 Example (Multi-Block Message)
-      SHA512_Ctx := LSC.SHA512.SHA384_Context_Init;
+      SHA512_Ctx := LSC.Internal.SHA512.SHA384_Context_Init;
       Message :=
-        LSC.SHA512.Block_Type'
+        LSC.Internal.SHA512.Block_Type'
         (N (16#6162636465666768#),
          N (16#6263646566676869#),
          N (16#636465666768696a#),
@@ -197,10 +197,10 @@ package body LSC_Test_SHA2 is
          N (16#6e6f707172737475#),
          N (16#0000000000000000#),
          N (16#0000000000000000#));
-      LSC.SHA512.Context_Finalize (SHA512_Ctx, Message, 896);
-      Hash := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx);
+      LSC.Internal.SHA512.Context_Finalize (SHA512_Ctx, Message, 896);
+      Hash := LSC.Internal.SHA512.SHA384_Get_Hash (SHA512_Ctx);
 
-      Assert (Hash = LSC.SHA512.SHA384_Hash_Type'(N (16#09330c33f71147e8#),
+      Assert (Hash = LSC.Internal.SHA512.SHA384_Hash_Type'(N (16#09330c33f71147e8#),
                                                   N (16#3d192fc782cd1b47#),
                                                   N (16#53111b173b3b05d2#),
                                                   N (16#2fa08086e3b0f712#),
@@ -214,23 +214,23 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA384_Long (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA512_Ctx : LSC.SHA512.Context_Type;
-      Hash       : LSC.SHA512.SHA384_Hash_Type;
-      Message    : LSC.SHA512.Block_Type;
+      SHA512_Ctx : LSC.Internal.SHA512.Context_Type;
+      Hash       : LSC.Internal.SHA512.SHA384_Hash_Type;
+      Message    : LSC.Internal.SHA512.Block_Type;
    begin
 
       --  D.3 SHA-384 Example (Long Message)
-      Message := LSC.SHA512.Block_Type'(others => N (16#6161616161616161#));
+      Message := LSC.Internal.SHA512.Block_Type'(others => N (16#6161616161616161#));
 
-      SHA512_Ctx := LSC.SHA512.SHA384_Context_Init;
+      SHA512_Ctx := LSC.Internal.SHA512.SHA384_Context_Init;
       for I in Natural range 1 .. 7812
       loop
-         LSC.SHA512.Context_Update (SHA512_Ctx, Message);
+         LSC.Internal.SHA512.Context_Update (SHA512_Ctx, Message);
       end loop;
-      LSC.SHA512.Context_Finalize (SHA512_Ctx, Message, 512);
-      Hash := LSC.SHA512.SHA384_Get_Hash (SHA512_Ctx);
+      LSC.Internal.SHA512.Context_Finalize (SHA512_Ctx, Message, 512);
+      Hash := LSC.Internal.SHA512.SHA384_Get_Hash (SHA512_Ctx);
 
-      Assert (Hash = LSC.SHA512.SHA384_Hash_Type'(N (16#9d0e1809716474cb#),
+      Assert (Hash = LSC.Internal.SHA512.SHA384_Hash_Type'(N (16#9d0e1809716474cb#),
                                                   N (16#086e834e310a4a1c#),
                                                   N (16#ed149e9c00f24852#),
                                                   N (16#7972cec5704c2a5b#),
@@ -244,19 +244,19 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA512_One_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA512_Ctx : LSC.SHA512.Context_Type;
-      Hash       : LSC.SHA512.SHA512_Hash_Type;
-      Message    : LSC.SHA512.Block_Type;
+      SHA512_Ctx : LSC.Internal.SHA512.Context_Type;
+      Hash       : LSC.Internal.SHA512.SHA512_Hash_Type;
+      Message    : LSC.Internal.SHA512.Block_Type;
    begin
       --  FIPS 180-2, Appendix C: SHA-512 Examples
       --  C.1 SHA-512 Example (One-Block Message)
-      SHA512_Ctx := LSC.SHA512.SHA512_Context_Init;
-      Message := LSC.SHA512.Block_Type'(N (16#616263f4aabc124d#),
+      SHA512_Ctx := LSC.Internal.SHA512.SHA512_Context_Init;
+      Message := LSC.Internal.SHA512.Block_Type'(N (16#616263f4aabc124d#),
                                          others => 16#deadc0dedeadbeef#);
-      LSC.SHA512.Context_Finalize (SHA512_Ctx, Message, 24);
-      Hash := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx);
+      LSC.Internal.SHA512.Context_Finalize (SHA512_Ctx, Message, 24);
+      Hash := LSC.Internal.SHA512.SHA512_Get_Hash (SHA512_Ctx);
 
-      Assert (Hash = LSC.SHA512.SHA512_Hash_Type'(N (16#ddaf35a193617aba#),
+      Assert (Hash = LSC.Internal.SHA512.SHA512_Hash_Type'(N (16#ddaf35a193617aba#),
                                                   N (16#cc417349ae204131#),
                                                   N (16#12e6fa4e89a97ea2#),
                                                   N (16#0a9eeee64b55d39a#),
@@ -272,15 +272,15 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA512_Multi_Block (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA512_Ctx : LSC.SHA512.Context_Type;
-      Hash       : LSC.SHA512.SHA512_Hash_Type;
-      Message    : LSC.SHA512.Block_Type;
+      SHA512_Ctx : LSC.Internal.SHA512.Context_Type;
+      Hash       : LSC.Internal.SHA512.SHA512_Hash_Type;
+      Message    : LSC.Internal.SHA512.Block_Type;
    begin
 
       --  C.2 SHA-512 Example (Multi-Block Message)
-      SHA512_Ctx := LSC.SHA512.SHA512_Context_Init;
+      SHA512_Ctx := LSC.Internal.SHA512.SHA512_Context_Init;
       Message :=
-        LSC.SHA512.Block_Type'
+        LSC.Internal.SHA512.Block_Type'
         (N (16#6162636465666768#),
          N (16#6263646566676869#),
          N (16#636465666768696a#),
@@ -297,10 +297,10 @@ package body LSC_Test_SHA2 is
          N (16#6e6f707172737475#),
          N (16#f423ae49fac82234#),
          N (16#deadbeefcafe0000#));
-      LSC.SHA512.Context_Finalize (SHA512_Ctx, Message, 896);
-      Hash := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx);
+      LSC.Internal.SHA512.Context_Finalize (SHA512_Ctx, Message, 896);
+      Hash := LSC.Internal.SHA512.SHA512_Get_Hash (SHA512_Ctx);
 
-      Assert (Hash = LSC.SHA512.SHA512_Hash_Type'(N (16#8e959b75dae313da#),
+      Assert (Hash = LSC.Internal.SHA512.SHA512_Hash_Type'(N (16#8e959b75dae313da#),
                                                   N (16#8cf4f72814fc143f#),
                                                   N (16#8f7779c6eb9f7fa1#),
                                                   N (16#7299aeadb6889018#),
@@ -316,23 +316,23 @@ package body LSC_Test_SHA2 is
 
    procedure Test_SHA512_Long (T : in out Test_Cases.Test_Case'Class)
    is
-      SHA512_Ctx : LSC.SHA512.Context_Type;
-      Hash       : LSC.SHA512.SHA512_Hash_Type;
-      Message    : LSC.SHA512.Block_Type;
+      SHA512_Ctx : LSC.Internal.SHA512.Context_Type;
+      Hash       : LSC.Internal.SHA512.SHA512_Hash_Type;
+      Message    : LSC.Internal.SHA512.Block_Type;
    begin
 
       --  C.3 SHA-512 Example (Long Message)
-      Message := LSC.SHA512.Block_Type'(others => N (16#6161616161616161#));
+      Message := LSC.Internal.SHA512.Block_Type'(others => N (16#6161616161616161#));
 
-      SHA512_Ctx := LSC.SHA512.SHA512_Context_Init;
+      SHA512_Ctx := LSC.Internal.SHA512.SHA512_Context_Init;
       for I in Natural range 1 .. 7812
       loop
-         LSC.SHA512.Context_Update (SHA512_Ctx, Message);
+         LSC.Internal.SHA512.Context_Update (SHA512_Ctx, Message);
       end loop;
-      LSC.SHA512.Context_Finalize (SHA512_Ctx, Message, 512);
-      Hash := LSC.SHA512.SHA512_Get_Hash (SHA512_Ctx);
+      LSC.Internal.SHA512.Context_Finalize (SHA512_Ctx, Message, 512);
+      Hash := LSC.Internal.SHA512.SHA512_Get_Hash (SHA512_Ctx);
 
-      Assert (Hash = LSC.SHA512.SHA512_Hash_Type'(N (16#e718483d0ce76964#),
+      Assert (Hash = LSC.Internal.SHA512.SHA512_Hash_Type'(N (16#e718483d0ce76964#),
                                                   N (16#4e2e42c7bc15b463#),
                                                   N (16#8e1f98b13b204428#),
                                                   N (16#5632a803afa973eb#),
