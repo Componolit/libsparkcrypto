@@ -1,10 +1,8 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- @author Alexander Senier
--- @date   2019-01-10
---
--- Copyright (C) 2018 Componolit GmbH
+-- Copyright (C) 2010, Alexander Senier
+-- Copyright (C) 2010, secunet Security Networks AG
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -34,28 +32,45 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with AUnit; use AUnit;
-with AUnit.Test_Cases;
-with Ada.Calendar;
+with LSC.Internal.Types;
+with LSC.Internal.Byteswap32;
+with LSC.Internal.Byteswap64;
+with AUnit.Assertions; use AUnit.Assertions;
+with Interfaces;
 
--- @summary Benchmarks
-package LSC_Benchmark is
+use type Interfaces.Unsigned_32;
+use type Interfaces.Unsigned_64;
 
-   type Test_Case is new AUnit.Test_Cases.Test_Case with
-   record
-      Reference_Start : Ada.Calendar.Time;
-      Reference_Stop  : Ada.Calendar.Time;
-      Test_Start      : Ada.Calendar.Time;
-      Test_Stop       : Ada.Calendar.Time;
-   end record;
+package body LSC_Internal_Test_Shadow
+is
 
-   overriding
-   function Routine_Name (T : Test_Case) return Message_String;
+   procedure Test_Byteswap32 (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (LSC.Internal.Byteswap32.Swap (16#aabbccdd#) = 16#ddccbbaa#, "Invalid result");
+   end Test_Byteswap32;
 
-   procedure Register_Tests (T: in out Test_Case);
-   -- Register routines to be run
+   ---------------------------------------------------------------------------
 
-   function Name (T : Test_Case) return Message_String;
-   -- Provide name identifying the test case
+   procedure Test_Byteswap64 (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert (LSC.Internal.Byteswap64.Swap (16#aabbccddeeff0011#) = 16#1100ffeeddccbbaa#, "Invalid result");
+   end Test_Byteswap64;
 
-end LSC_Benchmark;
+   ---------------------------------------------------------------------------
+
+   procedure Register_Tests (T: in out Test_Case) is
+      use AUnit.Test_Cases.Registration;
+   begin
+      Register_Routine (T, Test_Byteswap32'Access, "Byte swap (32-bit)");
+      Register_Routine (T, Test_Byteswap64'Access, "Byte swap (64-bit)");
+   end Register_Tests;
+
+   ---------------------------------------------------------------------------
+
+   function Name (T : Test_Case) return Test_String is
+   begin
+      return Format ("Shadow");
+   end Name;
+end LSC_Internal_Test_Shadow;

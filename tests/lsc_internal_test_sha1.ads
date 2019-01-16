@@ -37,8 +37,8 @@
 with AUnit; use AUnit;
 with AUnit.Test_Cases; use AUnit.Test_Cases;
 
--- @summary Tests shadow implementation
-package LSC_Test_Shadow is
+-- @summary Tests SHA1
+package LSC_Internal_Test_SHA1 is
 
    type Test_Case is new Test_Cases.Test_Case with null record;
 
@@ -48,4 +48,4 @@ package LSC_Test_Shadow is
    function Name (T : Test_Case) return Message_String;
    -- Provide name identifying the test case
 
-end LSC_Test_Shadow;
+end LSC_Internal_Test_SHA1;

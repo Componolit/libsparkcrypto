@@ -1,10 +1,7 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- @author Alexander Senier
--- @date   2019-01-09
---
--- Copyright (C) 2018 Componolit GmbH
+-- Copyright (C) 2018, Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -34,18 +31,49 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with AUnit; use AUnit;
-with AUnit.Test_Cases; use AUnit.Test_Cases;
+with LSC_Internal_Test_AES;
+with LSC_Internal_Test_AES_CBC;
+with LSC_Internal_Test_SHA1;
+with LSC_Internal_Test_SHA2;
+with LSC_Internal_Test_RIPEMD160;
+with LSC_Internal_Test_HMAC;
+with LSC_Internal_Test_Shadow;
+with LSC_Internal_Test_Bignum;
+with LSC_Internal_Test_EC;
+with LSC_Internal_Benchmark;
 
--- @summary Tests HMAC implementation
-package LSC_Test_HMAC is
+package body LSC_Internal_Suite is
 
-   type Test_Case is new Test_Cases.Test_Case with null record;
+   use AUnit.Test_Suites;
 
-   procedure Register_Tests (T: in out Test_Case);
-   -- Register routines to be run
+   -- Statically allocate test suite:
+   Result : aliased Test_Suite;
 
-   function Name (T : Test_Case) return Message_String;
-   -- Provide name identifying the test case
+   --  Statically allocate test cases:
+   Test_AES       : aliased LSC_Internal_Test_AES.Test_Case;
+   Test_AES_CBC   : aliased LSC_Internal_Test_AES_CBC.Test_Case;
+   Test_SHA1      : aliased LSC_Internal_Test_SHA1.Test_Case;
+   Test_SHA2      : aliased LSC_Internal_Test_SHA2.Test_Case;
+   Test_RIPEMD160 : aliased LSC_Internal_Test_RIPEMD160.Test_Case;
+   Test_HMAC      : aliased LSC_Internal_Test_HMAC.Test_Case;
+   Test_Shadow    : aliased LSC_Internal_Test_Shadow.Test_Case;
+   Test_Bignum    : aliased LSC_Internal_Test_Bignum.Test_Case;
+   Test_EC        : aliased LSC_Internal_Test_EC.Test_Case;
+   Benchmark      : aliased LSC_Internal_Benchmark.Test_Case;
 
-end LSC_Test_HMAC;
+   function Suite return Access_Test_Suite is
+   begin
+      Add_Test (Result'Access, Test_AES'Access);
+      Add_Test (Result'Access, Test_AES_CBC'Access);
+      Add_Test (Result'Access, Test_SHA1'Access);
+      Add_Test (Result'Access, Test_SHA2'Access);
+      Add_Test (Result'Access, Test_RIPEMD160'Access);
+      Add_Test (Result'Access, Test_HMAC'Access);
+      Add_Test (Result'Access, Test_Shadow'Access);
+      Add_Test (Result'Access, Test_Bignum'Access);
+      Add_Test (Result'Access, Test_EC'Access);
+      Add_Test (Result'Access, Benchmark'Access);
+      return Result'Access;
+   end Suite;
+
+end LSC_Internal_Suite;

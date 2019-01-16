@@ -37,7 +37,7 @@ with AUnit.Assertions; use AUnit.Assertions;
 with LSC.Internal.AES;
 with OpenSSL;
 
-package body LSC_Test_AES is
+package body LSC_Internal_Test_AES is
 
    ---------------------------------------------------------------------------
 
@@ -349,4 +349,4 @@ package body LSC_Test_AES is
       return Format ("AES");
    end Name;
 
-end LSC_Test_AES;
+end LSC_Internal_Test_AES;

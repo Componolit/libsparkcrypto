@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-09
+-- @date   2019-01-10
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -35,12 +35,22 @@
 -------------------------------------------------------------------------------
 
 with AUnit; use AUnit;
-with AUnit.Test_Cases; use AUnit.Test_Cases;
+with AUnit.Test_Cases;
+with Ada.Calendar;
 
--- @summary Tests AES-CBC
-package LSC_Test_AES_CBC is
+-- @summary Benchmarks
+package LSC_Internal_Benchmark is
 
-   type Test_Case is new Test_Cases.Test_Case with null record;
+   type Test_Case is new AUnit.Test_Cases.Test_Case with
+   record
+      Reference_Start : Ada.Calendar.Time;
+      Reference_Stop  : Ada.Calendar.Time;
+      Test_Start      : Ada.Calendar.Time;
+      Test_Stop       : Ada.Calendar.Time;
+   end record;
+
+   overriding
+   function Routine_Name (T : Test_Case) return Message_String;
 
    procedure Register_Tests (T: in out Test_Case);
    -- Register routines to be run
@@ -48,4 +58,4 @@ package LSC_Test_AES_CBC is
    function Name (T : Test_Case) return Message_String;
    -- Provide name identifying the test case
 
-end LSC_Test_AES_CBC;
+end LSC_Internal_Benchmark;

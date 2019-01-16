@@ -40,7 +40,7 @@ with Util; use Util;
 use type LSC.Internal.Types.Word32_Array_Type;
 use type LSC.Internal.Types.Word64_Array_Type;
 
-package body LSC_Test_SHA1 is
+package body LSC_Internal_Test_SHA1 is
 
    procedure Test_SHA1_One_Block (T : in out Test_Cases.Test_Case'Class)
    is
@@ -132,4 +132,4 @@ package body LSC_Test_SHA1 is
       return Format ("SHA1");
    end Name;
 
-end LSC_Test_SHA1;
+end LSC_Internal_Test_SHA1;

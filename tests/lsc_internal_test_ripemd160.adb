@@ -40,7 +40,7 @@ with Util; use Util;
 
 use type LSC.Internal.Types.Word32_Array_Type;
 
-package body LSC_Test_RIPEMD160 is
+package body LSC_Internal_Test_RIPEMD160 is
 
    -- RIPEMD-160: A Strengthened Version of RIPEMD , Appendix B: Test values
    --
@@ -350,4 +350,4 @@ package body LSC_Test_RIPEMD160 is
       return Format ("RIPEMD160");
    end Name;
 
-end LSC_Test_RIPEMD160;
+end LSC_Internal_Test_RIPEMD160;

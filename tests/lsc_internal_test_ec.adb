@@ -42,7 +42,7 @@ with Interfaces;
 use type LSC.Internal.Bignum.Big_Int;
 use type LSC.Internal.EC_Signature.Signature_Type;
 
-package body LSC_Test_EC
+package body LSC_Internal_Test_EC
 is
    subtype Coord_Index is Natural range 0 .. 16;
    subtype Coord is LSC.Internal.Bignum.Big_Int (Coord_Index);
@@ -559,4 +559,4 @@ is
       return Format ("EC");
    end Name;
 
-end LSC_Test_EC;
+end LSC_Internal_Test_EC;

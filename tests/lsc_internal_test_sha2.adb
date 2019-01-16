@@ -42,7 +42,7 @@ with LSC.Internal.SHA512;
 use type LSC.Internal.Types.Word32_Array_Type;
 use type LSC.Internal.Types.Word64_Array_Type;
 
-package body LSC_Test_SHA2 is
+package body LSC_Internal_Test_SHA2 is
 
    procedure Test_SHA256_One_Block (T : in out Test_Cases.Test_Case'Class)
    is
@@ -367,4 +367,4 @@ package body LSC_Test_SHA2 is
       return Format ("SHA2");
    end Name;
 
-end LSC_Test_SHA2;
+end LSC_Internal_Test_SHA2;

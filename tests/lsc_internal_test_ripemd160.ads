@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-09
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,19 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Internal_Suite;
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-package body LSC_Suite is
+-- @summary Tests RIPEMD-160 implementation
+package LSC_Internal_Test_RIPEMD160 is
 
-   use AUnit.Test_Suites;
+   type Test_Case is new Test_Cases.Test_Case with null record;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, LSC_Internal_Suite.Suite);
-      return Result'Access;
-   end Suite;
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
 
-end LSC_Suite;
+end LSC_Internal_Test_RIPEMD160;

@@ -40,7 +40,7 @@ with Util; use Util;
 
 use type LSC.Internal.Types.Word32_Array_Type;
 
-package body LSC_Test_AES_CBC
+package body LSC_Internal_Test_AES_CBC
 is
 
    subtype Msg_Index is Natural range 1 .. 10;
@@ -191,4 +191,4 @@ is
       return Format ("AES-CBC");
    end Name;
 
-end LSC_Test_AES_CBC;
+end LSC_Internal_Test_AES_CBC;

@@ -57,7 +57,7 @@ use type LSC.Internal.AES.Message_Type;
 use type LSC.Internal.Bignum.Big_Int;
 use type Interfaces.Unsigned_32;
 
-package body LSC_Benchmark
+package body LSC_Internal_Benchmark
 is
    use Ada.Calendar;
 
@@ -1473,4 +1473,4 @@ is
       return Format ("Benchmark");
    end Name;
 
-end LSC_Benchmark;
+end LSC_Internal_Benchmark;

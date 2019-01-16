@@ -52,7 +52,7 @@ use type Interfaces.Unsigned_64;
 use type LSC.Internal.SHA256.Message_Index;
 use type LSC.Internal.SHA512.Message_Index;
 
-package body LSC_Test_HMAC
+package body LSC_Internal_Test_HMAC
 is
    --  RIPEMD160 Test Vectors (RFC 2286, 2.)
 
@@ -1828,4 +1828,4 @@ is
       return Format ("HMAC");
    end Name;
 
-end LSC_Test_HMAC;
+end LSC_Internal_Test_HMAC;

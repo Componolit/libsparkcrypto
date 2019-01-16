@@ -39,7 +39,7 @@ with AUnit.Assertions; use AUnit.Assertions;
 
 use type LSC.Internal.Bignum.Big_Int;
 
-package body LSC_Test_Bignum
+package body LSC_Internal_Test_Bignum
 is
 
    Window_Size : constant := 5;
@@ -420,4 +420,4 @@ is
       return Format ("Bignum");
    end Name;
 
-end LSC_Test_Bignum;
+end LSC_Internal_Test_Bignum;
