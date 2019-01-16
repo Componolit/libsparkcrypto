@@ -69,12 +69,71 @@ is
 
    ---------------------------------------------------------------------------
 
+   procedure Test_String_To_Bytes_Whitespace (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : LSC.Types.Bytes := Util.S2B ("01 23" & ASCII.HT & "45 67 89 ab cd ef");
+   begin
+      Assert (Result = (16#01#, 16#23#, 16#45#, 16#67#, 16#89#, 16#ab#, 16#cd#, 16#ef#),
+              "Invalid result: " & Util.B2S (Result));
+   end Test_String_To_Bytes_Whitespace;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_String_To_Bytes_Odd (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : LSC.Types.Bytes := Util.S2B ("dead bee"); -- ;-(
+   begin
+      Assert (Result = (16#d#, 16#ea#, 16#db#, 16#ee#), "Invalid result: " & Util.B2S (Result));
+   end Test_String_To_Bytes_Odd;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_String_To_Bytes_Surrounding (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : LSC.Types.Bytes := Util.S2B ("    0123456789abcdef" & ASCII.HT & " ");
+   begin
+      Assert (Result = (16#01#, 16#23#, 16#45#, 16#67#, 16#89#, 16#ab#, 16#cd#, 16#ef#),
+              "Invalid result: " & Util.B2S (Result));
+   end Test_String_To_Bytes_Surrounding;
+
+   ---------------------------------------------------------------------------
+
+   procedure Test_String_To_Bytes_Uppercase (T : in out Test_Cases.Test_Case'Class)
+   is
+      Result : LSC.Types.Bytes := Util.S2B ("ADF3456789aBCdEf");
+   begin
+      Assert (Result = (16#ad#, 16#f3#, 16#45#, 16#67#, 16#89#, 16#ab#, 16#cd#, 16#ef#),
+              "Invalid result: " & Util.B2S (Result));
+   end Test_String_To_Bytes_Uppercase;
+
+   ---------------------------------------------------------------------------
+
+   procedure Invalid_Conversion
+   is
+      Result : LSC.Types.Bytes := Util.S2B ("An invalid hex string does not belong here!");
+   begin
+      null;
+   end Invalid_Conversion;
+
+   procedure Test_String_To_Bytes_Invalid (T : in out Test_Cases.Test_Case'Class)
+   is
+   begin
+      Assert_Exception (Invalid_Conversion'Access, "Exception expected");
+   end Test_String_To_Bytes_Invalid;
+
+   ---------------------------------------------------------------------------
+
    procedure Register_Tests (T: in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_Bytes_To_String_Simple'Access, "Bytes to string (simple)");
       Register_Routine (T, Test_Bytes_To_String_Odd'Access, "Bytes to string (odd)");
       Register_Routine (T, Test_String_To_Bytes_Simple'Access, "String to bytes (simple)");
+      Register_Routine (T, Test_String_To_Bytes_Whitespace'Access, "String to bytes (whitespace)");
+      Register_Routine (T, Test_String_To_Bytes_Odd'Access, "String to bytes (odd)");
+      Register_Routine (T, Test_String_To_Bytes_Surrounding'Access, "String to bytes (surrounding whitespace)");
+      Register_Routine (T, Test_String_To_Bytes_Uppercase'Access, "String to bytes (uppercase)");
+      Register_Routine (T, Test_String_To_Bytes_Invalid'Access, "String to bytes (invalid)");
    end Register_Tests;
 
    ---------------------------------------------------------------------------
