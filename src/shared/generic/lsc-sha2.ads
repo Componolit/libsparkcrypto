@@ -35,6 +35,10 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
+with Ada.Unchecked_Conversion;
+
+private with LSC.Internal.SHA256;
+private with LSC.Internal.SHA512;
 
 package LSC.SHA2
 is
@@ -42,4 +46,27 @@ is
 
    function Hash (Algorithm : Algorithm_Type;
                   Message   : LSC.Types.Bytes) return LSC.Types.Bytes;
+
+private
+
+   SHA256_Block_Len : constant := 64;
+   subtype SHA256_Block_Type is LSC.Types.Bytes (1 .. SHA256_Block_Len);
+   function To_Internal is new Ada.Unchecked_Conversion (SHA256_Block_Type, Internal.SHA256.Block_Type);
+
+   SHA256_Hash_Len : constant := 32;
+   subtype SHA256_Hash_Type is LSC.Types.Bytes (1 .. SHA256_Hash_Len);
+   function To_Public is new Ada.Unchecked_Conversion (Internal.SHA256.SHA256_Hash_Type, SHA256_Hash_Type);
+
+   SHA384_Hash_Len : constant := 48;
+   subtype SHA384_Hash_Type is LSC.Types.Bytes (1 .. SHA384_Hash_Len);
+   function To_Public is new Ada.Unchecked_Conversion (Internal.SHA512.SHA384_Hash_Type, SHA384_Hash_Type);
+
+   SHA512_Block_Len : constant := 128;
+   subtype SHA512_Block_Type is LSC.Types.Bytes (1 .. SHA512_Block_Len);
+   function To_Internal is new Ada.Unchecked_Conversion (SHA512_Block_Type, Internal.SHA512.Block_Type);
+
+   SHA512_Hash_Len : constant := 64;
+   subtype SHA512_Hash_Type is LSC.Types.Bytes (1 .. SHA512_Hash_Len);
+   function To_Public_512 is new Ada.Unchecked_Conversion (Internal.SHA512.SHA512_Hash_Type, SHA512_Hash_Type);
+
 end LSC.SHA2;
