@@ -66,11 +66,19 @@ is
       PT_Internal : Internal.AES.Message_Type (1 .. Plaintext'Length / 16)
       with Address => Plaintext'Address;
    begin
+      Plaintext := (others => 0);
+
+      pragma Warnings (Off, "statement has no effect",
+                       Reason => "Overlay between PT_Internal and Plaintext not considered by dataflow analysis");
+      pragma Warnings (Off, "unused assignment to ""PT_Internal""",
+                       Reason => "Overlay between PT_Internal and Plaintext not considered by dataflow analysis");
       LSC.Internal.AES.CBC.Decrypt (Context    => Context,
                                     IV         => To_Internal (IV),
                                     Ciphertext => To_Internal (Ciphertext),
                                     Length     => Ciphertext'Length / 16,
                                     Plaintext  => PT_Internal);
+      pragma Warnings (On, "statement has no effect");
+      pragma Warnings (On, "unused assignment to ""PT_Internal""");
    end Decrypt;
 
    -------------
@@ -97,11 +105,19 @@ is
       CT_Internal : Internal.AES.Message_Type (1 .. Ciphertext'Length / 16)
       with Address => Ciphertext'Address;
    begin
+      Ciphertext := (others => 0);
+
+      pragma Warnings (Off, "statement has no effect",
+                       Reason => "Overlay between CT_Internal and Ciphertext not considered by dataflow analysis");
+      pragma Warnings (Off, "unused assignment to ""CT_Internal""",
+                       Reason => "Overlay between CT_Internal and Ciphertext not considered by dataflow analysis");
       LSC.Internal.AES.CBC.Encrypt (Context    => Context,
                                     IV         => To_Internal (IV),
                                     Plaintext  => To_Internal (Plaintext),
                                     Length     => Plaintext'Length / 16,
                                     Ciphertext => CT_Internal);
+      pragma Warnings (On, "statement has no effect");
+      pragma Warnings (On, "unused assignment to ""CT_Internal""");
    end Encrypt;
 
 end LSC.AES.CBC;
