@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-16
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,24 +34,41 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Internal_Suite;
-with LSC_Suite;
-with Util_Tests;
+with LSC.Types;
 
-package body Tests is
+package LSC.AES
+is
+   type Keylen_Type is (L128, L192, L256);
+   --  Available AES modes
 
-   use AUnit.Test_Suites;
+   function Key_Bytes (Keylen : Keylen_Type) return Natural
+   with Ghost;
+   --  AES key lengths for @Keylen in bytes
 
-   -- Statically allocate test suite:
-   Result    : aliased Test_Suite;
-   Test_Util : aliased Util_Tests.Test_Case;
+   function Decrypt (Ciphertext : LSC.Types.Bytes;
+                     Key        : LSC.Types.Bytes;
+                     Keylen     : Keylen_Type) return LSC.Types.Bytes
+   with
+      Pre  => Ciphertext'Length = 16 and Key'Length = Key_Bytes (Keylen),
+      Post => Decrypt'Result'Length = 16;
+   --  Decrypt @Ciphertext using @Key, @Keylen determines the AES key
+   --  length (AES-128, AES-192, AES-256)
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, LSC_Internal_Suite.Suite);
-      Add_Test (Result'Access, LSC_Suite.Suite);
-      Add_Test (Result'Access, Test_Util'Access);
-      return Result'Access;
-   end Suite;
+   function Encrypt (Plaintext : LSC.Types.Bytes;
+                     Key       : LSC.Types.Bytes;
+                     Keylen    : Keylen_Type) return LSC.Types.Bytes
+   with
+      Pre  => Plaintext'Length = 16 and Key'Length = Key_Bytes (Keylen),
+      Post => Encrypt'Result'Length = 16;
+   --  Decrypt @Plaintext using @Key, @Keylen determines the AES key
+   --  length (AES-128, AES-192, AES-256)
 
-end Tests;
+private
+
+   function Key_Bytes (Keylen : Keylen_Type) return Natural is
+      (case Keylen is
+       when L128 => 16,
+       when L192 => 24,
+       when L256 => 32);
+
+end LSC.AES;

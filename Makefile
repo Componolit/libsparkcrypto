@@ -99,7 +99,7 @@ $(OUTPUT_DIR)/tests/tests: install_local
       LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \
       OUTPUT_DIR=$(OUTPUT_DIR)/tests
 
-$(OUTPUT_DIR)/build/adalib/%/libsparkcrypto$(LIBPREFIX):
+$(OUTPUT_DIR)/build/adalib/%/libsparkcrypto$(LIBPREFIX): FORCE
 	gprbuild $(GPRBUILD_OPTS) -XRTS=$* -p -P build/build_libsparkcrypto
 
 $(OUTPUT_DIR)/proof/gnatprove.log:
@@ -140,6 +140,8 @@ $(OUTPUT_DIR)/tree/%.adt: $(CURDIR)/src/shared/generic/%.ads
 
 clean:
 	@rm -rf $(OUTPUT_DIR)
+
+FORCE:
 
 .PHONY: all install install_local install_files install_spark
 .PHONY: build tests proof archive spark

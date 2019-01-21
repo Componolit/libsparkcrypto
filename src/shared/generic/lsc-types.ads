@@ -1,6 +1,11 @@
 package LSC.Types
 is
    type Byte is mod 2**8;
-   type Bytes is array (Natural range <>) of Byte;
+
+   --  Natural index type
+   subtype Natural_Index is Natural range Natural'First .. Natural'Last - 1;
+
+   --  Byte array type
+   type Bytes is array (Natural_Index range <>) of Byte;
 
 end LSC.Types;

@@ -31,24 +31,22 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Internal_Suite;
-with LSC_Suite;
-with Util_Tests;
+with LSC_Test_AES;
 
-package body Tests is
+package body LSC_Suite is
 
    use AUnit.Test_Suites;
 
    -- Statically allocate test suite:
-   Result    : aliased Test_Suite;
-   Test_Util : aliased Util_Tests.Test_Case;
+   Result : aliased Test_Suite;
+
+   --  Statically allocate test cases:
+   Test_AES       : aliased LSC_Test_AES.Test_Case;
 
    function Suite return Access_Test_Suite is
    begin
-      Add_Test (Result'Access, LSC_Internal_Suite.Suite);
-      Add_Test (Result'Access, LSC_Suite.Suite);
-      Add_Test (Result'Access, Test_Util'Access);
+      Add_Test (Result'Access, Test_AES'Access);
       return Result'Access;
    end Suite;
 
-end Tests;
+end LSC_Suite;
