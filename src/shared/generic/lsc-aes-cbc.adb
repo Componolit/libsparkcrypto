@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-16
+-- @date   2019-01-21
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,45 +34,74 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.AES;
 with LSC.Internal.Convert;
+with LSC.Internal.AES.CBC;
+with Ada.Unchecked_Conversion;
 
-package body LSC.AES
+package body LSC.AES.CBC
 is
-   use Internal.Convert;
+   use LSC.Internal.Convert;
 
    -------------
    -- Decrypt --
    -------------
 
-   function Decrypt (Ciphertext : Types.Bytes;
-                     Key        : Types.Bytes;
-                     Keylen     : Keylen_Type) return Types.Bytes
+   procedure Decrypt
+     (Ciphertext :     LSC.Types.Bytes;
+      Key        :     LSC.Types.Bytes;
+      IV         :     LSC.Types.Bytes;
+      Keylen     :     Keylen_Type;
+      Plaintext  : out LSC.Types.Bytes)
    is
-      Dec_Context : constant Internal.AES.AES_Dec_Context :=
+      Context : constant Internal.AES.AES_Dec_Context :=
          (case Keylen is
           when L128 => Internal.AES.Create_AES128_Dec_Context (K128 (Key (Key'First .. Key'First + 15))),
           when L192 => Internal.AES.Create_AES192_Dec_Context (K192 (Key (Key'First .. Key'First + 23))),
           when L256 => Internal.AES.Create_AES256_Dec_Context (K256 (Key (Key'First .. Key'First + 31))));
+
+      subtype CT_Type is LSC.Types.Bytes (Ciphertext'First .. Ciphertext'First + Ciphertext'Length - 1);
+      subtype CT_Internal_Type is Internal.AES.Message_Type (1 .. Ciphertext'Length / 16);
+      function To_Internal is new Ada.Unchecked_Conversion (CT_Type, CT_Internal_Type);
+
+      PT_Internal : Internal.AES.Message_Type (1 .. Plaintext'Length / 16)
+      with Address => Plaintext'Address;
    begin
-      return To_Public (Internal.AES.Decrypt (Dec_Context, To_Internal (Ciphertext)));
+      LSC.Internal.AES.CBC.Decrypt (Context    => Context,
+                                    IV         => To_Internal (IV),
+                                    Ciphertext => To_Internal (Ciphertext),
+                                    Length     => Ciphertext'Length / 16,
+                                    Plaintext  => PT_Internal);
    end Decrypt;
 
    -------------
    -- Encrypt --
    -------------
 
-   function Encrypt (Plaintext : Types.Bytes;
-                     Key       : Types.Bytes;
-                     Keylen    : Keylen_Type) return Types.Bytes
+   procedure Encrypt
+     (Plaintext  :     LSC.Types.Bytes;
+      Key        :     LSC.Types.Bytes;
+      IV         :     LSC.Types.Bytes;
+      Keylen     :     Keylen_Type;
+      Ciphertext : out LSC.Types.Bytes)
    is
-      Enc_Context : constant Internal.AES.AES_Enc_Context :=
+      Context : constant Internal.AES.AES_Enc_Context :=
          (case Keylen is
           when L128 => Internal.AES.Create_AES128_Enc_Context (K128 (Key (Key'First .. Key'First + 15))),
           when L192 => Internal.AES.Create_AES192_Enc_Context (K192 (Key (Key'First .. Key'First + 23))),
           when L256 => Internal.AES.Create_AES256_Enc_Context (K256 (Key (Key'First .. Key'First + 31))));
+
+      subtype PT_Type is LSC.Types.Bytes (1 .. Plaintext'Length);
+      subtype PT_Internal_Type is Internal.AES.Message_Type (1 .. Plaintext'Length / 16);
+      function To_Internal is new Ada.Unchecked_Conversion (PT_Type, PT_Internal_Type);
+
+      CT_Internal : Internal.AES.Message_Type (1 .. Ciphertext'Length / 16)
+      with Address => Ciphertext'Address;
    begin
-      return To_Public (Internal.AES.Encrypt (Enc_Context, To_Internal (Plaintext)));
+      LSC.Internal.AES.CBC.Encrypt (Context    => Context,
+                                    IV         => To_Internal (IV),
+                                    Plaintext  => To_Internal (Plaintext),
+                                    Length     => Plaintext'Length / 16,
+                                    Ciphertext => CT_Internal);
    end Encrypt;
 
-end LSC.AES;
+end LSC.AES.CBC;

@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-21
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,25 +34,21 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
+with LSC.Types;
+with LSC.Internal.AES;
+with Ada.Unchecked_Conversion;
 
-package body LSC_Suite is
+package LSC.Internal.Convert
+is
+   subtype Key128_Type is Types.Bytes (1 .. 16);
+   subtype Key192_Type is Types.Bytes (1 .. 24);
+   subtype Key256_Type is Types.Bytes (1 .. 32);
+   subtype Block_Type is Types.Bytes (1 .. 16);
 
-   use AUnit.Test_Suites;
+   function K128 is new Ada.Unchecked_Conversion (Key128_Type, Internal.AES.AES128_Key_Type);
+   function K192 is new Ada.Unchecked_Conversion (Key192_Type, Internal.AES.AES192_Key_Type);
+   function K256 is new Ada.Unchecked_Conversion (Key256_Type, Internal.AES.AES256_Key_Type);
+   function To_Internal is new Ada.Unchecked_Conversion (Block_Type, Internal.AES.Block_Type);
+   function To_Public is new Ada.Unchecked_Conversion (Internal.AES.Block_Type, Block_Type);
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+end LSC.Internal.Convert;

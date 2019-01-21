@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-21
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,25 +34,37 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
+with LSC.Types;
+with LSC.AES;
 
-package body LSC_Suite is
+package LSC.AES.CBC
+is
+   procedure Decrypt (Ciphertext :     LSC.Types.Bytes;
+                      Key        :     LSC.Types.Bytes;
+                      IV         :     LSC.Types.Bytes;
+                      Keylen     :     Keylen_Type;
+                      Plaintext  : out LSC.Types.Bytes)
+   with
+      Pre  => Ciphertext'Length > 0 and
+              Ciphertext'Length mod 16 = 0 and
+              Plaintext'Length >= Ciphertext'Length and
+              Key'Length = Key_Bytes (Keylen) and
+              IV'Length = 16;
+   --  Decrypt @Ciphertext to @Plaintext using @Key in CBC mode
+   --  @Keylen determines the AES key length (AES-128, AES-192, AES-256)
 
-   use AUnit.Test_Suites;
+   procedure Encrypt (Plaintext  :     LSC.Types.Bytes;
+                      Key        :     LSC.Types.Bytes;
+                      IV         :     LSC.Types.Bytes;
+                      Keylen     :     Keylen_Type;
+                      Ciphertext : out LSC.Types.Bytes)
+   with
+      Pre  => Plaintext'Length > 0 and
+              Plaintext'Length mod 16 = 0 and
+              Ciphertext'Length >= Plaintext'Length and
+              Key'Length = Key_Bytes (Keylen) and
+              IV'Length = 16;
+   --  Encrypt @Plaintext to @Ciphertext using @Key in CBC mode
+   --  @Keylen determines the AES key length (AES-128, AES-192, AES-256)
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+end LSC.AES.CBC;

@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-21
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,25 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
+with AUnit; use AUnit;
+with AUnit.Test_Cases; use AUnit.Test_Cases;
 
-package body LSC_Suite is
+-- @summary Tests AES-CBC
+package LSC_Test_AES_CBC is
 
-   use AUnit.Test_Suites;
+   type Test_Case is new Test_Cases.Test_Case with null record;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
+   procedure Register_Tests (T: in out Test_Case);
+   -- Register routines to be run
 
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
+   function Name (T : Test_Case) return Message_String;
+   -- Provide name identifying the test case
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+end LSC_Test_AES_CBC;

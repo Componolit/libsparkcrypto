@@ -63,8 +63,7 @@ package LSC.Internal.AES.CBC is
        Depends =>
          (Ciphertext =>+ (Context, IV, Plaintext, Length)),
        Pre =>
-         Plaintext'First = Ciphertext'First and
-         Plaintext'Last  = Ciphertext'Last and
+         Ciphertext'Length >= Plaintext'Length and
          Plaintext'First + Length - 1 in Plaintext'Range and
          Plaintext'First + Length - 1 in AES.Message_Index and
          Ciphertext'First + Length - 1 in Ciphertext'Range and
@@ -82,8 +81,7 @@ package LSC.Internal.AES.CBC is
        Depends =>
          (Plaintext =>+ (Context, IV, Ciphertext, Length)),
        Pre =>
-         Plaintext'First = Ciphertext'First and
-         Plaintext'Last  = Ciphertext'Last and
+         Plaintext'Length >= Ciphertext'Length and
          Plaintext'First + Length - 1 in Plaintext'Range and
          Plaintext'First + Length - 1 in AES.Message_Index and
          Ciphertext'First + Length - 1 in Ciphertext'Range and
