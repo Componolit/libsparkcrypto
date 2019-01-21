@@ -1,7 +1,10 @@
 -------------------------------------------------------------------------------
 -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-21
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -31,28 +34,12 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA2;
+with LSC.Types;
 
-package body LSC_Suite is
+package LSC.SHA2
+is
+   type Algorithm_Type is (SHA256, SHA384, SHA512);
 
-   use AUnit.Test_Suites;
-
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
-
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+   function Hash (Algorithm : Algorithm_Type;
+                  Message   : LSC.Types.Bytes) return LSC.Types.Bytes;
+end LSC.SHA2;
