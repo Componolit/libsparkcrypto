@@ -59,7 +59,7 @@ private
 
    SHA384_Hash_Len : constant := 48;
    subtype SHA384_Hash_Type is LSC.Types.Bytes (1 .. SHA384_Hash_Len);
-   function To_Public is new Ada.Unchecked_Conversion (Internal.SHA512.SHA384_Hash_Type, SHA384_Hash_Type);
+   function To_Public_384 is new Ada.Unchecked_Conversion (Internal.SHA512.SHA384_Hash_Type, SHA384_Hash_Type);
 
    SHA512_Block_Len : constant := 128;
    subtype SHA512_Block_Type is LSC.Types.Bytes (1 .. SHA512_Block_Len);

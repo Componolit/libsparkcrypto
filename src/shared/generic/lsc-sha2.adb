@@ -64,7 +64,7 @@ package body LSC.SHA2 is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA512.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.SHA512.SHA384_Get_Hash (Context));
+      return To_Public_384 (Internal.SHA512.SHA384_Get_Hash (Context));
 
    end Hash_SHA384;
 

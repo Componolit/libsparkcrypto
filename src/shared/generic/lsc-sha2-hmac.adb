@@ -36,6 +36,7 @@
 
 with LSC.Internal.HMAC_SHA256;
 with LSC.Internal.HMAC_SHA384;
+with LSC.Internal.HMAC_SHA512;
 
 package body LSC.SHA2.HMAC is
 
@@ -133,9 +134,58 @@ package body LSC.SHA2.HMAC is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA512.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_SHA384.Get_Prf (Context)) (1 .. Length);
+      return To_Public_384 (Internal.HMAC_SHA384.Get_Prf (Context)) (1 .. Length);
 
    end HMAC_SHA384;
+
+   -----------------
+   -- HMAC_SHA512 --
+   -----------------
+
+   function HMAC_SHA512
+     (Key       : LSC.Types.Bytes;
+      Message   : LSC.Types.Bytes;
+      Length    : LSC.Types.Natural_Index) return LSC.Types.Bytes
+   is
+      use type Internal.SHA512.Block_Length_Type;
+
+      Temp          : SHA512_Block_Type := (others => 0);
+      Full_Blocks   : constant Natural := Message'Length / SHA512_Block_Len;
+      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * SHA512_Block_Len;
+
+      Context  : Internal.HMAC_SHA512.Context_Type;
+      Full_Key : SHA2.SHA512_Block_Type := (others => 0);
+   begin
+
+      if Key'Length <= SHA512_Block_Len
+      then
+         Full_Key (Full_Key'First .. Full_Key'First + Key'Length - 1) := Key;
+      else
+         Full_Key (Full_Key'First .. Full_Key'First + SHA512_Hash_Len - 1) := LSC.SHA2.Hash (LSC.SHA2.SHA512, Key);
+      end if;
+
+      Context := Internal.HMAC_SHA512.Context_Init (To_Internal (Full_Key));
+
+      for I in 0 .. Full_Blocks - 1
+      loop
+         Internal.HMAC_SHA512.Context_Update
+            (Context => Context,
+             Block   => To_Internal (Message (Message'First + I * SHA512_Block_Len ..
+                                              Message'First + I * SHA512_Block_Len + SHA512_Block_Len - 1)));
+      end loop;
+
+      Temp (Temp'First .. Temp'First + Partial_Bytes - 1) :=
+         Message (Message'First + SHA512_Block_Len * Full_Blocks ..
+                  Message'First + SHA512_Block_Len * Full_Blocks + Partial_Bytes - 1);
+
+      Internal.HMAC_SHA512.Context_Finalize
+         (Context => Context,
+          Block   => To_Internal (Temp),
+          Length  => 8 * Internal.SHA512.Block_Length_Type (Partial_Bytes));
+
+      return To_Public_512 (Internal.HMAC_SHA512.Get_Prf (Context)) (1 .. Length);
+
+   end HMAC_SHA512;
 
    ----------
    -- HMAC --
@@ -147,12 +197,9 @@ package body LSC.SHA2.HMAC is
       Message   : LSC.Types.Bytes;
       Length    : LSC.Types.Natural_Index := 16) return LSC.Types.Bytes
    is
-   begin
-      case Algorithm is
-         when SHA2.SHA256 => return HMAC_SHA256 (Key, Message, Length);
-         when SHA2.SHA384 => return HMAC_SHA384 (Key, Message, Length);
-         when others      => raise Program_Error with "Unimplemented algorithm";
-      end case;
-   end HMAC;
+     (case Algorithm is
+         when SHA2.SHA256 => HMAC_SHA256 (Key, Message, Length),
+         when SHA2.SHA384 => HMAC_SHA384 (Key, Message, Length),
+         when SHA2.SHA512 => HMAC_SHA512 (Key, Message, Length));
 
 end LSC.SHA2.HMAC;
