@@ -86,7 +86,7 @@ is
          Default_Opt := "3";
 
       when "debug" =>
-         Compiler_Switches := ("-gnata");
+         Compiler_Switches := ();
          Default_Opt := "0";
 
    end case;
