@@ -34,6 +34,7 @@
 with LSC_Test_AES;
 with LSC_Test_AES_CBC;
 with LSC_Test_SHA2;
+with LSC_Test_HMAC_SHA2;
 
 package body LSC_Suite is
 
@@ -46,12 +47,14 @@ package body LSC_Suite is
    Test_AES       : aliased LSC_Test_AES.Test_Case;
    Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
    Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
+   Test_HMAC_SHA2 : aliased LSC_Test_HMAC_SHA2.Test_Case;
 
    function Suite return Access_Test_Suite is
    begin
       Add_Test (Result'Access, Test_AES'Access);
       Add_Test (Result'Access, Test_AES_CBC'Access);
       Add_Test (Result'Access, Test_SHA2'Access);
+      Add_Test (Result'Access, Test_HMAC_SHA2'Access);
       return Result'Access;
    end Suite;
 
