@@ -1,6 +1,10 @@
-------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------
+-- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-23
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -30,34 +34,40 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA2;
-with LSC_Test_HMAC_SHA2;
-with LSC_Test_SHA1;
+package body LSC.SHA1
+is
+   ----------
+   -- Hash --
+   ----------
 
-package body LSC_Suite is
+   function Hash (Message : LSC.Types.Bytes) return LSC.Types.Bytes
+   is
+      use type Internal.SHA1.Block_Length_Type;
 
-   use AUnit.Test_Suites;
+      Temp    : SHA1_Block_Type := (others => 0);
+      Context : Internal.SHA1.Context_Type := Internal.SHA1.Context_Init;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
-   Test_HMAC_SHA2 : aliased LSC_Test_HMAC_SHA2.Test_Case;
-   Test_SHA1      : aliased LSC_Test_SHA1.Test_Case;
-
-   function Suite return Access_Test_Suite is
+      Full_Blocks   : constant Natural := Message'Length / SHA1_Block_Len;
+      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * SHA1_Block_Len;
    begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_HMAC_SHA2'Access);
-      Add_Test (Result'Access, Test_SHA1'Access);
-      return Result'Access;
-   end Suite;
+      for I in 0 .. Full_Blocks - 1
+      loop
+         Internal.SHA1.Context_Update
+            (Context => Context,
+             Block   => To_Internal (Message (Message'First + I * SHA1_Block_Len ..
+                                              Message'First + I * SHA1_Block_Len + SHA1_Block_Len - 1)));
+      end loop;
 
-end LSC_Suite;
+      Temp (Temp'First .. Temp'First + Partial_Bytes - 1) :=
+         Message (Message'First + SHA1_Block_Len * Full_Blocks ..
+                  Message'First + SHA1_Block_Len * Full_Blocks + Partial_Bytes - 1);
+
+      Internal.SHA1.Context_Finalize
+         (Context => Context,
+          Block   => To_Internal (Temp),
+          Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
+
+      return To_Public (Internal.SHA1.Get_Hash (Context));
+   end Hash;
+
+end LSC.SHA1;

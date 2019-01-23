@@ -1,6 +1,10 @@
-------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------
+-- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-23
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -30,34 +34,23 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA2;
-with LSC_Test_HMAC_SHA2;
-with LSC_Test_SHA1;
+with LSC.Types;
+with Ada.Unchecked_Conversion;
 
-package body LSC_Suite is
+private with LSC.Internal.SHA1;
 
-   use AUnit.Test_Suites;
+package LSC.SHA1
+is
+   function Hash (Message : LSC.Types.Bytes) return LSC.Types.Bytes;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
+private
 
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
-   Test_HMAC_SHA2 : aliased LSC_Test_HMAC_SHA2.Test_Case;
-   Test_SHA1      : aliased LSC_Test_SHA1.Test_Case;
+   SHA1_Block_Len : constant := 64;
+   subtype SHA1_Block_Type is LSC.Types.Bytes (1 .. SHA1_Block_Len);
+   function To_Internal is new Ada.Unchecked_Conversion (SHA1_Block_Type, Internal.SHA1.Block_Type);
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_HMAC_SHA2'Access);
-      Add_Test (Result'Access, Test_SHA1'Access);
-      return Result'Access;
-   end Suite;
+   SHA1_Hash_Len : constant := 20;
+   subtype SHA1_Hash_Type is LSC.Types.Bytes (1 .. SHA1_Hash_Len);
+   function To_Public is new Ada.Unchecked_Conversion (Internal.SHA1.Hash_Type, SHA1_Hash_Type);
 
-end LSC_Suite;
+end LSC.SHA1;
