@@ -1,6 +1,10 @@
-------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------
+-- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-21
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -30,43 +34,11 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA2;
-with LSC_Test_HMAC_SHA2;
-with LSC_Test_SHA1;
-with LSC_Test_HMAC_SHA1;
-with LSC_Test_RIPEMD160;
-with LSC_Test_HMAC_RIPEMD160;
+with LSC.Types;
 
-package body LSC_Suite is
-
-   use AUnit.Test_Suites;
-
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
-
-   --  Statically allocate test cases:
-   Test_AES            : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC        : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA2           : aliased LSC_Test_SHA2.Test_Case;
-   Test_HMAC_SHA2      : aliased LSC_Test_HMAC_SHA2.Test_Case;
-   Test_SHA1           : aliased LSC_Test_SHA1.Test_Case;
-   Test_HMAC_SHA1      : aliased LSC_Test_HMAC_SHA1.Test_Case;
-   Test_RIPEMD160      : aliased LSC_Test_RIPEMD160.Test_Case;
-   Test_HMAC_RIPEMD160 : aliased LSC_Test_HMAC_RIPEMD160.Test_Case;
-
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_HMAC_SHA2'Access);
-      Add_Test (Result'Access, Test_SHA1'Access);
-      Add_Test (Result'Access, Test_HMAC_SHA1'Access);
-      Add_Test (Result'Access, Test_RIPEMD160'Access);
-      Add_Test (Result'Access, Test_HMAC_RIPEMD160'Access);
-      return Result'Access;
-   end Suite;
-
-end LSC_Suite;
+package LSC.RIPEMD160.HMAC
+is
+   function HMAC (Key       : LSC.Types.Bytes;
+                  Message   : LSC.Types.Bytes;
+                  Length    : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes;
+end LSC.RIPEMD160.HMAC;
