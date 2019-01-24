@@ -1,6 +1,10 @@
-------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------
+-- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018, Componolit GmbH
+-- @author Alexander Senier
+-- @date   2019-01-23
+--
+-- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -30,40 +34,23 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC_Test_AES;
-with LSC_Test_AES_CBC;
-with LSC_Test_SHA2;
-with LSC_Test_HMAC_SHA2;
-with LSC_Test_SHA1;
-with LSC_Test_HMAC_SHA1;
-with LSC_Test_RIPEMD160;
+with LSC.Types;
+with Ada.Unchecked_Conversion;
 
-package body LSC_Suite is
+private with LSC.Internal.RIPEMD160;
 
-   use AUnit.Test_Suites;
+package LSC.RIPEMD160
+is
+   function Hash (Message : LSC.Types.Bytes) return LSC.Types.Bytes;
 
-   -- Statically allocate test suite:
-   Result : aliased Test_Suite;
+private
 
-   --  Statically allocate test cases:
-   Test_AES       : aliased LSC_Test_AES.Test_Case;
-   Test_AES_CBC   : aliased LSC_Test_AES_CBC.Test_Case;
-   Test_SHA2      : aliased LSC_Test_SHA2.Test_Case;
-   Test_HMAC_SHA2 : aliased LSC_Test_HMAC_SHA2.Test_Case;
-   Test_SHA1      : aliased LSC_Test_SHA1.Test_Case;
-   Test_HMAC_SHA1 : aliased LSC_Test_HMAC_SHA1.Test_Case;
-   Test_RIPEMD160 : aliased LSC_Test_RIPEMD160.Test_Case;
+   RIPEMD160_Block_Len : constant := 64;
+   subtype RIPEMD160_Block_Type is LSC.Types.Bytes (1 .. RIPEMD160_Block_Len);
+   function To_Internal is new Ada.Unchecked_Conversion (RIPEMD160_Block_Type, Internal.RIPEMD160.Block_Type);
 
-   function Suite return Access_Test_Suite is
-   begin
-      Add_Test (Result'Access, Test_AES'Access);
-      Add_Test (Result'Access, Test_AES_CBC'Access);
-      Add_Test (Result'Access, Test_SHA2'Access);
-      Add_Test (Result'Access, Test_HMAC_SHA2'Access);
-      Add_Test (Result'Access, Test_SHA1'Access);
-      Add_Test (Result'Access, Test_HMAC_SHA1'Access);
-      Add_Test (Result'Access, Test_RIPEMD160'Access);
-      return Result'Access;
-   end Suite;
+   RIPEMD160_Hash_Len : constant := 20;
+   subtype RIPEMD160_Hash_Type is LSC.Types.Bytes (1 .. RIPEMD160_Hash_Len);
+   function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, RIPEMD160_Hash_Type);
 
-end LSC_Suite;
+end LSC.RIPEMD160;
