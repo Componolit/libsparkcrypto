@@ -55,7 +55,7 @@ use type LSC.Internal.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Internal.RIPEMD160 is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- RIPEMD-160 context
    type Context_Type is private;

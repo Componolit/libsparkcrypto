@@ -55,7 +55,7 @@ use type LSC.Internal.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Internal.AES is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    --  AES encryption context
    type AES_Enc_Context is private;

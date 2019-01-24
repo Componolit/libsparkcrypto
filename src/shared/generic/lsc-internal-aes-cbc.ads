@@ -49,7 +49,7 @@ with LSC.Internal.AES;
 -------------------------------------------------------------------------------
 package LSC.Internal.AES.CBC is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- Encrypt @Length@ elements of the @Plaintext@ array using the AES context
    -- @Context@ and the initialization vector @IV@. The result is placed into

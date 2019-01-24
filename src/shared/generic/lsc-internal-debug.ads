@@ -42,5 +42,5 @@
 -------------------------------------------------------------------------------
 package LSC.Internal.Debug
 is
-   pragma Preelaborate;
+   pragma Pure;
 end LSC.Internal.Debug;

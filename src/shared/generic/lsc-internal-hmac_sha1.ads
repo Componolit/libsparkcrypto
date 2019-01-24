@@ -49,7 +49,7 @@ use type LSC.Internal.Types.Word64;
 -------------------------------------------------------------------------------
 package LSC.Internal.HMAC_SHA1 is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- HMAC-SHA-1 context
    type Context_Type is private;

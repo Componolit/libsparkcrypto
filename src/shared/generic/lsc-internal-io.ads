@@ -40,7 +40,7 @@ use type LSC.Internal.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Internal.IO is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- Output string @T@
    procedure Put (T : String)

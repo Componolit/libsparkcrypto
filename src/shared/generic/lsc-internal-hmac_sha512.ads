@@ -49,7 +49,7 @@ use type LSC.Internal.SHA512.Message_Index;
 -------------------------------------------------------------------------------
 package LSC.Internal.HMAC_SHA512 is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- HMAC-SHA-512 context
    type Context_Type is private;

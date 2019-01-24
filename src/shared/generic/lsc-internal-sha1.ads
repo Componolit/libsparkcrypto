@@ -49,7 +49,7 @@ use type LSC.Internal.Types.Index;
 -------------------------------------------------------------------------------
 package LSC.Internal.SHA1 is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- SHA-1 context
    type Context_Type is private;

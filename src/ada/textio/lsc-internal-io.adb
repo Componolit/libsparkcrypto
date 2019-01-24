@@ -33,7 +33,6 @@
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types, LSC.Internal.IO;
-with GNAT.IO;
 with Ada.Unchecked_Conversion;
 
 use type LSC.Internal.Types.Word64;
@@ -48,18 +47,44 @@ is
 
    ----------------------------------------------------------------------------
 
-   procedure Put (T : String) renames GNAT.IO.Put;
+   procedure Put (T : String)
+   is
+      procedure Gnat_IO_Put (T : String)
+      with Import, External_Name => "gnat__io__put__6";
+   begin
+      Gnat_IO_Put (T);
+   end Put;
 
-   ----------------------------------------------------------------------------
+   procedure Put (I : Integer)
+   is
+      procedure Gnat_IO_Put (I : Integer)
+      with Import, External_Name => "gnat__io__put__2";
+   begin
+      Gnat_IO_Put (I);
+   end Put;
 
-   procedure Put_Line (T : String) renames GNAT.IO.Put_Line;
+   procedure Get (T : out Character)
+   is
+      procedure Gnat_IO_Get (T : out Character)
+      with Import, External_Name => "gnat__io__get__2";
+   begin
+      Gnat_IO_Get (T);
+   end Get;
 
-   ----------------------------------------------------------------------------
+   procedure Put_Line (T : String)
+   is
+      procedure Gnat_IO_Put_Line (T : String)
+      with Import, External_Name => "gnat__io__put_line__2";
+   begin
+      Gnat_IO_Put_Line (T);
+   end Put_Line;
 
    procedure New_Line
    is
+      procedure Gnat_IO_New_Line (Spacing : Positive := 1)
+      with Import, External_Name => "gnat__io__new_line__2";
    begin
-      GNAT.IO.New_Line;
+      Gnat_IO_New_Line;
    end New_Line;
 
    ----------------------------------------------------------------------------
@@ -69,7 +94,7 @@ is
       Result : Character;
       function To_Byte is new Ada.Unchecked_Conversion (Character, Types.Byte);
    begin
-      GNAT.IO.Get (Result);
+      IO.Get (Result);
       return To_Byte (Result);
    end Read_Byte;
 
@@ -183,7 +208,7 @@ is
    procedure Print_Index (I : in Types.Index)
    is
    begin
-      GNAT.IO.Put (Integer (I));
+      IO.Put (Integer (I));
    end Print_Index;
 
    ----------------------------------------------------------------------------
@@ -191,7 +216,7 @@ is
    procedure Print_Natural (I : Natural)
    is
    begin
-      GNAT.IO.Put (Integer (I));
+      IO.Put (Integer (I));
    end Print_Natural;
 
    ----------------------------------------------------------------------------

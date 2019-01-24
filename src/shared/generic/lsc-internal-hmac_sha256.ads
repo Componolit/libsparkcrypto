@@ -50,7 +50,7 @@ use type LSC.Internal.SHA256.Message_Index;
 -------------------------------------------------------------------------------
 package LSC.Internal.HMAC_SHA256 is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    -- HMAC-SHA-256 context
    type Context_Type is private;

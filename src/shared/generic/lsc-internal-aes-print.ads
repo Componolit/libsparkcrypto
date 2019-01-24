@@ -42,5 +42,5 @@
 -------------------------------------------------------------------------------
 private package LSC.Internal.AES.Print
 is
-   pragma Preelaborate;
+   pragma Pure;
 end LSC.Internal.AES.Print;

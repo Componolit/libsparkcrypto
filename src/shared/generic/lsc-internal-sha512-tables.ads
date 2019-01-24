@@ -39,7 +39,7 @@ with LSC.Internal.SHA512;
 -------------------------------------------------------------------------------
 private package LSC.Internal.SHA512.Tables is
 
-   pragma Preelaborate;
+   pragma Pure;
 
    K : constant SHA512.Schedule_Type := SHA512.Schedule_Type'
      (16#428a2f98d728ae22#, 16#7137449123ef65cd#, 16#b5c0fbcfec4d3b2f#, 16#e9b5dba58189dbbc#,

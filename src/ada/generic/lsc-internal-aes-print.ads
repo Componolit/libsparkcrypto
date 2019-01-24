@@ -38,7 +38,7 @@ with LSC.Internal.AES;
 private package LSC.Internal.AES.Print
   with SPARK_Mode => Off
 is
-   pragma Preelaborate;
+   pragma Pure;
 
    procedure Print_Round (T : String;
                           R : LSC.Internal.AES.Schedule_Index;
