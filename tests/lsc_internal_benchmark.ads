@@ -38,7 +38,7 @@ with AUnit; use AUnit;
 with AUnit.Test_Cases;
 with Ada.Calendar;
 
--- @summary Benchmarks
+--  @summary Benchmarks
 package LSC_Internal_Benchmark is
 
    type Test_Case is new AUnit.Test_Cases.Test_Case with
@@ -52,10 +52,10 @@ package LSC_Internal_Benchmark is
    overriding
    function Routine_Name (T : Test_Case) return Message_String;
 
-   procedure Register_Tests (T: in out Test_Case);
-   -- Register routines to be run
+   procedure Register_Tests (T : in out Test_Case);
+   --  Register routines to be run
 
    function Name (T : Test_Case) return Message_String;
-   -- Provide name identifying the test case
+   --  Provide name identifying the test case
 
 end LSC_Internal_Benchmark;

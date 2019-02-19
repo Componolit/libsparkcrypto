@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+--  This file is part of libsparkcrypto.
 --
--- Copyright (C) 2012, Stefan Berghofer
--- Copyright (C) 2012, secunet Security Networks AG
--- All rights reserved.
+--  Copyright (C) 2012, Stefan Berghofer
+--  Copyright (C) 2012, secunet Security Networks AG
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -19,17 +19,17 @@
 --      used to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
@@ -37,7 +37,9 @@ with LSC.Internal.Bignum;
 with LSC.Internal.EC;
 with LSC.Internal.EC_Signature;
 with AUnit.Assertions; use AUnit.Assertions;
-with Interfaces;
+
+pragma Style_Checks ("-s");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
 
 use type LSC.Internal.Bignum.Big_Int;
 use type LSC.Internal.EC_Signature.Signature_Type;
@@ -71,7 +73,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   -- 521-bit elliptic curve, see RFC 4753 / 4754
+   --  521-bit elliptic curve, see RFC 4753 / 4754
 
    P : constant Coord := Coord'
      (16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#, 16#FFFFFFFF#,
@@ -111,7 +113,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   -- See RFC 4753 (section 8.3) for test values
+   --  See RFC 4753 (section 8.3) for test values
 
    procedure Test_ECDH (T : in out Test_Cases.Test_Case'Class)
    is
@@ -149,7 +151,7 @@ is
    begin
       Precompute_Values (P, A, B, Q, RP, AM, BM, RQ, P_Inv, Q_Inv);
 
-      -- Compute public values from secrets
+      --  Compute public values from secrets
 
       LSC.Internal.EC.Point_Mult
         (X1       => Base_X,
@@ -207,7 +209,7 @@ is
          Pub_Other_X, Pub_Other_X'First, Pub_Other_Y, Pub_Other_Y'First,
          RP, RP'First, P, P'First, P_Inv);
 
-      -- Now compute shared secret
+      --  Now compute shared secret
 
       LSC.Internal.EC.Point_Mult
         (X1       => Pub_Other_X,
@@ -265,7 +267,7 @@ is
          Shared_Other_X, Shared_Other_X'First, Shared_Other_Y, Shared_Other_Y'First,
          RP, RP'First, P, P'First, P_Inv);
 
-      -- Check if shared secrets are equal
+      --  Check if shared secrets are equal
 
       Assert
         (Shared_X = Shared_Other_X and then Shared_Y = Shared_Other_Y and then
@@ -275,7 +277,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   -- See RFC 4754 (section 8.3) for test values
+   --  See RFC 4754 (section 8.3) for test values
 
    function Test_Sign
      (T   : LSC.Internal.EC_Signature.Signature_Type;
@@ -300,7 +302,7 @@ is
          16#7A9B2443#, 16#96F55619#, 16#933D7340#, 16#4D7E4359#, 16#9F5A4134#,
          16#C2B30541#, 16#000000C1#);
 
-      -- RFC 4754 only specifies expected results for ECDSA
+      --  RFC 4754 only specifies expected results for ECDSA
 
       Sign1_Expected : constant Coord := Coord'
         (16#20552251#, 16#ACEE5443#, 16#D9362CAE#, 16#0ED7DBB8#, 16#4A927888#,
@@ -417,7 +419,7 @@ is
          RN_First    => RQ'First,
          Success     => Success);
 
-      -- Check if signature manipulation is detected
+      --  Check if signature manipulation is detected
 
       if Bad then
          Sign1 (5) := 12345;
@@ -460,7 +462,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   procedure Test_Uncompress_Point(T : in out Test_Cases.Test_Case'Class)
+   procedure Test_Uncompress_Point (T : in out Test_Cases.Test_Case'Class)
    is
       Y : Coord;
       Success : Boolean;
@@ -540,7 +542,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_Base_Point_On_Curve'Access, "Base point on curve");

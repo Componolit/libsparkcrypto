@@ -37,6 +37,9 @@ with LSC.Internal.Bignum;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
 
+pragma Style_Checks ("-s");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
+
 use type LSC.Internal.Bignum.Big_Int;
 
 package body LSC_Internal_Test_Bignum
@@ -56,7 +59,7 @@ is
 
    Pub_Exp : constant SInt := SInt'(0 => 16#00010001#);
 
-   -- 2048 bit
+   --  2048 bit
 
    Modulus_Small : constant LInt_Small := LInt_Small'
      (16#e3855b7b#, 16#695e1d0c#, 16#2f3a389f#, 16#e4e8cfbc#, 16#366c3c0b#,
@@ -88,7 +91,7 @@ is
       16#2bd57be9#, 16#ffd21ce0#, 16#bccc6401#, 16#e2d6c019#, 16#c98b2771#,
       16#4d4cde01#, 16#d507d875#, 16#886bab53#, 16#7cac4629#);
 
-   -- 4096 bit
+   --  4096 bit
 
    Modulus : constant LInt := LInt'
      (16#27a3f371#, 16#f66dc29e#, 16#2c4cf251#, 16#0aa490b7#, 16#2eabfddb#,
@@ -164,13 +167,13 @@ is
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
-      -- Create original data
+      --  Create original data
       for I in Natural range Modulus_Small'Range
       loop
          Plain1_Small (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
-      -- Convert modulus, exponent and plaintext to format expected by OpenSSL
+      --  Convert modulus, exponent and plaintext to format expected by OpenSSL
       LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp_Small, Priv_Exp_Small'First, Priv_Exp_Small'Last,
          OpenSSL_Priv_Exp_Small, OpenSSL_Priv_Exp_Small'First);
@@ -206,7 +209,7 @@ is
         (OpenSSL_Plain2_Small, OpenSSL_Plain2_Small'First, OpenSSL_Plain2_Small'Last,
          Plain3_Small, Plain3_Small'First);
 
-      -- Precompute R^2 mod m
+      --  Precompute R^2 mod m
       LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus_Small,
          M_First => Modulus_Small'First,
@@ -214,10 +217,10 @@ is
          R       => R,
          R_First => R'First);
 
-      -- Precompute inverse
+      --  Precompute inverse
       M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus_Small (Modulus_Small'First));
 
-      -- Encrypt
+      --  Encrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1_Small,
          A_First    => Cipher1_Small'First,
@@ -242,7 +245,7 @@ is
          R_First    => R'First,
          M_Inv      => M_Inv);
 
-      -- Decrypt
+      --  Decrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2_Small,
          A_First    => Plain2_Small'First,
@@ -293,13 +296,13 @@ is
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
-      -- Create original data
+      --  Create original data
       for I in Natural range Modulus'Range
       loop
          Plain1 (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
-      -- Convert modulus, exponent and plaintext to format expected by OpenSSL
+      --  Convert modulus, exponent and plaintext to format expected by OpenSSL
       LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp, Priv_Exp'First, Priv_Exp'Last,
          OpenSSL_Priv_Exp, OpenSSL_Priv_Exp'First);
@@ -335,7 +338,7 @@ is
         (OpenSSL_Plain2, OpenSSL_Plain2'First, OpenSSL_Plain2'Last,
          Plain3, Plain3'First);
 
-      -- Precompute R^2 mod m
+      --  Precompute R^2 mod m
       LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus,
          M_First => Modulus'First,
@@ -343,10 +346,10 @@ is
          R       => R,
          R_First => R'First);
 
-      -- Precompute inverse
+      --  Precompute inverse
       M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus (Modulus'First));
 
-      -- Encrypt
+      --  Encrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1,
          A_First    => Cipher1'First,
@@ -371,7 +374,7 @@ is
          R_First    => R'First,
          M_Inv      => M_Inv);
 
-      -- Decrypt
+      --  Decrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2,
          A_First    => Plain2'First,
@@ -406,7 +409,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_RSA2048'Access, "Insecure RSA 2048 (encrypt/decrypt)");

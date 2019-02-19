@@ -38,13 +38,16 @@ with AUnit.Assertions; use AUnit.Assertions;
 with Util;
 with LSC.Types;
 
+pragma Style_Checks (Off);
+
 package body Util_Tests
 is
    use type LSC.Types.Bytes;
+   pragma Warnings (Off, "formal parameter ""T"" is not referenced");
 
    procedure Test_Bytes_To_String_Simple (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : String := Util.B2S ((16#de#, 16#ad#, 16#be#, 16#ef#));
+      Result : constant String := Util.B2S ((16#de#, 16#ad#, 16#be#, 16#ef#));
    begin
       Assert (Result = "deadbeef", "Invalid result: " & Result);
    end Test_Bytes_To_String_Simple;
@@ -53,7 +56,7 @@ is
 
    procedure Test_Bytes_To_String_Odd (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : String := Util.B2S ((16#c#, 16#af#, 16#ef#, 16#ee#));
+      Result : constant String := Util.B2S ((16#c#, 16#af#, 16#ef#, 16#ee#));
    begin
       Assert (Result = "cafefee", "Invalid result: " & Result);
    end Test_Bytes_To_String_Odd;
@@ -62,7 +65,7 @@ is
 
    procedure Test_String_To_Bytes_Simple (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : LSC.Types.Bytes := Util.S2B ("deadbeef");
+      Result : constant LSC.Types.Bytes := Util.S2B ("deadbeef");
    begin
       Assert (Result = (16#de#, 16#ad#, 16#be#, 16#ef#), "Invalid result: " & Util.B2S (Result));
    end Test_String_To_Bytes_Simple;
@@ -71,7 +74,7 @@ is
 
    procedure Test_String_To_Bytes_Whitespace (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : LSC.Types.Bytes := Util.S2B ("01 23" & ASCII.HT & "45 67 89 ab cd ef");
+      Result : constant LSC.Types.Bytes := Util.S2B ("01 23" & ASCII.HT & "45 67 89 ab cd ef");
    begin
       Assert (Result = (16#01#, 16#23#, 16#45#, 16#67#, 16#89#, 16#ab#, 16#cd#, 16#ef#),
               "Invalid result: " & Util.B2S (Result));
@@ -81,7 +84,7 @@ is
 
    procedure Test_String_To_Bytes_Odd (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : LSC.Types.Bytes := Util.S2B ("dead bee"); -- ;-(
+      Result : constant LSC.Types.Bytes := Util.S2B ("dead bee"); -- ;-(
    begin
       Assert (Result = (16#d#, 16#ea#, 16#db#, 16#ee#), "Invalid result: " & Util.B2S (Result));
    end Test_String_To_Bytes_Odd;
@@ -90,7 +93,7 @@ is
 
    procedure Test_String_To_Bytes_Surrounding (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : LSC.Types.Bytes := Util.S2B ("    0123456789abcdef" & ASCII.HT & " ");
+      Result : constant LSC.Types.Bytes := Util.S2B ("    0123456789abcdef" & ASCII.HT & " ");
    begin
       Assert (Result = (16#01#, 16#23#, 16#45#, 16#67#, 16#89#, 16#ab#, 16#cd#, 16#ef#),
               "Invalid result: " & Util.B2S (Result));
@@ -100,7 +103,7 @@ is
 
    procedure Test_String_To_Bytes_Uppercase (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : LSC.Types.Bytes := Util.S2B ("ADF3456789aBCdEf");
+      Result : constant LSC.Types.Bytes := Util.S2B ("ADF3456789aBCdEf");
    begin
       Assert (Result = (16#ad#, 16#f3#, 16#45#, 16#67#, 16#89#, 16#ab#, 16#cd#, 16#ef#),
               "Invalid result: " & Util.B2S (Result));
@@ -110,7 +113,8 @@ is
 
    procedure Invalid_Conversion
    is
-      Result : LSC.Types.Bytes := Util.S2B ("An invalid hex string does not belong here!");
+      Result : constant LSC.Types.Bytes := Util.S2B ("An invalid hex string does not belong here!");
+      pragma Unreferenced (Result);
    begin
       null;
    end Invalid_Conversion;
@@ -125,7 +129,7 @@ is
 
    procedure Test_Text_To_Bytes_Simple (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : LSC.Types.Bytes := Util.T2B ("Dead Beef!");
+      Result : constant LSC.Types.Bytes := Util.T2B ("Dead Beef!");
    begin
       Assert (Result = (16#44#, 16#65#, 16#61#, 16#64#, 16#20#,
                         16#42#, 16#65#, 16#65#, 16#66#, 16#21#), "Invalid result: " & Util.B2S (Result));
@@ -135,7 +139,7 @@ is
 
    procedure Test_Bytes_To_Text_Simple (T : in out Test_Cases.Test_Case'Class)
    is
-      Result : String := Util.B2T ((16#44#, 16#65#, 16#61#, 16#64#, 16#20#,
+      Result : constant String := Util.B2T ((16#44#, 16#65#, 16#61#, 16#64#, 16#20#,
                                     16#42#, 16#65#, 16#65#, 16#66#, 16#21#));
    begin
       Assert (Result = "Dead Beef!", "Invalid result: " & Result);
@@ -145,14 +149,14 @@ is
 
    procedure Test_Bytes_To_Text_To_Bytes (T : in out Test_Cases.Test_Case'Class)
    is
-      Expected : LSC.Types.Bytes := 
+      Expected : constant LSC.Types.Bytes :=
          (16#0B#, 16#46#, 16#D9#, 16#8D#, 16#A1#, 16#04#, 16#64#, 16#84#,
           16#60#, 16#55#, 16#8B#, 16#3F#, 16#2B#, 16#22#, 16#4E#, 16#FE#,
           16#CB#, 16#EF#, 16#32#, 16#95#, 16#A7#, 16#0E#, 16#E0#, 16#E9#,
           16#CA#, 16#79#, 16#28#, 16#C9#, 16#8B#, 16#31#, 16#64#, 16#81#,
           16#93#, 16#85#, 16#56#, 16#B2#, 16#28#, 16#22#, 16#A7#, 16#55#,
           16#BA#, 16#4D#, 16#B2#, 16#90#, 16#D3#, 16#E4#, 16#D7#, 16#9F#);
-      Result   : LSC.Types.Bytes := Util.T2B (Util.B2T (Expected));
+      Result   : constant LSC.Types.Bytes := Util.T2B (Util.B2T (Expected));
    begin
       Assert (Result = Expected, "Invalid result: " & Util.B2S (Result));
    end Test_Bytes_To_Text_To_Bytes;
@@ -161,13 +165,13 @@ is
 
    procedure Test_Text_To_Bytes_To_Text (T : in out Test_Cases.Test_Case'Class)
    is
-      Expected : String :=
+      Expected : constant String :=
          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do "&
          "eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim " &
          "ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut " &
          "aliquip ex ea commodo consequat. Duis aute irure dolor in";
 
-      Result   : String := Util.B2T (Util.T2B (Expected));
+      Result : constant String := Util.B2T (Util.T2B (Expected));
    begin
       Assert (Result = Expected, "Invalid result: " & Result);
    end Test_Text_To_Bytes_To_Text;

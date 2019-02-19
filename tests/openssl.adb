@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+--  This file is part of libsparkcrypto.
 --
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
--- All rights reserved.
+--  Copyright (C) 2010, Alexander Senier
+--  Copyright (C) 2010, secunet Security Networks AG
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -19,17 +19,17 @@
 --      to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
@@ -38,7 +38,7 @@
 package body OpenSSL is
 
    ----------------------------------------------------------------------------
-   -- AES
+   --  AES
    ----------------------------------------------------------------------------
 
    function Create_AES128_Enc_Context (Key : LSC.Internal.AES.AES128_Key_Type)
@@ -101,7 +101,7 @@ package body OpenSSL is
    is
       Tmp_IV : LSC.Internal.AES.Block_Type := IV;
    begin
-      C_AES_cbc_Encrypt
+      C_AES_CBC_Encrypt
         (Input  => Plaintext'Address,
          Output => Ciphertext'Address,
          Length => 16 * Plaintext'Length,
@@ -172,7 +172,7 @@ package body OpenSSL is
    is
       Tmp_IV : LSC.Internal.AES.Block_Type := IV;
    begin
-      C_AES_cbc_Encrypt
+      C_AES_CBC_Encrypt
         (Input  => Ciphertext'Address,
          Output => Plaintext'Address,
          Length => 16 * Ciphertext'Length,
@@ -182,7 +182,7 @@ package body OpenSSL is
    end CBC_Decrypt;
 
    ----------------------------------------------------------------------------
-   -- SHA-1
+   --  SHA-1
    ----------------------------------------------------------------------------
 
    procedure SHA1_Context_Init (Context :    out SHA1_Context_Type)
@@ -229,7 +229,7 @@ package body OpenSSL is
    end SHA1_Get_Hash;
 
    ----------------------------------------------------------------------------
-   -- SHA-256
+   --  SHA-256
    ----------------------------------------------------------------------------
 
    procedure SHA256_Context_Init (Context :    out SHA256_Context_Type)
@@ -275,7 +275,7 @@ package body OpenSSL is
    end SHA256_Get_Hash;
 
    ----------------------------------------------------------------------------
-   -- SHA-384
+   --  SHA-384
    ----------------------------------------------------------------------------
 
    procedure SHA384_Context_Init (Context :    out SHA384_Context_Type)
@@ -321,7 +321,7 @@ package body OpenSSL is
    end SHA384_Get_Hash;
 
    ----------------------------------------------------------------------------
-   -- SHA-512
+   --  SHA-512
    ----------------------------------------------------------------------------
 
    procedure SHA512_Context_Init (Context :    out SHA512_Context_Type)
@@ -367,7 +367,7 @@ package body OpenSSL is
    end SHA512_Get_Hash;
 
    ----------------------------------------------------------------------------
-   -- RIPEMD-160
+   --  RIPEMD-160
    ----------------------------------------------------------------------------
 
    procedure RIPEMD160_Context_Init (Context :    out RIPEMD160_Context_Type)
