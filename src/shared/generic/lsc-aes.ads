@@ -41,9 +41,11 @@ is
    type Keylen_Type is (L128, L192, L256);
    --  Available AES modes
 
-   function Key_Bytes (Keylen : Keylen_Type) return Natural
-   with Ghost;
+   function Key_Bytes (Keylen : Keylen_Type) return Natural;
    --  AES key lengths for @Keylen in bytes
+
+   --  FIXME: This crashes GCC 6.3. Re-add as soon as it's not used anymore.
+   --  with Ghost;
 
    function Decrypt (Ciphertext : LSC.Types.Bytes;
                      Key        : LSC.Types.Bytes;
