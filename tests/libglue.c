@@ -32,13 +32,53 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <err.h>
 #include <assert.h>
+#include <string.h>
+#include <openssl/engine.h>
 #include <openssl/hmac.h>
 #include <openssl/evp.h>
 #include <openssl/crypto.h>
 #include <openssl/bn.h>
 #include <openssl/rsa.h>
+
+#if OPENSSL_VERSION_NUMBER < 0x10100000L
+
+static void *OPENSSL_zalloc(size_t num)
+{
+   void *ret = OPENSSL_malloc(num);
+
+   if (ret != NULL)
+       memset(ret, 0, num);
+   return ret;
+}
+
+int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
+{
+   /* If the fields n and e in r are NULL, the corresponding input
+*      * parameters MUST be non-NULL for n and e.  d may be
+*           * left NULL (in case only the public key is used).
+*                */
+   if ((r->n == NULL && n == NULL)
+       || (r->e == NULL && e == NULL))
+       return 0;
+
+   if (n != NULL) {
+       BN_free(r->n);
+       r->n = n;
+   }
+   if (e != NULL) {
+       BN_free(r->e);
+       r->e = e;
+   }
+   if (d != NULL) {
+       BN_free(r->d);
+       r->d = d;
+   }
+
+   return 1;
+}
+
+#endif // OPENSSL_VERSION_NUMBER < 0x10100000L
 
 static inline void
 Authenticate_Generic
@@ -202,8 +242,10 @@ void c_rsa_private_decrypt
 
    assert(RSA_set0_key (key, n, e, d) == 1);
 
+#if OPENSSL_VERSION_NUMBER >= 0x10100000L
    // FIXME: Why is RSA_FLAG_NO_BLINDING needed?
    RSA_set_flags (key, RSA_FLAG_NO_BLINDING);
+#endif // OPENSSL_VERSION_NUMBER >= 0x10100000L
 
    rv = RSA_private_decrypt ((int)N_Length, C, P, key, RSA_NO_PADDING);
    if (rv == -1)
