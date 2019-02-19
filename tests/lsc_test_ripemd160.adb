@@ -1,11 +1,11 @@
 -------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+--  This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018 Componolit GmbH
--- All rights reserved.
+--  Copyright (C) 2018 Componolit GmbH
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -18,17 +18,17 @@
 --      to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 with AUnit.Assertions; use AUnit.Assertions;
@@ -38,23 +38,26 @@ with LSC.RIPEMD160;
 
 use LSC;
 
+pragma Style_Checks ("-s-M");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
+
 package body LSC_Test_RIPEMD160 is
 
-   -- Test vectors from:
+   --  Test vectors from:
    --    RIPEMD-160: A Strengthened Version of RIPEMD , Appendix B: Test values
 
    procedure Test_RIPEMD160 (Msg : String;
                              MD  : String)
    is
       use type LSC.Types.Bytes;
-      Input  : LSC.Types.Bytes := T2B (Msg);
-      Result : LSC.Types.Bytes := RIPEMD160.Hash (Input);
+      Input  : constant LSC.Types.Bytes := T2B (Msg);
+      Result : constant LSC.Types.Bytes := RIPEMD160.Hash (Input);
    begin
       Assert (Result = S2B (MD), "Invalid hash: " & B2S (Result) & " (expected " & MD & " input len=" & Input'Length'Img & ")");
    end Test_RIPEMD160;
 
    ---------------------------------------------------------------------------
-   -- RIPEMD160
+   --  RIPEMD160
    ---------------------------------------------------------------------------
 
    RMD_Buffer : String (1 .. 1_000_000);
@@ -76,11 +79,11 @@ package body LSC_Test_RIPEMD160 is
 
       RMD_Buffer := (others => 'a');
       Test_RIPEMD160 (RMD_Buffer, "52783243c1697bdbe16d37f97f68f08325dc1528");
-	end Test_RIPEMD160_AB9601;
+   end Test_RIPEMD160_AB9601;
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_RIPEMD160_AB9601'Access, "RIPEMD-160 (AB-9601)");

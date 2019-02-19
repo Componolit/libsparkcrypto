@@ -15,7 +15,7 @@ is
    end Linker;
 
    package Compiler is
-      for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN", "-fomit-frame-pointer", "-gnatp", "-gnatwe");
+      for Default_Switches ("Ada") use ("-ffunction-sections", "-fdata-sections", "-Winline", "-gnatN", "-fomit-frame-pointer", "-gnatp", "-gnatwa", "-gnaty", "-gnatyM120", "-gnatwe");
    end Compiler;
 
    package Builder is

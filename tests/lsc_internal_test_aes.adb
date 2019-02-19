@@ -37,6 +37,9 @@ with AUnit.Assertions; use AUnit.Assertions;
 with LSC.Internal.AES;
 with OpenSSL;
 
+pragma Style_Checks ("-s");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
+
 package body LSC_Internal_Test_AES is
 
    ---------------------------------------------------------------------------
@@ -54,14 +57,14 @@ package body LSC_Internal_Test_AES is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#1f1e1d1c#);
+      Key128 := LSC.Internal.AES.AES128_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#1f1e1d1c#);
 
       Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
       for k in Natural range 1 .. 20
@@ -84,7 +87,7 @@ package body LSC_Internal_Test_AES is
 
       Assert (Plain1 = Plain2, "Plaintext differs");
 
-	end Test_AES128_Decrypt;
+   end Test_AES128_Decrypt;
 
    ---------------------------------------------------------------------------
 
@@ -101,14 +104,14 @@ package body LSC_Internal_Test_AES is
 
       Plain := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#);
+      Key128 := LSC.Internal.AES.AES128_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#);
 
       Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
 
@@ -148,16 +151,16 @@ package body LSC_Internal_Test_AES is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key192 := LSC.Internal.AES.AES192_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       Context1 := OpenSSL.Create_AES192_Dec_Context (Key192);
       for k in Natural range 1 .. 20
@@ -196,16 +199,16 @@ package body LSC_Internal_Test_AES is
 
       Plain := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#);
+      Key192 := LSC.Internal.AES.AES192_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#);
 
       Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
       for k in Natural range 1 .. 20
@@ -244,18 +247,18 @@ package body LSC_Internal_Test_AES is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key256 := LSC.Internal.AES.AES256_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       Context1 := OpenSSL.Create_AES256_Dec_Context (Key256);
       for k in Natural range 1 .. 20
@@ -294,18 +297,18 @@ package body LSC_Internal_Test_AES is
 
       Plain := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key256 := LSC.Internal.AES.AES256_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
       for k in Natural range 1 .. 20
@@ -331,7 +334,7 @@ package body LSC_Internal_Test_AES is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_AES128_Decrypt'Access, "AES-128 decryption");

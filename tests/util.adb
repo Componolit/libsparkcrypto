@@ -20,7 +20,6 @@ is
          when 16#c# => 'c', when 16#d# => 'd', when 16#e# => 'e', when 16#f# => 'f',
          when others => '*');
 
-      Leading_Zero  : Boolean := True;
       Result_Offset : Natural := 0;
    begin
       for D of Data
@@ -81,7 +80,7 @@ is
          end if;
       end loop;
 
-      return Result : LSC.Types.Bytes (1 .. (Num_Nibbles + 1)/ 2)
+      return Result : LSC.Types.Bytes (1 .. (Num_Nibbles + 1) / 2)
       do
          High_Nibble := Num_Nibbles mod 2 = 0;
 

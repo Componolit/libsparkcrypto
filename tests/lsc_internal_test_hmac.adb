@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+--  This file is part of libsparkcrypto.
 --
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
--- All rights reserved.
+--  Copyright (C) 2010, Alexander Senier
+--  Copyright (C) 2010, secunet Security Networks AG
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -19,17 +19,17 @@
 --      to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
@@ -52,6 +52,9 @@ use type Interfaces.Unsigned_64;
 use type LSC.Internal.SHA256.Message_Index;
 use type LSC.Internal.SHA512.Message_Index;
 
+pragma Style_Checks ("-s");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
+
 package body LSC_Internal_Test_HMAC
 is
    --  RIPEMD160 Test Vectors (RFC 2286, 2.)
@@ -68,7 +71,7 @@ is
          (M (16#0b0b0b0b#), M (16#0b0b0b0b#), M (16#0b0b0b0b#),
           M (16#0b0b0b0b#), M (16#0b0b0b0b#), others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Message := Message_Type'(1 => LSC.Internal.RIPEMD160.Block_Type'
          (M (16#48692054#), M (16#68657265#), others => 0));
 
@@ -76,7 +79,7 @@ is
         (LSC.Internal.HMAC_RIPEMD160.Authenticate (Key, Message, 64) =
          LSC.Internal.RIPEMD160.Hash_Type'
          (M (16#24cb4bd6#), M (16#7d20fc1a#), M (16#5d2ed773#),
-          M (16#2dcc3937#), M (16#7f0a5668#), others => 0),
+          M (16#2dcc3937#), M (16#7f0a5668#)),
          "Invalid HMAC");
 
    end Test_RIPEMD160_Auth_1;
@@ -187,7 +190,7 @@ is
       Message : Message_Type;
    begin
 
-      -- hmac_rmd160-key-1.dat
+      --  hmac_rmd160-key-1.dat
       Key := LSC.Internal.RIPEMD160.Block_Type'(
          M (16#eede4910#), M (16#ebbc6f5c#), M (16#13f5971b#), M (16#5466e1a6#),
          M (16#5b10e6d1#), M (16#f8c28abd#), M (16#77b061f0#), M (16#ac52cd4c#),
@@ -195,7 +198,7 @@ is
          M (16#2311c948#), M (16#41538d30#), M (16#6cb18b1f#), M (16#19a48dc5#)
       );
 
-      -- hmac_rmd160-message-1.dat
+      --  hmac_rmd160-message-1.dat
       Message := Message_Type'(
       LSC.Internal.RIPEMD160.Block_Type'(
          M (16#7ac96141#), M (16#3578af90#), M (16#342cbbf4#), M (16#b3c969cd#),
@@ -219,7 +222,7 @@ is
          M (16#1941214e#), M (16#857fa0e9#), M (16#0e0e6855#), M (16#3afd24bc#))
          );
 
-      -- hmac_rmd160-hash-1.dat
+      --  hmac_rmd160-hash-1.dat
       Assert
         (LSC.Internal.HMAC_RIPEMD160.Authenticate (Key, Message, 2048) =
          LSC.Internal.RIPEMD160.Hash_Type'(
@@ -238,7 +241,7 @@ is
       Key     : LSC.Internal.RIPEMD160.Block_Type;
       Message : Message_Type;
    begin
-      -- hmac_rmd160-key-2.dat
+      --  hmac_rmd160-key-2.dat
       Key := LSC.Internal.RIPEMD160.Block_Type'(
          M (16#743c9034#), M (16#2c3a5238#), M (16#8644ea5c#), M (16#3f32e614#),
          M (16#f13e2e3f#), M (16#926810b0#), M (16#2dc2f006#), M (16#94c2cc93#),
@@ -246,7 +249,7 @@ is
          M (16#03b04969#), M (16#6b9b0d1a#), M (16#5ce0dea4#), M (16#0f1b4e37#)
       );
 
-      -- hmac_rmd160-message-2.dat
+      --  hmac_rmd160-message-2.dat
       Message := Message_Type'(
       LSC.Internal.RIPEMD160.Block_Type'(
          M (16#ffe452a1#), M (16#0731bc87#), M (16#ac159b32#), M (16#5375a1a7#),
@@ -275,7 +278,7 @@ is
          M (16#c521396b#), M (16#9e21ed74#), others => 0)
          );
 
-      -- hmac_rmd160-hash-2.dat
+      --  hmac_rmd160-hash-2.dat
       Assert
         (LSC.Internal.HMAC_RIPEMD160.Authenticate (Key, Message, 2048 + 448) =
          LSC.Internal.RIPEMD160.Hash_Type'(
@@ -300,7 +303,7 @@ is
         (M (16#0b0b0b0b#), M (16#0b0b0b0b#), M (16#0b0b0b0b#), M (16#0b0b0b0b#),
          M (16#0b0b0b0b#), others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Message := Message_Type'
         (1 => LSC.Internal.SHA1.Block_Type'
            (M (16#48692054#), M (16#68657265#), others => 0));
@@ -309,7 +312,7 @@ is
         (LSC.Internal.HMAC_SHA1.Authenticate (Key, Message, 64) =
            LSC.Internal.SHA1.Hash_Type'
              (M (16#b6173186#), M (16#55057264#), M (16#e28bc0b6#),
-              M (16#fb378c8e#), M (16#f146be00#), others => 0),
+              M (16#fb378c8e#), M (16#f146be00#)),
          "Invalid HMAC");
 
    end Test_SHA1_Auth_1;
@@ -447,14 +450,14 @@ is
       Key     : LSC.Internal.SHA1.Block_Type;
       Message : Message_Type;
    begin
-      -- hmac_sha1-key-1.dat
-      Key := LSC.Internal.sha1.Block_Type'
+      --  hmac_sha1-key-1.dat
+      Key := LSC.Internal.SHA1.Block_Type'
         (M (16#07a55659#), M (16#e5e382f2#), M (16#a12610e0#), M (16#8926b665#),
          M (16#43122a4e#), M (16#c2dc3c09#), M (16#8261de1f#), M (16#3f2ae412#),
          M (16#7e19048e#), M (16#7cee69bc#), M (16#43f8283e#), M (16#86b48781#),
          M (16#ca18e81c#), M (16#422f70e3#), M (16#52062553#), M (16#ff11c406#));
 
-      -- hmac_sha1-message-1.dat
+      --  hmac_sha1-message-1.dat
       Message := Message_Type'
         (LSC.Internal.SHA1.Block_Type'
            (M (16#b88457a3#), M (16#9d9346c9#), M (16#9698c202#), M (16#c45572f7#),
@@ -478,7 +481,7 @@ is
             M (16#5cafcc39#), M (16#646132f3#), M (16#240e4811#), M (16#7f4db108#))
         );
 
-      -- hmac_sha1-hash-1.dat
+      --  hmac_sha1-hash-1.dat
       Assert
         (LSC.Internal.HMAC_SHA1.Authenticate (Key, Message, 2048) =
            LSC.Internal.SHA1.Hash_Type'(M (16#ec3b225b#), M (16#f28c53dc#),
@@ -497,14 +500,14 @@ is
       Key     : LSC.Internal.SHA1.Block_Type;
       Message : Message_Type;
    begin
-      -- hmac_sha1-key-2.dat
+      --  hmac_sha1-key-2.dat
       Key := LSC.Internal.SHA1.Block_Type'
         (M (16#f05821b9#), M (16#94ab6613#), M (16#f7c5773f#), M (16#b2a2184f#),
          M (16#9659daf3#), M (16#856a4a69#), M (16#245ba5f9#), M (16#7431d93f#),
          M (16#697a494d#), M (16#8da7131b#), M (16#1a995683#), M (16#4b4592d0#),
          M (16#c10b076b#), M (16#989278bc#), M (16#91fe184c#), M (16#84046614#));
 
-      -- hmac_sha1-message-2.dat
+      --  hmac_sha1-message-2.dat
       Message := Message_Type'
         (LSC.Internal.SHA1.Block_Type'
            (M (16#503ab855#), M (16#d8a04186#), M (16#484637e5#), M (16#38dd715f#),
@@ -533,7 +536,7 @@ is
             M (16#3543e821#), M (16#f1dbd0a1#), others => 0)
         );
 
-      -- hmac_sha1-hash-2.dat
+      --  hmac_sha1-hash-2.dat
       Assert
         (LSC.Internal.HMAC_SHA1.Authenticate (Key, Message, 2048 + 448) =
            LSC.Internal.SHA1.Hash_Type'(M (16#f87e3f76#), M (16#92b5f83c#),
@@ -554,7 +557,7 @@ is
         (M (16#0b0b0b0b#), M (16#0b0b0b0b#), M (16#0b0b0b0b#),
          M (16#0b0b0b0b#), M (16#0b0b0b0b#), others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Block := LSC.Internal.SHA256.Block_Type'(M (16#48692054#),
                                       M (16#68657265#),
                                       others => 0);
@@ -722,7 +725,7 @@ is
                                       M (16#0b0b0b0b#),
                                       others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Message := Message_Type'(1 => LSC.Internal.SHA256.Block_Type'
          (M (16#48692054#), M (16#68657265#), others => 0));
 
@@ -878,7 +881,7 @@ is
       Key     : LSC.Internal.SHA256.Block_Type;
       Message : Message_Type;
    begin
-      -- hmac_sha256-key-1.dat
+      --  hmac_sha256-key-1.dat
       Key := LSC.Internal.SHA256.Block_Type'(
          M (16#e94f399e#), M (16#6451ce39#), M (16#7b49d580#), M (16#bafdf532#),
          M (16#ee24aa25#), M (16#6b0721bf#), M (16#c7f67939#), M (16#903fc021#),
@@ -886,7 +889,7 @@ is
          M (16#d3452f2b#), M (16#cdba563a#), M (16#3edf4f0d#), M (16#6bd26dad#)
       );
 
-      -- hmac_sha256-message-1.dat
+      --  hmac_sha256-message-1.dat
       Message := Message_Type'(
       LSC.Internal.SHA256.Block_Type'(
          M (16#1d68a3cd#), M (16#6b07a7e3#), M (16#3ce93a05#), M (16#f89defe5#),
@@ -910,7 +913,7 @@ is
          M (16#88b5870c#), M (16#697807fd#), M (16#dd1d1028#), M (16#87d5777f#))
       );
 
-      -- hmac_sha256-hash-1.dat
+      --  hmac_sha256-hash-1.dat
       Assert
         (LSC.Internal.HMAC_SHA256.Authenticate (Key, Message, 2048) =
          LSC.Internal.HMAC_SHA256.Auth_Type'(
@@ -927,7 +930,7 @@ is
       Key     : LSC.Internal.SHA256.Block_Type;
       Message : Message_Type;
    begin
-      -- hmac_sha256-key-2.dat
+      --  hmac_sha256-key-2.dat
       Key := LSC.Internal.SHA256.Block_Type'(
          M (16#f9bce67a#), M (16#4d76ff6d#), M (16#d14b0371#), M (16#7b63696c#),
          M (16#563ff8ee#), M (16#1825343e#), M (16#3732b7ff#), M (16#d881d8c1#),
@@ -935,7 +938,7 @@ is
          M (16#27566d34#), M (16#a61c20cf#), M (16#41db3611#), M (16#4d8d63f9#)
       );
 
-      -- hmac_sha256-message-2.dat
+      --  hmac_sha256-message-2.dat
       Message := Message_Type'(
       LSC.Internal.SHA256.Block_Type'(
          M (16#05b4583b#), M (16#e4dabc55#), M (16#2d3ec9bb#), M (16#d9a36cfc#),
@@ -964,7 +967,7 @@ is
          M (16#2d07d0fd#), M (16#db70f339#), others => 0)
       );
 
-      -- hmac_sha256-hash-2.dat
+      --  hmac_sha256-hash-2.dat
       Assert
         (LSC.Internal.HMAC_SHA256.Authenticate (Key, Message, 2048 + 448) =
          LSC.Internal.HMAC_SHA256.Auth_Type'(
@@ -985,7 +988,7 @@ is
          (N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
           N (16#0b0b0b0b00000000#), others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Block := LSC.Internal.SHA512.Block_Type'
          (N (16#4869205468657265#), others => 0);
 
@@ -1114,7 +1117,7 @@ is
           N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
           others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Message := Message_Type'(1 => LSC.Internal.SHA512.Block_Type'
          (N (16#4869205468657265#), others => 0));
 
@@ -1309,7 +1312,7 @@ is
         (N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
          N (16#0b0b0b0b00000000#), others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Block := LSC.Internal.SHA512.Block_Type'
         (N (16#4869205468657265#), others => 0);
 
@@ -1439,7 +1442,7 @@ is
          N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#),
          N (16#0b0b0b0b0b0b0b0b#), N (16#0b0b0b0b0b0b0b0b#), others => 0);
 
-      -- "Hi There"
+      --  "Hi There"
       Message := Message_Type'(1 => LSC.Internal.SHA512.Block_Type'(N (16#4869205468657265#), others => 0));
 
       Assert
@@ -1526,7 +1529,7 @@ is
       --      leaving out the first 16 bytes of the bogus key results in
       --      the presented MAC.
       Key   := LSC.Internal.SHA512.Block_Type'
-        (-- N (16#0a0b0c0d0e0f1011#), N (16#1213141516171819#),
+        ( --  N (16#0a0b0c0d0e0f1011#), N (16#1213141516171819#),
          N (16#0102030405060708#), N (16#090a0b0c0d0e0f10#), N (16#1112131415161718#),
          N (16#191a1b1c1d1e1f20#), N (16#2122232425262728#), N (16#292a2b2c2d2e2f30#),
          N (16#3132333435363738#), N (16#393a3b3c3d3e3f40#), others => 0);
@@ -1760,8 +1763,8 @@ is
       others => LSC.Internal.SHA512.Block_Type'(others => 0)
       );
 
-      -- Note that we hash only part of the message (leaving out the last 4 64-bit values).
-      -- This should result in the same authentication value as MULTI-3!
+      --  Note that we hash only part of the message (leaving out the last 4 64-bit values).
+      --  This should result in the same authentication value as MULTI-3!
       Assert
         (LSC.Internal.HMAC_SHA512.Authenticate (Key, Message, 16#3c0#) =
          LSC.Internal.HMAC_SHA512.Auth_Type'(
@@ -1771,7 +1774,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_RIPEMD160_Auth_1'Access, "RIPEMD160 (AUTH-1)");

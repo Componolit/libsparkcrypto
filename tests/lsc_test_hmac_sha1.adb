@@ -1,10 +1,10 @@
-------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------  -- This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018 Componolit GmbH
--- All rights reserved.
+--  Copyright (C) 2018 Componolit GmbH
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -17,17 +17,17 @@
 --      to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 with AUnit.Assertions; use AUnit.Assertions;
@@ -35,7 +35,8 @@ with Util; use Util;
 with LSC.SHA1.HMAC;
 with LSC.Types;
 
-use LSC;
+pragma Style_Checks ("-s-M");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
 
 package body LSC_Test_HMAC_SHA1 is
 
@@ -47,11 +48,11 @@ package body LSC_Test_HMAC_SHA1 is
    is
       use type LSC.Types.Bytes;
 
-      Converted_Key : LSC.Types.Bytes := (if Textkey then T2B (Key) else S2B (Key));
-      Converted_Msg : LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
-      Converted_Mac : LSC.Types.Bytes := S2B (Mac);
+      Converted_Key : constant LSC.Types.Bytes := (if Textkey then T2B (Key) else S2B (Key));
+      Converted_Msg : constant LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
+      Converted_Mac : constant LSC.Types.Bytes := S2B (Mac);
 
-      Result : LSC.Types.Bytes :=
+      Result : constant LSC.Types.Bytes :=
          LSC.SHA1.HMAC.HMAC (Key       => Converted_Key,
                              Message   => Converted_Msg,
                              Length    => Converted_Mac'Length);
@@ -60,7 +61,7 @@ package body LSC_Test_HMAC_SHA1 is
    end Test_HMAC;
 
    ---------------------------------------------------------------------------
-   -- RFC 2202 Test vectors
+   --  RFC 2202 Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_RFC (T : in out Test_Cases.Test_Case'Class)
@@ -98,10 +99,10 @@ package body LSC_Test_HMAC_SHA1 is
                  Msg => "Test Using Larger Than Block-Size Key and Larger Than One Block-Size Data",
                  Mac => "e8e99d0f45237d786d6bbaa7965c7808bbff1a91",
                  Textmsg => True);
-   end Test_HMAC_RFC ;
+   end Test_HMAC_RFC;
 
    ---------------------------------------------------------------------------
-   -- NIST test vectors are from
+   --  NIST test vectors are from
    --    CAVP Testing: Keyed-Hash Message Authentication Code (HMAC)
    --    https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/hmactestvectors.zip
    ---------------------------------------------------------------------------
@@ -1309,11 +1310,11 @@ package body LSC_Test_HMAC_SHA1 is
         (Key => "ceb9aedf8d6efcf0ae52bea0fa99a9e26ae81bacea0cff4d5eecf201e3bca3c3577480621b818fd717ba99d6ff958ea3d59b2527b019c343bb199e648090225867d994607962f5866aa62930d75b58f6",
          Msg => "99958aa459604657c7bf6e4cdfcc8785f0abf06ffe636b5b64ecd931bd8a456305592421fc28dbcccb8a82acea2be8e54161d7a78e0399a6067ebaca3f2510274dc9f92f2c8ae4265eec13d7d42e9f8612d7bc258f913ecb5a3a5c610339b49fb90e9037b02d684fc60da835657cb24eab352750c8b463b1a8494660d36c3ab2",
          Mac => "4ac41ab89f625c60125ed65ffa958c6b490ea670");
-	end Test_HMAC_NIST;
+   end Test_HMAC_NIST;
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_HMAC_RFC'Access, "HMAC SHA-1 (RFC 2202)");

@@ -1,4 +1,5 @@
-------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------
+-- This file is part of libsparkcrypto.
 --
 -- Copyright (C) 2018, Componolit GmbH
 -- All rights reserved.
@@ -43,7 +44,7 @@ package body LSC_Suite is
 
    use AUnit.Test_Suites;
 
-   -- Statically allocate test suite:
+   --  Statically allocate test suite:
    Result : aliased Test_Suite;
 
    --  Statically allocate test cases:

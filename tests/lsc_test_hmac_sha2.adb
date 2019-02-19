@@ -1,11 +1,11 @@
 -------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+--  This file is part of libsparkcrypto.
 --
--- Copyright (C) 2018 Componolit GmbH
--- All rights reserved.
+--  Copyright (C) 2018 Componolit GmbH
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -18,17 +18,17 @@
 --      to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 with AUnit.Assertions; use AUnit.Assertions;
@@ -36,7 +36,8 @@ with Util; use Util;
 with LSC.SHA2.HMAC;
 with LSC.Types;
 
-use LSC;
+pragma Style_Checks ("-s-M");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
 
 package body LSC_Test_HMAC_SHA2 is
 
@@ -49,11 +50,11 @@ package body LSC_Test_HMAC_SHA2 is
    is
       use type LSC.Types.Bytes;
 
-      Converted_Key : LSC.Types.Bytes := (if Textkey then T2B (Key) else S2B (Key));
-      Converted_Msg : LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
-      Converted_Mac : LSC.Types.Bytes := S2B (Mac);
+      Converted_Key : constant LSC.Types.Bytes := (if Textkey then T2B (Key) else S2B (Key));
+      Converted_Msg : constant LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
+      Converted_Mac : constant LSC.Types.Bytes := S2B (Mac);
 
-      Result : LSC.Types.Bytes :=
+      Result : constant LSC.Types.Bytes :=
          LSC.SHA2.HMAC.HMAC (Algorithm => Algo,
                              Key       => Converted_Key,
                              Message   => Converted_Msg,
@@ -99,7 +100,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA512;
 
    ---------------------------------------------------------------------------
-   -- RFC 4868 PRF Test vectors
+   --  RFC 4868 PRF Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_SHA256_Prf (T : in out Test_Cases.Test_Case'Class)
@@ -146,7 +147,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA256_Prf;
 
    ---------------------------------------------------------------------------
-   -- RFC 4868 AUTH Test vectors
+   --  RFC 4868 AUTH Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_SHA256_Auth (T : in out Test_Cases.Test_Case'Class)
@@ -169,7 +170,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA256_Auth;
 
    ---------------------------------------------------------------------------
-   -- NIST test vectors are from
+   --  NIST test vectors are from
    --    CAVP Testing: Keyed-Hash Message Authentication Code (HMAC)
    --    https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/hmactestvectors.zip
    ---------------------------------------------------------------------------
@@ -1077,10 +1078,10 @@ package body LSC_Test_HMAC_SHA2 is
         (Key => "4b7ab133efe99e02fc89a28409ee187d579e774f4cba6fc223e13504e3511bef8d4f638b9aca55d4a43b8fbd64cf9d74dcc8c9e8d52034898c70264ea911a3fd70813fa73b083371289b",
          Msg => "138efc832c64513d11b9873c6fd4d8a65dbf367092a826ddd587d141b401580b798c69025ad510cff05fcfbceb6cf0bb03201aaa32e423d5200925bddfadd418d8e30e18050eb4f0618eb9959d9f78c1157d4b3e02cd5961f138afd57459939917d9144c95d8e6a94c8f6d4eef3418c17b1ef0b46c2a7188305d9811dccb3d99",
          Mac => "4f1ee7cb36c58803a8721d4ac8c4cf8cae5d8832392eed2a96dc59694252801b");
-	end Test_HMAC_SHA256_NIST;
+   end Test_HMAC_SHA256_NIST;
 
    ---------------------------------------------------------------------------
-   -- RFC 4868 PRF Test vectors
+   --  RFC 4868 PRF Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_SHA384_Prf (T : in out Test_Cases.Test_Case'Class)
@@ -1127,7 +1128,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA384_Prf;
 
    ---------------------------------------------------------------------------
-   -- RFC 4868 AUTH Test vectors
+   --  RFC 4868 AUTH Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_SHA384_Auth (T : in out Test_Cases.Test_Case'Class)
@@ -1153,7 +1154,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA384_Auth;
 
    ---------------------------------------------------------------------------
-   -- NIST test vectors are from
+   --  NIST test vectors are from
    --    CAVP Testing: Keyed-Hash Message Authentication Code (HMAC)
    --    https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/hmactestvectors.zip
    ---------------------------------------------------------------------------
@@ -2364,7 +2365,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA384_NIST;
 
    ---------------------------------------------------------------------------
-   -- RFC 4868 PRF Test vectors
+   --  RFC 4868 PRF Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_SHA512_Prf (T : in out Test_Cases.Test_Case'Class)
@@ -2417,7 +2418,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA512_Prf;
 
    ---------------------------------------------------------------------------
-   -- RFC 4868 AUTH Test vectors
+   --  RFC 4868 AUTH Test vectors
    ---------------------------------------------------------------------------
 
    procedure Test_HMAC_SHA512_Auth (T : in out Test_Cases.Test_Case'Class)
@@ -2445,7 +2446,7 @@ package body LSC_Test_HMAC_SHA2 is
    end Test_HMAC_SHA512_Auth;
 
    ---------------------------------------------------------------------------
-   -- NIST test vectors are from
+   --  NIST test vectors are from
    --    CAVP Testing: Keyed-Hash Message Authentication Code (HMAC)
    --    https://csrc.nist.gov/CSRC/media/Projects/Cryptographic-Algorithm-Validation-Program/documents/mac/hmactestvectors.zip
    ---------------------------------------------------------------------------
@@ -3957,7 +3958,7 @@ package body LSC_Test_HMAC_SHA2 is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_HMAC_SHA256_Auth'Access, "HMAC SHA-256 (RFC 4868 - AUTH)");

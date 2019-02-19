@@ -38,6 +38,9 @@ with LSC.Internal.AES.CBC;
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 
+pragma Style_Checks ("-s");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
+
 use type LSC.Internal.Types.Word32_Array_Type;
 
 package body LSC_Internal_Test_AES_CBC
@@ -176,7 +179,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_AES128_CBC'Access, "128 (F.2.1/F.2.2)");

@@ -48,7 +48,6 @@ with LSC.Internal.HMAC_SHA512;
 with LSC.Internal.Bignum;
 with OpenSSL;
 with AUnit.Assertions; use AUnit.Assertions;
-with AUnit.Test_Results; use AUnit.Test_Results;
 with Interfaces;
 
 use type LSC.Internal.Types.Word32_Array_Type;
@@ -57,16 +56,17 @@ use type LSC.Internal.AES.Message_Type;
 use type LSC.Internal.Bignum.Big_Int;
 use type Interfaces.Unsigned_32;
 
+pragma Style_Checks ("-s");
+
 package body LSC_Internal_Benchmark
 is
    use Ada.Calendar;
 
    function Routine_Name (T : Test_Case) return Message_String
    is
-      use Ada.Calendar;
       Ref_Time  : constant Duration := T.Reference_Stop - T.Reference_Start;
       Test_Time : constant Duration := T.Test_Stop - T.Test_Start;
-      Percent   : constant Natural := Natural (Duration'(Test_Time / Ref_Time) * 100.0);
+      Percent   : constant Natural  := Natural (Duration'(Test_Time / Ref_Time) * 100.0);
    begin
       return Format (AUnit.Test_Cases.Test_Case (T).Routine_Name.all & " ... [" & Percent'Img & "% ]");
    end Routine_Name;
@@ -266,14 +266,14 @@ is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#1f1e1d1c#);
+      Key128 := LSC.Internal.AES.AES128_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
@@ -323,14 +323,14 @@ is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#1f1e1d1c#);
+      Key128 := LSC.Internal.AES.AES128_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES128_Dec_Context (Key128);
@@ -371,10 +371,10 @@ is
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#);
+      Key128 := LSC.Internal.AES.AES128_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
@@ -424,14 +424,14 @@ is
 
       Plain := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key128 := LSC.Internal.AES.AES128_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#);
+      Key128 := LSC.Internal.AES.AES128_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES128_Enc_Context (Key128);
@@ -468,16 +468,16 @@ is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key192 := LSC.Internal.AES.AES192_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES192_Dec_Context (Key192);
@@ -527,16 +527,16 @@ is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key192 := LSC.Internal.AES.AES192_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES192_Dec_Context (Key192);
@@ -573,16 +573,16 @@ is
 
       Plain := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#);
+      Key192 := LSC.Internal.AES.AES192_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
@@ -636,12 +636,12 @@ is
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key192 := LSC.Internal.AES.AES192_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#);
+      Key192 := LSC.Internal.AES.AES192_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES192_Enc_Context (Key192);
@@ -678,18 +678,18 @@ is
 
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
-                                        16#77665544#,
-                                        16#bbaa9988#,
-                                        16#ffeeddcc#));
+                                                 16#77665544#,
+                                                 16#bbaa9988#,
+                                                 16#ffeeddcc#));
 
-      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key256 := LSC.Internal.AES.AES256_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES256_Dec_Context (Key256);
@@ -743,14 +743,14 @@ is
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key256 := LSC.Internal.AES.AES256_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES256_Dec_Context (Key256);
@@ -791,14 +791,14 @@ is
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key256 := LSC.Internal.AES.AES256_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
@@ -852,14 +852,14 @@ is
                                         16#bbaa9988#,
                                         16#ffeeddcc#));
 
-      Key256 := LSC.Internal.AES.AES256_Key_Type' (16#03020100#,
-                                          16#07060504#,
-                                          16#0b0a0908#,
-                                          16#0f0e0d0c#,
-                                          16#13121110#,
-                                          16#17161514#,
-                                          16#1b1a1918#,
-                                          16#1f1e1d1c#);
+      Key256 := LSC.Internal.AES.AES256_Key_Type'(16#03020100#,
+                                                  16#07060504#,
+                                                  16#0b0a0908#,
+                                                  16#0f0e0d0c#,
+                                                  16#13121110#,
+                                                  16#17161514#,
+                                                  16#1b1a1918#,
+                                                  16#1f1e1d1c#);
 
       T.Reference_Start := Clock;
       Context1 := OpenSSL.Create_AES256_Enc_Context (Key256);
@@ -1053,7 +1053,7 @@ is
 
       Pub_Exp : constant SInt := SInt'(0 => 16#00010001#);
 
-      -- 2048 bit
+      --  2048 bit
 
       Modulus_Small : constant LInt_Small := LInt_Small'
         (16#e3855b7b#, 16#695e1d0c#, 16#2f3a389f#, 16#e4e8cfbc#, 16#366c3c0b#,
@@ -1102,15 +1102,15 @@ is
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
-      -- 2048 bit
+      --  2048 bit
 
-      -- Create original data
+      --  Create original data
       for I in Natural range Modulus_Small'Range
       loop
          Plain1_Small (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
-      -- Convert modulus, exponent and plaintext to format expected by OpenSSL
+      --  Convert modulus, exponent and plaintext to format expected by OpenSSL
       LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp_Small, Priv_Exp_Small'First, Priv_Exp_Small'Last,
          OpenSSL_Priv_Exp_Small, OpenSSL_Priv_Exp_Small'First);
@@ -1150,7 +1150,7 @@ is
         (OpenSSL_Plain2_Small, OpenSSL_Plain2_Small'First, OpenSSL_Plain2_Small'Last,
          Plain3_Small, Plain3_Small'First);
 
-      -- Precompute R^2 mod m
+      --  Precompute R^2 mod m
       LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus_Small,
          M_First => Modulus_Small'First,
@@ -1158,12 +1158,12 @@ is
          R       => R,
          R_First => R'First);
 
-      -- Precompute inverse
+      --  Precompute inverse
       M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus_Small (Modulus_Small'First));
 
       T.Test_Start := Clock;
 
-      -- Encrypt
+      --  Encrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1_Small,
          A_First    => Cipher1_Small'First,
@@ -1188,7 +1188,7 @@ is
          R_First    => R'First,
          M_Inv      => M_Inv);
 
-      -- Decrypt
+      --  Decrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2_Small,
          A_First    => Plain2_Small'First,
@@ -1229,12 +1229,10 @@ is
    is
       Window_Size : constant := 5;
 
-      subtype Mod_Range_Small is Natural range 0 .. 63;
       subtype Mod_Range is Natural range 0 .. 127;
       subtype Pub_Exp_Range is Natural range 0 .. 0;
       subtype Window_Aux_Range is Natural range 0 .. 128 * (2 ** Window_Size) - 1;
 
-      subtype LInt_Small is LSC.Internal.Bignum.Big_Int (Mod_Range_Small);
       subtype LInt is LSC.Internal.Bignum.Big_Int (Mod_Range);
       subtype SInt is LSC.Internal.Bignum.Big_Int (Pub_Exp_Range);
       subtype Window_Aux is LSC.Internal.Bignum.Big_Int (Window_Aux_Range);
@@ -1314,13 +1312,13 @@ is
         (Pub_Exp, Pub_Exp'First, Pub_Exp'Last,
          OpenSSL_Pub_Exp, OpenSSL_Pub_Exp'First);
 
-      -- Create original data
+      --  Create original data
       for I in Natural range Modulus'Range
       loop
          Plain1 (I) := LSC.Internal.Types.Word32 (I);
       end loop;
 
-      -- Convert modulus, exponent and plaintext to format expected by OpenSSL
+      --  Convert modulus, exponent and plaintext to format expected by OpenSSL
       LSC.Internal.Bignum.Native_To_BE
         (Priv_Exp, Priv_Exp'First, Priv_Exp'Last,
          OpenSSL_Priv_Exp, OpenSSL_Priv_Exp'First);
@@ -1360,7 +1358,7 @@ is
         (OpenSSL_Plain2, OpenSSL_Plain2'First, OpenSSL_Plain2'Last,
          Plain3, Plain3'First);
 
-      -- Precompute R^2 mod m
+      --  Precompute R^2 mod m
       LSC.Internal.Bignum.Size_Square_Mod
         (M       => Modulus,
          M_First => Modulus'First,
@@ -1368,12 +1366,12 @@ is
          R       => R,
          R_First => R'First);
 
-      -- Precompute inverse
+      --  Precompute inverse
       M_Inv := LSC.Internal.Bignum.Word_Inverse (Modulus (Modulus'First));
 
       T.Test_Start := Clock;
 
-      -- Encrypt
+      --  Encrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Cipher1,
          A_First    => Cipher1'First,
@@ -1398,7 +1396,7 @@ is
          R_First    => R'First,
          M_Inv      => M_Inv);
 
-      -- Decrypt
+      --  Decrypt
       LSC.Internal.Bignum.Mont_Exp_Window
         (A          => Plain2,
          A_First    => Plain2'First,
@@ -1435,7 +1433,7 @@ is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       package Registration is new
          AUnit.Test_Cases.Specific_Test_Case_Registration (Test_Case);
       use Registration;
@@ -1470,6 +1468,7 @@ is
 
    function Name (T : Test_Case) return Test_String is
    begin
+      pragma Unreferenced (T);
       return Format ("Benchmark");
    end Name;
 

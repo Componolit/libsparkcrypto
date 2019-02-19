@@ -39,7 +39,7 @@ package body Tests is
 
    use AUnit.Test_Suites;
 
-   -- Statically allocate test suite:
+   --  Statically allocate test suite:
    Result    : aliased Test_Suite;
    Test_Util : aliased Util_Tests.Test_Case;
 

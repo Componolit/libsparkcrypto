@@ -37,8 +37,10 @@ with LSC.Internal.Types;
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 
+pragma Style_Checks ("-s");
+pragma Warnings (Off, "formal parameter ""T"" is not referenced");
+
 use type LSC.Internal.Types.Word32_Array_Type;
-use type LSC.Internal.Types.Word64_Array_Type;
 
 package body LSC_Internal_Test_SHA1 is
 
@@ -117,7 +119,7 @@ package body LSC_Internal_Test_SHA1 is
 
    ---------------------------------------------------------------------------
 
-   procedure Register_Tests (T: in out Test_Case) is
+   procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
       Register_Routine (T, Test_SHA1_One_Block'Access, "SHA1 (One-Block Message)");

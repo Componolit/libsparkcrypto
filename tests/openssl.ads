@@ -1,12 +1,12 @@
 -------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+--  This file is part of libsparkcrypto.
 --
--- Copyright (C) 2010, Alexander Senier
--- Copyright (C) 2010, secunet Security Networks AG
--- All rights reserved.
+--  Copyright (C) 2010, Alexander Senier
+--  Copyright (C) 2010, secunet Security Networks AG
+--  All rights reserved.
 --
--- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
--- modification, are permitted provided that the following conditions are met:
+--  Redistribution  and  use  in  source  and  binary  forms,  with  or  without
+--  modification, are permitted provided that the following conditions are met:
 --
 --    * Redistributions of source code must retain the above copyright notice,
 --      this list of conditions and the following disclaimer.
@@ -19,17 +19,17 @@
 --      to endorse or promote products derived from this software without
 --      specific prior written permission.
 --
--- THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
--- AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
--- IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
--- ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
--- BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
--- CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
--- SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
--- INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
--- CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
--- ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
--- POSSIBILITY OF SUCH DAMAGE.
+--  THIS SOFTWARE IS PROVIDED BY THE  COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+--  AND ANY  EXPRESS OR IMPLIED WARRANTIES,  INCLUDING, BUT NOT LIMITED  TO, THE
+--  IMPLIED WARRANTIES OF  MERCHANTABILITY AND FITNESS FOR  A PARTICULAR PURPOSE
+--  ARE  DISCLAIMED. IN  NO EVENT  SHALL  THE COPYRIGHT  HOLDER OR  CONTRIBUTORS
+--  BE  LIABLE FOR  ANY  DIRECT, INDIRECT,  INCIDENTAL,  SPECIAL, EXEMPLARY,  OR
+--  CONSEQUENTIAL  DAMAGES  (INCLUDING,  BUT  NOT  LIMITED  TO,  PROCUREMENT  OF
+--  SUBSTITUTE GOODS  OR SERVICES; LOSS  OF USE,  DATA, OR PROFITS;  OR BUSINESS
+--  INTERRUPTION)  HOWEVER CAUSED  AND ON  ANY THEORY  OF LIABILITY,  WHETHER IN
+--  CONTRACT,  STRICT LIABILITY,  OR  TORT (INCLUDING  NEGLIGENCE OR  OTHERWISE)
+--  ARISING IN ANY WAY  OUT OF THE USE OF THIS SOFTWARE, EVEN  IF ADVISED OF THE
+--  POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
 with LSC.Internal.Types;
@@ -41,7 +41,6 @@ with LSC.Internal.AES;
 with LSC.Internal.HMAC_SHA256;
 with LSC.Internal.HMAC_SHA384;
 with LSC.Internal.HMAC_SHA512;
-with LSC.Internal.HMAC_RIPEMD160;
 with LSC.Internal.Bignum;
 with Interfaces.C;
 with System;
@@ -67,7 +66,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- AES
+   --  AES
    function Create_AES128_Enc_Context (Key : LSC.Internal.AES.AES128_Key_Type) return AES_Enc_Context_Type;
    function Create_AES192_Enc_Context (Key : LSC.Internal.AES.AES192_Key_Type) return AES_Enc_Context_Type;
    function Create_AES256_Enc_Context (Key : LSC.Internal.AES.AES256_Key_Type) return AES_Enc_Context_Type;
@@ -100,7 +99,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- SHA-1
+   --  SHA-1
    procedure SHA1_Context_Init (Context :    out SHA1_Context_Type);
 
    procedure SHA1_Context_Update (Context : in out SHA1_Context_Type;
@@ -115,7 +114,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- SHA-256
+   --  SHA-256
    procedure SHA256_Context_Init (Context :    out SHA256_Context_Type);
 
    procedure SHA256_Context_Update (Context : in out SHA256_Context_Type;
@@ -130,7 +129,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- SHA-384
+   --  SHA-384
    procedure SHA384_Context_Init (Context :    out SHA384_Context_Type);
 
    procedure SHA384_Context_Update (Context : in out SHA384_Context_Type;
@@ -145,7 +144,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- SHA-512
+   --  SHA-512
    procedure SHA512_Context_Init (Context :    out SHA512_Context_Type);
 
    procedure SHA512_Context_Update (Context : in out SHA512_Context_Type;
@@ -160,7 +159,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- RIPEMD-160
+   --  RIPEMD-160
    procedure RIPEMD160_Context_Init (Context :    out RIPEMD160_Context_Type);
 
    procedure RIPEMD160_Context_Update (Context : in out RIPEMD160_Context_Type;
@@ -175,7 +174,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- HMAC_SHA1
+   --  HMAC_SHA1
 
    subtype SHA1_Message_Index is LSC.Internal.Types.Word64 range 1 .. 100;
    subtype SHA1_Message_Type is LSC.Internal.SHA1.Message_Type (SHA1_Message_Index);
@@ -188,7 +187,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- HMAC_SHA256
+   --  HMAC_SHA256
 
    subtype SHA256_Message_Index is LSC.Internal.SHA256.Message_Index range 1 .. 100;
    subtype SHA256_Message_Type is LSC.Internal.SHA256.Message_Type (SHA256_Message_Index);
@@ -204,7 +203,7 @@ package OpenSSL is
    subtype SHA512_Message_Index is LSC.Internal.SHA512.Message_Index range 1 .. 100;
    subtype SHA512_Message_Type is LSC.Internal.SHA512.Message_Type (SHA512_Message_Index);
 
-   -- HMAC_SHA384
+   --  HMAC_SHA384
 
    function Authenticate_SHA384
       (Key     : LSC.Internal.SHA512.Block_Type;
@@ -214,7 +213,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- HMAC_SHA512
+   --  HMAC_SHA512
 
    function Authenticate_SHA512
       (Key     : LSC.Internal.SHA512.Block_Type;
@@ -224,7 +223,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- HMAC_RMD160
+   --  HMAC_RMD160
 
    subtype RMD160_Message_Index is LSC.Internal.Types.Word64 range 1 .. 100;
    subtype RMD160_Message_Type is LSC.Internal.RIPEMD160.Message_Type (RMD160_Message_Index);
@@ -237,7 +236,7 @@ package OpenSSL is
 
    ----------------------------------------------------------------------------
 
-   -- RSA
+   --  RSA
 
    procedure RSA_Public_Encrypt
      (M       : in     LSC.Internal.Bignum.Big_Int;
@@ -288,7 +287,7 @@ private
 
    procedure C_SHA1_Update (Context : C_Context_Ptr;
                             Data    : SHA1_Block_Type_Ptr;
-                            Length  : Interfaces.C.Size_t);
+                            Length  : Interfaces.C.size_t);
    pragma Import (C, C_SHA1_Update, "SHA1_Update");
 
    procedure C_SHA1_Final (MD      : SHA1_Hash_Type_Ptr;
@@ -303,7 +302,7 @@ private
 
    procedure C_SHA256_Update (Context : C_Context_Ptr;
                               Data    : SHA256_Block_Type_Ptr;
-                              Length  : Interfaces.C.Size_t);
+                              Length  : Interfaces.C.size_t);
    pragma Import (C, C_SHA256_Update, "SHA256_Update");
 
    procedure C_SHA256_Final (MD      : SHA256_Hash_Type_Ptr;
@@ -318,7 +317,7 @@ private
 
    procedure C_SHA384_Update (Context : C_Context_Ptr;
                               Data    : SHA512_Block_Type_Ptr;
-                              Length  : Interfaces.C.Size_t);
+                              Length  : Interfaces.C.size_t);
    pragma Import (C, C_SHA384_Update, "SHA384_Update");
 
    procedure C_SHA384_Final (MD      : SHA512_Hash_Type_Ptr;
@@ -333,7 +332,7 @@ private
 
    procedure C_SHA512_Update (Context : C_Context_Ptr;
                               Data    : SHA512_Block_Type_Ptr;
-                              Length  : Interfaces.C.Size_t);
+                              Length  : Interfaces.C.size_t);
    pragma Import (C, C_SHA512_Update, "SHA512_Update");
 
    procedure C_SHA512_Final (MD      : SHA512_Hash_Type_Ptr;
@@ -354,7 +353,7 @@ private
 
    procedure C_RIPEMD160_Update (Context : C_Context_Ptr;
                                  Data    : RIPEMD160_Block_Type_Ptr;
-                                 Length  : Interfaces.C.Size_t);
+                                 Length  : Interfaces.C.size_t);
    pragma Import (C, C_RIPEMD160_Update, "RIPEMD160_Update");
 
    procedure C_RIPEMD160_Final (MD      : RIPEMD160_Hash_Type_Ptr;
@@ -370,7 +369,7 @@ private
    pragma Convention (C, Block_Ptr);
 
    procedure C_AES_set_encrypt_key (UserKey : Key_Ptr;
-                                    Bits    : Interfaces.C.Int;
+                                    Bits    : Interfaces.C.int;
                                     AESKey  : C_Context_Ptr);
    pragma Import (C, C_AES_set_encrypt_key, "AES_set_encrypt_key");
 
@@ -379,17 +378,17 @@ private
                             AESKey    : C_Context_Ptr);
    pragma Import (C, C_AES_encrypt, "AES_encrypt");
 
-   procedure C_AES_cbc_Encrypt
+   procedure C_AES_CBC_Encrypt
      (Input  : System.Address;
       Output : System.Address;
       Length : LSC.Internal.Types.Word32;
       AESKey : C_Context_Ptr;
       IV     : Block_Ptr;
       Enc    : Interfaces.Unsigned_16);
-   pragma Import (C, C_AES_cbc_encrypt, "AES_cbc_encrypt");
+   pragma Import (C, C_AES_CBC_Encrypt, "AES_cbc_encrypt");
 
    procedure C_AES_set_decrypt_key (UserKey : Key_Ptr;
-                                    Bits    : Interfaces.C.Int;
+                                    Bits    : Interfaces.C.int;
                                     AESKey  : C_Context_Ptr);
    pragma Import (C, C_AES_set_decrypt_key, "AES_set_decrypt_key");
 
@@ -531,7 +530,7 @@ private
    end record;
 
    ----------------------------------------------------------------------------
-   -- RSA
+   --  RSA
 
    procedure C_RSA_Public_Encrypt
      (M        : in System.Address;
