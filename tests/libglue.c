@@ -207,7 +207,7 @@ void c_rsa_public_encrypt
 
    if (rv != N_Length)
    {
-       printf ("wrong length (%ld vs. %ld)!\n", rv, N_Length);
+       printf ("wrong length (%d vs. %d)!\n", rv, N_Length);
        *Result = 2;
        return;
    }
