@@ -1,5 +1,4 @@
--------------------------------------------------------------------------------
--- This file is part of libsparkcrypto.
+------------------------------------------------------------------------------- -- This file is part of libsparkcrypto.
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -35,7 +34,6 @@ with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 with LSC.SHA1.HMAC;
 with LSC.Types;
-with Ada.Text_IO; use Ada.Text_IO;
 
 use LSC;
 
