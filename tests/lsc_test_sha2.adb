@@ -35,7 +35,6 @@ with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 with LSC.SHA2;
 with LSC.Types;
-with Ada.Text_IO; use Ada.Text_IO;
 
 use LSC;
 
