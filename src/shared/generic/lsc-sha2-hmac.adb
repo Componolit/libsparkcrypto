@@ -4,7 +4,7 @@
 -- @author Alexander Senier
 -- @date   2019-01-21
 --
--- Copyright (C) 2018 Componolit GmbH
+-- Copyright (C) 2018-2019 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -192,14 +192,14 @@ package body LSC.SHA2.HMAC is
    ----------
 
    function HMAC
-     (Algorithm : SHA2.Algorithm_Type;
-      Key       : LSC.Types.Bytes;
-      Message   : LSC.Types.Bytes;
-      Length    : LSC.Types.Natural_Index := 16) return LSC.Types.Bytes
+     (Algorithm  : SHA2.Algorithm_Type;
+      Key        : LSC.Types.Bytes;
+      Message    : LSC.Types.Bytes;
+      Output_Len : LSC.Types.Natural_Index := 16) return LSC.Types.Bytes
    is
      (case Algorithm is
-         when SHA2.SHA256 => HMAC_SHA256 (Key, Message, Length),
-         when SHA2.SHA384 => HMAC_SHA384 (Key, Message, Length),
-         when SHA2.SHA512 => HMAC_SHA512 (Key, Message, Length));
+         when SHA2.SHA256 => HMAC_SHA256 (Key, Message, Output_Len),
+         when SHA2.SHA384 => HMAC_SHA384 (Key, Message, Output_Len),
+         when SHA2.SHA512 => HMAC_SHA512 (Key, Message, Output_Len));
 
 end LSC.SHA2.HMAC;
