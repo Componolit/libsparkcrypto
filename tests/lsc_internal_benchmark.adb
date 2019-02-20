@@ -255,7 +255,7 @@ is
 
    procedure Benchmark_AES128_Decrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -305,7 +305,7 @@ is
 
    procedure Benchmark_AES128_CBC_Decrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -356,7 +356,7 @@ is
 
    procedure Benchmark_AES128_Encrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -406,7 +406,7 @@ is
 
    procedure Benchmark_AES128_CBC_Encrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -457,7 +457,7 @@ is
 
    procedure Benchmark_AES192_Decrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -509,7 +509,7 @@ is
 
    procedure Benchmark_AES192_CBC_Decrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -562,7 +562,7 @@ is
 
    procedure Benchmark_AES192_Encrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -614,7 +614,7 @@ is
 
    procedure Benchmark_AES192_CBC_Encrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -667,7 +667,7 @@ is
 
    procedure Benchmark_AES256_Decrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -721,7 +721,7 @@ is
 
    procedure Benchmark_AES256_CBC_Decrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -776,7 +776,7 @@ is
 
    procedure Benchmark_AES256_Encrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -830,7 +830,7 @@ is
 
    procedure Benchmark_AES256_CBC_Encrypt (T : in out Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       subtype Message_Type is LSC.Internal.AES.Message_Type (Message_Index);
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -946,6 +946,8 @@ is
 
    procedure Benchmark_HMAC_SHA256 (T : in out Test_Case'Class)
    is
+      use type LSC.Internal.SHA256.Message_Index;
+      use type Interfaces.Unsigned_64;
       Message : constant OpenSSL.SHA256_Message_Type := OpenSSL.SHA256_Message_Type'
          (others => LSC.Internal.SHA256.Block_Type'(others => 16#dead_beef#));
 
@@ -959,14 +961,14 @@ is
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H1 := OpenSSL.Authenticate_SHA256 (Key, Message, 10000);
+         H1 := OpenSSL.Authenticate_SHA256 (Key, Message, Message'Size / 8);
       end loop;
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.Internal.HMAC_SHA256.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA256.Authenticate (Key, Message, Message'Size / 8);
       end loop;
       T.Test_Stop := Clock;
 
@@ -977,6 +979,8 @@ is
 
    procedure Benchmark_HMAC_SHA384 (T : in out Test_Case'Class)
    is
+      use type LSC.Internal.SHA512.Message_Index;
+      use type Interfaces.Unsigned_64;
       Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
          (others => LSC.Internal.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
 
@@ -990,14 +994,14 @@ is
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H1 := OpenSSL.Authenticate_SHA384 (Key, Message, 10000);
+         H1 := OpenSSL.Authenticate_SHA384 (Key, Message, Message'Size / 8);
       end loop;
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.Internal.HMAC_SHA384.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA384.Authenticate (Key, Message, Message'Size / 8);
       end loop;
       T.Test_Stop := Clock;
 
@@ -1008,6 +1012,8 @@ is
 
    procedure Benchmark_HMAC_SHA512 (T : in out Test_Case'Class)
    is
+      use type LSC.Internal.SHA512.Message_Index;
+      use type Interfaces.Unsigned_64;
       Message : constant OpenSSL.SHA512_Message_Type := OpenSSL.SHA512_Message_Type'
          (others => LSC.Internal.SHA512.Block_Type'(others => 16#dead_beef_dead_c0de#));
 
@@ -1021,14 +1027,14 @@ is
       T.Reference_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H1 := OpenSSL.Authenticate_SHA512 (Key, Message, 10000);
+         H1 := OpenSSL.Authenticate_SHA512 (Key, Message, Message'Size / 8);
       end loop;
       T.Reference_Stop := Clock;
 
       T.Test_Start := Clock;
       for I in Natural range 1 .. 50000
       loop
-         H2 := LSC.Internal.HMAC_SHA512.Authenticate (Key, Message, 10000);
+         H2 := LSC.Internal.HMAC_SHA512.Authenticate (Key, Message, Message'Size / 8);
       end loop;
       T.Test_Stop := Clock;
 

@@ -46,7 +46,7 @@ package body LSC_Internal_Test_AES is
 
    procedure Test_AES128_Decrypt (T : in out Test_Cases.Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -54,7 +54,6 @@ package body LSC_Internal_Test_AES is
       Context1                : OpenSSL.AES_Dec_Context_Type;
       Context2                : LSC.Internal.AES.AES_Dec_Context;
    begin
-
       Cipher := Message_Type'
          (others => LSC.Internal.AES.Block_Type'(16#33221100#,
                                                  16#77665544#,
@@ -93,7 +92,7 @@ package body LSC_Internal_Test_AES is
 
    procedure Test_AES128_Encrypt (T : in out Test_Cases.Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -140,7 +139,7 @@ package body LSC_Internal_Test_AES is
 
    procedure Test_AES192_Decrypt (T : in out Test_Cases.Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -188,7 +187,7 @@ package body LSC_Internal_Test_AES is
 
    procedure Test_AES192_Encrypt (T : in out Test_Cases.Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain, Cipher1, Cipher2 : Message_Type;
@@ -236,7 +235,7 @@ package body LSC_Internal_Test_AES is
 
    procedure Test_AES256_Decrypt (T : in out Test_Cases.Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain1, Plain2, Cipher  : Message_Type;
@@ -286,7 +285,7 @@ package body LSC_Internal_Test_AES is
 
    procedure Test_AES256_Encrypt (T : in out Test_Cases.Test_Case'Class)
    is
-      subtype Message_Index is Natural range 1 .. 100000;
+      subtype Message_Index is Natural range 1 .. 1000;
       type Message_Type is array (Message_Index) of LSC.Internal.AES.Block_Type;
 
       Plain, Cipher1, Cipher2 : Message_Type;

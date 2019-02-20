@@ -245,6 +245,8 @@ void c_rsa_private_decrypt
 #if OPENSSL_VERSION_NUMBER >= 0x10100000L
    // FIXME: Why is RSA_FLAG_NO_BLINDING needed?
    RSA_set_flags (key, RSA_FLAG_NO_BLINDING);
+#else
+   RSA_blinding_off(key);
 #endif // OPENSSL_VERSION_NUMBER >= 0x10100000L
 
    rv = RSA_private_decrypt ((int)N_Length, C, P, key, RSA_NO_PADDING);
