@@ -38,8 +38,8 @@ with LSC.Types;
 
 package LSC.SHA2.HMAC
 is
-   function HMAC (Algorithm : SHA2.Algorithm_Type;
-                  Key       : LSC.Types.Bytes;
-                  Message   : LSC.Types.Bytes;
-                  Length    : LSC.Types.Natural_Index := 16) return LSC.Types.Bytes;
+   function HMAC (Algorithm  : SHA2.Algorithm_Type;
+                  Key        : LSC.Types.Bytes;
+                  Message    : LSC.Types.Bytes;
+                  Output_Len : LSC.Types.Natural_Index := 16) return LSC.Types.Bytes;
 end LSC.SHA2.HMAC;
