@@ -52,8 +52,8 @@ package body LSC_Test_AES is
       --  FIPS 197, C.1
       Plaintext : constant LSC.Types.Bytes :=
          AES.Decrypt (Ciphertext => S2B ("69c4e0d86a7b0430d8cdb78070b4c55a"),
-                      Key        => S2B ("000102030405060708090a0b0c0d0e0f"),
-                      Keylen     => AES.L128);
+                      Key        => AES.Dec_Key (K      => S2B ("000102030405060708090a0b0c0d0e0f"),
+                                                 Keylen => AES.L128));
    begin
       Assert (Plaintext = S2B ("00112233445566778899aabbccddeeff"),
               "Invalid plaintext: " & B2S (Plaintext));
@@ -68,8 +68,8 @@ package body LSC_Test_AES is
       --  FIPS 197, C.1
       Ciphertext : constant LSC.Types.Bytes :=
          AES.Encrypt (Plaintext => S2B ("00112233445566778899aabbccddeeff"),
-                      Key       => S2B ("000102030405060708090a0b0c0d0e0f"),
-                      Keylen    => AES.L128);
+                      Key       => AES.Enc_Key (K      => S2B ("000102030405060708090a0b0c0d0e0f"),
+                                                Keylen => AES.L128));
    begin
       Assert (Ciphertext = S2B ("69c4e0d86a7b0430d8cdb78070b4c55a"),
               "Invalid ciphertext: " & B2S (Ciphertext));
@@ -84,8 +84,8 @@ package body LSC_Test_AES is
       --  FIPS 197, C.2
       Plaintext : constant LSC.Types.Bytes :=
          AES.Decrypt (Ciphertext => S2B ("dda97ca4864cdfe06eaf70a0ec0d7191"),
-                      Key        => S2B ("000102030405060708090a0b0c0d0e0f1011121314151617"),
-                      Keylen     => AES.L192);
+                      Key        => AES.Dec_Key (K      => S2B ("000102030405060708090a0b0c0d0e0f1011121314151617"),
+                                                 Keylen => AES.L192));
    begin
       Assert (Plaintext = S2B ("00112233445566778899aabbccddeeff"),
               "Invalid plaintext: " & B2S (Plaintext));
@@ -100,8 +100,8 @@ package body LSC_Test_AES is
       --  FIPS 197, C.2
       Ciphertext : constant LSC.Types.Bytes :=
          AES.Encrypt (Plaintext => S2B ("00112233445566778899aabbccddeeff"),
-                      Key       => S2B ("000102030405060708090a0b0c0d0e0f1011121314151617"),
-                      Keylen    => AES.L192);
+                      Key       => AES.Enc_Key (K      => S2B ("000102030405060708090a0b0c0d0e0f1011121314151617"),
+                                                Keylen => AES.L192));
    begin
       Assert (Ciphertext = S2B ("dda97ca4864cdfe06eaf70a0ec0d7191"),
               "Invalid ciphertext: " & B2S (Ciphertext));
@@ -113,11 +113,14 @@ package body LSC_Test_AES is
    is
       use type LSC.Types.Bytes;
 
+      Key : constant AES.Dec_Key_Type :=
+         AES.Dec_Key (K      => S2B ("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"),
+                      Keylen => AES.L256);
+
       --  FIPS 197, C.3
       Plaintext : constant LSC.Types.Bytes :=
          AES.Decrypt (Ciphertext => S2B ("8ea2b7ca516745bfeafc49904b496089"),
-                      Key        => S2B ("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"),
-                      Keylen     => AES.L256);
+                      Key        => Key);
    begin
       Assert (Plaintext = S2B ("00112233445566778899aabbccddeeff"),
               "Invalid plaintext: " & B2S (Plaintext));
@@ -129,11 +132,14 @@ package body LSC_Test_AES is
    is
       use type LSC.Types.Bytes;
 
+      Key : constant AES.Enc_Key_Type :=
+         AES.Enc_Key (K      => S2B ("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"),
+                      Keylen => AES.L256);
+
       --  FIPS 197, C.3
       Ciphertext : constant LSC.Types.Bytes :=
          AES.Encrypt (Plaintext => S2B ("00112233445566778899aabbccddeeff"),
-                      Key       => S2B ("000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"),
-                      Keylen    => AES.L256);
+                      Key       => Key);
    begin
       Assert (Ciphertext = S2B ("8ea2b7ca516745bfeafc49904b496089"),
               "Invalid ciphertext: " & B2S (Ciphertext));

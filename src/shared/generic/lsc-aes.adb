@@ -34,7 +34,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.AES;
 with LSC.Internal.Convert;
 
 package body LSC.AES
@@ -42,37 +41,49 @@ is
    use Internal.Convert;
 
    -------------
+   -- Dec_Key --
+   -------------
+
+   function Dec_Key (K      : LSC.Types.Bytes;
+                     Keylen : Keylen_Type) return Dec_Key_Type
+   is
+      ((Context => (case Keylen is
+                    when L128 => Internal.AES.Create_AES128_Dec_Context (K128 (K (K'First .. K'First + 15))),
+                    when L192 => Internal.AES.Create_AES192_Dec_Context (K192 (K (K'First .. K'First + 23))),
+                    when L256 => Internal.AES.Create_AES256_Dec_Context (K256 (K (K'First .. K'First + 31))))));
+
+   -------------
    -- Decrypt --
    -------------
 
-   function Decrypt (Ciphertext : Types.Bytes;
-                     Key        : Types.Bytes;
-                     Keylen     : Keylen_Type) return Types.Bytes
+   function Decrypt (Ciphertext : LSC.Types.Bytes;
+                     Key        : Dec_Key_Type) return LSC.Types.Bytes
    is
-      Dec_Context : constant Internal.AES.AES_Dec_Context :=
-         (case Keylen is
-          when L128 => Internal.AES.Create_AES128_Dec_Context (K128 (Key (Key'First .. Key'First + 15))),
-          when L192 => Internal.AES.Create_AES192_Dec_Context (K192 (Key (Key'First .. Key'First + 23))),
-          when L256 => Internal.AES.Create_AES256_Dec_Context (K256 (Key (Key'First .. Key'First + 31))));
    begin
-      return To_Public (Internal.AES.Decrypt (Dec_Context, To_Internal (Ciphertext)));
+      return To_Public (Internal.AES.Decrypt (Key.Context, To_Internal (Ciphertext)));
    end Decrypt;
+
+   -------------
+   -- Enc_Key --
+   -------------
+
+   function Enc_Key (K      : LSC.Types.Bytes;
+                     Keylen : Keylen_Type) return Enc_Key_Type
+   is
+      (Context => (case Keylen is
+                   when L128 => Internal.AES.Create_AES128_Enc_Context (K128 (K (K'First .. K'First + 15))),
+                   when L192 => Internal.AES.Create_AES192_Enc_Context (K192 (K (K'First .. K'First + 23))),
+                   when L256 => Internal.AES.Create_AES256_Enc_Context (K256 (K (K'First .. K'First + 31)))));
 
    -------------
    -- Encrypt --
    -------------
 
-   function Encrypt (Plaintext : Types.Bytes;
-                     Key       : Types.Bytes;
-                     Keylen    : Keylen_Type) return Types.Bytes
+   function Encrypt (Plaintext : LSC.Types.Bytes;
+                     Key       : Enc_Key_Type) return LSC.Types.Bytes
    is
-      Enc_Context : constant Internal.AES.AES_Enc_Context :=
-         (case Keylen is
-          when L128 => Internal.AES.Create_AES128_Enc_Context (K128 (Key (Key'First .. Key'First + 15))),
-          when L192 => Internal.AES.Create_AES192_Enc_Context (K192 (Key (Key'First .. Key'First + 23))),
-          when L256 => Internal.AES.Create_AES256_Enc_Context (K256 (Key (Key'First .. Key'First + 31))));
    begin
-      return To_Public (Internal.AES.Encrypt (Enc_Context, To_Internal (Plaintext)));
+      return To_Public (Internal.AES.Encrypt (Key.Context, To_Internal (Plaintext)));
    end Encrypt;
 
 end LSC.AES;

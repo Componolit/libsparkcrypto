@@ -35,6 +35,7 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
+private with LSC.Internal.AES;
 
 package LSC.AES
 is
@@ -47,20 +48,33 @@ is
    --  FIXME: This crashes GCC 6.3. Re-add as soon as it's not used anymore.
    --  with Ghost;
 
-   function Decrypt (Ciphertext : LSC.Types.Bytes;
-                     Key        : LSC.Types.Bytes;
-                     Keylen     : Keylen_Type) return LSC.Types.Bytes
+   type Dec_Key_Type is private;
+   type Enc_Key_Type is private;
+
+   function Dec_Key (K      : LSC.Types.Bytes;
+                     Keylen : Keylen_Type) return Dec_Key_Type
    with
-      Pre  => Ciphertext'Length = 16 and Key'Length = Key_Bytes (Keylen),
+      Pre => K'Length = Key_Bytes (Keylen);
+   --  Return decryption key of length @Keylen from byte array
+
+   function Enc_Key (K      : LSC.Types.Bytes;
+                     Keylen : Keylen_Type) return Enc_Key_Type
+   with
+      Pre => K'Length = Key_Bytes (Keylen);
+   --  Return encryption key of length @Keylen from byte array
+
+   function Decrypt (Ciphertext : LSC.Types.Bytes;
+                     Key        : Dec_Key_Type) return LSC.Types.Bytes
+   with
+      Pre  => Ciphertext'Length = 16,
       Post => Decrypt'Result'Length = 16;
    --  Decrypt @Ciphertext using @Key, @Keylen determines the AES key
    --  length (AES-128, AES-192, AES-256)
 
    function Encrypt (Plaintext : LSC.Types.Bytes;
-                     Key       : LSC.Types.Bytes;
-                     Keylen    : Keylen_Type) return LSC.Types.Bytes
+                     Key       : Enc_Key_Type) return LSC.Types.Bytes
    with
-      Pre  => Plaintext'Length = 16 and Key'Length = Key_Bytes (Keylen),
+      Pre  => Plaintext'Length = 16,
       Post => Encrypt'Result'Length = 16;
    --  Decrypt @Plaintext using @Key, @Keylen determines the AES key
    --  length (AES-128, AES-192, AES-256)
@@ -72,5 +86,15 @@ private
        when L128 => 16,
        when L192 => 24,
        when L256 => 32);
+
+   type Dec_Key_Type is
+   record
+      Context : Internal.AES.AES_Dec_Context;
+   end record;
+
+   type Enc_Key_Type is
+   record
+      Context : Internal.AES.AES_Enc_Context;
+   end record;
 
 end LSC.AES;
