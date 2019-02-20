@@ -40,31 +40,25 @@ with LSC.AES;
 package LSC.AES.CBC
 is
    procedure Decrypt (Ciphertext :     LSC.Types.Bytes;
-                      Key        :     LSC.Types.Bytes;
                       IV         :     LSC.Types.Bytes;
-                      Keylen     :     Keylen_Type;
+                      Key        :     AES.Dec_Key_Type;
                       Plaintext  : out LSC.Types.Bytes)
    with
       Pre  => Ciphertext'Length > 0 and
               Ciphertext'Length mod 16 = 0 and
               Plaintext'Length >= Ciphertext'Length and
-              Key'Length = Key_Bytes (Keylen) and
               IV'Length = 16;
    --  Decrypt @Ciphertext to @Plaintext using @Key in CBC mode
-   --  @Keylen determines the AES key length (AES-128, AES-192, AES-256)
 
    procedure Encrypt (Plaintext  :     LSC.Types.Bytes;
-                      Key        :     LSC.Types.Bytes;
                       IV         :     LSC.Types.Bytes;
-                      Keylen     :     Keylen_Type;
+                      Key        :     AES.Enc_Key_Type;
                       Ciphertext : out LSC.Types.Bytes)
    with
       Pre  => Plaintext'Length > 0 and
               Plaintext'Length mod 16 = 0 and
               Ciphertext'Length >= Plaintext'Length and
-              Key'Length = Key_Bytes (Keylen) and
               IV'Length = 16;
    --  Encrypt @Plaintext to @Ciphertext using @Key in CBC mode
-   --  @Keylen determines the AES key length (AES-128, AES-192, AES-256)
 
 end LSC.AES.CBC;
