@@ -34,10 +34,6 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Convert;
-with LSC.Internal.AES.CBC;
-with Ada.Unchecked_Conversion;
-
 package body LSC.AES.CBC
 is
    -------------
@@ -49,27 +45,29 @@ is
                       Key        :     AES.Dec_Key_Type;
                       Plaintext  : out LSC.Types.Bytes)
    is
-      subtype CT_Type is LSC.Types.Bytes (Ciphertext'First .. Ciphertext'First + Ciphertext'Length - 1);
-      subtype CT_Internal_Type is Internal.AES.Message_Type (1 .. Ciphertext'Length / 16);
-      function To_Internal is new Ada.Unchecked_Conversion (CT_Type, CT_Internal_Type);
-
-      PT_Internal : Internal.AES.Message_Type (1 .. Plaintext'Length / 16)
-      with Address => Plaintext'Address;
+      CT_Offset : Types.Natural_Index;
+      PT_Offset : Types.Natural_Index;
+      Next : LSC.Types.Bytes (1 .. 16) := IV;
    begin
-      Plaintext := (others => 0);
+      for Offset in 0 .. Ciphertext'Length / 16 - 1
+      loop
+         CT_Offset := Ciphertext'First + Offset * 16;
+         PT_Offset := Plaintext'First + Offset * 16;
+         Types.Bytes_XOR
+            (Left   => AES.Decrypt (Ciphertext (CT_Offset .. CT_Offset + 15), Key),
+             Right  => Next,
+             Result => Plaintext (PT_Offset .. PT_Offset + 15));
+         Next := Ciphertext (CT_Offset .. CT_Offset + 15);
+      end loop;
 
-      pragma Warnings (Off, "statement has no effect",
-                       Reason => "Overlay between PT_Internal and Plaintext not considered by dataflow analysis");
-      pragma Warnings (Off, "unused assignment to ""PT_Internal""",
-                       Reason => "Overlay between PT_Internal and Plaintext not considered by dataflow analysis");
-      LSC.Internal.AES.CBC.Decrypt (Context    => Key.Context,
-                                    IV         => Internal.Convert.To_Internal (IV),
-                                    Ciphertext => To_Internal (Ciphertext),
-                                    Length     => Ciphertext'Length / 16,
-                                    Plaintext  => PT_Internal);
-      pragma Warnings (On, "statement has no effect");
-      pragma Warnings (On, "unused assignment to ""PT_Internal""");
+      pragma Annotate (GNATprove, False_Positive,
+         """Plaintext"" might not be initialized",
+         "Initialized in complete loop");
    end Decrypt;
+
+   pragma Annotate (GNATprove, False_Positive,
+      """Plaintext"" might not be initialized in ""Decrypt""",
+      "Initialized in complete loop");
 
    -------------
    -- Encrypt --
@@ -80,26 +78,30 @@ is
                       Key        :     AES.Enc_Key_Type;
                       Ciphertext : out LSC.Types.Bytes)
    is
-      subtype PT_Type is LSC.Types.Bytes (1 .. Plaintext'Length);
-      subtype PT_Internal_Type is Internal.AES.Message_Type (1 .. Plaintext'Length / 16);
-      function To_Internal is new Ada.Unchecked_Conversion (PT_Type, PT_Internal_Type);
-
-      CT_Internal : Internal.AES.Message_Type (1 .. Ciphertext'Length / 16)
-      with Address => Ciphertext'Address;
+      CT_Offset : Types.Natural_Index;
+      PT_Offset : Types.Natural_Index;
+      Temp : LSC.Types.Bytes (1 .. 16);
+      Next : LSC.Types.Bytes (1 .. 16) := IV;
    begin
-      Ciphertext := (others => 0);
+      for Offset in 0 .. Plaintext'Length / 16 - 1
+      loop
+         CT_Offset := Ciphertext'First + Offset * 16;
+         PT_Offset := Plaintext'First + Offset * 16;
+         Types.Bytes_XOR
+            (Left   => Next,
+             Right  => Plaintext (PT_Offset .. PT_Offset + 15),
+             Result => Temp);
+         Next := AES.Encrypt (Temp, Key);
+         Ciphertext (CT_Offset .. CT_Offset + 15) := Next;
+      end loop;
 
-      pragma Warnings (Off, "statement has no effect",
-                       Reason => "Overlay between CT_Internal and Ciphertext not considered by dataflow analysis");
-      pragma Warnings (Off, "unused assignment to ""CT_Internal""",
-                       Reason => "Overlay between CT_Internal and Ciphertext not considered by dataflow analysis");
-      LSC.Internal.AES.CBC.Encrypt (Context    => Key.Context,
-                                    IV         => Internal.Convert.To_Internal (IV),
-                                    Plaintext  => To_Internal (Plaintext),
-                                    Length     => Plaintext'Length / 16,
-                                    Ciphertext => CT_Internal);
-      pragma Warnings (On, "statement has no effect");
-      pragma Warnings (On, "unused assignment to ""CT_Internal""");
+      pragma Annotate (GNATprove, False_Positive,
+         """Ciphertext"" might not be initialized",
+          "Initialized in complete loop");
    end Encrypt;
+
+   pragma Annotate (GNATprove, False_Positive,
+      """Ciphertext"" might not be initialized in ""Encrypt""",
+      "Initialized in complete loop");
 
 end LSC.AES.CBC;
