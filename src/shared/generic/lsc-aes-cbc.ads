@@ -48,7 +48,7 @@ is
               Ciphertext'Length mod 16 = 0 and
               Plaintext'Length >= Ciphertext'Length and
               IV'Length = 16;
-   --  Decrypt @Ciphertext to @Plaintext using @Key in CBC mode
+   --  Decrypt @Ciphertext to @Plaintext using @IV and @Key in CBC mode
 
    procedure Encrypt (Plaintext  :     LSC.Types.Bytes;
                       IV         :     LSC.Types.Bytes;
@@ -59,6 +59,6 @@ is
               Plaintext'Length mod 16 = 0 and
               Ciphertext'Length >= Plaintext'Length and
               IV'Length = 16;
-   --  Encrypt @Plaintext to @Ciphertext using @Key in CBC mode
+   --  Encrypt @Plaintext to @Ciphertext using @IV and @Key in CBC mode
 
 end LSC.AES.CBC;

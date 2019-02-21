@@ -38,7 +38,7 @@ with LSC.Types;
 
 package LSC.RIPEMD160.HMAC
 is
-   function HMAC (Key       : LSC.Types.Bytes;
-                  Message   : LSC.Types.Bytes;
-                  Length    : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes;
+   function HMAC (Key        : LSC.Types.Bytes;
+                  Message    : LSC.Types.Bytes;
+                  Output_Len : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes;
 end LSC.RIPEMD160.HMAC;
