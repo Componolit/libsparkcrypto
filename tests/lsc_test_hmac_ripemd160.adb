@@ -54,9 +54,9 @@ package body LSC_Test_HMAC_RIPEMD160 is
       Converted_Mac : constant LSC.Types.Bytes := S2B (Mac);
 
       Result : constant LSC.Types.Bytes :=
-         LSC.RIPEMD160.HMAC.HMAC (Key     => Converted_Key,
-                                  Message => Converted_Msg,
-                                  Length  => Converted_Mac'Length);
+         LSC.RIPEMD160.HMAC.HMAC (Key        => Converted_Key,
+                                  Message    => Converted_Msg,
+                                  Output_Len => Converted_Mac'Length);
    begin
       Assert (Result = Converted_Mac, "Invalid HMAC: got " & B2S (Result) & ", expected " & Mac);
    end Test_HMAC;

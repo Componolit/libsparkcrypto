@@ -43,9 +43,9 @@ package body LSC.SHA1.HMAC is
    -----------------
 
    function HMAC
-     (Key       : LSC.Types.Bytes;
-      Message   : LSC.Types.Bytes;
-      Length    : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes
+     (Key        : LSC.Types.Bytes;
+      Message    : LSC.Types.Bytes;
+      Output_Len : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes
    is
       use type Internal.SHA1.Block_Length_Type;
 
@@ -83,7 +83,7 @@ package body LSC.SHA1.HMAC is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_SHA1.Get_Auth (Context)) (1 .. Length);
+      return To_Public (Internal.HMAC_SHA1.Get_Auth (Context)) (1 .. Output_Len);
 
    end HMAC;
 
