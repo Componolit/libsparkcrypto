@@ -34,67 +34,30 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with LSC.AES_Universal;
 with LSC.Types;
-private with LSC.Internal.AES;
 
 package LSC.AES
 is
-   type Keylen_Type is (L128, L192, L256);
-   --  Available AES modes
+   subtype Dec_Key_Type is LSC.AES_Universal.Dec_Key_Type;
+   subtype Enc_Key_Type is LSC.AES_Universal.Enc_Key_Type;
 
-   function Key_Bytes (Keylen : Keylen_Type) return Natural;
-   --  AES key lengths for @Keylen in bytes
+   L128 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L128;
+   L192 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L192;
+   L256 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L256;
 
-   --  FIXME: This crashes GCC 6.3. Re-add as soon as it's not used anymore.
-   --  with Ghost;
+   function Dec_Key is
+      new AES_Universal.Dec_Key (Types.Natural_Index, Types.Byte, Types.Bytes, "+");
 
-   type Dec_Key_Type is private;
-   type Enc_Key_Type is private;
+   function Enc_Key is
+      new AES_Universal.Enc_Key (Types.Natural_Index, Types.Byte, Types.Bytes, "+");
 
-   function Dec_Key (K      : LSC.Types.Bytes;
-                     Keylen : Keylen_Type) return Dec_Key_Type
-   with
-      Pre => K'Length = Key_Bytes (Keylen);
-   --  Return decryption key of length @Keylen from byte array
+   function Encrypt is
+      new AES_Universal.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes, "+",
+                                 Types.Natural_Index, Types.Byte, Types.Bytes, "+");
 
-   function Enc_Key (K      : LSC.Types.Bytes;
-                     Keylen : Keylen_Type) return Enc_Key_Type
-   with
-      Pre => K'Length = Key_Bytes (Keylen);
-   --  Return encryption key of length @Keylen from byte array
-
-   function Decrypt (Ciphertext : LSC.Types.Bytes;
-                     Key        : Dec_Key_Type) return LSC.Types.Bytes
-   with
-      Pre  => Ciphertext'Length = 16,
-      Post => Decrypt'Result'Length = 16;
-   --  Decrypt @Ciphertext using @Key, @Keylen determines the AES key
-   --  length (AES-128, AES-192, AES-256)
-
-   function Encrypt (Plaintext : LSC.Types.Bytes;
-                     Key       : Enc_Key_Type) return LSC.Types.Bytes
-   with
-      Pre  => Plaintext'Length = 16,
-      Post => Encrypt'Result'Length = 16;
-   --  Decrypt @Plaintext using @Key, @Keylen determines the AES key
-   --  length (AES-128, AES-192, AES-256)
-
-private
-
-   function Key_Bytes (Keylen : Keylen_Type) return Natural is
-      (case Keylen is
-       when L128 => 16,
-       when L192 => 24,
-       when L256 => 32);
-
-   type Dec_Key_Type is
-   record
-      Context : Internal.AES.AES_Dec_Context;
-   end record;
-
-   type Enc_Key_Type is
-   record
-      Context : Internal.AES.AES_Enc_Context;
-   end record;
+   function Decrypt is
+      new AES_Universal.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes, "+",
+                                 Types.Natural_Index, Types.Byte, Types.Bytes, "+");
 
 end LSC.AES;

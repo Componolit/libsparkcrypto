@@ -34,16 +34,20 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
 with LSC.Internal.AES;
 with Ada.Unchecked_Conversion;
 
+generic
+   type Index_Type is (<>);
+   type Elem_Type is (<>);
+   type Byte_Type is array (Index_Type range <>) of Elem_Type;
+   with function "+" (L, R : Index_Type) return Index_Type;
 package LSC.Internal.Convert
 is
-   subtype Key128_Type is Types.Bytes (1 .. 16);
-   subtype Key192_Type is Types.Bytes (1 .. 24);
-   subtype Key256_Type is Types.Bytes (1 .. 32);
-   subtype Block_Type is Types.Bytes (1 .. 16);
+   subtype Key128_Type is Byte_Type (Index_Type'First .. Index_Type'First + Index_Type'Val (15));
+   subtype Key192_Type is Byte_Type (Index_Type'First .. Index_Type'First + Index_Type'Val (23));
+   subtype Key256_Type is Byte_Type (Index_Type'First .. Index_Type'First + Index_Type'Val (31));
+   subtype Block_Type is Byte_Type (Index_Type'First .. Index_Type'First + Index_Type'Val (15));
 
    function K128 is new Ada.Unchecked_Conversion (Key128_Type, Internal.AES.AES128_Key_Type);
    function K192 is new Ada.Unchecked_Conversion (Key192_Type, Internal.AES.AES192_Key_Type);

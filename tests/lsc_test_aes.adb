@@ -34,6 +34,7 @@
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 with LSC.AES;
+with LSC.AES_Universal;
 with LSC.Types;
 
 use LSC;
@@ -147,6 +148,30 @@ package body LSC_Test_AES is
 
    ---------------------------------------------------------------------------
 
+   procedure Test_AES128_Decrypt_Generic (T : in out Test_Cases.Test_Case'Class)
+   is
+      --  Use generic version of AES to encrypt input of type String directly.
+
+      use type LSC.Types.Bytes;
+
+      function Decrypt is new AES_Universal.Decrypt
+         (LSC.Types.Natural_Index, LSC.Types.Byte, LSC.Types.Bytes, "+",
+          Positive, Character, String, "+");
+
+      function Dec_Key is new AES_Universal.Dec_Key (Positive, Character, String, "+");
+
+      --  FIPS 197, C.1
+      Plaintext : constant LSC.Types.Bytes :=
+         Decrypt (Ciphertext => B2T (S2B ("69c4e0d86a7b0430d8cdb78070b4c55a")),
+                  Key        => Dec_Key (K      => B2T (S2B ("000102030405060708090a0b0c0d0e0f")),
+                                         Keylen => AES_Universal.L128));
+   begin
+      Assert (Plaintext = S2B ("00112233445566778899aabbccddeeff"),
+              "Invalid plaintext: " & B2S (Plaintext));
+   end Test_AES128_Decrypt_Generic;
+
+   ---------------------------------------------------------------------------
+
    procedure Register_Tests (T : in out Test_Case) is
       use AUnit.Test_Cases.Registration;
    begin
@@ -156,6 +181,7 @@ package body LSC_Test_AES is
       Register_Routine (T, Test_AES192_Encrypt'Access, "AES-192 encryption");
       Register_Routine (T, Test_AES256_Decrypt'Access, "AES-256 decryption");
       Register_Routine (T, Test_AES256_Encrypt'Access, "AES-256 encryption");
+      Register_Routine (T, Test_AES128_Decrypt_Generic'Access, "AES-128 decryption (generic)");
    end Register_Tests;
 
    ---------------------------------------------------------------------------
