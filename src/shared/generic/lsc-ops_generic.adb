@@ -34,31 +34,34 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package LSC.Ops_Universal
+with Ada.Unchecked_Conversion;
+
+package body LSC.Ops_Generic
 is
-   -- Perform XOR on two arrays of 8-bit element types
-   --
-   -- @Left@   - First input array
-   -- @Right@  - Second input array
-   -- @Result@ - Result array
-   generic
-      type Left_Index_Type is (<>);
-      type Left_Elem_Type is (<>);
-      type Left_Data_Type is array (Left_Index_Type range <>) of Left_Elem_Type;
-      type Right_Index_Type is (<>);
-      type Right_Elem_Type is (<>);
-      type Right_Data_Type is array (Right_Index_Type range <>) of Right_Elem_Type;
-      type Result_Index_Type is (<>);
-      type Result_Elem_Type is (<>);
-      type Result_Data_Type is array (Result_Index_Type range <>) of Result_Elem_Type;
+   ---------------
+   -- Array_XOR --
+   ---------------
+
    procedure Array_XOR
      (Left   : in     Left_Data_Type;
       Right  : in     Right_Data_Type;
       Result :    out Result_Data_Type)
-   with
-      Pre =>
-        Left'Length < Left_Index_Type'Pos (Left_Index_Type'Last) and
-        Left'Length = Right'Length and
-        Result'Length >= Left'Length;
+   is
+      type M8 is mod 2**8 with Size => 8;
+      function To_M8 is new Ada.Unchecked_Conversion (Left_Elem_Type, M8);
+      function To_M8 is new Ada.Unchecked_Conversion (Right_Elem_Type, M8);
+      function From_M8 is new Ada.Unchecked_Conversion (M8, Result_Elem_Type);
+   begin
+      for I in 0 .. Result'Length - 1
+       loop
+         Result (Result_Index_Type'Val (Result_Index_Type'Pos (Result'First) + I)) :=
+            From_M8 (To_M8 (Left (Left_Index_Type'Val (Left_Index_Type'Pos (Left'First) + I))) xor
+                     To_M8 (Right (Right_Index_Type'Val (Right_Index_Type'Pos (Right'First) + I))));
+      end loop;
+   end Array_XOR;
 
-end LSC.Ops_Universal;
+   pragma Annotate (GNATprove, False_Positive,
+                    """Result"" might not be initialized",
+                    "Initialized in complete loop in ""Array_XOR""");
+
+end LSC.Ops_Generic;

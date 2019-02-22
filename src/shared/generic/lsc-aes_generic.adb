@@ -36,7 +36,7 @@
 
 with LSC.Internal.Convert;
 
-package body LSC.AES_Universal
+package body LSC.AES_Generic
 is
    function Dec_Key (K      : Key_Type;
                      Keylen : Keylen_Type) return Dec_Key_Type
@@ -88,4 +88,4 @@ is
       return CP.To_Public (Internal.AES.Encrypt (Key.Context, CI.To_Internal (Plaintext)));
    end Encrypt;
 
-end LSC.AES_Universal;
+end LSC.AES_Generic;

@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-22
+-- @date   2019-01-21
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,34 +34,42 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with Ada.Unchecked_Conversion;
-
-package body LSC.Ops_Universal
+package LSC.AES_Generic.CBC
 is
-   ---------------
-   -- Array_XOR --
-   ---------------
+   generic
+      type Plaintext_Index_Type is (<>);
+      type Plaintext_Elem_Type is (<>);
+      type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
+      type Ciphertext_Index_Type is (<>);
+      type Ciphertext_Elem_Type is (<>);
+      type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
+   procedure Decrypt (Ciphertext :     Ciphertext_Type;
+                      IV         :     Ciphertext_Type;
+                      Key        :     AES_Generic.Dec_Key_Type;
+                      Plaintext  : out Plaintext_Type)
+   with
+      Pre  => Ciphertext'Length > 0 and
+              Ciphertext'Length mod 16 = 0 and
+              Plaintext'Length >= Ciphertext'Length and
+              IV'Length = 16;
+   --  Decrypt @Ciphertext to @Plaintext using @IV and @Key in CBC mode
 
-   procedure Array_XOR
-     (Left   : in     Left_Data_Type;
-      Right  : in     Right_Data_Type;
-      Result :    out Result_Data_Type)
-   is
-      type M8 is mod 2**8 with Size => 8;
-      function To_M8 is new Ada.Unchecked_Conversion (Left_Elem_Type, M8);
-      function To_M8 is new Ada.Unchecked_Conversion (Right_Elem_Type, M8);
-      function From_M8 is new Ada.Unchecked_Conversion (M8, Result_Elem_Type);
-   begin
-      for I in 0 .. Result'Length - 1
-       loop
-         Result (Result_Index_Type'Val (Result_Index_Type'Pos (Result'First) + I)) :=
-            From_M8 (To_M8 (Left (Left_Index_Type'Val (Left_Index_Type'Pos (Left'First) + I))) xor
-                     To_M8 (Right (Right_Index_Type'Val (Right_Index_Type'Pos (Right'First) + I))));
-      end loop;
-   end Array_XOR;
+   generic
+      type Plaintext_Index_Type is (<>);
+      type Plaintext_Elem_Type is (<>);
+      type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
+      type Ciphertext_Index_Type is (<>);
+      type Ciphertext_Elem_Type is (<>);
+      type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
+   procedure Encrypt (Plaintext  :     Plaintext_Type;
+                      IV         :     Ciphertext_Type;
+                      Key        :     AES_Generic.Enc_Key_Type;
+                      Ciphertext : out Ciphertext_Type)
+   with
+      Pre  => Plaintext'Length > 0 and
+              Plaintext'Length mod 16 = 0 and
+              Ciphertext'Length >= Plaintext'Length and
+              IV'Length = 16;
+   --  Encrypt @Plaintext to @Ciphertext using @IV and @Key in CBC mode
 
-   pragma Annotate (GNATprove, False_Positive,
-                    """Result"" might not be initialized",
-                    "Initialized in complete loop in ""Array_XOR""");
-
-end LSC.Ops_Universal;
+end LSC.AES_Generic.CBC;

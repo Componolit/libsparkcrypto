@@ -35,17 +35,17 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
-with LSC.AES_Universal.CBC;
+with LSC.AES_Generic.CBC;
 
 package LSC.AES.CBC
 is
 
    procedure Decrypt is new
-      AES_Universal.CBC.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
+      AES_Generic.CBC.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
+                               Types.Natural_Index, Types.Byte, Types.Bytes);
 
    procedure Encrypt is new
-      AES_Universal.CBC.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
+      AES_Generic.CBC.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
+                               Types.Natural_Index, Types.Byte, Types.Bytes);
 
 end LSC.AES.CBC;

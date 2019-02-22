@@ -36,7 +36,7 @@
 
 private with LSC.Internal.AES;
 
-package LSC.AES_Universal
+package LSC.AES_Generic
 is
    type Keylen_Type is (L128, L192, L256);
    --  Available AES modes
@@ -118,4 +118,4 @@ private
       Context : Internal.AES.AES_Enc_Context;
    end record;
 
-end LSC.AES_Universal;
+end LSC.AES_Generic;
