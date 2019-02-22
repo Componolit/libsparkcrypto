@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-16
+-- @date   2019-01-22
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,30 +34,34 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.AES_Universal;
-with LSC.Types;
+with Ada.Unchecked_Conversion;
 
-package LSC.AES
+package body LSC.Ops_Universal
 is
-   subtype Dec_Key_Type is LSC.AES_Universal.Dec_Key_Type;
-   subtype Enc_Key_Type is LSC.AES_Universal.Enc_Key_Type;
+   ---------------
+   -- Array_XOR --
+   ---------------
 
-   L128 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L128;
-   L192 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L192;
-   L256 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L256;
+   procedure Array_XOR
+     (Left   : in     Left_Data_Type;
+      Right  : in     Right_Data_Type;
+      Result :    out Result_Data_Type)
+   is
+      type M8 is mod 2**8 with Size => 8;
+      function To_M8 is new Ada.Unchecked_Conversion (Left_Elem_Type, M8);
+      function To_M8 is new Ada.Unchecked_Conversion (Right_Elem_Type, M8);
+      function From_M8 is new Ada.Unchecked_Conversion (M8, Result_Elem_Type);
+   begin
+      for I in 0 .. Result'Length - 1
+       loop
+         Result (Result_Index_Type'Val (Result_Index_Type'Pos (Result'First) + I)) :=
+            From_M8 (To_M8 (Left (Left_Index_Type'Val (Left_Index_Type'Pos (Left'First) + I))) xor
+                     To_M8 (Right (Right_Index_Type'Val (Right_Index_Type'Pos (Right'First) + I))));
+      end loop;
+   end Array_XOR;
 
-   function Dec_Key is
-      new AES_Universal.Dec_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
+   pragma Annotate (GNATprove, False_Positive,
+                    """Result"" might not be initialized",
+                    "Initialized in complete loop in ""Array_XOR""");
 
-   function Enc_Key is
-      new AES_Universal.Enc_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Encrypt is
-      new AES_Universal.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Decrypt is
-      new AES_Universal.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
-
-end LSC.AES;
+end LSC.Ops_Universal;

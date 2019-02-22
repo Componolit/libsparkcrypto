@@ -41,13 +41,14 @@ is
    function Dec_Key (K      : Key_Type;
                      Keylen : Keylen_Type) return Dec_Key_Type
    is
-      package Convert is new LSC.Internal.Convert (Index_Type, Elem_Type, Key_Type, "+");
+      package Convert is new LSC.Internal.Convert (Index_Type, Elem_Type, Key_Type);
       use Convert;
+      use Internal.AES;
    begin
       return (Context => (case Keylen is
-                          when L128 => Internal.AES.Create_AES128_Dec_Context (K128 (K (K'First .. K'First + Index_Type'Val (15)))),
-                          when L192 => Internal.AES.Create_AES192_Dec_Context (K192 (K (K'First .. K'First + Index_Type'Val (23)))),
-                          when L256 => Internal.AES.Create_AES256_Dec_Context (K256 (K (K'First .. K'First + Index_Type'Val (31))))));
+        when L128 => Create_AES128_Dec_Context (K128 (K (K'First .. Index_Type'Val (Index_Type'Pos (K'First) + 15)))),
+        when L192 => Create_AES192_Dec_Context (K192 (K (K'First .. Index_Type'Val (Index_Type'Pos (K'First) + 23)))),
+        when L256 => Create_AES256_Dec_Context (K256 (K (K'First .. Index_Type'Val (Index_Type'Pos (K'First) + 31))))));
    end Dec_Key;
 
    ----------------------------------------------------------------------------
@@ -55,13 +56,14 @@ is
    function Enc_Key (K      : Key_Type;
                      Keylen : Keylen_Type) return Enc_Key_Type
    is
-      package Convert is new LSC.Internal.Convert (Index_Type, Elem_Type, Key_Type, "+");
+      package Convert is new LSC.Internal.Convert (Index_Type, Elem_Type, Key_Type);
       use Convert;
+      use Internal.AES;
    begin
       return (Context => (case Keylen is
-                          when L128 => Internal.AES.Create_AES128_Enc_Context (K128 (K (K'First .. K'First + Index_Type'Val (15)))),
-                          when L192 => Internal.AES.Create_AES192_Enc_Context (K192 (K (K'First .. K'First + Index_Type'Val (23)))),
-                          when L256 => Internal.AES.Create_AES256_Enc_Context (K256 (K (K'First .. K'First + Index_Type'Val (31))))));
+        when L128 => Create_AES128_Enc_Context (K128 (K (K'First .. Index_Type'Val (Index_Type'Pos (K'First) + 15)))),
+        when L192 => Create_AES192_Enc_Context (K192 (K (K'First .. Index_Type'Val (Index_Type'Pos (K'First) + 23)))),
+        when L256 => Create_AES256_Enc_Context (K256 (K (K'First .. Index_Type'Val (Index_Type'Pos (K'First) + 31))))));
    end Enc_Key;
 
    ----------------------------------------------------------------------------
@@ -69,8 +71,8 @@ is
    function Decrypt (Ciphertext : Ciphertext_Type;
                      Key        : Dec_Key_Type) return Plaintext_Type
    is
-      package CP is new LSC.Internal.Convert (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type, "+");
-      package CI is new LSC.Internal.Convert (Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type, "+");
+      package CP is new LSC.Internal.Convert (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type);
+      package CI is new LSC.Internal.Convert (Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type);
    begin
       return CP.To_Public (Internal.AES.Decrypt (Key.Context, CI.To_Internal (Ciphertext)));
    end Decrypt;
@@ -80,8 +82,8 @@ is
    function Encrypt (Plaintext : Plaintext_Type;
                      Key       : Enc_Key_Type) return Ciphertext_Type
    is
-      package CP is new LSC.Internal.Convert (Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type, "+");
-      package CI is new LSC.Internal.Convert (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type, "+");
+      package CP is new LSC.Internal.Convert (Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type);
+      package CI is new LSC.Internal.Convert (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type);
    begin
       return CP.To_Public (Internal.AES.Encrypt (Key.Context, CI.To_Internal (Plaintext)));
    end Encrypt;

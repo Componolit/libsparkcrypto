@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-16
+-- @date   2019-01-21
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,30 +34,42 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.AES_Universal;
-with LSC.Types;
-
-package LSC.AES
+package LSC.AES_Universal.CBC
 is
-   subtype Dec_Key_Type is LSC.AES_Universal.Dec_Key_Type;
-   subtype Enc_Key_Type is LSC.AES_Universal.Enc_Key_Type;
+   generic
+      type Plaintext_Index_Type is (<>);
+      type Plaintext_Elem_Type is (<>);
+      type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
+      type Ciphertext_Index_Type is (<>);
+      type Ciphertext_Elem_Type is (<>);
+      type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
+   procedure Decrypt (Ciphertext :     Ciphertext_Type;
+                      IV         :     Ciphertext_Type;
+                      Key        :     AES_Universal.Dec_Key_Type;
+                      Plaintext  : out Plaintext_Type)
+   with
+      Pre  => Ciphertext'Length > 0 and
+              Ciphertext'Length mod 16 = 0 and
+              Plaintext'Length >= Ciphertext'Length and
+              IV'Length = 16;
+   --  Decrypt @Ciphertext to @Plaintext using @IV and @Key in CBC mode
 
-   L128 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L128;
-   L192 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L192;
-   L256 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L256;
+   generic
+      type Plaintext_Index_Type is (<>);
+      type Plaintext_Elem_Type is (<>);
+      type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
+      type Ciphertext_Index_Type is (<>);
+      type Ciphertext_Elem_Type is (<>);
+      type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
+   procedure Encrypt (Plaintext  :     Plaintext_Type;
+                      IV         :     Ciphertext_Type;
+                      Key        :     AES_Universal.Enc_Key_Type;
+                      Ciphertext : out Ciphertext_Type)
+   with
+      Pre  => Plaintext'Length > 0 and
+              Plaintext'Length mod 16 = 0 and
+              Ciphertext'Length >= Plaintext'Length and
+              IV'Length = 16;
+   --  Encrypt @Plaintext to @Ciphertext using @IV and @Key in CBC mode
 
-   function Dec_Key is
-      new AES_Universal.Dec_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Enc_Key is
-      new AES_Universal.Enc_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Encrypt is
-      new AES_Universal.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Decrypt is
-      new AES_Universal.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
-
-end LSC.AES;
+end LSC.AES_Universal.CBC;
