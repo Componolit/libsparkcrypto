@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-21
+-- @date   2019-01-22
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,42 +34,31 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package LSC.AES_Universal.CBC
+package LSC.Ops_Generic
 is
+   -- Perform XOR on two arrays of 8-bit element types
+   --
+   -- @Left@   - First input array
+   -- @Right@  - Second input array
+   -- @Result@ - Result array
    generic
-      type Plaintext_Index_Type is (<>);
-      type Plaintext_Elem_Type is (<>);
-      type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
-      type Ciphertext_Index_Type is (<>);
-      type Ciphertext_Elem_Type is (<>);
-      type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
-   procedure Decrypt (Ciphertext :     Ciphertext_Type;
-                      IV         :     Ciphertext_Type;
-                      Key        :     AES_Universal.Dec_Key_Type;
-                      Plaintext  : out Plaintext_Type)
+      type Left_Index_Type is (<>);
+      type Left_Elem_Type is (<>);
+      type Left_Data_Type is array (Left_Index_Type range <>) of Left_Elem_Type;
+      type Right_Index_Type is (<>);
+      type Right_Elem_Type is (<>);
+      type Right_Data_Type is array (Right_Index_Type range <>) of Right_Elem_Type;
+      type Result_Index_Type is (<>);
+      type Result_Elem_Type is (<>);
+      type Result_Data_Type is array (Result_Index_Type range <>) of Result_Elem_Type;
+   procedure Array_XOR
+     (Left   : in     Left_Data_Type;
+      Right  : in     Right_Data_Type;
+      Result :    out Result_Data_Type)
    with
-      Pre  => Ciphertext'Length > 0 and
-              Ciphertext'Length mod 16 = 0 and
-              Plaintext'Length >= Ciphertext'Length and
-              IV'Length = 16;
-   --  Decrypt @Ciphertext to @Plaintext using @IV and @Key in CBC mode
+      Pre =>
+        Left'Length < Left_Index_Type'Pos (Left_Index_Type'Last) and
+        Left'Length = Right'Length and
+        Result'Length >= Left'Length;
 
-   generic
-      type Plaintext_Index_Type is (<>);
-      type Plaintext_Elem_Type is (<>);
-      type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
-      type Ciphertext_Index_Type is (<>);
-      type Ciphertext_Elem_Type is (<>);
-      type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
-   procedure Encrypt (Plaintext  :     Plaintext_Type;
-                      IV         :     Ciphertext_Type;
-                      Key        :     AES_Universal.Enc_Key_Type;
-                      Ciphertext : out Ciphertext_Type)
-   with
-      Pre  => Plaintext'Length > 0 and
-              Plaintext'Length mod 16 = 0 and
-              Ciphertext'Length >= Plaintext'Length and
-              IV'Length = 16;
-   --  Encrypt @Plaintext to @Ciphertext using @IV and @Key in CBC mode
-
-end LSC.AES_Universal.CBC;
+end LSC.Ops_Generic;

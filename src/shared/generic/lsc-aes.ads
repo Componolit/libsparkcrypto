@@ -34,30 +34,30 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.AES_Universal;
+with LSC.AES_Generic;
 with LSC.Types;
 
 package LSC.AES
 is
-   subtype Dec_Key_Type is LSC.AES_Universal.Dec_Key_Type;
-   subtype Enc_Key_Type is LSC.AES_Universal.Enc_Key_Type;
+   subtype Dec_Key_Type is LSC.AES_Generic.Dec_Key_Type;
+   subtype Enc_Key_Type is LSC.AES_Generic.Enc_Key_Type;
 
-   L128 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L128;
-   L192 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L192;
-   L256 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L256;
+   L128 : constant LSC.AES_Generic.Keylen_Type := LSC.AES_Generic.L128;
+   L192 : constant LSC.AES_Generic.Keylen_Type := LSC.AES_Generic.L192;
+   L256 : constant LSC.AES_Generic.Keylen_Type := LSC.AES_Generic.L256;
 
    function Dec_Key is
-      new AES_Universal.Dec_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
+      new AES_Generic.Dec_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
 
    function Enc_Key is
-      new AES_Universal.Enc_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
+      new AES_Generic.Enc_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
 
    function Encrypt is
-      new AES_Universal.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
+      new AES_Generic.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
+                               Types.Natural_Index, Types.Byte, Types.Bytes);
 
    function Decrypt is
-      new AES_Universal.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
+      new AES_Generic.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
+                               Types.Natural_Index, Types.Byte, Types.Bytes);
 
 end LSC.AES;

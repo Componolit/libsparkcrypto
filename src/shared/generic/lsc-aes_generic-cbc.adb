@@ -34,9 +34,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Ops_Universal;
+with LSC.Ops_Generic;
 
-package body LSC.AES_Universal.CBC
+package body LSC.AES_Generic.CBC
 is
    -------------
    -- Decrypt --
@@ -44,17 +44,17 @@ is
 
    procedure Decrypt (Ciphertext :     Ciphertext_Type;
                       IV         :     Ciphertext_Type;
-                      Key        :     AES_Universal.Dec_Key_Type;
+                      Key        :     AES_Generic.Dec_Key_Type;
                       Plaintext  : out Plaintext_Type)
    is
       Next : Ciphertext_Type (Ciphertext'Range) := IV;
 
-      procedure Decrypt_XOR is new Ops_Universal.Array_XOR
+      procedure Decrypt_XOR is new Ops_Generic.Array_XOR
          (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type,
           Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type,
           Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type);
 
-      function Decrypt is new AES_Universal.Decrypt
+      function Decrypt is new AES_Generic.Decrypt
          (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type,
           Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type);
    begin
@@ -91,18 +91,18 @@ is
 
    procedure Encrypt (Plaintext  :     Plaintext_Type;
                       IV         :     Ciphertext_Type;
-                      Key        :     AES_Universal.Enc_Key_Type;
+                      Key        :     AES_Generic.Enc_Key_Type;
                       Ciphertext : out Ciphertext_Type)
    is
       Temp : Plaintext_Type (Plaintext'Range);
       Next : Ciphertext_Type (IV'Range) := IV;
 
-      procedure Encrypt_XOR is new Ops_Universal.Array_XOR
+      procedure Encrypt_XOR is new Ops_Generic.Array_XOR
          (Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type,
           Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type,
           Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type);
 
-      function Encrypt is new AES_Universal.Encrypt
+      function Encrypt is new AES_Generic.Encrypt
          (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type,
           Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type);
    begin
@@ -134,4 +134,4 @@ is
       """Ciphertext"" might not be initialized in ""Encrypt""",
       "Initialized in complete loop");
 
-end LSC.AES_Universal.CBC;
+end LSC.AES_Generic.CBC;

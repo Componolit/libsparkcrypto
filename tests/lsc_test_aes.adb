@@ -34,7 +34,7 @@
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 with LSC.AES;
-with LSC.AES_Universal;
+with LSC.AES_Generic;
 with LSC.Types;
 
 use LSC;
@@ -154,17 +154,17 @@ package body LSC_Test_AES is
 
       use type LSC.Types.Bytes;
 
-      function Decrypt is new AES_Universal.Decrypt
+      function Decrypt is new AES_Generic.Decrypt
          (LSC.Types.Natural_Index, LSC.Types.Byte, LSC.Types.Bytes,
           Positive, Character, String);
 
-      function Dec_Key is new AES_Universal.Dec_Key (Positive, Character, String);
+      function Dec_Key is new AES_Generic.Dec_Key (Positive, Character, String);
 
       --  FIPS 197, C.1
       Plaintext : constant LSC.Types.Bytes :=
          Decrypt (Ciphertext => B2T (S2B ("69c4e0d86a7b0430d8cdb78070b4c55a")),
                   Key        => Dec_Key (K      => B2T (S2B ("000102030405060708090a0b0c0d0e0f")),
-                                         Keylen => AES_Universal.L128));
+                                         Keylen => AES_Generic.L128));
    begin
       Assert (Plaintext = S2B ("00112233445566778899aabbccddeeff"),
               "Invalid plaintext: " & B2S (Plaintext));
