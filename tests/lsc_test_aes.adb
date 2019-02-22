@@ -155,10 +155,10 @@ package body LSC_Test_AES is
       use type LSC.Types.Bytes;
 
       function Decrypt is new AES_Universal.Decrypt
-         (LSC.Types.Natural_Index, LSC.Types.Byte, LSC.Types.Bytes, "+",
-          Positive, Character, String, "+");
+         (LSC.Types.Natural_Index, LSC.Types.Byte, LSC.Types.Bytes,
+          Positive, Character, String);
 
-      function Dec_Key is new AES_Universal.Dec_Key (Positive, Character, String, "+");
+      function Dec_Key is new AES_Universal.Dec_Key (Positive, Character, String);
 
       --  FIPS 197, C.1
       Plaintext : constant LSC.Types.Bytes :=

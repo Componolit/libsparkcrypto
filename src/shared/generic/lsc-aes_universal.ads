@@ -54,7 +54,6 @@ is
       type Index_Type is (<>);
       type Elem_Type is (<>);
       type Key_Type is array (Index_Type range <>) of Elem_Type;
-      with function "+" (L, R : Index_Type) return Index_Type;
    function Dec_Key (K      : Key_Type;
                      Keylen : Keylen_Type) return Dec_Key_Type
    with
@@ -65,7 +64,6 @@ is
       type Index_Type is (<>);
       type Elem_Type is (<>);
       type Key_Type is array (Index_Type range <>) of Elem_Type;
-      with function "+" (L, R : Index_Type) return Index_Type;
    function Enc_Key (K      : Key_Type;
                      Keylen : Keylen_Type) return Enc_Key_Type
    with
@@ -76,11 +74,9 @@ is
       type Plaintext_Index_Type is (<>);
       type Plaintext_Elem_Type is (<>);
       type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
-      with function "+" (L, R : Plaintext_Index_Type) return Plaintext_Index_Type;
       type Ciphertext_Index_Type is (<>);
       type Ciphertext_Elem_Type is (<>);
       type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
-      with function "+" (L, R : Ciphertext_Index_Type) return Ciphertext_Index_Type;
    function Decrypt (Ciphertext : Ciphertext_Type;
                      Key        : Dec_Key_Type) return Plaintext_Type
    with
@@ -93,11 +89,9 @@ is
       type Plaintext_Index_Type is (<>);
       type Plaintext_Elem_Type is (<>);
       type Plaintext_Type is array (Plaintext_Index_Type range <>) of Plaintext_Elem_Type;
-      with function "+" (L, R : Plaintext_Index_Type) return Plaintext_Index_Type;
       type Ciphertext_Index_Type is (<>);
       type Ciphertext_Elem_Type is (<>);
       type Ciphertext_Type is array (Ciphertext_Index_Type range <>) of Ciphertext_Elem_Type;
-      with function "+" (L, R : Ciphertext_Index_Type) return Ciphertext_Index_Type;
    function Encrypt (Plaintext : Plaintext_Type;
                      Key       : Enc_Key_Type) return Ciphertext_Type
    with

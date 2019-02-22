@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-16
+-- @date   2019-01-22
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,30 +34,31 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.AES_Universal;
-with LSC.Types;
-
-package LSC.AES
+package LSC.Ops_Universal
 is
-   subtype Dec_Key_Type is LSC.AES_Universal.Dec_Key_Type;
-   subtype Enc_Key_Type is LSC.AES_Universal.Enc_Key_Type;
+   -- Perform XOR on two arrays of 8-bit element types
+   --
+   -- @Left@   - First input array
+   -- @Right@  - Second input array
+   -- @Result@ - Result array
+   generic
+      type Left_Index_Type is (<>);
+      type Left_Elem_Type is (<>);
+      type Left_Data_Type is array (Left_Index_Type range <>) of Left_Elem_Type;
+      type Right_Index_Type is (<>);
+      type Right_Elem_Type is (<>);
+      type Right_Data_Type is array (Right_Index_Type range <>) of Right_Elem_Type;
+      type Result_Index_Type is (<>);
+      type Result_Elem_Type is (<>);
+      type Result_Data_Type is array (Result_Index_Type range <>) of Result_Elem_Type;
+   procedure Array_XOR
+     (Left   : in     Left_Data_Type;
+      Right  : in     Right_Data_Type;
+      Result :    out Result_Data_Type)
+   with
+      Pre =>
+        Left'Length < Left_Index_Type'Pos (Left_Index_Type'Last) and
+        Left'Length = Right'Length and
+        Result'Length >= Left'Length;
 
-   L128 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L128;
-   L192 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L192;
-   L256 : constant LSC.AES_Universal.Keylen_Type := LSC.AES_Universal.L256;
-
-   function Dec_Key is
-      new AES_Universal.Dec_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Enc_Key is
-      new AES_Universal.Enc_Key (Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Encrypt is
-      new AES_Universal.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
-
-   function Decrypt is
-      new AES_Universal.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
-                                 Types.Natural_Index, Types.Byte, Types.Bytes);
-
-end LSC.AES;
+end LSC.Ops_Universal;

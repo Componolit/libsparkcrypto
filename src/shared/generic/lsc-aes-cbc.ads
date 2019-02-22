@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-21
+-- @date   2019-01-22
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -35,30 +35,17 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
-with LSC.AES;
+with LSC.AES_Universal.CBC;
 
 package LSC.AES.CBC
 is
-   procedure Decrypt (Ciphertext :     LSC.Types.Bytes;
-                      IV         :     LSC.Types.Bytes;
-                      Key        :     AES.Dec_Key_Type;
-                      Plaintext  : out LSC.Types.Bytes)
-   with
-      Pre  => Ciphertext'Length > 0 and
-              Ciphertext'Length mod 16 = 0 and
-              Plaintext'Length >= Ciphertext'Length and
-              IV'Length = 16;
-   --  Decrypt @Ciphertext to @Plaintext using @IV and @Key in CBC mode
 
-   procedure Encrypt (Plaintext  :     LSC.Types.Bytes;
-                      IV         :     LSC.Types.Bytes;
-                      Key        :     AES.Enc_Key_Type;
-                      Ciphertext : out LSC.Types.Bytes)
-   with
-      Pre  => Plaintext'Length > 0 and
-              Plaintext'Length mod 16 = 0 and
-              Ciphertext'Length >= Plaintext'Length and
-              IV'Length = 16;
-   --  Encrypt @Plaintext to @Ciphertext using @IV and @Key in CBC mode
+   procedure Decrypt is new
+      AES_Universal.CBC.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
+                                 Types.Natural_Index, Types.Byte, Types.Bytes);
+
+   procedure Encrypt is new
+      AES_Universal.CBC.Encrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
+                                 Types.Natural_Index, Types.Byte, Types.Bytes);
 
 end LSC.AES.CBC;

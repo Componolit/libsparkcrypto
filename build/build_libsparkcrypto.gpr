@@ -99,7 +99,7 @@ is
 
    package Compiler is
       for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches &
-         ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
+         ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe", "-gnatef");
       for Local_Configuration_Pragmas use "pragmas.adc";
    end Compiler;
 
