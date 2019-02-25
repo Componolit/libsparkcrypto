@@ -34,34 +34,57 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
+with Ada.Unchecked_Conversion;
+with LSC.Internal.SHA1;
 with LSC.Internal.HMAC_SHA1;
 
-package body LSC.SHA1.HMAC is
+package body LSC.SHA1_Generic.HMAC is
 
    -----------------
    -- HMAC_SHA1 --
    -----------------
 
    function HMAC
-     (Key        : LSC.Types.Bytes;
-      Message    : LSC.Types.Bytes;
-      Output_Len : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes
+     (Key        : Key_Type;
+      Message    : Message_Type;
+      Output_Len : Hash_Index_Type := Hash_Index_Type'Val (20)) return Hash_Type
    is
-      use type Internal.SHA1.Block_Length_Type;
+      subtype MIT is Message_Index_Type;
+      subtype HIT is Hash_Index_Type;
+      subtype KIT is Key_Index_Type;
 
-      Temp          : SHA1_Block_Type := (others => 0);
-      Full_Blocks   : constant Natural := Message'Length / SHA1_Block_Len;
-      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * SHA1_Block_Len;
+      Block_Len : constant := 64;
+      subtype Block_Type is Message_Type
+         (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
+      function To_Internal is new Ada.Unchecked_Conversion (Block_Type, Internal.SHA1.Block_Type);
+
+      Hash_Len : constant := 20;
+      subtype Hash_Block_Type is Hash_Type
+         (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Hash_Len - 1));
+      function To_Public is new Ada.Unchecked_Conversion (Internal.SHA1.Hash_Type, Hash_Block_Type);
+
+      Full_Blocks   : constant Natural := Message'Length / Block_Len;
+      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
 
       Context  : Internal.HMAC_SHA1.Context_Type;
-      Full_Key : SHA1.SHA1_Block_Type := (others => 0);
+      Temp     : Block_Type;
+
+      subtype Full_Key_Type is Key_Type (KIT'First .. KIT'Val (KIT'Pos (KIT'First) + Block_Len - 1));
+      Full_Key : Full_Key_Type;
+      function To_Internal is new Ada.Unchecked_Conversion (Full_Key_Type, Internal.SHA1.Block_Type);
+
+      function Hash_Key is new LSC.SHA1_Generic.Hash
+         (Key_Index_Type, Key_Elem_Type, Key_Type,
+          Key_Index_Type, Key_Elem_Type, Key_Type);
+
+      use type Internal.SHA1.Block_Length_Type;
    begin
 
-      if Key'Length <= SHA1_Block_Len
+      if Key'Length <= Block_Len
       then
-         Full_Key (Full_Key'First .. Full_Key'First + Key'Length - 1) := Key;
+         Full_Key (Full_Key'First .. KIT'Val (KIT'Pos (Full_Key'First) + Key'Length - 1)) := Key;
       else
-         Full_Key (Full_Key'First .. Full_Key'First + SHA1_Hash_Len - 1) := LSC.SHA1.Hash (Key);
+         Full_Key (Full_Key'First .. KIT'Val (KIT'Pos (Full_Key'First) + Hash_Len - 1)) := Hash_Key (Key);
       end if;
 
       Context := Internal.HMAC_SHA1.Context_Init (To_Internal (Full_Key));
@@ -70,21 +93,21 @@ package body LSC.SHA1.HMAC is
       loop
          Internal.HMAC_SHA1.Context_Update
             (Context => Context,
-             Block   => To_Internal (Message (Message'First + I * SHA1_Block_Len ..
-                                              Message'First + I * SHA1_Block_Len + SHA1_Block_Len - 1)));
+             Block   => To_Internal (Message (MIT'Val (MIT'Pos (Message'First) + I * Block_Len) ..
+                                              MIT'Val (MIT'Pos (Message'First) + I * Block_Len + Block_Len - 1))));
       end loop;
 
-      Temp (Temp'First .. Temp'First + Partial_Bytes - 1) :=
-         Message (Message'First + SHA1_Block_Len * Full_Blocks ..
-                  Message'First + SHA1_Block_Len * Full_Blocks + Partial_Bytes - 1);
+      Temp (Temp'First .. MIT'Val (MIT'Pos (Temp'First) + Partial_Bytes - 1)) :=
+         Message (MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks) ..
+                  MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks + Partial_Bytes - 1));
 
       Internal.HMAC_SHA1.Context_Finalize
          (Context => Context,
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_SHA1.Get_Auth (Context)) (1 .. Output_Len);
+      return To_Public (Internal.HMAC_SHA1.Get_Auth (Context)) (HIT'First .. Output_Len);
 
    end HMAC;
 
-end LSC.SHA1.HMAC;
+end LSC.SHA1_Generic.HMAC;

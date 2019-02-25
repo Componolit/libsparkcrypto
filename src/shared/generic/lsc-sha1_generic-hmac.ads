@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-23
+-- @date   2019-01-21
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,40 +34,19 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package body LSC.SHA1
+package LSC.SHA1_Generic.HMAC
 is
-   ----------
-   -- Hash --
-   ----------
-
-   function Hash (Message : LSC.Types.Bytes) return LSC.Types.Bytes
-   is
-      use type Internal.SHA1.Block_Length_Type;
-
-      Temp    : SHA1_Block_Type := (others => 0);
-      Context : Internal.SHA1.Context_Type := Internal.SHA1.Context_Init;
-
-      Full_Blocks   : constant Natural := Message'Length / SHA1_Block_Len;
-      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * SHA1_Block_Len;
-   begin
-      for I in 0 .. Full_Blocks - 1
-      loop
-         Internal.SHA1.Context_Update
-            (Context => Context,
-             Block   => To_Internal (Message (Message'First + I * SHA1_Block_Len ..
-                                              Message'First + I * SHA1_Block_Len + SHA1_Block_Len - 1)));
-      end loop;
-
-      Temp (Temp'First .. Temp'First + Partial_Bytes - 1) :=
-         Message (Message'First + SHA1_Block_Len * Full_Blocks ..
-                  Message'First + SHA1_Block_Len * Full_Blocks + Partial_Bytes - 1);
-
-      Internal.SHA1.Context_Finalize
-         (Context => Context,
-          Block   => To_Internal (Temp),
-          Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
-
-      return To_Public (Internal.SHA1.Get_Hash (Context));
-   end Hash;
-
-end LSC.SHA1;
+   generic
+      type Key_Index_Type is (<>);
+      type Key_Elem_Type is (<>);
+      type Key_Type is array (Key_Index_Type range <>) of Key_Elem_Type;
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+   function HMAC (Key        : Key_Type;
+                  Message    : Message_Type;
+                  Output_Len : Hash_Index_Type := Hash_Index_Type'Val (20)) return Hash_Type;
+end LSC.SHA1_Generic.HMAC;
