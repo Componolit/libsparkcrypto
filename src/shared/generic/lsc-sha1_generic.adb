@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-24
+-- @date   2019-01-23
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -35,9 +35,9 @@
 -------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
-with LSC.Internal.RIPEMD160;
+with LSC.Internal.SHA1;
 
-package body LSC.RIPEMD160_Generic
+package body LSC.SHA1_Generic
 is
    ----------
    -- Hash --
@@ -45,30 +45,30 @@ is
 
    function Hash (Message : Message_Data_Type) return Hash_Data_Type
    is
-      Block_Len : constant := 64;
-
       subtype MIT is Message_Index_Type;
       subtype HIT is Hash_Index_Type;
 
-      subtype RIPEMD160_Block_Type is
+      use type Internal.SHA1.Block_Length_Type;
+
+      Block_Len : constant := 64;
+      subtype SHA1_Block_Type is
          Message_Data_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
-      function To_Internal is new Ada.Unchecked_Conversion (RIPEMD160_Block_Type, Internal.RIPEMD160.Block_Type);
+      function To_Internal is new Ada.Unchecked_Conversion (SHA1_Block_Type, Internal.SHA1.Block_Type);
 
-      subtype RIPEMD160_Hash_Type is
-         Hash_Data_Type (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + 19));
-      function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, RIPEMD160_Hash_Type);
+      SHA1_Hash_Len : constant := 20;
+      subtype SHA1_Hash_Type is
+         Hash_Data_Type (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + SHA1_Hash_Len - 1));
+      function To_Public is new Ada.Unchecked_Conversion (Internal.SHA1.Hash_Type, SHA1_Hash_Type);
 
-      use type Internal.RIPEMD160.Block_Length_Type;
-
-      Temp    : RIPEMD160_Block_Type;
-      Context : Internal.RIPEMD160.Context_Type := Internal.RIPEMD160.Context_Init;
+      Temp    : SHA1_Block_Type;
+      Context : Internal.SHA1.Context_Type := Internal.SHA1.Context_Init;
 
       Full_Blocks   : constant Natural := Message'Length / Block_Len;
       Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
    begin
       for I in 0 .. Full_Blocks - 1
       loop
-         Internal.RIPEMD160.Context_Update
+         Internal.SHA1.Context_Update
             (Context => Context,
              Block   => To_Internal (Message (MIT'Val (MIT'Pos (Message'First) + I * Block_Len) ..
                                               MIT'Val (MIT'Pos (Message'First) + I * Block_Len + Block_Len - 1))));
@@ -78,12 +78,12 @@ is
          Message (MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks) ..
                   MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks + Partial_Bytes - 1));
 
-      Internal.RIPEMD160.Context_Finalize
+      Internal.SHA1.Context_Finalize
          (Context => Context,
           Block   => To_Internal (Temp),
-          Length  => 8 * Internal.RIPEMD160.Block_Length_Type (Partial_Bytes));
+          Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.RIPEMD160.Get_Hash (Context));
+      return To_Public (Internal.SHA1.Get_Hash (Context));
    end Hash;
 
-end LSC.RIPEMD160_Generic;
+end LSC.SHA1_Generic;

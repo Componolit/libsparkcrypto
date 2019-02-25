@@ -34,13 +34,15 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.SHA1_Generic;
-with LSC.Types;
-
-package LSC.SHA1
+package LSC.SHA1_Generic
 is
-   function Hash is new LSC.SHA1_Generic.Hash
-      (Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+   generic
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Data_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Data_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+   function Hash (Message : Message_Data_Type) return Hash_Data_Type;
 
-end LSC.SHA1;
+end LSC.SHA1_Generic;
