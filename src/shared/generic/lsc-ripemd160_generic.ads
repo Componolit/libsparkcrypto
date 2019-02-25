@@ -2,7 +2,7 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-02-22
+-- @date   2019-01-23
 --
 -- Copyright (C) 2018 Componolit GmbH
 -- All rights reserved.
@@ -34,13 +34,15 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
-with LSC.RIPEMD160_Generic;
-
-package LSC.RIPEMD160
+package LSC.RIPEMD160_Generic
 is
-   function Hash is new RIPEMD160_Generic.Hash
-      (Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+   generic
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Data_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Data_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+   function Hash (Message : Message_Data_Type) return Hash_Data_Type;
 
-end LSC.RIPEMD160;
+end LSC.RIPEMD160_Generic;
