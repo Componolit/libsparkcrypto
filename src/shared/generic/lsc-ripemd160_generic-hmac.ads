@@ -34,14 +34,20 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Types;
-with LSC.RIPEMD160_Generic.HMAC;
-
-package LSC.RIPEMD160.HMAC
+package LSC.RIPEMD160_Generic.HMAC
 is
-   function HMAC is new RIPEMD160_Generic.HMAC.HMAC
-      (Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+   generic
+      type Key_Index_Type is (<>);
+      type Key_Elem_Type is (<>);
+      type Key_Type is array (Key_Index_Type range <>) of Key_Elem_Type;
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+   function HMAC (Key        : Key_Type;
+                  Message    : Message_Type;
+                  Output_Len : Hash_Index_Type := Hash_Index_Type'Val (20)) return Hash_Type;
 
-end LSC.RIPEMD160.HMAC;
+end LSC.RIPEMD160_Generic.HMAC;

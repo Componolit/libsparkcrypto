@@ -38,40 +38,53 @@ with LSC.Internal.RIPEMD160;
 with LSC.Internal.HMAC_RIPEMD160;
 with Ada.Unchecked_Conversion;
 
-package body LSC.RIPEMD160.HMAC is
+package body LSC.RIPEMD160_Generic.HMAC is
 
-   -----------------
-   -- HMAC_RIPEMD160 --
-   -----------------
+   ----------
+   -- HMAC --
+   ----------
 
    function HMAC
-     (Key        : LSC.Types.Bytes;
-      Message    : LSC.Types.Bytes;
-      Output_Len : LSC.Types.Natural_Index := 20) return LSC.Types.Bytes
+     (Key        : Key_Type;
+      Message    : Message_Type;
+      Output_Len : Hash_Index_Type := Hash_Index_Type'Val (20)) return Hash_Type
    is
-      RIPEMD160_Block_Len : constant := 64;
-      subtype RIPEMD160_Block_Type is Types.Bytes (1 .. RIPEMD160_Block_Len);
-      function To_Internal is new Ada.Unchecked_Conversion (RIPEMD160_Block_Type, Internal.RIPEMD160.Block_Type);
+      subtype MIT is Message_Index_Type;
+      subtype HIT is Hash_Index_Type;
+      subtype KIT is Key_Index_Type;
 
-      RIPEMD160_Hash_Len : constant := 20;
-      subtype RIPEMD160_Hash_Type is Types.Bytes (1 .. RIPEMD160_Hash_Len);
-      function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, RIPEMD160_Hash_Type);
+      Block_Len : constant := 64;
+      subtype Block_Type is Message_Type
+         (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
+      function To_Internal is new Ada.Unchecked_Conversion (Block_Type, Internal.RIPEMD160.Block_Type);
 
-      use type Internal.RIPEMD160.Block_Length_Type;
+      Hash_Len : constant := 20;
+      subtype Hash_Block_Type is Hash_Type
+         (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Hash_Len - 1));
+      function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, Hash_Block_Type);
 
-      Temp          : RIPEMD160_Block_Type := (others => 0);
-      Full_Blocks   : constant Natural := Message'Length / RIPEMD160_Block_Len;
-      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * RIPEMD160_Block_Len;
+      Full_Blocks   : constant Natural := Message'Length / Block_Len;
+      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
 
       Context  : Internal.HMAC_RIPEMD160.Context_Type;
-      Full_Key : RIPEMD160_Block_Type := (others => 0);
+      Temp     : Block_Type;
+
+      subtype Full_Key_Type is Key_Type (KIT'First .. KIT'Val (KIT'Pos (KIT'First) + Block_Len - 1));
+      Full_Key : Full_Key_Type;
+      function To_Internal is new Ada.Unchecked_Conversion (Full_Key_Type, Internal.RIPEMD160.Block_Type);
+
+      function Hash_Key is new LSC.RIPEMD160_Generic.Hash
+         (Key_Index_Type, Key_Elem_Type, Key_Type,
+          Key_Index_Type, Key_Elem_Type, Key_Type);
+
+      use type Internal.RIPEMD160.Block_Length_Type;
    begin
 
-      if Key'Length <= RIPEMD160_Block_Len
+      if Key'Length <= Block_Len
       then
-         Full_Key (Full_Key'First .. Full_Key'First + Key'Length - 1) := Key;
+         Full_Key (Full_Key'First .. KIT'Val (KIT'Pos (Full_Key'First) + Key'Length - 1)) := Key;
       else
-         Full_Key (Full_Key'First .. Full_Key'First + RIPEMD160_Hash_Len - 1) := LSC.RIPEMD160.Hash (Key);
+         Full_Key (Full_Key'First .. KIT'Val (KIT'Pos (Full_Key'First) + Hash_Len - 1)) := Hash_Key (Key);
       end if;
 
       Context := Internal.HMAC_RIPEMD160.Context_Init (To_Internal (Full_Key));
@@ -80,21 +93,21 @@ package body LSC.RIPEMD160.HMAC is
       loop
          Internal.HMAC_RIPEMD160.Context_Update
             (Context => Context,
-             Block   => To_Internal (Message (Message'First + I * RIPEMD160_Block_Len ..
-                                              Message'First + I * RIPEMD160_Block_Len + RIPEMD160_Block_Len - 1)));
+             Block   => To_Internal (Message (MIT'Val (MIT'Pos (Message'First) + I * Block_Len) ..
+                                              MIT'Val (MIT'Pos (Message'First) + I * Block_Len + Block_Len - 1))));
       end loop;
 
-      Temp (Temp'First .. Temp'First + Partial_Bytes - 1) :=
-         Message (Message'First + RIPEMD160_Block_Len * Full_Blocks ..
-                  Message'First + RIPEMD160_Block_Len * Full_Blocks + Partial_Bytes - 1);
+      Temp (Temp'First .. MIT'Val (MIT'Pos (Temp'First) + Partial_Bytes - 1)) :=
+         Message (MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks) ..
+                  MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks + Partial_Bytes - 1));
 
       Internal.HMAC_RIPEMD160.Context_Finalize
          (Context => Context,
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.RIPEMD160.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_RIPEMD160.Get_Auth (Context)) (1 .. Output_Len);
+      return To_Public (Internal.HMAC_RIPEMD160.Get_Auth (Context)) (HIT'First .. Output_Len);
 
    end HMAC;
 
-end LSC.RIPEMD160.HMAC;
+end LSC.RIPEMD160_Generic.HMAC;
