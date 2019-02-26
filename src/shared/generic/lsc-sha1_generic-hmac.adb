@@ -47,7 +47,7 @@ package body LSC.SHA1_Generic.HMAC is
    function HMAC
      (Key        : Key_Type;
       Message    : Message_Type;
-      Output_Len : Hash_Index_Type := Hash_Index_Type'Val (20)) return Hash_Type
+      Output_Len : Natural := 20) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
       subtype HIT is Hash_Index_Type;
@@ -106,7 +106,7 @@ package body LSC.SHA1_Generic.HMAC is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_SHA1.Get_Auth (Context)) (HIT'First .. Output_Len);
+      return To_Public (Internal.HMAC_SHA1.Get_Auth (Context)) (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Output_Len));
 
    end HMAC;
 
