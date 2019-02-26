@@ -34,14 +34,18 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.SHA2_Generic.HMAC;
-with LSC.Types;
-
-package LSC.SHA2.HMAC
+package LSC.SHA2_Generic
 is
-   function HMAC is new SHA2_Generic.HMAC.HMAC
-      (Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+   type Algorithm_Type is (SHA256, SHA384, SHA512);
 
-end LSC.SHA2.HMAC;
+   generic
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+   function Hash (Algorithm : Algorithm_Type;
+                  Message   : Message_Type) return Hash_Type;
+
+end LSC.SHA2_Generic;
