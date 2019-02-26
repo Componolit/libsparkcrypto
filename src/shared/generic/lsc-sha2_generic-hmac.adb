@@ -58,14 +58,14 @@ package body LSC.SHA2_Generic.HMAC is
       type Hash_Elem_Type is (<>);
       type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
    function HMAC_SHA256_Generic
-     (Key       : Key_Type;
-      Message   : Message_Type;
-      Length    : Hash_Index_Type) return Hash_Type;
+     (Key           : Key_Type;
+      Message       : Message_Type;
+      Output_Length : Natural) return Hash_Type;
 
    function HMAC_SHA256_Generic
-     (Key       : Key_Type;
-      Message   : Message_Type;
-      Length    : Hash_Index_Type) return Hash_Type
+     (Key           : Key_Type;
+      Message       : Message_Type;
+      Output_Length : Natural) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
       subtype HIT is Hash_Index_Type;
@@ -124,7 +124,7 @@ package body LSC.SHA2_Generic.HMAC is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA256.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_SHA256.Get_Prf (Context)) (HIT'First .. Length);
+      return To_Public (Internal.HMAC_SHA256.Get_Prf (Context)) (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Output_Length - 1));
 
    end HMAC_SHA256_Generic;
 
@@ -143,14 +143,14 @@ package body LSC.SHA2_Generic.HMAC is
       type Hash_Elem_Type is (<>);
       type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
    function HMAC_SHA384_Generic
-     (Key       : Key_Type;
-      Message   : Message_Type;
-      Length    : Hash_Index_Type) return Hash_Type;
+     (Key           : Key_Type;
+      Message       : Message_Type;
+      Output_Length : Natural) return Hash_Type;
 
    function HMAC_SHA384_Generic
-     (Key       : Key_Type;
-      Message   : Message_Type;
-      Length    : Hash_Index_Type) return Hash_Type
+     (Key           : Key_Type;
+      Message       : Message_Type;
+      Output_Length : Natural) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
       subtype HIT is Hash_Index_Type;
@@ -209,7 +209,7 @@ package body LSC.SHA2_Generic.HMAC is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA512.Block_Length_Type (Partial_Bytes));
 
-      return To_Public (Internal.HMAC_SHA384.Get_Prf (Context)) (HIT'First .. Length);
+      return To_Public (Internal.HMAC_SHA384.Get_Prf (Context)) (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Output_Length - 1));
 
    end HMAC_SHA384_Generic;
 
@@ -228,14 +228,14 @@ package body LSC.SHA2_Generic.HMAC is
       type Hash_Elem_Type is (<>);
       type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
    function HMAC_SHA512_Generic
-     (Key       : Key_Type;
-      Message   : Message_Type;
-      Length    : Hash_Index_Type) return Hash_Type;
+     (Key           : Key_Type;
+      Message       : Message_Type;
+      Output_Length : Natural) return Hash_Type;
 
    function HMAC_SHA512_Generic
-     (Key       : Key_Type;
-      Message   : Message_Type;
-      Length    : Hash_Index_Type) return Hash_Type
+     (Key           : Key_Type;
+      Message       : Message_Type;
+      Output_Length : Natural) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
       subtype HIT is Hash_Index_Type;
@@ -294,7 +294,7 @@ package body LSC.SHA2_Generic.HMAC is
           Block   => To_Internal (Temp),
           Length  => 8 * Internal.SHA512.Block_Length_Type (Partial_Bytes));
 
-      return To_Public_512 (Internal.HMAC_SHA512.Get_Prf (Context)) (HIT'First .. Length);
+      return To_Public_512 (Internal.HMAC_SHA512.Get_Prf (Context)) (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Output_Length - 1));
 
    end HMAC_SHA512_Generic;
 
@@ -306,7 +306,7 @@ package body LSC.SHA2_Generic.HMAC is
      (Algorithm  : SHA2_Generic.Algorithm_Type;
       Key        : Key_Type;
       Message    : Message_Type;
-      Output_Len : Hash_Index_Type := Hash_Index_Type'Val (16)) return Hash_Type
+      Output_Len : Natural := 16) return Hash_Type
    is
       function HMAC_SHA256 is new HMAC_SHA256_Generic
          (Key_Index_Type, Key_Elem_Type, Key_Type,

@@ -48,5 +48,5 @@ is
       type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
    function HMAC (Key        : Key_Type;
                   Message    : Message_Type;
-                  Output_Len : Hash_Index_Type := Hash_Index_Type'Val (20)) return Hash_Type;
+                  Output_Len : Natural := 20) return Hash_Type;
 end LSC.SHA1_Generic.HMAC;

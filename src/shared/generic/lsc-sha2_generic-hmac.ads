@@ -49,5 +49,5 @@ is
    function HMAC (Algorithm  : SHA2_Generic.Algorithm_Type;
                   Key        : Key_Type;
                   Message    : Message_Type;
-                  Output_Len : Hash_Index_Type := Hash_Index_Type'Val (16)) return Hash_Type;
+                  Output_Len : Natural := 16) return Hash_Type;
 end LSC.SHA2_Generic.HMAC;
