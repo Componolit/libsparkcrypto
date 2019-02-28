@@ -43,24 +43,23 @@ is
    -- Hash --
    ----------
 
-   function Hash (Message : Message_Data_Type) return Hash_Data_Type
+   function Hash (Message : Message_Type) return Hash_Type
    is
       Block_Len : constant := 64;
 
       subtype MIT is Message_Index_Type;
-      subtype HIT is Hash_Index_Type;
-
-      subtype RIPEMD160_Block_Type is
-         Message_Data_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
-      function To_Internal is new Ada.Unchecked_Conversion (RIPEMD160_Block_Type, Internal.RIPEMD160.Block_Type);
-
-      subtype RIPEMD160_Hash_Type is
-         Hash_Data_Type (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + 19));
-      function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, RIPEMD160_Hash_Type);
-
       use type Internal.RIPEMD160.Block_Length_Type;
 
-      Temp    : RIPEMD160_Block_Type;
+      subtype RIPEMD160_Block_Type is
+         Message_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
+      function To_Internal is new Ada.Unchecked_Conversion (RIPEMD160_Block_Type, Internal.RIPEMD160.Block_Type);
+      function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, Hash_Type);
+
+      type Byte is mod 2**8 with Size => 8;
+      function To_Internal is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
+      Null_Elem : constant Message_Elem_Type := To_Internal (0);
+
+      Temp    : RIPEMD160_Block_Type := (others => Null_Elem);
       Context : Internal.RIPEMD160.Context_Type := Internal.RIPEMD160.Context_Init;
 
       Full_Blocks   : constant Natural := Message'Length / Block_Len;
