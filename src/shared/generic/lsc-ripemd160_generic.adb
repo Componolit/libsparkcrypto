@@ -46,7 +46,8 @@ is
    function Hash (Message : Message_Type) return Hash_Type
    is
       function Hash_Internal is new Internal.Convert_Hash.Hash
-         (Message_Index_Type,
+         (64,
+          Message_Index_Type,
           Message_Elem_Type,
           Message_Type,
           Hash_Index_Type,

@@ -37,6 +37,7 @@
 package LSC.Internal.Convert_Hash
 is
    generic
+      Block_Len : Natural;
       type Message_Index_Type is (<>);
       type Message_Elem_Type is (<>);
       type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
