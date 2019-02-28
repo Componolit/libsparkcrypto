@@ -2,9 +2,9 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-23
+-- @date   2019-02-28
 --
--- Copyright (C) 2018 Componolit GmbH
+-- Copyright (C) 2019 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -34,15 +34,39 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package LSC.SHA1_Generic
+package LSC.Internal.Convert_HMAC
 is
    generic
+      type Key_Index_Type is (<>);
+      type Key_Elem_Type is (<>);
+      type Key_Type is array (Key_Index_Type range <>) of Key_Elem_Type;
       type Message_Index_Type is (<>);
       type Message_Elem_Type is (<>);
       type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
       type Hash_Index_Type is (<>);
       type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
-   function Hash (Message : Message_Type) return Hash_Type;
+      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+      type Internal_Context_Type is private;
+      type Internal_Block_Type is private;
+      type Internal_Block_Length_Type is (<>);
+      type Internal_Hash_Type is private;
 
-end LSC.SHA1_Generic;
+      with function Context_Init (Block : Internal_Block_Type) return Internal_Context_Type is <>;
+
+      with procedure Context_Update (Context : in out Internal_Context_Type;
+                                     Block   :        Internal_Block_Type) is <>;
+
+      with procedure Context_Finalize (Context : in out Internal_Context_Type;
+                                       Block   :        Internal_Block_Type;
+                                       Length  :        Internal_Block_Length_Type) is <>;
+
+      with function Get_Auth (Context : Internal_Context_Type) return Internal_Hash_Type is <>;
+
+      with function Hash_Key (Key : Key_Type) return Key_Type;
+
+   function HMAC_Generic
+     (Key        : Key_Type;
+      Message    : Message_Type;
+      Output_Len : Natural := 20) return Hash_Type;
+
+end LSC.Internal.Convert_HMAC;
