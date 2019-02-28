@@ -2,9 +2,9 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-23
+-- @date   2019-02-28
 --
--- Copyright (C) 2018 Componolit GmbH
+-- Copyright (C) 2019 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -35,39 +35,60 @@
 -------------------------------------------------------------------------------
 
 with Ada.Unchecked_Conversion;
-with LSC.Internal.SHA1;
 
-package body LSC.SHA1_Generic
+package body LSC.Internal.Convert_HMAC
 is
-   ----------
-   -- Hash --
-   ----------
-
-   function Hash (Message : Message_Type) return Hash_Type
+   function HMAC_Generic
+     (Key        : Key_Type;
+      Message    : Message_Type;
+      Output_Len : Natural := 20) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
-
-      use type Internal.SHA1.Block_Length_Type;
-
-      Block_Len : constant := 64;
-      subtype SHA1_Block_Type is
-         Message_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
-      function To_Internal is new Ada.Unchecked_Conversion (SHA1_Block_Type, Internal.SHA1.Block_Type);
-      function To_Public is new Ada.Unchecked_Conversion (Internal.SHA1.Hash_Type, Hash_Type);
+      subtype HIT is Hash_Index_Type;
+      subtype KIT is Key_Index_Type;
 
       type Byte is mod 2**8 with Size => 8;
-      function To_Internal is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
-      Null_Elem : constant Message_Elem_Type := To_Internal (0);
 
-      Temp    : SHA1_Block_Type := (others => Null_Elem);
-      Context : Internal.SHA1.Context_Type := Internal.SHA1.Context_Init;
+      function To_Public is new Ada.Unchecked_Conversion (Byte, Key_Elem_Type);
+      Null_Key_Elem : constant Key_Elem_Type := To_Public (0);
+
+      function To_Public is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
+      Null_Message_Elem : constant Message_Elem_Type := To_Public (0);
+
+      Block_Len : constant Natural := Internal_Block_Type'Size / 8;
+      subtype Block_Type is Message_Type
+         (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
+      function To_Internal is new Ada.Unchecked_Conversion (Block_Type, Internal_Block_Type);
+
+      Hash_Len : constant Natural := Internal_Hash_Type'Size / 8;
+      subtype Hash_Block_Index is HIT range HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Hash_Len - 1);
+      subtype Hash_Block_Type is Hash_Type (Hash_Block_Index);
+      function To_Public is new Ada.Unchecked_Conversion (Internal_Hash_Type, Hash_Block_Type);
 
       Full_Blocks   : constant Natural := Message'Length / Block_Len;
       Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
+
+      Context  : Internal_Context_Type;
+      Temp     : Block_Type := (others => Null_Message_Elem);
+
+      subtype Full_Key_Index is Key_Index_Type range KIT'First .. KIT'Val (KIT'Pos (KIT'First) + Block_Len - 1);
+      subtype Full_Key_Type is Key_Type (Full_Key_Index);
+      Full_Key : Full_Key_Type := (others => Null_Key_Elem);
+      function To_Internal is new Ada.Unchecked_Conversion (Full_Key_Type, Internal_Block_Type);
    begin
+
+      if Key'Length <= Block_Len
+      then
+         Full_Key (Full_Key'First .. KIT'Val (KIT'Pos (Full_Key'First) + Key'Length - 1)) := Key;
+      else
+         Full_Key (Full_Key'First .. KIT'Val (KIT'Pos (Full_Key'First) + Hash_Len - 1)) := Hash_Key (Key);
+      end if;
+
+      Context := Context_Init (To_Internal (Full_Key));
+
       for I in 0 .. Full_Blocks - 1
       loop
-         Internal.SHA1.Context_Update
+         Context_Update
             (Context => Context,
              Block   => To_Internal (Message (MIT'Val (MIT'Pos (Message'First) + I * Block_Len) ..
                                               MIT'Val (MIT'Pos (Message'First) + I * Block_Len + Block_Len - 1))));
@@ -77,12 +98,13 @@ is
          Message (MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks) ..
                   MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks + Partial_Bytes - 1));
 
-      Internal.SHA1.Context_Finalize
+      Context_Finalize
          (Context => Context,
           Block   => To_Internal (Temp),
-          Length  => 8 * Internal.SHA1.Block_Length_Type (Partial_Bytes));
+          Length  => Internal_Block_Length_Type (Internal_Block_Length_Type'Val (8 * Partial_Bytes)));
 
-      return To_Public (Internal.SHA1.Get_Hash (Context));
-   end Hash;
+      return To_Public (Get_Auth (Context)) (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Output_Len - 1));
 
-end LSC.SHA1_Generic;
+   end HMAC_Generic;
+
+end LSC.Internal.Convert_HMAC;
