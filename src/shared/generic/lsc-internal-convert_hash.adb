@@ -43,7 +43,6 @@ is
    is
       subtype MIT is Message_Index_Type;
 
-      Block_Len : constant := 64;
       subtype Single_Block_Type is
          Message_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
       function To_Internal is new Ada.Unchecked_Conversion (Single_Block_Type, Internal_Block_Type);
