@@ -42,7 +42,7 @@ is
       type Message_Data_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
       type Hash_Index_Type is (<>);
       type Hash_Elem_Type is (<>);
-      type Hash_Data_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+      type Hash_Data_Type is array (Hash_Index_Type) of Hash_Elem_Type;
    function Hash (Message : Message_Data_Type) return Hash_Data_Type;
 
 end LSC.SHA1_Generic;

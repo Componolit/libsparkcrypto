@@ -46,7 +46,6 @@ is
    function Hash (Message : Message_Data_Type) return Hash_Data_Type
    is
       subtype MIT is Message_Index_Type;
-      subtype HIT is Hash_Index_Type;
 
       use type Internal.SHA1.Block_Length_Type;
 
@@ -54,13 +53,13 @@ is
       subtype SHA1_Block_Type is
          Message_Data_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
       function To_Internal is new Ada.Unchecked_Conversion (SHA1_Block_Type, Internal.SHA1.Block_Type);
+      function To_Public is new Ada.Unchecked_Conversion (Internal.SHA1.Hash_Type, Hash_Data_Type);
 
-      SHA1_Hash_Len : constant := 20;
-      subtype SHA1_Hash_Type is
-         Hash_Data_Type (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + SHA1_Hash_Len - 1));
-      function To_Public is new Ada.Unchecked_Conversion (Internal.SHA1.Hash_Type, SHA1_Hash_Type);
+      type Byte is mod 2**8 with Size => 8;
+      function To_Internal is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
+      Null_Elem : constant Message_Elem_Type := To_Internal (0);
 
-      Temp    : SHA1_Block_Type;
+      Temp    : SHA1_Block_Type := (others => Null_Elem);
       Context : Internal.SHA1.Context_Type := Internal.SHA1.Context_Init;
 
       Full_Blocks   : constant Natural := Message'Length / Block_Len;
