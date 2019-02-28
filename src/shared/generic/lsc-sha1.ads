@@ -39,8 +39,11 @@ with LSC.Types;
 
 package LSC.SHA1
 is
+   subtype Hash_Index is Types.Natural_Index range 1 .. 20;
+   subtype Hash_Type is Types.Bytes (Hash_Index);
+
    function Hash is new LSC.SHA1_Generic.Hash
       (Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+       Hash_Index, Types.Byte, Hash_Type);
 
 end LSC.SHA1;
