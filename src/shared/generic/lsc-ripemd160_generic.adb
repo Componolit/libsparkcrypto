@@ -34,8 +34,8 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with Ada.Unchecked_Conversion;
 with LSC.Internal.RIPEMD160;
+with LSC.Internal.Convert_Hash;
 
 package body LSC.RIPEMD160_Generic
 is
@@ -45,44 +45,23 @@ is
 
    function Hash (Message : Message_Type) return Hash_Type
    is
-      Block_Len : constant := 64;
-
-      subtype MIT is Message_Index_Type;
-      use type Internal.RIPEMD160.Block_Length_Type;
-
-      subtype RIPEMD160_Block_Type is
-         Message_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
-      function To_Internal is new Ada.Unchecked_Conversion (RIPEMD160_Block_Type, Internal.RIPEMD160.Block_Type);
-      function To_Public is new Ada.Unchecked_Conversion (Internal.RIPEMD160.Hash_Type, Hash_Type);
-
-      type Byte is mod 2**8 with Size => 8;
-      function To_Internal is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
-      Null_Elem : constant Message_Elem_Type := To_Internal (0);
-
-      Temp    : RIPEMD160_Block_Type := (others => Null_Elem);
-      Context : Internal.RIPEMD160.Context_Type := Internal.RIPEMD160.Context_Init;
-
-      Full_Blocks   : constant Natural := Message'Length / Block_Len;
-      Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
+      function Hash_Internal is new Internal.Convert_Hash.Hash
+         (Message_Index_Type,
+          Message_Elem_Type,
+          Message_Type,
+          Hash_Index_Type,
+          Hash_Elem_Type,
+          Hash_Type,
+          Internal.RIPEMD160.Context_Type,
+          Internal.RIPEMD160.Block_Type,
+          Internal.RIPEMD160.Block_Length_Type,
+          Internal.RIPEMD160.Hash_Type,
+          Internal.RIPEMD160.Context_Init,
+          Internal.RIPEMD160.Context_Update,
+          Internal.RIPEMD160.Context_Finalize,
+          Internal.RIPEMD160.Get_Hash);
    begin
-      for I in 0 .. Full_Blocks - 1
-      loop
-         Internal.RIPEMD160.Context_Update
-            (Context => Context,
-             Block   => To_Internal (Message (MIT'Val (MIT'Pos (Message'First) + I * Block_Len) ..
-                                              MIT'Val (MIT'Pos (Message'First) + I * Block_Len + Block_Len - 1))));
-      end loop;
-
-      Temp (Temp'First .. MIT'Val (MIT'Pos (Temp'First) + Partial_Bytes - 1)) :=
-         Message (MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks) ..
-                  MIT'Val (MIT'Pos (Message'First) + Block_Len * Full_Blocks + Partial_Bytes - 1));
-
-      Internal.RIPEMD160.Context_Finalize
-         (Context => Context,
-          Block   => To_Internal (Temp),
-          Length  => 8 * Internal.RIPEMD160.Block_Length_Type (Partial_Bytes));
-
-      return To_Public (Internal.RIPEMD160.Get_Hash (Context));
+      return Hash_Internal (Message);
    end Hash;
 
 end LSC.RIPEMD160_Generic;
