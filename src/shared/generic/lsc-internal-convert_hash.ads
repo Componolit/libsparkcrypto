@@ -2,9 +2,9 @@
 -- This file is part of libsparkcrypto.
 --
 -- @author Alexander Senier
--- @date   2019-01-24
+-- @date   2019-02-28
 --
--- Copyright (C) 2018 Componolit GmbH
+-- Copyright (C) 2019 Componolit GmbH
 -- All rights reserved.
 --
 -- Redistribution  and  use  in  source  and  binary  forms,  with  or  without
@@ -34,50 +34,31 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.SHA1_Generic;
-with LSC.Internal.SHA1;
-with LSC.Internal.HMAC_SHA1;
-with LSC.Internal.Convert_HMAC;
+package LSC.Internal.Convert_Hash
+is
+   generic
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+      type Internal_Context_Type is private;
+      type Internal_Block_Type is private;
+      type Internal_Block_Length_Type is (<>);
+      type Internal_Hash_Type is private;
 
-package body LSC.SHA1_Generic.HMAC is
+      with function Context_Init return Internal_Context_Type is <>;
 
-   ----------
-   -- HMAC --
-   ----------
+      with procedure Context_Update (Context : in out Internal_Context_Type;
+                                     Block   :        Internal_Block_Type) is <>;
 
-   function HMAC
-     (Key        : Key_Type;
-      Message    : Message_Type;
-      Output_Len : Natural := 20) return Hash_Type
-   is
-      subtype Internal_Key_Index is Key_Index_Type range Key'First .. Key'Last;
-      subtype Internal_Key_Type is Key_Type (Internal_Key_Index);
+      with procedure Context_Finalize (Context : in out Internal_Context_Type;
+                                       Block   :        Internal_Block_Type;
+                                       Length  :        Internal_Block_Length_Type) is <>;
 
-      function Hash_Key is new LSC.SHA1_Generic.Hash
-         (Key_Index_Type, Key_Elem_Type, Key_Type,
-          Internal_Key_Index, Key_Elem_Type, Internal_Key_Type);
+      with function Get_Hash (Context : Internal_Context_Type) return Internal_Hash_Type is <>;
 
-      function HMAC_Internal is new Internal.Convert_HMAC.HMAC_Generic
-         (Key_Index_Type,
-          Key_Elem_Type,
-          Key_Type,
-          Message_Index_Type,
-          Message_Elem_Type,
-          Message_Type,
-          Hash_Index_Type,
-          Hash_Elem_Type,
-          Hash_Type,
-          Internal.HMAC_SHA1.Context_Type,
-          Internal.SHA1.Block_Type,
-          Internal.SHA1.Block_Length_Type,
-          Internal.SHA1.Hash_Type,
-          Internal.HMAC_SHA1.Context_Init,
-          Internal.HMAC_SHA1.Context_Update,
-          Internal.HMAC_SHA1.Context_Finalize,
-          Internal.HMAC_SHA1.Get_Auth,
-          Hash_Key);
-   begin
-      return HMAC_Internal (Key, Message, Output_Len);
-   end HMAC;
+   function Hash (Message : Message_Type) return Hash_Type;
 
-end LSC.SHA1_Generic.HMAC;
+end LSC.Internal.Convert_Hash;
