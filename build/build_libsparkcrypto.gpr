@@ -1,6 +1,6 @@
 project Build_Libsparkcrypto
 is
-   type Mode_Type      		is ("debug", "release");
+   type Mode_Type      		is ("debug", "release", "stack");
    type Lib_Type      	   is ("static", "dynamic");
    type Arch_Type      		is ("x86_64", "i686", "generic_be");
    type Endianess_Type 		is ("little_endian", "big_endian");
@@ -22,7 +22,6 @@ is
 
    Compiler_Switches := ();
    Builder_Switches := ();
-   Callgraph_Switches := ();
 
    Style_Switches :=
    ("-gnaty" &
@@ -48,6 +47,7 @@ is
    for Library_Name     use "sparkcrypto";
    for Library_Kind     use Linking;
    for Library_Dir      use "../out/build/adalib/" & Runtime;
+   for Create_Missing_Dirs use "True";
 
    for Object_Dir use "../out/build/" & Runtime;
 
@@ -69,24 +69,17 @@ is
        Src & "shared/" & Endianess,
        Src & "shared/generic");
 
-   case Callgraph is
-      when "none" =>
-         Callgraph_Switches := ();
-
-      when "su" =>
-         Callgraph_Switches := ("-fcallgraph-info=su");
-
-      when "su_da" =>
-         Callgraph_Switches := ("-fcallgraph-info=su,da");
-   end case;
-
    case Mode is
       when "release" =>
-         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops") & Callgraph_Switches;
+         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops", "-gnatef");
          Default_Opt := "3";
 
+      when "stack" =>
+         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops", "-fcallgraph-info=su,da");
+         Default_Opt := "2";
+
       when "debug" =>
-         Compiler_Switches := ();
+         Compiler_Switches := ("-gnatef");
          Default_Opt := "0";
 
    end case;
@@ -99,7 +92,7 @@ is
 
    package Compiler is
       for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches &
-         ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe", "-gnatef");
+         ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
       for Local_Configuration_Pragmas use "pragmas.adc";
    end Compiler;
 
@@ -107,5 +100,10 @@ is
       for Switches use ("--timeout=60", "-j5", "--proof=progressive", "--prover=z3,cvc4,altergo");
       for Proof_Dir use "../out/proof";
    end Prove;
+
+   package Stack is
+      --  The stack depth of external functions (-u) must be validated
+      for Switches use ("-Wa", "-a", "-p", "-ca", "-x", "-u64", "-l", "5");
+   end Stack;
 
 end Build_Libsparkcrypto;
