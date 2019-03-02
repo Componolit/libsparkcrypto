@@ -35,13 +35,14 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
-with LSC.RIPEMD160_Generic.HMAC;
+with LSC.RIPEMD160;
+with LSC.RIPEMD160.HMAC_Generic;
 
 package LSC.RIPEMD160.HMAC
 is
-   function HMAC is new RIPEMD160_Generic.HMAC.HMAC
+   function HMAC is new RIPEMD160.HMAC_Generic.HMAC
       (Types.Natural_Index, Types.Byte, Types.Bytes,
        Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+       RIPEMD160.Hash_Index, Types.Byte, RIPEMD160.Hash_Type);
 
 end LSC.RIPEMD160.HMAC;

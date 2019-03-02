@@ -34,14 +34,25 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.SHA2_Generic.HMAC;
+with LSC.SHA2;
+with LSC.SHA2.HMAC_Generic;
 with LSC.Types;
 
 package LSC.SHA2.HMAC
 is
-   function HMAC is new SHA2_Generic.HMAC.HMAC
+   function HMAC_SHA256 is new SHA2.HMAC_Generic.HMAC_SHA256
       (Types.Natural_Index, Types.Byte, Types.Bytes,
        Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+       SHA2.SHA256_Hash_Index, Types.Byte, SHA2.SHA256_Hash_Type);
+
+   function HMAC_SHA384 is new SHA2.HMAC_Generic.HMAC_SHA384
+      (Types.Natural_Index, Types.Byte, Types.Bytes,
+       Types.Natural_Index, Types.Byte, Types.Bytes,
+       SHA2.SHA384_Hash_Index, Types.Byte, SHA2.SHA384_Hash_Type);
+
+   function HMAC_SHA512 is new SHA2.HMAC_Generic.HMAC_SHA512
+      (Types.Natural_Index, Types.Byte, Types.Bytes,
+       Types.Natural_Index, Types.Byte, Types.Bytes,
+       SHA2.SHA512_Hash_Index, Types.Byte, SHA2.SHA512_Hash_Type);
 
 end LSC.SHA2.HMAC;

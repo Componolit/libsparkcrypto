@@ -34,7 +34,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package LSC.SHA1_Generic.HMAC
+package LSC.RIPEMD160.HMAC_Generic
 is
    generic
       type Key_Index_Type is (<>);
@@ -45,11 +45,8 @@ is
       type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
       type Hash_Index_Type is (<>);
       type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
    function HMAC (Key        : Key_Type;
-                  Message    : Message_Type;
-                  Output_Len : Natural := 20) return Hash_Type
-   with
-      Pre => Output_Len <= 20;
+                  Message    : Message_Type) return Hash_Type;
 
-end LSC.SHA1_Generic.HMAC;
+end LSC.RIPEMD160.HMAC_Generic;

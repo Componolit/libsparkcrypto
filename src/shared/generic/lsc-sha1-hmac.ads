@@ -35,13 +35,14 @@
 -------------------------------------------------------------------------------
 
 with LSC.Types;
-with LSC.SHA1_Generic.HMAC;
+with LSC.SHA1;
+with LSC.SHA1.HMAC_Generic;
 
 package LSC.SHA1.HMAC
 is
-   function HMAC is new SHA1_Generic.HMAC.HMAC
+   function HMAC is new SHA1.HMAC_Generic.HMAC
       (Types.Natural_Index, Types.Byte, Types.Bytes,
        Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+       SHA1.Hash_Index, Types.Byte, SHA1.Hash_Type);
 
 end LSC.SHA1.HMAC;

@@ -39,13 +39,24 @@ with LSC.Types;
 
 package LSC.SHA2
 is
-   subtype Algorithm_Type is SHA2_Generic.Algorithm_Type;
-   SHA256 : constant Algorithm_Type := SHA2_Generic.SHA256;
-   SHA384 : constant Algorithm_Type := SHA2_Generic.SHA384;
-   SHA512 : constant Algorithm_Type := SHA2_Generic.SHA512;
+   subtype SHA256_Hash_Index is Types.Natural_Index range 1 .. 32;
+   subtype SHA256_Hash_Type is Types.Bytes (SHA256_Hash_Index);
 
-   function Hash is new SHA2_Generic.Hash
+   function Hash_SHA256 is new SHA2_Generic.Hash_SHA256
       (Types.Natural_Index, Types.Byte, Types.Bytes,
-       Types.Natural_Index, Types.Byte, Types.Bytes);
+       SHA256_Hash_Index, Types.Byte, SHA256_Hash_Type);
 
+   subtype SHA384_Hash_Index is Types.Natural_Index range 1 .. 48;
+   subtype SHA384_Hash_Type is Types.Bytes (SHA384_Hash_Index);
+
+   function Hash_SHA384 is new SHA2_Generic.Hash_SHA384
+      (Types.Natural_Index, Types.Byte, Types.Bytes,
+       SHA384_Hash_Index, Types.Byte, SHA384_Hash_Type);
+
+   subtype SHA512_Hash_Index is Types.Natural_Index range 1 .. 64;
+   subtype SHA512_Hash_Type is Types.Bytes (SHA512_Hash_Index);
+
+   function Hash_SHA512 is new SHA2_Generic.Hash_SHA512
+      (Types.Natural_Index, Types.Byte, Types.Bytes,
+       SHA512_Hash_Index, Types.Byte, SHA512_Hash_Type);
 end LSC.SHA2;

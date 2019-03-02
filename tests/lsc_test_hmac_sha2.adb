@@ -41,12 +41,11 @@ pragma Warnings (Off, "formal parameter ""T"" is not referenced");
 
 package body LSC_Test_HMAC_SHA2 is
 
-   procedure Test_HMAC (Algo    : LSC.SHA2.Algorithm_Type;
-                        Key     : String;
-                        Msg     : String;
-                        Mac     : String;
-                        Textkey : Boolean := False;
-                        Textmsg : Boolean := False)
+   procedure Test_HMAC_SHA256 (Key     : String;
+                               Msg     : String;
+                               Mac     : String;
+                               Textkey : Boolean := False;
+                               Textmsg : Boolean := False)
    is
       use type LSC.Types.Bytes;
 
@@ -54,25 +53,14 @@ package body LSC_Test_HMAC_SHA2 is
       Converted_Msg : constant LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
       Converted_Mac : constant LSC.Types.Bytes := S2B (Mac);
 
+      Len : constant Natural := Converted_Mac'Length;
+
       Result : constant LSC.Types.Bytes :=
-         LSC.SHA2.HMAC.HMAC (Algorithm  => Algo,
-                             Key        => Converted_Key,
-                             Message    => Converted_Msg,
-                             Output_Len => Converted_Mac'Length);
+         LSC.SHA2.HMAC.HMAC_SHA256 (Key     => Converted_Key,
+                                    Message => Converted_Msg);
    begin
-      Assert (Result = Converted_Mac, "Invalid HMAC: got " & B2S (Result) & ", expected " & Mac);
-   end Test_HMAC;
-
-   ---------------------------------------------------------------------------
-
-   procedure Test_HMAC_SHA256 (Key     : String;
-                               Msg     : String;
-                               Mac     : String;
-                               Textkey : Boolean := False;
-                               Textmsg : Boolean := False)
-   is
-   begin
-      Test_HMAC (LSC.SHA2.SHA256, Key, Msg, Mac, Textkey, Textmsg);
+      Assert (Result (Result'First .. Result'First + Len - 1) = Converted_Mac,
+              "Invalid HMAC: got " & B2S (Result) & ", expected " & Mac);
    end Test_HMAC_SHA256;
 
    ---------------------------------------------------------------------------
@@ -83,8 +71,20 @@ package body LSC_Test_HMAC_SHA2 is
                                Textkey : Boolean := False;
                                Textmsg : Boolean := False)
    is
+      use type LSC.Types.Bytes;
+
+      Converted_Key : constant LSC.Types.Bytes := (if Textkey then T2B (Key) else S2B (Key));
+      Converted_Msg : constant LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
+      Converted_Mac : constant LSC.Types.Bytes := S2B (Mac);
+
+      Len : constant Natural := Converted_Mac'Length;
+
+      Result : constant LSC.Types.Bytes :=
+         LSC.SHA2.HMAC.HMAC_SHA384 (Key     => Converted_Key,
+                                    Message => Converted_Msg);
    begin
-      Test_HMAC (LSC.SHA2.SHA384, Key, Msg, Mac, Textkey, Textmsg);
+      Assert (Result (Result'First .. Result'First + Len - 1) = Converted_Mac,
+              "Invalid HMAC: got " & B2S (Result) & ", expected " & Mac);
    end Test_HMAC_SHA384;
 
    ---------------------------------------------------------------------------
@@ -95,8 +95,20 @@ package body LSC_Test_HMAC_SHA2 is
                                Textkey : Boolean := False;
                                Textmsg : Boolean := False)
    is
+      use type LSC.Types.Bytes;
+
+      Converted_Key : constant LSC.Types.Bytes := (if Textkey then T2B (Key) else S2B (Key));
+      Converted_Msg : constant LSC.Types.Bytes := (if Textmsg then T2B (Msg) else S2B (Msg));
+      Converted_Mac : constant LSC.Types.Bytes := S2B (Mac);
+
+      Len : constant Natural := Converted_Mac'Length;
+
+      Result : constant LSC.Types.Bytes :=
+         LSC.SHA2.HMAC.HMAC_SHA512 (Key     => Converted_Key,
+                                    Message => Converted_Msg);
    begin
-      Test_HMAC (LSC.SHA2.SHA512, Key, Msg, Mac, Textkey, Textmsg);
+      Assert (Result (Result'First .. Result'First + Len - 1) = Converted_Mac,
+              "Invalid HMAC: got " & B2S (Result) & ", expected " & Mac);
    end Test_HMAC_SHA512;
 
    ---------------------------------------------------------------------------
