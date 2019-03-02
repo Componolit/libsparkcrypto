@@ -94,6 +94,13 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 tests: $(OUTPUT_DIR)/tests/tests
 	$< | tee $(OUTPUT_DIR)/tests/tests.sum
 
+stack:: $(OUTPUT_DIR)/stack_usage.xml
+
+$(OUTPUT_DIR)/stack_usage.xml: GPRBUILD_OPTS += -Xmode=stack
+$(OUTPUT_DIR)/stack_usage.xml: src/*/*/*.ad? src/*/*.ad? Makefile build/build_libsparkcrypto.gpr
+	@gprbuild $(GPRBUILD_OPTS) -P build/build_libsparkcrypto
+	@(cd $(OUTPUT_DIR) && gnatstack $(GPRBUILD_OPTS) -P $(CURDIR)/build/build_libsparkcrypto)
+
 $(OUTPUT_DIR)/tests/tests: install_local
 	make -C tests \
       LSC_DIR=$(OUTPUT_DIR)/libsparkcrypto \

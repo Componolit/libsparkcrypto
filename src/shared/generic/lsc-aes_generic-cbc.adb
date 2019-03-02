@@ -47,7 +47,8 @@ is
                       Key        :     AES_Generic.Dec_Key_Type;
                       Plaintext  : out Plaintext_Type)
    is
-      Next : Ciphertext_Type (Ciphertext'Range) := IV;
+      subtype CIT is Ciphertext_Index_Type;
+      Next : Ciphertext_Type (CIT'First .. CIT'Val (CIT'Pos (CIT'First) + 15)) := IV;
 
       procedure Decrypt_XOR is new Ops_Generic.Array_XOR
          (Plaintext_Index_Type, Plaintext_Elem_Type, Plaintext_Type,
@@ -61,7 +62,6 @@ is
       for Offset in 0 .. Ciphertext'Length / 16 - 1
       loop
          declare
-            subtype CIT is Ciphertext_Index_Type;
             subtype PIT is Plaintext_Index_Type;
             CT_Start : constant CIT := CIT'Val (CIT'Pos (Ciphertext'First) + 16 * Offset);
             CT_End   : constant CIT := CIT'Val (CIT'Pos (Ciphertext'First) + 16 * Offset + 15);
@@ -94,8 +94,10 @@ is
                       Key        :     AES_Generic.Enc_Key_Type;
                       Ciphertext : out Ciphertext_Type)
    is
-      Temp : Plaintext_Type (Plaintext'Range);
-      Next : Ciphertext_Type (IV'Range) := IV;
+      subtype CIT is Ciphertext_Index_Type;
+      subtype PIT is Plaintext_Index_Type;
+      Temp : Plaintext_Type (PIT'First .. PIT'Val (PIT'Pos (PIT'First) + 15));
+      Next : Ciphertext_Type (CIT'First .. CIT'Val (CIT'Pos (CIT'First) + 15)) := IV;
 
       procedure Encrypt_XOR is new Ops_Generic.Array_XOR
          (Ciphertext_Index_Type, Ciphertext_Elem_Type, Ciphertext_Type,
@@ -109,8 +111,6 @@ is
       for Offset in 0 .. Plaintext'Length / 16 - 1
       loop
          declare
-            subtype CIT is Ciphertext_Index_Type;
-            subtype PIT is Plaintext_Index_Type;
             CT_Start : constant CIT := CIT'Val (CIT'Pos (Ciphertext'First) + 16 * Offset);
             CT_End   : constant CIT := CIT'Val (CIT'Pos (Ciphertext'First) + 16 * Offset + 15);
             PT_Start : constant PIT := PIT'Val (PIT'Pos (Plaintext'First)  + 16 * Offset);
