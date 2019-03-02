@@ -37,6 +37,8 @@
 package LSC.Internal.Convert_HMAC
 is
    generic
+      Block_Len : Natural;
+      Hash_Len : Natural;
       type Key_Index_Type is (<>);
       type Key_Elem_Type is (<>);
       type Key_Type is array (Key_Index_Type range <>) of Key_Elem_Type;
@@ -45,7 +47,7 @@ is
       type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
       type Hash_Index_Type is (<>);
       type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
       type Internal_Context_Type is private;
       type Internal_Block_Type is private;
       type Internal_Block_Length_Type is (<>);
@@ -66,7 +68,6 @@ is
 
    function HMAC_Generic
      (Key        : Key_Type;
-      Message    : Message_Type;
-      Output_Len : Natural := 20) return Hash_Type;
+      Message    : Message_Type) return Hash_Type;
 
 end LSC.Internal.Convert_HMAC;

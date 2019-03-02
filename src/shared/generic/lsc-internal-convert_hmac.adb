@@ -40,11 +40,9 @@ package body LSC.Internal.Convert_HMAC
 is
    function HMAC_Generic
      (Key        : Key_Type;
-      Message    : Message_Type;
-      Output_Len : Natural := 20) return Hash_Type
+      Message    : Message_Type) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
-      subtype HIT is Hash_Index_Type;
       subtype KIT is Key_Index_Type;
 
       type Byte is mod 2**8 with Size => 8;
@@ -55,21 +53,20 @@ is
       function To_Public is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
       Null_Message_Elem : constant Message_Elem_Type := To_Public (0);
 
-      Block_Len : constant Natural := Internal_Block_Type'Size / 8;
-      subtype Block_Type is Message_Type
+      --  Block_Len : constant Natural := Internal_Block_Type'Size / 8;
+      subtype Single_Block_Type is Message_Type
          (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
-      function To_Internal is new Ada.Unchecked_Conversion (Block_Type, Internal_Block_Type);
+      function To_Internal is new Ada.Unchecked_Conversion (Single_Block_Type, Internal_Block_Type);
 
-      Hash_Len : constant Natural := Internal_Hash_Type'Size / 8;
-      subtype Hash_Block_Index is HIT range HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Hash_Len - 1);
-      subtype Hash_Block_Type is Hash_Type (Hash_Block_Index);
-      function To_Public is new Ada.Unchecked_Conversion (Internal_Hash_Type, Hash_Block_Type);
+      --  Hash_Len : constant Natural := Internal_Hash_Type'Size / 8;
+      pragma Compile_Time_Warning (Internal_Hash_Type'Size = 0, "Internal_Type_Size = 0");
+      function To_Public is new Ada.Unchecked_Conversion (Internal_Hash_Type, Hash_Type);
 
       Full_Blocks   : constant Natural := Message'Length / Block_Len;
       Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
 
       Context  : Internal_Context_Type;
-      Temp     : Block_Type := (others => Null_Message_Elem);
+      Temp     : Single_Block_Type := (others => Null_Message_Elem);
 
       subtype Full_Key_Index is Key_Index_Type range KIT'First .. KIT'Val (KIT'Pos (KIT'First) + Block_Len - 1);
       subtype Full_Key_Type is Key_Type (Full_Key_Index);
@@ -103,7 +100,7 @@ is
           Block   => To_Internal (Temp),
           Length  => Internal_Block_Length_Type (Internal_Block_Length_Type'Val (8 * Partial_Bytes)));
 
-      return To_Public (Get_Auth (Context)) (HIT'First .. HIT'Val (HIT'Pos (HIT'First) + Output_Len - 1));
+      return To_Public (Get_Auth (Context));
 
    end HMAC_Generic;
 

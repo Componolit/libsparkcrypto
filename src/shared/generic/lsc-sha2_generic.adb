@@ -44,16 +44,7 @@ package body LSC.SHA2_Generic is
    -- Hash_SHA256 --
    -----------------
 
-   generic
-      type Message_Index_Type is (<>);
-      type Message_Elem_Type is (<>);
-      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
-      type Hash_Index_Type is (<>);
-      type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
-   function Hash_SHA256_Generic (Message : Message_Type) return Hash_Type;
-
-   function Hash_SHA256_Generic (Message : Message_Type) return Hash_Type
+   function Hash_SHA256 (Message : Message_Type) return Hash_Type
    is
       function Hash_Internal is new Internal.Convert_Hash.Hash
          (64,
@@ -73,22 +64,13 @@ package body LSC.SHA2_Generic is
           Internal.SHA256.SHA256_Get_Hash);
    begin
       return Hash_Internal (Message);
-   end Hash_SHA256_Generic;
+   end Hash_SHA256;
 
    -----------------
    -- Hash_SHA384 --
    -----------------
 
-   generic
-      type Message_Index_Type is (<>);
-      type Message_Elem_Type is (<>);
-      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
-      type Hash_Index_Type is (<>);
-      type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
-   function Hash_SHA384_Generic (Message : Message_Type) return Hash_Type;
-
-   function Hash_SHA384_Generic (Message : Message_Type) return Hash_Type
+   function Hash_SHA384 (Message : Message_Type) return Hash_Type
    is
       function Hash_Internal is new Internal.Convert_Hash.Hash
          (128,
@@ -108,22 +90,13 @@ package body LSC.SHA2_Generic is
           Internal.SHA512.SHA384_Get_Hash);
    begin
       return Hash_Internal (Message);
-   end Hash_SHA384_Generic;
+   end Hash_SHA384;
 
    -----------------
    -- Hash_SHA512 --
    -----------------
 
-   generic
-      type Message_Index_Type is (<>);
-      type Message_Elem_Type is (<>);
-      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
-      type Hash_Index_Type is (<>);
-      type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
-   function Hash_SHA512_Generic (Message : Message_Type) return Hash_Type;
-
-   function Hash_SHA512_Generic (Message : Message_Type) return Hash_Type
+   function Hash_SHA512 (Message : Message_Type) return Hash_Type
    is
       function Hash_Internal is new Internal.Convert_Hash.Hash
          (128,
@@ -143,45 +116,6 @@ package body LSC.SHA2_Generic is
           Internal.SHA512.SHA512_Get_Hash);
    begin
       return Hash_Internal (Message);
-   end Hash_SHA512_Generic;
-
-   ----------
-   -- Hash --
-   ----------
-
-   function Hash
-     (Algorithm : Algorithm_Type;
-      Message   : Message_Type) return Hash_Type
-   is
-      subtype SHA256_Index is Hash_Index_Type
-         range Hash_Index_Type'First .. Hash_Index_Type'Val (Hash_Index_Type'Pos (Hash_Index_Type'First) + 31);
-      subtype SHA256_Hash is Hash_Type (SHA256_Index);
-
-      function Hash_SHA256 is new Hash_SHA256_Generic
-         (Message_Index_Type, Message_Elem_Type, Message_Type,
-          SHA256_Index, Hash_Elem_Type, SHA256_Hash);
-
-      subtype SHA384_Index is Hash_Index_Type
-         range Hash_Index_Type'First .. Hash_Index_Type'Val (Hash_Index_Type'Pos (Hash_Index_Type'First) + 47);
-      subtype SHA384_Hash is Hash_Type (SHA384_Index);
-
-      function Hash_SHA384 is new Hash_SHA384_Generic
-         (Message_Index_Type, Message_Elem_Type, Message_Type,
-          SHA384_Index, Hash_Elem_Type, SHA384_Hash);
-
-      subtype SHA512_Index is Hash_Index_Type
-         range Hash_Index_Type'First .. Hash_Index_Type'Val (Hash_Index_Type'Pos (Hash_Index_Type'First) + 63);
-      subtype SHA512_Hash is Hash_Type (SHA512_Index);
-
-      function Hash_SHA512 is new Hash_SHA512_Generic
-         (Message_Index_Type, Message_Elem_Type, Message_Type,
-          SHA512_Index, Hash_Elem_Type, SHA512_Hash);
-   begin
-      case Algorithm is
-         when SHA256 => return Hash_SHA256 (Message);
-         when SHA384 => return Hash_SHA384 (Message);
-         when SHA512 => return Hash_SHA512 (Message);
-      end case;
-   end Hash;
+   end Hash_SHA512;
 
 end LSC.SHA2_Generic;

@@ -38,25 +38,26 @@ with Ada.Unchecked_Conversion;
 
 package body LSC.Internal.Convert_Hash
 is
-
    function Hash (Message : Message_Type) return Hash_Type
    is
       subtype MIT is Message_Index_Type;
+
+      type Byte is mod 2**8 with Size => 8;
+
+      function To_Public is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
+      Null_Elem : constant Message_Elem_Type := To_Public (0);
 
       subtype Single_Block_Type is
          Message_Type (MIT'First .. MIT'Val (MIT'Pos (MIT'First) + Block_Len - 1));
       function To_Internal is new Ada.Unchecked_Conversion (Single_Block_Type, Internal_Block_Type);
       function To_Public is new Ada.Unchecked_Conversion (Internal_Hash_Type, Hash_Type);
 
-      type Byte is mod 2**8 with Size => 8;
-      function To_Internal is new Ada.Unchecked_Conversion (Byte, Message_Elem_Type);
-      Null_Elem : constant Message_Elem_Type := To_Internal (0);
-
-      Temp    : Single_Block_Type := (others => Null_Elem);
-      Context : Internal_Context_Type := Context_Init;
-
       Full_Blocks   : constant Natural := Message'Length / Block_Len;
       Partial_Bytes : constant Natural := Message'Length - Full_Blocks * Block_Len;
+
+      Context : Internal_Context_Type := Context_Init;
+      Temp    : Single_Block_Type := (others => Null_Elem);
+
    begin
       for I in 0 .. Full_Blocks - 1
       loop

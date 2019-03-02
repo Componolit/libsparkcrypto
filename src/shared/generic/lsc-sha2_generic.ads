@@ -36,7 +36,14 @@
 
 package LSC.SHA2_Generic
 is
-   type Algorithm_Type is (SHA256, SHA384, SHA512);
+   generic
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+   function Hash_SHA256 (Message : Message_Type) return Hash_Type;
 
    generic
       type Message_Index_Type is (<>);
@@ -44,8 +51,16 @@ is
       type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
       type Hash_Index_Type is (<>);
       type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
-   function Hash (Algorithm : Algorithm_Type;
-                  Message   : Message_Type) return Hash_Type;
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+   function Hash_SHA384 (Message : Message_Type) return Hash_Type;
+
+   generic
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+   function Hash_SHA512 (Message : Message_Type) return Hash_Type;
 
 end LSC.SHA2_Generic;

@@ -39,7 +39,8 @@ with LSC.Internal.SHA1;
 with LSC.Internal.HMAC_SHA1;
 with LSC.Internal.Convert_HMAC;
 
-package body LSC.SHA1_Generic.HMAC is
+package body LSC.SHA1.HMAC_Generic
+is
 
    ----------
    -- HMAC --
@@ -47,8 +48,7 @@ package body LSC.SHA1_Generic.HMAC is
 
    function HMAC
      (Key        : Key_Type;
-      Message    : Message_Type;
-      Output_Len : Natural := 20) return Hash_Type
+      Message    : Message_Type) return Hash_Type
    is
       subtype Internal_Key_Index is Key_Index_Type range Key'First .. Key'Last;
       subtype Internal_Key_Type is Key_Type (Internal_Key_Index);
@@ -58,26 +58,28 @@ package body LSC.SHA1_Generic.HMAC is
           Internal_Key_Index, Key_Elem_Type, Internal_Key_Type);
 
       function HMAC_Internal is new Internal.Convert_HMAC.HMAC_Generic
-         (Key_Index_Type,
-          Key_Elem_Type,
-          Key_Type,
-          Message_Index_Type,
-          Message_Elem_Type,
-          Message_Type,
-          Hash_Index_Type,
-          Hash_Elem_Type,
-          Hash_Type,
-          Internal.HMAC_SHA1.Context_Type,
-          Internal.SHA1.Block_Type,
-          Internal.SHA1.Block_Length_Type,
-          Internal.SHA1.Hash_Type,
-          Internal.HMAC_SHA1.Context_Init,
-          Internal.HMAC_SHA1.Context_Update,
-          Internal.HMAC_SHA1.Context_Finalize,
-          Internal.HMAC_SHA1.Get_Auth,
-          Hash_Key);
+         (Block_Len                  => 64,
+          Hash_Len                   => 20,
+          Key_Index_Type             => Key_Index_Type,
+          Key_Elem_Type              => Key_Elem_Type,
+          Key_Type                   => Key_Type,
+          Message_Index_Type         => Message_Index_Type,
+          Message_Elem_Type          => Message_Elem_Type,
+          Message_Type               => Message_Type,
+          Hash_Index_Type            => Hash_Index_Type,
+          Hash_Elem_Type             => Hash_Elem_Type,
+          Hash_Type                  => Hash_Type,
+          Internal_Context_Type      => Internal.HMAC_SHA1.Context_Type,
+          Internal_Block_Type        => Internal.SHA1.Block_Type,
+          Internal_Block_Length_Type => Internal.SHA1.Block_Length_Type,
+          Internal_Hash_Type         => Internal.SHA1.Hash_Type,
+          Context_Init               => Internal.HMAC_SHA1.Context_Init,
+          Context_Update             => Internal.HMAC_SHA1.Context_Update,
+          Context_Finalize           => Internal.HMAC_SHA1.Context_Finalize,
+          Get_Auth                   => Internal.HMAC_SHA1.Get_Auth,
+          Hash_Key                   => Hash_Key);
    begin
-      return HMAC_Internal (Key, Message, Output_Len);
+      return HMAC_Internal (Key, Message);
    end HMAC;
 
-end LSC.SHA1_Generic.HMAC;
+end LSC.SHA1.HMAC_Generic;

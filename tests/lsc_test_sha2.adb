@@ -53,7 +53,7 @@ package body LSC_Test_SHA2 is
    is
       use type LSC.Types.Bytes;
       Input  : constant LSC.Types.Bytes := S2B (Msg (Msg'First .. Msg'First + (2 * Len / 8) - 1));
-      Result : constant LSC.Types.Bytes := SHA2.Hash (SHA2.SHA256, Input);
+      Result : constant LSC.Types.Bytes := SHA2.Hash_SHA256 (Input);
    begin
       Assert (Result = S2B (MD), "Invalid hash for len " & Len'Img & ": " & B2S (Result) & " (expected " & MD & " input len=" & Input'Length'Img & ")");
    end Test_SHA256;
@@ -66,7 +66,7 @@ package body LSC_Test_SHA2 is
    is
       use type LSC.Types.Bytes;
       Input  : constant LSC.Types.Bytes := S2B (Msg (Msg'First .. Msg'First + (2 * Len / 8) - 1));
-      Result : constant LSC.Types.Bytes := SHA2.Hash (SHA2.SHA384, Input);
+      Result : constant LSC.Types.Bytes := SHA2.Hash_SHA384 (Input);
    begin
       Assert (Result = S2B (MD), "Invalid hash for len " & Len'Img & ": " & B2S (Result) & " (expected " & MD & " input len=" & Input'Length'Img & ")");
    end Test_SHA384;
@@ -79,7 +79,7 @@ package body LSC_Test_SHA2 is
    is
       use type LSC.Types.Bytes;
       Input  : constant LSC.Types.Bytes := S2B (Msg (Msg'First .. Msg'First + (2 * Len / 8) - 1));
-      Result : constant LSC.Types.Bytes := SHA2.Hash (SHA2.SHA512, Input);
+      Result : constant LSC.Types.Bytes := SHA2.Hash_SHA512 (Input);
    begin
       Assert (Result = S2B (MD), "Invalid hash for len " & Len'Img & ": " & B2S (Result) & " (expected " & MD & " input len=" & Input'Length'Img & ")");
    end Test_SHA512;

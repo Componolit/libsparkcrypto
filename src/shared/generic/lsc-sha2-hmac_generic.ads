@@ -34,7 +34,7 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-package LSC.SHA2_Generic.HMAC
+package LSC.SHA2.HMAC_Generic
 is
    generic
       type Key_Index_Type is (<>);
@@ -45,9 +45,34 @@ is
       type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
       type Hash_Index_Type is (<>);
       type Hash_Elem_Type is (<>);
-      type Hash_Type is array (Hash_Index_Type range <>) of Hash_Elem_Type;
-   function HMAC (Algorithm  : SHA2_Generic.Algorithm_Type;
-                  Key        : Key_Type;
-                  Message    : Message_Type;
-                  Output_Len : Natural := 16) return Hash_Type;
-end LSC.SHA2_Generic.HMAC;
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+   function HMAC_SHA256 (Key     : Key_Type;
+                         Message : Message_Type) return Hash_Type;
+
+   generic
+      type Key_Index_Type is (<>);
+      type Key_Elem_Type is (<>);
+      type Key_Type is array (Key_Index_Type range <>) of Key_Elem_Type;
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+   function HMAC_SHA384 (Key     : Key_Type;
+                         Message : Message_Type) return Hash_Type;
+
+   generic
+      type Key_Index_Type is (<>);
+      type Key_Elem_Type is (<>);
+      type Key_Type is array (Key_Index_Type range <>) of Key_Elem_Type;
+      type Message_Index_Type is (<>);
+      type Message_Elem_Type is (<>);
+      type Message_Type is array (Message_Index_Type range <>) of Message_Elem_Type;
+      type Hash_Index_Type is (<>);
+      type Hash_Elem_Type is (<>);
+      type Hash_Type is array (Hash_Index_Type) of Hash_Elem_Type;
+   function HMAC_SHA512 (Key     : Key_Type;
+                         Message : Message_Type) return Hash_Type;
+
+end LSC.SHA2.HMAC_Generic;
