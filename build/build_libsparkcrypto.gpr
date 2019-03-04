@@ -103,7 +103,7 @@ is
 
    package Stack is
       --  The stack depth of external functions (-u) must be validated
-      for Switches use ("-Wa", "-a", "-p", "-ca", "-x", "-u64", "-l", "5");
+      for Switches use ("-Wa", "-a", "-p", "-ca", "-x", "-u64", "-l", "5", "-Q");
    end Stack;
 
 end Build_Libsparkcrypto;
