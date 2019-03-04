@@ -57,7 +57,6 @@ is
       Result :    out Result_Data_Type)
    with
       Pre =>
-        Left'Length < Left_Index_Type'Pos (Left_Index_Type'Last) and
         Left'Length = Right'Length and
         Result'Length >= Left'Length;
 

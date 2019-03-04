@@ -76,14 +76,12 @@ is
          end;
       end loop;
 
-      pragma Annotate (GNATprove, False_Positive,
-         """Plaintext"" might not be initialized",
-         "Initialized in complete loop");
+      pragma Annotate (GNATprove, False_Positive, """Plaintext"" might not be initialized",
+                       "Initialized in complete loop");
    end Decrypt;
 
-   pragma Annotate (GNATprove, False_Positive,
-      """Plaintext"" might not be initialized in ""Decrypt""",
-      "Initialized in complete loop");
+   pragma Annotate (GNATprove, False_Positive, """Plaintext"" might not be initialized",
+                    "Initialized in complete loop");
 
    -------------
    -- Encrypt --
@@ -125,13 +123,11 @@ is
          end;
       end loop;
 
-      pragma Annotate (GNATprove, False_Positive,
-         """Ciphertext"" might not be initialized",
-          "Initialized in complete loop");
+      pragma Annotate (GNATprove, False_Positive, """Ciphertext"" might not be initialized",
+                       "Initialized in complete loop");
    end Encrypt;
 
-   pragma Annotate (GNATprove, False_Positive,
-      """Ciphertext"" might not be initialized in ""Encrypt""",
-      "Initialized in complete loop");
+   pragma Annotate (GNATprove, False_Positive, """Ciphertext"" might not be initialized",
+                    "Initialized in complete loop");
 
 end LSC.AES_Generic.CBC;

@@ -51,17 +51,23 @@ is
       function To_M8 is new Ada.Unchecked_Conversion (Left_Elem_Type, M8);
       function To_M8 is new Ada.Unchecked_Conversion (Right_Elem_Type, M8);
       function From_M8 is new Ada.Unchecked_Conversion (M8, Result_Elem_Type);
+
    begin
-      for I in 0 .. Result'Length - 1
+      for I in 0 .. Left'Length - 1
        loop
          Result (Result_Index_Type'Val (Result_Index_Type'Pos (Result'First) + I)) :=
             From_M8 (To_M8 (Left (Left_Index_Type'Val (Left_Index_Type'Pos (Left'First) + I))) xor
                      To_M8 (Right (Right_Index_Type'Val (Right_Index_Type'Pos (Right'First) + I))));
-      end loop;
-   end Array_XOR;
 
-   pragma Annotate (GNATprove, False_Positive,
-                    """Result"" might not be initialized",
-                    "Initialized in complete loop in ""Array_XOR""");
+         pragma Annotate (GNATprove, False_Positive, """Result"" might not be initialized",
+                          "Initialized in complete loop in ""Array_XOR""");
+      end loop;
+
+      Result (Result_Index_Type'Val (Result_Index_Type'Pos (Result'First) + Left'Length) .. Result'Last)
+         := (others => From_M8 (0));
+
+      pragma Annotate (GNATprove, False_Positive, """Result"" might not be initialized",
+                       "Initialized in complete loop in ""Array_XOR""");
+   end Array_XOR;
 
 end LSC.Ops_Generic;
