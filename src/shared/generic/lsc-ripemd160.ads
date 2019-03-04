@@ -37,6 +37,8 @@
 with LSC.Types;
 with LSC.RIPEMD160_Generic;
 
+pragma Elaborate_All (LSC.RIPEMD160_Generic);
+
 package LSC.RIPEMD160
 is
    subtype Hash_Index is Types.Natural_Index range 1 .. 20;

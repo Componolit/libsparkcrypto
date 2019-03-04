@@ -43,15 +43,6 @@
 
 #if OPENSSL_VERSION_NUMBER < 0x10100000L
 
-static void *OPENSSL_zalloc(size_t num)
-{
-   void *ret = OPENSSL_malloc(num);
-
-   if (ret != NULL)
-       memset(ret, 0, num);
-   return ret;
-}
-
 int RSA_set0_key(RSA *r, BIGNUM *n, BIGNUM *e, BIGNUM *d)
 {
    /* If the fields n and e in r are NULL, the corresponding input
@@ -207,7 +198,7 @@ void c_rsa_public_encrypt
 
    if (rv != N_Length)
    {
-       printf ("wrong length (%d vs. %d)!\n", rv, N_Length);
+       printf ("wrong length (%d vs. %llu)!\n", rv, N_Length);
        *Result = 2;
        return;
    }
@@ -258,7 +249,7 @@ void c_rsa_private_decrypt
    }
    if (rv != N_Length)
    {
-       printf ("wrong length (%ld vs. %ld)!\n", rv, N_Length);
+       printf ("wrong length (%d vs. %llu)!\n", rv, N_Length);
        *Result = 2;
        return;
    }

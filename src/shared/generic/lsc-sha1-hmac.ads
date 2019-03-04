@@ -38,6 +38,8 @@ with LSC.Types;
 with LSC.SHA1;
 with LSC.SHA1.HMAC_Generic;
 
+pragma Elaborate_All (LSC.SHA1.HMAC_Generic);
+
 package LSC.SHA1.HMAC
 is
    function HMAC is new SHA1.HMAC_Generic.HMAC
