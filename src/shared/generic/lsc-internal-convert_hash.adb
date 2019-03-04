@@ -58,6 +58,7 @@ is
       Context : Internal_Context_Type := Context_Init;
       Temp    : Single_Block_Type := (others => Null_Elem);
 
+      subtype IBLT is Internal_Block_Length_Type;
    begin
       for I in 0 .. Full_Blocks - 1
       loop
@@ -74,7 +75,7 @@ is
       Context_Finalize
          (Context => Context,
           Block   => To_Internal (Temp),
-          Length  => Internal_Block_Length_Type (Internal_Block_Length_Type'Val (8 * Partial_Bytes)));
+          Length  => IBLT'Val (8 * Partial_Bytes));
 
       return To_Public (Get_Hash (Context));
    end Hash;
