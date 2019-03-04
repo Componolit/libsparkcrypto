@@ -38,6 +38,8 @@ with LSC.SHA2;
 with LSC.SHA2.HMAC_Generic;
 with LSC.Types;
 
+pragma Elaborate_All (LSC.SHA2.HMAC_Generic);
+
 package LSC.SHA2.HMAC
 is
    function HMAC_SHA256 is new SHA2.HMAC_Generic.HMAC_SHA256

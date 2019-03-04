@@ -37,6 +37,8 @@
 with LSC.AES_Generic;
 with LSC.Types;
 
+pragma Elaborate_All (LSC.AES_Generic);
+
 package LSC.AES
 is
    subtype Dec_Key_Type is LSC.AES_Generic.Dec_Key_Type;

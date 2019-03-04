@@ -38,6 +38,7 @@ with LSC.Internal.AES.CBC;
 with AUnit.Assertions; use AUnit.Assertions;
 with Util; use Util;
 
+pragma Elaborate_All (Util);
 pragma Style_Checks ("-s");
 pragma Warnings (Off, "formal parameter ""T"" is not referenced");
 

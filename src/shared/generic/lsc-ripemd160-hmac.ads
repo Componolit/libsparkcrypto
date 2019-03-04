@@ -38,6 +38,8 @@ with LSC.Types;
 with LSC.RIPEMD160;
 with LSC.RIPEMD160.HMAC_Generic;
 
+pragma Elaborate_All (LSC.RIPEMD160.HMAC_Generic);
+
 package LSC.RIPEMD160.HMAC
 is
    function HMAC is new RIPEMD160.HMAC_Generic.HMAC

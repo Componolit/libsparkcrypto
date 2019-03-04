@@ -37,9 +37,10 @@
 with LSC.Types;
 with LSC.AES_Generic.CBC;
 
+pragma Elaborate_All (LSC.AES_Generic.CBC);
+
 package LSC.AES.CBC
 is
-
    procedure Decrypt is new
       AES_Generic.CBC.Decrypt (Types.Natural_Index, Types.Byte, Types.Bytes,
                                Types.Natural_Index, Types.Byte, Types.Bytes);

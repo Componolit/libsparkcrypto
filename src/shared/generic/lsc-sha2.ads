@@ -37,6 +37,8 @@
 with LSC.SHA2_Generic;
 with LSC.Types;
 
+pragma Elaborate_All (LSC.SHA2_Generic);
+
 package LSC.SHA2
 is
    subtype SHA256_Hash_Index is Types.Natural_Index range 1 .. 32;
