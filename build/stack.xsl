@@ -4,7 +4,11 @@
 
    <xsl:output method="text" omit-xml-declaration="yes" indent="no"/>
 
-	<xsl:template match="/GNATstack_Information/global/unboundedset/unbounded/unboundedobjectset/unboundedobject"/>
+	<xsl:template match="/GNATstack_Information">
+      <xsl:apply-templates match="/global/unboundedset/unbounded/unboundedobjectset/unboundedobject"/>
+      <xsl:text>Stack analysis done.</xsl:text>
+      <xsl:text>&#xa;</xsl:text>
+	</xsl:template>
 
 	<xsl:template match="unboundedobject">
       <xsl:value-of select="@file"/>

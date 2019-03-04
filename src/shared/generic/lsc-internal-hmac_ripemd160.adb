@@ -34,6 +34,7 @@
 
 with LSC.Internal.Ops32;
 with LSC.Internal.Debug;
+pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.HMAC_RIPEMD160 is
 

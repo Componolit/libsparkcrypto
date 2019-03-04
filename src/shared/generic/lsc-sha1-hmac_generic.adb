@@ -50,7 +50,8 @@ is
      (Key        : Key_Type;
       Message    : Message_Type) return Hash_Type
    is
-      subtype Internal_Key_Index is Key_Index_Type range Key'First .. Key'Last;
+      subtype KIT is Key_Index_Type;
+      subtype Internal_Key_Index is Key_Index_Type range KIT'First .. KIT'Val (KIT'Pos (KIT'First) + 19);
       subtype Internal_Key_Type is Key_Type (Internal_Key_Index);
 
       function Hash_Key is new LSC.SHA1_Generic.Hash

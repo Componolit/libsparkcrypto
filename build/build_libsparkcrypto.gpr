@@ -17,8 +17,10 @@ is
    Linking      : Lib_Type := external ("libtype", "static");
    Callgraph    : Callgraph_Type := external ("callgraph", "none");
 
-   Src         := "../src/";
-   Default_Opt := "1";
+   Src               := "../src/";
+   Pragmas           := "";
+   Extra_Source_Dirs := ();
+   Default_Opt       := "1";
 
    Compiler_Switches := ();
    Builder_Switches := ();
@@ -62,27 +64,31 @@ is
 
    end case;
 
+   case Mode is
+      when "release" =>
+         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops", "-gnatef");
+         Default_Opt := "3";
+         Pragmas := "pragmas.adc";
+
+      when "stack" =>
+         Compiler_Switches := ("-gnatn", "-gnatp", "-funroll-loops", "-fcallgraph-info=su,da");
+         Default_Opt := "2";
+         Pragmas := "pragmas.adc";
+
+      when "debug" =>
+         Extra_Source_Dirs := (Src & "ada/debug");
+         Compiler_Switches := ("-gnatef");
+         Default_Opt := "0";
+         Pragmas := "build/debug.adc";
+
+   end case;
+
    for Source_Dirs use
       (Src & "ada/" & IO,
        Src & "ada/" & Arch,
        Src & "ada/generic",
        Src & "shared/" & Endianess,
-       Src & "shared/generic");
-
-   case Mode is
-      when "release" =>
-         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops", "-gnatef");
-         Default_Opt := "3";
-
-      when "stack" =>
-         Compiler_Switches := ("-gnatn", "-Winline", "-gnatp", "-funroll-loops", "-fcallgraph-info=su,da");
-         Default_Opt := "2";
-
-      when "debug" =>
-         Compiler_Switches := ("-gnatef");
-         Default_Opt := "0";
-
-   end case;
+       Src & "shared/generic") & Extra_Source_Dirs;
 
    package Builder is
       for Default_Switches ("Ada") use Builder_Switches;
@@ -93,7 +99,7 @@ is
    package Compiler is
       for Default_Switches ("Ada") use  Style_Switches & Compiler_Switches &
          ("-O" & Optimization, "-ffunction-sections", "-fdata-sections", "-gnatwa", "-gnatwe");
-      for Local_Configuration_Pragmas use "pragmas.adc";
+      for Local_Configuration_Pragmas use Pragmas;
    end Compiler;
 
    package Prove is

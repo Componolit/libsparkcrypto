@@ -34,8 +34,9 @@
 with Interfaces;
 with LSC.Internal.Ops32;
 with LSC.Internal.Pad32;
-with LSC.Internal.Debug;
 with LSC.Internal.Byteorder32;
+with LSC.Internal.Debug;
+pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.SHA1 is
 

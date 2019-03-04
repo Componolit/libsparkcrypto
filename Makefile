@@ -95,7 +95,7 @@ tests: $(OUTPUT_DIR)/tests/tests
 	$< | tee $(OUTPUT_DIR)/tests/tests.sum
 
 stack: $(OUTPUT_DIR)/stack.log
-	@grep "Unbounded:" $<
+	@cat $<
 	@test $$(grep -c "Unbounded:" $<) -eq 0
 
 $(OUTPUT_DIR)/stack.log: $(OUTPUT_DIR)/stack_usage.xml | build/stack.xsl
@@ -103,7 +103,7 @@ $(OUTPUT_DIR)/stack.log: $(OUTPUT_DIR)/stack_usage.xml | build/stack.xsl
 
 $(OUTPUT_DIR)/stack_usage.xml: GPRBUILD_OPTS += -Xmode=stack
 $(OUTPUT_DIR)/stack_usage.xml: src/*/*/*.ad? src/*/*.ad? Makefile build/build_libsparkcrypto.gpr build/stack.xsl
-	@gprbuild $(GPRBUILD_OPTS) -P build/build_libsparkcrypto
+	@gprbuild $(GPRBUILD_OPTS) -f -P build/build_libsparkcrypto
 	@(cd $(OUTPUT_DIR) && gnatstack $(GPRBUILD_OPTS) -P $(CURDIR)/build/build_libsparkcrypto)
 
 $(OUTPUT_DIR)/tests/tests: install_local
