@@ -33,10 +33,11 @@
 -------------------------------------------------------------------------------
 
 with Interfaces;
-with LSC.Internal.Debug;
 with LSC.Internal.Byteorder64;
 with LSC.Internal.SHA512.Tables;
 with LSC.Internal.Pad64;
+with LSC.Internal.Debug;
+pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.SHA512 is
 

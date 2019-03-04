@@ -33,11 +33,12 @@
 -------------------------------------------------------------------------------
 
 with Interfaces;
-with LSC.Internal.Debug;
 with LSC.Internal.Ops32;
 with LSC.Internal.Byteorder32;
 with LSC.Internal.AES.Tables;
 with LSC.Internal.AES.Print;
+with LSC.Internal.Debug;
+pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.AES is
 

@@ -35,8 +35,9 @@
 with Interfaces;
 with LSC.Internal.Ops32;
 with LSC.Internal.Pad32;
-with LSC.Internal.Debug;
 with LSC.Internal.RIPEMD160.Print;
+with LSC.Internal.Debug;
+pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.RIPEMD160 is
 

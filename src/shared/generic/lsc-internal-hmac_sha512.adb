@@ -32,7 +32,9 @@
 -- POSSIBILITY OF SUCH DAMAGE.
 -------------------------------------------------------------------------------
 
-with LSC.Internal.Debug, LSC.Internal.Ops64;
+with LSC.Internal.Ops64;
+with LSC.Internal.Debug;
+pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.HMAC_SHA512 is
 
