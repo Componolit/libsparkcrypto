@@ -72,6 +72,8 @@ is
       subtype Full_Key_Type is Key_Type (Full_Key_Index);
       Full_Key : Full_Key_Type := (others => Null_Key_Elem);
       function To_Internal is new Ada.Unchecked_Conversion (Full_Key_Type, Internal_Block_Type);
+
+      subtype IBLT is Internal_Block_Length_Type;
    begin
 
       if Key'Length <= Block_Len
@@ -98,7 +100,7 @@ is
       Context_Finalize
          (Context => Context,
           Block   => To_Internal (Temp),
-          Length  => Internal_Block_Length_Type (Internal_Block_Length_Type'Val (8 * Partial_Bytes)));
+          Length  => IBLT'Val (8 * Partial_Bytes));
 
       return To_Public (Get_Auth (Context));
 
