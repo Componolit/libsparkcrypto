@@ -21,6 +21,10 @@ is
    --  Convert text to equivalent byte array representation
    function T2B (Data : String) return LSC.Types.Bytes;
 
+   procedure T2B (Input  :     String;
+                  Output : out LSC.Types.Bytes;
+                  Last   : out LSC.Types.Natural_Index);
+
    --  Convert byte array to equivalent string representation
    function B2T (Data : LSC.Types.Bytes) return String;
 

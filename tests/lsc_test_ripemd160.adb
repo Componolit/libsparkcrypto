@@ -46,21 +46,26 @@ package body LSC_Test_RIPEMD160 is
    --  Test vectors from:
    --    RIPEMD-160: A Strengthened Version of RIPEMD , Appendix B: Test values
 
+   Input_Buffer : LSC.Types.Bytes (1 .. 1_000_000);
+   RMD_Buffer   : constant String (1 .. 1_000_000) := (others => 'a');
+
    procedure Test_RIPEMD160 (Msg : String;
                              MD  : String)
    is
       use type LSC.Types.Bytes;
-      Input  : constant LSC.Types.Bytes := T2B (Msg);
-      Result : constant LSC.Types.Bytes := RIPEMD160.Hash (Input);
+      Last   : LSC.Types.Natural_Index;
    begin
-      Assert (Result = S2B (MD), "Invalid hash: " & B2S (Result) & " (expected " & MD & " input len=" & Input'Length'Img & ")");
+      T2B (Msg, Input_Buffer, Last);
+      declare
+         Result : constant LSC.Types.Bytes := RIPEMD160.Hash (Input_Buffer (Input_Buffer'First .. Last));
+      begin
+         Assert (Result = S2B (MD), "Invalid hash: " & B2S (Result) & " (expected " & MD & " input len=" & Msg'Length'Img & ")");
+      end;
    end Test_RIPEMD160;
 
    ---------------------------------------------------------------------------
    --  RIPEMD160
    ---------------------------------------------------------------------------
-
-   RMD_Buffer : String (1 .. 1_000_000);
 
    procedure Test_RIPEMD160_AB9601 (T : in out Test_Cases.Test_Case'Class)
    is
@@ -77,7 +82,6 @@ package body LSC_Test_RIPEMD160 is
       Test_RIPEMD160 ("12345678901234567890123456789012345678901234567890123456789012345678901234567890",
                       "9b752e45573d4b39f4dbd3323cab82bf63326bfb");
 
-      RMD_Buffer := (others => 'a');
       Test_RIPEMD160 (RMD_Buffer, "52783243c1697bdbe16d37f97f68f08325dc1528");
    end Test_RIPEMD160_AB9601;
 

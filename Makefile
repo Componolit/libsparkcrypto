@@ -92,7 +92,7 @@ $(OUTPUT_DIR)/doc/libsparkcrypto-$(VERSION).tgz:
 	git archive --format tar --prefix libsparkcrypto-$(VERSION)/ $(TAG) | gzip -c > $@
 
 tests: $(OUTPUT_DIR)/tests/tests
-	$< | tee $(OUTPUT_DIR)/tests/tests.sum
+	ulimit -s 768 && $< | tee $(OUTPUT_DIR)/tests/tests.sum
 
 stack: $(OUTPUT_DIR)/stack.log
 	@cat $<

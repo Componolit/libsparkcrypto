@@ -113,18 +113,27 @@ is
    -- T2B --
    ---------
 
+   procedure T2B (Input  :     String;
+                  Output : out LSC.Types.Bytes;
+                  Last   : out LSC.Types.Natural_Index)
+   is
+      function To_Byte (C : Character) return LSC.Types.Byte
+      is (LSC.Types.Byte (Character'Pos (C)));
+   begin
+      for I in 0 .. Input'Length - 1
+      loop
+         Output (Output'First + I) := To_Byte (Input (Input'First + I));
+      end loop;
+      Last := Output'First + Input'Length - 1;
+   end T2B;
+
    function T2B (Data : String) return LSC.Types.Bytes
    is
       Result : LSC.Types.Bytes (1 .. Data'Length);
-
-      function To_Byte (C : Character) return LSC.Types.Byte
-      is (LSC.Types.Byte (Character'Pos (C)));
-
+      Unused : LSC.Types.Natural_Index;
    begin
-      for I in 0 .. Data'Length - 1
-      loop
-         Result (Result'First + I) := To_Byte (Data (Data'First + I));
-      end loop;
+      T2B (Data, Result, Unused);
+      pragma Unreferenced (Unused);
       return Result;
    end T2B;
 
