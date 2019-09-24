@@ -41,6 +41,8 @@ pragma Elaborate_All (LSC.SHA2_Generic);
 
 package LSC.SHA2
 is
+   pragma Pure;
+
    subtype SHA256_Hash_Index is Types.Natural_Index range 1 .. 32;
    subtype SHA256_Hash_Type is Types.Bytes (SHA256_Hash_Index);
 

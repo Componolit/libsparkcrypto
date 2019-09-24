@@ -36,6 +36,8 @@
 
 package LSC.Ops_Generic
 is
+   pragma Pure;
+
    -- Perform XOR on two arrays of 8-bit element types
    --
    -- @Left@   - First input array

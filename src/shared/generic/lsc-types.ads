@@ -36,6 +36,8 @@
 
 package LSC.Types
 is
+   pragma Pure;
+
    type Byte is mod 2**8 with Size => 8;
 
    --  Natural index type

@@ -36,6 +36,8 @@
 
 package LSC.SHA2.HMAC_Generic
 is
+   pragma Pure;
+
    generic
       type Key_Index_Type is (<>);
       type Key_Elem_Type is (<>);

@@ -41,6 +41,8 @@ pragma Elaborate_All (LSC.RIPEMD160_Generic);
 
 package LSC.RIPEMD160
 is
+   pragma Pure;
+
    subtype Hash_Index is Types.Natural_Index range 1 .. 20;
    subtype Hash_Type is Types.Bytes (Hash_Index);
 
