@@ -41,6 +41,8 @@ pragma Elaborate_All (LSC.AES_Generic);
 
 package LSC.AES
 is
+   pragma Pure;
+
    subtype Dec_Key_Type is LSC.AES_Generic.Dec_Key_Type;
    subtype Enc_Key_Type is LSC.AES_Generic.Enc_Key_Type;
 

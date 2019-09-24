@@ -42,6 +42,8 @@ pragma Elaborate_All (LSC.RIPEMD160.HMAC_Generic);
 
 package LSC.RIPEMD160.HMAC
 is
+   pragma Pure;
+
    function HMAC is new RIPEMD160.HMAC_Generic.HMAC
       (Types.Natural_Index, Types.Byte, Types.Bytes,
        Types.Natural_Index, Types.Byte, Types.Bytes,

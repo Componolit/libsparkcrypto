@@ -41,6 +41,8 @@ pragma Elaborate_All (LSC.SHA1_Generic);
 
 package LSC.SHA1
 is
+   pragma Pure;
+
    subtype Hash_Index is Types.Natural_Index range 1 .. 20;
    subtype Hash_Type is Types.Bytes (Hash_Index);
 

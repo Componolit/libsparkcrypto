@@ -36,6 +36,8 @@
 
 package LSC.Internal.Convert_Hash
 is
+   pragma Pure;
+
    generic
       Block_Len : Natural;
       type Message_Index_Type is (<>);

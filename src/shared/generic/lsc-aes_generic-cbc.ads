@@ -36,6 +36,8 @@
 
 package LSC.AES_Generic.CBC
 is
+   pragma Pure;
+
    generic
       type Plaintext_Index_Type is (<>);
       type Plaintext_Elem_Type is (<>);

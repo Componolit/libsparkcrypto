@@ -42,6 +42,8 @@ pragma Elaborate_All (LSC.SHA1.HMAC_Generic);
 
 package LSC.SHA1.HMAC
 is
+   pragma Pure;
+
    function HMAC is new SHA1.HMAC_Generic.HMAC
       (Types.Natural_Index, Types.Byte, Types.Bytes,
        Types.Natural_Index, Types.Byte, Types.Bytes,

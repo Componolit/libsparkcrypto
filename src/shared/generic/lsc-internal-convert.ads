@@ -43,6 +43,8 @@ generic
    type Byte_Type is array (Index_Type range <>) of Elem_Type;
 package LSC.Internal.Convert
 is
+   pragma Pure;
+
    subtype Key128_Type is Byte_Type (Index_Type'First .. Index_Type'Val (Index_Type'Pos (Index_Type'First) + 15));
    subtype Key192_Type is Byte_Type (Index_Type'First .. Index_Type'Val (Index_Type'Pos (Index_Type'First) + 23));
    subtype Key256_Type is Byte_Type (Index_Type'First .. Index_Type'Val (Index_Type'Pos (Index_Type'First) + 31));

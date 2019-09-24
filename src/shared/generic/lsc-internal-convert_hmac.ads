@@ -36,6 +36,8 @@
 
 package LSC.Internal.Convert_HMAC
 is
+   pragma Pure;
+
    generic
       Block_Len : Natural;
       Hash_Len : Natural;

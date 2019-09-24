@@ -38,6 +38,8 @@ private with LSC.Internal.AES;
 
 package LSC.AES_Generic
 is
+   pragma Pure;
+
    type Keylen_Type is (L128, L192, L256);
    --  Available AES modes
 
