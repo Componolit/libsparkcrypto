@@ -41,7 +41,10 @@ pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.RIPEMD160 is
 
-   function Init_Data_Length return Data_Length is
+   function Init_Data_Length return Data_Length;
+
+   function Init_Data_Length return Data_Length
+   is
    begin
       return Data_Length'(0, 0);
    end Init_Data_Length;
@@ -50,7 +53,10 @@ package body LSC.Internal.RIPEMD160 is
 
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32)
-     with Depends => (Item =>+ Value)
+     with Depends => (Item =>+ Value);
+
+   procedure Add (Item  : in out Data_Length;
+                  Value : in     Types.Word32)
    is
    begin
       if Item.LSW > Types.Word32'Last - Value then
@@ -79,6 +85,11 @@ package body LSC.Internal.RIPEMD160 is
    function f
       (x : Types.Word32;
        y : Types.Word32;
+       z : Types.Word32) return Types.Word32;
+
+   function f
+      (x : Types.Word32;
+       y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
    begin
@@ -86,6 +97,11 @@ package body LSC.Internal.RIPEMD160 is
    end f;
 
    ---------------------------------------------------------------------------
+
+   function g
+      (x : Types.Word32;
+       y : Types.Word32;
+       z : Types.Word32) return Types.Word32;
 
    function g
       (x : Types.Word32;
@@ -101,6 +117,11 @@ package body LSC.Internal.RIPEMD160 is
    function h
       (x : Types.Word32;
        y : Types.Word32;
+       z : Types.Word32) return Types.Word32;
+
+   function h
+      (x : Types.Word32;
+       y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
    begin
@@ -112,6 +133,11 @@ package body LSC.Internal.RIPEMD160 is
    function i
       (x : Types.Word32;
        y : Types.Word32;
+       z : Types.Word32) return Types.Word32;
+
+   function i
+      (x : Types.Word32;
+       y : Types.Word32;
        z : Types.Word32) return Types.Word32
    is
    begin
@@ -119,6 +145,11 @@ package body LSC.Internal.RIPEMD160 is
    end i;
 
    ---------------------------------------------------------------------------
+
+   function j
+      (x : Types.Word32;
+       y : Types.Word32;
+       z : Types.Word32) return Types.Word32;
 
    function j
       (x : Types.Word32;
@@ -140,7 +171,15 @@ package body LSC.Internal.RIPEMD160 is
                  S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure ff (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule (" FF/S", A, B, C, D, E, X, S));
@@ -172,7 +211,15 @@ package body LSC.Internal.RIPEMD160 is
                  S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure gg (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule (" GG/S", A, B, C, D, E, X, S));
@@ -194,7 +241,15 @@ package body LSC.Internal.RIPEMD160 is
                  S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure hh (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule (" HH/S", A, B, C, D, E, X, S));
@@ -216,7 +271,15 @@ package body LSC.Internal.RIPEMD160 is
                  S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure ii (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule (" II/S", A, B, C, D, E, X, S));
@@ -238,7 +301,15 @@ package body LSC.Internal.RIPEMD160 is
                  S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure jj (A : in out Types.Word32;
+                 B : in     Types.Word32;
+                 C : in out Types.Word32;
+                 D : in     Types.Word32;
+                 E : in     Types.Word32;
+                 X : in     Types.Word32;
+                 S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule (" JJ/S", A, B, C, D, E, X, S));
@@ -260,7 +331,15 @@ package body LSC.Internal.RIPEMD160 is
                   S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure fff (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule ("FFF/S", A, B, C, D, E, X, S));
@@ -282,7 +361,15 @@ package body LSC.Internal.RIPEMD160 is
                   S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure ggg (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule ("GGG/S", A, B, C, D, E, X, S));
@@ -304,7 +391,15 @@ package body LSC.Internal.RIPEMD160 is
                   S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure hhh (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule ("HHH/S", A, B, C, D, E, X, S));
@@ -326,7 +421,15 @@ package body LSC.Internal.RIPEMD160 is
                   S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure iii (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule ("III/S", A, B, C, D, E, X, S));
@@ -348,7 +451,15 @@ package body LSC.Internal.RIPEMD160 is
                   S : in     Natural)
      with Depends =>
        (A => (A, B, C, D, E, X, S),
-        C => C)
+        C => C);
+
+   procedure jjj (A : in out Types.Word32;
+                  B : in     Types.Word32;
+                  C : in out Types.Word32;
+                  D : in     Types.Word32;
+                  E : in     Types.Word32;
+                  X : in     Types.Word32;
+                  S : in     Natural)
    is
    begin
       pragma Debug (Print.Print_Schedule ("JJJ/S", A, B, C, D, E, X, S));
@@ -364,7 +475,11 @@ package body LSC.Internal.RIPEMD160 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       X       : in     Block_Type)
-     with Depends => (Context =>+ X)
+     with Depends => (Context =>+ X);
+
+   procedure Context_Update_Internal
+     (Context : in out Context_Type;
+      X       : in     Block_Type)
    is
       H0,  H1,  H2,  H3,  H4 : Types.Word32;
       HH0, HH1, HH2, HH3, HH4 : Types.Word32;
@@ -661,7 +776,7 @@ package body LSC.Internal.RIPEMD160 is
       Last_Length := Types.Word32 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
 
-      -- handle all blocks, but the last.
+      --  handle all blocks, but the last.
       if Last_Block > Message'First then
          for K in Message_Index range Message'First .. Last_Block - 1
          loop

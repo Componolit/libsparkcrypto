@@ -47,10 +47,10 @@ package body LSC.Internal.Pad32 is
       Offset : Natural;
    begin
 
-      -- index of partial block
+      --  index of partial block
       Index := Block'First + Types.Index (Length / 32);
 
-      -- bit offset within the partial block
+      --  bit offset within the partial block
       Offset := Natural (31 - Length mod 32);
 
       Temp := Byteorder32.Native_To_BE (Block (Index));

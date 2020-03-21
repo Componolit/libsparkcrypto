@@ -37,21 +37,21 @@ use type LSC.Internal.Types.Word32;
 use type LSC.Internal.Types.Index;
 
 -------------------------------------------------------------------------------
--- The AES algorithm
+--  The AES algorithm
 --
--- <ul>
--- <li>
--- <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">
--- FIPS PUB 197, Advanced Encryption Standard (AES), National Institute of
--- Standards and Technology, U.S. Department of Commerce, November 2001. </a>
--- </li>
+--  <ul>
+--  <li>
+--  <a href="http://csrc.nist.gov/publications/fips/fips197/fips-197.pdf">
+--  FIPS PUB 197, Advanced Encryption Standard (AES), National Institute of
+--  Standards and Technology, U.S. Department of Commerce, November 2001. </a>
+--  </li>
 --
--- <li>
--- <a href="http://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf">
--- Joan Daemen and Vincent Rijmen, AES submission document on Rijndael,
--- Version 2, September 1999.</a>
--- </li>
--- </ul>
+--  <li>
+--  <a href="http://csrc.nist.gov/archive/aes/rijndael/Rijndael-ammended.pdf">
+--  Joan Daemen and Vincent Rijmen, AES submission document on Rijndael,
+--  Version 2, September 1999.</a>
+--  </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.Internal.AES is
 

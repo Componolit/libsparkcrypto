@@ -37,35 +37,35 @@ use type LSC.Internal.Types.Word32;
 use type LSC.Internal.Types.Word64;
 
 -------------------------------------------------------------------------------
--- The HMAC-SHA-1 message authentication
+--  The HMAC-SHA-1 message authentication
 --
--- <ul>
--- <li>
--- <a href="http://www.faqs.org/rfcs/rfc2202.html">
--- P. Cheng, Test Cases for HMAC-MD5 and HMAC-SHA-1, RFC 2202,
--- September 1997. </a>
--- </li>
--- </ul>
+--  <ul>
+--  <li>
+--  <a href="http://www.faqs.org/rfcs/rfc2202.html">
+--  P. Cheng, Test Cases for HMAC-MD5 and HMAC-SHA-1, RFC 2202,
+--  September 1997. </a>
+--  </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.Internal.HMAC_SHA1 is
 
    pragma Pure;
 
-   -- HMAC-SHA-1 context
+   --  HMAC-SHA-1 context
    type Context_Type is private;
 
-   -- Initialize HMAC-SHA-1 context using @Key@.
+   --  Initialize HMAC-SHA-1 context using @Key@.
    function Context_Init (Key : SHA1.Block_Type) return Context_Type;
 
-   -- Update HMAC-SHA-1 @Context@ with message block @Block@.
+   --  Update HMAC-SHA-1 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     SHA1.Block_Type)
      with Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
-   -- Finalize HMAC-SHA-1 @Context@ using @Length@ bits of final message
-   -- block @Block@.
+   --  Finalize HMAC-SHA-1 @Context@ using @Length@ bits of final message
+   --  block @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     SHA1.Block_Type;
@@ -73,11 +73,11 @@ package LSC.Internal.HMAC_SHA1 is
      with Depends => (Context =>+ (Block, Length));
    pragma Inline (Context_Finalize);
 
-   -- Get authentication value from @Context@
+   --  Get authentication value from @Context@
    function Get_Auth (Context : in Context_Type) return SHA1.Hash_Type;
 
-   -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
-   -- return the authentication value.
+   --  Perform authentication of @Length@ bits of @Message@ using @Key@ and
+   --  return the authentication value.
    function Authenticate
       (Key     : SHA1.Block_Type;
        Message : SHA1.Message_Type;

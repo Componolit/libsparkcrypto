@@ -38,27 +38,27 @@ use type LSC.Internal.Types.Word32;
 use type LSC.Internal.Types.Word64;
 
 -------------------------------------------------------------------------------
--- The HMAC-RIPEMD-160 message authentication
+--  The HMAC-RIPEMD-160 message authentication
 --
--- <ul>
--- <li>
--- <a href="http://www.faqs.org/rfcs/rfc2286.html">
--- J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
--- February 1998. </a>
--- </li>
--- </ul>
+--  <ul>
+--  <li>
+--  <a href="http://www.faqs.org/rfcs/rfc2286.html">
+--  J. Kapp, Test Cases for HMAC-RIPEMD160 and HMAC-RIPEMD128, RFC 2286,
+--  February 1998. </a>
+--  </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.Internal.HMAC_RIPEMD160 is
 
    pragma Pure;
 
-   -- HMAC-RIPEMD-160 context
+   --  HMAC-RIPEMD-160 context
    type Context_Type is private;
 
-   -- Initialize HMAC-RIPEMD-160 context using @Key@.
+   --  Initialize HMAC-RIPEMD-160 context using @Key@.
    function Context_Init (Key : RIPEMD160.Block_Type) return Context_Type;
 
-   -- Update HMAC-RIPEMD-160 @Context@ with message block @Block@.
+   --  Update HMAC-RIPEMD-160 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     RIPEMD160.Block_Type)
@@ -66,8 +66,8 @@ package LSC.Internal.HMAC_RIPEMD160 is
        Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
-   -- Finalize HMAC-RIPEMD-160 @Context@ using @Length@ bits of final message
-   -- block @Block@.
+   --  Finalize HMAC-RIPEMD-160 @Context@ using @Length@ bits of final message
+   --  block @Block@.
    --
    procedure Context_Finalize
      (Context : in out Context_Type;
@@ -76,11 +76,11 @@ package LSC.Internal.HMAC_RIPEMD160 is
      with Depends => (Context =>+ (Block, Length));
    pragma Inline (Context_Finalize);
 
-   -- Get authentication value from @Context@
+   --  Get authentication value from @Context@
    function Get_Auth (Context : in Context_Type) return RIPEMD160.Hash_Type;
 
-   -- Perform authentication of @Length@ bits of @Message@ using @Key@ and
-   -- return the authentication value.
+   --  Perform authentication of @Length@ bits of @Message@ using @Key@ and
+   --  return the authentication value.
    --
    function Authenticate
       (Key     : RIPEMD160.Block_Type;

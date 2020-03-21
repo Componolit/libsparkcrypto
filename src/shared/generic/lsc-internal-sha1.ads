@@ -37,7 +37,7 @@ use type LSC.Internal.Types.Word64;
 use type LSC.Internal.Types.Index;
 
 -------------------------------------------------------------------------------
--- The SHA-1 hash algorithm
+--  The SHA-1 hash algorithm
 --
 --  <ul>
 --  <li>
@@ -51,54 +51,54 @@ package LSC.Internal.SHA1 is
 
    pragma Pure;
 
-   -- SHA-1 context
+   --  SHA-1 context
    type Context_Type is private;
 
-   -- Index for SHA-1 block
+   --  Index for SHA-1 block
    subtype Block_Index is Types.Index range 0 .. 15;
 
-   -- SHA-1 block
+   --  SHA-1 block
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
-   -- SHA-1 block size
+   --  SHA-1 block size
    Block_Size : constant := 512;
 
-   -- Index for SHA-1 hash
+   --  Index for SHA-1 hash
    subtype Hash_Index is Types.Index range 0 .. 4;
 
-   -- SHA-1 hash
+   --  SHA-1 hash
    subtype Hash_Type is Types.Word32_Array_Type (Hash_Index);
 
-   -- SHA-1 block length
+   --  SHA-1 block length
    subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
-   -- Index for SHA-1 message
+   --  Index for SHA-1 message
    --
    --  A SHA-1 message can be at most 2^64 bit long. As one block has 512 bit,
    --  this makes 2^55 blocks.
    subtype Message_Index is Types.Word64 range 0 .. 2 ** 55 - 1;
 
-   -- SHA-1 message
+   --  SHA-1 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
-   -- Initialize SHA-1 context.
+   --  Initialize SHA-1 context.
    function Context_Init return Context_Type;
 
-   -- Update SHA-1 @Context@ with message block @Block@.
+   --  Update SHA-1 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type)
      with Depends => (Context =>+ Block);
 
-   -- Finalize SHA-1 context using @Length@ bits of final message block
-   -- @Block@.
+   --  Finalize SHA-1 context using @Length@ bits of final message block
+   --  @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
       Length  : in     Block_Length_Type)
      with Depends => (Context =>+ (Block, Length));
 
-   -- Return SHA-1 hash from @Context@.
+   --  Return SHA-1 hash from @Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
 
    procedure Hash_Context
@@ -112,7 +112,7 @@ package LSC.Internal.SHA1 is
          Length / Block_Size +
          (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
-   -- Compute hash value of @Length@ bits of @Message@.
+   --  Compute hash value of @Length@ bits of @Message@.
    function Hash
       (Message : Message_Type;
        Length  : Types.Word64) return Hash_Type
@@ -122,10 +122,10 @@ package LSC.Internal.SHA1 is
          Length / Block_Size +
          (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
-   -- Empty block
+   --  Empty block
    Null_Block : constant Block_Type;
 
-   -- Empty hash
+   --  Empty hash
    Null_Hash : constant Hash_Type;
 
 private

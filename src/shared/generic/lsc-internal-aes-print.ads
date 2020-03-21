@@ -33,12 +33,12 @@
 -------------------------------------------------------------------------------
 
 -------------------------------------------------------------------------------
--- AES Debug package
+--  AES Debug package
 --
--- Debug is done through Debug pragmas. As the compiler has to with the debug
--- package to make it available to this pragma, this is an empty package which
--- makes the SPARK Examiner accept the respective with clause. Debug functions,
--- however, cannot (and should not) be use from within SPARK.
+--  Debug is done through Debug pragmas. As the compiler has to with the debug
+--  package to make it available to this pragma, this is an empty package which
+--  makes the SPARK Examiner accept the respective with clause. Debug functions,
+--  however, cannot (and should not) be use from within SPARK.
 -------------------------------------------------------------------------------
 private package LSC.Internal.AES.Print
 is

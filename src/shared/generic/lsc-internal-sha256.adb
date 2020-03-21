@@ -41,6 +41,8 @@ pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.SHA256 is
 
+   function Init_Data_Length return Data_Length;
+
    function Init_Data_Length return Data_Length is
    begin
       return Data_Length'(0, 0);
@@ -52,7 +54,10 @@ package body LSC.Internal.SHA256 is
                   Value : in     Types.Word32)
      with
          Depends => (Item =>+ Value),
-         Inline
+         Inline;
+
+   procedure Add (Item  : in out Data_Length;
+                  Value : in     Types.Word32)
    is
    begin
       if Item.LSW > Types.Word32'Last - Value then
@@ -71,7 +76,13 @@ package body LSC.Internal.SHA256 is
       return Types.Word32
      with
          Post => Ch'Result = ((x and y) xor ((not x) and z)),
-         Inline
+         Inline;
+
+   function Ch
+     (x    : Types.Word32;
+      y    : Types.Word32;
+      z    : Types.Word32)
+      return Types.Word32
    is
    begin
       return (x and y) xor ((not x) and z);
@@ -86,7 +97,13 @@ package body LSC.Internal.SHA256 is
       return Types.Word32
      with
          Post => Maj'Result = ((x and y) xor (x and z) xor (y and z)),
-         Inline
+         Inline;
+
+   function Maj
+     (x    : Types.Word32;
+      y    : Types.Word32;
+      z    : Types.Word32)
+      return Types.Word32
    is
    begin
       return (x and y) xor (x and z) xor (y and z);
@@ -162,7 +179,11 @@ package body LSC.Internal.SHA256 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
-     with Depends => (Context =>+ Block)
+     with Depends => (Context =>+ Block);
+
+   procedure Context_Update_Internal
+     (Context : in out Context_Type;
+      Block   : in     Block_Type)
    is
       a, b, c, d, e, f, g, h : Types.Word32;
 
@@ -179,7 +200,17 @@ package body LSC.Internal.SHA256 is
           Global => Context,
           Depends =>
             (a3 =>+ (a4, a5, a6, a7, r, Context),
-             a7 => (a0, a1, a2, a4, a5, a6, a7, r, Context))
+             a7 => (a0, a1, a2, a4, a5, a6, a7, r, Context));
+
+      procedure SHA256_Op (r  : in     Schedule_Index;
+                           a0 : in     Types.Word32;
+                           a1 : in     Types.Word32;
+                           a2 : in     Types.Word32;
+                           a3 : in out Types.Word32;
+                           a4 : in     Types.Word32;
+                           a5 : in     Types.Word32;
+                           a6 : in     Types.Word32;
+                           a7 : in out Types.Word32)
       is
          T1, T2 : Types.Word32;
       begin
@@ -195,7 +226,7 @@ package body LSC.Internal.SHA256 is
 
       pragma Debug (Debug.Put_Line ("BLOCK UPDATE:"));
 
-      -- Print out initial state of H
+      --  Print out initial state of H
       pragma Debug (Debug.Put_Line ("SHA-256 initial hash values:"));
       pragma Debug (Debug.Print_Word32_Array (Context.H, 2, Types.Index'Last, True));
 
@@ -220,8 +251,8 @@ package body LSC.Internal.SHA256 is
       pragma Debug (Debug.Put_Line ("Message block:"));
       pragma Debug (Debug.Print_Word32_Array (Context.W, 2, 8, True));
 
-      -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
-      --    h with the (i-1)st hash value:
+      --  2. Initialize the eight working variables a, b, c, d, e, f, g, and
+      --     h with the (i-1)st hash value:
       a := Context.H (0);
       b := Context.H (1);
       c := Context.H (2);
@@ -231,7 +262,7 @@ package body LSC.Internal.SHA256 is
       g := Context.H (6);
       h := Context.H (7);
 
-      -- 3. For t = 0 to 63:
+      --  3. For t = 0 to 63:
 
       SHA256_Op (0, a, b, c, d, e, f, g, h);
       SHA256_Op (1, h, a, b, c, d, e, f, g);
@@ -305,7 +336,7 @@ package body LSC.Internal.SHA256 is
       SHA256_Op (62, c, d, e, f, g, h, a, b);
       SHA256_Op (63, b, c, d, e, f, g, h, a);
 
-      -- 4. Compute the i-th intermediate hash value H-i:
+      --  4. Compute the i-th intermediate hash value H-i:
       Context.H :=
         SHA256_Hash_Type'
         (0 => a + Context.H (0),
@@ -396,7 +427,7 @@ package body LSC.Internal.SHA256 is
       Last_Length := Types.Word32 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
 
-      -- handle all blocks, but the last.
+      --  handle all blocks, but the last.
       if Last_Block > Message'First then
          for I in Message_Index range Message'First .. Last_Block - 1
          loop

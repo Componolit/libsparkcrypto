@@ -37,22 +37,22 @@ use type LSC.Internal.Types.Word64;
 use type LSC.Internal.Types.Index;
 
 -------------------------------------------------------------------------------
--- Operations over 64-bit words
+--  Operations over 64-bit words
 -------------------------------------------------------------------------------
 package LSC.Internal.Ops64 is
 
    pragma Pure;
 
-   -- Perform XOR on two 64-bit words @V0@ and @V1@
+   --  Perform XOR on two 64-bit words @V0@ and @V1@
    function XOR2 (V0, V1 : Types.Word64) return Types.Word64
      with Post => XOR2'Result = (V0 xor V1);
    pragma Inline (XOR2);
 
-   -- Perform XOR on two arrays of 64-bit words
+   --  Perform XOR on two arrays of 64-bit words
    --
-   -- @Left@   - First input array <br>
-   -- @Right@  - Second input array <br>
-   -- @Result@ - Result array <br>
+   --  @Left@   - First input array <br>
+   --  @Right@  - Second input array <br>
+   --  @Result@ - Result array <br>
    procedure Block_XOR
      (Left   : in     Types.Word64_Array_Type;
       Right  : in     Types.Word64_Array_Type;
@@ -70,7 +70,7 @@ package LSC.Internal.Ops64 is
             (Result (I) = XOR2 (Left (I), Right (I))));
    pragma Inline (Block_XOR);
 
-   -- Convert the eight byte values @Byte0@ .. @Byte7@ to a 64-bit word
+   --  Convert the eight byte values @Byte0@ .. @Byte7@ to a 64-bit word
    function Bytes_To_Word
       (Byte0 : Types.Byte;
        Byte1 : Types.Byte;
@@ -82,8 +82,8 @@ package LSC.Internal.Ops64 is
        Byte7 : Types.Byte) return Types.Word64;
    pragma Inline (Bytes_To_Word);
 
-   -- Copy all elements of @Source@ to @Dest@. Should @Source@ be shorter than
-   -- @Dest@, remaining elements stay unchanged.
+   --  Copy all elements of @Source@ to @Dest@. Should @Source@ be shorter than
+   --  @Dest@, remaining elements stay unchanged.
    procedure Block_Copy
       (Source : in     Types.Word64_Array_Type;
        Dest   : in out Types.Word64_Array_Type)

@@ -38,7 +38,7 @@ use type Interfaces.Unsigned_32;
 use type Interfaces.Unsigned_64;
 
 -------------------------------------------------------------------------------
--- Primitive types and operations
+--  Primitive types and operations
 -------------------------------------------------------------------------------
 package LSC.Internal.Types
    with
@@ -46,49 +46,49 @@ package LSC.Internal.Types
 is
    pragma Pure;
 
-   -- Base index type
+   --  Base index type
    type Index is range 0 .. 79;
 
-   -- 8-bit word
+   --  8-bit word
    subtype Byte is Interfaces.Unsigned_8;
 
-   -- 32-bit word
+   --  32-bit word
    subtype Word32 is Interfaces.Unsigned_32;
 
-   -- 64-bit word
+   --  64-bit word
    subtype Word64 is Interfaces.Unsigned_64;
 
-   -- Index for 32-bit byte array
+   --  Index for 32-bit byte array
    subtype Byte_Array32_Index is Index range 0 .. 3;
 
-   -- 32-bit byte array
+   --  32-bit byte array
    type Byte_Array32_Type is array (Byte_Array32_Index) of Byte;
 
-   -- Index for 64-bit byte array
+   --  Index for 64-bit byte array
    subtype Byte_Array64_Index is Index range 0 .. 7;
 
-   -- 64-bit byte array
+   --  64-bit byte array
    type Byte_Array64_Type is array (Byte_Array64_Index) of Byte;
 
-   -- Unconstrained array of 32-bit words
+   --  Unconstrained array of 32-bit words
    type Word32_Array_Type is array (Index range <>) of Word32;
 
-   -- Unconstrained array of 64-bit words
+   --  Unconstrained array of 64-bit words
    type Word64_Array_Type is array (Index range <>) of Word64;
 
-   -- Convert 32-bit word to 32-bit byte array
+   --  Convert 32-bit word to 32-bit byte array
    function Word32_To_Byte_Array32 (Value : Word32) return Byte_Array32_Type;
    pragma Inline (Word32_To_Byte_Array32);
 
-   -- Convert 32-bit byte array to 32-bit word
+   --  Convert 32-bit byte array to 32-bit word
    function Byte_Array32_To_Word32 (Value : Byte_Array32_Type) return Word32;
    pragma Inline (Byte_Array32_To_Word32);
 
-   -- Convert 64-bit word to 64-bit byte array
+   --  Convert 64-bit word to 64-bit byte array
    function Word64_To_Byte_Array64 (Value : Word64) return Byte_Array64_Type;
    pragma Inline (Word64_To_Byte_Array64);
 
-   -- Convert 64-bit byte array to 64-bit word
+   --  Convert 64-bit byte array to 64-bit word
    function Byte_Array64_To_Word64 (Value : Byte_Array64_Type) return Word64;
    pragma Inline (Byte_Array64_To_Word64);
 

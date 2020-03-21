@@ -35,25 +35,25 @@
 with LSC.Internal.Types;
 
 -------------------------------------------------------------------------------
--- Byte order conversion for 32-bit words
+--  Byte order conversion for 32-bit words
 -------------------------------------------------------------------------------
 package LSC.Internal.Byteorder32 is
 
    pragma Pure;
 
-   -- Convert 32-bit word @Item@ from native byte order to big endian
+   --  Convert 32-bit word @Item@ from native byte order to big endian
    function Native_To_BE (Item : Types.Word32) return Types.Word32;
    pragma Inline (Native_To_BE);
 
-   -- Convert 32-bit word @Item@ from native byte order to little endian
+   --  Convert 32-bit word @Item@ from native byte order to little endian
    function Native_To_LE (Item : Types.Word32) return Types.Word32;
    pragma Inline (Native_To_LE);
 
-   -- Convert 32-bit word @Item@ from big endian to native byte order
+   --  Convert 32-bit word @Item@ from big endian to native byte order
    function BE_To_Native (Item : Types.Word32) return Types.Word32;
    pragma Inline (BE_To_Native);
 
-   -- Convert 32-bit word @Item@ from little endian to native byte order
+   --  Convert 32-bit word @Item@ from little endian to native byte order
    function LE_To_Native (Item : Types.Word32) return Types.Word32;
    pragma Inline (LE_To_Native);
 

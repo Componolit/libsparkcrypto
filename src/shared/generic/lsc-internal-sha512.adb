@@ -41,7 +41,10 @@ pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.SHA512 is
 
-   function Init_Data_Length return Data_Length is
+   function Init_Data_Length return Data_Length;
+
+   function Init_Data_Length return Data_Length
+   is
    begin
       return Data_Length'(0, 0);
    end Init_Data_Length;
@@ -52,7 +55,10 @@ package body LSC.Internal.SHA512 is
                   Value : in     Types.Word64)
      with
          Depends => (Item =>+ Value),
-         Inline
+         Inline;
+
+   procedure Add (Item  : in out Data_Length;
+                  Value : in     Types.Word64)
    is
    begin
       if Item.LSW > Types.Word64'Last - Value then
@@ -70,7 +76,12 @@ package body LSC.Internal.SHA512 is
       z    : Types.Word64) return Types.Word64
      with
          Post => Ch'Result = ((x and y) xor ((not x) and z)),
-         Inline
+         Inline;
+
+   function Ch
+     (x    : Types.Word64;
+      y    : Types.Word64;
+      z    : Types.Word64) return Types.Word64
    is
    begin
       return (x and y) xor ((not x) and z);
@@ -84,7 +95,12 @@ package body LSC.Internal.SHA512 is
       z    : Types.Word64) return Types.Word64
      with
          Post => Maj'Result = ((x and y) xor (x and z) xor (y and z)),
-         Inline
+         Inline;
+
+   function Maj
+     (x    : Types.Word64;
+      y    : Types.Word64;
+      z    : Types.Word64) return Types.Word64
    is
    begin
       return (x and y) xor (x and z) xor (y and z);
@@ -177,24 +193,38 @@ package body LSC.Internal.SHA512 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
-     with Depends => (Context =>+ Block)
+     with Depends => (Context =>+ Block);
+
+   procedure Context_Update_Internal
+     (Context : in out Context_Type;
+      Block   : in     Block_Type)
    is
       a, b, c, d, e, f, g, h : Types.Word64;
 
       procedure SHA512_Op (r  : in     Schedule_Index;
-                         a0 : in     Types.Word64;
-                         a1 : in     Types.Word64;
-                         a2 : in     Types.Word64;
-                         a3 : in out Types.Word64;
-                         a4 : in     Types.Word64;
-                         a5 : in     Types.Word64;
-                         a6 : in     Types.Word64;
-                         a7 : in out Types.Word64)
+                           a0 : in     Types.Word64;
+                           a1 : in     Types.Word64;
+                           a2 : in     Types.Word64;
+                           a3 : in out Types.Word64;
+                           a4 : in     Types.Word64;
+                           a5 : in     Types.Word64;
+                           a6 : in     Types.Word64;
+                           a7 : in out Types.Word64)
         with
           Global => Context,
           Depends =>
             (a3 =>+ (a4, a5, a6, a7, r, Context),
-             a7 => (a0, a1, a2, a4, a5, a6, a7, r, Context))
+             a7 => (a0, a1, a2, a4, a5, a6, a7, r, Context));
+
+      procedure SHA512_Op (r  : in     Schedule_Index;
+                           a0 : in     Types.Word64;
+                           a1 : in     Types.Word64;
+                           a2 : in     Types.Word64;
+                           a3 : in out Types.Word64;
+                           a4 : in     Types.Word64;
+                           a5 : in     Types.Word64;
+                           a6 : in     Types.Word64;
+                           a7 : in out Types.Word64)
       is
          T1, T2 : Types.Word64;
       begin
@@ -208,7 +238,7 @@ package body LSC.Internal.SHA512 is
 
       pragma Debug (Debug.Put_Line ("BLOCK UPDATE:"));
 
-      -- Print out initial state of H
+      --  Print out initial state of H
       pragma Debug (Debug.Put_Line ("SHA-512 initial hash values:"));
       pragma Debug (Debug.Print_Word64_Array (Context.H, 2, Types.Index'Last, True));
 
@@ -233,7 +263,7 @@ package body LSC.Internal.SHA512 is
       pragma Debug (Debug.Put_Line ("Message block:"));
       pragma Debug (Debug.Print_Word64_Array (Context.W, 2, 8, True));
 
-      -- 2. Initialize the eight working variables a, b, c, d, e, f, g, and
+      --  2. Initialize the eight working variables a, b, c, d, e, f, g, and
       --    h with the (i-1)st hash value:
       a := Context.H (0);
       b := Context.H (1);
@@ -244,7 +274,7 @@ package body LSC.Internal.SHA512 is
       g := Context.H (6);
       h := Context.H (7);
 
-      -- 3. For t = 0 to 79:
+      --  3. For t = 0 to 79:
 
       SHA512_Op  (0, a, b, c, d, e, f, g, h);
       SHA512_Op  (1, h, a, b, c, d, e, f, g);
@@ -336,7 +366,7 @@ package body LSC.Internal.SHA512 is
       SHA512_Op (78, c, d, e, f, g, h, a, b);
       SHA512_Op (79, b, c, d, e, f, g, h, a);
 
-      -- 4. Compute the i-th intermediate hash value H-i:
+      --  4. Compute the i-th intermediate hash value H-i:
       Context.H :=
         SHA512_Hash_Type'
         (0 => a + Context.H (0),
@@ -438,7 +468,7 @@ package body LSC.Internal.SHA512 is
       Last_Length := Types.Word64 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
 
-      -- handle all blocks, but the last.
+      --  handle all blocks, but the last.
       if Last_Block > Message'First then
          for I in Message_Index range Message'First .. Last_Block - 1
          loop

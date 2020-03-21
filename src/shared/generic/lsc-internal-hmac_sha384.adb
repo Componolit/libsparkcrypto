@@ -73,7 +73,10 @@ package body LSC.Internal.HMAC_SHA384 is
 
    procedure Context_Finalize_Outer
      (Context : in out Context_Type)
-     with Depends => (Context => Context)
+     with Depends => (Context => Context);
+
+   procedure Context_Finalize_Outer
+     (Context : in out Context_Type)
    is
       Hash : SHA512.SHA384_Hash_Type;
       Temp : SHA512.Block_Type;
@@ -132,7 +135,12 @@ package body LSC.Internal.HMAC_SHA384 is
        Pre =>
          Message'First <= Message'Last and
          Length / SHA512.Block_Size +
-         (if Length mod SHA512.Block_Size = 0 then 0 else 1) <= Message'Length
+         (if Length mod SHA512.Block_Size = 0 then 0 else 1) <= Message'Length;
+
+   function Keyed_Hash
+      (Key     : SHA512.Block_Type;
+       Message : SHA512.Message_Type;
+       Length  : SHA512.Message_Index) return Context_Type
    is
       HMAC_Ctx : Context_Type;
    begin

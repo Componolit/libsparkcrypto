@@ -35,7 +35,7 @@
 with LSC.Internal.Types;
 
 -------------------------------------------------------------------------------
--- Byte swapping for 64-bit words
+--  Byte swapping for 64-bit words
 -------------------------------------------------------------------------------
 package LSC.Internal.Byteswap64
 with
@@ -43,7 +43,7 @@ with
 is
    pragma Pure;
 
-   -- Byte-swap @Value@
+   --  Byte-swap @Value@
    function Swap (Value : Types.Word64) return Types.Word64;
    pragma Inline (Swap);
 

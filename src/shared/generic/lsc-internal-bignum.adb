@@ -130,7 +130,9 @@ is
 
    function Word_Of_Boolean (B : Boolean) return Types.Word32
      with Post =>
-       Math_Int.From_Word32 (Word_Of_Boolean'Result) = Num_Of_Boolean (B)
+       Math_Int.From_Word32 (Word_Of_Boolean'Result) = Num_Of_Boolean (B);
+
+   function Word_Of_Boolean (B : Boolean) return Types.Word32
    is
       Result : Types.Word32;
    begin
@@ -663,7 +665,7 @@ is
            (A = P * M and B = Q * M and
             GCD (A, B) = 1);
 
-         -- FIXME workaround for [N410-033]
+         --  FIXME workaround for [N410-033]
          exit when B = 0;
 
          Quot := A / B;
@@ -700,7 +702,16 @@ is
          Base * Math_Int.From_Word32 (Carry2'Old) =
          Math_Int.From_Word32 (A) +
          Base * (Math_Int.From_Word32 (Carry1) +
-           Base * Math_Int.From_Word32 (Carry2))
+           Base * Math_Int.From_Word32 (Carry2));
+
+   procedure Single_Add_Mult_Mult
+     (A       : in out Types.Word32;
+      V       : in     Types.Word32;
+      W       : in     Types.Word32;
+      X       : in     Types.Word32;
+      Y       : in     Types.Word32;
+      Carry1  : in out Types.Word32;
+      Carry2  : in out Types.Word32)
    is
       Mult1, Mult2, Temp : Types.Word64;
    begin
@@ -757,7 +768,20 @@ is
          Base * Math_Int.From_Word32 (Carry2'Old) =
          Num_Of_Big_Int (A, A_First, A_Last - A_First + 1) +
          Base ** (A_Last - A_First + 1) * (Math_Int.From_Word32 (Carry1) +
-           Base * Math_Int.From_Word32 (Carry2))
+           Base * Math_Int.From_Word32 (Carry2));
+
+   procedure Add_Mult_Mult
+     (A       : in out Big_Int;
+      A_First : in     Natural;
+      A_Last  : in     Natural;
+      B       : in     Big_Int;
+      B_First : in     Natural;
+      C       : in     Big_Int;
+      C_First : in     Natural;
+      X       : in     Types.Word32;
+      Y       : in     Types.Word32;
+      Carry1  : in out Types.Word32;
+      Carry2  : in out Types.Word32)
    is
       Temp : Types.Word32;
    begin
@@ -998,7 +1022,13 @@ is
        Post =>
          Bit_Set'Result =
          ((A (A_First + Natural (I / 32)) and
-           2 ** (Natural (I mod 32))) /= 0)
+           2 ** (Natural (I mod 32))) /= 0);
+
+   function Bit_Set
+     (A       : Big_Int;
+      A_First : Natural;
+      I       : Types.Word64)
+     return Boolean
    is
    begin
       return
@@ -1182,7 +1212,7 @@ is
                   Math_Int.From_Word64 (I) + Math_Int.From_Word32 (1) and
                   I < (Types.Word64 (E_Last - E_First) + 1) * 32);
 
-               -- FIXME workaround for [N410-033]
+               --  FIXME workaround for [N410-033]
                exit when not (J <= K and Types.Word64 (J) <= I);
 
                if Bit_Set (E, E_First, I - Types.Word64 (J)) then

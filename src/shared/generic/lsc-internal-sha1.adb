@@ -40,7 +40,10 @@ pragma Unreferenced (LSC.Internal.Debug);
 
 package body LSC.Internal.SHA1 is
 
-   function Init_Data_Length return Data_Length is
+   function Init_Data_Length return Data_Length;
+
+   function Init_Data_Length return Data_Length
+   is
    begin
       return Data_Length'(0, 0);
    end Init_Data_Length;
@@ -49,7 +52,10 @@ package body LSC.Internal.SHA1 is
 
    procedure Add (Item  : in out Data_Length;
                   Value : in     Types.Word32)
-     with Depends => (Item =>+ Value)
+     with Depends => (Item =>+ Value);
+
+   procedure Add (Item  : in out Data_Length;
+                  Value : in     Types.Word32)
    is
    begin
       if Item.LSW > Types.Word32'Last - Value then
@@ -106,7 +112,11 @@ package body LSC.Internal.SHA1 is
    procedure Context_Update_Internal
      (Context : in out Context_Type;
       Block   : in     Block_Type)
-     with Depends => (Context =>+ Block)
+     with Depends => (Context =>+ Block);
+
+   procedure Context_Update_Internal
+     (Context : in out Context_Type;
+      Block   : in     Block_Type)
    is
       W                   : Schedule_Type := Null_Schedule;
       a, b, c, d, e, Temp : Types.Word32;
@@ -114,7 +124,7 @@ package body LSC.Internal.SHA1 is
 
       pragma Debug (Debug.Put_Line ("BLOCK UPDATE:"));
 
-      -- Print out initial state of H
+      --  Print out initial state of H
       pragma Debug (Debug.Put_Line ("SHA-1 initial hash values:"));
       pragma Debug (Debug.Print_Word32_Array (Context.H, 2, Types.Index'Last, True));
 
@@ -141,15 +151,15 @@ package body LSC.Internal.SHA1 is
       pragma Debug (Debug.Put_Line ("Message block:"));
       pragma Debug (Debug.Print_Word32_Array (W, 2, 8, True));
 
-      -- 2. Initialize the five working variables a, b, c, d and e with the
-      --    (i-1)st hash value:
+      --  2. Initialize the five working variables a, b, c, d and e with the
+      --     (i-1)st hash value:
       a := Context.H (0);
       b := Context.H (1);
       c := Context.H (2);
       d := Context.H (3);
       e := Context.H (4);
 
-      -- 3. For t = 0 to 79:
+      --  3. For t = 0 to 79:
 
       for I in Schedule_Index range 0 .. 19
       loop
@@ -191,7 +201,7 @@ package body LSC.Internal.SHA1 is
          a := Temp;
       end loop;
 
-      -- 4. Compute the i-th intermediate hash value H-i:
+      --  4. Compute the i-th intermediate hash value H-i:
       Context.H := Hash_Type'
         (0 => a + Context.H (0),
          1 => b + Context.H (1),
@@ -275,7 +285,7 @@ package body LSC.Internal.SHA1 is
       Last_Length := Types.Word32 (Length mod Block_Size);
       Last_Block  := Message'First + Length / Block_Size;
 
-      -- handle all blocks, but the last.
+      --  handle all blocks, but the last.
       if Last_Block > Message'First then
          for I in Message_Index range Message'First .. Last_Block - 1
          loop

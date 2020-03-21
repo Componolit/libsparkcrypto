@@ -38,11 +38,11 @@ package LSC.Ops_Generic
 is
    pragma Pure;
 
-   -- Perform XOR on two arrays of 8-bit element types
+   --  Perform XOR on two arrays of 8-bit element types
    --
-   -- @Left@   - First input array
-   -- @Right@  - Second input array
-   -- @Result@ - Result array
+   --  @Left@   - First input array
+   --  @Right@  - Second input array
+   --  @Result@ - Result array
    generic
       type Left_Index_Type is (<>);
       type Left_Elem_Type is (<>);

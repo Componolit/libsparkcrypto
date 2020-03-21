@@ -53,55 +53,55 @@ package LSC.Internal.SHA256 is
 
    pragma Pure;
 
-   -- SHA-256 context
+   --  SHA-256 context
    type Context_Type is private;
 
-   -- Index for SHA-256 block
+   --  Index for SHA-256 block
    subtype Block_Index is Types.Index range 0 .. 15;
 
-   -- SHA-256 block
+   --  SHA-256 block
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
-   -- SHA-256 block size
+   --  SHA-256 block size
    Block_Size : constant := 512;
 
-   -- Index for SHA-256 hash
+   --  Index for SHA-256 hash
    subtype SHA256_Hash_Index is Types.Index range 0 .. 7;
 
-   -- SHA-256 hash
+   --  SHA-256 hash
    subtype SHA256_Hash_Type is Types.Word32_Array_Type (SHA256_Hash_Index);
 
-   -- SHA-256 block length
+   --  SHA-256 block length
    subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
-   -- Index for SHA-256 message
+   --  Index for SHA-256 message
    --
-   -- A SHA-256 message can be at most 2^64 bit long. As one block has 512 bit,
-   -- this makes 2^55 blocks.
+   --  A SHA-256 message can be at most 2^64 bit long. As one block has 512 bit,
+   --  this makes 2^55 blocks.
    type Message_Index is range 0 .. 2 ** 55 - 1;
 
-   -- SHA-256 message
+   --  SHA-256 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
-   -- Initialize SHA-256 context.
+   --  Initialize SHA-256 context.
    function SHA256_Context_Init return Context_Type;
 
-   -- Update SHA-256 @Context@ with message block @Block@.
+   --  Update SHA-256 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type)
      with Depends => (Context =>+ Block);
    pragma Inline (Context_Update);
 
-   -- Finalize SHA-256 @Context@ using @Length@ bits of final message block
-   -- @Block@.
+   --  Finalize SHA-256 @Context@ using @Length@ bits of final message block
+   --  @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
       Length  : in     Block_Length_Type)
      with Depends => (Context =>+ (Block, Length));
 
-   -- Return SHA-256 hash from @Context@.
+   --  Return SHA-256 hash from @Context@.
    function SHA256_Get_Hash (Context : Context_Type) return SHA256_Hash_Type;
 
    procedure Hash_Context
@@ -115,7 +115,7 @@ package LSC.Internal.SHA256 is
          Length / Block_Size +
          (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
-   -- Compute hash value of @Length@ bits of @Message@.
+   --  Compute hash value of @Length@ bits of @Message@.
    function Hash
       (Message : Message_Type;
        Length  : LSC.Internal.SHA256.Message_Index) return SHA256_Hash_Type
@@ -125,10 +125,10 @@ package LSC.Internal.SHA256 is
          Length / Block_Size +
          (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
-   -- Empty block
+   --  Empty block
    Null_Block : constant Block_Type;
 
-   -- Empty Hash
+   --  Empty Hash
    SHA256_Null_Hash : constant SHA256_Hash_Type;
 
 private

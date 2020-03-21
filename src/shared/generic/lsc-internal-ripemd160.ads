@@ -38,73 +38,73 @@ use type LSC.Internal.Types.Word64;
 use type LSC.Internal.Types.Index;
 
 -------------------------------------------------------------------------------
--- The RIPEMD-160 hash algorithm
+--  The RIPEMD-160 hash algorithm
 --
--- <ul>
--- <li>
--- <a href="http://homes.esat.kuleuven.be/~cosicart/pdf/AB-9601/AB-9601.pdf">
--- Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
--- Strengthened Version of RIPEMD, April 1996 </a>
--- </li>
+--  <ul>
+--  <li>
+--  <a href="http://homes.esat.kuleuven.be/~cosicart/pdf/AB-9601/AB-9601.pdf">
+--  Hans Dobbertin and Antoon Bosselaers and Bart Preneel, RIPEMD-160: A
+--  Strengthened Version of RIPEMD, April 1996 </a>
+--  </li>
 --
--- <li>
--- <a href="http://www.faqs.org/rfcs/rfc1320.html">
--- R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992 </a>
--- </li>
--- </ul>
+--  <li>
+--  <a href="http://www.faqs.org/rfcs/rfc1320.html">
+--  R. Rivest, The MD4 Message-Digest Algorithm, RFC 1320, April 1992 </a>
+--  </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.Internal.RIPEMD160 is
 
    pragma Pure;
 
-   -- RIPEMD-160 context
+   --  RIPEMD-160 context
    type Context_Type is private;
 
-   -- Index for RIPEMD-160 block
+   --  Index for RIPEMD-160 block
    subtype Block_Index is Types.Index range 0 .. 15;
 
-   -- RIPEMD-160 block
+   --  RIPEMD-160 block
    subtype Block_Type is Types.Word32_Array_Type (Block_Index);
 
-   -- RIPEMD-160 block size
+   --  RIPEMD-160 block size
    Block_Size : constant := 512;
 
-   -- Index for RIPEMD-160 hash
+   --  Index for RIPEMD-160 hash
    subtype Hash_Index is Types.Index range 0 .. 4;
 
-   -- RIPEMD-160 hash
+   --  RIPEMD-160 hash
    subtype Hash_Type is Types.Word32_Array_Type (Hash_Index);
 
-   -- RIPEMD-160 block length
+   --  RIPEMD-160 block length
    subtype Block_Length_Type is Types.Word32 range 0 .. Block_Size - 1;
 
-   -- Index for RIPEMD-160 message
+   --  Index for RIPEMD-160 message
    --
    --  A RIPEMD160 message can be at most 2^64 bit long. As one block has 512 bit,
    --  this makes 2^55 blocks.
    subtype Message_Index is Types.Word64 range 0 .. 2 ** 55 - 1;
 
-   -- RIPEMD-160 message
+   --  RIPEMD-160 message
    type Message_Type is array (Message_Index range <>) of Block_Type;
 
-   -- Initialize RIPEMD-160 context.
+   --  Initialize RIPEMD-160 context.
    function Context_Init return Context_Type;
 
-   -- Update RIPEMD-160 @Context@ with message block @Block@.
+   --  Update RIPEMD-160 @Context@ with message block @Block@.
    procedure Context_Update
      (Context : in out Context_Type;
       Block   : in     Block_Type)
      with Depends => (Context =>+ Block);
 
-   -- Finalize RIPEMD-160 context using @Length@ bits of final message block
-   -- @Block@.
+   --  Finalize RIPEMD-160 context using @Length@ bits of final message block
+   --  @Block@.
    procedure Context_Finalize
      (Context : in out Context_Type;
       Block   : in     Block_Type;
       Length  : in     Block_Length_Type)
      with Depends => (Context =>+ (Block, Length));
 
-   -- Return RIPEMD-160 hash from @Context@.
+   --  Return RIPEMD-160 hash from @Context@.
    function Get_Hash (Context : Context_Type) return Hash_Type;
 
    procedure Hash_Context
@@ -118,7 +118,7 @@ package LSC.Internal.RIPEMD160 is
          Length / Block_Size +
          (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
-   -- Compute hash value of @Length@ bits of @Message@.
+   --  Compute hash value of @Length@ bits of @Message@.
    function Hash
       (Message : Message_Type;
        Length  : Types.Word64) return Hash_Type
@@ -128,10 +128,10 @@ package LSC.Internal.RIPEMD160 is
          Length / Block_Size +
          (if Length mod Block_Size = 0 then 0 else 1) <= Message'Length;
 
-   -- Empty block
+   --  Empty block
    Null_Block : constant Block_Type;
 
-   -- Empty hash
+   --  Empty hash
    Null_Hash : constant Hash_Type;
 
 private

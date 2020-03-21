@@ -97,7 +97,26 @@ is
          Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1),
        Post =>
          Bignum.Num_Of_Big_Int (V, V_First, X_Last - X_First + 1) <
-         Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1)
+         Bignum.Num_Of_Big_Int (N, N_First, X_Last - X_First + 1);
+
+   procedure Extract
+     (X        : in     Bignum.Big_Int;
+      X_First  : in     Natural;
+      X_Last   : in     Natural;
+      Z        : in     Bignum.Big_Int;
+      Z_First  : in     Natural;
+      V        :    out Bignum.Big_Int;
+      V_First  : in     Natural;
+      M        : in     Bignum.Big_Int;
+      M_First  : in     Natural;
+      M_Inv    : in     Types.Word32;
+      RM       : in     Bignum.Big_Int;
+      RM_First : in     Natural;
+      N        : in     Bignum.Big_Int;
+      N_First  : in     Natural;
+      N_Inv    : in     Types.Word32;
+      RN       : in     Bignum.Big_Int;
+      RN_First : in     Natural)
    is
       L : Natural;
       H : EC.Coord;

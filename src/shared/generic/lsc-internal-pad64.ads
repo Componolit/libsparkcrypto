@@ -37,23 +37,23 @@ use type LSC.Internal.Types.Word64;
 use type LSC.Internal.Types.Index;
 
 -------------------------------------------------------------------------------
--- Cryptographic padding for arrays of 64-bit words
+--  Cryptographic padding for arrays of 64-bit words
 -------------------------------------------------------------------------------
 package LSC.Internal.Pad64
 is
    pragma Pure;
 
-   -- Terminate a Word64 array
+   --  Terminate a Word64 array
    --
-   -- The array @Block@ is terminated by setting the bit at (@Length@ + 1) to 1
-   -- and all following bits to 0.
+   --  The array @Block@ is terminated by setting the bit at (@Length@ + 1) to 1
+   --  and all following bits to 0.
    --
    procedure Block_Terminate
      (Block  : in out Types.Word64_Array_Type;
       Length : in     Types.Word64)
    --
-   -- <strong> NOTE: The postcondition currently does not completely express
-   --          the intended behaviour of the operation! </strong>
+   --  <strong> NOTE: The postcondition currently does not completely express
+   --           the intended behaviour of the operation! </strong>
    --
      with
        Depends => (Block =>+ Length),

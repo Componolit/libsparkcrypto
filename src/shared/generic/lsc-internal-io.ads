@@ -36,55 +36,55 @@ with LSC.Internal.Types;
 use type LSC.Internal.Types.Index;
 
 -------------------------------------------------------------------------------
--- Input/Output operations
+--  Input/Output operations
 -------------------------------------------------------------------------------
 package LSC.Internal.IO is
 
    pragma Pure;
 
-   -- Output string @T@
+   --  Output string @T@
    procedure Put (T : String)
      with Depends => (null => T);
 
-   -- Output string @T@ followed by a line terminator
+   --  Output string @T@ followed by a line terminator
    procedure Put_Line (T : String)
      with Depends => (null => T);
 
-   -- Start a new line
+   --  Start a new line
    procedure New_Line
      with Depends => null;
 
-   -- Read one byte from input
+   --  Read one byte from input
    function Read_Byte return Types.Byte;
 
-   -- True if End_Of_Stream is reached
+   --  True if End_Of_Stream is reached
    function End_Of_Stream return Boolean;
 
-   -- Output byte @Item@
+   --  Output byte @Item@
    procedure Print_Byte (Item : in Types.Byte)
      with Depends => (null => Item);
 
-   -- Output 32-bit word @Item@
+   --  Output 32-bit word @Item@
    procedure Print_Word32 (Item : in Types.Word32)
      with Depends => (null => Item);
 
-   -- Output 64-bit word @Item@
+   --  Output 64-bit word @Item@
    procedure Print_Word64 (Item : in Types.Word64)
      with Depends => (null => Item);
 
-   -- Output index @I@
+   --  Output index @I@
    procedure Print_Index (I : in Types.Index)
      with Depends => (null => I);
 
-   -- Output natural number @I@
+   --  Output natural number @I@
    procedure Print_Natural (I : in Natural)
      with Depends => (null => I);
 
-   -- Output @Block@, an array of 32-bit words
+   --  Output @Block@, an array of 32-bit words
    --
-   -- @Space@ - Number of spaces to separate Word32 values <br>
-   -- @Break@ - Insert a line terminator after @Break@ Word32 values <br>
-   -- @Newln@ - Insert a line terminator after printing all Word32 values <br>
+   --  @Space@ - Number of spaces to separate Word32 values <br>
+   --  @Break@ - Insert a line terminator after @Break@ Word32 values <br>
+   --  @Newln@ - Insert a line terminator after printing all Word32 values <br>
    --
    procedure Print_Word32_Array (Block : in Types.Word32_Array_Type;
                                  Space : in Natural;
@@ -95,11 +95,11 @@ package LSC.Internal.IO is
        Pre =>
          Break > 0;
 
-   -- Output @Block@, an array of 64-bit words
+   --  Output @Block@, an array of 64-bit words
    --
-   -- @Space@ - Number of spaces to separate Word64 values <br>
-   -- @Break@ - Insert a line terminator after @Break@ Word64 values <br>
-   -- @Newln@ - Insert a line terminator after printing all Word64 values <br>
+   --  @Space@ - Number of spaces to separate Word64 values <br>
+   --  @Break@ - Insert a line terminator after @Break@ Word64 values <br>
+   --  @Newln@ - Insert a line terminator after printing all Word64 values <br>
    --
    procedure Print_Word64_Array (Block : in Types.Word64_Array_Type;
                                  Space : in Natural;

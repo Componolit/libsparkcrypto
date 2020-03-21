@@ -35,25 +35,25 @@
 with LSC.Internal.AES;
 
 -------------------------------------------------------------------------------
--- The AES-CBC cipher mode
+--  The AES-CBC cipher mode
 --
--- <ul>
--- <li>
--- <a href="http://csrc.nist.gov/publications/nistpubs/800-38a/sp800-38a.pdf">
--- Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
--- Methods and Techniques, NIST Special Publication 800-38A, 2001 Edition
--- National Institute of Standards and Technology, U.S. Department of
--- Commerce, December 2001 </a>
--- </li>
--- </ul>
+--  <ul>
+--  <li>
+--  <a href="http://csrc.nist.gov/publications/nistpubs/800-38a/sp800-38a.pdf">
+--  Morris Dworkin, Recommendation for Block Cipher Modes of Operation -
+--  Methods and Techniques, NIST Special Publication 800-38A, 2001 Edition
+--  National Institute of Standards and Technology, U.S. Department of
+--  Commerce, December 2001 </a>
+--  </li>
+--  </ul>
 -------------------------------------------------------------------------------
 package LSC.Internal.AES.CBC is
 
    pragma Pure;
 
-   -- Encrypt @Length@ elements of the @Plaintext@ array using the AES context
-   -- @Context@ and the initialization vector @IV@. The result is placed into
-   -- @Ciphertext@.
+   --  Encrypt @Length@ elements of the @Plaintext@ array using the AES context
+   --  @Context@ and the initialization vector @IV@. The result is placed into
+   --  @Ciphertext@.
    procedure Encrypt (Context    : in     AES.AES_Enc_Context;
                       IV         : in     AES.Block_Type;
                       Plaintext  : in     AES.Message_Type;
@@ -69,9 +69,9 @@ package LSC.Internal.AES.CBC is
          Ciphertext'First + Length - 1 in Ciphertext'Range and
          Ciphertext'First + Length - 1 in AES.Message_Index;
 
-   -- Decrypt @Length@ elements of the @Ciphertext@ array using the AES context
-   -- @Context@ and the initialization vector @IV@. The result is placed into
-   -- @Plaintext@.
+   --  Decrypt @Length@ elements of the @Ciphertext@ array using the AES context
+   --  @Context@ and the initialization vector @IV@. The result is placed into
+   --  @Plaintext@.
    procedure Decrypt (Context    : in     AES.AES_Dec_Context;
                       IV         : in     AES.Block_Type;
                       Ciphertext : in     AES.Message_Type;

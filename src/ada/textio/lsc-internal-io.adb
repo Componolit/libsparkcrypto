@@ -55,6 +55,8 @@ is
       Gnat_IO_Put (T);
    end Put;
 
+   procedure Put (I : Integer);
+
    procedure Put (I : Integer)
    is
       procedure Gnat_IO_Put (I : Integer)
@@ -62,6 +64,8 @@ is
    begin
       Gnat_IO_Put (I);
    end Put;
+
+   procedure Get (T : out Character);
 
    procedure Get (T : out Character)
    is
@@ -107,6 +111,8 @@ is
    end End_Of_Stream;
 
    ----------------------------------------------------------------------------
+
+   function Num_To_Char (N : Nibble) return Character;
 
    function Num_To_Char (N : Nibble) return Character
    is
@@ -233,20 +239,20 @@ is
 
          Print_Word32 (Block (I));
 
-         -- space separate values
+         --  space separate values
          for S in 1 .. Space
          loop
             IO.Put (" ");
          end loop;
 
-         -- intermediate new line
+         --  intermediate new line
          if I mod Break = Break - 1 then
             IO.New_Line;
          end if;
 
       end loop;
 
-      -- final new line
+      --  final new line
       if Newln then
          IO.New_Line;
       end if;
@@ -267,20 +273,20 @@ is
 
          Print_Word64 (Block (I));
 
-         -- space separate values
+         --  space separate values
          for S in 1 .. Space
          loop
             IO.Put (" ");
          end loop;
 
-         -- intermediate new line
+         --  intermediate new line
          if I mod Break = Break - 1 then
             IO.New_Line;
          end if;
 
       end loop;
 
-      -- final new line
+      --  final new line
       if Newln then
          IO.New_Line;
       end if;

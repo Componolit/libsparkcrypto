@@ -45,7 +45,9 @@ package body LSC.Internal.AES is
    ----------------------------------------------------------------------------
 
    function Sub_Word (Value : Types.Word32) return Types.Word32
-     with Pre => True -- FIXME: Workaround for [N916-032]
+     with Pre => True; -- FIXME: Workaround for [N916-032]
+
+   function Sub_Word (Value : Types.Word32) return Types.Word32
    is
       Temp : Types.Byte_Array32_Type;
    begin
@@ -58,6 +60,7 @@ package body LSC.Internal.AES is
 
    ----------------------------------------------------------------------------
 
+   function Rot_Word (Value : Types.Word32) return Types.Word32;
    function Rot_Word (Value : Types.Word32) return Types.Word32
    is
    begin
@@ -70,7 +73,11 @@ package body LSC.Internal.AES is
                                Nk  : Nk_Type;
                                Nr  : Nr_Type) return Schedule_Type
      with
-       Pre => Key'Length = Nk
+       Pre => Key'Length = Nk;
+
+   function Enc_Key_Expansion (Key : Key_Type;
+                               Nk  : Nk_Type;
+                               Nr  : Nr_Type) return Schedule_Type
    is
       Temp     : Types.Word32;
       Rot_Temp : Types.Word32;
@@ -146,7 +153,11 @@ package body LSC.Internal.AES is
      with
        Pre =>
          Key'Length = Nk and
-         Nk < (Nb * (Nr + 1) - 1)
+         Nk < (Nb * (Nr + 1) - 1);
+
+   function Dec_Key_Expansion (Key : Key_Type;
+                               Nk  : Nk_Type;
+                               Nr  : Nr_Type) return Schedule_Type
    is
       Result : Schedule_Type;
    begin

@@ -35,7 +35,7 @@
 with LSC.Internal.SHA512;
 
 -------------------------------------------------------------------------------
--- Tables for SHA-512 and SHA-384
+--  Tables for SHA-512 and SHA-384
 -------------------------------------------------------------------------------
 private package LSC.Internal.SHA512.Tables is
 

@@ -73,7 +73,10 @@ package body LSC.Internal.HMAC_SHA1 is
 
    procedure Context_Finalize_Outer
      (Context : in out Context_Type)
-     with Depends => (Context => Context)
+     with Depends => (Context => Context);
+
+   procedure Context_Finalize_Outer
+     (Context : in out Context_Type)
    is
       Hash : SHA1.Hash_Type;
       Temp : SHA1.Block_Type;
