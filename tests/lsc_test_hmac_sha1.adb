@@ -1,4 +1,5 @@
--------------------------------------------------------------------------------  -- This file is part of libsparkcrypto.
+-------------------------------------------------------------------------------
+--  This file is part of libsparkcrypto.
 --
 --  Copyright (C) 2018 Componolit GmbH
 --  All rights reserved.
